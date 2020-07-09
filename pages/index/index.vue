@@ -64,7 +64,7 @@
 
 				<view class="end-title">
 					<scroll-view class="endtitleitem" scroll-x="true" scroll-left="0" :style="{backgroundColor:topBackgroundColor}">
-						<view id="scroll-view-item" class="endtitleitem_H" v-for="(item,index) in skipList" :key='index' :class="{btna:btnnum == index}"  @tap="change(index)">
+						<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index' :class="{btna:btnnum == index}"  @tap="change(index)">
 							{{ item.name }}
 						</view>
 					</scroll-view>
@@ -947,7 +947,9 @@
 		padding-left: 40rpx;
 		color: #F1F1F1;
 	}
-
+	.endtitleitemTitle{
+		font-size: 24rpx;
+	}
 	.end-title {
 		display: flex;
 		justify-content: space-between;
@@ -1222,7 +1224,7 @@
 	}
 	.all-red-packet-items{
 		width: 100%;
-		height: 100%;
+		height: 102rpx;
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;

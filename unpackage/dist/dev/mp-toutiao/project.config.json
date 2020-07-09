@@ -1,0 +1,11 @@
+{
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "newFeature": true
+  },
+  "appid": "tt778d0130e8a73b88",
+  "projectname": "plastic-surgery"
+}

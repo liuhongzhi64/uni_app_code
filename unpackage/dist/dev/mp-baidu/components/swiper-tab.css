@@ -1,0 +1,33 @@
+
+.uni-swiper-tab.data-v-0f69983b {
+	border-bottom: 1px solid #EEEEEE;
+	overflow: hidden;
+	white-space: nowrap;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	height: 100rpx;
+}
+.swiper-tab-list.data-v-0f69983b {
+	color: #666666;
+	font-weight: bold;
+	display: inline-block;
+	width: 25%;
+	text-align: center;
+	line-height: 60rpx;
+}
+.tabContent.data-v-0f69983b{
+	font-size: 20rpx;
+	line-height: 20rpx;
+}
+.uni-tab-bar .active.data-v-0f69983b {
+	color: #FA3475;
+}
+.active .swiper-tab-line.data-v-0f69983b {
+	border-bottom: 6rpx solid #FEDE33;
+	width: 80rpx;
+	margin: auto;
+	border-top: 6rpx solid #FEDE33;
+	border-radius: 20rpx;
+}
+

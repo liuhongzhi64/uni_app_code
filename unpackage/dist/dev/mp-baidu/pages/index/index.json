@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "component": true,
+  "usingComponents": {
+    "swiper-tab-head": "/components/swiper-tab",
+    "swiper-dot": "/components/swperDot"
+  }
+}

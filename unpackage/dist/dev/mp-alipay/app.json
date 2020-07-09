@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login/login",
+    "pages/login/register/register"
+  ],
+  "subPackages": [],
+  "window": {
+    "defaultTitle": "整呗",
+    "titleBarColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "textColor": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "backgroundColor": "#F8F8F8",
+    "items": [
+      {
+        "pagePath": "pages/index/index",
+        "name": "首页"
+      },
+      {
+        "pagePath": "pages/login/login/login",
+        "name": "登录"
+      },
+      {
+        "pagePath": "pages/login/register/register",
+        "name": "注册"
+      },
+      {
+        "pagePath": "pages/login/register/register",
+        "name": "注册"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

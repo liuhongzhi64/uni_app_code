@@ -1,0 +1,1 @@
+<view class="dot-main"><block s-for="{{list}}" s-for-item="item" s-for-index="index" s-key="index"><view class="{{['dot-item',current==index?'active':'']}}"></view></block></view>

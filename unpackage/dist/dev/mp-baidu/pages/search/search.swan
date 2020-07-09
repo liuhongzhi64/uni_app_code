@@ -1,0 +1,1 @@
+<view class="search">搜索主页面<view data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" class="goBack" bindtap="__e">返回</view></view>

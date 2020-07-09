@@ -1,0 +1,28 @@
+
+.content {
+	position: flex;
+}
+.imgAndCart {
+	padding-top: 25rpx;
+	padding-left: 15rpx;
+	padding-right: 15rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	position: relative;
+}
+.cartAndMessage {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	padding-right: 200rpx;
+	width: 200rpx;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-top: 40rpx;
+}
+

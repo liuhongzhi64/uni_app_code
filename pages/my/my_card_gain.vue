@@ -1,0 +1,22 @@
+<template>
+	<view class="my_card_gain"> 
+		领取卡卷 
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>

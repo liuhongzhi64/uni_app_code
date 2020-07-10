@@ -134,21 +134,24 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/doctor/doctor_detail",
-				"iconPath": "static/img/doctor.png",
-				"selectedIconPath": "static/img/doctor1.png",
-				"text": "医生"
-			}, {
+				"pagePath": "pages/goods/goods_classify",
+				"iconPath": "static/img/classify.png",
+				"selectedIconPath": "static/img/classify1.png",
+				"text": "分类"
+			},
+			{
 				"pagePath": "pages/diary/diary",
 				"iconPath": "./static/img/diary.png",
 				"selectedIconPath": "static/img/diary1.png",
 				"text": "日记"
-			}, {
-				"pagePath": "pages/poster/poster",
-				"iconPath": "static/img/classify.png",
-				"selectedIconPath": "static/img/classify1.png",
-				"text": "邀请码"
-			}, {
+			},
+			{
+				"pagePath": "pages/doctor/doctor_detail",
+				"iconPath": "static/img/doctor.png",
+				"selectedIconPath": "static/img/doctor1.png",
+				"text": "医生"
+			}, 
+			{
 				"pagePath": "pages/my/my",
 				"iconPath": "static/img/my.png",
 				"selectedIconPath": "static/img/my1.png",

@@ -1,6 +1,6 @@
 <template>
 	<view class="goods_list"> 
-		鍟嗗搧鍒楄〃
+		商品列表
 	</view>
 </template>
 

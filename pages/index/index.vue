@@ -7,17 +7,17 @@
 					<view id="img" class="img">
 						<view class="topBarImg">
 							<!-- <view class="topBarImgs"></view> -->
-							<img class="topBarImgs" src="../../static/img/kitty.png"></img>	
+							<img class="topBarImgs" src="../../static/img/kitty.png"></img>
 						</view>
-						
+
 						<view class="topBarText">
 							华美整呗
 						</view>
-						
+
 						<view class="topBarGo">
 							GO>
 						</view>
-						
+
 					</view>
 					<view id="cartAndMessage">
 						<view class="cartAndMessage">
@@ -60,39 +60,45 @@
 
 		<!-- 主体内容 -->
 		<view class="subject-content">
-			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll" :style="{height:topSwiperheight+'rpx'}">
+			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
+			 @scroll="scroll" :style="{height:topSwiperheight+'rpx'}">
 
 				<view class="end-title">
 					<scroll-view class="endtitleitem" scroll-x="true" scroll-left="0" :style="{backgroundColor:topBackgroundColor}">
-						<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index' :class="{btna:btnnum == index}"  @tap="change(index)">
+						<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index'
+						 :class="{btna:btnnum == index}" @tap="change(index)">
 							{{ item.name }}
 						</view>
 					</scroll-view>
 
 					<!-- 分类 -->
 					<view class="goods_classify" :style="{backgroundColor:topBackgroundColor}">
-						<view class="classifyImg">
-							<image src="../../static/img/barcClassify.png" mode=""></image>
+						<view class="goods_classify" @click="gotoClassify">
+							<view class="classifyImg">
+								<image src="../../static/img/barcClassify.png" mode=""></image>
+							</view>
+							<view class="classifytext">
+								分类
+							</view>
 						</view>
-						<view class="classifytext">
-							分类
-						</view>
+
 					</view>
 
 				</view>
 
 				<!-- 主体内容 -->
-				<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in topTabTaplist" :key="index" >
+				<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in topTabTaplist" :key="index">
 					<scroll-view scroll-y class="list">
 						<template v-if="items.list.length > 0">
 							<view v-for="(item,index1) in items.list" :key="index1">
 								<!-- 测试的头部跳转内容 -->
 								<view v-if="items.list.length<2">{{item}}</view>
-								
+
 								<!-- 轮播 -->
 								<view id="swiper" v-if="item.swiperList">
-									<swiper class="swiper" :indicator-dots="item.indicatorDots" indicator-active-color="#ffffff" :autoplay="item.autoplay" :interval="item.interval" :duration="item.duration" :circular="item.circular">
-										<swiper-item v-for="(i, index) in item.swiperList" :key="index">
+									<swiper class="swiper" :indicator-dots="item.indicatorDots" indicator-active-color="#ffffff" :autoplay="item.autoplay"
+									 :interval="item.interval" :duration="item.duration" :circular="item.circular">
+										<swiper-item v-for="(i, index) in item.swiperList" :key="index" :data-name="i.name" @tap="gotoGoods">
 											<view class="swiper-item swiper-img">
 												<image :src="i.url" mode=""></image>
 											</view>
@@ -111,10 +117,11 @@
 								</view>
 
 								<!-- 自定义导航条 -->
-								<view id="tabBarSwiper" v-if="item.tabBarSwiperList" class="swiperContent" >
-									<swiper  :interval="item.interval" :duration="item.duration" class="swiper-box" @change="changeSwiperDot">
+								<view id="tabBarSwiper" v-if="item.tabBarSwiperList" class="swiperContent">
+									<swiper :interval="item.interval" :duration="item.duration" class="swiper-box" @change="changeSwiperDot">
 										<swiper-item class="tabBarSwiper" v-for="(i, index) in item.tabBarSwiperList" :key="index">
-											<view v-for="(i, index) in i.tabList" :key="index" class="swiper-item tabBarSwiperItem">
+											<view v-for="(i, index) in i.tabList" :key="index" class="swiper-item tabBarSwiperItem" :data-classifyName="i.name"
+											 @tap="gotoClassify">
 												<view class="icon">
 													<image :src="i.icon" mode=""></image>
 												</view>
@@ -126,20 +133,20 @@
 									</swiper>
 									<swiperDot class="dot" :current="item.currents" :list="item.tabBarSwiperList"></swiperDot>
 								</view>
-								
+
 								<!-- 全部广告位 -->
-								<view class="advertisingAll" :style="[{backgroundImage:'url('+item.advertisingAllUrl+')',backgroundColor:item.advertisingAllColor}]" style="width: 100%;height: 100%;background-size: 100% 100%;">
+								<view class="advertisingAll" :style="[{backgroundImage:'url('+item.advertisingAllUrl+')',backgroundColor:item.advertisingAllColor}]"
+								 style="width: 100%;height: 100%;background-size: 100% 100%;">
 									<!-- 广告位01 -->
-									<view id="advertising" v-if="!item.advertisingUrl==''">
+									<view id="advertising" v-if="!item.advertisingUrl==''" :data-name="item.advertisingUrl" @tap="gotoGoods">
 										<view class="advertising">
 											<image class="advertisImg" :src="item.advertisingUrl" mode=""></image>
-											<!-- <view class="advertis" :style="{backgroundImage:'url('+item.advertisingUrl+')'}" style="width: 100%;height: 100%;background-size: 100% 100%;">111</view> -->
 										</view>
 									</view>
 
 									<!-- 广告位03 -->
 									<view id="advertising03" class="advertisingItem" v-if="item.advertisingList">
-										<view class="advertising03" v-for="(i,k) in item.advertisingList" :key='k'>
+										<view class="advertising03" v-for="(i,k) in item.advertisingList" :key='k' :data-name="i.title" @tap="gotoGoods">
 											<view class="advertisingItems">
 												<view class="advertisingTitle">
 													{{i.title}}
@@ -160,13 +167,14 @@
 									<!-- 广告位04 -->
 									<view id="scroll-view_H" v-if="item.scrollViewItemYList">
 										<scroll-view class="scroll-view-item-Y" scroll-x="true" @scroll="scroll" scroll-left="0" enable-flex='true'>
-											<view id="scroll-view-item" class="scroll-view-item_H" v-for="(i,k) in item.scrollViewItemYList" :key='k' >
+											<view id="scroll-view-item" class="scroll-view-item_H" v-for="(i,k) in item.scrollViewItemYList" :key='k'
+											 :data-name="i.name+i.content" @tap="gotoGoods">
 												<view class="scrollAll">
-													<view class="scrollText">														
+													<view class="scrollText">
 														<view class="scrollTextName">
 															{{i.name}}
 														</view>
-														
+
 														<view class="scrollTextContent">
 															{{i.content}}
 														</view>
@@ -174,15 +182,15 @@
 															GO!
 														</view>
 													</view>
-													<view class="scrollImg" >
-														<img :src="i.url" ></img>
+													<view class="scrollImg">
+														<img :src="i.url"></img>
 													</view>
 												</view>
-												
+
 											</view>
 										</scroll-view>
 									</view>
-										
+
 									<!-- 签到红包 -->
 									<view class="signIn-red-packet" v-if="item.redPacketList">
 										<view class="sign-in-red-packet">
@@ -193,32 +201,32 @@
 												即可领取 <text>现金红包</text>等大奖
 											</view>
 										</view>
-															
+
 										<!-- 红包 -->
 										<view class="all-red-packet">
 											<scroll-view class="all-red-packet-items" scroll-x="true" @scroll="scroll">
-												<view id="all-red-packet-item" class="all-red-packet-item" v-for="(i,k) in item.redPacketList" :key='k' :class="{pitchOn:item.btnnum == k}" @click="changeRedpacket(k)">
+												<view id="all-red-packet-item" class="all-red-packet-item" v-for="(i,k) in item.redPacketList" :key='k'
+												 :class="{pitchOn:item.btnnum == k}" @click="changeRedpacket(k)">
 													<view :id="'all-red-packet-item'+k" class="red-packe-Items">
 														<!-- 图片 -->
 														<view class="Imgs">
-															
+
 														</view>
-											
+
 														<!-- 内容 -->
 														<view class="red-packe-ItemsContent" :class="{pitchOnItemsConten:item.btnnum == k}">
 															{{i}}
 														</view>
-									
+
 													</view>
 												</view>
 											</scroll-view>
 										</view>
-										
+
 									</view>
 								</view>
-								
-								
-								
+
+
 								<!-- 自定义导航条加倒计时 -->
 								<view id="countDown" v-if="item.productImgList">
 									<view class="countDown">
@@ -229,29 +237,32 @@
 											<view class="time" v-if="item.setTimeOk">
 												<!-- 时-->
 												<view class="house">
-													<view class="houses"> 23 </view> <view class="dots"> : </view>
+													<view class="houses"> 23 </view>
+													<view class="dots"> : </view>
 												</view>
 
 												<view class="second">
-													<view class="seconds"> 55 </view><view class="dots"> : </view>
+													<view class="seconds"> 55 </view>
+													<view class="dots"> : </view>
 												</view>
 
 												<view class="minute">
 													<view class="minutes"> 58 </view>
 												</view>
-											</view>				
+											</view>
 										</view>
 										<!-- 全部 -->
 										<view class="all" v-if="item.setTimeOk">
 											全部 >
 										</view>
-										
+
 									</view>
-																								
+
 									<!-- 图片商品 -->
 									<view class="productImg">
 										<scroll-view class="productImgY" scroll-x="true" @scroll="scroll" scroll-left="0">
-											<view id="productImg" class="productImgs" v-for="(i,k) in item.productImgList" :key='k'>
+											<view id="productImg" class="productImgs" v-for="(i,k) in item.productImgList" :key='k' :data-name="i.content"
+											 @tap="gotoGoods">
 												<view :id="'productImg'+k" class="productItems">
 													<!-- 图片 -->
 													<view class="Imgs">
@@ -270,10 +281,13 @@
 															￥:{{i.oldPrice}}
 														</view>
 													</view>
-													
+
 													<!-- 剩余商品（库存） -->
-													<view class="residueProduct" v-if="i.residueProduct">
+													<view class="residueProduct" v-if="i.residueProduct>0">
 														剩余{{i.residueProduct}}件
+													</view>
+													<view class="residueProduct" v-if="i.residueProduct<=0">
+														正在备货...
 													</view>
 												</view>
 											</view>
@@ -301,8 +315,8 @@
 														<block>
 															<view class="recommenListItem">
 																<!-- 精选内容 -->
-																<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1">
-																	
+																<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1" :data-name="i.productName" @tap="gotoGoods">
+
 																	<!-- 图片 -->
 																	<view class="recommenImg" v-if="i.url">
 																		<image :src="i.url" mode=""></image>
@@ -332,15 +346,15 @@
 																			{{i.goodReputation}}%好评
 																		</view>
 																	</view>
-																	
-																	
+
+
 																</view>
-																
-																<view  v-if="items.list.length<=1" v-for="(i,k) in items.list">
-																	{{i}}111
+
+																<view v-if="items.list.length<=1" v-for="(i,k) in items.list">
+																	{{i}}
 																</view>
 															</view>
-															
+
 														</block>
 													</template>
 												</scroll-view>
@@ -348,12 +362,16 @@
 										</swiper>
 									</view>
 								</view>
-								
-							</view>						
+
+							</view>
 						</template>
 					</scroll-view>
 				</view>
-
+				
+				<!-- 底部 -->
+				<view class="footer" v-if="footerShow">
+					——人家也是有底线的喵！——
+				</view>
 			</scroll-view>
 		</view>
 	</view>
@@ -376,9 +394,9 @@
 					scrollTop: 0
 				},
 				topBackgroundColor: "#5D060E", //顶部导航条颜色
-				cartNumber:3,//购物车数量
-				messageNumber:9,//消息
-				topSearchContent:'华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是',//头部搜索框的推荐内容
+				cartNumber: 3, //购物车数量
+				messageNumber: 9, //消息
+				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是', //头部搜索框的推荐内容
 				btnnum: 0,
 				count: "",
 				skipList: [{
@@ -412,25 +430,25 @@
 							{
 								swiperList: [{
 										id: 0,
-										url:'../../static/img/0.png'
+										url: '../../static/img/0.png',
+										name: '闭馆主会场01',
 									},
 									{
 										id: 1,
-										url:'../../static/img/20.png'
+										url: '../../static/img/20.png',
+										name: '闭馆主会场02',
 									},
 								],
-								currents:0,//选择的指示点
+								currents: 0, //选择的指示点
 								indicatorDots: true, //是否显示面板指示点
 								autoplay: true, //是否自动播放
 								interval: 3000, //自动切换时间间隔
 								duration: 1000, //	滑动动画时长
-								circular:true,//是否衔接轮播
-								certificationList: ['中国5A级医美机构',  '120项专利技术','德国莱茵TVU-SQ'], //认证
+								circular: true, //是否衔接轮播
+								certificationList: ['中国5A级医美机构', '120项专利技术', '德国莱茵TVU-SQ'], //认证
 								// 自定义导航条
-								tabBarSwiperList:[
-									{
-										tabList:[
-											{
+								tabBarSwiperList: [{
+										tabList: [{
 												id: 0,
 												icon: '../../static/img/2.png',
 												name: '限时秒杀'
@@ -475,8 +493,7 @@
 										]
 									},
 									{
-										tabList:[
-											{
+										tabList: [{
 												id: 0,
 												icon: '../../static/img/2.png',
 												name: '拜托医生'
@@ -521,10 +538,8 @@
 										]
 									}
 								],
-								
-								
-								tabBarSwiperLists: [
-									{
+
+								tabBarSwiperLists: [{
 										id: 0,
 										icon: '../../static/img/2.png',
 										name: '限时秒杀'
@@ -569,10 +584,10 @@
 								],
 								// 全部广告位背景图
 								// advertisingAllUrl:'../../static/img/13.png',
-								advertisingAllColor:'#FB5E65',
+								advertisingAllColor: '#FB5E65',
 								//自定义广告位链接或背景图
 								advertisingUrl: '../../static/img/12.png',
-								
+
 								// 广告位03
 								advertisingList: [{
 										id: 0,
@@ -589,48 +604,47 @@
 								],
 
 								// 模板广告位04
-								scrollViewItemYList: [
-									{
+								scrollViewItemYList: [{
 										id: 1,
 										name: '化妆品',
-										content:'全场商品满2000减200sadas阿萨大师',
-										url:'../../static/img/16.png'
+										content: '全场商品满2000减200sadas阿萨大师',
+										url: '../../static/img/16.png'
 									},
 									{
 										id: 3,
 										name: '化妆品',
-										content:'全场商品满2000减200',
-										url:'../../static/img/17.png'
+										content: '全场商品满2000减200',
+										url: '../../static/img/17.png'
 									},
 									{
 										id: 4,
 										name: '化妆品',
-										content:'全场商品满2000减200',
-										url:'../../static/img/18.png'
+										content: '全场商品满2000减200',
+										url: '../../static/img/18.png'
 									},
 									{
 										id: 5,
 										name: '化妆品',
-										content:'全场商品满2000减200',
-										url:'../../static/img/16.png'
+										content: '全场商品满2000减200',
+										url: '../../static/img/16.png'
 									},
 									{
 										id: 6,
 										name: '化妆品',
-										content:'全场商品满2000减200',
-										url:'../../static/img/17.png'
+										content: '全场商品满2000减200',
+										url: '../../static/img/17.png'
 									},
 									{
 										id: 7,
 										name: '化妆品',
-										content:'全场商品满2000减200',
-										url:'../../static/img/18.png'
+										content: '全场商品满2000减200',
+										url: '../../static/img/18.png'
 									},
 								],
-								
+
 								// 红包
-								redPacketList:[
-									"1次","￥","￥","￥","￥","￥","￥","￥",
+								redPacketList: [
+									"1次", "￥", "￥", "￥", "￥", "￥", "￥", "￥",
 								],
 								btnnum: 0,
 								count: "",
@@ -641,7 +655,7 @@
 										content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
-										residueProduct:'998'
+										residueProduct: 999
 									},
 									{
 										id: 1,
@@ -649,7 +663,7 @@
 										content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
-										residueProduct:'998'
+										residueProduct: 0
 									},
 									{
 										id: 2,
@@ -657,7 +671,7 @@
 										content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
-										residueProduct:'998'
+										residueProduct: 666
 									},
 									{
 										id: 3,
@@ -665,7 +679,7 @@
 										content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
-										residueProduct:'998'
+										residueProduct: 888
 									},
 								],
 
@@ -689,48 +703,54 @@
 										content: '真人记录',
 										id: 'record'
 									},
-									
+
 								],
-								line:false,//是否显示选中线
+								line: false, //是否显示选中线
 								tabIndex: 0, // 选中的
-								setTimeOk:true,//是否开启倒计时
-								swiperheight: 1200, //高度
-								pH:0, //窗口高度
+								setTimeOk: true, //是否开启倒计时
+								swiperheight: 0, //高度
 								newslist: [{
-										list: [
-											{
-												url:'../../static/img/19.png',
-												productName:'商品名称商品名称商品名称商品名称,超过两黄金自动省略号',//名称
-												productPrice:'19800',//价格
-												subscribe:477,//预约
-												goodReputation:'98',//好评
-												closed:true,
-												labelList:[]//标签
+										list: [{
+												url: '../../static/img/19.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: true,
+												labelList: [] //标签
 											},
 											{
-												url:'../../static/img/20.png',
-												productName:'商品名称商品名称商品名称商品名称,超过两黄金自动省略号',//名称
-												productPrice:'19800',//价格
-												subscribe:477,//预约
-												goodReputation:'98',//好评
-												closed:false,
-												labelList:['眼部美容','眼部']//标签
+												url: '../../static/img/20.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
+												labelList: ['眼部美容', '眼部'] //标签
 											},
 											{
-												url:'../../static/img/19.png',
-												productName:'商品名称商品名称商品名称商品名称,超过两黄金自动省略号',//名称
-												productPrice:'19800',//价格
-												subscribe:477,//预约
-												goodReputation:'98',//好评
-												closed:false,
+												url: '../../static/img/19.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
 											},
 											{
-												url:'../../static/img/20.png',
-												productName:'商品名称商品名称商品名称商品名称,超过两黄金自动省略号',//名称
-												productPrice:'19800',//价格
-												subscribe:477,//预约
-												goodReputation:'98',//好评
-												closed:false,
+												url: '../../static/img/20.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
+											},
+											{
+												url: '../../static/img/20.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
 											},
 										]
 									},
@@ -775,80 +795,122 @@
 					},
 				],
 				topSwiperheight: 0,
-				pH:0
+				pH: 0,
+				footerShow:false,
 			}
 		},
 		onReady() {
-				let that=this;
-				uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
-					success(res) { //成功回调函数
-						that.pH=res.windowHeight //windoHeight为窗口高度，主要使用的是这个
-						console.log(that.pH)
-						let titleH=uni.createSelectorQuery().select(".subject-content"); //想要获取高度的元素名（class/id）
-						titleH.boundingClientRect(data=>{
-							let pH=that.pH; 
-							console.log(pH,data.top)
-							that.topSwiperheight=(pH+data.top)*2  //计算高度：元素高度=窗口高度-元素距离顶部的距离（data.top）
-						}).exec()
-						console.log(that.topSwiperheight)
+			let that = this;
+			let pageHeight = 0
+			// 获取屏幕高度
+			uni.getSystemInfo({
+					success: function(res) {
+						pageHeight = res.windowHeight
+						console.log('pageHeight',pageHeight)
 					}
 				})
+				setTimeout(() => {
+					that.topSwiperheight = pageHeight*2.5
+				}, 1000)
+				
+			console.log(Math.ceil(this.topTabTaplist[0].list[1].newslist[0].list.length/2))
+			that.topTabTaplist[0].list[1].swiperheight = Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length/2)*550
 		},
 		onLoad() {
-			if(this.cartNumber>9){
-				this.cartNumber='9+'
+			if (this.cartNumber > 9) {
+				this.cartNumber = '9+'
 			}
 			// 消息数量大于时显示9+
-			if(this.messageNumber>9){
-				this.messageNumber='9+'
+			if (this.messageNumber > 9) {
+				this.messageNumber = '9+'
 			}
+			uni.setStorage({
+			    key: 'token',
+			    data: 'hello',
+			    success: function () {
+			        console.log('保存成功');
+			    }
+			})
+			uni.getStorage({
+				key: 'token',
+				    success: function (res) {
+				    console.log(res.data);
+				}
+			})
 		},
+		// 下拉刷新
+		onPullDownRefresh: function() {
+			success: {
+				title: '刷新成功'
+				console.log('下拉刷新成功')
+			};
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		
 		methods: {
 			change: function(e) {
 				this.count = e
 				this.btnnum = e
 			},
 			// 轮播的指示点
-			changeSwiperDot:function(e){
+			changeSwiperDot: function(e) {
 				this.topTabTaplist[0].list[1].currents = e.detail.current;
 			},
-			
-			changeRedpacket:function(e){
+
+			changeRedpacket: function(e) {
 				this.topTabTaplist[0].list[1].count = e
 				this.topTabTaplist[0].list[1].btnnum = e
 			},
-			
-			cart:function(){
+
+			// 购物车
+			cart: function() {
 				uni.navigateTo({
 					url: '/pages/cart/cart',
 				})
 			},
-			
-			message:function(){
+
+			// 消息
+			message: function() {
 				uni.navigateTo({
 					url: '/pages/message/message',
 				})
 			},
+
+			// 分类
+			gotoClassify: function(e) {
+				console.log(e.currentTarget.dataset)
+				let classifyName = e.currentTarget.dataset.classifyname
+				uni.switchTab({
+					url: `/pages/goods/goods_classify`,
+				})
+			},
+			// 点击商品
+			gotoGoods: function(e) {
+				let goods = e.currentTarget.dataset.name
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?goods=${goods}`,
+				})
+			},
+
 			
-			onPullDownRefresh: function() {
-				success: {
-					title: '刷新成功'
-					console.log('下拉刷新成功')
-				};
-				setTimeout(function() {
-					uni.stopPullDownRefresh();
-				}, 1000);
-			},
 
+			// 到达顶部？
 			upper: function(e) {
-				console.log(e)
+				console.log(e, "顶部？？")
+				this.old.scrollTop = 0
 			},
 
+			// 底部
 			lower: function(e) {
-				console.log(e)
+				console.log(e, "底部？？",e.detail.scrollTop)
+				this.old.scrollTop = e.detail.scrollTop
+				this.footerShow = true
 			},
+			
 			scroll: function(e) {
-				console.log(e)
+				// console.log(e.detail)
 				this.old.scrollTop = e.detail.scrollTop
 			},
 			// 设置底部导航条的名称和图标
@@ -898,7 +960,8 @@
 		z-index: 100;
 		color: #FFFFFF;
 	}
-	.topBar{
+
+	.topBar {
 		height: 240rpx;
 	}
 
@@ -947,9 +1010,11 @@
 		padding-left: 40rpx;
 		color: #F1F1F1;
 	}
-	.endtitleitemTitle{
+
+	.endtitleitemTitle {
 		font-size: 24rpx;
 	}
+
 	.end-title {
 		display: flex;
 		justify-content: space-between;
@@ -961,7 +1026,7 @@
 	}
 
 	.end-cont {
-		display: none;		
+		display: none;
 	}
 
 	.btna {
@@ -1001,38 +1066,40 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.imgAndCart .img{
-		/* width: 264rpx; */
+
+	/* 头部左边的图片导航 */
+	.imgAndCart .img {
 		height: 50rpx;
 		line-height: 25rpx;
 		border-radius: 25rpx;
 		border: solid 2px #470874;
-		background-image: linear-gradient(90deg, 
-				#652aa6 0%, 
-				#8c3de3 50%, 
-				#652aa6 100%), 
-			linear-gradient(-33deg, 
-				#fa3475 0%, 
-				#ff6699 100%);
-		background-blend-mode: normal, 
-				normal;
+		background-image: linear-gradient(90deg,
+			#652aa6 0%,
+			#8c3de3 50%,
+			#652aa6 100%),
+			linear-gradient(-33deg,
+			#fa3475 0%,
+			#ff6699 100%);
+		background-blend-mode: normal,
+			normal;
 		opacity: 0.9;
 		margin-top: 35rpx;
 		padding-right: 20rpx;
 		display: flex;
 		justify-content: space-around;
 	}
-	
-	.imgAndCart .img .topBarText{
+
+	.imgAndCart .img .topBarText {
 		font-size: 30rpx;
 		color: #ffd302;
 		line-height: 44rpx;
 		margin: 0 20rpx 0 0;
 	}
-	
-	.imgAndCart .img .topBarGo{
+
+	.imgAndCart .img .topBarGo {
 		font-size: 15rpx;
-		color: #7343b1;;
+		color: #7343b1;
+		;
 		background-color: #ffd302;
 		width: 30rpx;
 		height: 30rpx;
@@ -1041,14 +1108,15 @@
 		line-height: 30rpx;
 		border: solid 2rpx #ffffff;
 	}
-	
-	
-	.imgAndCart .img .topBarImg .topBarImgs{
+
+
+	.imgAndCart .img .topBarImg .topBarImgs {
 		width: 100rpx;
-		height:100rpx;
+		height: 100rpx;
 		margin-top: -40rpx;
 	}
 
+	/* 消息和购物车 */
 	.cartAndMessage {
 		display: flex;
 		padding-right: 200rpx;
@@ -1056,17 +1124,21 @@
 		justify-content: space-between;
 		padding-top: 40rpx;
 	}
-	
-	.cartImg image,.messageImg image{
+
+	.cartImg image,
+	.messageImg image {
 		width: 38rpx;
 		height: 38rpx;
 	}
-	
-	.cart,.message{
+
+	.cart,
+	.message {
 		display: flex;
+		width: 50%;
 	}
-	
-	.cartNumber,.messageNumber{
+
+	.cartNumber,
+	.messageNumber {
 		width: 24rpx;
 		height: 24rpx;
 		border-radius: 12rpx;
@@ -1085,9 +1157,11 @@
 		color: #FFFFFF;
 		height: 280rpx;
 	}
-	.swiper-box{
+
+	.swiper-box {
 		padding-bottom: 20rpx;
 	}
+
 	.certification {
 		display: flex;
 		justify-content: space-between;
@@ -1096,13 +1170,16 @@
 		line-height: 30rpx;
 		padding: 20rpx 10rpx 0;
 	}
-	.certifications{
+
+	.certifications {
 		display: flex;
 	}
-	.certificationimgs image{
+
+	.certificationimgs image {
 		width: 18rpx;
 		height: 18rpx;
 	}
+
 	.tabBarSwiper {
 		display: flex;
 		flex-direction: row;
@@ -1110,16 +1187,17 @@
 		color: #333333;
 		height: 270rpx;
 	}
-	
+
 	.swiperContent {
 		position: relative;
 	}
+
 	.dot {
 		position: absolute;
 		bottom: 10rpx;
 		right: 340rpx;
 	}
-	
+
 	.tabBarSwiperItem {
 		width: 17%;
 		text-align: center;
@@ -1130,34 +1208,38 @@
 		font-size: 20rpx;
 		padding: 10rpx;
 	}
-	
-	.swiper-img{
+
+	.swiper-img {
 		height: 260rpx;
 	}
-	.swiper-img image{
+
+	.swiper-img image {
 		height: 260rpx;
 		border-radius: 20rpx;
 	}
+
 	.icon image {
 		width: 80rpx;
 		height: 80rpx;
 		border-radius: 40rpx;
 		border: 1rpx solid #FFFFFF;
 	}
-	
+
 	/* 广告位 */
-	.advertisingAll{
+	.advertisingAll {
 		padding-bottom: 20rpx;
 	}
+
 	.advertising {
 		height: 210rpx;
 		text-align: center;
 		margin-top: 20rpx;
 	}
-	.advertisImg{
+
+	.advertisImg {
 		height: 210rpx;
 	}
-	
+
 	.advertisingItem {
 		display: flex;
 		flex-direction: row;
@@ -1176,53 +1258,60 @@
 		height: 156rpx;
 		display: flex;
 		justify-content: center;
-		
+
 	}
-	.advertising03 image{
+
+	.advertising03 image {
 		width: 172rpx;
-		height: 156rpx;		
+		height: 156rpx;
 		margin-left: 10rpx;
 	}
 
-	.advertisingTitle{
+	.advertisingTitle {
 		font-size: 20rpx;
 		line-height: 30rpx;
 		letter-spacing: 1rpx;
 		color: #111111;
 	}
-	.advertisingContent{
+
+	.advertisingContent {
 		color: #da2820;
 		line-height: 24rpx;
 		width: 105rpx;
 	}
-	.advertisingButton{
+
+	.advertisingButton {
 		width: 127rpx;
 		line-height: 40rpx;
 		color: #ffffff;
 		background-color: #8C0009;
 	}
+
 	.advertising02 {
 		width: 49%;
 	}
 
 
-	.sign-in-red-packet{
+	.sign-in-red-packet {
 		display: flex;
 		line-height: 60rpx;
 		font-size: 32rpx;
 		padding-left: 20rpx;
 		background-color: #FFFFFF;
 	}
-	.red-packet{
+
+	.red-packet {
 		font-size: 24rpx;
-		color: #999999;	
+		color: #999999;
 		margin-left: 10rpx;
 		font-family: MicrosoftYaHei-Bold;
 	}
-	.red-packet text{
+
+	.red-packet text {
 		color: #cb1c1c;
 	}
-	.all-red-packet-items{
+
+	.all-red-packet-items {
 		width: 100%;
 		height: 102rpx;
 		overflow: hidden;
@@ -1230,23 +1319,26 @@
 		display: flex;
 		padding: 0 0 30rpx;
 	}
-	.signIn-red-packet{
+
+	.signIn-red-packet {
 		height: 200rpx;
 		width: 670rpx;
-		padding:20rpx 20rpx 0;
+		padding: 20rpx 20rpx 0;
 		background-color: #FFFFFF;
 		margin: 20rpx auto;
 		border-radius: 20rpx;
 	}
-	.all-red-packet-item{
+
+	.all-red-packet-item {
 		display: inline-block;
 		width: 74rpx;
 		height: 92rpx;
 		background-color: #ffbea7;
 		border-radius: 10rpx;
-		margin-left: 20rpx;	
+		margin-left: 20rpx;
 	}
-	.pitchOn{
+
+	.pitchOn {
 		width: 82rpx;
 		display: inline-block;
 		height: 100rpx;
@@ -1254,30 +1346,36 @@
 		border-radius: 10rpx;
 		color: #FFFFFF;
 	}
-	.pitchOnItemsConten{
+
+	.pitchOnItemsConten {
 		width: 44rpx;
 		height: 44rpx;
 		background-color: #ffc825;
 		border-radius: 22rpx;
+		margin-left: 5rpx;
 	}
-	.red-packe-Items{
+
+	.red-packe-Items {
 		white-space: normal;
 		display: flex;
 		width: 74rpx;
 		height: 100rpx;
 		text-align: center;
 		align-items: center;
-		margin-left: 17rpx;
+		margin-left: 18rpx;
 	}
-	.red-packe-ItemsContent{
+
+	.red-packe-ItemsContent {
 		width: 40rpx;
 		height: 40rpx;
 		border-radius: 20rpx;
 		font-size: 22rpx;
 		background-color: #ffedb8;
 	}
+
 	.all {
-		line-height: 80rpx;;
+		line-height: 80rpx;
+		;
 	}
 
 	.advertisingItems {
@@ -1304,10 +1402,10 @@
 		height: 160rpx;
 		font-size: 20rpx;
 		margin-right: 20rpx;
-		text-align: center;		
+		text-align: center;
 	}
 
-	.scrollAll{
+	.scrollAll {
 		display: flex;
 		justify-content: space-between;
 		white-space: normal;
@@ -1317,14 +1415,16 @@
 		height: 160rpx;
 		border-radius: 20rpx;
 	}
-	.scrollText{
+
+	.scrollText {
 		/* width: 160rpx;	 */
 		padding: 10rpx;
 		position: relative;
 		left: 0;
 		z-index: 20;
 	}
-	.scrollTextContent{
+
+	.scrollTextContent {
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
@@ -1332,7 +1432,8 @@
 		line-height: 22rpx;
 		width: 120rpx;
 	}
-	.scrollTextGo{
+
+	.scrollTextGo {
 		height: 26rpx;
 		border-radius: 13rpx;
 		background-color: #e87a07;
@@ -1342,22 +1443,25 @@
 		margin-top: 15rpx;
 		margin-left: 15rpx;
 	}
-	.scrollTextName{
+
+	.scrollTextName {
 		font-size: 30rpx;
-		
+
 	}
-	.scrollImg{
+
+	.scrollImg {
 		position: relative;
 		right: 100rpx;
 		top: -40rpx;
 		z-index: 10;
-		
+
 	}
-	.scrollImg img{
+
+	.scrollImg img {
 		width: 204rpx;
 		height: 204rpx;
 	}
-	
+
 	/* 倒计时自定义名称 */
 	.countDown {
 		display: flex;
@@ -1379,11 +1483,11 @@
 		display: flex;
 		padding: 10rpx 10rpx 0;
 	}
-	
-	.time .dots{
+
+	.time .dots {
 		font-size: 20rpx;
 		color: #fa3475;
-		line-height:55rpx;
+		line-height: 55rpx;
 		margin-left: 12rpx;
 		font-weight: bolder;
 	}
@@ -1400,7 +1504,7 @@
 		display: flex;
 		font-size: 30rpx;
 		margin-left: 10rpx;
-		
+
 	}
 
 	.houses,
@@ -1435,7 +1539,8 @@
 		font-size: 20rpx;
 		margin-right: 30rpx;
 	}
-	.Imgs image{
+
+	.Imgs image {
 		width: 240rpx;
 		height: 240rpx;
 	}
@@ -1476,10 +1581,11 @@
 		align-items: baseline;
 		padding: 10rpx 20rpx 0 0;
 	}
-	
-	.residueProduct{
+
+	.residueProduct {
 		text-align: center;
 	}
+
 	.newprice {
 		color: #EF6174;
 		font-size: 30rpx;
@@ -1498,10 +1604,11 @@
 		width: 240rpx;
 		height: 360rpx;
 		margin-top: 20rpx;
-		background-color:#F2F2F2;
+		background-color: #F2F2F2;
 		margin-left: 20rpx;
 		position: absolute;
 	}
+
 	.seeAll .all {
 		font-weight: bolder;
 		position: relative;
@@ -1510,14 +1617,16 @@
 	}
 
 	/* 导航条 */
-	.customTab{
+	.customTab {
 		height: auto;
 	}
-	.uni-tab-bar{
+
+	.uni-tab-bar {
 		background-color: #F6F6F6;
 	}
+
 	/* 推荐内容 */
-	.recommenListItem{
+	.recommenListItem {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -1526,22 +1635,26 @@
 		border-radius: 24rpx;
 		color: #111111;
 	}
-	.recommenList{
+
+	.recommenList {
 		width: 350rpx;
 		background-color: #ffffff;
 		padding: 12rpx;
 		border-radius: 24rpx;
 		margin-top: 10rpx;
 	}
-	.recommenList{
+
+	.recommenList {
 		font-size: 24rpx;
 	}
-	.recommenList image{
+
+	.recommenList image {
 		width: 350rpx;
 		height: 350rpx;
 		border-radius: 24rpx;
 	}
-	.productName{
+
+	.productName {
 		font-size: 24rpx;
 		padding: 0 20rpx;
 		overflow: hidden;
@@ -1549,7 +1662,8 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
-	.closed{
+
+	.closed {
 		color: #FFFFFF;
 		display: inline-block;
 		width: 84rpx;
@@ -1560,11 +1674,13 @@
 		text-align: center;
 		padding: 0 5rpx;
 	}
-	.label{
+
+	.label {
 		display: flex;
 		padding: 10rpx 20rpx;
 	}
-	.labelListItem{
+
+	.labelListItem {
 		background-color: #999999;
 		height: 26rpx;
 		border-radius: 4rpx;
@@ -1573,15 +1689,23 @@
 		margin-right: 10rpx;
 		padding: 5rpx 10rpx;
 	}
-	.productPrice{
+
+	.productPrice {
 		text-align: center;
 		color: #fa3475;
 		font-size: 32rpx;
 	}
-	.subscribeAndGoodReputation{
+
+	.subscribeAndGoodReputation {
 		display: flex;
 		justify-content: space-between;
 		text-align: center;
 		padding: 0 20rpx;
+	}
+	
+	.footer{
+		text-align: center;
+		font-size: 30rpx;
+		color: #2e2e2e;
 	}
 </style>

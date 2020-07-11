@@ -3,6 +3,7 @@
   "component": true,
   "usingComponents": {
     "swiper-tab-head": "/components/swiper-tab",
-    "swiper-dot": "/components/swperDot"
+    "swiper-dot": "/components/swperDot",
+    "top-bar": "/components/topBar"
   }
 }

@@ -1,6 +1,9 @@
 <template>
-	<view class="goods_list"> 
-		商品列表
+	<view class="goods"> 
+		鍟嗗搧鍒楄〃 {{goodsName}}
+		<view class="goBack" @click="goBack">
+			杩斿洖
+		</view>
 	</view>
 </template>
 
@@ -8,11 +11,20 @@
 	export default {
 		data() {
 			return {
-				
+				goodsName: '',//榛樿鎼滅储鍐呭
 			}
 		},
+		onLoad: function (option) {
+			let that = this
+			that.goodsName = option.goodsname
+			console.log(option)
+		},
 		methods: {
-			
+			goBack:function(){
+				uni.navigateBack({
+				    delta: 1
+				});
+			}
 		}
 	}
 </script>

@@ -1,7 +1,9 @@
 <template>
 	<view class="diary">
 		<topBar></topBar>
-		日记
+		<view class="content">
+			日记
+		</view>
 	</view>
 </template>
 
@@ -23,5 +25,7 @@
 </script>
 
 <style>
-
+	.content{
+		
+	}
 </style>

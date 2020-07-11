@@ -1,0 +1,1 @@
+<view class="goods_detail">{{'商品详情页 '+goodsName+''}}<view data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" class="goBack" onTap="__e">返回</view></view>

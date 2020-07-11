@@ -1,1 +1,1 @@
-<view class="goods_list">��Ʒ�б�</view>
+<view class="goods">{{'商品列表 '+goodsName+''}}<view data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" class="goBack" bindtap="__e">返回</view></view>

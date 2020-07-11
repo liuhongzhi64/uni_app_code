@@ -1,4 +1,8 @@
 {
-  "defaultTitle": "整呗",
-  "usingComponents": {}
+  "pullRefresh": true,
+  "usingComponents": {
+    "swiper-tab-head": "/components/swiper-tab",
+    "swiper-dot": "/components/swperDot",
+    "top-bar": "/components/topBar"
+  }
 }

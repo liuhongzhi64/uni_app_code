@@ -1,1 +1,1 @@
-<view class="diary"><top-bar vue-id="44a2f090-1" bind:__l="__l"></top-bar>日记</view>
+<view class="diary"><top-bar vue-id="44a2f090-1" bind:__l="__l"></top-bar><view class="content">日记</view></view>

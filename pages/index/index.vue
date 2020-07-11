@@ -1,62 +1,8 @@
 <template>
 	<view class="content">
-		<!-- <topBar class='TOP'></topBar> -->
-		<view class="TOP">
-			<view class="topBar" :style="{backgroundColor:topBackgroundColor}">
-				<view class="imgAndCart">
-					<view id="img" class="img">
-						<view class="topBarImg">
-							<!-- <view class="topBarImgs"></view> -->
-							<img class="topBarImgs" src="../../static/img/kitty.png"></img>
-						</view>
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :barTopH='barTopH' :rightDistance='rightDistance'
+		 :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent' @marginTop = 'marginTop'></topBar>
 
-						<view class="topBarText">
-							华美整呗
-						</view>
-
-						<view class="topBarGo">
-							GO>
-						</view>
-
-					</view>
-					<view id="cartAndMessage">
-						<view class="cartAndMessage">
-							<!-- 购物车 -->
-							<view class="cart" @click="cart">
-								<view class="cartImg">
-									<image src="../../static/img/cart.png" mode=""></image>
-								</view>
-								<view class="cartNumber">
-									{{cartNumber}}
-								</view>
-							</view>
-							<!-- 消息 -->
-							<view class="message" @click="message">
-								<view class="messageImg">
-									<image src="../../static/img/message.png" mode=""></image>
-								</view>
-								<view class="messageNumber">
-									{{messageNumber}}
-								</view>
-							</view>
-						</view>
-					</view>
-				</view>
-
-				<view class="search">
-					<view class="searchInput" @click="hideKeyboard">
-						<view class="searchContent">
-							<view class="searchIcon">
-								<image src="../../static/img/search.png" mode=""></image>
-							</view>
-							<view class="topSearch">
-								{{topSearchContent}}
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
 
 		<!-- 主体内容 -->
 		<view class="subject-content">
@@ -98,7 +44,7 @@
 								<view id="swiper" v-if="item.swiperList">
 									<swiper class="swiper" :indicator-dots="item.indicatorDots" indicator-active-color="#ffffff" :autoplay="item.autoplay"
 									 :interval="item.interval" :duration="item.duration" :circular="item.circular">
-										<swiper-item v-for="(i, index) in item.swiperList" :key="index" :data-name="i.name" @tap="gotoGoods">
+										<swiper-item v-for="(i,index) in item.swiperList" :key="index" :data-name="i.name" @tap="gotoGoods">
 											<view class="swiper-item swiper-img">
 												<image :src="i.url" mode=""></image>
 											</view>
@@ -108,7 +54,7 @@
 
 								<!-- 认证 -->
 								<view id="certification" class="certification" v-if="item.certificationList">
-									<view class="certifications" v-for="(i, index) in item.certificationList" :key="index">
+									<view class="certifications" v-for="(i,index) in item.certificationList" :key="index">
 										<view class="certificationimgs">
 											<image src="../../static/img/1.png" mode=""></image>
 										</view>
@@ -119,9 +65,9 @@
 								<!-- 自定义导航条 -->
 								<view id="tabBarSwiper" v-if="item.tabBarSwiperList" class="swiperContent">
 									<swiper :interval="item.interval" :duration="item.duration" class="swiper-box" @change="changeSwiperDot">
-										<swiper-item class="tabBarSwiper" v-for="(i, index) in item.tabBarSwiperList" :key="index">
-											<view v-for="(i, index) in i.tabList" :key="index" class="swiper-item tabBarSwiperItem" :data-classifyName="i.name"
-											 @tap="gotoClassify">
+										<swiper-item class="tabBarSwiper" v-for="(i,index) in item.tabBarSwiperList" :key="index">
+											<view v-for="(i,index) in i.tabList" :key="index" class="swiper-item tabBarSwiperItem" :data-goods="i.name"
+											 @tap="goToGoodsList">
 												<view class="icon">
 													<image :src="i.icon" mode=""></image>
 												</view>
@@ -308,14 +254,15 @@
 										<swiperTabHead :tabBars="item.tabBars" :line="item.line" :tabIndex="item.tabIndex" @tabtap="tabtap"></swiperTabHead>
 									</view>
 									<view class="uni-tab-bar">
-										<swiper class="swiper-box" :style="{height:item.swiperheight+'rpx'}" :current="item.tabIndex" @change="tabChange">
+										<swiper class="swiper-boxs" :style="{height:item.swiperheight+'rpx'}" :current="item.tabIndex" @change="tabChange">
 											<swiper-item v-for="(items,index) in item.newslist" :key="index">
 												<scroll-view scroll-y class="list">
 													<template v-if="items.list.length > 0">
 														<block>
 															<view class="recommenListItem">
 																<!-- 精选内容 -->
-																<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1" :data-name="i.productName" @tap="gotoGoods">
+																<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1" :data-name="i.productName"
+																 @tap="gotoGoods">
 
 																	<!-- 图片 -->
 																	<view class="recommenImg" v-if="i.url">
@@ -350,7 +297,7 @@
 
 																</view>
 
-																<view v-if="items.list.length<=1" v-for="(i,k) in items.list">
+																<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
 																	{{i}}
 																</view>
 															</view>
@@ -367,7 +314,7 @@
 						</template>
 					</scroll-view>
 				</view>
-				
+
 				<!-- 底部 -->
 				<view class="footer" v-if="footerShow">
 					——人家也是有底线的喵！——
@@ -378,14 +325,14 @@
 </template>
 
 <script>
-	// import topBar from "../../components/topBar.vue";
+	import topBar from "../../components/topBar.vue";
 	import swiperTabHead from "../../components/swiper-tab.vue";
 	import swiperDot from "../../components/swperDot.vue";
 	export default {
 		components: {
 			swiperTabHead,
-			swiperDot
-			// topBar
+			swiperDot,
+			topBar
 		},
 		data() {
 			return {
@@ -393,10 +340,14 @@
 				old: {
 					scrollTop: 0
 				},
-				topBackgroundColor: "#5D060E", //顶部导航条颜色
+				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
+				BarImgs: '../static/img/0.png', //
+				barTopH: 0,
+				rightDistance: 0,
 				cartNumber: 3, //购物车数量
-				messageNumber: 9, //消息
-				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是', //头部搜索框的推荐内容
+				messageNumber: 19, //消息
+				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
+				marginTopBar:0,//距离顶部的距离
 				btnnum: 0,
 				count: "",
 				skipList: [{
@@ -796,7 +747,7 @@
 				],
 				topSwiperheight: 0,
 				pH: 0,
-				footerShow:false,
+				footerShow: false,
 			}
 		},
 		onReady() {
@@ -804,19 +755,24 @@
 			let pageHeight = 0
 			// 获取屏幕高度
 			uni.getSystemInfo({
-					success: function(res) {
-						pageHeight = res.windowHeight
-						console.log('pageHeight',pageHeight)
-					}
-				})
-				setTimeout(() => {
-					that.topSwiperheight = pageHeight*2.5
-				}, 1000)
-				
-			console.log(Math.ceil(this.topTabTaplist[0].list[1].newslist[0].list.length/2))
-			that.topTabTaplist[0].list[1].swiperheight = Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length/2)*550
+				success: function(res) {
+					console.log(res)
+					pageHeight = res.windowHeight
+					console.log('pageHeight', pageHeight)
+					let menu = uni.getMenuButtonBoundingClientRect(); //获取获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。（top表示上边框到手机顶部的距离 bottom是下边框到手机顶部的距离）
+					// console.log(menu)
+					that.rightDistance = menu.width
+					that.barTopH = menu.top
+				}
+			})
+			setTimeout(() => {
+				that.topSwiperheight = pageHeight * 2.5 + Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) * 550
+				that.topTabTaplist[0].list[1].swiperheight = Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) * 550
+			}, 1000)
+
 		},
-		onLoad() {
+		onLoad(options) {
+			
 			if (this.cartNumber > 9) {
 				this.cartNumber = '9+'
 			}
@@ -824,17 +780,19 @@
 			if (this.messageNumber > 9) {
 				this.messageNumber = '9+'
 			}
+			
+			
 			uni.setStorage({
-			    key: 'token',
-			    data: 'hello',
-			    success: function () {
-			        console.log('保存成功');
-			    }
+				key: 'token',
+				data: 'hello',
+				success: function() {
+					console.log('保存成功');
+				}
 			})
 			uni.getStorage({
 				key: 'token',
-				    success: function (res) {
-				    console.log(res.data);
+				success: function(res) {
+					console.log(res.data);
 				}
 			})
 		},
@@ -848,8 +806,13 @@
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
-		
+
 		methods: {
+			marginTop:function(e){
+				console.log(e,1111111122222222)
+				this.marginTopBar = e
+			},
+					
 			change: function(e) {
 				this.count = e
 				this.btnnum = e
@@ -864,28 +827,23 @@
 				this.topTabTaplist[0].list[1].btnnum = e
 			},
 
-			// 购物车
-			cart: function() {
-				uni.navigateTo({
-					url: '/pages/cart/cart',
-				})
-			},
 
-			// 消息
-			message: function() {
-				uni.navigateTo({
-					url: '/pages/message/message',
-				})
-			},
 
 			// 分类
 			gotoClassify: function(e) {
-				console.log(e.currentTarget.dataset)
-				let classifyName = e.currentTarget.dataset.classifyname
 				uni.switchTab({
 					url: `/pages/goods/goods_classify`,
 				})
 			},
+			// 商品列表
+			goToGoodsList: function(e) {
+				let goodsList = e.currentTarget.dataset.goods
+				console.log(e.currentTarget.dataset)
+				uni.navigateTo({
+					url: `/pages/goods/goods_list?goodsname=${goodsList}`,
+				})
+			},
+
 			// 点击商品
 			gotoGoods: function(e) {
 				let goods = e.currentTarget.dataset.name
@@ -893,8 +851,6 @@
 					url: `/pages/goods/goods_detail?goods=${goods}`,
 				})
 			},
-
-			
 
 			// 到达顶部？
 			upper: function(e) {
@@ -904,11 +860,11 @@
 
 			// 底部
 			lower: function(e) {
-				console.log(e, "底部？？",e.detail.scrollTop)
+				console.log(e, "底部？？", e.detail.scrollTop)
 				this.old.scrollTop = e.detail.scrollTop
 				this.footerShow = true
 			},
-			
+
 			scroll: function(e) {
 				// console.log(e.detail)
 				this.old.scrollTop = e.detail.scrollTop
@@ -929,12 +885,7 @@
 					"selectedIconPath": "static/img/doctor1.png",
 				})
 			},
-			// 搜索框
-			hideKeyboard: function(event) {
-				uni.navigateTo({
-					url: '/pages/search/search',
-				})
-			},
+
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index) {
 				console.log(index, this.topTabTaplist[0])
@@ -950,58 +901,13 @@
 </script>
 
 <style>
-	/* 头部 */
-	.TOP {
-		position: fixed;
-		width: 100%;
-		height: 240rpx;
-		top: 0;
-		left: 0;
-		z-index: 100;
-		color: #FFFFFF;
-	}
-
-	.topBar {
-		height: 240rpx;
-	}
-
-	.search {
-		padding: 20rpx;
-	}
-
-	.searchInput {
-		background-color: #F2F2F2;
-		height: 64rpx;
-		border-radius: 32rpx;
-		margin: 24rpx 0;
-	}
-
-	.searchContent {
-		padding-left: 20rpx;
-		display: flex;
-	}
-
-	.searchIcon image {
-		width: 64rpx;
-		height: 64rpx;
-	}
-
-	.topSearch {
-		width: 380rpx;
-		font-family: MicrosoftYaHei;
-		font-size: 24rpx;
-		overflow: hidden; //超出一行文字自动隐藏		 
-		text-overflow: ellipsis; //文字隐藏后添加省略号		 
-		white-space: nowrap; //强制不换行
-		line-height: 60rpx;
-		color: #999999;
+	.subject-content {
+		margin-top: 220rpx;
 	}
 
 	.endtitleitem {
 		overflow: hidden;
 		white-space: nowrap;
-		height: 68rpx;
-		line-height: 68rpx;
 	}
 
 	.endtitleitem_H {
@@ -1017,11 +923,14 @@
 
 	.end-title {
 		display: flex;
+		height: 68rpx;
+		line-height: 68rpx;
 		justify-content: space-between;
+		padding: 20rpx 0;
 	}
 
 	.end-title view {
-		flex-grow: 1;
+		/* flex-grow: 1; */
 		text-align: center;
 	}
 
@@ -1044,6 +953,8 @@
 		line-height: 80rpx;
 		width: 160rpx;
 		display: flex;
+		font-weight: bolder;
+		font-size: 40rpx;
 		text-align: center;
 		padding: 0 10rpx;
 		color: #FFFFFF;
@@ -1052,105 +963,8 @@
 	.goods_classify image {
 		width: 26rpx;
 		height: 26rpx;
+		margin-right: 10rpx;
 	}
-
-	.subject-content {
-		margin-top: 240rpx;
-	}
-
-
-	.imgAndCart {
-		padding-top: 25rpx;
-		padding-left: 15rpx;
-		padding-right: 15rpx;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	/* 头部左边的图片导航 */
-	.imgAndCart .img {
-		height: 50rpx;
-		line-height: 25rpx;
-		border-radius: 25rpx;
-		border: solid 2px #470874;
-		background-image: linear-gradient(90deg,
-			#652aa6 0%,
-			#8c3de3 50%,
-			#652aa6 100%),
-			linear-gradient(-33deg,
-			#fa3475 0%,
-			#ff6699 100%);
-		background-blend-mode: normal,
-			normal;
-		opacity: 0.9;
-		margin-top: 35rpx;
-		padding-right: 20rpx;
-		display: flex;
-		justify-content: space-around;
-	}
-
-	.imgAndCart .img .topBarText {
-		font-size: 30rpx;
-		color: #ffd302;
-		line-height: 44rpx;
-		margin: 0 20rpx 0 0;
-	}
-
-	.imgAndCart .img .topBarGo {
-		font-size: 15rpx;
-		color: #7343b1;
-		;
-		background-color: #ffd302;
-		width: 30rpx;
-		height: 30rpx;
-		margin-top: 5rpx;
-		border-radius: 15rpx;
-		line-height: 30rpx;
-		border: solid 2rpx #ffffff;
-	}
-
-
-	.imgAndCart .img .topBarImg .topBarImgs {
-		width: 100rpx;
-		height: 100rpx;
-		margin-top: -40rpx;
-	}
-
-	/* 消息和购物车 */
-	.cartAndMessage {
-		display: flex;
-		padding-right: 200rpx;
-		width: 160rpx;
-		justify-content: space-between;
-		padding-top: 40rpx;
-	}
-
-	.cartImg image,
-	.messageImg image {
-		width: 38rpx;
-		height: 38rpx;
-	}
-
-	.cart,
-	.message {
-		display: flex;
-		width: 50%;
-	}
-
-	.cartNumber,
-	.messageNumber {
-		width: 24rpx;
-		height: 24rpx;
-		border-radius: 12rpx;
-		color: #FFFFFF;
-		background-color: #F12F6F;
-		font-size: 16rpx;
-		line-height: 24rpx;
-		text-align: center;
-		margin-left: -10rpx;
-		margin-top: -10rpx;
-	}
-
 
 	.swiper {
 		text-align: center;
@@ -1185,16 +999,18 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		color: #333333;
-		height: 270rpx;
+		/* height: 270rpx; */
+
 	}
 
 	.swiperContent {
 		position: relative;
+		padding-bottom: 20rpx;
 	}
 
 	.dot {
 		position: absolute;
-		bottom: 10rpx;
+		bottom: 0rpx;
 		right: 340rpx;
 	}
 
@@ -1202,11 +1018,11 @@
 		width: 17%;
 		text-align: center;
 		height: 130rpx;
+		padding: 5rpx 10rpx;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		font-size: 20rpx;
-		padding: 10rpx;
 	}
 
 	.swiper-img {
@@ -1702,8 +1518,8 @@
 		text-align: center;
 		padding: 0 20rpx;
 	}
-	
-	.footer{
+
+	.footer {
 		text-align: center;
 		font-size: 30rpx;
 		color: #2e2e2e;

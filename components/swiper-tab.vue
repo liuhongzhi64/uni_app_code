@@ -1,8 +1,8 @@
 <template>
 	<view class="uni-tab-bar">
 		<scroll-view class="uni-swiper-tab" >
-			<block v-for="(tab,index) in tabBars" :key="tab.id" :style="scrollStyle">
-				<view class="swiper-tab-list" :class="{'active' : tabIndex==index}" @tap="tabtap(index)" :style="scrollItemStyle">
+			<block v-for="(tab,index) in tabBars" :key="tab.id">
+				<view class="swiper-tab-list" :class="{'active' : tabIndex==index}" @tap="tabtap(index)" >
 					<view class="tabName">
 						{{tab.name}} 
 					</view>
@@ -25,15 +25,8 @@
 				type:Boolean,
 				default:false
 			},
-			scrollStyle: {
-				type: String,
-				default: ""
-			},
-			scrollItemStyle: {
-				type: String,
-				default: ""
-			}
 		},
+
 		methods: {
 			//点击切换导航
 			tabtap(index) {

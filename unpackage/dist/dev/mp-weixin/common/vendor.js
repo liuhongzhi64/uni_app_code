@@ -7766,20 +7766,6 @@ function normalizeComponent (
 }
 
 
-/***/ }),
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/img/kitty.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/img/kitty.png";
-
 /***/ })
 ]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

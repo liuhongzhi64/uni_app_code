@@ -101,7 +101,7 @@
 			"path": "pages/goods/goods_detail_video",//商品详情（视频播放）
 			"style": {}
 		}, {
-			"path": "pages/goods/goods_list",//商品详情（视频播放）
+			"path": "pages/goods/goods_list",//商品列表
 			"style": {}
 		}, {
 			"path": "pages/cart/cart",//购物车

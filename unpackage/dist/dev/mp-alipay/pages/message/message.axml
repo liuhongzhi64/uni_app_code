@@ -1,0 +1,1 @@
+<view class="message">消息主页面<view data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" class="goBack" onTap="__e">返回</view></view>

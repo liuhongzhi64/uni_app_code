@@ -1,1002 +1,10 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 头部 */
-.TOP {
-	position: fixed;
-	width: 100%;
-	height: 240rpx;
-	top: 0;
-	left: 0;
-	z-index: 100;
-	color: #FFFFFF;
-}
-.topBar {
-	height: 240rpx;
-}
-.search {
-	padding: 20rpx;
-}
-.searchInput {
-	background-color: #F2F2F2;
-	height: 64rpx;
-	border-radius: 32rpx;
-	margin: 24rpx 0;
-}
-.searchContent {
-	padding-left: 20rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-}
-.searchIcon image {
-	width: 64rpx;
-	height: 64rpx;
-}
-.topSearch {
-	width: 380rpx;
-	font-family: MicrosoftYaHei;
-	font-size: 24rpx;
-	overflow: hidden; /*超出一行文字自动隐藏		  */
-	text-overflow: ellipsis; /*文字隐藏后添加省略号		  */
-	white-space: nowrap; /*强制不换行 */
-	line-height: 60rpx;
-	color: #999999;
+.subject-content {
+	margin-top: 220rpx;
 }
 .endtitleitem {
 	overflow: hidden;
 	white-space: nowrap;
-	height: 68rpx;
-	line-height: 68rpx;
 }
 .endtitleitem_H {
 	display: inline-block;
@@ -1011,14 +19,15 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	height: 68rpx;
+	line-height: 68rpx;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
+	padding: 20rpx 0;
 }
 .end-title view {
-	-webkit-box-flex: 1;
-	-webkit-flex-grow: 1;
-	        flex-grow: 1;
+	/* flex-grow: 1; */
 	text-align: center;
 }
 .end-cont {
@@ -1039,6 +48,8 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	font-weight: bolder;
+	font-size: 40rpx;
 	text-align: center;
 	padding: 0 10rpx;
 	color: #FFFFFF;
@@ -1046,111 +57,7 @@
 .goods_classify image {
 	width: 26rpx;
 	height: 26rpx;
-}
-.subject-content {
-	margin-top: 240rpx;
-}
-.imgAndCart {
-	padding-top: 25rpx;
-	padding-left: 15rpx;
-	padding-right: 15rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-}
-/* 头部左边的图片导航 */
-.imgAndCart .img {
-	height: 50rpx;
-	line-height: 25rpx;
-	border-radius: 25rpx;
-	border: solid 2px #470874;
-	background-image: -webkit-linear-gradient(left,
-		#652aa6 0%,
-		#8c3de3 50%,
-		#652aa6 100%),
-		-webkit-linear-gradient(123deg,
-		#fa3475 0%,
-		#ff6699 100%);
-	background-image: linear-gradient(90deg,
-		#652aa6 0%,
-		#8c3de3 50%,
-		#652aa6 100%),
-		linear-gradient(-33deg,
-		#fa3475 0%,
-		#ff6699 100%);
-	background-blend-mode: normal,
-		normal;
-	opacity: 0.9;
-	margin-top: 35rpx;
-	padding-right: 20rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-justify-content: space-around;
-	        justify-content: space-around;
-}
-.imgAndCart .img .topBarText {
-	font-size: 30rpx;
-	color: #ffd302;
-	line-height: 44rpx;
-	margin: 0 20rpx 0 0;
-}
-.imgAndCart .img .topBarGo {
-	font-size: 15rpx;
-	color: #7343b1;
-	
-	background-color: #ffd302;
-	width: 30rpx;
-	height: 30rpx;
-	margin-top: 5rpx;
-	border-radius: 15rpx;
-	line-height: 30rpx;
-	border: solid 2rpx #ffffff;
-}
-.imgAndCart .img .topBarImg .topBarImgs {
-	width: 100rpx;
-	height: 100rpx;
-	margin-top: -40rpx;
-}
-/* 消息和购物车 */
-.cartAndMessage {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	padding-right: 200rpx;
-	width: 160rpx;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	padding-top: 40rpx;
-}
-.cartImg image,
-.messageImg image {
-	width: 38rpx;
-	height: 38rpx;
-}
-.cart,
-.message {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	width: 50%;
-}
-.cartNumber,
-.messageNumber {
-	width: 24rpx;
-	height: 24rpx;
-	border-radius: 12rpx;
-	color: #FFFFFF;
-	background-color: #F12F6F;
-	font-size: 16rpx;
-	line-height: 24rpx;
-	text-align: center;
-	margin-left: -10rpx;
-	margin-top: -10rpx;
+	margin-right: 10rpx;
 }
 .swiper {
 	text-align: center;
@@ -1192,20 +99,22 @@
 	-webkit-flex-wrap: wrap;
 	        flex-wrap: wrap;
 	color: #333333;
-	height: 270rpx;
+	/* height: 270rpx; */
 }
 .swiperContent {
 	position: relative;
+	padding-bottom: 20rpx;
 }
 .dot {
 	position: absolute;
-	bottom: 10rpx;
+	bottom: 0rpx;
 	right: 340rpx;
 }
 .tabBarSwiperItem {
 	width: 17%;
 	text-align: center;
 	height: 130rpx;
+	padding: 5rpx 10rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -1216,7 +125,6 @@
 	-webkit-justify-content: space-around;
 	        justify-content: space-around;
 	font-size: 20rpx;
-	padding: 10rpx;
 }
 .swiper-img {
 	height: 260rpx;
@@ -1231,6 +139,7 @@
 	border-radius: 40rpx;
 	border: 1px solid #FFFFFF;
 }
+
 /* 广告位 */
 .advertisingAll {
 	padding-bottom: 20rpx;
@@ -1468,6 +377,7 @@
 	width: 204rpx;
 	height: 204rpx;
 }
+
 /* 倒计时自定义名称 */
 .countDown {
 	display: -webkit-box;
@@ -1532,6 +442,7 @@
 	font-size: 20rpx;
 	color: #FFFFFF;
 }
+
 /* 图片商品 */
 .productImgY {
 	width: 100%;
@@ -1550,6 +461,7 @@
 	width: 240rpx;
 	height: 240rpx;
 }
+
 /* 商品 */
 .productItems {
 	display: -webkit-box;
@@ -1623,6 +535,7 @@
 	top: 130rpx;
 	color: #2e2e2e;
 }
+
 /* 导航条 */
 .customTab {
 	height: auto;
@@ -1630,6 +543,7 @@
 .uni-tab-bar {
 	background-color: #F6F6F6;
 }
+
 /* 推荐内容 */
 .recommenListItem {
 	display: -webkit-box;
@@ -1712,7 +626,7 @@
 	text-align: center;
 	padding: 0 20rpx;
 }
-.footer{
+.footer {
 	text-align: center;
 	font-size: 30rpx;
 	color: #2e2e2e;

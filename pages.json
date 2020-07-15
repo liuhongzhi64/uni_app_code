@@ -2,12 +2,21 @@
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		
 		{
+			"path": "pages/goods/goods_detail",//商品详情
+			"style": {}
+		}, 
+		{
 			"path": "pages/index/index",
 			"style": {
 				// "navigationBarTitleText": "整呗"
 				"enablePullDownRefresh":true
 			}
-		}, {
+		},
+		{
+			"path": "pages/goods/goods_classify",//商品分类
+			"style": {}
+		},
+		{
 			"path": "pages/login/login",//登录
 			"style": {}
 		}, {
@@ -83,12 +92,6 @@
 			"path": "pages/message/message_detail",//日记详情（视频）
 			"style": {}
 		}, {
-			"path": "pages/goods/goods_classify",//商品分类
-			"style": {}
-		}, {
-			"path": "pages/goods/goods_detail",//商品详情
-			"style": {}
-		}, {
 			"path": "pages/goods/goods_detail_comment",//商品详情（全部评价）
 			"style": {}
 		}, {
@@ -129,32 +132,32 @@
 		"backgroundColor": "#F8F8F8",
 		"list": [{
 				"pagePath": "pages/index/index",
-				"iconPath": "static/img/index.png",
-				"selectedIconPath": "static/img/idnex1.png",
+				"iconPath": "static/images/index.png",
+				"selectedIconPath": "static/images/idnex1.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/goods/goods_classify",
-				"iconPath": "static/img/classify.png",
-				"selectedIconPath": "static/img/classify1.png",
+				"iconPath": "static/images/classify.png",
+				"selectedIconPath": "static/images/classify1.png",
 				"text": "分类"
 			},
 			{
 				"pagePath": "pages/diary/diary",
-				"iconPath": "./static/img/diary.png",
-				"selectedIconPath": "static/img/diary1.png",
+				"iconPath": "./static/images/diary.png",
+				"selectedIconPath": "static/images/diary1.png",
 				"text": "日记"
 			},
 			{
 				"pagePath": "pages/doctor/doctor_detail",
-				"iconPath": "static/img/doctor.png",
-				"selectedIconPath": "static/img/doctor1.png",
+				"iconPath": "static/images/doctor.png",
+				"selectedIconPath": "static/images/doctor1.png",
 				"text": "医生"
 			}, 
 			{
 				"pagePath": "pages/my/my",
-				"iconPath": "static/img/my.png",
-				"selectedIconPath": "static/img/my1.png",
+				"iconPath": "static/images/my.png",
+				"selectedIconPath": "static/images/my1.png",
 				"text": "我的"
 			}
 		]

@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/goods/goods_detail",
     "pages/index/index",
+    "pages/goods/goods_classify",
     "pages/login/login",
     "pages/login/register",
     "pages/poster/poster",
@@ -26,8 +28,6 @@
     "pages/search/search_result",
     "pages/message/message",
     "pages/message/message_detail",
-    "pages/goods/goods_classify",
-    "pages/goods/goods_detail",
     "pages/goods/goods_detail_comment",
     "pages/goods/goods_detail_notice",
     "pages/goods/goods_detail_problem",
@@ -50,36 +50,36 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/img/index.png",
-        "selectedIconPath": "static/img/idnex1.png",
+        "iconPath": "static/images/index.png",
+        "selectedIconPath": "static/images/idnex1.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/goods/goods_classify",
-        "iconPath": "static/img/classify.png",
-        "selectedIconPath": "static/img/classify1.png",
+        "iconPath": "static/images/classify.png",
+        "selectedIconPath": "static/images/classify1.png",
         "text": "分类"
       },
       {
         "pagePath": "pages/diary/diary",
-        "iconPath": "./static/img/diary.png",
-        "selectedIconPath": "static/img/diary1.png",
+        "iconPath": "./static/images/diary.png",
+        "selectedIconPath": "static/images/diary1.png",
         "text": "日记"
       },
       {
         "pagePath": "pages/doctor/doctor_detail",
-        "iconPath": "static/img/doctor.png",
-        "selectedIconPath": "static/img/doctor1.png",
+        "iconPath": "static/images/doctor.png",
+        "selectedIconPath": "static/images/doctor1.png",
         "text": "医生"
       },
       {
         "pagePath": "pages/my/my",
-        "iconPath": "static/img/my.png",
-        "selectedIconPath": "static/img/my1.png",
+        "iconPath": "static/images/my.png",
+        "selectedIconPath": "static/images/my1.png",
         "text": "我的"
       }
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap0.json"
+  "sitemapLocation": "sitemap42.json"
 }

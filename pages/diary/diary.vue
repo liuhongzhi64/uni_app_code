@@ -1,6 +1,6 @@
 <template>
 	<view class="diary">
-		<topBar></topBar>
+		<topBar :barName = 'barName'></topBar>
 		<view class="content">
 			日记
 		</view>
@@ -15,7 +15,7 @@
 		},
 		data() {
 			return {
-
+				barName:'mianPage',//页面名称
 			}
 		},
 		methods: {

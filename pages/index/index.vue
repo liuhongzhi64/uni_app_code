@@ -1,7 +1,14 @@
 <template>
 	<view class="content">
-		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :barTopH='barTopH' :rightDistance='rightDistance'
-		 :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent' @marginTop = 'marginTop'></topBar>
+		<topBar class="topBar" 
+		:barName = 'barName'
+		:topBackgroundColor='topBackgroundColor' 
+		:BarImgs='BarImgs' 
+		:barTopH='barTopH' 
+		:rightDistance='rightDistance'
+		:cartNumber='cartNumber' 
+		:messageNumber='messageNumber' 
+		:topSearchContent='topSearchContent'></topBar>
 
 
 		<!-- 主体内容 -->
@@ -21,7 +28,7 @@
 					<view class="goods_classify" :style="{backgroundColor:topBackgroundColor}">
 						<view class="goods_classify" @click="gotoClassify">
 							<view class="classifyImg">
-								<image src="../../static/img/barcClassify.png" mode=""></image>
+								<image src="../../static/images/barcClassify.png" mode=""></image>
 							</view>
 							<view class="classifytext">
 								分类
@@ -56,7 +63,7 @@
 								<view id="certification" class="certification" v-if="item.certificationList">
 									<view class="certifications" v-for="(i,index) in item.certificationList" :key="index">
 										<view class="certificationimgs">
-											<image src="../../static/img/1.png" mode=""></image>
+											<image src="../../static/images/1.png" mode=""></image>
 										</view>
 										<view>{{i}}</view>
 									</view>
@@ -340,14 +347,16 @@
 				old: {
 					scrollTop: 0
 				},
+				barName:'mianPage',//页面名称
 				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				BarImgs: '../static/img/0.png', //
+				barHeight: 180, //距离顶部的高度
+				BarImgs: '../static/images/0.png', //
 				barTopH: 0,
 				rightDistance: 0,
 				cartNumber: 3, //购物车数量
 				messageNumber: 19, //消息
 				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
-				marginTopBar:0,//距离顶部的距离
+				marginTopBar: 0, //距离顶部的距离
 				btnnum: 0,
 				count: "",
 				skipList: [{
@@ -381,12 +390,12 @@
 							{
 								swiperList: [{
 										id: 0,
-										url: '../../static/img/0.png',
+										url: '../../static/images/0.png',
 										name: '闭馆主会场01',
 									},
 									{
 										id: 1,
-										url: '../../static/img/20.png',
+										url: '../../static/images/20.png',
 										name: '闭馆主会场02',
 									},
 								],
@@ -401,44 +410,44 @@
 								tabBarSwiperList: [{
 										tabList: [{
 												id: 0,
-												icon: '../../static/img/2.png',
+												icon: '../../static/images/2.png',
 												name: '限时秒杀'
 											},
 											{
 												id: 1,
-												icon: '../../static/img/3.png',
+												icon: '../../static/images/3.png',
 												name: '整形案例'
 											}, {
 												id: 2,
-												icon: '../../static/img/4.png',
+												icon: '../../static/images/4.png',
 												name: '赚取喵币'
 											}, {
 												id: 3,
-												icon: '../../static/img/5.png',
+												icon: '../../static/images/5.png',
 												name: '喵币商城'
 											}, {
 												id: 4,
-												icon: '../../static/img/6.png',
+												icon: '../../static/images/6.png',
 												name: '关于整呗'
 											}, {
 												id: 5,
-												icon: '../../static/img/7.png',
+												icon: '../../static/images/7.png',
 												name: '最新商品'
 											}, {
 												id: 6,
-												icon: '../../static/img/8.png',
+												icon: '../../static/images/8.png',
 												name: '热卖商品'
 											}, {
 												id: 7,
-												icon: '../../static/img/9.png',
+												icon: '../../static/images/9.png',
 												name: '特价商品'
 											}, {
 												id: 8,
-												icon: '../../static/img/10.png',
+												icon: '../../static/images/10.png',
 												name: '推荐商品'
 											}, {
 												id: 9,
-												icon: '../../static/img/11.png',
+												icon: '../../static/images/11.png',
 												name: '商品分类'
 											}
 										]
@@ -446,44 +455,44 @@
 									{
 										tabList: [{
 												id: 0,
-												icon: '../../static/img/2.png',
+												icon: '../../static/images/2.png',
 												name: '拜托医生'
 											},
 											{
 												id: 1,
-												icon: '../../static/img/3.png',
+												icon: '../../static/images/3.png',
 												name: '日记案例'
 											}, {
 												id: 2,
-												icon: '../../static/img/4.png',
+												icon: '../../static/images/4.png',
 												name: '赚取喵币'
 											}, {
 												id: 3,
-												icon: '../../static/img/5.png',
+												icon: '../../static/images/5.png',
 												name: '喵币商城'
 											}, {
 												id: 4,
-												icon: '../../static/img/6.png',
+												icon: '../../static/images/6.png',
 												name: '关于整呗'
 											}, {
 												id: 5,
-												icon: '../../static/img/7.png',
+												icon: '../../static/images/7.png',
 												name: '最新商品'
 											}, {
 												id: 6,
-												icon: '../../static/img/8.png',
+												icon: '../../static/images/8.png',
 												name: '热卖商品'
 											}, {
 												id: 7,
-												icon: '../../static/img/9.png',
+												icon: '../../static/images/9.png',
 												name: '特价商品'
 											}, {
 												id: 8,
-												icon: '../../static/img/10.png',
+												icon: '../../static/images/10.png',
 												name: '推荐商品'
 											}, {
 												id: 9,
-												icon: '../../static/img/11.png',
+												icon: '../../static/images/11.png',
 												name: '商品分类'
 											}
 										]
@@ -492,44 +501,44 @@
 
 								tabBarSwiperLists: [{
 										id: 0,
-										icon: '../../static/img/2.png',
+										icon: '../../static/images/2.png',
 										name: '限时秒杀'
 									},
 									{
 										id: 1,
-										icon: '../../static/img/3.png',
+										icon: '../../static/images/3.png',
 										name: '整形案例'
 									}, {
 										id: 2,
-										icon: '../../static/img/4.png',
+										icon: '../../static/images/4.png',
 										name: '赚取喵币'
 									}, {
 										id: 3,
-										icon: '../../static/img/5.png',
+										icon: '../../static/images/5.png',
 										name: '喵币商城'
 									}, {
 										id: 4,
-										icon: '../../static/img/6.png',
+										icon: '../../static/images/6.png',
 										name: '关于整呗'
 									}, {
 										id: 5,
-										icon: '../../static/img/7.png',
+										icon: '../../static/images/7.png',
 										name: '最新商品'
 									}, {
 										id: 6,
-										icon: '../../static/img/8.png',
+										icon: '../../static/images/8.png',
 										name: '热卖商品'
 									}, {
 										id: 7,
-										icon: '../../static/img/9.png',
+										icon: '../../static/images/9.png',
 										name: '特价商品'
 									}, {
 										id: 8,
-										icon: '../../static/img/10.png',
+										icon: '../../static/images/10.png',
 										name: '推荐商品'
 									}, {
 										id: 9,
-										icon: '../../static/img/11.png',
+										icon: '../../static/images/11.png',
 										name: '商品分类'
 									}
 								],
@@ -537,20 +546,20 @@
 								// advertisingAllUrl:'../../static/img/13.png',
 								advertisingAllColor: '#FB5E65',
 								//自定义广告位链接或背景图
-								advertisingUrl: '../../static/img/12.png',
+								advertisingUrl: '../../static/images/12.png',
 
 								// 广告位03
 								advertisingList: [{
 										id: 0,
 										title: '华桑初妍面膜',
 										content: '现低至85元/盒!',
-										backgroungUrl: '../../static/img/14.png'
+										backgroungUrl: '../../static/images/14.png'
 									},
 									{
 										id: 1,
 										title: '希玛仕焕颜霜',
 										content: '现低至399元/盒!',
-										backgroungUrl: '../../static/img/15.png'
+										backgroungUrl: '../../static/images/15.png'
 									},
 								],
 
@@ -559,37 +568,37 @@
 										id: 1,
 										name: '化妆品',
 										content: '全场商品满2000减200sadas阿萨大师',
-										url: '../../static/img/16.png'
+										url: '../../static/images/16.png'
 									},
 									{
 										id: 3,
 										name: '化妆品',
 										content: '全场商品满2000减200',
-										url: '../../static/img/17.png'
+										url: '../../static/images/17.png'
 									},
 									{
 										id: 4,
 										name: '化妆品',
 										content: '全场商品满2000减200',
-										url: '../../static/img/18.png'
+										url: '../../static/images/18.png'
 									},
 									{
 										id: 5,
 										name: '化妆品',
 										content: '全场商品满2000减200',
-										url: '../../static/img/16.png'
+										url: '../../static/images/16.png'
 									},
 									{
 										id: 6,
 										name: '化妆品',
 										content: '全场商品满2000减200',
-										url: '../../static/img/17.png'
+										url: '../../static/images/17.png'
 									},
 									{
 										id: 7,
 										name: '化妆品',
 										content: '全场商品满2000减200',
-										url: '../../static/img/18.png'
+										url: '../../static/images/18.png'
 									},
 								],
 
@@ -602,7 +611,7 @@
 								// 自定义名称导航
 								productImgList: [{
 										id: 0,
-										url: '../../static/img/19.png',
+										url: '../../static/images/19.png',
 										content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
@@ -610,7 +619,7 @@
 									},
 									{
 										id: 1,
-										url: '../../static/img/20.png',
+										url: '../../static/images/20.png',
 										content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
@@ -618,7 +627,7 @@
 									},
 									{
 										id: 2,
-										url: '../../static/img/21.png',
+										url: '../../static/images/21.png',
 										content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
@@ -626,7 +635,7 @@
 									},
 									{
 										id: 3,
-										url: '../../static/img/19.png',
+										url: '../../static/images/19.png',
 										content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
 										newPrice: '15800',
 										oldPrice: '19800',
@@ -662,7 +671,7 @@
 								swiperheight: 0, //高度
 								newslist: [{
 										list: [{
-												url: '../../static/img/19.png',
+												url: '../../static/images/19.png',
 												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
 												productPrice: '19800', //价格
 												subscribe: 477, //预约
@@ -671,7 +680,7 @@
 												labelList: [] //标签
 											},
 											{
-												url: '../../static/img/20.png',
+												url: '../../static/images/20.png',
 												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
 												productPrice: '19800', //价格
 												subscribe: 477, //预约
@@ -680,7 +689,7 @@
 												labelList: ['眼部美容', '眼部'] //标签
 											},
 											{
-												url: '../../static/img/19.png',
+												url: '../../static/images/19.png',
 												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
 												productPrice: '19800', //价格
 												subscribe: 477, //预约
@@ -688,7 +697,7 @@
 												closed: false,
 											},
 											{
-												url: '../../static/img/20.png',
+												url: '../../static/images/20.png',
 												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
 												productPrice: '19800', //价格
 												subscribe: 477, //预约
@@ -696,7 +705,7 @@
 												closed: false,
 											},
 											{
-												url: '../../static/img/20.png',
+												url: '../../static/images/20.png',
 												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
 												productPrice: '19800', //价格
 												subscribe: 477, //预约
@@ -766,22 +775,15 @@
 				}
 			})
 			setTimeout(() => {
-				that.topSwiperheight = pageHeight * 2.5 + Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) * 550
-				that.topTabTaplist[0].list[1].swiperheight = Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) * 550
+				that.topSwiperheight = pageHeight * 2.5 + Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) *
+					550
+				that.topTabTaplist[0].list[1].swiperheight = Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) *
+					550
 			}, 1000)
 
 		},
 		onLoad(options) {
-			
-			if (this.cartNumber > 9) {
-				this.cartNumber = '9+'
-			}
-			// 消息数量大于时显示9+
-			if (this.messageNumber > 9) {
-				this.messageNumber = '9+'
-			}
-			
-			
+
 			uni.setStorage({
 				key: 'token',
 				data: 'hello',
@@ -808,11 +810,6 @@
 		},
 
 		methods: {
-			marginTop:function(e){
-				console.log(e,1111111122222222)
-				this.marginTopBar = e
-			},
-					
 			change: function(e) {
 				this.count = e
 				this.btnnum = e
@@ -875,14 +872,14 @@
 				uni.setTabBarItem({
 					index: 0,
 					text: '首页',
-					"iconPath": "static/img/index.png",
-					"selectedIconPath": "static/img/idnex1.png",
+					"iconPath": "static/images/index.png",
+					"selectedIconPath": "static/images/idnex1.png",
 				})
 				uni.setTabBarItem({
 					index: 1,
 					text: '分类',
-					"iconPath": "static/img/doctor.png",
-					"selectedIconPath": "static/img/doctor1.png",
+					"iconPath": "static/images/doctor.png",
+					"selectedIconPath": "static/images/doctor1.png",
 				})
 			},
 
@@ -900,9 +897,9 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.subject-content {
-		margin-top: 220rpx;
+		padding-top: 200rpx;
 	}
 
 	.endtitleitem {
@@ -923,6 +920,7 @@
 
 	.end-title {
 		display: flex;
+		padding-top: 10rpx;
 		height: 68rpx;
 		line-height: 68rpx;
 		justify-content: space-between;
@@ -942,6 +940,8 @@
 		color: #FFFFFF;
 		font-weight: bolder;
 		font-size: 40rpx;
+		height: 80rpx;
+		line-height: 80rpx;
 	}
 
 	.dis {
@@ -1129,7 +1129,7 @@
 
 	.all-red-packet-items {
 		width: 100%;
-		height: 102rpx;
+		height: 100rpx;
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
@@ -1137,7 +1137,7 @@
 	}
 
 	.signIn-red-packet {
-		height: 200rpx;
+		/* height: 200rpx; */
 		width: 670rpx;
 		padding: 20rpx 20rpx 0;
 		background-color: #FFFFFF;
@@ -1378,7 +1378,6 @@
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 		color: #2e2e2e;
-
 	}
 
 	.productItems {

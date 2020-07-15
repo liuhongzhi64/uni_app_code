@@ -1,1 +1,1 @@
-<view class="doctor_detail"><top-bar vue-id="b6498368-1" bind:__l="__l"></top-bar>医生主页</view>
+<view class="doctor_detail"><top-bar vue-id="b6498368-1" barName="{{barName}}" bind:__l="__l"></top-bar>医生主页</view>

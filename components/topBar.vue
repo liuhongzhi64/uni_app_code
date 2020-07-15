@@ -1,43 +1,63 @@
 <template>
-	<view class="content" :style="[{backgroundColor:topBackgroundColor,paddingTop:barTopH+'rpx',paddingRight:rightDistance+'rpx'}]">
-		<view class="tabBar" :style="[{paddingTop:barTopH+'rpx',paddingBottom:barTopH+'rpx'}]">
-			<view class="leftImg">
-				<image :src="BarImgs" mode=""></image>
-			</view>
-
-			<view class="cartAndMessage" :style="[{paddingRight:rightDistance+20+'rpx'}]">
-				<view class="cart" @tap="cart">
-					<view class="cartImg">
-						<image src="../static/img/cart.png" mode=""></image>
+	<view class="allContent">
+		<!-- 带购物车和搜索的导航条 -->
+		<view class="content" v-if="barName ==='mianPage'" :style="[{backgroundColor:topBackgroundColor,paddingTop:barTopH+'rpx',paddingRight:rightDistance+'rpx'}]">
+			<view class="tabBar" :style="[{paddingTop:barTopH+'rpx',paddingBottom:barTopH/2+'rpx'}]">
+				<view class="leftImg">
+					<image :src="BarImgs" mode=""></image>
+				</view>
+		
+				<view class="cartAndMessage" :style="[{paddingRight:rightDistance+20+'rpx'}]">
+					<view class="cart" @tap="cart">
+						<view class="cartImg">
+							<image src="../static/images/cart.png" mode=""></image>
+						</view>
+						<view class="cartNumber">
+							{{carts}}
+						</view>
 					</view>
-					<view class="cartNumber">
-						{{cartNumber}}
+					<view class="message" @tap="message">
+						<view class="messageImg">
+							<image src="../static/images/message.png" mode=""></image>
+						</view>
+						<view class="messageNumber">
+							{{messages}}
+						</view>
 					</view>
 				</view>
-				<view class="message" @tap="message">
-					<view class="messageImg">
-						<image src="../static/img/message.png" mode=""></image>
-					</view>
-					<view class="messageNumber">
-						{{messageNumber}}
+		
+			</view>
+			<view class="search" :style="[{paddingBottom:barTopH/2+'rpx'}]">
+				<view class="searchInput" @click="hideKeyboard">
+					<view class="searchContent">
+						<view class="searchIcon">
+							<image src="../static/images/search.png" mode=""></image>
+						</view>
+						<view class="topSearch">
+							{{topSearchContent}}
+						</view>
 					</view>
 				</view>
 			</view>
-
 		</view>
-		<view class="search">
-			<view class="searchInput" @click="hideKeyboard">
-				<view class="searchContent">
-					<view class="searchIcon">
-						<image src="../static/img/search.png" mode=""></image>
-					</view>
-					<view class="topSearch">
-						{{topSearchContent}}
-					</view>
+		
+		<!-- 不带购物车的导航条 -->
+		<view class="goodsBar" v-if="barName ==='particularsPage'" :style="[{paddingTop:barTopH*2+'rpx',paddingLeft:barTopH/2+'rpx',lineHeight:lineHeight*2-10+'rpx'}]">
+			<view class="barContent" :style="[{paddingRight:rightDistance*2.5+'rpx'}]">
+				<!-- 返回 -->
+				<view class="return" @click="goBack">
+					<image src="../static/images/return.png" mode=""></image>
+				</view>
+				<!-- 详情页 -->
+				<view class="tabBarName"> 详情页 </view>
+				<!-- 分享到微信 -->
+				<view class="share">
+					<image src="../static/images/wechat.png" mode=""></image>
 				</view>
 			</view>
 		</view>
 	</view>
+
 </template>
 
 <script>
@@ -49,7 +69,7 @@
 			},
 			BarImgs: {
 				type: String,
-				default: '../static/img/0.png'
+				default: '../static/images/0.png'
 			},
 			barTopH: {
 				type: Number,
@@ -59,27 +79,38 @@
 				type: Number,
 				default: 90
 			},
-			cartNumber: Number,
-			messageNumber: Number,
-			topSearchContent: String,
-			
+			barName:{
+				type: String,
+				default: 'particularsPage'
+			},//导航条的名称
+			lineHeight:Number,//行高
+			cartNumber: Number,//购物车
+			messageNumber: Number,//消息
+			topSearchContent: String,//搜索默认内容
+
 		},
 		data() {
 			return {
-				contentMarginTop:0,//传给父组件的元素高度
+				contentMarginTop: 0, //传给父组件的元素高度
+				carts:'3',
+				messages:'19'
 			}
 		},
+
 		onReady() {
 			let that = this;
+			console.log(that.cartNumber, that.messageNumber)
+			that.carts = that.cartNumber
+			that.messages = that.messageNumber
+			if (that.cartNumber > 9) {
+				that.carts = '9+'
+			}
+			if (that.messageNumber > 9) {
+				that.messages = '9+'
+			}
 			uni.getSystemInfo({
 				success: function(res) { // res - 各种参数
-					console.log(res,11111); 
-					let info = uni.createSelectorQuery().select(".content");
-					info.boundingClientRect(function(data) { //data - 各种参数
-						console.log(data) // 获取元素宽度
-						that.contentMarginTop = data.bottom+data.top
-						that.getmarginTop()					
-					}).exec()
+					console.log(res)
 				}
 			});
 		},
@@ -108,24 +139,26 @@
 					url: `/pages/search/search?search=${search}`,
 				})
 			},
-			// 向组件发送高度
-			getmarginTop:function(){
-				console.log(this.contentMarginTop)
-				this.$emit('marginTop',this.contentMarginTop)
+			
+			// 返回上一级
+			goBack: function() {
+				uni.navigateBack({
+					delta: 1
+				});
 			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
+	/* 主页面 */
 	.content {
-		height: 200rpx;
-		padding-bottom: 20rpx;
 		padding-left: 20rpx;
 		position: fixed;
 		top: 0;
 		left: 0;
 		z-index: 100;
+		height: 200rpx;
 		width: 100%;
 	}
 
@@ -207,5 +240,53 @@
 		white-space: nowrap; //强制不换行
 		line-height: 64rpx;
 		color: #999999;
+	}
+	
+	/* 详情页 */
+	.goodsBar {
+		background-image: linear-gradient(0deg,
+			#2c2d31 0%,
+			#101013 100%);
+		color: #FFFFFF;
+		padding-bottom: 30rpx;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	
+	.barContent{
+		display: flex;
+		justify-content: space-between;
+		text-align: center;
+		font-size: 38rpx;
+	}
+	
+	.return{
+		width: 36rpx;
+		height: 36rpx;
+	}
+	
+	.return image{
+		width: 36rpx;
+		height: 36rpx;
+		margin-top: 12rpx;
+	}
+	
+	.tabBarName{
+		margin-left: 200rpx;
+	}
+	
+	.share{
+		width: 50rpx;
+		height: 50rpx;
+		background-color: #4CD964;
+		border-radius: 25rpx;
+		margin-top: 5rpx;
+	}
+	.share image{
+		width: 40rpx;
+		height: 40rpx;
+		margin-top: 5rpx;
 	}
 </style>

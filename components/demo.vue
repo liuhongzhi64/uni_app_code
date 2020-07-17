@@ -1,313 +1,324 @@
 <template>
 	<view class="content">
-		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :barTopH='barTopH'
-		 :rightDistance='rightDistance' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
+		<topBar class="topBar" 
+		:barName = 'barName'
+		:topBackgroundColor='topBackgroundColor' 
+		:BarImgs='BarImgs' 
+		:barTopH='barTopH' 
+		:rightDistance='rightDistance'
+		:cartNumber='cartNumber' 
+		:messageNumber='messageNumber' 
+		:topSearchContent='topSearchContent'></topBar>
 
 
 		<!-- 主体内容 -->
-		<view class="subject-content" >
+		<view class="subject-content">
+			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
+			 @scroll="scroll" :style="{height:topSwiperheight+'rpx'}">
 
-			<view class="end-title">
-				<scroll-view class="endtitleitem" scroll-x="true" scroll-left="0" :style="{backgroundColor:topBackgroundColor}">
-					<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index'
-					 :class="{btna:btnnum == index}" @tap="change(index)">
-						{{ item.name }}
-					</view>
-				</scroll-view>
+				<view class="end-title">
+					<scroll-view class="endtitleitem" scroll-x="true" scroll-left="0" :style="{backgroundColor:topBackgroundColor}">
+						<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index'
+						 :class="{btna:btnnum == index}" @tap="change(index)">
+							{{ item.name }}
+						</view>
+					</scroll-view>
 
-				<!-- 分类 -->
-				<view class="goods_classify" :style="{backgroundColor:topBackgroundColor}">
-					<view class="goods_classify" @click="gotoClassify">
-						<view class="classifyImg">
-							<image src="../../static/images/barcClassify.png" mode=""></image>
+					<!-- 分类 -->
+					<view class="goods_classify" :style="{backgroundColor:topBackgroundColor}">
+						<view class="goods_classify" @click="gotoClassify">
+							<view class="classifyImg">
+								<image src="../../static/images/barcClassify.png" mode=""></image>
+							</view>
+							<view class="classifytext">
+								分类
+							</view>
 						</view>
-						<view class="classifytext">
-							分类
-						</view>
+
 					</view>
 
 				</view>
 
-			</view>
+				<!-- 主体内容 -->
+				<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in topTabTaplist" :key="index">
+					<scroll-view scroll-y class="list">
+						<template v-if="items.list.length > 0">
+							<view v-for="(item,index1) in items.list" :key="index1">
+								<!-- 测试的头部跳转内容 -->
+								<view v-if="items.list.length<2">{{item}}</view>
 
-			<!-- 主体内容 -->
-			<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in topTabTaplist" :key="index">
-				<scroll-view scroll-y class="list">
-					<template v-if="items.list.length > 0">
-						<view v-for="(item,index1) in items.list" :key="index1">
-							<!-- 测试的头部跳转内容 -->
-							<view v-if="items.list.length<2">{{item}}</view>
-
-							<!-- 轮播 -->
-							<view id="swiper" v-if="item.swiperList">
-								<swiper class="swiper" :indicator-dots="item.indicatorDots" indicator-active-color="#ffffff" :autoplay="item.autoplay"
-								 :interval="item.interval" :duration="item.duration" :circular="item.circular">
-									<swiper-item v-for="(i,index) in item.swiperList" :key="index" :data-name="i.name" @tap="gotoGoods">
-										<view class="swiper-item swiper-img">
-											<image :src="i.url" mode=""></image>
-										</view>
-									</swiper-item>
-								</swiper>
-							</view>
-
-							<!-- 认证 -->
-							<view id="certification" class="certification" v-if="item.certificationList">
-								<view class="certifications" v-for="(i,index) in item.certificationList" :key="index">
-									<view class="certificationimgs">
-										<image src="../../static/images/1.png" mode=""></image>
-									</view>
-									<view>{{i}}</view>
+								<!-- 轮播 -->
+								<view id="swiper" v-if="item.swiperList">
+									<swiper class="swiper" :indicator-dots="item.indicatorDots" indicator-active-color="#ffffff" :autoplay="item.autoplay"
+									 :interval="item.interval" :duration="item.duration" :circular="item.circular">
+										<swiper-item v-for="(i,index) in item.swiperList" :key="index" :data-name="i.name" @tap="gotoGoods">
+											<view class="swiper-item swiper-img">
+												<image :src="i.url" mode=""></image>
+											</view>
+										</swiper-item>
+									</swiper>
 								</view>
-							</view>
 
-							<!-- 自定义导航条 -->
-							<view id="tabBarSwiper" v-if="item.tabBarSwiperList" class="swiperContent">
-								<swiper :interval="item.interval" :duration="item.duration" class="swiper-box" @change="changeSwiperDot">
-									<swiper-item class="tabBarSwiper" v-for="(i,index) in item.tabBarSwiperList" :key="index">
-										<view v-for="(i,index) in i.tabList" :key="index" class="swiper-item tabBarSwiperItem" :data-goods="i.name"
-										 @tap="goToGoodsList">
-											<view class="icon">
-												<image :src="i.icon" mode=""></image>
-											</view>
-											<view class="text">
-												{{i.name}}
-											</view>
+								<!-- 认证 -->
+								<view id="certification" class="certification" v-if="item.certificationList">
+									<view class="certifications" v-for="(i,index) in item.certificationList" :key="index">
+										<view class="certificationimgs">
+											<image src="../../static/images/1.png" mode=""></image>
 										</view>
-									</swiper-item>
-								</swiper>
-								<swiperDot class="dot" :current="item.currents" :list="item.tabBarSwiperList"></swiperDot>
-							</view>
-
-							<!-- 全部广告位 -->
-							<view class="advertisingAll" :style="[{backgroundImage:'url('+item.advertisingAllUrl+')',backgroundColor:item.advertisingAllColor}]"
-							 style="width: 100%;height: 100%;background-size: 100% 100%;">
-								<!-- 广告位01 -->
-								<view id="advertising" v-if="!item.advertisingUrl==''" :data-name="item.advertisingUrl" @tap="gotoGoods">
-									<view class="advertising">
-										<image class="advertisImg" :src="item.advertisingUrl" mode=""></image>
+										<view>{{i}}</view>
 									</view>
 								</view>
 
-								<!-- 广告位03 -->
-								<view id="advertising03" class="advertisingItem" v-if="item.advertisingList">
-									<view class="advertising03" v-for="(i,k) in item.advertisingList" :key='k' :data-name="i.title" @tap="gotoGoods">
-										<view class="advertisingItems">
-											<view class="advertisingTitle">
-												{{i.title}}
-											</view>
-											<view class="advertisingContent">
-												{{i.content}}
-											</view>
-											<view class="advertisingButton">
-												立即购买
-											</view>
-										</view>
-										<view class="advertisingImg">
-											<image :src="i.backgroungUrl" mode=""></image>
-										</view>
-									</view>
-								</view>
-
-								<!-- 广告位04 -->
-								<view id="scroll-view_H" v-if="item.scrollViewItemYList">
-									<scroll-view class="scroll-view-item-Y" scroll-x="true" @scroll="scroll" scroll-left="0" enable-flex='true'>
-										<view id="scroll-view-item" class="scroll-view-item_H" v-for="(i,k) in item.scrollViewItemYList" :key='k'
-										 :data-name="i.name+i.content" @tap="gotoGoods">
-											<view class="scrollAll">
-												<view class="scrollText">
-													<view class="scrollTextName">
-														{{i.name}}
-													</view>
-
-													<view class="scrollTextContent">
-														{{i.content}}
-													</view>
-													<view class="scrollTextGo">
-														GO!
-													</view>
+								<!-- 自定义导航条 -->
+								<view id="tabBarSwiper" v-if="item.tabBarSwiperList" class="swiperContent">
+									<swiper :interval="item.interval" :duration="item.duration" class="swiper-box" @change="changeSwiperDot">
+										<swiper-item class="tabBarSwiper" v-for="(i,index) in item.tabBarSwiperList" :key="index">
+											<view v-for="(i,index) in i.tabList" :key="index" class="swiper-item tabBarSwiperItem" :data-goods="i.name"
+											 @tap="goToGoodsList">
+												<view class="icon">
+													<image :src="i.icon" mode=""></image>
 												</view>
-												<view class="scrollImg">
-													<img :src="i.url"></img>
+												<view class="text">
+													{{i.name}}
 												</view>
 											</view>
-
-										</view>
-									</scroll-view>
+										</swiper-item>
+									</swiper>
+									<swiperDot class="dot" :current="item.currents" :list="item.tabBarSwiperList"></swiperDot>
 								</view>
 
-								<!-- 签到红包 -->
-								<view class="signIn-red-packet" v-if="item.redPacketList">
-									<view class="sign-in-red-packet">
-										<view class="title">
-											每日签到
-										</view>
-										<view class="red-packet">
-											即可领取 <text>现金红包</text>等大奖
+								<!-- 全部广告位 -->
+								<view class="advertisingAll" :style="[{backgroundImage:'url('+item.advertisingAllUrl+')',backgroundColor:item.advertisingAllColor}]"
+								 style="width: 100%;height: 100%;background-size: 100% 100%;">
+									<!-- 广告位01 -->
+									<view id="advertising" v-if="!item.advertisingUrl==''" :data-name="item.advertisingUrl" @tap="gotoGoods">
+										<view class="advertising">
+											<image class="advertisImg" :src="item.advertisingUrl" mode=""></image>
 										</view>
 									</view>
 
-									<!-- 红包 -->
-									<view class="all-red-packet">
-										<scroll-view class="all-red-packet-items" scroll-x="true" @scroll="scroll">
-											<view id="all-red-packet-item" class="all-red-packet-item" v-for="(i,k) in item.redPacketList" :key='k'
-											 :class="{pitchOn:item.btnnum == k}" @click="changeRedpacket(k)">
-												<view :id="'all-red-packet-item'+k" class="red-packe-Items">
+									<!-- 广告位03 -->
+									<view id="advertising03" class="advertisingItem" v-if="item.advertisingList">
+										<view class="advertising03" v-for="(i,k) in item.advertisingList" :key='k' :data-name="i.title" @tap="gotoGoods">
+											<view class="advertisingItems">
+												<view class="advertisingTitle">
+													{{i.title}}
+												</view>
+												<view class="advertisingContent">
+													{{i.content}}
+												</view>
+												<view class="advertisingButton">
+													立即购买
+												</view>
+											</view>
+											<view class="advertisingImg">
+												<image :src="i.backgroungUrl" mode=""></image>
+											</view>
+										</view>
+									</view>
+
+									<!-- 广告位04 -->
+									<view id="scroll-view_H" v-if="item.scrollViewItemYList">
+										<scroll-view class="scroll-view-item-Y" scroll-x="true" @scroll="scroll" scroll-left="0" enable-flex='true'>
+											<view id="scroll-view-item" class="scroll-view-item_H" v-for="(i,k) in item.scrollViewItemYList" :key='k'
+											 :data-name="i.name+i.content" @tap="gotoGoods">
+												<view class="scrollAll">
+													<view class="scrollText">
+														<view class="scrollTextName">
+															{{i.name}}
+														</view>
+
+														<view class="scrollTextContent">
+															{{i.content}}
+														</view>
+														<view class="scrollTextGo">
+															GO!
+														</view>
+													</view>
+													<view class="scrollImg">
+														<img :src="i.url"></img>
+													</view>
+												</view>
+
+											</view>
+										</scroll-view>
+									</view>
+
+									<!-- 签到红包 -->
+									<view class="signIn-red-packet" v-if="item.redPacketList">
+										<view class="sign-in-red-packet">
+											<view class="title">
+												每日签到
+											</view>
+											<view class="red-packet">
+												即可领取 <text>现金红包</text>等大奖
+											</view>
+										</view>
+
+										<!-- 红包 -->
+										<view class="all-red-packet">
+											<scroll-view class="all-red-packet-items" scroll-x="true" @scroll="scroll">
+												<view id="all-red-packet-item" class="all-red-packet-item" v-for="(i,k) in item.redPacketList" :key='k'
+												 :class="{pitchOn:item.btnnum == k}" @click="changeRedpacket(k)">
+													<view :id="'all-red-packet-item'+k" class="red-packe-Items">
+														<!-- 图片 -->
+														<view class="Imgs">
+
+														</view>
+
+														<!-- 内容 -->
+														<view class="red-packe-ItemsContent" :class="{pitchOnItemsConten:item.btnnum == k}">
+															{{i}}
+														</view>
+
+													</view>
+												</view>
+											</scroll-view>
+										</view>
+
+									</view>
+								</view>
+
+
+								<!-- 自定义导航条加倒计时 -->
+								<view id="countDown" v-if="item.productImgList">
+									<view class="countDown">
+										<!-- 自定义名称和时间倒计时 -->
+										<view class="timeTitle-time">
+											<view class="timeTitle"> 每日秒杀 </view>
+											<!-- 倒计时 -->
+											<view class="time" v-if="item.setTimeOk">
+												<!-- 时-->
+												<view class="house">
+													<view class="houses"> 23 </view>
+													<view class="dots"> : </view>
+												</view>
+
+												<view class="second">
+													<view class="seconds"> 55 </view>
+													<view class="dots"> : </view>
+												</view>
+
+												<view class="minute">
+													<view class="minutes"> 58 </view>
+												</view>
+											</view>
+										</view>
+										<!-- 全部 -->
+										<view class="all" v-if="item.setTimeOk">
+											全部 >
+										</view>
+
+									</view>
+
+									<!-- 图片商品 -->
+									<view class="productImg">
+										<scroll-view class="productImgY" scroll-x="true" @scroll="scroll" scroll-left="0">
+											<view id="productImg" class="productImgs" v-for="(i,k) in item.productImgList" :key='k' :data-name="i.content"
+											 @tap="gotoGoods">
+												<view :id="'productImg'+k" class="productItems">
 													<!-- 图片 -->
 													<view class="Imgs">
-
+														<image :src="i.url" mode=""></image>
 													</view>
 
 													<!-- 内容 -->
-													<view class="red-packe-ItemsContent" :class="{pitchOnItemsConten:item.btnnum == k}">
-														{{i}}
+													<view class="productContent">
+														{{i.content}}
 													</view>
 
+													<!-- 价格 -->
+													<view class="prouctPrice">
+														<view class="newprice">￥:{{i.newPrice}}</view>
+														<view class="oldPrice">
+															￥:{{i.oldPrice}}
+														</view>
+													</view>
+
+													<!-- 剩余商品（库存） -->
+													<view class="residueProduct" v-if="i.residueProduct>0">
+														剩余{{i.residueProduct}}件
+													</view>
+													<view class="residueProduct" v-if="i.residueProduct<=0">
+														正在备货...
+													</view>
+												</view>
+											</view>
+											<!-- 查看更多 -->
+											<view class="seeAll">
+												<view class="all">
+													查看更多>
 												</view>
 											</view>
 										</scroll-view>
 									</view>
 
 								</view>
-							</view>
 
-						</view>
-					</template>
-				</scroll-view>
-			</view>
-		</view>
-		
-		<!-- 自定义导航条加倒计时 -->
-		<view id="countDown" v-if="productImgListShow">
-			<view class="countDown">
-				<!-- 自定义名称和时间倒计时 -->
-				<view class="timeTitle-time">
-					<view class="timeTitle"> 每日秒杀 </view>
-					<!-- 倒计时 -->
-					<view class="time" v-if="setTimeOk">
-						<!-- 时-->
-						<view class="house">
-							<view class="houses"> 23 </view>
-							<view class="dots"> : </view>
-						</view>
-
-						<view class="second">
-							<view class="seconds"> 55 </view>
-							<view class="dots"> : </view>
-						</view>
-
-						<view class="minute">
-							<view class="minutes"> 58 </view>
-						</view>
-					</view>
-				</view>
-				<!-- 全部 -->
-				<view class="all" v-if="setTimeOk">
-					全部 >
-				</view>
-
-			</view>
-
-			<!-- 图片商品 -->
-			<view class="productImg">
-				<scroll-view class="productImgY" scroll-x="true" @scroll="scroll" scroll-left="0">
-					<view id="productImg" class="productImgs" v-for="(i,k) in productImgList" :key='k' :data-name="i.content" @tap="gotoGoods">
-						<view :id="'productImg'+k" class="productItems">
-							<!-- 图片 -->
-							<view class="Imgs">
-								<image :src="i.url" mode=""></image>
-							</view>
-
-							<!-- 内容 -->
-							<view class="productContent">
-								{{i.content}}
-							</view>
-
-							<!-- 价格 -->
-							<view class="prouctPrice">
-								<view class="newprice">￥:{{i.newPrice}}</view>
-								<view class="oldPrice">
-									￥:{{i.oldPrice}}
-								</view>
-							</view>
-
-							<!-- 剩余商品（库存） -->
-							<view class="residueProduct" v-if="i.residueProduct>0">
-								剩余{{i.residueProduct}}件
-							</view>
-							<view class="residueProduct" v-if="i.residueProduct<=0">
-								正在备货...
-							</view>
-						</view>
-					</view>
-
-					<view class="seeAll">
-						<view class="all">
-							查看更多>
-						</view>
-					</view>
-				</scroll-view>
-			</view>
-
-		</view>
-		
-		<!-- 自定义导航条可滑动 -->
-		<scroll-view id="image" class="customTab" v-if="newListShow">
-			<view class="tabBarList">
-				<swiperTabHead :tabBars="tabBars" :line="line" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
-			</view>
-			<view class="uni-tab-bar">
-				<swiper class="swiper-boxs" :style="{height:swiperheight+'rpx'}" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(items,index) in newslist" :key="index">
-						<scroll-view scroll-y class="list">
-							<template v-if="items.list.length > 0">
-								<block>
-									<view class="recommenListItem">
-										<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1" :data-name="i.productName"
-										 @tap="gotoGoods">
-											<view class="recommenImg" v-if="i.url">
-												<image :src="i.url" mode=""></image>
-											</view>
-											<view class="productName" v-if="i.productName">
-												<text class="closed" v-if="i.closed">闭馆特推</text> {{i.productName}}
-											</view>
-											<view class="label" v-if="i.labelList.length > 0">
-												<view class="labelListItem" v-for="(i,k) in i.labelList" :key="k">
-													{{i}}
-												</view>
-											</view>
-											<view class="productPrice" v-if="i.productPrice">
-												￥{{i.productPrice}}
-											</view>
-											<view class="subscribeAndGoodReputation" v-if="i.subscribe&&i.goodReputation">
-												<view class="subscribe">
-													{{i.subscribe}}预约
-												</view>
-												<view class="goodReputation">
-													{{i.goodReputation}}%好评
-												</view>
-											</view>
-										</view>
-
-										<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
-											{{i}}
-										</view>
+								<!-- 自定义导航条可滑动 -->
+								<view id="image" class="customTab" v-if="item.newslist">
+									<view class="tabBarList">
+										<swiperTabHead :tabBars="item.tabBars" :line="item.line" :tabIndex="item.tabIndex" @tabtap="tabtap"></swiperTabHead>
 									</view>
+									<view class="uni-tab-bar">
+										<swiper class="swiper-boxs" :style="{height:item.swiperheight+'rpx'}" :current="item.tabIndex" @change="tabChange">
+											<swiper-item v-for="(items,index) in item.newslist" :key="index">
+												<scroll-view scroll-y class="list">
+													<template v-if="items.list.length > 0">
+														<block>
+															<view class="recommenListItem">
+																<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1" :data-name="i.productName"
+																 @tap="gotoGoods">
+																	<view class="recommenImg" v-if="i.url">
+																		<image :src="i.url" mode=""></image>
+																	</view>
+																	<view class="productName" v-if="i.productName">
+																		<text class="closed" v-if="i.closed">闭馆特推</text> {{i.productName}}
+																	</view>
+																	<view class="label" v-if="i.labelList.length > 0">
+																		<view class="labelListItem" v-for="(i,k) in i.labelList" :key="k">
+																			{{i}}
+																		</view>
+																	</view>
+																	<view class="productPrice" v-if="i.productPrice">
+																		￥{{i.productPrice}}
+																	</view>
+																	<view class="subscribeAndGoodReputation" v-if="i.subscribe&&i.goodReputation">
+																		<view class="subscribe">
+																			{{i.subscribe}}预约
+																		</view>
+																		<view class="goodReputation">
+																			{{i.goodReputation}}%好评
+																		</view>
+																	</view>
+																</view>
 
-								</block>
+																<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
+																	{{i}}
+																</view>
+															</view>
 
-							</template>
-						</scroll-view>
-					</swiper-item>
-				</swiper>
+														</block>
+													</template>
+												</scroll-view>
+											</swiper-item>
+										</swiper>
+									</view>
+								</view>
 
-			</view>
+							</view>
+						</template>
+					</scroll-view>
+				</view>
 
-		</scroll-view>
+				
+			</scroll-view>
+		</view>
+		
 		<!-- 底部 -->
-		<view id="footer" class="footer">
+		<view class="footer" v-if="footerShow">
 			——人家也是有底线的喵！——
 		</view>
-
 	</view>
 </template>
 
@@ -323,7 +334,11 @@
 		},
 		data() {
 			return {
-				barName: 'mianPage', //页面名称
+				scrollTop: 0,
+				old: {
+					scrollTop: 0
+				},
+				barName:'mianPage',//页面名称
 				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
 				barHeight: 180, //距离顶部的高度
 				BarImgs: '../static/images/0.png', //
@@ -584,6 +599,122 @@
 								],
 								btnnum: 0,
 								count: "",
+								// 自定义名称导航
+								productImgList: [{
+										id: 0,
+										url: '../../static/images/19.png',
+										content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
+										newPrice: '15800',
+										oldPrice: '19800',
+										residueProduct: 999
+									},
+									{
+										id: 1,
+										url: '../../static/images/20.png',
+										content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
+										newPrice: '15800',
+										oldPrice: '19800',
+										residueProduct: 0
+									},
+									{
+										id: 2,
+										url: '../../static/images/20.png',
+										content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
+										newPrice: '15800',
+										oldPrice: '19800',
+										residueProduct: 666
+									},
+									{
+										id: 3,
+										url: '../../static/images/19.png',
+										content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
+										newPrice: '15800',
+										oldPrice: '19800',
+										residueProduct: 888
+									},
+								],
+
+								tabBars: [{
+										name: '精选',
+										content: '猜你喜欢',
+										id: 'love',
+									},
+									{
+										name: '视频',
+										content: '精选视频',
+										id: 'video'
+									},
+									{
+										name: '问答',
+										content: '优质回答',
+										id: 'questions-and-answers'
+									},
+									{
+										name: '日记',
+										content: '真人记录',
+										id: 'record'
+									},
+
+								],
+								line: false, //是否显示选中线
+								tabIndex: 0, // 选中的
+								setTimeOk: true, //是否开启倒计时
+								swiperheight: 0, //高度
+								newslist: [{
+										list: [{
+												url: '../../static/images/19.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: true,
+												labelList: [] //标签
+											},
+											{
+												url: '../../static/images/20.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
+												labelList: ['眼部美容', '眼部'] //标签
+											},
+											{
+												url: '../../static/images/19.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
+											},
+											{
+												url: '../../static/images/20.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
+											},
+											{
+												url: '../../static/images/20.png',
+												productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
+												productPrice: '19800', //价格
+												subscribe: 477, //预约
+												goodReputation: '98', //好评
+												closed: false,
+											},
+										]
+									},
+									{
+										list: ['精选视频']
+									},
+									{
+										list: ['优质回答']
+									},
+									{
+										list: ['真人记录']
+									},
+								],
 
 							}
 						]
@@ -614,124 +745,9 @@
 						]
 					},
 				],
+				topSwiperheight: 0,
 				pH: 0,
-				tabBars: [{
-						name: '精选',
-						content: '猜你喜欢',
-						id: 'love',
-					},
-					{
-						name: '视频',
-						content: '精选视频',
-						id: 'video'
-					},
-					{
-						name: '问答',
-						content: '优质回答',
-						id: 'questions-and-answers'
-					},
-					{
-						name: '日记',
-						content: '真人记录',
-						id: 'record'
-					},
-
-				],
-				line: false, //是否显示选中线
-				tabIndex: 0, // 选中的
-				setTimeOk: true, //是否开启倒计时
-				swiperheight: 0, //高度
-				// 自定义名称导航
-				productImgListShow:true,
-				newListShow:true,
-				productImgList: [{
-						id: 0,
-						url: '../../static/images/19.png',
-						content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 999
-					},
-					{
-						id: 1,
-						url: '../../static/images/20.png',
-						content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 0
-					},
-					{
-						id: 2,
-						url: '../../static/images/20.png',
-						content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 666
-					},
-					{
-						id: 3,
-						url: '../../static/images/19.png',
-						content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 888
-					},
-				],
-				newslist: [{
-						list: [{
-								url: '../../static/images/19.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: true,
-								labelList: [] //标签
-							},
-							{
-								url: '../../static/images/20.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
-								labelList: ['眼部美容', '眼部'] //标签
-							},
-							{
-								url: '../../static/images/19.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
-							},
-							{
-								url: '../../static/images/20.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
-							},
-							{
-								url: '../../static/images/20.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
-							},
-						]
-					},
-					{
-						list: ['精选视频']
-					},
-					{
-						list: ['优质回答']
-					},
-					{
-						list: ['真人记录']
-					},
-				],
+				footerShow: false,
 			}
 		},
 		onReady() {
@@ -741,7 +757,7 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					console.log(res)
-					pageHeight = res.screenHeight
+					pageHeight = res.windowHeight
 					console.log('pageHeight', pageHeight)
 					let menu = uni.getMenuButtonBoundingClientRect(); //获取获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。（top表示上边框到手机顶部的距离 bottom是下边框到手机顶部的距离）
 					// console.log(menu)
@@ -750,7 +766,10 @@
 				}
 			})
 			setTimeout(() => {
-				that.swiperheight = Math.ceil(that.newslist[0].list.length / 2) * 550
+				that.topSwiperheight = pageHeight * 2.5 + Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) *
+					550 + 250 
+				that.topTabTaplist[0].list[1].swiperheight = Math.ceil(that.topTabTaplist[0].list[1].newslist[0].list.length / 2) *
+					550
 			}, 1000)
 
 		},
@@ -783,13 +802,6 @@
 
 		methods: {
 			change: function(e) {
-				if(e!=0){
-					this.productImgListShow = false
-					this.newListShow = false
-				}else{
-					this.productImgListShow = true
-					this.newListShow = true
-				}
 				this.count = e
 				this.btnnum = e
 			},
@@ -828,8 +840,22 @@
 				})
 			},
 
+			// 到达顶部？
+			upper: function(e) {
+				console.log(e, "顶部？？")
+				this.old.scrollTop = 0
+			},
+
+			// 底部
+			lower: function(e) {
+				console.log(e, "底部？？", e.detail.scrollTop)
+				this.old.scrollTop = e.detail.scrollTop
+				this.footerShow = true
+			},
+
 			scroll: function(e) {
-				console.log(e.detail)
+				// console.log(e.detail)
+				this.old.scrollTop = e.detail.scrollTop
 			},
 			// 设置底部导航条的名称和图标
 			setTabBarItem: function(e) {
@@ -851,11 +877,11 @@
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index) {
 				console.log(index, this.topTabTaplist[0])
-				this.tabIndex = index;
+				this.topTabTaplist[0].list[1].tabIndex = index;
 			},
 			// 选中的内容
 			tabChange: function(e) {
-				this.tabIndex = e.detail.current;
+				this.topTabTaplist[0].list[1].tabIndex = e.detail.current;
 			},
 
 		}
@@ -1482,16 +1508,14 @@
 		text-align: center;
 		padding: 0 20rpx;
 	}
-
-	.subscribe {
+	.subscribe{
 		color: #666666;
 	}
-
-	.goodReputation {
+	
+	.goodReputation{
 		color: #fa3475;
 	}
-
-	.swiper-boxs {
+	.swiper-boxs{
 		padding-bottom: 20rpx;
 	}
 

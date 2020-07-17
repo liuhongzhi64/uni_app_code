@@ -615,7 +615,7 @@
 	padding: 5rpx 10rpx;
 }
 .productPrice.data-v-57280228 {
-	text-align: center;
+	/* text-align: center; */
 	color: #fa3475;
 	font-size: 32rpx;
 }
@@ -628,6 +628,15 @@
 	        justify-content: space-between;
 	text-align: center;
 	padding: 0 20rpx;
+}
+.subscribe.data-v-57280228 {
+	color: #666666;
+}
+.goodReputation.data-v-57280228 {
+	color: #fa3475;
+}
+.swiper-boxs.data-v-57280228 {
+	padding-bottom: 20rpx;
 }
 .footer.data-v-57280228 {
 	text-align: center;

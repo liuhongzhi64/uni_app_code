@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/goods/goods_detail",
     "pages/index/index",
+    "pages/goods/goods_detail",
     "pages/goods/goods_classify",
     "pages/login/login",
     "pages/login/register",

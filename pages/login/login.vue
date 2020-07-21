@@ -1,16 +1,18 @@
 <template>
-	<view class="login">
+	<!-- <view class="login">
 		
-	</view>
+	</view> -->
+	
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-				
+				 height:null,//获取的状态栏高度
 			};
 		},
+		 
 		methods: {
 			
 		}

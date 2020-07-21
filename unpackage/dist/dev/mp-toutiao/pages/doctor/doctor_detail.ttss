@@ -1,0 +1,101 @@
+
+.doctor-top-bar.data-v-15d581fa {
+	background-color: #111111;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 40rpx;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+.content.data-v-15d581fa {
+	height: 25px;
+}
+.doctor-top-bars.data-v-15d581fa {
+	/* height: 180rpx; */
+	background-color: #FFFFFF;
+	white-space: nowrap;
+	padding: 0 20rpx 0;
+}
+.related-doctor-items.data-v-15d581fa {
+	/* height: 180rpx; */
+	width: 100%;
+}
+.related-doctor-centent.data-v-15d581fa {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	height: 100%;
+	width: 100%;
+}
+.doctor-head-portrait image.data-v-15d581fa {
+	width: 88rpx;
+	height: 88rpx;
+	border-radius: 44rpx;
+}
+.checked .doctor-head-portrait.data-v-15d581fa{
+	width: 104rpx;
+	height: 104rpx;
+	border: 4rpx solid #d1bf86;
+	border-radius: 52rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.doctor-item.data-v-15d581fa {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	margin: 0 30rpx;
+	color: #f0f0f0;
+	font-size: 24rpx;
+}
+.checked.data-v-15d581fa {
+	font-size: 24rpx;
+	font-weight: normal;
+	font-stretch: normal;
+	color: #d1bf86;
+}
+.checkedBar.data-v-15d581fa {
+	width: 0;
+	height: 0;
+	border-width: 30rpx;
+	border-style: solid;
+	border-color: transparent #d1bf86 transparent transparent;
+	-webkit-transform: rotate(90deg);
+	        transform: rotate(90deg);
+	/*顺时针旋转90°*/
+	margin-top: -20rpx;
+	margin-bottom: 0;
+}
+.end-cont.data-v-15d581fa {
+	display: none;
+}
+.dis.data-v-15d581fa {
+	display: block;
+}
+

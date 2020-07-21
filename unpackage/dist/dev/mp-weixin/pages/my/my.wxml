@@ -1,1 +1,1 @@
-<view class="my">我的主页</view>
+<view class="my data-v-0be17cc6"><view class="my-top-bar data-v-0be17cc6" style="{{'padding-top:'+(barTopH*2+'rpx')+';'+('padding-bottom:'+(barTopH+'rpx')+';')}}"><view class="bar-name data-v-0be17cc6" style="{{'height:'+(lineHeight*2+'rpx')+';'+('line-height:'+(lineHeight*2-10+'rpx')+';')}}">我的主页</view></view><view class="content data-v-0be17cc6">我的主页</view></view>

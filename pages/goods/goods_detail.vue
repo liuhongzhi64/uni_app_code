@@ -1398,6 +1398,7 @@
 		align-items: center;
 		text-align: center;
 		border-top: 1rpx solid #eeeeee;
+		color: #999999;
 	}
 	.first{
 		border-top: 1rpx solid #999999;

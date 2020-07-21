@@ -319,6 +319,40 @@
 		<view class="footer" v-if="footerShow">
 			——人家也是有底线的喵！——
 		</view>
+		
+		<!-- 这是商品分类的左边主体内容 -->
+		
+		<view class="detailed-goods" v-if="rightContentList.goodsList">
+			<view class="goodsList" v-for="(i,k) in rightContentList.goodsList" :key='k' @tap="gotoGoods" :data-name="i.productContent">
+				<!-- 商品图片 -->
+				<view class="goods-image"> <image :src="i.url" mode=""></image> </view>
+				<!-- 商品介绍 -->
+				<view class="productContent"> {{i.productContent}} </view>
+				<!-- 活动 -->
+				<view class="activity" v-if="i.activity.length>0 && i.label.length==0 ">
+					<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+				</view>
+				<!-- 标签 -->
+				<view class="label">
+					<view class="labelItem" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
+				</view>
+				<!-- 商品价格 -->
+				<view class="productPrice"> ￥{{i.productPrice}} </view>
+				<!-- 预约和好评 -->
+				<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
+					<!-- 预约 -->
+					<view class="subscribe"> {{i.subscribe}}预约 </view>
+					<!-- 好评 -->
+					<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
+				</view>
+			</view>
+		
+		</view>
+		
+		
+		
+		
+		
 	</view>
 </template>
 

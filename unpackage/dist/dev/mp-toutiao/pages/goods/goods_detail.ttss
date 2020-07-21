@@ -859,6 +859,7 @@
 	        align-items: center;
 	text-align: center;
 	border-top: 1rpx solid #eeeeee;
+	color: #999999;
 }
 .first.data-v-098a7e2c{
 	border-top: 1rpx solid #999999;

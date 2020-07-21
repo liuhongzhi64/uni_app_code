@@ -1,6 +1,4 @@
 {
   "component": true,
-  "usingComponents": {
-    "top-bar": "/components/topBar"
-  }
+  "usingComponents": {}
 }

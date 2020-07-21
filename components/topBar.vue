@@ -43,7 +43,7 @@
 		
 		<!-- 不带购物车的导航条 -->
 		<view class="goodsBar" v-if="barName ==='particularsPage'" :style="[{paddingTop:barTopH*2+'rpx',paddingLeft:barTopH/2+'rpx',lineHeight:lineHeight*2-10+'rpx'}]">
-			<view class="barContent" :style="[{paddingRight:rightDistance*2.5+'rpx'}]">
+			<view class="barContent" :style="[{paddingRight:rightDistance*2.5+'rpx',height:lineHeight*2+'rpx'}]">
 				<!-- 返回 -->
 				<view class="return" @click="goBack">
 					<image src="../static/images/return.png" mode=""></image>
@@ -253,6 +253,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
+		z-index: 100;
 	}
 	
 	.barContent{
@@ -270,7 +271,7 @@
 	.return image{
 		width: 36rpx;
 		height: 36rpx;
-		margin-top: 12rpx;
+/* 		margin-top: 12rpx; */
 	}
 	
 	.tabBarName{
@@ -282,11 +283,11 @@
 		height: 50rpx;
 		background-color: #4CD964;
 		border-radius: 25rpx;
-		margin-top: 5rpx;
+		/* margin-top: 5rpx; */
 	}
 	.share image{
 		width: 40rpx;
 		height: 40rpx;
-		margin-top: 5rpx;
+		/* margin-top: 5rpx; */
 	}
 </style>

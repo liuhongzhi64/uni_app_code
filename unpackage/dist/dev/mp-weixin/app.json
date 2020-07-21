@@ -1,14 +1,15 @@
 {
   "pages": [
+    "pages/doctor/doctor_detail",
+    "pages/login/register",
+    "pages/diary/diary",
+    "pages/goods/goods_classify",
     "pages/index/index",
     "pages/goods/goods_detail",
-    "pages/goods/goods_classify",
     "pages/login/login",
-    "pages/login/register",
     "pages/poster/poster",
     "pages/sign/sign",
     "pages/doctor/doctor",
-    "pages/doctor/doctor_detail",
     "pages/doctor/doctor_star",
     "pages/my/my",
     "pages/my/after_sales",
@@ -21,7 +22,6 @@
     "pages/my/my_order_refund",
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
-    "pages/diary/diary",
     "pages/diary/diary_detail",
     "pages/diary/diary_video",
     "pages/search/search",
@@ -81,5 +81,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap54.json"
+  "sitemapLocation": "sitemap94.json"
 }

@@ -1,11 +1,10 @@
 <template>
 	<view class="content">
-		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :barTopH='barTopH'
-		 :rightDistance='rightDistance' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
-
+		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
+		
 
 		<!-- 主体内容 -->
-		<view class="subject-content" >
+		<view class="subject-content" :style="[{'padding-top':menuBottom+42+'px'}]">
 
 			<view class="end-title">
 				<scroll-view class="endtitleitem" scroll-x="true" scroll-left="0" :style="{backgroundColor:topBackgroundColor}">
@@ -325,10 +324,12 @@
 			return {
 				barName: 'mianPage', //页面名称
 				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				barHeight: 180, //距离顶部的高度
+				menuWidth: 0,
+				menuTop: 0,
+				menuHeight: 0,
+				menuLeft: 0,
+				menuBottom: 0,
 				BarImgs: '../static/images/0.png', //
-				barTopH: 0,
-				rightDistance: 0,
 				cartNumber: 3, //购物车数量
 				messageNumber: 19, //消息
 				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
@@ -740,13 +741,13 @@
 			// 获取屏幕高度
 			uni.getSystemInfo({
 				success: function(res) {
-					console.log(res)
 					pageHeight = res.screenHeight
-					console.log('pageHeight', pageHeight)
-					let menu = uni.getMenuButtonBoundingClientRect(); //获取获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。（top表示上边框到手机顶部的距离 bottom是下边框到手机顶部的距离）
-					// console.log(menu)
-					that.rightDistance = menu.width
-					that.barTopH = menu.top
+					let menu = uni.getMenuButtonBoundingClientRect(); 
+					that.menuWidth = menu.width
+					that.menuTop = menu.top
+					that.menuHeight = menu.height
+					that.menuLeft = menu.left
+					that.menuBottom = menu.bottom
 				}
 			})
 			setTimeout(() => {
@@ -863,10 +864,7 @@
 </script>
 
 <style scoped>
-	.subject-content {
-		padding-top: 200rpx;
-	}
-
+	
 	.endtitleitem {
 		overflow: hidden;
 		white-space: nowrap;
@@ -885,15 +883,13 @@
 
 	.end-title {
 		display: flex;
-		padding-top: 10rpx;
-		height: 68rpx;
-		line-height: 68rpx;
+		height: 80rpx;
+		line-height:80rpx;
 		justify-content: space-between;
 		padding: 20rpx 0;
 	}
 
 	.end-title view {
-		/* flex-grow: 1; */
 		text-align: center;
 	}
 
@@ -905,8 +901,6 @@
 		color: #FFFFFF;
 		font-weight: bolder;
 		font-size: 40rpx;
-		height: 80rpx;
-		line-height: 80rpx;
 	}
 
 	.dis {
@@ -914,8 +908,6 @@
 	}
 
 	.goods_classify {
-		height: 68rpx;
-		line-height: 80rpx;
 		width: 160rpx;
 		display: flex;
 		font-weight: bolder;

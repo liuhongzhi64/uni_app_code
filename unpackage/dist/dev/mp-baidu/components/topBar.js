@@ -172,10 +172,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 var _default =
 {
   props: {
@@ -187,19 +183,13 @@ var _default =
       type: String,
       default: '../static/images/0.png' },
 
-    barTopH: {
-      type: Number,
-      default: 26 },
-
-    rightDistance: {
-      type: Number,
-      default: 90 },
-
     barName: {
       type: String,
       default: 'particularsPage' },
     //导航条的名称
-    lineHeight: Number, //行高
+    menuHeight: Number, //高
+    menuTop: Number, //高
+    menuWidth: Number, //宽
     cartNumber: Number, //购物车
     messageNumber: Number, //消息
     topSearchContent: String //搜索默认内容

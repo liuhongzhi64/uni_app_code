@@ -1,9 +1,9 @@
 <template>
-	<view class="goods_detail">
-		<topBar class="topBar" :barName='barName' :barTopH='barTopH' :rightDistance='rightDistance' :lineHeight='lineHeight'></topBar>
-
+	 <view class="goods_detail">
+		<topBar class="topBar" :barName='barName' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		
 		<!-- 主体内容 -->
-		<view class="content">
+		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]">
 			<scroll-view scroll-y :style="'height:'+height +'rpx'">
 			<!-- 设置的初始跳转过来的值，后期删除 -->
 			<view class="default"> {{goodsName}} </view>
@@ -264,7 +264,33 @@
 						项目价格表
 					</view>
 					<view class="table">
-						<view class="across">
+						
+						<view class="vertical-item">
+							<view class="vertical-item-name"> 项目名称 </view>
+							<view class="vertical-item-explain"> 项目组合 </view>
+							<view class="vertical-item-explain "> 医生/级别 </view>
+							<view class="vertical-item-explain "> 销售价格 </view>
+						</view>
+						<view class="vertical-item">
+							<view class="vertical-item-name"> 润百颜黑金 </view>
+							<view class="vertical-item-explain "> 1ML </view>
+							<view class="vertical-item-explain "> 中 </view>
+							<view class="vertical-item-explain  prouct-price"> 980</view>
+						</view>
+						<view class="vertical-item">
+							<view class="vertical-item-name"> 伊婉C </view>
+							<view class="vertical-item-explain"> 1ML </view>
+							<view class="vertical-item-explain"> 高 </view>
+							<view class="vertical-item-explain prouct-price"> 1280</view>
+						</view>
+						<view class="vertical-item">
+							<view class="vertical-item-name"> 伊婉V </view>
+							<view class="vertical-item-explain"> 1ML </view>
+							<view class="vertical-item-explain"> 中 </view>
+							<view class="vertical-item-explain prouct-price"> 1680</view>
+						</view>
+						
+						<!-- <view class="across">
 							<view class="across-item">
 								<view class="item-name"> 项目名称 </view>
 								<view class="item-name"> 润百颜黑金 </view>
@@ -289,7 +315,7 @@
 								<view class="item-name prouct-price"> 1280 </view>
 								<view class="item-name prouct-price"> 1680 </view>
 							</view>
-						</view>
+						</view> -->
 					</view>
 				</view>
 				
@@ -469,9 +495,11 @@
 		data() {
 			return {
 				goodsName: '', //商品名
-				barTopH: 0,
-				rightDistance: 0,
-				lineHeight: 0,
+				menuWidth: 0,
+				menuTop: 0,
+				menuHeight: 0,
+				menuLeft: 0,
+				menuBottom: 0,
 				barName: 'particularsPage', //导航条名称
 				height: 0, //
 				swiperList: [{
@@ -613,10 +641,10 @@
 					{
 						label:['医生专业','环境很好','服务很好','效果很棒'],//标签
 						userName:'用户昵称几个字',//昵称
-						headPortrait:'../../static/images/20.png',//头像
+						headPortrait:'../../static/images/test.jpg',//头像
 						score:5,
 						content:"我是评论内容，我是评论内容，我是评论内容，我是评论内容，的最多显示两排多的内容省略我是评论内容多的内容互换不会不改变省略……",
-						effectPicture:['../../static/images/19.png','../../static/images/20.png','../../static/images/23.png'],//效果图
+						effectPicture:['../../static/images/test.jpg','../../static/images/20.png','../../static/images/23.png'],//效果图
 						tradename:'# 急速纳米美眼，尊享版'
 					},
 					{
@@ -646,11 +674,12 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					pageHeight = res.windowHeight
-					console.log('pageHeight', pageHeight)
 					let menu = uni.getMenuButtonBoundingClientRect();
-					that.rightDistance = menu.width
-					that.barTopH = menu.top
-					that.lineHeight = menu.height
+					that.menuWidth = menu.width
+					that.menuTop = menu.top
+					that.menuHeight = menu.height
+					that.menuLeft = menu.left
+					that.menuBottom = menu.bottom
 				}
 			})
 		},
@@ -673,9 +702,8 @@
 </script>
 
 <style scoped>
+		
 	.content {
-		padding-top: 160rpx;
-		/* padding-bottom: 105rpx; */
 		background-color: #F6F6F6;
 		height: 100%;
 	}

@@ -35,7 +35,7 @@
 	-webkit-transform: rotate(90deg);
 	        transform: rotate(90deg);
 	/*顺时针旋转90°*/
-	margin-top: -20rpx;
+	margin-top: -20px;
 	margin-left: 10rpx;
 	margin-bottom: 0;
 }
@@ -45,9 +45,6 @@
 .dis.data-v-61fd5b0e {
 	display: block;
 }
-.content.data-v-61fd5b0e{
-	padding-top: 140rpx;
-}
 .all-content.data-v-61fd5b0e {
 	padding: 30rpx 20rpx 0;
 	background-color: #F6F6F6;
@@ -55,7 +52,6 @@
 .content-all-bar.data-v-61fd5b0e{
 	width: 100%;
 	position: fixed;
-	top: 130rpx;
 	background-color: #FFFFFF;
 	left: 0;
 	z-index: 100;
@@ -82,7 +78,6 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	/* padding-top: 20rpx; */
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;

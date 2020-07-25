@@ -1,7 +1,7 @@
 <template>
 	<view class="diary">
-		<view class="diary-top-bar" :style="[{paddingTop:barTopH*2+'rpx',paddingBottom:barBottom/2+'rpx'}]">
-			<view class="bar-name" :style="[{height:barHeight*2-10+'rpx',width:barLeft*2-60+'rpx', lineHeight:barHeight*2-10+'rpx'}]">
+		<view class="diary-top-bar">
+			<view class="bar-name" :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px','padding-right':menuWidth+20+'px','padding-bottom':10+'px'}]">
 				<view id="top-navigation-bars" class="top-navigation-bars" v-for="(item,index) in navigationList" :key='index'
 				 :class="{checked :btnnum == index}" @tap="change(index)">
 					{{ item }}
@@ -9,13 +9,13 @@
 				</view>
 			</view>
 		</view>
-		<view class="content">
+		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]">
 			<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in topTabList" :key="index">
 				<scroll-view scroll-y class="topList">
 					<template v-if="items.topList.length > 0">
 						<view class="all-content" v-for="(item,k) in items.topList" :key="k">
 							<text v-if="items.topList.length ==1">{{item}}</text>
-							<view class="content-all-bar">
+							<view class="content-all-bar" :style="[{'top':menuBottom+10+'px'}]">
 								<view class="content-bar">
 									<view class="content-bar-name" :class="{checkedbar :item.btnnum == k}" @tap="changeContentBar(k)" v-for="(i,k) in item.contentBar"
 									 :key="k">
@@ -117,11 +117,11 @@
 		},
 		data() {
 			return {
-				barTopH: 0,
-				rightDistance: 0,
-				barHeight: 0,
-				barLeft: 0,
-				barBottom: 0,
+				menuWidth: 0,
+				menuTop: 0,
+				menuHeight: 0,
+				menuLeft: 0,
+				menuBottom: 0,
 				btnnum: 0,
 				navigationList: ['全部', '直播', '日记', '视频'],
 				topTabList: [{
@@ -242,16 +242,12 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					pageHeight = res.windowHeight
-
 					let menu = uni.getMenuButtonBoundingClientRect();
-					// console.log(menu)
-					that.rightDistance = menu.width
-					that.barHeight = menu.height
-					that.barTopH = menu.top
-					that.barBottom = menu.bottom
-					// let left = res.windowWidth - menu.left  //i6:280 windowWidth - right i6s:320
-					that.barLeft = menu.left
-					// console.log(res, res.windowWidth - menu.left, that.barLeft)
+					that.menuWidth = menu.width
+					that.menuTop = menu.top
+					that.menuHeight = menu.height
+					that.menuLeft = menu.left
+					that.menuBottom = menu.bottom
 				}
 			})
 		},
@@ -331,7 +327,7 @@
 		border-color: transparent #FFFFFF transparent transparent;
 		transform: rotate(90deg);
 		/*顺时针旋转90°*/
-		margin-top: -20rpx;
+		margin-top: -20px;
 		margin-left: 10rpx;
 		margin-bottom: 0;
 	}
@@ -343,9 +339,6 @@
 	.dis {
 		display: block;
 	}
-	.content{
-		padding-top: 140rpx;
-	}
 
 	.all-content {
 		padding: 30rpx 20rpx 0;
@@ -354,7 +347,6 @@
 	.content-all-bar{
 		width: 100%;
 		position: fixed;
-		top: 130rpx;
 		background-color: #FFFFFF;
 		left: 0;
 		z-index: 100;
@@ -377,7 +369,6 @@
 	.subject-content{
 		background-color: #F6F6F6;
 		display: flex;
-		/* padding-top: 20rpx; */
 		justify-content: space-between;
 	}
 	.left-product{

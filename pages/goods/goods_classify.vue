@@ -1,8 +1,9 @@
 <template>
 	<view class="goods_classify">
-		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :barTopH='barTopH'
-		 :rightDistance='rightDistance' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
-		<view class="content">
+		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
+		
+		
+		<view class="content" :style="[{'padding-top':menuBottom+52+'px'}]">
 			<!-- 左边导航条 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height +'rpx'">
 				<view v-if="leftList.length>0" @tap="categoryClickMain(item,index)" :key="index" :class="index==btnnum?'btna':''"
@@ -100,9 +101,12 @@
 			return {
 				barName: 'mianPage', //页面名称
 				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				BarImgs: '../static/images/0.png', //
-				barTopH: 0,
-				rightDistance: 0,
+				BarImgs: '../static/images/0.png', 
+				menuWidth: 0,
+				menuTop: 0,
+				menuHeight: 0,
+				menuLeft: 0,
+				menuBottom: 0,
 				cartNumber: 3, //购物车数量
 				messageNumber: 19, //消息
 				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
@@ -149,21 +153,21 @@
 		},
 		onLoad: function() {
 			this.height = uni.getSystemInfoSync().windowHeight * 1.6;
-			// console.log(this.height)
 			this.categoryClickMain()
 		},
 		onReady() {
 			let that = this;
 			let pageHeight = 0
-			// console.log(this.rightContentList.newslist)
 			// 获取屏幕高度
 			uni.getSystemInfo({
 				success: function(res) {
 					pageHeight = res.windowHeight
-					// console.log('pageHeight', pageHeight)
 					let menu = uni.getMenuButtonBoundingClientRect();
-					that.rightDistance = menu.width
-					that.barTopH = menu.top
+					that.menuWidth = menu.width
+					that.menuTop = menu.top
+					that.menuHeight = menu.height
+					that.menuLeft = menu.left
+					that.menuBottom = menu.bottom
 				}
 			})
 		},
@@ -296,7 +300,6 @@
 
 	.content {
 		display: flex;
-		margin-top: 240rpx;
 	}
 
 	.left {

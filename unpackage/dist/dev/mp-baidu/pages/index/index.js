@@ -446,7 +446,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     swiperTabHead: swiperTabHead,
@@ -457,10 +456,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       barName: 'mianPage', //页面名称
       topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-      barHeight: 180, //距离顶部的高度
+      menuWidth: 0,
+      menuTop: 0,
+      menuHeight: 0,
+      menuLeft: 0,
+      menuBottom: 0,
       BarImgs: '../static/images/0.png', //
-      barTopH: 0,
-      rightDistance: 0,
       cartNumber: 3, //购物车数量
       messageNumber: 19, //消息
       topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
@@ -872,13 +873,13 @@ __webpack_require__.r(__webpack_exports__);
     // 获取屏幕高度
     uni.getSystemInfo({
       success: function success(res) {
-        console.log(res);
         pageHeight = res.screenHeight;
-        console.log('pageHeight', pageHeight);
-        var menu = uni.getMenuButtonBoundingClientRect(); //获取获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。（top表示上边框到手机顶部的距离 bottom是下边框到手机顶部的距离）
-        // console.log(menu)
-        that.rightDistance = menu.width;
-        that.barTopH = menu.top;
+        var menu = uni.getMenuButtonBoundingClientRect();
+        that.menuWidth = menu.width;
+        that.menuTop = menu.top;
+        that.menuHeight = menu.height;
+        that.menuLeft = menu.left;
+        that.menuBottom = menu.bottom;
       } });
 
     setTimeout(function () {

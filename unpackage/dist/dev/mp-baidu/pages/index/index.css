@@ -1,7 +1,4 @@
 
-.subject-content.data-v-57280228 {
-	padding-top: 200rpx;
-}
 .endtitleitem.data-v-57280228 {
 	overflow: hidden;
 	white-space: nowrap;
@@ -19,16 +16,14 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	padding-top: 10rpx;
-	height: 68rpx;
-	line-height: 68rpx;
+	height: 80rpx;
+	line-height:80rpx;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 	padding: 20rpx 0;
 }
 .end-title view.data-v-57280228 {
-	/* flex-grow: 1; */
 	text-align: center;
 }
 .end-cont.data-v-57280228 {
@@ -38,15 +33,11 @@
 	color: #FFFFFF;
 	font-weight: bolder;
 	font-size: 40rpx;
-	height: 80rpx;
-	line-height: 80rpx;
 }
 .dis.data-v-57280228 {
 	display: block;
 }
 .goods_classify.data-v-57280228 {
-	height: 68rpx;
-	line-height: 80rpx;
 	width: 160rpx;
 	display: -webkit-box;
 	display: -webkit-flex;

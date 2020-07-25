@@ -1,62 +1,150 @@
 
-.city {
-
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-
-		-webkit-box-orient: horizontal;
-		-webkit-box-direction: normal;
-		-webkit-flex-direction: row;
-		        flex-direction: row;
-		-webkit-box-align: center;
-		-webkit-align-items: center;
-		        align-items: center;
-		-webkit-box-pack: start;
-		-webkit-justify-content: flex-start;
-		        justify-content: flex-start;
-		/* width: 160rpx;
- */
-		margin-left: 4px;
+.subject-content {
+	padding: 80rpx 20rpx;
+	background-color: #D0D0D0;
 }
-.input-view {
-
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-
-		-webkit-box-orient: horizontal;
-		-webkit-box-direction: normal;
-		-webkit-flex-direction: row;
-		        flex-direction: row;
-		/* width: 500rpx;
- */
-		-webkit-box-flex: 1;
-		-webkit-flex: 1;
-		        flex: 1;
-		background-color: #f8f8f8;
-		height: 30px;
-		border-radius: 15px;
-		padding: 0 15px;
-		-webkit-flex-wrap: nowrap;
-		        flex-wrap: nowrap;
-		margin: 7px 0;
-		line-height: 30px;
+.left-product {
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-flow: row;
+	        flex-flow: row;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	-webkit-box-align: start;
+	-webkit-align-items: flex-start;
+	        align-items: flex-start;
 }
-.input-uni-icon {
-		line-height: 30px;
+.product-show {
+	width: 350rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	background-color: #FFFFFF;
+	/* white-space: normal; */
+	border-radius: 16rpx;
+	padding-bottom: 20rpx;
+	margin-right: 5rpx;
+	margin-top: 20rpx;
 }
-.nav-bar-input {
-		height: 30px;
-		line-height: 30px;
-
-
-
-		padding: 0 5px;
-		font-size: 28rpx;
-		background-color: #f8f8f8;
+.images,
+.images image {
+	width: 350rpx;
+	height: 350rpx;
+	border-top-left-radius: 16rpx;
+	border-top-right-radius: 16rpx;
 }
-.example-body {
-		padding: 0;
+.product-title {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	font-size: 24rpx;
+	padding: 0 20rpx;
+}
+.product-label {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	color: #FFFFFF;
+	font-size: 16rpx;
+	padding: 20rpx 20rpx 0;
+}
+.label-name {
+	background-color: #999999;
+	text-align: center;
+	padding: 5rpx 10rpx;
+	margin-right: 10rpx;
+	border-radius: 4rpx;
+}
+.activity {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	font-size: 16rpx;
+	color: #fa3475;
+	padding: 20rpx 20rpx 0;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.activityName {
+	border: 1rpx solid #fa3475;
+	margin-right: 10rpx;
+	padding: 5rpx;
+}
+.porduct-price-vip-cart {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding-top: 20rpx;
+}
+.porduct-price {
+	color: #fa3475;
+	font-size: 32rpx;
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+}
+.porduct-price text {
+	font-size: 24rpx;
+}
+.vip-cart-price {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.vip-cart {
+	background-image: -webkit-linear-gradient(bottom, #000000 0%, #2c2c2c 100%), -webkit-linear-gradient(#282828, #282828);
+	background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
+	font-size: 16rpx;
+	padding: 7rpx 10rpx;
+	line-height: 20rpx;
+	text-align: center;
+	color: #fefefe;
+	border-top-left-radius: 8rpx;
+	border-bottom-left-radius: 8rpx;
+}
+.vip-price {
+	font-size: 20rpx;
+	color: #282828;
+	padding: 4rpx 8rpx;
+	line-height: 20rpx;
+	text-align: center;
+	border: 1rpx solid #282828;
+	border-top-right-radius: 10rpx;
+	border-bottom-right-radius: 10rpx;
+}
+.subscribeAndGoodReputation {
+	font-size: 24rpx;
+	padding: 20rpx 20rpx 0;
+}
+.subscribe-goodReputation {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	text-align: center;
+	border-top: 1rpx solid #EEEEEE;
+	padding: 20rpx 0 0;
+}
+.subscribe {
+	color: #CCCCCC;
+}
+.goodReputation {
+	color: #fa3475;
 }
 

@@ -36,9 +36,7 @@
 							<text>￥</text> 78000
 						</view>
 						<view class="VIP-price">
-							<view class="VIP-name">
-								钻卡
-							</view>
+							<view class="VIP-name"> 钻卡 </view>
 							<text>￥38800</text>
 						</view>
 					</view>
@@ -75,11 +73,11 @@
 				<!-- 商品名称 -->
 				<view class="prouct-name">
 					<text class="label-name"> 618特惠 </text>
-						我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,
+					<text> 我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,</text>
 				</view>
 				<view class="get-coupon">
 					【领取】新客领券减30元！【满12800元送】价值239元HB（2片装）面膜一盒！满36800元送】价值980元华桑保利（5片装）面膜一盒；【满12800元送】价
-					  值239元HB（2片装）面膜一盒！<text>查看》</text>
+					  值239元HB（2片装）面膜一盒！<text>查看></text>
 				</view>
 			</view>
 
@@ -87,7 +85,7 @@
 			<view class="discounts">
 				<view class="discounts-title">
 					<view class="discounts-more"> 优惠 </view>
-					<view class="more"> 更多》 </view>
+					<view class="more"> 更多 > </view>
 				</view>
 				<!-- 优惠政策 -->
 				<view class="discounts-policy" v-for="(i,k) in discountsList" :key="k">
@@ -102,7 +100,6 @@
 					<view class="certificate-image">
 						<image :src="i.url" mode=""></image>
 					</view>
-					<view class="certificate-name"> {{i.name}} </view>
 				</view>
 			</view>
 
@@ -289,33 +286,7 @@
 							<view class="vertical-item-explain"> 中 </view>
 							<view class="vertical-item-explain prouct-price"> 1680</view>
 						</view>
-						
-						<!-- <view class="across">
-							<view class="across-item">
-								<view class="item-name"> 项目名称 </view>
-								<view class="item-name"> 润百颜黑金 </view>
-								<view class="item-name"> 伊婉C </view>
-								<view class="item-name"> 伊婉V </view>
-							</view>
-							<view class="across-item">
-								<view class="item-name"> 项目组合 </view>
-								<view class="item-name"> 1ML </view>
-								<view class="item-name"> 1ML </view>
-								<view class="item-name"> 1ML </view>
-							</view>
-							<view class="across-item">
-								<view class="item-name"> 医生/级别 </view>
-								<view class="item-name"> 中 </view>
-								<view class="item-name"> 高 </view>
-								<view class="item-name"> 中 </view>
-							</view>
-							<view class="across-item">
-								<view class="item-name"> 销售价格 </view>
-								<view class="item-name prouct-price"> 980 </view>
-								<view class="item-name prouct-price"> 1280 </view>
-								<view class="item-name prouct-price"> 1680 </view>
-							</view>
-						</view> -->
+
 					</view>
 				</view>
 				
@@ -463,18 +434,12 @@
 			</view>
 
 			<!-- 购物车 -->
-			<view class="cart" @tap="cart">
+			<view class="cart" :data-cartNumber='carts'  @tap="cart">
 				<view class="cart-number">
-					<view class="cartImg">
-						<image src="../../static/images/cart.png" mode=""></image>
-					</view>
-					<view class="cartNumber">
-						{{carts}}
-					</view>
+					<view class="cartImg"> <image src="../../static/images/cart.png" mode=""></image> </view>
+					<view class="cartNumber"> {{carts}} </view>
 				</view>
-				<view class="cart-text">
-					购物车
-				</view>
+				<view class="cart-text"> 购物车 </view>
 			</view>
 
 			<!-- 加入购物车 -->
@@ -563,7 +528,7 @@
 					{
 						doctorList:[
 							{
-								url:'../../static/images/2.png',
+								url:'../../static/images/20.png',
 								name:'程杨',
 								recommend:'华美紫馨眼部整形及修复修养调剂...',
 								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
@@ -573,31 +538,7 @@
 								consult:2020
 							},
 							{
-								url:'../../static/images/2.png',
-								name:'程杨',
-								recommend:'华美紫馨眼部整形及修复修养调剂...',
-								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
-								label:['双眼皮芙蓉','手术隆鼻','双眼皮修复'],
-								case:143,
-								subscribe:121,
-								consult:2020
-							},
-						],//相关医生
-					},
-					{
-						doctorList:[
-							{
-								url:'../../static/images/2.png',
-								name:'程杨',
-								recommend:'华美紫馨眼部整形及修复修养调剂...',
-								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
-								label:['双眼皮芙蓉','手术隆鼻','双眼皮修复'],
-								case:143,
-								subscribe:121,
-								consult:2020
-							},
-							{
-								url:'../../static/images/2.png',
+								url:'../../static/images/20.png',
 								name:'程杨',
 								recommend:'华美紫馨眼部整形及修复修养调剂...',
 								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
@@ -611,7 +552,7 @@
 					{
 						doctorList:[
 							{
-								url:'../../static/images/2.png',
+								url:'../../static/images/20.png',
 								name:'程杨',
 								recommend:'华美紫馨眼部整形及修复修养调剂...',
 								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
@@ -621,7 +562,31 @@
 								consult:2020
 							},
 							{
-								url:'../../static/images/2.png',
+								url:'../../static/images/20.png',
+								name:'程杨',
+								recommend:'华美紫馨眼部整形及修复修养调剂...',
+								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
+								label:['双眼皮芙蓉','手术隆鼻','双眼皮修复'],
+								case:143,
+								subscribe:121,
+								consult:2020
+							},
+						],//相关医生
+					},
+					{
+						doctorList:[
+							{
+								url:'../../static/images/20.png',
+								name:'程杨',
+								recommend:'华美紫馨眼部整形及修复修养调剂...',
+								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
+								label:['双眼皮芙蓉','手术隆鼻','双眼皮修复'],
+								case:143,
+								subscribe:121,
+								consult:2020
+							},
+							{
+								url:'../../static/images/20.png',
 								name:'程杨',
 								recommend:'华美紫馨眼部整形及修复修养调剂...',
 								synopsis:'急速纳米美眼创始人；急速轻龄美眼创始人',
@@ -664,8 +629,8 @@
 			let that = this
 			that.goodsName = option.goods
 			that.height = uni.getSystemInfoSync().screenHeight*1.6;
-			console.log(that.height)
-			console.log(option)
+			// console.log(that.height)
+			// console.log(option)
 		},
 		onReady: function() {
 			let that = this;
@@ -692,9 +657,11 @@
 				})
 			},
 			// 购物车
-			cart: function() {
+			cart: function(event) {
+				let cartNumber = event.currentTarget.dataset.cartnumber || event.currentTarget.dataset.cartNumber
+				// console.log(event.currentTarget.dataset.cartnumber)
 				uni.navigateTo({
-					url: '/pages/cart/cart',
+					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
 			},
 		}
@@ -825,9 +792,11 @@
 		border: 1rpx solid #fa3475;
 		font-size: 20rpx;
 		text-align: center;
-		padding: 5rpx 10rpx;
+		padding: 0 10rpx;
+		line-height: 32rpx;
 		margin-right: 20rpx;
 		color: #fa3475;
+		border-radius: 4rpx;
 	}
 
 	.hot-sale-remind {
@@ -868,8 +837,8 @@
 	
 	/* 商品名 */
 	.prouct-name{
-		padding: 20rpx 30rpx;
-		height: 80rpx;
+		padding: 20rpx 30rpx 0;
+		/* height: 80rpx; */
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
@@ -877,15 +846,17 @@
 		font-size: 32rpx;
 		line-height: 48rpx;
 		color: #111111;
+		
 	}
 	.label-name{
 		font-size: 18rpx;
-		width: 85rpx;
-		height: 26rpx;
+	/* 	width: 85rpx;
+		height: 26rpx; */
 		color: #ffffff;
+		line-height: 26rpx;
 		background-color: #882ddc;
 		border-radius: 4rpx;
-		margin-right: 20rpx;
+		margin-right: 10rpx;
 		padding: 10rpx 10rpx 5rpx;
 	}
 	
@@ -967,17 +938,10 @@
 		align-items: center;
 	}
 	.certificate-details image{
-		width: 80rpx;
-		height: 80rpx;
+		width: 156rpx;
+		height: 138rpx;
 	}
 	
-	.certificate-name{
-		margin-top: 20rpx;
-		font-size: 18rpx;
-		color: #111111;
-		text-align: center;
-		line-height: 24rpx;
-	}
 	
 	/* 相关商品 */
 	.related-products{
@@ -994,7 +958,7 @@
 		font-size: 28rpx;
 		line-height: 48rpx;
 		color: #111111;
-		font-weight: bolder;
+		/* font-weight: bolder; */
 		display: flex;
 		align-items: center;
 	}
@@ -1128,13 +1092,12 @@
 	.doctor-head-portrait{
 		width: 150rpx;
 		height: 150rpx;
-		background-color: #cccccc;
-		border: solid 2px #f0f0f0;
 		margin-right: 20rpx;
 	}
 	.doctor-head-portrait image{
 		width: 150rpx;
 		height: 150rpx;
+		border-radius: 75rpx;
 	}
 	.doctor-name-recommend{
 		display: flex;
@@ -1221,7 +1184,7 @@
 	.diary-content{
 		font-size: #111111;
 		font-size: 24rpx;
-		line-height: 50rpx;
+		line-height:40rpx;
 	}
 	.userinfo{
 		display: flex;
@@ -1412,7 +1375,7 @@
 	.item-name{
 		padding: 20rpx 0;
 		width: 100%;
-		border-bottom: 1rpx solid #eeeeee;
+		border-bottom: 1rpx solid #999999;
 	}
 
 	.prouct-price{
@@ -1425,7 +1388,7 @@
 		justify-content: space-between;
 		align-items: center;
 		text-align: center;
-		border-top: 1rpx solid #eeeeee;
+		border-top: 1rpx solid #999999;
 		color: #999999;
 	}
 	.first{

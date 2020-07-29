@@ -99,10 +99,16 @@
 	border-radius: 17rpx;
 	margin-left: 24rpx;
 }
-.user-head-portrait-name-phone-set .phone.data-v-0be17cc6 {
+.user-head-portrait-name-phone-set .phone-account-number.data-v-0be17cc6 {
 	color: #f0f0f0;
 	line-height: 32rpx;
 	margin-top: 10rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.account-number.data-v-0be17cc6{
+	margin-left: 10rpx;
 }
 .user-head-portrait-name-phone-set .set.data-v-0be17cc6 {
 	color: #FFFFFF;

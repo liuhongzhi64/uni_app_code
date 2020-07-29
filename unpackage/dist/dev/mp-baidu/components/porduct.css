@@ -1,55 +1,61 @@
 
-.subject-content {
-	padding: 80rpx 20rpx;
-	background-color: #D0D0D0;
+.product.data-v-1884e7aa {
+	background-color: red;
+	/* padding: 0 20rpx; */
 }
-.left-product {
-	width: 100%;
+.product-item-fl.data-v-1884e7aa {
+	float: left;
+}
+.product-item-fr.data-v-1884e7aa {
+	float: right;
+}
+.product-show.data-v-1884e7aa {
+	margin-top: 10rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-flow: row;
-	        flex-flow: row;
-	-webkit-flex-wrap: wrap;
-	        flex-wrap: wrap;
-	-webkit-box-align: start;
-	-webkit-align-items: flex-start;
-	        align-items: flex-start;
-}
-.product-show {
 	width: 350rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
 	background-color: #FFFFFF;
-	/* white-space: normal; */
+	white-space: normal;
 	border-radius: 16rpx;
-	padding-bottom: 20rpx;
-	margin-right: 5rpx;
 	margin-top: 20rpx;
+	padding-bottom: 20rpx;
 }
-.images,
-.images image {
+.images image.data-v-1884e7aa {
 	width: 350rpx;
 	height: 350rpx;
 	border-top-left-radius: 16rpx;
 	border-top-right-radius: 16rpx;
 }
-.product-title {
+.product-title.data-v-1884e7aa {
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 	font-size: 24rpx;
 	padding: 0 20rpx;
+	color: #111111;
+	font-weight: lighter;
 }
-.product-label {
+.closed.data-v-1884e7aa {
+	color: #FFFFFF;
+	display: inline-block;
+	width: 84rpx;
+	height: 26rpx;
+	font-size: 18rpx;
+	background-color: #b60114;
+	border-radius: 6rpx;
+	text-align: center;
+	padding: 0 5rpx;
+	margin-right: 10rpx;
+}
+.product-label.data-v-1884e7aa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -57,14 +63,14 @@
 	font-size: 16rpx;
 	padding: 20rpx 20rpx 0;
 }
-.label-name {
+.label-name.data-v-1884e7aa {
 	background-color: #999999;
 	text-align: center;
 	padding: 5rpx 10rpx;
 	margin-right: 10rpx;
 	border-radius: 4rpx;
 }
-.activity {
+.activity.data-v-1884e7aa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -74,12 +80,12 @@
 	-webkit-flex-wrap: wrap;
 	        flex-wrap: wrap;
 }
-.activityName {
-	border: 1rpx solid #fa3475;
+.activityName.data-v-1884e7aa {
+	border: 1px solid #fa3475;
 	margin-right: 10rpx;
 	padding: 5rpx;
 }
-.porduct-price-vip-cart {
+.porduct-price-vip-cart.data-v-1884e7aa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -88,16 +94,16 @@
 	        align-items: center;
 	padding-top: 20rpx;
 }
-.porduct-price {
+.porduct-price.data-v-1884e7aa {
 	color: #fa3475;
 	font-size: 32rpx;
 	padding-left: 20rpx;
 	padding-right: 20rpx;
 }
-.porduct-price text {
+.porduct-price text.data-v-1884e7aa {
 	font-size: 24rpx;
 }
-.vip-cart-price {
+.vip-cart-price.data-v-1884e7aa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -105,7 +111,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.vip-cart {
+.vip-cart.data-v-1884e7aa {
 	background-image: -webkit-linear-gradient(bottom, #000000 0%, #2c2c2c 100%), -webkit-linear-gradient(#282828, #282828);
 	background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
 	font-size: 16rpx;
@@ -116,21 +122,21 @@
 	border-top-left-radius: 8rpx;
 	border-bottom-left-radius: 8rpx;
 }
-.vip-price {
+.vip-price.data-v-1884e7aa {
 	font-size: 20rpx;
 	color: #282828;
 	padding: 4rpx 8rpx;
 	line-height: 20rpx;
 	text-align: center;
-	border: 1rpx solid #282828;
+	border: 1px solid #282828;
 	border-top-right-radius: 10rpx;
 	border-bottom-right-radius: 10rpx;
 }
-.subscribeAndGoodReputation {
+.subscribeAndGoodReputation.data-v-1884e7aa {
 	font-size: 24rpx;
 	padding: 20rpx 20rpx 0;
 }
-.subscribe-goodReputation {
+.subscribe-goodReputation.data-v-1884e7aa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -138,13 +144,13 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 	text-align: center;
-	border-top: 1rpx solid #EEEEEE;
+	border-top: 1px solid #EEEEEE;
 	padding: 20rpx 0 0;
 }
-.subscribe {
+.subscribe.data-v-1884e7aa {
 	color: #CCCCCC;
 }
-.goodReputation {
+.goodReputation.data-v-1884e7aa {
 	color: #fa3475;
 }
 

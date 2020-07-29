@@ -8,15 +8,15 @@
 				</view>
 		
 				<view class="cartAndMessage">
-					<view class="cart" @tap="cart">
+					<view class="cart" :data-cartNumber='cartNumber' @tap="cart" >
 						<view class="cartImg">
-							<image src="../../static/images/cart.png" mode=""></image>
+							<image src="../static/images/cart.png" mode=""></image>
 						</view>
 						<view class="cartNumber">{{cartNumber}} </view>
 					</view>
 					<view class="message" @tap="message">
 						<view class="messageImg">
-							<image src="../../static/images/message.png" mode=""></image>
+							<image src="../static/images/message.png" mode=""></image>
 						</view>
 						<view class="messageNumber"> {{messageNumber}} </view>
 					</view>
@@ -89,7 +89,7 @@
 
 		onReady() {
 			let that = this;
-			console.log(that.cartNumber, that.messageNumber)
+			// console.log(that.cartNumber, that.messageNumber)
 			that.carts = that.cartNumber
 			that.messages = that.messageNumber
 			if (that.cartNumber > 9) {
@@ -109,14 +109,16 @@
 		},
 		methods: {
 			// 购物车
-			cart: function() {
+			cart: function(event) {
+				let cartNumber = event.currentTarget.dataset.cartnumber || event.currentTarget.dataset.cartNumber
+				// console.log(event.currentTarget.dataset)
 				uni.navigateTo({
-					url: '/pages/cart/cart',
+					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
 			},
 
 			// 消息
-			message: function() {
+			message: function(event) {
 				uni.navigateTo({
 					url: '/pages/message/message',
 				})

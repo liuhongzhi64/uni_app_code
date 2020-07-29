@@ -212,21 +212,15 @@
 					<view id="productImg" class="productImgs" v-for="(i,k) in productImgList" :key='k' :data-name="i.content" @tap="gotoGoods">
 						<view :id="'productImg'+k" class="productItems">
 							<!-- 图片 -->
-							<view class="Imgs">
-								<image :src="i.url" mode=""></image>
-							</view>
+							<view class="Imgs"> <image :src="i.url" mode=""></image> </view>
 
 							<!-- 内容 -->
-							<view class="productContent">
-								{{i.content}}
-							</view>
+							<view class="productContent"> {{i.content}} </view>
 
 							<!-- 价格 -->
 							<view class="prouctPrice">
-								<view class="newprice">￥:{{i.newPrice}}</view>
-								<view class="oldPrice">
-									￥:{{i.oldPrice}}
-								</view>
+								<view class="newprice"> <text>￥</text> {{i.newPrice}}</view>
+								<view class="oldPrice"> <text>￥</text> {{i.oldPrice}} </view>
 							</view>
 
 							<!-- 剩余商品（库存） -->
@@ -275,7 +269,7 @@
 												</view>
 											</view>
 											<view class="productPrice" v-if="i.productPrice">
-												￥{{i.productPrice}}
+												<text>￥</text> {{i.productPrice}}
 											</view>
 											<view class="subscribeAndGoodReputation" v-if="i.subscribe&&i.goodReputation">
 												<view class="subscribe">
@@ -783,16 +777,16 @@
 		},
 
 		methods: {
-			change: function(e) {
-				if(e!=0){
+			change: function(index) {
+				if(index!=0){
 					this.productImgListShow = false
 					this.newListShow = false
 				}else{
 					this.productImgListShow = true
 					this.newListShow = true
 				}
-				this.count = e
-				this.btnnum = e
+				this.count = index
+				this.btnnum = index
 			},
 			// 轮播的指示点
 			changeSwiperDot: function(e) {
@@ -883,10 +877,10 @@
 
 	.end-title {
 		display: flex;
-		height: 80rpx;
-		line-height:80rpx;
+		height: 68rpx;
+		line-height:68rpx;
 		justify-content: space-between;
-		padding: 20rpx 0;
+		padding: 10rpx 0 20rpx;
 	}
 
 	.end-title view {
@@ -1322,6 +1316,7 @@
 	.productItems {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		justify-content: space-between;
 		padding: 20rpx;
 		width: 240rpx;
@@ -1338,7 +1333,7 @@
 	}
 
 	.productItems {
-		padding: 20rpx;
+		padding:0 20rpx 20rpx;
 		border: 2rpx solid #FFFFFF;
 	}
 
@@ -1357,11 +1352,14 @@
 	.residueProduct {
 		text-align: center;
 	}
+	.prouctPrice text{
+		font-size: 20rpx;
+	}
 
 	.newprice {
 		color: #EF6174;
 		font-size: 30rpx;
-		color: #2e2e2e;
+		margin-right: 13rpx;
 	}
 
 	.oldPrice {
@@ -1375,7 +1373,6 @@
 		font-size: 40rpx;
 		width: 240rpx;
 		height: 360rpx;
-		margin-top: 20rpx;
 		background-color: #F2F2F2;
 		margin-left: 20rpx;
 		position: absolute;
@@ -1402,16 +1399,18 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		width: 100%;
+		/* width: 100%; */
 		justify-content: space-between;
 		border-radius: 24rpx;
 		color: #111111;
+		padding: 10rpx 20rpx ;
 	}
 
 	.recommenList {
 		width: 350rpx;
 		background-color: #ffffff;
-		padding: 12rpx;
+		display: flex;
+		flex-direction: column;
 		border-radius: 24rpx;
 		margin-top: 10rpx;
 	}
@@ -1463,9 +1462,12 @@
 	}
 
 	.productPrice {
-		/* text-align: center; */
 		color: #fa3475;
 		font-size: 32rpx;
+		padding: 0 20rpx;
+	}
+	.productPrice text{
+		font-size: 20rpx;
 	}
 
 	.subscribeAndGoodReputation {

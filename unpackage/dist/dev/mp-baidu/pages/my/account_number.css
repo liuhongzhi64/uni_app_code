@@ -1,0 +1,111 @@
+
+.top-bar.data-v-54291e35 {
+	color: #FFFFFF;
+	background-image: -webkit-linear-gradient(139deg, #000000 0%, #111111 100%);
+	background-image: linear-gradient(-49deg, #000000 0%, #111111 100%);
+	text-align: center;
+	font-size: 40rpx;
+	width: 100%;
+}
+.back-title.data-v-54291e35 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 38rpx;
+}
+.back.data-v-54291e35 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	margin-left: 20rpx;
+	width: 60rpx;
+	height: 100%;
+}
+.back image.data-v-54291e35 {
+	width: 36rpx;
+	height: 36rpx;
+}
+.title-compile.data-v-54291e35 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 38rpx;
+}
+.title-compile .compile.data-v-54291e35 {
+	font-size: 24rpx;
+}
+.title.data-v-54291e35 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.account-number-content.data-v-54291e35{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	background-color: #F6F6F6;
+}
+.set-login-account-number.data-v-54291e35{
+	padding-left: 30rpx;
+	height: 90rpx;
+	line-height: 90rpx;
+	font-size: 26rpx;
+	background-color: #FFFFFF;
+}
+.set-bound-phone.data-v-54291e35{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	background-color: #FFFFFF;
+	padding-left: 30rpx;
+	height: 90rpx;
+	line-height: 90rpx;
+	font-size: 26rpx;
+	margin-top: 2rpx;
+}
+.user-name-phone.data-v-54291e35{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	padding-right: 30rpx;
+}
+.set-login-account.data-v-54291e35{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	border-bottom: 2rpx solid #e5e5e5;
+}
+.at-present-phone.data-v-54291e35{
+	padding-right: 30rpx;
+}
+
+
+

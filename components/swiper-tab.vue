@@ -1,12 +1,12 @@
 <template>
 	<view class="uni-tab-bar">
-		<scroll-view class="uni-swiper-tab" >
+		<scroll-view class="uni-swiper-tab">
 			<block v-for="(tab,index) in tabBars" :key="tab.id">
 				<view class="swiper-tab-list" :class="{'active' : tabIndex==index}" @tap="tabtap(index)" >
 					<view class="tabName">
 						{{tab.name}} 
 					</view>
-					<view class="tabContent">
+					<view class="tabContent"  v-if="tab.content">
 						{{tab.content}}
 					</view>
 					<view class="swiper-tab-line" v-if="line"></view>
@@ -42,7 +42,8 @@
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
-		height: 100rpx;
+		/* height: 100rpx; */
+		background-color: #F6F6F6;
 	}
 
 	.swiper-tab-list {

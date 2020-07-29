@@ -288,15 +288,8 @@
 	        align-items: center;
 }
 .certificate-details image.data-v-098a7e2c{
-	width: 80rpx;
-	height: 80rpx;
-}
-.certificate-name.data-v-098a7e2c{
-	margin-top: 20rpx;
-	font-size: 18rpx;
-	color: #111111;
-	text-align: center;
-	line-height: 24rpx;
+	width: 156rpx;
+	height: 138rpx;
 }
 
 /* 相关商品 */
@@ -480,13 +473,12 @@
 .doctor-head-portrait.data-v-098a7e2c{
 	width: 150rpx;
 	height: 150rpx;
-	background-color: #cccccc;
-	border: solid 2px #f0f0f0;
 	margin-right: 20rpx;
 }
 .doctor-head-portrait image.data-v-098a7e2c{
 	width: 150rpx;
 	height: 150rpx;
+	border-radius: 75rpx;
 }
 .doctor-name-recommend.data-v-098a7e2c{
 	display: -webkit-box;
@@ -838,7 +830,7 @@
 .item-name.data-v-098a7e2c{
 	padding: 20rpx 0;
 	width: 100%;
-	border-bottom: 1rpx solid #eeeeee;
+	border-bottom: 1rpx solid #999999;
 }
 .prouct-price.data-v-098a7e2c{
 	color: #fa3475;
@@ -856,7 +848,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	text-align: center;
-	border-top: 1rpx solid #eeeeee;
+	border-top: 1rpx solid #999999;
 	color: #999999;
 }
 .first.data-v-098a7e2c{

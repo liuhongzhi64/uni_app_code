@@ -122,9 +122,11 @@
 	border: 1px solid #fa3475;
 	font-size: 20rpx;
 	text-align: center;
-	padding: 5rpx 10rpx;
+	padding: 0 10rpx;
+	line-height: 32rpx;
 	margin-right: 20rpx;
 	color: #fa3475;
+	border-radius: 4rpx;
 }
 .hot-sale-remind.data-v-098a7e2c {
 	padding:0 30rpx;
@@ -174,8 +176,8 @@
 
 /* 商品名 */
 .prouct-name.data-v-098a7e2c{
-	padding: 20rpx 30rpx;
-	height: 80rpx;
+	padding: 20rpx 30rpx 0;
+	/* height: 80rpx; */
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
@@ -186,12 +188,13 @@
 }
 .label-name.data-v-098a7e2c{
 	font-size: 18rpx;
-	width: 85rpx;
-	height: 26rpx;
+/* 	width: 85rpx;
+	height: 26rpx; */
 	color: #ffffff;
+	line-height: 26rpx;
 	background-color: #882ddc;
 	border-radius: 4rpx;
-	margin-right: 20rpx;
+	margin-right: 10rpx;
 	padding: 10rpx 10rpx 5rpx;
 }
 
@@ -288,15 +291,8 @@
 	        align-items: center;
 }
 .certificate-details image.data-v-098a7e2c{
-	width: 80rpx;
-	height: 80rpx;
-}
-.certificate-name.data-v-098a7e2c{
-	margin-top: 20rpx;
-	font-size: 18rpx;
-	color: #111111;
-	text-align: center;
-	line-height: 24rpx;
+	width: 156rpx;
+	height: 138rpx;
 }
 
 /* 相关商品 */
@@ -313,7 +309,7 @@
 	font-size: 28rpx;
 	line-height: 48rpx;
 	color: #111111;
-	font-weight: bolder;
+	/* font-weight: bolder; */
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -480,13 +476,12 @@
 .doctor-head-portrait.data-v-098a7e2c{
 	width: 150rpx;
 	height: 150rpx;
-	background-color: #cccccc;
-	border: solid 2px #f0f0f0;
 	margin-right: 20rpx;
 }
 .doctor-head-portrait image.data-v-098a7e2c{
 	width: 150rpx;
 	height: 150rpx;
+	border-radius: 75rpx;
 }
 .doctor-name-recommend.data-v-098a7e2c{
 	display: -webkit-box;
@@ -589,7 +584,7 @@
 .diary-content.data-v-098a7e2c{
 	font-size: #111111;
 	font-size: 24rpx;
-	line-height: 50rpx;
+	line-height:40rpx;
 }
 .userinfo.data-v-098a7e2c{
 	display: -webkit-box;
@@ -838,7 +833,7 @@
 .item-name.data-v-098a7e2c{
 	padding: 20rpx 0;
 	width: 100%;
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid #999999;
 }
 .prouct-price.data-v-098a7e2c{
 	color: #fa3475;
@@ -856,7 +851,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	text-align: center;
-	border-top: 1px solid #eeeeee;
+	border-top: 1px solid #999999;
 	color: #999999;
 }
 .first.data-v-098a7e2c{

@@ -326,8 +326,7 @@
 		border-style: solid;
 		border-color: transparent #FFFFFF transparent transparent;
 		transform: rotate(90deg);
-		/*顺时针旋转90°*/
-		margin-top: -20px;
+		margin-top: -10px;
 		margin-left: 10rpx;
 		margin-bottom: 0;
 	}

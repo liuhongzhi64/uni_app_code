@@ -19,10 +19,13 @@
 									<view class="user-name">用户名字就八个字</view>
 									<view class="user-cart"> 时尚卡 </view>
 								</view>
-								<view class="phone"> 18281612661</view>
+								<view class="phone-account-number"> 
+									<view class="phone"> 18281612661 </view>
+									<view class="account-number" @tap='goToAccount'> 切换账号 </view>
+								</view>
 							</view>
 						</view>
-						<view class="set"> 设置 <text>》</text> </view>
+						<view class="set"> 设置 > </view>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
 						<view class="all-card" v-for="(i,k) in cardList" :key='k'>
@@ -43,7 +46,7 @@
 			<view class="my-order">
 				<view class="order-all-order">
 					<view class="order"> 我的订单 </view>
-					<view class="all-order"> 所有订单 <text>》</text> </view>
+					<view class="all-order"> 全部订单 > </view>
 				</view>
 
 				<view class="order-message">
@@ -77,6 +80,49 @@
 					</view>
 				</view>
 			</view>
+			
+			<view class="serve-and-tool">
+				<view class="serve-and-tool-title"> 服务与工具1 </view>
+				<view class="serve-and-tool-list">
+					<view class="serve-tool-list" v-for="(i,k) in serveToolList2" :key='k'>
+						<view class="tool-item">
+							<view class="tool-image">
+								<image :src="i.url" mode=""></image>
+							</view>
+							<view class="tool-name"> {{i.toolName}} </view>
+						</view>
+			
+					</view>
+				</view>
+			</view>
+			
+			<view class="serve-and-tool">
+				<view class="serve-and-tool-title"> 服务与工具2 </view>
+				<view class="serve-and-tool-list">
+					<view class="serve-tool-list" v-for="(i,k) in serveToolList3" :key='k'>
+						<view class="tool-item">
+							<view class="tool-image">
+								<image :src="i.url" mode=""></image>
+							</view>
+							<view class="tool-name"> {{i.toolName}} </view>
+						</view>
+					</view>
+				</view>
+			</view>
+			
+			<view class="serve-and-tool">
+				<view class="serve-and-tool-title"> 活动中心 </view>
+				<view class="serve-and-tool-list">
+					<view class="serve-tool-list" v-for="(i,k) in serveToolList4" :key='k'>
+						<view class="tool-item">
+							<view class="tool-image">
+								<image :src="i.url" mode=""></image>
+							</view>
+							<view class="tool-name"> {{i.toolName}} </view>
+						</view>
+					</view>
+				</view>
+			</view>
 
 			<view class="guess-what-you-like">
 				<view class="related-title">
@@ -86,74 +132,7 @@
 				<scroll-view scroll-y class="topList">
 					<template>
 						<view class="subject-content">
-							<!-- 左边 -->
-							<view class="left-product">
-								<view class="product-show" v-for="(i,k) in leftProduct" :key='k' :data-name="i.title" @tap="gotoGoods">
-									<view class="images">
-										<image :src="i.url" mode=""></image>
-									</view>
-									<view class="product-title"> {{i.title}} </view>
-									<view class="product-label" v-if="i.label.length>1">
-										<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
-									</view>
-									<view class="activity" v-if="i.activity.length>1">
-										<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
-									</view>
-									<view class="porduct-price-vip-cart">
-										<view class="porduct-price">
-											<text>￥</text>{{i.price}}
-										</view>
-										<view class="vip-cart-price" v-if="i.vipPrice>0">
-											<text class="vip-cart">钻卡</text>
-											<text class="vip-price">￥{{i.vipPrice}}</text>
-										</view>
-									</view>
-									<!-- 预约和好评 -->
-									<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
-										<view class="subscribe-goodReputation">
-											<!-- 预约 -->
-											<view class="subscribe"> {{i.subscribe}}预约 </view>
-											<!-- 好评 -->
-											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-										</view>
-									</view>
-								</view>
-
-							</view>
-							<!-- 右边 -->
-							<view class="right-product">
-								<view class="product-show" v-for="(i,k) in rightProduct" :key='k' :data-name="i.title" @tap="gotoGoods">
-									<view class="images">
-										<image :src="i.url" mode=""></image>
-									</view>
-									<view class="product-title"> {{i.title}} </view>
-									<view class="product-label" v-if="i.label.length>1">
-										<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
-									</view>
-									<view class="activity" v-if="i.activity.length>1">
-										<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
-									</view>
-									<view class="porduct-price-vip-cart">
-										<view class="porduct-price">
-											<text>￥</text>{{i.price}}
-										</view>
-										<view class="vip-cart-price" v-if="i.vipPrice>0">
-											<text class="vip-cart">钻卡</text>
-											<text class="vip-price">￥{{i.vipPrice}}</text>
-										</view>
-									</view>
-									<!-- 预约和好评 -->
-									<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
-										<view class="subscribe-goodReputation">
-											<!-- 预约 -->
-											<view class="subscribe"> {{i.subscribe}}预约 </view>
-											<!-- 好评 -->
-											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-										</view>
-									</view>
-
-								</view>
-							</view>
+							<porduct :porductList='productList'></porduct>
 						</view>
 					</template>
 				</scroll-view>
@@ -164,7 +143,11 @@
 </template>
 
 <script>
+	import porduct from "../../components/porduct.vue";
 	export default {
+		components: {
+			porduct
+		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -244,12 +227,86 @@
 						toolName: '我的评价',
 					},
 				],
-				leftProduct: [{
+				serveToolList2: [{
+						url: '../../static/images/cart0.png',
+						toolName: '邀请记录',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '我要提问',
+					},
+					{
+						url: '../../static/images/cart0.png',
+						toolName: '实名认证',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '地址管理',
+					},
+					{
+						url: '../../static/images/cart0.png',
+						toolName: '员工服务',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '美丽基金',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '关于整呗',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '联系咨询',
+					},
+				],
+				serveToolList3: [{
+						url: '../../static/images/cart0.png',
+						toolName: '到院导航',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '投诉服务',
+					},
+					{
+						url: '../../static/images/cart0.png',
+						toolName: '帮助中心',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '满意度调查',
+					},
+					
+				],
+				serveToolList4: [{
+						url: '../../static/images/cart0.png',
+						toolName: '邀请有礼',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '签到有礼',
+					},
+					{
+						url: '../../static/images/cart0.png',
+						toolName: '任务中心',
+					},
+					{
+						url: '../../static/images/ask.png',
+						toolName: '喵币商城',
+					},
+					{
+						url: '../../static/images/cart0.png',
+						toolName: '真人秀报名',
+					},
+				],
+				productList: [
+					{
 						url: '../../static/images/19.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
 						headPortrait: '../../static/images/23.png', //头像
 						price: 19800,
+						closed:'闭馆特推',
 						activity: [],
 						vipPrice: 0,
 						subscribeAndGoodReputation: [{
@@ -271,15 +328,27 @@
 							goodReputation: '98'
 						}],
 					},
-
-				],
-				rightProduct: [{
+					{
+						url: '../../static/images/19.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/23.png', //头像
+						price: 19800,
+						closed:'闭馆特推',
+						activity: [],
+						vipPrice: 0,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					
+					},
+					{
 						url: '../../static/images/20.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: ['眼部美容', '眼部'], //标签
+						label: [], //标签
 						headPortrait: '../../static/images/test.jpg', //头像
-						userName: '用户昵称几个字',
-						like: 99, //点赞
+						activity: ['首单必减', '折扣'],
 						price: 19800,
 						vipPrice: 18800,
 						subscribeAndGoodReputation: [{
@@ -287,21 +356,8 @@
 							goodReputation: '98'
 						}],
 					},
-					{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: ['眼部美容', '眼部'], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						userName: '用户昵称几个字',
-						like: 99, //点赞
-						price: 19800,
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-				]
+				],
+				
 			}
 		},
 		onReady() {
@@ -327,6 +383,9 @@
 					url: `/pages/goods/goods_detail?goods=${goods}`,
 				})
 			},
+			goToAccount:function(e){
+				
+			}
 		}
 	}
 </script>
@@ -389,6 +448,10 @@
 		display: flex;
 		align-items: center;
 	}
+	
+	.content{
+		background-color:#F6F6F6;
+	}
 
 	.user-head-portrait image {
 		width: 120rpx;
@@ -416,10 +479,15 @@
 		margin-left: 24rpx;
 	}
 
-	.user-head-portrait-name-phone-set .phone {
+	.user-head-portrait-name-phone-set .phone-account-number {
 		color: #f0f0f0;
 		line-height: 32rpx;
 		margin-top: 10rpx;
+		display: flex;
+	}
+	
+	.account-number{
+		margin-left: 10rpx;
 	}
 
 	.user-head-portrait-name-phone-set .set {
@@ -455,7 +523,9 @@
 	}
 
 	/* 我的订单 */
-
+	.my-order{
+		background-color: #FFFFFF;
+	}
 	.order-all-order {
 		display: flex;
 		justify-content: space-between;
@@ -524,7 +594,7 @@
 	/* 图片广告 */
 	.display-advertising{
 		background-color: #F6F6F6;
-		padding: 20rpx 0;
+		padding: 20rpx 0 0;
 	}
 	.display-advertising image {
 		height: 240rpx;
@@ -532,12 +602,17 @@
 	}
 
 	/* 服务与工具 */
+	.serve-and-tool{
+		margin-top: 20rpx;
+		background-color: #FFFFFF;
+	}
+	
 	.serve-and-tool-title {
 		line-height: 88rpx;
 		padding-left: 30rpx;
 		font-size: 28rpx;
-		font-weight: bolder;
 		border-bottom: 1rpx solid #f0f0f0;
+		font-weight: bolder;
 	}
 
 	.serve-and-tool-list {
@@ -582,142 +657,15 @@
 		font-size: 28rpx;
 		line-height: 48rpx;
 		color: #111111;
-		font-weight: bolder;
 		display: flex;
 		align-items: center;
 	}
 
 	.subject-content {
 		background-color: #F6F6F6;
-		display: flex;
-		justify-content: space-between;
+		/* display: flex;
+		justify-content: space-between; */
 	}
 
-	.left-product,
-	.right-product {
-		width: 350rpx;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.product-show {
-		display: flex;
-		justify-content: space-around;
-		flex-direction: column;
-		background-color: #FFFFFF;
-		white-space: normal;
-		border-radius: 16rpx;
-		margin-top: 20rpx;
-		padding-bottom: 20rpx;
-	}
-
-	.images image {
-		width: 350rpx;
-		height: 350rpx;
-		border-top-left-radius: 16rpx;
-		border-top-right-radius: 16rpx;
-	}
-
-	.product-title {
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		font-size: 24rpx;
-		padding: 0 20rpx;
-	}
-
-	.product-label {
-		display: flex;
-		color: #FFFFFF;
-		font-size: 16rpx;
-		padding: 20rpx 20rpx 0;
-	}
-
-	.label-name {
-		background-color: #999999;
-		text-align: center;
-		padding: 5rpx 10rpx;
-		margin-right: 10rpx;
-		border-radius: 4rpx;
-	}
-
-	.activity {
-		display: flex;
-		font-size: 16rpx;
-		color: #fa3475;
-		padding: 20rpx 20rpx 0;
-		flex-wrap: wrap;
-	}
-
-	.activityName {
-		border: 1rpx solid #fa3475;
-		margin-right: 10rpx;
-		padding: 5rpx;
-	}
-
-	.porduct-price-vip-cart {
-		display: flex;
-		align-items: center;
-		padding-top: 20rpx;
-	}
-
-	.porduct-price {
-		color: #fa3475;
-		font-size: 32rpx;
-		padding-left: 20rpx;
-		padding-right: 20rpx;
-	}
-
-	.porduct-price text {
-		font-size: 24rpx;
-	}
-
-	.vip-cart-price {
-		display: flex;
-		align-items: center;
-	}
-
-	.vip-cart {
-		background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
-		font-size: 16rpx;
-		padding: 7rpx 10rpx;
-		line-height: 20rpx;
-		text-align: center;
-		color: #fefefe;
-		border-top-left-radius: 8rpx;
-		border-bottom-left-radius: 8rpx;
-	}
-
-	.vip-price {
-		font-size: 20rpx;
-		color: #282828;
-		padding: 4rpx 8rpx;
-		line-height: 20rpx;
-		text-align: center;
-		border: 1rpx solid #282828;
-		border-top-right-radius: 10rpx;
-		border-bottom-right-radius: 10rpx;
-	}
-
-	.subscribeAndGoodReputation {
-		font-size: 24rpx;
-		padding: 20rpx 20rpx 0;
-	}
-
-	.subscribe-goodReputation {
-		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		border-top: 1rpx solid #EEEEEE;
-		padding: 20rpx 0 0;
-	}
-
-	.subscribe {
-		color: #CCCCCC;
-	}
-
-	.goodReputation {
-		color: #fa3475;
-	}
+	
 </style>

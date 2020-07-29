@@ -124,22 +124,18 @@
 				rightContentList: {}, //右边内容
 				tabBars: [{
 						name: '精选',
-						content: '猜你喜欢',
 						id: 'love',
 					},
 					{
-						name: '视频',
-						content: '精选视频',
+						name: '最新',
 						id: 'video'
 					},
 					{
-						name: '问答',
-						content: '优质回答',
+						name: '最热',
 						id: 'questions-and-answers'
 					},
 					{
-						name: '日记',
-						content: '真人记录',
+						name: '特价',
 						id: 'record'
 					},
 
@@ -348,6 +344,10 @@
 		justify-content: space-between;
 		width: 100%;
 		white-space: normal;
+	}
+	
+	.rightContentItem{
+		padding-top:10rpx ;
 	}
 	
 	.swiper-boxs{

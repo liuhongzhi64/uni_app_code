@@ -375,41 +375,8 @@
 			<view class="recommend-for-you">
 				<view class="related-title"> <view class="line"></view> 为你推荐 </view>
 				<view class="recommend-for-you-product">
-					<view id="product-item" class="product-item" v-for="(i,k) in productList" :key='k' :data-name="i.content" @tap="gotoGoods">
-						<!-- 图片 -->
-						<view class="recommenImg" v-if="i.url">
-							<image :src="i.url" mode=""></image>
-						</view>
-						<!-- 商品名称 -->
-						<view class="productName" v-if="i.content">
-							<view class="product-item-content">
-								<text class="closed" v-if="i.closed">618特惠</text> {{i.content}}
-							</view>
-						</view>
-						<!-- 标签 -->
-						<view class="label" v-if="i.labelList.length > 0">
-							<view class="labelListItem" v-for="(i,k) in i.labelList" :key="k">
-								{{i}}
-							</view>
-						</view>
-						<!-- 商品价格 -->
-						<view class="productPrice" v-if="i.productPrice">
-							<view class="recommend-for-you-productPrice">
-								￥{{i.productPrice}}
-							</view>	
-						</view>
-						<!-- 预约和好评 -->
-						<view class="subscribeAndGoodReputation" v-if="i.subscribe&&i.goodReputation">
-							<!-- 预约 -->
-							<view class="subscribe">
-								{{i.subscribe}}预约
-							</view>
-							<!-- 好评 -->
-							<view class="goodReputation">
-								{{i.goodReputation}}%好评
-							</view>
-						</view>
-					</view>
+					<porduct :width=350 :porductList='productLists' ></porduct>
+					
 				</view>
 				
 			</view>
@@ -453,9 +420,11 @@
 
 <script>
 	import topBar from "../../components/topBar.vue";
+	import porduct from "../../components/porduct.vue";
 	export default {
 		components: {
 			topBar,
+			porduct
 		},
 		data() {
 			return {
@@ -523,6 +492,64 @@
 						labelList: ['眼部美容', '眼部'] //标签
 					},
 				],//相关商品
+				productLists: [
+					{
+						url: '../../static/images/19.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/23.png', //头像
+						price: 19800,
+						closed:'闭馆特推',
+						activity: [],
+						vipPrice: 0,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+				
+					},
+					{
+						url: '../../static/images/20.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/test.jpg', //头像
+						activity: ['首单必减', '折扣'],
+						price: 19800,
+						vipPrice: 18800,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					},
+					{
+						url: '../../static/images/19.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/23.png', //头像
+						price: 19800,
+						closed:'闭馆特推',
+						activity: [],
+						vipPrice: 0,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					
+					},
+					{
+						url: '../../static/images/20.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/test.jpg', //头像
+						activity: ['首单必减', '折扣'],
+						price: 19800,
+						vipPrice: 18800,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					},
+				],
 				doctorDurationTime:1000,
 				doctorSwiperList:[
 					{
@@ -1444,21 +1471,7 @@
 		justify-content: space-between;
 		flex-wrap: wrap;
 	}
-	.recommend-for-you .recommenImg{
-		width: 100%;
-	}
-	.recommend-for-you .product-item image{
-		width: 100%;
-		height: 350rpx;
-	}
-	.recommend-for-you .productPrice{
-		padding-left: 20rpx;
-		padding-right: 20rpx;
-	}
-	.recommend-for-you-productPrice{
-		padding-bottom: 20rpx;
-		border-bottom: 1rpx solid #eeeeee;
-	}
+	
 	
 	/* 底部定位 */
 	.consult-share-cart-addCart-shopNow {

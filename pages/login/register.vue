@@ -8,14 +8,16 @@
 				<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> 注册 </view>
 			</view>
 		</view>
-		
+
 		<view class="porduct-content" :style="[{'padding-top':menuBottom+10+'px'}]">
-			<porduct :porductList='productList'></porduct>
+			<porduct :width=350 :porductList='productList'></porduct>
 		</view>
-		
-		
-		
-		
+
+		<view class="porduct-list" >
+			<porduct :width= 240 :height=370 :crosswisePorduct='productImgList' ></porduct>	
+		</view>
+
+
 	</view>
 </template>
 
@@ -32,8 +34,9 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				productList: [
-					{
+				width:240,
+				height:370,
+				productList: [{
 						url: '../../static/images/20.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: ['眼部美容', '眼部'], //标签
@@ -41,7 +44,7 @@
 						userName: '用户昵称几个字',
 						like: 99, //点赞
 						price: 19800,
-						closed:'618钜惠',
+						closed: '618钜惠',
 						vipPrice: 18800,
 						subscribeAndGoodReputation: [{
 							subscribe: '441',
@@ -76,7 +79,38 @@
 							goodReputation: '98'
 						}],
 					},
-				]
+				],
+
+				productImgList: [{
+						id: 0,
+						url: '../../static/images/19.png',
+						content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
+						newPrice: '15800',
+						oldPrice: '19800',
+					},
+					{
+						id: 1,
+						url: '../../static/images/20.png',
+						content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
+						newPrice: '15800',
+						oldPrice: '19800',
+					},
+					{
+						id: 2,
+						url: '../../static/images/20.png',
+						content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
+						newPrice: '15800',
+						oldPrice: '19800',
+					},
+					{
+						id: 3,
+						url: '../../static/images/19.png',
+						content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
+						newPrice: '15800',
+						oldPrice: '19800',
+					},
+				],
+
 			}
 		},
 		onReady() {
@@ -103,7 +137,7 @@
 </script>
 
 <style scoped>
-.top-bar {
+	.top-bar {
 		color: #FFFFFF;
 		background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
 		text-align: center;
@@ -140,7 +174,14 @@
 		flex: 1;
 		margin-left: 80rpx;
 	}
-	.porduct-content{
+
+	.porduct-content {
 		background-color: #F6F6F6;
+		padding: 0 20rpx;
 	}
+	
+	.porduct-list{
+		padding: 20rpx;
+	}
+
 </style>

@@ -1,8 +1,10 @@
 <template>
 	<view class="goods_classify">
-		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
-		
-		
+		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth'
+		 :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber'
+		 :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
+
+
 		<view class="content" :style="[{'padding-top':menuBottom+52+'px'}]">
 			<!-- 左边导航条 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height +'rpx'">
@@ -12,7 +14,7 @@
 				</view>
 			</scroll-view>
 			<!-- 右边内容 -->
-			<scroll-view class="rightContent" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"  
+			<scroll-view class="rightContent" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"
 			 scroll-with-animation>
 				<view class="rightContentItem">
 					<view class="right-swiper" v-if="rightContentList.swiperList">
@@ -34,37 +36,15 @@
 						</view>
 
 						<view class="uni-tab-bar" v-if="rightContentList.newslist.length>0">
-							<swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'"  v-if="rightContentList.newslist.length>0" :current="tabIndex" @change="tabChange">
+							<swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'" v-if="rightContentList.newslist.length>0"
+							 :current="tabIndex" @change="tabChange">
 								<swiper-item v-for="(items,index) in rightContentList.newslist" :key="index">
 									<scroll-view scroll-y class="list">
 										<template v-if="items.list.length > 0">
 											<block>
 												<view class="detailed-goods" v-if="items.list.length > 1">
-													<view class="goodsList" v-for="(i,k) in items.list" :key='k' @tap="gotoGoods" :data-name="i.productContent">
-														<!-- 商品图片 -->
-														<view class="goods-image">
-															<image :src="i.url" mode=""></image>
-														</view>
-														<!-- 商品介绍 -->
-														<view class="productContent"> {{i.productContent}} </view>
-														<!-- 活动 -->
-														<view class="activity" v-if="i.activity.length>0 && i.label.length==0 ">
-															<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
-														</view>
-														<!-- 标签 -->
-														<view class="label" v-if="i.label.length>1">
-															<view class="labelItem" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
-														</view>
-														<!-- 商品价格 -->
-														<view class="productPrice"> ￥{{i.productPrice}} </view>
-														<!-- 预约和好评 -->
-														<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
-															<!-- 预约 -->
-															<view class="subscribe"> {{i.subscribe}}预约 </view>
-															<!-- 好评 -->
-															<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-														</view>
-													</view>
+													<porduct :width=260 :porductList='items.list'></porduct>
+
 
 													<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
 														{{i}}
@@ -75,11 +55,11 @@
 
 										</template>
 									</scroll-view>
-									
+
 								</swiper-item>
 							</swiper>
 						</view>
-						
+
 					</view>
 				</view>
 				{{rightContentList.content}}
@@ -92,16 +72,18 @@
 <script>
 	import topBar from "../../components/topBar.vue";
 	import swiperTabHead from "../../components/swiper-tab.vue";
+	import porduct from "../../components/porduct.vue";
 	export default {
 		components: {
 			topBar,
 			swiperTabHead,
+			porduct
 		},
 		data() {
 			return {
 				barName: 'mianPage', //页面名称
 				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				BarImgs: '../static/images/0.png', 
+				BarImgs: '../static/images/0.png',
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
@@ -143,7 +125,7 @@
 				line: false, //是否显示选中线
 				tabIndex: 0, // 选中的
 				swiperheight: 0, //高度
-				rightswiperHeight:0,//右边的滑动元素高度
+				rightswiperHeight: 0, //右边的滑动元素高度
 				newslist: [],
 			}
 		},
@@ -169,7 +151,6 @@
 		},
 		methods: {
 			categoryClickMain: function(id = "热门推荐", index = 0) {
-				// console.log(id, index)
 				this.btnnum = index
 				let current = this.leftList.find(item => item === id);
 				if (current === "热门推荐") {
@@ -184,49 +165,59 @@
 					]
 					this.rightContentList.swiperHeight = 210
 					this.rightContentList.newslist = [{
-							list: [{
-									url: '../../static/images/23.png',
-									productContent: '商品名称商品名称商品名称商品名称,超过阿萨德散户两黄金自动省略号',
-									activity: ['首单必减', '折扣'],
-									label: ['眼部美容', '眼部'],
-									productPrice: 19800,
+							list: [
+								{
+									url: '../../static/images/19.png',
+									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+									label: ['眼部美容','眼部'], //标签
+									headPortrait: '../../static/images/23.png', //头像
+									price: 19800,
+									closed:'闭馆特推',
+									activity: [],
+									vipPrice: 0,
 									subscribeAndGoodReputation: [{
 										subscribe: '441',
 										goodReputation: '98'
-									}]
+									}],
+												
 								},
 								{
-									url: '../../static/images/23.png',
-									productContent: '商品名称商品名称商品名称商品名称,超过阿萨德散户两黄金自动省略号',
-									activity: ['首单必减', '折扣'],
-									label: [],
-									productPrice: 19800,
+									url: '../../static/images/20.png',
+									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+									label: ['眼部美容','眼部'], //标签
+									headPortrait: '../../static/images/test.jpg', //头像
+									activity: [],
+									price: 19800,
 									subscribeAndGoodReputation: [{
 										subscribe: '441',
 										goodReputation: '98'
-									}]
+									}],
 								},
 								{
-									url: '../../static/images/23.png',
-									productContent: '商品名称商品名称商品名称商品名称,超过阿萨德散户两黄金自动省略号',
-									activity: ['首单必减', '折扣'],
-									label: [],
-									productPrice: 19800,
+									url: '../../static/images/19.png',
+									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+									label: [], //标签
+									headPortrait: '../../static/images/23.png', //头像
+									price: 19800,
+									closed:'闭馆特推',
+									activity: [],
 									subscribeAndGoodReputation: [{
 										subscribe: '441',
 										goodReputation: '98'
-									}]
+									}],
+								
 								},
 								{
-									url: '../../static/images/23.png',
-									productContent: '商品名称商品名称商品名称商品名称,超过阿萨德散户两黄金自动省略号',
+									url: '../../static/images/20.png',
+									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+									label: [], //标签
+									headPortrait: '../../static/images/test.jpg', //头像
 									activity: ['首单必减', '折扣'],
-									label: ['眼部美容', '眼部'],
-									productPrice: 19800,
+									price: 19800,
 									subscribeAndGoodReputation: [{
 										subscribe: '441',
 										goodReputation: '98'
-									}]
+									}],
 								},
 							]
 						},
@@ -241,9 +232,8 @@
 						},
 					]
 					this.rightContentList.content = current
-					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 520
+					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 550
 				} else {
-					// console.log(this.rightContentList, 11111)
 					this.rightContentList.swiperList = []
 					this.rightContentList.swiperHeight = 0
 					this.rightContentList.newslist = []
@@ -263,24 +253,20 @@
 
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index) {
-				// console.log(index,333333)
 				this.tabIndex = index;
-				if(this.tabIndex == 0){
-					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 520
-				}
-				else{
+				if (this.tabIndex == 0) {
+					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 550
+				} else {
 					this.rightswiperHeight = 0
 				}
-				
+
 			},
 			// 选中的内容
 			tabChange: function(e) {
 				this.tabIndex = e.detail.current;
-				// console.log(e,44444)
-				if(this.tabIndex == 0){
-					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 520
-				}
-				else{
+				if (this.tabIndex == 0) {
+					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 550
+				} else {
 					this.rightswiperHeight = 350
 				}
 			},
@@ -312,6 +298,7 @@
 		height: 100rpx;
 		line-height: 100rpx;
 		font-size: 24rpx;
+		width: 190rpx;
 	}
 
 	.btna {
@@ -329,107 +316,13 @@
 		padding-left: 10rpx;
 		padding-right: 20rpx;
 	}
-
-
-	.advertisingImg image {
-		width: 100%;
-		height: 210rpx;
-		border-radius: 24rpx;
-	}
-
-	.detailed-goods {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		width: 100%;
-		white-space: normal;
-	}
-	
 	.rightContentItem{
-		padding-top:10rpx ;
+		padding-top: 13rpx;
 	}
 	
-	.swiper-boxs{
-		padding-bottom: 20rpx;
+	.detailed-goods{
+		display: flex;
 	}
+
 	
-	.goodsList {
-		width: 260rpx;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		background-color: #FFFFFF;
-		border-radius: 24rpx;
-		margin-bottom: 20rpx;
-	}
-
-	.goods-image {
-		width: 100%;
-	}
-
-	.goods-image image {
-		width: 260rpx;
-		height: 260rpx;
-		border-top-right-radius: 24rpx;
-		border-top-left-radius: 24rpx;
-	}
-
-	.productContent {
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		overflow: hidden;
-		font-size: 24rpx;
-		color: #111111;
-		padding: 10rpx 10rpx 0;
-	}
-
-	.activity {
-		display: flex;
-		font-size: 16rpx;
-		color: #fa3475;
-		padding: 10rpx;
-		flex-wrap: wrap;
-	}
-
-	.activityName {
-		border: 1rpx solid #fa3475;
-		margin-right: 10rpx;
-		padding: 5rpx;
-	}
-
-	.label {
-		display: flex;
-		flex-wrap: wrap;
-		color: #FFFFFF;
-		font-size: 16rpx;
-		padding: 10rpx;
-	}
-
-	.labelItem {
-		background-color: #999999;
-		border-radius: 4rpx;
-		margin-right: 10rpx;
-		padding: 5rpx;
-		text-align: center;
-	}
-
-	.productPrice {
-		color: #fa3475;
-		font-size: 32rpx;
-		/* line-height: 80rpx; */
-	}
-
-	.subscribeAndGoodReputation {
-		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		font-size: 24rpx;
-		padding: 10rpx;
-	}
-
-	.goodReputation {
-		color: #fa3475;
-	}
 </style>

@@ -1,13 +1,14 @@
 {
   "pages": [
-    "pages/cart/cart",
     "pages/my/my",
+    "pages/login/register",
+    "pages/index/index",
+    "pages/cart/cart",
+    "pages/my/my_collection",
     "pages/login/login",
     "pages/doctor/doctor_detail",
-    "pages/index/index",
     "pages/diary/diary",
     "pages/goods/goods_detail",
-    "pages/login/register",
     "pages/goods/goods_classify",
     "pages/poster/poster",
     "pages/sign/sign",
@@ -17,12 +18,12 @@
     "pages/my/my_card",
     "pages/my/my_card_gain",
     "pages/my/my_card_use",
-    "pages/my/my_collection",
     "pages/my/my_order",
     "pages/my/my_order_detail",
     "pages/my/my_order_refund",
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
+    "pages/my/account_number",
     "pages/diary/diary_detail",
     "pages/diary/diary_video",
     "pages/search/search",
@@ -81,5 +82,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap26.json"
+  "sitemapLocation": "sitemap41.json"
 }

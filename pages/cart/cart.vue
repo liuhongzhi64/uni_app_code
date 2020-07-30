@@ -181,74 +181,8 @@
 				<scroll-view scroll-y class="recommend-to-you-list">
 					<template>
 						<view class="subject-content">
-							<!-- 左边 -->
-							<view class="left-product">
-								<view class="product-show" v-for="(i,k) in leftProduct" :key='k' :data-name="i.title" @tap="gotoGoods">
-									<view class="images">
-										<image :src="i.url" mode=""></image>
-									</view>
-									<view class="product-title"> {{i.title}} </view>
-									<view class="product-label" v-if="i.label.length>1">
-										<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
-									</view>
-									<view class="activity" v-if="i.activity.length>1">
-										<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
-									</view>
-									<view class="porduct-price-vip-cart">
-										<view class="porduct-price">
-											<text>￥</text>{{i.price}}
-										</view>
-										<view class="vip-cart-price" v-if="i.vipPrice>0">
-											<text class="vip-cart">钻卡</text>
-											<text class="vip-price">￥{{i.vipPrice}}</text>
-										</view>
-									</view>
-									<!-- 预约和好评 -->
-									<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
-										<view class="subscribe-goodReputation">
-											<!-- 预约 -->
-											<view class="subscribe"> {{i.subscribe}}预约 </view>
-											<!-- 好评 -->
-											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-										</view>
-									</view>
-								</view>
-
-							</view>
-							<!-- 右边 -->
-							<view class="right-product">
-								<view class="product-show" v-for="(i,k) in rightProduct" :key='k' :data-name="i.title" @tap="gotoGoods">
-									<view class="images">
-										<image :src="i.url" mode=""></image>
-									</view>
-									<view class="product-title"> {{i.title}} </view>
-									<view class="product-label" v-if="i.label.length>1">
-										<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
-									</view>
-									<view class="activity" v-if="i.activity.length>1">
-										<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
-									</view>
-									<view class="porduct-price-vip-cart">
-										<view class="porduct-price">
-											<text>￥</text>{{i.price}}
-										</view>
-										<view class="vip-cart-price" v-if="i.vipPrice>0">
-											<text class="vip-cart">钻卡</text>
-											<text class="vip-price">￥{{i.vipPrice}}</text>
-										</view>
-									</view>
-									<!-- 预约和好评 -->
-									<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
-										<view class="subscribe-goodReputation">
-											<!-- 预约 -->
-											<view class="subscribe"> {{i.subscribe}}预约 </view>
-											<!-- 好评 -->
-											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-										</view>
-									</view>
-
-								</view>
-							</view>
+							<porduct :width = 350  :porductList='productLists'  ></porduct>
+							
 						</view>
 					</template>
 				</scroll-view>
@@ -258,7 +192,11 @@
 </template>
 
 <script>
+	import porduct from "../../components/porduct.vue";
 	export default {
+		components: {
+			porduct
+		},
 		props: {
 			cartNumber: {
 				type: Number,
@@ -292,19 +230,21 @@
 						url: '../../static/images/18.png'
 					},
 				],
-				leftProduct: [{
+				productLists: [
+					{
 						url: '../../static/images/19.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
 						headPortrait: '../../static/images/23.png', //头像
 						price: 19800,
+						closed:'闭馆特推',
 						activity: [],
 						vipPrice: 0,
 						subscribeAndGoodReputation: [{
 							subscribe: '441',
 							goodReputation: '98'
 						}],
-
+				
 					},
 					{
 						url: '../../static/images/20.png',
@@ -319,31 +259,29 @@
 							goodReputation: '98'
 						}],
 					},
-
-				],
-				rightProduct: [{
-						url: '../../static/images/20.png',
+					{
+						url: '../../static/images/19.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: ['眼部美容', '眼部'], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						userName: '用户昵称几个字',
-						like: 99, //点赞
+						label: [], //标签
+						headPortrait: '../../static/images/23.png', //头像
 						price: 19800,
-						vipPrice: 18800,
+						closed:'闭馆特推',
+						activity: [],
+						vipPrice: 0,
 						subscribeAndGoodReputation: [{
 							subscribe: '441',
 							goodReputation: '98'
 						}],
+					
 					},
 					{
-						url: '../../static/images/19.png',
+						url: '../../static/images/20.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: ['眼部美容', '眼部'], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						userName: '用户昵称几个字',
-						like: 99, //点赞
+						label: [], //标签
+						headPortrait: '../../static/images/test.jpg', //头像
+						activity: ['首单必减', '折扣'],
 						price: 19800,
-						vipPrice: 0,
+						vipPrice: 18800,
 						subscribeAndGoodReputation: [{
 							subscribe: '441',
 							goodReputation: '98'
@@ -560,15 +498,7 @@
 				}
 				
 			},
-			
-			// 点击商品
-			gotoGoods: function(e) {
-				let goods = e.currentTarget.dataset.name
-				uni.navigateTo({
-					url: `/pages/goods/goods_detail?goods=${goods}`,
-				})
-			},
-	
+				
 		}
 	}
 </script>
@@ -769,133 +699,6 @@
 		padding-bottom: 20rpx;
 	}
 
-	.left-product,
-	.right-product {
-		width: 350rpx;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.product-show {
-		display: flex;
-		justify-content: space-around;
-		flex-direction: column;
-		background-color: #FFFFFF;
-		white-space: normal;
-		border-radius: 16rpx;
-		margin-top: 20rpx;
-		padding-bottom: 20rpx;
-	}
-
-	.images image {
-		width: 350rpx;
-		height: 350rpx;
-		border-top-left-radius: 16rpx;
-		border-top-right-radius: 16rpx;
-	}
-
-	.product-title {
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		font-size: 24rpx;
-		padding: 0 20rpx;
-	}
-
-	.product-label {
-		display: flex;
-		color: #FFFFFF;
-		font-size: 16rpx;
-		padding: 20rpx 20rpx 0;
-	}
-
-	.label-name {
-		background-color: #999999;
-		text-align: center;
-		padding: 5rpx 10rpx;
-		margin-right: 10rpx;
-		border-radius: 4rpx;
-	}
-
-	.activity {
-		display: flex;
-		font-size: 16rpx;
-		color: #fa3475;
-		padding: 20rpx 20rpx 0;
-		flex-wrap: wrap;
-	}
-
-	.activityName {
-		border: 1rpx solid #fa3475;
-		margin-right: 10rpx;
-		padding: 5rpx;
-	}
-
-	.porduct-price-vip-cart {
-		display: flex;
-		align-items: center;
-		padding-top: 20rpx;
-	}
-
-	.porduct-price {
-		color: #fa3475;
-		font-size: 32rpx;
-		padding-left: 20rpx;
-		padding-right: 20rpx;
-	}
-
-	.porduct-price text {
-		font-size: 24rpx;
-	}
-
-	.vip-cart-price {
-		display: flex;
-		align-items: center;
-	}
-
-	.vip-cart {
-		background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
-		font-size: 16rpx;
-		padding: 7rpx 10rpx;
-		line-height: 20rpx;
-		text-align: center;
-		color: #fefefe;
-		border-top-left-radius: 8rpx;
-		border-bottom-left-radius: 8rpx;
-	}
-
-	.vip-price {
-		font-size: 20rpx;
-		color: #282828;
-		padding: 4rpx 8rpx;
-		line-height: 20rpx;
-		text-align: center;
-		border: 1rpx solid #282828;
-		border-top-right-radius: 10rpx;
-		border-bottom-right-radius: 10rpx;
-	}
-
-	.subscribeAndGoodReputation {
-		font-size: 24rpx;
-		padding: 20rpx 20rpx 0;
-	}
-
-	.subscribe-goodReputation {
-		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		border-top: 1rpx solid #EEEEEE;
-		padding: 20rpx 0 0;
-	}
-
-	.subscribe {
-		color: #CCCCCC;
-	}
-
-	.goodReputation {
-		color: #fa3475;
-	}
 
 	.product-to-nav {
 		display: flex;

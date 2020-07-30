@@ -132,7 +132,7 @@
 				<scroll-view scroll-y class="topList">
 					<template>
 						<view class="subject-content">
-							<porduct :porductList='productList'></porduct>
+							<porduct :width=350 :porductList='productList' ></porduct>
 						</view>
 					</template>
 				</scroll-view>

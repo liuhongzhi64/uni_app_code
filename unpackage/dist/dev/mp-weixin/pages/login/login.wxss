@@ -1,0 +1,227 @@
+
+.login.data-v-b237504c,.weichat-login.data-v-b237504c{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	background-color: #F6F6F6;
+}
+.login .login-top.data-v-b237504c {
+	color: #FFFFFF;
+	background-image: -webkit-linear-gradient(left, #ff6699 0%, #fa3475 100%);
+	background-image: linear-gradient(90deg, #ff6699 0%, #fa3475 100%);
+	text-align: center;
+	font-size: 40rpx;
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	padding-bottom: 100rpx;
+}
+.weichat-login .login-top.data-v-b237504c{
+	text-align: center;
+}
+.back-title.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 38rpx;
+	width: 100%;
+}
+.back.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	margin-left: 20rpx;
+	width: 60rpx;
+	height: 100%;
+}
+.back image.data-v-b237504c {
+	width: 36rpx;
+	height: 36rpx;
+}
+.title-compile.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 38rpx;
+}
+.title-compile .compile.data-v-b237504c {
+	font-size: 24rpx;
+}
+.title.data-v-b237504c {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.advertising.data-v-b237504c {
+	width: 509rpx;
+	height: 212rpx;
+	box-shadow: 3rpx 4rpx 0rpx 0rpx gba(101, 101, 101, 0.25);
+	text-align: center;
+	line-height: 212rpx;
+}
+.login-input.data-v-b237504c {
+	padding: 0 45rpx 100rpx;
+}
+.login-message.data-v-b237504c {
+	background-color: #FFFFFF;
+	padding: 72rpx 45rpx;
+	margin-top: -20rpx;
+	border-radius: 24rpx;
+	box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.16);
+}
+.phone.data-v-b237504c {
+	border-bottom: 2rpx solid #e0e0e0;
+	padding: 20rpx 0;
+}
+.phone input.data-v-b237504c {
+	padding-left: 10rpx;
+}
+.phone-hint.data-v-b237504c {
+	font-size: 20rpx;
+	line-height: 34rpx;
+	color: #de0a0a;
+	padding: 15rpx 8rpx;
+}
+.graphic-code.data-v-b237504c,
+.verification-code.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.graphic-code input.data-v-b237504c,
+.verification-code input.data-v-b237504c {
+	margin-right: 30rpx;
+	padding-bottom: 15rpx;
+	border-bottom: 2rpx solid #e0e0e0;
+}
+.graphic.data-v-b237504c {
+	width: 200rpx;
+	height: 70rpx;
+	line-height: 70rpx;
+	background-color: #EEEEEE;
+	text-align: center;
+	border: 0;
+}
+.verification-code.data-v-b237504c {
+	margin-top: 40rpx;
+}
+.verification.data-v-b237504c {
+	width: 200rpx;
+	height: 70rpx;
+	border-radius: 35rpx;
+	line-height: 70rpx;
+	font-size: 24rpx;
+	color: #fa3475;
+	border: solid 2rpx #fa3475;
+	text-align: center;
+}
+.go-login.data-v-b237504c {
+	height: 80rpx;
+	line-height: 80rpx;
+	margin-top: 70rpx;
+	text-align: center;
+	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
+	border-radius: 40rpx;
+	font-size: 28rpx;
+	color: #ffffff;
+	border: 0;
+}
+.no-have-code-content.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: reverse;
+	-webkit-flex-direction: row-reverse;
+	        flex-direction: row-reverse;
+	margin-top: 40rpx;
+	padding-right: 35rpx;
+}
+.no-have-code.data-v-b237504c {
+	font-size: 24rpx;
+	color: #fa3475;
+}
+.agreement.data-v-b237504c {
+	position: fixed;
+	width: 100%;
+	text-align: center;
+	bottom: 44rpx;
+	font-size: 24rpx;
+}
+.agreement text.data-v-b237504c {
+	color: #fa3475;
+}
+.advertising-images.data-v-b237504c{
+	padding-top: 233rpx;
+	padding-bottom: 264rpx;
+	/* background-color: #FFFFFF; */
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.advertising-images image.data-v-b237504c{
+	width: 168rpx;
+	height: 168rpx;
+	box-shadow: 0rpx 0rpx 9rpx 0rpx  rgba(108, 108, 108, 0.26);	
+	-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255,255,255,0.3) 0%, transparent 40%, transparent 100%);
+}
+.go-weichat-login-btn.data-v-b237504c{
+	padding: 0 30rpx 44rpx;
+}
+.go-weichat-login.data-v-b237504c{
+	width: 690rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	background-color: #09bb07;
+	border-radius: 44rpx;
+	border: solid 1rpx #029400;
+	color: #ffffff;
+	font-size: 32rpx;
+}
+.phone-login-and-register.data-v-b237504c{
+	font-size: 24rpx;
+	text-align: center;
+}
+
+
+

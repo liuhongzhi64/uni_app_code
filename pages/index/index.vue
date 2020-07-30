@@ -137,12 +137,8 @@
 								<!-- 签到红包 -->
 								<view class="signIn-red-packet" v-if="item.redPacketList">
 									<view class="sign-in-red-packet">
-										<view class="title">
-											每日签到
-										</view>
-										<view class="red-packet">
-											即可领取 <text>现金红包</text>等大奖
-										</view>
+										<view class="title"> 每日签到 </view>
+										<view class="red-packet"> 即可领取 <text>现金红包</text>等大奖 </view>
 									</view>
 
 									<!-- 红包 -->
@@ -203,42 +199,11 @@
 				<view class="all" v-if="setTimeOk">
 					全部 >
 				</view>
-
 			</view>
 
 			<!-- 图片商品 -->
 			<view class="productImg">
-				<scroll-view class="productImgY" scroll-x="true" @scroll="scroll" scroll-left="0">
-					<view id="productImg" class="productImgs" v-for="(i,k) in productImgList" :key='k' :data-name="i.content" @tap="gotoGoods">
-						<view :id="'productImg'+k" class="productItems">
-							<!-- 图片 -->
-							<view class="Imgs"> <image :src="i.url" mode=""></image> </view>
-
-							<!-- 内容 -->
-							<view class="productContent"> {{i.content}} </view>
-
-							<!-- 价格 -->
-							<view class="prouctPrice">
-								<view class="newprice"> <text>￥</text> {{i.newPrice}}</view>
-								<view class="oldPrice"> <text>￥</text> {{i.oldPrice}} </view>
-							</view>
-
-							<!-- 剩余商品（库存） -->
-							<view class="residueProduct" v-if="i.residueProduct>0">
-								剩余{{i.residueProduct}}件
-							</view>
-							<view class="residueProduct" v-if="i.residueProduct<=0">
-								正在备货...
-							</view>
-						</view>
-					</view>
-
-					<view class="seeAll">
-						<view class="all">
-							查看更多>
-						</view>
-					</view>
-				</scroll-view>
+				<porduct :width= 240 :height=370 :crosswisePorduct='productImgList'   ></porduct>	
 			</view>
 
 		</view>
@@ -255,32 +220,8 @@
 							<template v-if="items.list.length > 0">
 								<block>
 									<view class="recommenListItem">
-										<view class="recommenList" v-for="(i,k) in items.list" :key="k" v-if="items.list.length>1" :data-name="i.productName"
-										 @tap="gotoGoods">
-											<view class="recommenImg" v-if="i.url">
-												<image :src="i.url" mode=""></image>
-											</view>
-											<view class="productName" v-if="i.productName">
-												<text class="closed" v-if="i.closed">闭馆特推</text> {{i.productName}}
-											</view>
-											<view class="label" v-if="i.labelList.length > 0">
-												<view class="labelListItem" v-for="(i,k) in i.labelList" :key="k">
-													{{i}}
-												</view>
-											</view>
-											<view class="productPrice" v-if="i.productPrice">
-												<text>￥</text> {{i.productPrice}}
-											</view>
-											<view class="subscribeAndGoodReputation" v-if="i.subscribe&&i.goodReputation">
-												<view class="subscribe">
-													{{i.subscribe}}预约
-												</view>
-												<view class="goodReputation">
-													{{i.goodReputation}}%好评
-												</view>
-											</view>
-										</view>
-
+										<porduct :porductList='items.list' :width=350 v-if="items.list.length>1"></porduct>
+										
 										<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
 											{{i}}
 										</view>
@@ -308,11 +249,13 @@
 	import topBar from "../../components/topBar.vue";
 	import swiperTabHead from "../../components/swiper-tab.vue";
 	import swiperDot from "../../components/swperDot.vue";
+	import porduct from "../../components/porduct.vue";
 	export default {
 		components: {
 			swiperTabHead,
 			swiperDot,
-			topBar
+			topBar,
+			porduct
 		},
 		data() {
 			return {
@@ -673,48 +616,64 @@
 					},
 				],
 				newslist: [{
-						list: [{
-								url: '../../static/images/19.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: true,
-								labelList: [] //标签
-							},
-							{
-								url: '../../static/images/20.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
-								labelList: ['眼部美容', '眼部'] //标签
-							},
+						list: [
 							{
 								url: '../../static/images/19.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
+								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+								label: [], //标签
+								headPortrait: '../../static/images/23.png', //头像
+								price: 19800,
+								closed:'闭馆特推',
+								activity: [],
+								vipPrice: 0,
+								subscribeAndGoodReputation: [{
+									subscribe: '441',
+									goodReputation: '98'
+								}],
+							
 							},
 							{
 								url: '../../static/images/20.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
+								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+								label: ['眼部美容','眼部'], //标签
+								headPortrait: '../../static/images/test.jpg', //头像
+								activity: ['首单必减', '折扣'],
+								price: 19800,
+								vipPrice: 18800,
+								subscribeAndGoodReputation: [{
+									subscribe: '441',
+									goodReputation: '98'
+								}],
 							},
 							{
 								url: '../../static/images/20.png',
-								productName: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-								productPrice: '19800', //价格
-								subscribe: 477, //预约
-								goodReputation: '98', //好评
-								closed: false,
+								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+								label: [], //标签
+								headPortrait: '../../static/images/test.jpg', //头像
+								activity: ['首单必减', '折扣'],
+								price: 19800,
+								vipPrice: 18800,
+								subscribeAndGoodReputation: [{
+									subscribe: '441',
+									goodReputation: '98'
+								}],
 							},
+							{
+								url: '../../static/images/19.png',
+								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+								label: [], //标签
+								headPortrait: '../../static/images/23.png', //头像
+								price: 19800,
+								closed:'618特惠',
+								activity: [],
+								vipPrice: 0,
+								subscribeAndGoodReputation: [{
+									subscribe: '441',
+									goodReputation: '98'
+								}],
+							
+							},
+							
 						]
 					},
 					{
@@ -745,7 +704,7 @@
 				}
 			})
 			setTimeout(() => {
-				that.swiperheight = Math.ceil(that.newslist[0].list.length / 2) * 550
+				that.swiperheight = Math.ceil(that.newslist[0].list.length / 2) * 750
 			}, 1000)
 
 		},
@@ -1063,7 +1022,7 @@
 		display: flex;
 		line-height: 60rpx;
 		font-size: 32rpx;
-		padding-left: 20rpx;
+		/* padding-left: 20rpx; */
 		background-color: #FFFFFF;
 	}
 
@@ -1102,7 +1061,7 @@
 		height: 92rpx;
 		background-color: #ffbea7;
 		border-radius: 10rpx;
-		margin-left: 20rpx;
+		margin-right: 20rpx;
 	}
 
 	.pitchOn {
@@ -1233,10 +1192,15 @@
 	.countDown {
 		display: flex;
 		justify-content: space-between;
-		padding: 0 60rpx;
+		padding: 0 40rpx;
 		font-size: 25rpx;
 		text-align: center;
 		line-height: 60rpx;
+	}
+	
+	.productImg{
+		padding-bottom: 40rpx;
+		padding-left: 40rpx;margin-top: -10rpx;
 	}
 
 	.timeTitle-time {
@@ -1290,100 +1254,6 @@
 	}
 
 
-	/* 图片商品 */
-
-	.productImgY {
-		width: 100%;
-		height: 420rpx;
-		overflow: hidden;
-		white-space: nowrap;
-	}
-
-	.productImgs {
-		display: inline-block;
-		width: 240rpx;
-		height: 370rpx;
-		font-size: 20rpx;
-		margin-right: 30rpx;
-	}
-
-	.Imgs image {
-		width: 240rpx;
-		height: 240rpx;
-	}
-
-	/* 商品 */
-	.productItems {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-between;
-		padding: 20rpx;
-		width: 240rpx;
-		white-space: normal;
-	}
-
-	.productContent {
-		width: 220rpx;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		overflow: hidden;
-		color: #2e2e2e;
-	}
-
-	.productItems {
-		padding:0 20rpx 20rpx;
-		border: 2rpx solid #FFFFFF;
-	}
-
-	.productItems image {
-		width: 240rpx;
-		height: 240rpx;
-	}
-
-	.prouctPrice {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		padding: 10rpx 20rpx 0 0;
-	}
-
-	.residueProduct {
-		text-align: center;
-	}
-	.prouctPrice text{
-		font-size: 20rpx;
-	}
-
-	.newprice {
-		color: #EF6174;
-		font-size: 30rpx;
-		margin-right: 13rpx;
-	}
-
-	.oldPrice {
-		text-decoration: line-through;
-		line-height: 30rpx;
-	}
-
-	.seeAll {
-		display: inline-block;
-		text-align: center;
-		font-size: 40rpx;
-		width: 240rpx;
-		height: 360rpx;
-		background-color: #F2F2F2;
-		margin-left: 20rpx;
-		position: absolute;
-	}
-
-	.seeAll .all {
-		font-weight: bolder;
-		position: relative;
-		top: 130rpx;
-		color: #2e2e2e;
-	}
 
 	/* 导航条 */
 	.customTab {
@@ -1406,84 +1276,7 @@
 		padding: 10rpx 20rpx ;
 	}
 
-	.recommenList {
-		width: 350rpx;
-		background-color: #ffffff;
-		display: flex;
-		flex-direction: column;
-		border-radius: 24rpx;
-		margin-top: 10rpx;
-	}
-
-	.recommenList {
-		font-size: 24rpx;
-	}
-
-	.recommenList image {
-		width: 350rpx;
-		height: 350rpx;
-		border-radius: 24rpx;
-	}
-
-	.productName {
-		font-size: 24rpx;
-		padding: 0 20rpx;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-	}
-
-	.closed {
-		color: #FFFFFF;
-		display: inline-block;
-		width: 84rpx;
-		height: 26rpx;
-		font-size: 18rpx;
-		background-color: #b60114;
-		border-radius: 4rpx;
-		text-align: center;
-		padding: 0 5rpx;
-	}
-
-	.label {
-		display: flex;
-		padding: 10rpx 20rpx;
-	}
-
-	.labelListItem {
-		background-color: #999999;
-		height: 26rpx;
-		border-radius: 4rpx;
-		color: #ffffff;
-		font-size: 16rpx;
-		margin-right: 10rpx;
-		padding: 5rpx 10rpx;
-	}
-
-	.productPrice {
-		color: #fa3475;
-		font-size: 32rpx;
-		padding: 0 20rpx;
-	}
-	.productPrice text{
-		font-size: 20rpx;
-	}
-
-	.subscribeAndGoodReputation {
-		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		padding: 0 20rpx;
-	}
-
-	.subscribe {
-		color: #666666;
-	}
-
-	.goodReputation {
-		color: #fa3475;
-	}
+	
 
 	.swiper-boxs {
 		padding-bottom: 20rpx;

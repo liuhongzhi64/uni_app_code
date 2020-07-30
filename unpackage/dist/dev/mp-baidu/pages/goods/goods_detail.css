@@ -920,21 +920,6 @@
 	-webkit-flex-wrap: wrap;
 	        flex-wrap: wrap;
 }
-.recommend-for-you .recommenImg.data-v-098a7e2c{
-	width: 100%;
-}
-.recommend-for-you .product-item image.data-v-098a7e2c{
-	width: 100%;
-	height: 350rpx;
-}
-.recommend-for-you .productPrice.data-v-098a7e2c{
-	padding-left: 20rpx;
-	padding-right: 20rpx;
-}
-.recommend-for-you-productPrice.data-v-098a7e2c{
-	padding-bottom: 20rpx;
-	border-bottom: 1px solid #eeeeee;
-}
 
 /* 底部定位 */
 .consult-share-cart-addCart-shopNow.data-v-098a7e2c {

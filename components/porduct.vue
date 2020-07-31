@@ -55,28 +55,42 @@
 			</view>
 		</view>
 
-		<view class="crosswise-porduct" v-if="crosswisePorduct">
+		<view class="crosswise-porduct" v-if="crosswisePorduct" >
 			<scroll-view class="product-items" scroll-x="true" :style="[{'height':height+'rpx'}]">
 				<view class="product-item-content">
 					<view class="productImgs" v-for="(i,k) in crosswisePorduct" :key='k' :data-name="i.content" @tap="gotoGoods">
-						<view :id="'productImg'+k" class="productItems">
+						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
 							<!-- 图片 -->
 							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
 								<image :src="i.url" mode=""></image>
 							</view>
 							<!-- 内容 -->
 							<view class="productContent"> {{i.content}} </view>
+							<view class="product-label" v-if="i.label.length>1">
+								<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
+							</view>
+							<view class="activity" v-if="i.activity.length>1">
+								<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+							</view>
 							<!-- 价格 -->
 							<view class="prouctPrice" v-if="i.newPrice">
 								<view class="newprice"> <text>￥</text> {{i.newPrice}}</view>
-								<view class="oldPrice"> <text>￥</text> {{i.oldPrice}} </view>
+								<view class="oldPrice" v-if="i.oldPrice"> <text>￥</text> {{i.oldPrice}} </view>
 							</view>
-							
+							<!-- 预约和好评 -->
+							<view class="subscribeAndGoodReputation"  v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
+								<view class="subscribe-goodReputation" style="padding-top: 10rpx;padding-bottom: 17rpx;">
+									<!-- 预约 -->
+									<view class="subscribe"> {{i.subscribe}}预约 </view>
+									<!-- 好评 -->
+									<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
+								</view>
+							</view>
 						</view>
 					</view>
 					<view class="see-all" > 
 					
-					<view class="all" :style="[{'height':height+'rpx','width':width+'rpx','line-height':height+'rpx'}]"> 查看更多>  </view>
+					<view class="all" style="background-color: #FFFFFF;" :style="[{'height':height+'rpx','width':width+'rpx','line-height':height+'rpx'}]"> 查看更多>  </view>
 					</view>
 				</view>
 			</scroll-view>
@@ -165,6 +179,10 @@
 		font-size: 16rpx;
 		padding: 20rpx 20rpx 0;
 	}
+	
+	.crosswise-porduct .product-label{
+		padding: 10rpx 20rpx 0;
+	}
 
 	.label-name {
 		background-color: #999999;
@@ -231,12 +249,17 @@
 		border-top-right-radius: 10rpx;
 		border-bottom-right-radius: 10rpx;
 	}
-
+	
 	.subscribeAndGoodReputation {
 		font-size: 24rpx;
 		padding: 20rpx 20rpx 0;
 	}
-
+	
+	.crosswise-porduct .subscribeAndGoodReputation{
+		width: 90%;
+		/* padding: 0 10rpx; */
+	}
+	
 	.subscribe-goodReputation {
 		display: flex;
 		justify-content: space-between;
@@ -338,7 +361,7 @@
 	
 	.product-item-content {
 		display: flex;
-		align-items: center;
+		/* align-items: center; */
 		width: 100%;
 		height: 100%;
 	}
@@ -346,6 +369,7 @@
 	.productItems {
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 		align-items: center;
 		height: 100%;
 		white-space: normal;

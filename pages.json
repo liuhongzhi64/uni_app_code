@@ -2,42 +2,32 @@
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		
 		{
+			"path": "pages/confirm_order/no_refund", //不可线上退款
+			"style": {}
+		},
+		{
+			"path": "pages/my/account_number", //账号管理
+			"style": {}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
-				// "navigationBarTitleText": "整呗"
 				"enablePullDownRefresh": true
 			}
 		},
+		
 		{
-			"path": "pages/my/my", //我的
+			"path": "pages/cart/cart", //购物车
+			"style": {}
+		},	
+		{
+			"path": "pages/login/login", //登录
 			"style": {}
 		},
 		{
 			"path": "pages/login/register", //登录
 			"style": {}
 		},
-
-		
-
-		{
-			"path": "pages/cart/cart", //购物车
-			"style": {}
-		},
-
-		{
-			"path": "pages/my/my_collection", //我的收藏
-			"style": {}
-		},
-		{
-			"path": "pages/login/login", //登录
-			"style": {}
-		},
-
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
-
 		{
 			"path": "pages/diary/diary", //日记
 			"style": {}
@@ -63,12 +53,18 @@
 			"path": "pages/doctor/doctor", //医生
 			"style": {}
 		},
-
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		},
 		{
 			"path": "pages/doctor/doctor_star", //拜托了医生
 			"style": {}
 		},
-
+		{
+			"path": "pages/my/my", //我的
+			"style": {}
+		},
 		{
 			"path": "pages/my/after_sales", //退换/售后
 			"style": {}
@@ -82,7 +78,10 @@
 			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}
 		},
-
+		{
+			"path": "pages/my/my_collection", //我的收藏
+			"style": {}
+		},
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
@@ -99,11 +98,7 @@
 		{
 			"path": "pages/my/my_order_refund_reason", //退款原因
 			"style": {}
-		},
-		{
-			"path": "pages/my/account_number", //账号管理
-			"style": {}
-		},
+		},		
 
 		{
 			"path": "pages/diary/diary_detail", //日记详情（图文）
@@ -150,10 +145,7 @@
 		}
 	],
 	"globalStyle": {
-		// "navigationBarTextStyle": "black",
-		// "navigationBarTitleText": "整呗",
-		// "navigationBarBackgroundColor": "#F8F8F8",
-		// "backgroundColor": "#F8F8F8",
+		
 		"renderingMode": "seperated",
 		"navigationStyle": "custom" //取消头部导航条
 	},

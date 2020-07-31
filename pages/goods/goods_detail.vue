@@ -75,9 +75,7 @@
 					<text class="label-name"> 618特惠 </text>
 					<text> 我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,我是商品名,</text>
 				</view>
-				<view class="get-coupon">
-					【领取】新客领券减30元！【满12800元送】价值239元HB（2片装）面膜一盒！满36800元送】价值980元华桑保利（5片装）面膜一盒；【满12800元送】价
-					  值239元HB（2片装）面膜一盒！<text>查看></text>
+				<view class="get-coupon">【领取】新客领券减30元！【满12800元送】价值239元HB（2片装）面膜一盒！满36800元送】价值980元华桑保利（5片装）面膜一盒；【满12800元送】价 值239元HB（2片装）面膜一盒！<text>查看></text>
 				</view>
 			</view>
 
@@ -109,44 +107,7 @@
 					<view class="line"></view> 相关商品
 				</view>
 				<view class="related-products-item">
-					<scroll-view class="related-products-items" scroll-x="true">
-						<view class="related-products-centent">
-							<view id="product-item" class="product-item" v-for="(i,k) in productList" :key='k' :data-name="i.content" @tap="gotoGoods">
-								<!-- 图片 -->
-								<view class="recommenImg" v-if="i.url">
-									<image :src="i.url" mode=""></image>
-								</view>
-								<!-- 商品名称 -->
-								<view class="productName" v-if="i.content">
-									<view class="product-item-content">
-										<text class="closed" v-if="i.closed">618特惠</text> {{i.content}}
-									</view>
-								</view>
-								<!-- 标签 -->
-								<view class="label" v-if="i.labelList.length > 0">
-									<view class="labelListItem" v-for="(i,k) in i.labelList" :key="k">
-										{{i}}
-									</view>
-								</view>
-								<!-- 商品价格 -->
-								<view class="productPrice" v-if="i.productPrice">
-									￥{{i.productPrice}}
-								</view>
-								<!-- 预约和好评 -->
-								<view class="subscribeAndGoodReputation" v-if="i.subscribe&&i.goodReputation">
-									<!-- 预约 -->
-									<view class="subscribe">
-										{{i.subscribe}}预约
-									</view>
-									<!-- 好评 -->
-									<view class="goodReputation">
-										{{i.goodReputation}}%好评
-									</view>
-								</view>
-							</view>
-						</view>
-						
-					</scroll-view>
+					<porduct :width= 260 :height=490 :crosswisePorduct='productList'   ></porduct>
 				</view>
 			</view>
 
@@ -191,7 +152,7 @@
 			<view class="related-diary">
 				<view class="diary-top">
 					<view class="related-title"> <view class="line"></view> 相关日记 </view>
-					<view class="diary-more"> 查看全部 》 </view>
+					<view class="diary-more"> 查看全部 > </view>
 				</view>
 				<view class="diary-recommend">
 					<view class="diary-head-portrait">
@@ -217,7 +178,7 @@
 			<view class="questions-answers">
 				<view class="diary-top">
 					<view class="related-title"> <view class="line"></view> 问答 </view>
-					<view class="diary-more"> 更多 》 </view>
+					<view class="diary-more"> 更多 > </view>
 				</view>
 				<view class="questions-answers-item" v-for="(i,k) in questionsAnswersList" :key="k">
 					<view class="questions-and-content">
@@ -467,29 +428,35 @@
 					{
 						url: '../../static/images/19.png',
 						content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-						productPrice: '19800', //价格
-						subscribe: 477, //预约
-						goodReputation: '98', //好评
-						closed: false,
-						labelList: [] //标签
+						newPrice: '19800', //价格
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+						closed: '',
+						label: [] //标签
 					},
 					{
 						url: '../../static/images/20.png',
 						content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-						productPrice: '19800', //价格
-						subscribe: 477, //预约
-						goodReputation: '98', //好评
-						closed: false,
-						labelList: ['眼部美容', '眼部'] //标签
+						newPrice: '19800', //价格
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+						closed:'闭馆特推',
+						label: ['眼部美容', '眼部'] //标签
 					},
 					{
 						url: '../../static/images/20.png',
 						content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-						productPrice: '19800', //价格
-						subscribe: 477, //预约
-						goodReputation: '98', //好评
-						closed: true,
-						labelList: ['眼部美容', '眼部'] //标签
+						newPrice: '19800', //价格
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+						closed: '',
+						label: ['眼部美容', '眼部'] //标签
 					},
 				],//相关商品
 				productLists: [
@@ -894,6 +861,7 @@
 		font-size: 20rpx;
 		color: #999999;
 		line-height: 30rpx;
+		text-indent: -10rpx;
 	}
 	
 	.get-coupon text{
@@ -1212,6 +1180,8 @@
 		font-size: #111111;
 		font-size: 24rpx;
 		line-height:40rpx;
+		margin-top: 20rpx;
+		font-weight: lighter;
 	}
 	.userinfo{
 		display: flex;
@@ -1331,6 +1301,7 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;
+		font-weight: lighter;
 	}
 	.effect-picture{
 		display: flex;

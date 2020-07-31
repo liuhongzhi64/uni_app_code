@@ -245,7 +245,7 @@
 	height: 92rpx;
 	background-color: #ffbea7;
 	border-radius: 10rpx;
-	/* margin-left: 20rpx; */
+	margin-right: 20rpx;
 }
 .pitchOn.data-v-57280228 {
 	width: 82rpx;
@@ -387,7 +387,7 @@
 }
 .productImg.data-v-57280228{
 	padding-bottom: 40rpx;
-	padding-left: 40rpx;
+	padding-left: 40rpx;margin-top: -10rpx;
 }
 .timeTitle-time.data-v-57280228 {
 	display: -webkit-box;

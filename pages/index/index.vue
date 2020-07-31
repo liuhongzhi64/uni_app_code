@@ -309,7 +309,7 @@
 									},
 									{
 										id: 1,
-										url: '../../static/images/20.png',
+										url: '../../static/images/0.png',
 										name: '闭馆主会场02',
 									},
 								],
@@ -552,7 +552,7 @@
 						]
 					},
 				],
-				pH: 0,
+
 				tabBars: [{
 						name: '精选',
 						content: '猜你喜欢',

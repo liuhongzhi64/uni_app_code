@@ -165,6 +165,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -175,8 +181,8 @@ var _default =
       menuLeft: 0,
       menuBottom: 0,
       menuPaddingRight: 0,
-      height: 0 };
-
+      height: 0,
+      hintShow: false };
 
   },
   onReady: function onReady() {
@@ -184,7 +190,7 @@ var _default =
     // 获取屏幕高度
     uni.getSystemInfo({
       success: function success(res) {
-        that.height = res.windowHeight;
+        that.height = res.screenHeight;
         console.log(res);
         var menu = uni.getMenuButtonBoundingClientRect();
         that.menuWidth = menu.width;
@@ -202,6 +208,16 @@ var _default =
       uni.navigateBack({
         delta: 1 });
 
+    },
+    logout: function logout() {var _this = this;
+      this.hintShow = !this.hintShow;
+      setTimeout(function () {
+        _this.setHint();
+      }, 3000);
+
+    },
+    setHint: function setHint() {
+      this.hintShow = !this.hintShow;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

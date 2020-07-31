@@ -54,7 +54,7 @@
 	-webkit-flex: 1;
 	        flex: 1;
 }
-.account-number-content.data-v-54291e35{
+.account-number-content.data-v-54291e35 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -64,14 +64,14 @@
 	        flex-direction: column;
 	background-color: #F6F6F6;
 }
-.set-login-account-number.data-v-54291e35{
+.set-login-account-number.data-v-54291e35 {
 	padding-left: 30rpx;
 	height: 90rpx;
 	line-height: 90rpx;
 	font-size: 26rpx;
 	background-color: #FFFFFF;
 }
-.set-bound-phone.data-v-54291e35{
+.set-bound-phone.data-v-54291e35 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -88,13 +88,18 @@
 	font-size: 26rpx;
 	margin-top: 2rpx;
 }
-.user-name-phone.data-v-54291e35{
+.user-name-phone.data-v-54291e35 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
 	padding-right: 30rpx;
+	width: 270rpx;
+	font-weight: lighter;
 }
-.set-login-account.data-v-54291e35{
+.set-login-account.data-v-54291e35 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -103,9 +108,35 @@
 	        justify-content: space-between;
 	border-bottom: 2rpx solid #e5e5e5;
 }
-.at-present-phone.data-v-54291e35{
+.at-present-phone.data-v-54291e35 {
 	padding-right: 30rpx;
+	font-weight: lighter;
 }
-
+.log-out.data-v-54291e35 {
+	padding: 54rpx 20rpx 0;
+}
+.log-out-btn.data-v-54291e35 {
+	height: 80rpx;
+	line-height: 80rpx;
+	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
+	border-radius: 40rpx;
+	border: none;
+	font-size: 28rpx;
+	color: #ffffff;
+}
+.hint.data-v-54291e35{
+	padding: 172rpx 168rpx 0;
+}
+.prompt-message.data-v-54291e35{
+	height: 64rpx;
+	line-height: 64rpx;
+	background-color: #000000;
+	border-radius: 32rpx;
+	opacity: 0.7;
+	font-size: 26rpx;
+	color: #ffffff;
+	text-align: center;
+}
 
 

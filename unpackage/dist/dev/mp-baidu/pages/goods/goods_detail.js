@@ -514,45 +514,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -599,29 +560,35 @@ __webpack_require__.r(__webpack_exports__);
       {
         url: '../../static/images/19.png',
         content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-        productPrice: '19800', //价格
-        subscribe: 477, //预约
-        goodReputation: '98', //好评
-        closed: false,
-        labelList: [] //标签
+        newPrice: '19800', //价格
+        subscribeAndGoodReputation: [{
+          subscribe: '441',
+          goodReputation: '98' }],
+
+        closed: '',
+        label: [] //标签
       },
       {
         url: '../../static/images/20.png',
         content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-        productPrice: '19800', //价格
-        subscribe: 477, //预约
-        goodReputation: '98', //好评
-        closed: false,
-        labelList: ['眼部美容', '眼部'] //标签
+        newPrice: '19800', //价格
+        subscribeAndGoodReputation: [{
+          subscribe: '441',
+          goodReputation: '98' }],
+
+        closed: '闭馆特推',
+        label: ['眼部美容', '眼部'] //标签
       },
       {
         url: '../../static/images/20.png',
         content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-        productPrice: '19800', //价格
-        subscribe: 477, //预约
-        goodReputation: '98', //好评
-        closed: true,
-        labelList: ['眼部美容', '眼部'] //标签
+        newPrice: '19800', //价格
+        subscribeAndGoodReputation: [{
+          subscribe: '441',
+          goodReputation: '98' }],
+
+        closed: '',
+        label: ['眼部美容', '眼部'] //标签
       }],
       //相关商品
       productLists: [

@@ -205,6 +205,7 @@
 	font-size: 20rpx;
 	color: #999999;
 	line-height: 30rpx;
+	text-indent: -10rpx;
 }
 .get-coupon text.data-v-098a7e2c{
 	color: #fa3475;
@@ -585,6 +586,8 @@
 	font-size: #111111;
 	font-size: 24rpx;
 	line-height:40rpx;
+	margin-top: 20rpx;
+	font-weight: lighter;
 }
 .userinfo.data-v-098a7e2c{
 	display: -webkit-box;
@@ -741,6 +744,7 @@
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 	overflow: hidden;
+	font-weight: lighter;
 }
 .effect-picture.data-v-098a7e2c{
 	display: -webkit-box;

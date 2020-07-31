@@ -205,7 +205,6 @@ var _default =
 
   onReady: function onReady() {
     var that = this;
-    // console.log(that.cartNumber, that.messageNumber)
     that.carts = that.cartNumber;
     that.messages = that.messageNumber;
     if (that.cartNumber > 9) {
@@ -227,7 +226,7 @@ var _default =
     // 购物车
     cart: function cart(event) {
       var cartNumber = event.currentTarget.dataset.cartnumber || event.currentTarget.dataset.cartNumber;
-      // console.log(event.currentTarget.dataset)
+
       uni.navigateTo({
         url: "/pages/cart/cart?cartNumber=".concat(cartNumber) });
 

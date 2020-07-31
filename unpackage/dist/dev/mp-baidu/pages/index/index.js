@@ -446,7 +446,7 @@ __webpack_require__.r(__webpack_exports__);
 
           {
             id: 1,
-            url: '../../static/images/20.png',
+            url: '../../static/images/0.png',
             name: '闭馆主会场02' }],
 
 
@@ -689,7 +689,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-      pH: 0,
+
       tabBars: [{
         name: '精选',
         content: '猜你喜欢',

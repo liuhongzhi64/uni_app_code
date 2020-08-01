@@ -1,13 +1,6 @@
 <template>
 	<view class="no_refund">
-		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
-			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
-				<view class="back">
-					<image src="../../static/images/return.png" mode=""></image>
-				</view>
-				<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> 不可线上退款商品 </view>
-			</view>
-		</view>
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName' :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 
 		<view class="porduct-content">
 			<scroll-view class="porduct-content" scroll-y :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
@@ -62,7 +55,11 @@
 </template>
 
 <script>
+	import topBar from "../../components/topBar.vue";
 	export default {
+		components: {
+			topBar,
+		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -71,6 +68,11 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height:0,
+				barName: 'back', //导航条名称
+				topBackgroundColor:'#222222',
+				color:'#FFFFFF',
+				backImage:'../static/images/return.png',
+				title:'不可线上退款商品',
 				porductList:[
 					{
 						url:'../../static/images/19.png',
@@ -121,7 +123,6 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					that.height = res.screenHeight
-					console.log(res)
 					let menu = uni.getMenuButtonBoundingClientRect();
 					that.menuWidth = menu.width
 					that.menuTop = menu.top
@@ -139,44 +140,7 @@
 </script>
 
 <style scoped>
-	.top-bar {
-		color: #FFFFFF;
-		background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
-		text-align: center;
-		font-size: 40rpx;
-		position: fixed;
-		z-index: 100;
-		position: fixed;
-		width: 100%;
-		top: 0;
-		left: 0;
-	}
-
-	.back-title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-size: 38rpx;
-	}
-
-	.back {
-		display: flex;
-		align-items: center;
-		margin-left: 20rpx;
-		width: 60rpx;
-		height: 100%;
-	}
-
-	.back image {
-		width: 36rpx;
-		height: 36rpx;
-	}
-
-	.back-title .title {
-		flex: 1;
-		margin-left: 80rpx;
-	}
-
+	
 	.porduct-content {
 		background-color: #F6F6F6;
 	}

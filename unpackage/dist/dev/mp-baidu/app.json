@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/confirm_order/confirm_order",
     "pages/confirm_order/no_refund",
     "pages/my/account_number",
     "pages/index/index",
@@ -36,7 +37,6 @@
     "pages/goods/goods_detail_problem",
     "pages/goods/goods_detail_video",
     "pages/goods/goods_list",
-    "pages/confirm_order/confirm_order",
     "pages/pay_success/pay_success"
   ],
   "subPackages": [],

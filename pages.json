@@ -2,9 +2,14 @@
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		
 		{
+			"path": "pages/confirm_order/confirm_order", //确认订单
+			"style": {}
+		},
+		{
 			"path": "pages/confirm_order/no_refund", //不可线上退款
 			"style": {}
 		},
+		
 		{
 			"path": "pages/my/account_number", //账号管理
 			"style": {}
@@ -135,10 +140,6 @@
 			"style": {}
 		},
 
-		{
-			"path": "pages/confirm_order/confirm_order", //确认订单
-			"style": {}
-		},
 		{
 			"path": "pages/pay_success/pay_success", //支付成功
 			"style": {}

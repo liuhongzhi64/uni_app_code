@@ -52,6 +52,19 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- 带返回导航条 -->
+		<view class="top-bar" v-if="barName ==='back'" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color,}]">
+			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
+				<view class="back" @click="goBack" >
+					<image :src="backImage" mode=""></image>
+				</view>
+				<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> {{title}} </view>
+			</view>
+		</view>
+		
+		
+		
 	</view>
 
 </template>
@@ -63,6 +76,14 @@
 				type: String,
 				default: '#5D060E'
 			},
+			color:{
+				type: String,
+				default: '#111111'
+			},
+			backImage:{
+				type: String,
+				default: '../static/images/back1.png'
+			},
 			BarImgs: {
 				type: String,
 				default: '../static/images/0.png'
@@ -71,6 +92,7 @@
 				type: String,
 				default: 'particularsPage'
 			},//导航条的名称
+			title:String,//标题名称
 			menuHeight:Number,//高
 			menuTop:Number,//高
 			menuWidth:Number,//宽
@@ -133,6 +155,7 @@
 			
 			// 返回上一级
 			goBack: function() {
+				console.log('back')
 				uni.navigateBack({
 					delta: 1
 				});
@@ -274,4 +297,45 @@
 		width: 40rpx;
 		height: 40rpx;
 	}
+	
+	/* 带返回导航 */
+	.top-bar {
+		
+		text-align: center;
+		font-size: 40rpx;
+		position: fixed;
+		z-index: 100;
+		position: fixed;
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+	
+	.back-title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 38rpx;
+	}
+	
+	.back {
+		display: flex;
+		align-items: center;
+		margin-left: 20rpx;
+		width: 60rpx;
+		height: 100%;
+	}
+	
+	.back image {
+		width: 36rpx;
+		height: 36rpx;
+	}
+	
+	.back-title .title {
+		flex: 1;
+		margin-left: 80rpx;
+		font-size: 37rpx;
+	}
+	
+	
 </style>

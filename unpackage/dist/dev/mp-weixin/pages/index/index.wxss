@@ -209,7 +209,7 @@
 	display: flex;
 	line-height: 60rpx;
 	font-size: 32rpx;
-	padding-left: 20rpx;
+	/* padding-left: 20rpx; */
 	background-color: #FFFFFF;
 }
 .red-packet.data-v-57280228 {
@@ -245,7 +245,7 @@
 	height: 92rpx;
 	background-color: #ffbea7;
 	border-radius: 10rpx;
-	margin-left: 20rpx;
+	margin-right: 20rpx;
 }
 .pitchOn.data-v-57280228 {
 	width: 82rpx;
@@ -380,10 +380,14 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
-	padding: 0 60rpx;
+	padding: 0 40rpx;
 	font-size: 25rpx;
 	text-align: center;
 	line-height: 60rpx;
+}
+.productImg.data-v-57280228{
+	padding-bottom: 40rpx;
+	padding-left: 40rpx;margin-top: -10rpx;
 }
 .timeTitle-time.data-v-57280228 {
 	display: -webkit-box;
@@ -435,104 +439,6 @@
 	text-align: center;
 	font-size: 20rpx;
 	color: #FFFFFF;
-}
-
-/* 图片商品 */
-.productImgY.data-v-57280228 {
-	width: 100%;
-	height: 420rpx;
-	overflow: hidden;
-	white-space: nowrap;
-}
-.productImgs.data-v-57280228 {
-	display: inline-block;
-	width: 240rpx;
-	height: 370rpx;
-	font-size: 20rpx;
-	margin-right: 30rpx;
-}
-.Imgs image.data-v-57280228 {
-	width: 240rpx;
-	height: 240rpx;
-}
-
-/* 商品 */
-.productItems.data-v-57280228 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	padding: 20rpx;
-	width: 240rpx;
-	white-space: normal;
-}
-.productContent.data-v-57280228 {
-	width: 220rpx;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 2;
-	overflow: hidden;
-	color: #2e2e2e;
-}
-.productItems.data-v-57280228 {
-	padding:0 20rpx 20rpx;
-	border: 2rpx solid #FFFFFF;
-}
-.productItems image.data-v-57280228 {
-	width: 240rpx;
-	height: 240rpx;
-}
-.prouctPrice.data-v-57280228 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	-webkit-box-align: baseline;
-	-webkit-align-items: baseline;
-	        align-items: baseline;
-	padding: 10rpx 20rpx 0 0;
-}
-.residueProduct.data-v-57280228 {
-	text-align: center;
-}
-.prouctPrice text.data-v-57280228{
-	font-size: 20rpx;
-}
-.newprice.data-v-57280228 {
-	color: #EF6174;
-	font-size: 30rpx;
-	margin-right: 13rpx;
-}
-.oldPrice.data-v-57280228 {
-	text-decoration: line-through;
-	line-height: 30rpx;
-}
-.seeAll.data-v-57280228 {
-	display: inline-block;
-	text-align: center;
-	font-size: 40rpx;
-	width: 240rpx;
-	height: 360rpx;
-	background-color: #F2F2F2;
-	margin-left: 20rpx;
-	position: absolute;
-}
-.seeAll .all.data-v-57280228 {
-	font-weight: bolder;
-	position: relative;
-	top: 130rpx;
-	color: #2e2e2e;
 }
 
 /* 导航条 */

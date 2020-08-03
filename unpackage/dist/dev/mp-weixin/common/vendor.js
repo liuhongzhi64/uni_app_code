@@ -7756,17 +7756,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 39:
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/images/18.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/images/18.png";
-
-/***/ }),
-
 /***/ 4:
 /*!**************************************!*\
   !*** D:/Code/code/uniapp/pages.json ***!
@@ -7775,6 +7764,17 @@ module.exports = "/static/images/18.png";
 /***/ (function(module, exports) {
 
 
+
+/***/ }),
+
+/***/ 47:
+/*!************************************************!*\
+  !*** D:/Code/code/uniapp/static/images/18.png ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/images/18.png";
 
 /***/ })
 

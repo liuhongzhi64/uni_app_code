@@ -2,6 +2,10 @@
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		
 		{
+			"path": "pages/pay_success/pay_success", //支付成功
+			"style": {}
+		},
+		{
 			"path": "pages/my/add_address", //退款原因
 			"style": {}
 		},
@@ -147,12 +151,9 @@
 		}, {
 			"path": "pages/goods/goods_list", //商品列表
 			"style": {}
-		},
-
-		{
-			"path": "pages/pay_success/pay_success", //支付成功
-			"style": {}
 		}
+
+		
 	],
 	"globalStyle": {
 		

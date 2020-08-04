@@ -48,7 +48,7 @@
 
 					
 				</template>
-			</scroll-view scroll-y>
+			</scroll-view >
 
 		</view>
 	</view>

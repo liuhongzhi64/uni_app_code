@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/pay_success/pay_success",
     "pages/my/add_address",
     "pages/confirm_order/confirm_order",
     "pages/confirm_order/no_refund",
@@ -38,8 +39,7 @@
     "pages/goods/goods_detail_notice",
     "pages/goods/goods_detail_problem",
     "pages/goods/goods_detail_video",
-    "pages/goods/goods_list",
-    "pages/pay_success/pay_success"
+    "pages/goods/goods_list"
   ],
   "subPackages": [],
   "window": {

@@ -1,6 +1,6 @@
 <template>
 	 <view class="goods_detail">
-		<topBar class="topBar" :barName='barName' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		<topBar class="topBar" :barName='barName' :barImage='barImage' :topBackgroundColor='topBackgroundColor' :backImage='backImage' :color='color' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :title='title' :menuBottom='menuBottom'></topBar>
 		
 		<!-- 主体内容 -->
 		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]">
@@ -396,6 +396,11 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				barName: 'particularsPage', //导航条名称
+				barImage:'../static/images/wechat.png',
+				topBackgroundColor: '#222222',
+				color: '#FFFFFF',
+				title: '详情页',
+				backImage: '../static/images/return.png',
 				height: 0, //
 				swiperList: [{
 						id: 0,

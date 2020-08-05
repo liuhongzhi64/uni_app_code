@@ -1,6 +1,10 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [ 
 		
+		{
+			"path": "pages/my/my_card", //我的卡卷
+			"style": {}
+		},
 		{
 			"path": "pages/pay_success/pay_success", //支付成功
 			"style": {}
@@ -81,10 +85,9 @@
 		{
 			"path": "pages/my/after_sales", //退换/售后
 			"style": {}
-		}, {
-			"path": "pages/my/my_card", //我的卡卷
-			"style": {}
-		}, {
+		}, 
+		 
+		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}
 		}, {

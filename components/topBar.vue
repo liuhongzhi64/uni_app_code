@@ -38,17 +38,17 @@
 		</view>
 		
 		<!-- 不带购物车的导航条 -->
-		<view class="goodsBar" v-if="barName ==='particularsPage'" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
+		<view class="goodsBar" v-if="barName ==='particularsPage'" :style="[{'height':menuHeight+'px','background-color':topBackgroundColor,'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','color':color,}]">
 			<view class="barContent" :style="[{'padding-left':20+'px'}]">
 				<!-- 返回 -->
 				<view class="return" @click="goBack" >
-					<image src="../static/images/return.png" mode=""></image>
+					<image :src="backImage" mode=""></image>
 				</view>
 				<!-- 详情页 -->
-				<view class="tabBarName" :style="[{'margin-left':menuWidth+'px'}]"> 详情页 </view>
-				<!-- 分享到微信 -->
-				<view class="share" :style="[{'margin-right':menuWidth+20+'px'}]">
-					<image src="../static/images/wechat.png" mode=""></image>
+				<view class="tabBarName" :style="[{'margin-left':menuWidth+'px'}]"> {{title}} </view>
+
+				<view class="share" :class="{show:barImage=='../static/images/wechat.png'}" :style="[{'margin-right':menuWidth+20+'px'}]">
+					<image :src="barImage" mode=""></image>
 				</view>
 			</view>
 		</view>
@@ -88,6 +88,7 @@
 				type: String,
 				default: '../static/images/0.png'
 			},
+			barImage:String,
 			barName:{
 				type: String,
 				default: 'particularsPage'
@@ -259,7 +260,7 @@
 	
 	/* 详情页 */
 	.goodsBar {
-		background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
+		/* background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%); */
 		color: #FFFFFF;
 		position: fixed;
 		top: 0;
@@ -286,16 +287,19 @@
 		height: 36rpx;
 		margin-bottom: 8rpx;
 	}
+	.show{
+		background-color: #4CD964;
+	}
 	
 	.share{
 		width: 50rpx;
 		height: 50rpx;
-		background-color: #4CD964;
+		/*  */
 		border-radius: 25rpx;
 	}
 	.share image{
-		width: 40rpx;
-		height: 40rpx;
+		width: 50rpx;
+		height: 50rpx;
 	}
 	
 	/* 带返回导航 */

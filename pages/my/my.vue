@@ -28,7 +28,7 @@
 						<view class="set"> 设置 > </view>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
-						<view class="all-card" v-for="(i,k) in cardList" :key='k'>
+						<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="changeOrder(i.name)">
 							<view class="card-number"> {{i.number}} </view>
 							<view class="card-name"> {{i.name}} </view>
 						</view>
@@ -50,7 +50,7 @@
 				</view>
 
 				<view class="order-message">
-					<view class="order-list" v-for="(i,k) in orderList" :key='k'>
+					<view class="order-list" v-for="(i,k) in orderList" :key='k' >
 						<view class="oder-image-number">
 							<view class="order-image">
 								<image :src="i.url" mode=""></image>
@@ -157,7 +157,7 @@
 				menuBottom: 0,
 				cardList: [{
 						number: 20,
-						name: '卡卷'
+						name: '卡券'
 					},
 					{
 						number: 99999,
@@ -384,7 +384,15 @@
 				})
 			},
 			goToAccount:function(e){
-				
+				uni.navigateTo({
+					url: `/pages/my/account_number`,
+				})
+			},
+			changeOrder:function(name){
+				if(name == '卡券')
+				uni.navigateTo({
+					url: `/pages/my/my_card`,
+				})
 			}
 		}
 	}

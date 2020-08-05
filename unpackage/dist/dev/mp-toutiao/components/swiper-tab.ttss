@@ -16,6 +16,7 @@
 	width: 25%;
 	text-align: center;
 	line-height: 60rpx;
+	font-size: 24rpx;
 }
 .tabContent.data-v-0f69983b{
 	font-size: 20rpx;
@@ -23,12 +24,14 @@
 }
 .uni-tab-bar .active.data-v-0f69983b {
 	color: #FA3475;
+	font-size: 28rpx;
+	font-weight: bolder;
 }
 .active .swiper-tab-line.data-v-0f69983b {
-	border-bottom: 6rpx solid #FEDE33;
+	border-bottom: 6rpx solid #FA3475;
 	width: 80rpx;
 	margin: auto;
-	border-top: 6rpx solid #FEDE33;
-	border-radius: 20rpx;
+	/* border-top: 6rpx solid #FEDE33; */
+	border-radius: 10rpx;
 }
 

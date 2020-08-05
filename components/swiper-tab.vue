@@ -1,15 +1,15 @@
 <template>
 	<view class="uni-tab-bar">
-		<scroll-view class="uni-swiper-tab">
+		<scroll-view class="uni-swiper-tab" :style="[{'background-color':tabBackgroundColor}]">
 			<block v-for="(tab,index) in tabBars" :key="tab.id">
-				<view class="swiper-tab-list" :class="{'active' : tabIndex==index}" @tap="tabtap(index)" >
+				<view class="swiper-tab-list" :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type)" >
 					<view class="tabName">
-						{{tab.name}} 
+						{{tab.name}} <text v-if="tab.number">({{tab.number}})</text>
 					</view>
 					<view class="tabContent"  v-if="tab.content">
 						{{tab.content}}
 					</view>
-					<view class="swiper-tab-line" v-if="line"></view>
+					<view class="swiper-tab-line" v-if="line" ></view>
 				</view>
 			</block>
 		</scroll-view>
@@ -29,8 +29,8 @@
 
 		methods: {
 			//点击切换导航
-			tabtap(index) {
-				this.$emit('tabtap', index)
+			tabtap(index,type) {
+				this.$emit('tabtap', index,type)
 			}
 		}
 	}
@@ -53,6 +53,7 @@
 		width: 25%;
 		text-align: center;
 		line-height: 60rpx;
+		font-size: 24rpx;
 	}
 	.tabContent{
 		font-size: 20rpx;
@@ -61,13 +62,15 @@
 
 	.uni-tab-bar .active {
 		color: #FA3475;
+		font-size: 28rpx;
+		font-weight: bolder;
 	}
 
 	.active .swiper-tab-line {
-		border-bottom: 6upx solid #FEDE33;
-		width: 80upx;
+		border-bottom: 6rpx solid #FA3475;
+		width: 80rpx;
 		margin: auto;
-		border-top: 6rpx solid #FEDE33;
-		border-radius: 20upx;
+		/* border-top: 6rpx solid #FEDE33; */
+		border-radius: 10rpx;
 	}
 </style>

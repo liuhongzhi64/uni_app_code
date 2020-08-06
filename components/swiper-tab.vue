@@ -42,7 +42,7 @@
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
-		/* height: 100rpx; */
+		height: 60rpx;
 		background-color: #F6F6F6;
 	}
 

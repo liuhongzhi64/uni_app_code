@@ -4,12 +4,30 @@
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :barImage='barImage' :color='color' :backImage='backImage'
 		 :barName='barName' :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft'
 		 :menuBottom='menuBottom'></topBar>
-
+		
+		<!-- <view class="card-top" :style="[{'padding-top':menuBottom+10+'px'}]">
+			<view class="can-receive">
+				<view>您有</view>
+				<view class="text">7张专属优惠券</view>
+				<view class="texts">可领取~</view>
+			</view>
+			<view class="go-receive">
+				<view class="line">
+					<view class="triangle-line"></view>
+				</view>
+				<view class="character">去领取&nbsp;></view>
+			</view>
+		</view>
+		<view class="tabBarList">
+			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
+			 @tabtap="tabtap "></swiperTabHead>
+		</view> -->
+		
 		<view class="my_card-content">
-			<scroll-view class="my_card-content" scroll-y :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
+			<scroll-view class="my_card-content" scroll-y :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
 				<template>
 					<view class="my_card-item">
-						<view class="card-top">
+						<view class="card-top" :style="[{'top':menuBottom+10+'px'}]">
 							<view class="can-receive">
 								<view>您有</view>
 								<view class="text">7张专属优惠券</view>
@@ -23,7 +41,7 @@
 							</view>
 						</view>
 
-						<view class="tabBarList">
+						<view class="tabBarList" :style="[{'top':menuBottom+50+'px'}]">
 							<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
 							 @tabtap="tabtap "></swiperTabHead>
 						</view>
@@ -33,7 +51,7 @@
 								<text v-if="!ticketList[index].ticketContent">{{i.name}}</text>
 								
 								<view class="ticket-content" v-if="ticketList[index].ticketContent">
-									<view class="ticket-label">
+									<view class="ticket-label" :style="[{'top':menuBottom+80+'px'}]">
 										<view 
 											class="label-name" 
 											:class="{labelColor:colorNum==k}" 
@@ -43,9 +61,9 @@
 										</view>
 									</view>
 									
-									<view class="select-content end-cont" :class="{dis:colorNum == index}" v-for="(i,index) in contentList" :key="index">
+									<view class="select-content end-cont" :style="[{'padding-top':50+'px'}]" :class="{dis:colorNum == index}" v-for="(i,index) in contentList" :key="index">
 										<!-- 券为空 -->
-										<view class="content-item" v-if="labelType = 1">
+										<view class="content-item" v-if="labelType == 1">
 											
 											<view class="title">{{i.selectContent.title}}</view>
 											<view v-for="(item,index) in i.selectContent.list" :key="index">
@@ -61,9 +79,50 @@
 										</view>
 										
 										<!-- 券不为空的 -->
-										<view class="content-item" v-if="labelType = 0">
+										<view class="content-list" v-if="TicketNumber > 0">
 											
-											
+											<view class="ticket-items" v-for="(i,k) in ticketItemList">
+												<view class="ticket-number-expiration-time">
+													<view class="ticket-numer">{{i.serialNumber}}</view>
+													<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'">{{i.expirationTime}}小时内过期</view>
+													<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
+												</view>
+												
+												<view class="ticket-items-content">
+													<view class="ticket-label-writer-state-userTime">
+														<view class="ticket-label-writer">
+															<text class="ticket-labels" 
+															 :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+															{{i.ticketLabel}}</text> 
+															<text class="ticket-writer"> {{i.writer}} </text>
+														</view>
+														<view class="ticket-state">当前状态: <text 
+														 :style="[{'color':i.state == '可使用' || i.state =='冻结中' ?'#fa3475':'#111111'}]">
+															{{i.state}}</text></view>
+														<view class="user-time">使用时间:<text>{{i.userTime}}</text></view>
+													</view>
+													<view class="ticket-images-exclusiveName" 
+													  :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]"
+													  >
+														<view class="exclusive-name">{{i.exclusiveName}}</view>
+													</view>
+												</view>
+												<view class="ticketDetails" @tap='showDetails(i.serialNumber)'>
+													<view class="details-title" > <text>卡券详情</text> <image :src="i.arrowImages" mode=""></image>  </view>
+													<view class="details-content" v-if="i.showTicketDetails">
+														<view class="item-details" v-for="(i,k) in i.ticketDetails">{{i}}</view>
+													</view>
+													
+													
+												</view>
+												
+												<view class="ticket-label-images" v-if="i.state == '已使用'">
+													<image src="../../static/images/state2.png" mode=""></image>
+												</view>
+												<view class="ticket-label-images" v-if="i.state == '已失效'">
+													<image src="../../static/images/state1.png" mode=""></image>
+												</view>
+											</view>
 											
 										</view>	
 		
@@ -209,25 +268,63 @@
 				// console.log(this.ticketList)
 			},
 			
-			selectLabel:function(k = 1,type = 1){
+			selectLabel:function(k = 0,type = 0){
 				this.colorNum = k
 				if(type == 0){
 					this.TicketNumber = 1 
 					this.labelType = 0
 					this.contentList[k].selectContent = {
-						// ticketItemList:[
-						// 	{
-						// 		serialNumber:02048492,//编号
-						// 		expirationTime:328,//过期时间
-								
-						// 	}
-						// ]
+						ticketItemList:[
+							{
+								serialNumber:'02048492',//编号
+								expirationTime:328,//过期时间
+								exclusiveName:'金钻卡专享',//专享名称
+								ticketLabel:'满减券',//券类型
+								writer:'这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state:'可使用',//当前状态
+								userTime:'2020-05-01至2020-05-31',
+								ticketDetails:['1、使用时间 ：2018年11月16日 – 2018年12月31日','2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;','4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;','5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+								imagesUrl:'',
+								showTicketDetails:false,
+								arrowImages:'../../static/images/arrow-down.png',
+								goColor:'#fa3475',
+								toColor:'#ff6699',
+							},
+							{
+								serialNumber:'02048495',//编号
+								expirationTime:24,//过期时间
+								exclusiveName:'618专享',//专享名称
+								ticketLabel:'礼品券',//券类型
+								writer:'这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state:'已使用',//当前状态
+								userTime:'2020-05-01至2020-05-31',
+								ticketDetails:['1、使用时间 ：2018年11月16日 – 2018年12月31日','2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;','4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;','5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+								imagesUrl:'',
+								showTicketDetails:false,
+								arrowImages:'../../static/images/arrow-down.png',
+								goColor:'#8834FA',
+								toColor:'#A25DFF'
+							},
+							{
+								serialNumber:'02048499',//编号
+								expirationTime:2,//过期时间
+								exclusiveName:'618专享',//专享名称
+								ticketLabel:'体验券',//券类型
+								writer:'这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state:'已失效',//当前状态
+								userTime:'2020-05-01至2020-05-31',
+								ticketDetails:['1、使用时间 ：2018年11月16日 – 2018年12月31日','2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;','4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;','5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+								imagesUrl:'',
+								showTicketDetails:false,
+								arrowImages:'../../static/images/arrow-down.png',
+								goColor:'#fa7a34',
+								toColor:'#ff9c66'
+							},
+						],
 					}
-					
-					
-					
+							
 					this.ticketItemList = this.contentList[k].selectContent.ticketItemList
-					console.log(this.ticketItemList)
+					// console.log(this.ticketItemList)
 				}
 				else if(type == 1){
 					this.TicketNumber = 0
@@ -240,6 +337,25 @@
 				}
 				
 				// console.log(this.contentList)
+			},
+			// 显示卡券详情
+			showDetails:function(number){
+				// console.log(number)
+				for(let i = 0; i<this.ticketItemList.length;i++){
+					if(this.ticketItemList[i].serialNumber == number){
+						this.ticketItemList[i].showTicketDetails = !this.ticketItemList[i].showTicketDetails
+					}
+					if(this.ticketItemList[i].showTicketDetails){
+						this.ticketItemList[i].arrowImages = '../../static/images/arrow-top.png'
+					}else{
+						this.ticketItemList[i].arrowImages = '../../static/images/arrow-down.png'
+					}
+					
+				}
+				
+				
+				
+				
 			}
 
 		},
@@ -256,6 +372,14 @@
 		justify-content: space-between;
 		font-size: 28rpx;
 		color: #FFFFFF;
+		position: fixed;
+		z-index: 9;
+		width: 100%;
+	}
+	.tabBarList{
+		position: fixed;
+		z-index: 9;
+		width: 100%;
 	}
 
 	.can-receive {
@@ -320,6 +444,11 @@
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
+		position: fixed;
+		z-index: 9;
+		background-color: #F6F6F6;
+		width: 100%;
+		padding: 30rpx 20rpx 20rpx;
 	}
 	.ticket-label .label-name{
 		width: 107rpx;
@@ -359,6 +488,135 @@
 		text-align: center;
 		font-size: 32rpx;
 		color: #111111;
+	}
+	
+	.content-list{
+		padding-bottom: 100rpx;
+	}
+	
+	.ticket-items{
+		margin-top: 46rpx;
+		position: relative;
+	}
+	.ticket-numer{
+		color: #999999;
+	}
+	
+	.ticket-number-expiration-time{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 20rpx;
+	}
+	
+	.ticket-number{
+		color: #999999;
+	}
+	
+	.expiration-time{
+		color: #fa3475; 
+	}
+	
+	.ticket-items-content{
+		display: flex;
+		justify-content: center;
+		/* align-items: center; */
+		border-bottom: 1rpx dashed #999999;
+		margin-top: 20rpx;
+	}
+	.ticket-label-writer-state-userTime{
+		background-color: #FFFFFF;
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		padding: 30rpx 32rpx 20rpx ;
+		border-top-left-radius: 16rpx;
+	}
+	.ticket-label-writer{
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+	.ticket-labels{
+		padding: 2rpx 9rpx;
+		font-size: 18rpx;
+		margin-right: 10rpx;
+		color: #FFFFFF;
+		background-image: linear-gradient(-90deg, #8834fa 0%, #a25eff 100%);
+		border-radius: 4rpx;
+	}
+	.ticket-writer{
+		font-size: 28rpx;
+		color: #111111;
+	}
+	.ticket-state{
+		font-size: 24rpx;
+		margin-top: 47rpx;
+	}
+	.ticket-state text{
+		/* color: ; */
+		margin-left: 10rpx;
+	}
+	.user-time{
+		font-size: 20rpx;
+		color: #999999;
+		margin-top: 14rpx;
+	}
+	
+	.ticket-images-exclusiveName{
+		width: 248rpx;
+		border-top-right-radius: 16rpx;
+		/* background-image: linear-gradient(-90deg,  #8834FA 0%,  #A25DFF 100%); */
+		display: flex;
+		justify-content: center;
+	}
+	.exclusive-name{
+		width: 128rpx;
+		height: 36rpx;
+		text-align: center;
+		background-image: linear-gradient(0deg,  #070606 0%,  #303030 100%);
+		border-radius: 0rpx 0rpx 16rpx 16rpx;	
+		color: #FFFFFF;
+		font-size: 20rpx;
+		line-height: 36rpx;
+	}
+	.ticketDetails{
+		/* height: 56rpx; */
+		padding: 18rpx 26rpx 18rpx 30rpx ;
+		border-bottom-left-radius: 16rpx;
+		border-bottom-right-radius: 16rpx;
+		/* background-color: #f0f0f0; */
+		box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
+		color: #999999;
+	}
+	
+	.details-title{
+		font-size: 20rpx;
+		display: flex;
+		align-items: center;
+	}
+	.details-title image{
+		margin-left: 15rpx;
+		width: 32rpx;
+		height: 32rpx;
+	}
+	
+	.item-details{
+		font-size: 20rpx;
+		line-height: 30rpx;
+	}
+	
+	.ticket-label-images{
+		position: absolute;
+		top: 80rpx;
+		right: 170rpx;
+		z-index: 9;
+	}
+	
+	.ticket-label-images image{
+		width: 195rpx;
+		height: 155rpx;
 	}
 	
 </style>

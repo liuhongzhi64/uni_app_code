@@ -236,11 +236,11 @@ var _default =
     if (that.messageNumber > 9) {
       that.messages = '9+';
     }
-    uni.getSystemInfo({
-      success: function success(res) {// res - 各种参数
-        console.log(res);
-      } });
-
+    // uni.getSystemInfo({
+    // 	success: function(res) { // res - 各种参数
+    // 		console.log(res)
+    // 	}
+    // });
   },
   onLoad: function onLoad() {
 

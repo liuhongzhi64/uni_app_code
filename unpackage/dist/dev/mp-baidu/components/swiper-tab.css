@@ -6,6 +6,8 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
 	height: 60rpx;
 	background-color: #F6F6F6;
 }
@@ -13,7 +15,6 @@
 	color: #666666;
 	font-weight: bold;
 	display: inline-block;
-	width: 25%;
 	text-align: center;
 	line-height: 60rpx;
 	font-size: 24rpx;

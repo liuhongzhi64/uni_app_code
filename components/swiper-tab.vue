@@ -1,8 +1,11 @@
 <template>
 	<view class="uni-tab-bar">
 		<scroll-view class="uni-swiper-tab" :style="[{'background-color':tabBackgroundColor}]">
-			<block v-for="(tab,index) in tabBars" :key="tab.id">
-				<view class="swiper-tab-list" :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type)" >
+			<block  v-for="(tab,index) in tabBars" :key="tab.id">
+				<view class="swiper-tab-list" 
+				 :style="[{'width':tabBars.length == 4?'25%':'20%'}]"
+				 :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type)" 
+				 >
 					<view class="tabName">
 						{{tab.name}} <text v-if="tab.number">({{tab.number}})</text>
 					</view>
@@ -31,6 +34,7 @@
 			//点击切换导航
 			tabtap(index,type) {
 				this.$emit('tabtap', index,type)
+				
 			}
 		}
 	}
@@ -42,15 +46,14 @@
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
+		justify-content: space-around;
 		height: 60rpx;
 		background-color: #F6F6F6;
 	}
-
 	.swiper-tab-list {
 		color: #666666;
 		font-weight: bold;
 		display: inline-block;
-		width: 25%;
 		text-align: center;
 		line-height: 60rpx;
 		font-size: 24rpx;

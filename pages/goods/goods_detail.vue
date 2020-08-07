@@ -348,7 +348,7 @@
 			<!-- 咨询 -->
 			<view class="consult">
 				<view class="consult-image">
-					<image src="../../static/images/wechat.png" mode=""></image>
+					<image src="../../static/images/advisory.png" mode=""></image>
 				</view>
 				<view class="consult-text"> 咨询 </view>
 			</view>
@@ -356,7 +356,7 @@
 			<!-- 分享 -->
 			<view class="share">
 				<view class="share-image">
-					<image src="../../static/images/wechat.png" mode=""></image>
+					<image src="../../static/images/share.png" mode=""></image>
 				</view>
 				<view class="share-text"> 分享 </view>
 			</view>

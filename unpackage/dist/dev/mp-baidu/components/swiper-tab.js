@@ -132,6 +132,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
 var _default =
 {
   props: {
@@ -147,6 +150,7 @@ var _default =
     //点击切换导航
     tabtap: function tabtap(index, type) {
       this.$emit('tabtap', index, type);
+
     } } };exports.default = _default;
 
 /***/ }),

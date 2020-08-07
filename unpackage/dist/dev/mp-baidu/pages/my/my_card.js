@@ -305,7 +305,7 @@ __webpack_require__.r(__webpack_exports__);
       line: true, //是否显示选中线
       tabBackgroundColor: '#FFFFFF',
       size: 24,
-      tabIndex: 1, // 选中的
+      tabIndex: 1, // 选中的顶部的导航，全部。线上下，礼品券
       listType: 1, //券的类型
       tabBars: [{
         name: '全部',
@@ -356,10 +356,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
       ticketContent: {},
-      colorNum: 1, //选择的券是冻结中
+      colorNum: 0, //选择的券是冻结中,0可使用，1冻结中，2已失效 3已使用
       contentList: [{ type: 0 }, { type: 1 }, { type: 2 }, { type: 3 }],
       selectContent: {},
-      labelType: 1, //券可用类型
       TicketNumber: 0, //券数量
       ticketItemList: [] };
 
@@ -384,32 +383,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     //接受子组件传过来的值点击切换导航
-    tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       this.tabIndex = index;
       this.listType = type; //券的类型
-      // this.ticketList[index].name = type
+      // type值：0全部 1线上 2线下 3 礼品 4体验
       this.ticketList[index].ticketContent = {
         lableList: ['可使用', '冻结中', '已失效', '已使用'] };
 
-      // if(this.listType == 0){
-      // 	this.ticketList[index].ticketContent = {
-      // 		lableList:['可使用','冻结中','已失效','已使用']
-      // 	}
-      // }
-      // else if(this.listType == 1){
-      // 	this.ticketList[index].ticketContent = {
-      // 		lableList:['可使用','冻结中','已失效','已使用']
-      // 	}
-      // }
-
-      // console.log(this.ticketList)
+      this.selectLabel(0, type);
     },
 
     selectLabel: function selectLabel() {var k = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       this.colorNum = k;
-      if (type == 0) {
+      //type值：0全部 1线上 2线下 3 礼品 4体验
+      // k值 0可使用 1冻结中 2 已失效 3已使用
+      // console.log("顶部点击的是",type ,"券的状态",k)
+      if (type == 0 && k == 0) {
         this.TicketNumber = 1;
-        this.labelType = 0;
         this.contentList[k].selectContent = {
           ticketItemList: [
           {
@@ -425,7 +415,26 @@ __webpack_require__.r(__webpack_exports__);
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
             goColor: '#fa3475',
-            toColor: '#ff6699' },
+            toColor: '#ff6699',
+            exclusivePrice: 1000,
+            meetPriceUser: 10000 },
+
+          {
+            serialNumber: '02048491', //编号
+            expirationTime: 24, //过期时间
+            exclusiveName: '金钻卡专享', //专享名称
+            ticketLabel: '满减券', //券类型
+            writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+            state: '冻结中', //当前状态
+            userTime: '2020-05-01至2020-05-31',
+            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日', '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;', '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+            imagesUrl: '',
+            showTicketDetails: false,
+            arrowImages: '../../static/images/arrow-down.png',
+            goColor: '#fa7a34',
+            toColor: '#ff9c66',
+            exclusivePrice: 1000,
+            meetPriceUser: 10000 },
 
           {
             serialNumber: '02048495', //编号
@@ -440,7 +449,9 @@ __webpack_require__.r(__webpack_exports__);
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
             goColor: '#8834FA',
-            toColor: '#A25DFF' },
+            toColor: '#A25DFF',
+            exclusivePrice: 1000,
+            meetPriceUser: 10000 },
 
           {
             serialNumber: '02048499', //编号
@@ -455,26 +466,47 @@ __webpack_require__.r(__webpack_exports__);
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
             goColor: '#fa7a34',
-            toColor: '#ff9c66' }] };
-
+            toColor: '#ff9c66',
+            exclusivePrice: 1000,
+            meetPriceUser: 10000 }] };
 
 
 
         this.ticketItemList = this.contentList[k].selectContent.ticketItemList;
         // console.log(this.ticketItemList)
       } else
-      if (type == 1) {
+      if (type == 0 && k == 1) {
         this.TicketNumber = 0;
-        this.labelType = 1;
         this.contentList[k].selectContent = {
           title: '冻结说明：',
-          list: ['1）若卡券是下单后赠送的、支付有礼赠送的，需要核销订单后卡券才可使用;', '2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效;', '3）失效的卡券将不予补发;', '4）若提前领取卡券，还未到使用时间，也将处于冻结状态'] };
+          list: [
+          '1）若卡券是下单后赠送的、支付有礼赠送的，需要核销订单后卡券才可使用;',
+          '2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效;',
+          '3）失效的卡券将不予补发;', '4）若提前领取卡券，还未到使用时间，也将处于冻结状态'] };
 
+      } else
+      if (type == 0 && k == 2) {
+        this.TicketNumber = k;
+        this.contentList[k].selectContent = {
+          title: "顶部点击的是" + type + "券的状态" + k };
 
+        this.ticketItemList = [];
+      } else
+      if (type == 0 && k == 3) {
+        this.TicketNumber = k;
+        this.contentList[k].selectContent = {
+          title: "顶部点击的是" + type + "券的状态" + k };
+
+        this.ticketItemList = [];
+      } else
+      if (type != 0) {
+        this.contentList[k].selectContent = {
+          title: "顶部点击的是" + type + "券的状态" + k };
+
+        this.ticketItemList = [];
       }
-
-      // console.log(this.contentList)
     },
+
     // 显示卡券详情
     showDetails: function showDetails(number) {
       // console.log(number)

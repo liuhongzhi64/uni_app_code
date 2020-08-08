@@ -16,7 +16,7 @@
 	z-index: 9;
 	width: 100%;
 }
-.tabBarList.data-v-6e8e8cce{
+.tabBarList.data-v-6e8e8cce {
 	position: fixed;
 	z-index: 9;
 	width: 100%;
@@ -72,13 +72,10 @@
 .dis.data-v-6e8e8cce {
 	display: block;
 }
-.my_card-content.data-v-6e8e8cce{
+.my_card-content.data-v-6e8e8cce {
 	background-color: #F6F6F6;
 }
-.ticket-content.data-v-6e8e8cce{
-	/* padding: 30rpx 20rpx 0; */
-}
-.ticket-label.data-v-6e8e8cce{
+.ticket-label.data-v-6e8e8cce {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -93,7 +90,7 @@
 	width: 100%;
 	padding: 30rpx 20rpx 20rpx;
 }
-.ticket-label .label-name.data-v-6e8e8cce{
+.ticket-label .label-name.data-v-6e8e8cce {
 	width: 107rpx;
 	height: 46rpx;
 	border-radius: 25rpx;
@@ -103,24 +100,24 @@
 	font-size: 20rpx;
 	margin-right: 30rpx;
 }
-.labelColor.data-v-6e8e8cce{
+.labelColor.data-v-6e8e8cce {
 	background-color: #ffe8f0;
-	border: 2rpx solid  #fa3475;
+	border: 2rpx solid #fa3475;
 	color: #fa3475;
 }
-.content-item.data-v-6e8e8cce{
+.content-item.data-v-6e8e8cce {
 	padding: 32rpx 36rpx 0;
 	font-size: 20rpx;
 	line-height: 32rpx;
 	color: #999999;
 }
-.ticket-use-explain.data-v-6e8e8cce{
+.ticket-use-explain.data-v-6e8e8cce {
 	padding: 32rpx 36rpx 0;
 	font-size: 20rpx;
 	line-height: 32rpx;
 	color: #999999;
 }
-.images.data-v-6e8e8cce{
+.images.data-v-6e8e8cce {
 	padding: 100rpx 0 46rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -129,27 +126,26 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 }
-.images image.data-v-6e8e8cce{
+.images image.data-v-6e8e8cce {
 	width: 360rpx;
 	height: 345rpx;
 }
-.no-have-ticket.data-v-6e8e8cce{
+.no-have-ticket.data-v-6e8e8cce {
 	text-align: center;
 	font-size: 32rpx;
 	color: #111111;
 }
-.content-list.data-v-6e8e8cce{
+.content-list.data-v-6e8e8cce {
 	padding: 0 20rpx 100rpx;
-	/* padding-bottom: 100rpx; */
 }
-.ticket-items.data-v-6e8e8cce{
+.ticket-items.data-v-6e8e8cce {
 	margin-top: 46rpx;
 	position: relative;
 }
-.ticket-numer.data-v-6e8e8cce{
+.ticket-numer.data-v-6e8e8cce {
 	color: #999999;
 }
-.ticket-number-expiration-time.data-v-6e8e8cce{
+.ticket-number-expiration-time.data-v-6e8e8cce {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -161,13 +157,13 @@
 	        justify-content: space-between;
 	font-size: 20rpx;
 }
-.ticket-number.data-v-6e8e8cce{
+.ticket-number.data-v-6e8e8cce {
 	color: #999999;
 }
-.expiration-time.data-v-6e8e8cce{
+.expiration-time.data-v-6e8e8cce {
 	color: #fa3475;
 }
-.ticket-items-content.data-v-6e8e8cce{
+.ticket-items-content.data-v-6e8e8cce {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -178,7 +174,7 @@
 	border-bottom: 1px dashed #999999;
 	margin-top: 20rpx;
 }
-.ticket-label-writer-state-userTime.data-v-6e8e8cce{
+.ticket-label-writer-state-userTime.data-v-6e8e8cce {
 	background-color: #FFFFFF;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -190,16 +186,16 @@
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
-	padding: 30rpx 32rpx 20rpx ;
+	padding: 30rpx 32rpx 20rpx;
 	border-top-left-radius: 16rpx;
 }
-.ticket-label-writer.data-v-6e8e8cce{
+.ticket-label-writer.data-v-6e8e8cce {
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 }
-.ticket-labels.data-v-6e8e8cce{
+.ticket-labels.data-v-6e8e8cce {
 	padding: 2rpx 9rpx;
 	font-size: 18rpx;
 	margin-right: 10rpx;
@@ -208,24 +204,23 @@
 	background-image: linear-gradient(-90deg, #8834fa 0%, #a25eff 100%);
 	border-radius: 4rpx;
 }
-.ticket-writer.data-v-6e8e8cce{
+.ticket-writer.data-v-6e8e8cce {
 	font-size: 28rpx;
 	color: #111111;
 }
-.ticket-state.data-v-6e8e8cce{
+.ticket-state.data-v-6e8e8cce {
 	font-size: 24rpx;
 	margin-top: 47rpx;
 }
-.ticket-state text.data-v-6e8e8cce{
-	/* color: ; */
+.ticket-state text.data-v-6e8e8cce {
 	margin-left: 10rpx;
 }
-.user-time.data-v-6e8e8cce{
+.user-time.data-v-6e8e8cce {
 	font-size: 20rpx;
 	color: #999999;
 	margin-top: 14rpx;
 }
-.ticket-images-exclusiveName.data-v-6e8e8cce{
+.ticket-images-exclusiveName.data-v-6e8e8cce {
 	width: 248rpx;
 	border-top-right-radius: 16rpx;
 	display: -webkit-box;
@@ -240,46 +235,46 @@
 	        align-items: center;
 	color: #FFFFFF;
 }
-.exclusive-name.data-v-6e8e8cce{
+.exclusive-name.data-v-6e8e8cce {
 	width: 128rpx;
 	height: 36rpx;
 	text-align: center;
-	background-image: -webkit-linear-gradient(bottom,  #070606 0%,  #303030 100%);
-	background-image: linear-gradient(0deg,  #070606 0%,  #303030 100%);
-	border-radius: 0rpx 0rpx 16rpx 16rpx;	
+	background-image: -webkit-linear-gradient(bottom, #070606 0%, #303030 100%);
+	background-image: linear-gradient(0deg, #070606 0%, #303030 100%);
+	border-radius: 0rpx 0rpx 16rpx 16rpx;
 	font-size: 20rpx;
 	line-height: 36rpx;
 }
-.exclusive-price.data-v-6e8e8cce{
+.exclusive-price.data-v-6e8e8cce {
 	font-size: 56rpx;
 	margin-top: 10rpx;
 }
-.exclusive-price text.data-v-6e8e8cce{
+.exclusive-price text.data-v-6e8e8cce {
 	font-size: 32rpx;
 }
-.meet-price-user.data-v-6e8e8cce{
+.meet-price-user.data-v-6e8e8cce {
 	font-size: 24rpx;
 	margin-top: 20rpx;
 }
-.useing-ticket.data-v-6e8e8cce{
+.useing-ticket.data-v-6e8e8cce {
 	width: 160rpx;
 	height: 40rpx;
 	text-align: center;
 	line-height: 40rpx;
 	background-color: #ffffff;
-	box-shadow: 0rpx 3rpx 6rpx 0rpx  rgba(0, 0, 0, 0.16);
+	box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(0, 0, 0, 0.16);
 	border-radius: 20rpx;
 	margin-top: 20rpx;
 	font-size: 24rpx;
 }
-.ticketDetails.data-v-6e8e8cce{
-	padding: 18rpx 26rpx 18rpx 30rpx ;
+.ticketDetails.data-v-6e8e8cce {
+	padding: 18rpx 26rpx 18rpx 30rpx;
 	border-bottom-left-radius: 16rpx;
 	border-bottom-right-radius: 16rpx;
 	box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
 	color: #999999;
 }
-.details-title.data-v-6e8e8cce{
+.details-title.data-v-6e8e8cce {
 	font-size: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -288,24 +283,25 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.details-title image.data-v-6e8e8cce{
+.details-title image.data-v-6e8e8cce {
 	margin-left: 15rpx;
 	width: 32rpx;
 	height: 32rpx;
 }
-.item-details.data-v-6e8e8cce{
+.item-details.data-v-6e8e8cce {
 	font-size: 20rpx;
 	line-height: 30rpx;
 }
-.ticket-label-images.data-v-6e8e8cce{
+.ticket-label-images.data-v-6e8e8cce {
 	position: absolute;
 	top: 80rpx;
 	right: 170rpx;
 	z-index: 9;
 }
-.ticket-label-images image.data-v-6e8e8cce{
+.ticket-label-images image.data-v-6e8e8cce {
 	width: 195rpx;
 	height: 155rpx;
 }
+
 
 

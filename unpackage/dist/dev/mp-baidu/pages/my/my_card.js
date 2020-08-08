@@ -278,11 +278,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -338,8 +333,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 4 }],
 
 
-      ticketList: [
-      {
+      ticketList: [{
         name: '全部' },
 
       {
@@ -357,7 +351,15 @@ __webpack_require__.r(__webpack_exports__);
 
       ticketContent: {},
       colorNum: 0, //选择的券是冻结中,0可使用，1冻结中，2已失效 3已使用
-      contentList: [{ type: 0 }, { type: 1 }, { type: 2 }, { type: 3 }],
+      contentList: [{
+        type: 0 },
+      {
+        type: 1 },
+      {
+        type: 2 },
+      {
+        type: 3 }],
+
       selectContent: {},
       TicketNumber: 0, //券数量
       ticketItemList: [] };
@@ -401,8 +403,7 @@ __webpack_require__.r(__webpack_exports__);
       if (type == 0 && k == 0) {
         this.TicketNumber = 1;
         this.contentList[k].selectContent = {
-          ticketItemList: [
-          {
+          ticketItemList: [{
             serialNumber: '02048492', //编号
             expirationTime: 328, //过期时间
             exclusiveName: '金钻卡专享', //专享名称
@@ -410,7 +411,10 @@ __webpack_require__.r(__webpack_exports__);
             writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
             state: '可使用', //当前状态
             userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日', '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;', '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+
             imagesUrl: '',
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
@@ -427,7 +431,10 @@ __webpack_require__.r(__webpack_exports__);
             writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
             state: '冻结中', //当前状态
             userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日', '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;', '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+
             imagesUrl: '',
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
@@ -444,7 +451,10 @@ __webpack_require__.r(__webpack_exports__);
             writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
             state: '已使用', //当前状态
             userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日', '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;', '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+
             imagesUrl: '',
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
@@ -461,7 +471,10 @@ __webpack_require__.r(__webpack_exports__);
             writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
             state: '已失效', //当前状态
             userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日', '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;', '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
+
             imagesUrl: '',
             showTicketDetails: false,
             arrowImages: '../../static/images/arrow-down.png',
@@ -474,8 +487,7 @@ __webpack_require__.r(__webpack_exports__);
 
         this.ticketItemList = this.contentList[k].selectContent.ticketItemList;
         // console.log(this.ticketItemList)
-      } else
-      if (type == 0 && k == 1) {
+      } else if (type == 0 && k == 1) {
         this.TicketNumber = 0;
         this.contentList[k].selectContent = {
           title: '冻结说明：',
@@ -484,22 +496,20 @@ __webpack_require__.r(__webpack_exports__);
           '2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效;',
           '3）失效的卡券将不予补发;', '4）若提前领取卡券，还未到使用时间，也将处于冻结状态'] };
 
-      } else
-      if (type == 0 && k == 2) {
+
+      } else if (type == 0 && k == 2) {
         this.TicketNumber = k;
         this.contentList[k].selectContent = {
           title: "顶部点击的是" + type + "券的状态" + k };
 
         this.ticketItemList = [];
-      } else
-      if (type == 0 && k == 3) {
+      } else if (type == 0 && k == 3) {
         this.TicketNumber = k;
         this.contentList[k].selectContent = {
           title: "顶部点击的是" + type + "券的状态" + k };
 
         this.ticketItemList = [];
-      } else
-      if (type != 0) {
+      } else if (type != 0) {
         this.contentList[k].selectContent = {
           title: "顶部点击的是" + type + "券的状态" + k };
 
@@ -521,10 +531,6 @@ __webpack_require__.r(__webpack_exports__);
         }
 
       }
-
-
-
-
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

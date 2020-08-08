@@ -2,6 +2,10 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/my/my_card_gain", //领取卡卷
+			"style": {}
+		},
+		{
 			"path": "pages/my/my_card", //我的卡卷
 			"style": {}
 		},
@@ -87,10 +91,8 @@
 			"style": {}
 		}, 
 		 
+		 
 		{
-			"path": "pages/my/my_card_gain", //领取卡卷
-			"style": {}
-		}, {
 			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}
 		},

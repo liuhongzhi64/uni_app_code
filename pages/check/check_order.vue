@@ -1,5 +1,5 @@
 <template>
-	<view class="check"> 
+	<view class="check_order"> 
 		核销
 	</view>
 </template>

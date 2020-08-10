@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my/my_card_gain",
     "pages/my/my_card",
     "pages/pay_success/pay_success",
     "pages/my/add_address",
@@ -20,7 +21,6 @@
     "pages/doctor/doctor_star",
     "pages/my/my",
     "pages/my/after_sales",
-    "pages/my/my_card_gain",
     "pages/my/my_card_use",
     "pages/my/my_collection",
     "pages/my/my_order",

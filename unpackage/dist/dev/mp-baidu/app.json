@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/check/check_card",
     "pages/my/my_card_gain",
+    "pages/check/check_order",
     "pages/my/my_card",
     "pages/pay_success/pay_success",
     "pages/my/add_address",

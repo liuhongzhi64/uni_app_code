@@ -1,0 +1,24 @@
+
+.top-swiper-tab.data-v-5468ecd6 {
+	position: fixed;
+	z-index: 9;
+	width: 100%;
+}
+.end-cont.data-v-5468ecd6 {
+	display: none;
+}
+.dis.data-v-5468ecd6 {
+	display: block;
+}
+.item-content.data-v-5468ecd6 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.ticket-content.data-v-5468ecd6{
+	background-color: #F6F6F6;
+	padding: 30rpx 20rpx;
+}
+
+
+

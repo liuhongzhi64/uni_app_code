@@ -1,7 +1,7 @@
 <template>
 	<view class="ticket-content">
-		<view class="ticket-items" v-for="(i,k) in ticketList" :key='k'>
-			<view class="ticket-number-expiration-time">
+		<view class="ticket-items"  v-for="(i,k) in ticketList" :key='k'>
+			<view class="ticket-number-expiration-time" v-if="i.expirationTime>0">
 				<view class="ticket-numer">{{i.serialNumber}}</view>
 				<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'">{{i.expirationTime}}小时内过期</view>
 				<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
@@ -10,30 +10,67 @@
 			<view class="ticket-items-content">
 				<view class="ticket-label-writer-state-userTime">
 					<view class="ticket-label-writer">
-						<text class="ticket-labels" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-							{{i.ticketLabel}}</text>
+						<text class="ticket-labels" 
+						:style="[{'background-image': i.state == '可使用' || i.state =='冻结中' || i.receive>0 && i.state!='已结束'? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+							{{i.ticketLabel}}
+						</text>
+						
 						<text class="ticket-writer"> {{i.writer}} </text>
 					</view>
-					<view class="ticket-state">当前状态:
+					<!-- 当前状态 -->
+					<view class="ticket-state" v-if="i.state&&i.state!='已结束'">当前状态:
 						<text v-if="i.state == '可使用'&&i.state != '冻结中'" :style="[{'color':'#fa3475'}]">
 							{{i.state}}
 						</text>
 						<text v-if="i.state != '可使用'&&i.state == '冻结中'" :style="[{'color':'#0073c4'}]">
 							{{i.state}}
 						</text>
-						<text v-if="i.state == '已使用'||i.state == '已失效'" :style="[{'color':'#111111'}]">
-							{{i.state}}
-						</text>
+						<text v-if="i.state == '已使用'||i.state == '已失效'" :style="[{'color':'#111111'}]">{{i.state}}</text>
 					</view>
-					<view class="user-time">使用时间:<text>{{i.userTime}}</text></view>
+					
+					<!-- 可领取券数 -->
+					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime">
+						可领取{{i.receive}}张
+					</view>
+					
+					<!-- 活动时间 -->
+					<view class="user-time" v-if="i.userTime">使用时间:<text>{{i.userTime}}</text></view>
+					
+					<!-- 领取倒计时 -->
+					<view class="receive-time" v-if="i.receiveTime">
+						距结束还剩 
+						<text class="times">23</text>
+						<text class="time-line">:</text>
+						<text class="times">23</text>
+						<text class="time-line">:</text>
+						<text class="times">23</text>
+					</view>
+					<view class="receive-times" v-if="!i.receiveTime"> 已结束 </view>
+						
 				</view>
-				<view class="ticket-images-exclusiveName" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				
+				<view class="ticket-images-exclusiveName" v-if="i.state"  :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
-					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'" :style="{'color':i.toColor}"> 立即使用
-					</view>
+					
+					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'" :style="{'color':i.toColor}">  立即使用 </view>
+					<view class="Immediately-receive useing-ticket" v-if="i.receive>0" :style="{'color':i.state=='已结束' ?  '#999999':i.toColor}"> 立即领取 </view>
+					
 				</view>
+				
+				<view class="ticket-images-exclusiveName" v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+					<view class="exclusive-name">{{i.exclusiveName}}</view>
+					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
+					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
+					
+					<view class="Immediately-receive useing-ticket" v-if="i.receive>0 " :style="{'color':i.receive>0&&i.receiveTime?i.toColor:'#999999'}"> 立即领取 </view>
+					
+					<view class="useing-ticket" v-if="i.receive==0" :style="{'color':'#999999'}">  立即使用 </view>
+					
+				</view>
+				
+				
 			</view>
 			<view class="ticketDetails" @tap='showDetails(i.serialNumber)'>
 				<view class="details-title"> <text>卡券详情</text>
@@ -52,6 +89,19 @@
 			<view class="ticket-label-images" v-if="i.state == '已失效'">
 				<image src="../static/images/state1.png" mode=""></image>
 			</view>
+			
+			<view class="ticket-label-images" v-if="i.receive==0&&i.receiveTime&& i.allReceive > 0">
+				<!-- 上限 -->
+				<image src="../static/images/upper-limit.png" mode=""></image>
+			</view>
+			<view class="ticket-label-images" v-if="i.receive==0 && i.allReceive == 0">
+				<!-- 已抢光 -->
+				<image src="../static/images/loot-all.png" mode=""></image>
+			</view>
+			<view class="ticket-label-images" v-if="i.receive>0&&!i.receiveTime&& i.allReceive > 0">
+				<!-- 已结束 -->
+				<image src="../static/images/ticke-over.png" mode=""></image>
+			</view>
 		</view>
 	</view>
 
@@ -61,27 +111,14 @@
 <script>
 	export default {
 		props: {
-			ticketList: Array
+			ticketList: Array,
+			marginTop:Number
 		},
 
 		methods: {
 			// 显示卡券详情
-			// this.$props.ticketList[i].arrowImages = '../../static/images/arrow-down.png'
 			showDetails:function(number) {
-				for (let i = 0; i < this.ticketList.length; i++) {
-					if (this.ticketList[i].serialNumber == number) {
-						console.log(this.ticketList[i].showTicketDetails)
-						this.ticketList[i].showTicketDetails = !this.ticketList[i].showTicketDetails
-						if (this.ticketList[i].showTicketDetails) {
-							console.log(this.ticketList[i].arrowImages)
-							this.ticketList[i].arrowImages = '../../static/images/arrow-top.png'
-						} else {
-							console.log(this.ticketList[i].arrowImages)
-							this.ticketList[i].arrowImages = '../../static/images/arrow-down.png'
-						}
-					}
-					
-				}
+				this.$emit('showDetails', number)
 			}
 		}
 	}
@@ -89,7 +126,6 @@
 
 <style scoped>
 	.ticket-items {
-		margin-top: 46rpx;
 		position: relative;
 	}
 
@@ -115,9 +151,8 @@
 	.ticket-items-content {
 		display: flex;
 		justify-content: center;
-		/* align-items: center; */
 		border-bottom: 1rpx dashed #999999;
-		margin-top: 20rpx;
+		/* margin-top: 20rpx; */
 	}
 
 	.ticket-label-writer-state-userTime {
@@ -153,6 +188,39 @@
 	.ticket-state {
 		font-size: 24rpx;
 		margin-top: 47rpx;
+	}
+	
+	.can-receive{
+		font-size: 24rpx;
+		color: #fa3475;
+		margin-top: 40rpx;
+	}
+	.receive-time{
+		font-size: 24rpx;
+		display: flex;
+		margin-top: 16rpx;
+	}
+	.receive-times{
+		font-size: 24rpx;
+		font-weight: bolder;
+		margin-top: 80rpx;
+	}
+	
+	.receive-time .times{
+		display: inline-block;
+		height: 30rpx;
+		width: 30rpx;
+		background-color: #fa3475;
+		border-radius: 4rpx; 
+		color: #FFFFFF;
+		text-align: center;
+		line-height: 30rpx;
+		margin-left: 10rpx;
+	}
+	.receive-time .time-line{
+		color: #fa3475;
+		margin-left: 10rpx;
+		line-height: 30rpx;
 	}
 
 	.ticket-state text {
@@ -216,6 +284,7 @@
 		border-bottom-right-radius: 16rpx;
 		box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
 		color: #999999;
+		margin-bottom: 54rpx;
 	}
 
 	.details-title {
@@ -237,7 +306,7 @@
 
 	.ticket-label-images {
 		position: absolute;
-		top: 80rpx;
+		top: 40rpx;
 		right: 170rpx;
 		z-index: 9;
 	}

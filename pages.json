@@ -2,7 +2,15 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/check/check_card", //核销
+			"style": {}
+		},
+		{
 			"path": "pages/my/my_card_gain", //领取卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/check/check_order", //核销
 			"style": {}
 		},
 		{
@@ -122,7 +130,6 @@
 			"style": {}
 		},	
 		
-
 		{
 			"path": "pages/diary/diary_detail", //日记详情（图文）
 			"style": {}

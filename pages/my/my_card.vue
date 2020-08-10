@@ -540,7 +540,7 @@
 	}
 
 	.ticket-items {
-		margin-top: 46rpx;
+		margin-top: 40rpx;
 		position: relative;
 	}
 

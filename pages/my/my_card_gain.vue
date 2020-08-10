@@ -15,11 +15,26 @@
 						<scroll-view scroll-y :style="[{'height':height-menuBottom-40+'px'}]">
 							<template>
 								<block>
-									<view class="ticket-content">
-										{{i.name}}
-										<view class="aaa" v-if="ticketItemList.length>0">
-											<ticket  :ticketList = 'ticketItemList'></ticket>
+									<view class="ticket-content" :style="[{'min-height':height-menuBottom-70+'px'}]">
+										<!-- 提示 -->
+										<view class="ticket-hint"> 尊敬的顾客，小喵为您专属定制以下卡券 </view>
+										
+										<view  v-if="ticketItemList.length>0">
+											<ticket  :ticketList = 'ticketItemList' :marginTop='marginTop' @showDetails='showDetails'></ticket>
 										</view>
+										
+										<!-- 券为空 -->
+										<view class="content-item" v-if="ticketItemList.length == 0">
+											<view class="Ticket-number">
+												<view class="images">
+													<image src="../../static/images/cartBg.png" mode=""></image>
+												</view>
+										
+												<view class="no-have-ticket">喵！暂无相关卡券~</view>
+											</view>
+										
+										</view>
+										
 									</view>
 								</block>
 
@@ -29,6 +44,14 @@
 				</swiper>
 			</view>
 		</view>
+		
+		<view class="consult-my-ticket">
+			<view class="consult-my-ticket-content">
+				<view class="consult"> 立即咨询 </view>
+				<view class="my-ticket"> 我的卡券 </view>
+			</view>	
+		</view>
+		
 	</view>
 </template>
 
@@ -108,7 +131,8 @@
 					},
 				],
 				ticketList:{},
-				ticketItemList:[]
+				ticketItemList:[],
+				marginTop:54
 			}
 		},
 		onReady() {
@@ -139,12 +163,12 @@
 						ticketItemList: [
 							{
 								serialNumber: '02048492', //编号
-								expirationTime: 328, //过期时间
+								expirationTime: 0, //过期时间
 								exclusiveName: '金钻卡专享', //专享名称
 								ticketLabel: '满减券', //券类型
 								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '可使用', //当前状态
-								userTime: '2020-05-01至2020-05-31',
+								state: '', //当前状态
+								userTime: '',
 								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
 									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
 									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
@@ -156,15 +180,18 @@
 								toColor: '#ff6699',
 								exclusivePrice: 1000,
 								meetPriceUser: 10000,
+								receive:1,//可领取的券数量
+								allReceive:5,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
 							},
 							{
 								serialNumber: '02048491', //编号
-								expirationTime: 24, //过期时间
+								expirationTime: 0, //过期时间
 								exclusiveName: '金钻卡专享', //专享名称
 								ticketLabel: '满减券', //券类型
 								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '冻结中', //当前状态
-								userTime: '2020-05-01至2020-05-31',
+								state: '', //当前状态
+								userTime: '',
 								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
 									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
 									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
@@ -176,15 +203,18 @@
 								toColor: '#ff9c66',
 								exclusivePrice: 1000,
 								meetPriceUser: 10000,
+								receive:0,//可领取的券数量
+								allReceive:1,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
 							},
 							{
 								serialNumber: '02048495', //编号
-								expirationTime: 24, //过期时间
+								expirationTime: 0, //过期时间
 								exclusiveName: '618专享', //专享名称
-								ticketLabel: '礼品券', //券类型
+								ticketLabel: '折扣券券', //券类型
 								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '已使用', //当前状态
-								userTime: '2020-05-01至2020-05-31',
+								state: '', //当前状态
+								userTime: '',
 								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
 									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
 									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
@@ -196,15 +226,18 @@
 								toColor: '#A25DFF',
 								exclusivePrice: 1000,
 								meetPriceUser: 10000,
+								receive:1,//可领取的券数量
+								allReceive:5,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
 							},
 							{
 								serialNumber: '02048499', //编号
-								expirationTime: 2, //过期时间
+								expirationTime: 0, //过期时间
 								exclusiveName: '618专享', //专享名称
 								ticketLabel: '体验券', //券类型
 								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '已失效', //当前状态
-								userTime: '2020-05-01至2020-05-31',
+								state: '', //当前状态
+								userTime: '',
 								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
 									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
 									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
@@ -216,6 +249,32 @@
 								toColor: '#ff9c66',
 								exclusivePrice: 1000,
 								meetPriceUser: 10000,
+								receive:0,//可领取的券数量
+								allReceive:0,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
+							},
+							{
+								serialNumber: '02048450', //编号
+								expirationTime: 0, //过期时间
+								exclusiveName: '618专享', //专享名称
+								ticketLabel: '体验券', //券类型
+								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state: '已结束', //当前状态
+								userTime: '',
+								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
+								],
+								imagesUrl: '',
+								showTicketDetails: false,
+								arrowImages: '../../static/images/arrow-down.png',
+								goColor: '#fa7a34',
+								toColor: '#ff9c66',
+								exclusivePrice: 1000,
+								meetPriceUser: 10000,
+								receive:2,//可领取的券数量
+								allReceive:10,//总券数量
+								receiveTime:false,//是否开启领取券倒计时
 							},
 						],
 					}
@@ -223,25 +282,155 @@
 				}
 				else{
 					this.contentList[index].ticketList = {}
+					this.ticketItemList = []
 				}
-				console.log(this.contentList[index])
 			},
 			// 选中的内容
 			tabChange: function(e) {
 				this.tabIndex = e.detail.current;
+				let index = e.detail.current;
 				let type = e.detail.current
-				// if(type == 0){
-				// 	this.contentList[type].ticketList = {
-				// 		name:'1'
-				// 	}
-				// }
-				// else{
-				// 	this.contentList[type].ticketList = {}
-				// }
-				console.log(type)
+				if(type == 0){
+					this.contentList[index].ticketList = {
+						ticketItemList: [
+							{
+								serialNumber: '02048492', //编号
+								expirationTime: 0, //过期时间
+								exclusiveName: '金钻卡专享', //专享名称
+								ticketLabel: '满减券', //券类型
+								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state: '', //当前状态
+								userTime: '',
+								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
+								],
+								imagesUrl: '',
+								showTicketDetails: false,
+								arrowImages: '../../static/images/arrow-down.png',
+								goColor: '#fa3475',
+								toColor: '#ff6699',
+								exclusivePrice: 1000,
+								meetPriceUser: 10000,
+								receive:1,//可领取的券数量
+								allReceive:5,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
+							},
+							{
+								serialNumber: '02048491', //编号
+								expirationTime: 0, //过期时间
+								exclusiveName: '金钻卡专享', //专享名称
+								ticketLabel: '满减券', //券类型
+								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state: '', //当前状态
+								userTime: '',
+								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
+								],
+								imagesUrl: '',
+								showTicketDetails: false,
+								arrowImages: '../../static/images/arrow-down.png',
+								goColor: '#fa7a34',
+								toColor: '#ff9c66',
+								exclusivePrice: 1000,
+								meetPriceUser: 10000,
+								receive:0,//可领取的券数量
+								allReceive:1,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
+							},
+							{
+								serialNumber: '02048495', //编号
+								expirationTime: 0, //过期时间
+								exclusiveName: '618专享', //专享名称
+								ticketLabel: '折扣券券', //券类型
+								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state: '', //当前状态
+								userTime: '',
+								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
+								],
+								imagesUrl: '',
+								showTicketDetails: false,
+								arrowImages: '../../static/images/arrow-down.png',
+								goColor: '#8834FA',
+								toColor: '#A25DFF',
+								exclusivePrice: 1000,
+								meetPriceUser: 10000,
+								receive:1,//可领取的券数量
+								allReceive:5,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
+							},
+							{
+								serialNumber: '02048499', //编号
+								expirationTime: 0, //过期时间
+								exclusiveName: '618专享', //专享名称
+								ticketLabel: '体验券', //券类型
+								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state: '', //当前状态
+								userTime: '',
+								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
+								],
+								imagesUrl: '',
+								showTicketDetails: false,
+								arrowImages: '../../static/images/arrow-down.png',
+								goColor: '#fa7a34',
+								toColor: '#ff9c66',
+								exclusivePrice: 1000,
+								meetPriceUser: 10000,
+								receive:0,//可领取的券数量
+								allReceive:0,//总券数量
+								receiveTime:true,//是否开启领取券倒计时
+							},
+							{
+								serialNumber: '02048450', //编号
+								expirationTime: 0, //过期时间
+								exclusiveName: '618专享', //专享名称
+								ticketLabel: '体验券', //券类型
+								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
+								state: '已结束', //当前状态
+								userTime: '',
+								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
+									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
+									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
+								],
+								imagesUrl: '',
+								showTicketDetails: false,
+								arrowImages: '../../static/images/arrow-down.png',
+								goColor: '#fa7a34',
+								toColor: '#ff9c66',
+								exclusivePrice: 1000,
+								meetPriceUser: 10000,
+								receive:2,//可领取的券数量
+								allReceive:10,//总券数量
+								receiveTime:false,//是否开启领取券倒计时
+							},
+						],
+					}
+				this.ticketItemList = this.contentList[index].ticketList.ticketItemList 
+				}
+				else{
+					this.contentList[index].ticketList = {}
+					this.ticketItemList = []
+				}
 			},
 			
-			
+			showDetails:function(number) {
+				for (let i = 0; i < this.ticketItemList.length; i++) {
+					if (this.ticketItemList[i].serialNumber == number) {
+						this.ticketItemList[i].showTicketDetails = !this.ticketItemList[i].showTicketDetails
+						if (this.ticketItemList[i].showTicketDetails) {
+							this.ticketItemList[i].arrowImages = '../../static/images/arrow-top.png'
+						} else {
+							this.ticketItemList[i].arrowImages = '../../static/images/arrow-down.png'
+						}
+					}
+					
+				}
+			}
 		}
 	}
 </script>
@@ -264,4 +453,85 @@
 	.item-content {
 		display: flex;
 	}
+	
+	.ticket-content{
+		background-color: #F6F6F6;
+		padding: 30rpx 20rpx 120rpx;
+	}
+	
+	.ticket-hint{
+		font-size: 24rpx;
+		color: #fa3475;
+		text-align: center;
+		padding-bottom: 60rpx;
+	}
+	
+	.content-item {
+		padding: 32rpx 36rpx 0;
+		font-size: 20rpx;
+		line-height: 32rpx;
+		color: #999999;
+	}
+	
+	.ticket-use-explain {
+		padding: 32rpx 36rpx 0;
+		font-size: 20rpx;
+		line-height: 32rpx;
+		color: #999999;
+	}
+	
+	.images {
+		padding: 100rpx 0 46rpx;
+		display: flex;
+		justify-content: center;
+	}
+	
+	.images image {
+		width: 360rpx;
+		height: 345rpx;
+	}
+	
+	.no-have-ticket {
+		text-align: center;
+		font-size: 32rpx;
+		color: #111111;
+	}
+	
+	.consult-my-ticket{
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		z-index: 9;
+		background-color: #FFFFFF;
+	}
+	.consult-my-ticket-content{
+		height: 104rpx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 12rpx 20rpx;
+	}
+	
+	.consult{
+		width: 344rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		text-align: center;
+		color: #FFFFFF;
+		background-image: linear-gradient(-45deg,  #8834fa 0%,  #bc66ff 100%);
+		border-radius: 40rpx;	
+		font-size: 28rpx;
+	}
+	.my-ticket{
+		font-size: 28rpx;
+		color: #FFFFFF;
+		width: 344rpx;
+		height: 80rpx;
+		text-align: center;
+		line-height: 80rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		border-radius: 40rpx;
+	}
+	
 </style>

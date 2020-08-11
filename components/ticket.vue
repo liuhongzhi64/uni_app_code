@@ -1,20 +1,19 @@
 <template>
 	<view class="ticket-content">
-		<view class="ticket-items"  v-for="(i,k) in ticketList" :key='k'>
+		<view class="ticket-items" v-for="(i,k) in ticketList" :key='k'>
 			<view class="ticket-number-expiration-time" v-if="i.expirationTime>0">
 				<view class="ticket-numer">{{i.serialNumber}}</view>
-				<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'">{{i.expirationTime}}小时内过期</view>
+				<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'|| i.state =='已核销'">{{i.expirationTime}}小时内过期</view>
 				<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
 			</view>
 
 			<view class="ticket-items-content">
 				<view class="ticket-label-writer-state-userTime">
 					<view class="ticket-label-writer">
-						<text class="ticket-labels" 
-						:style="[{'background-image': i.state == '可使用' || i.state =='冻结中' || i.receive>0 && i.state!='已结束'? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+						<text class="ticket-labels" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' || i.receive>0 && i.state!='已结束'? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 							{{i.ticketLabel}}
 						</text>
-						
+
 						<text class="ticket-writer"> {{i.writer}} </text>
 					</view>
 					<!-- 当前状态 -->
@@ -25,52 +24,52 @@
 						<text v-if="i.state != '可使用'&&i.state == '冻结中'" :style="[{'color':'#0073c4'}]">
 							{{i.state}}
 						</text>
-						<text v-if="i.state == '已使用'||i.state == '已失效'" :style="[{'color':'#111111'}]">{{i.state}}</text>
+						<text v-if="i.state == '已使用'||i.state == '已失效' ||i.state == '已核销'" :style="[{'color':'#111111'}]">{{i.state}}</text>
 					</view>
-					
+
 					<!-- 可领取券数 -->
 					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime">
 						可领取{{i.receive}}张
 					</view>
-					
+
 					<!-- 活动时间 -->
 					<view class="user-time" v-if="i.userTime">使用时间:<text>{{i.userTime}}</text></view>
-					
+
 					<!-- 领取倒计时 -->
-					<view class="receive-time" v-if="i.receiveTime">
-						距结束还剩 
+					<view class="receive-time" v-if="i.receiveTime && i.allReceive>0">
+						距结束还剩
 						<text class="times">23</text>
 						<text class="time-line">:</text>
 						<text class="times">23</text>
 						<text class="time-line">:</text>
 						<text class="times">23</text>
 					</view>
-					<view class="receive-times" v-if="!i.receiveTime"> 已结束 </view>
-						
+					<view class="receive-times" v-if="!i.receiveTime && i.allReceive"> 已结束 </view>
+
 				</view>
-				
-				<view class="ticket-images-exclusiveName" v-if="i.state"  :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+
+				<view class="ticket-images-exclusiveName" v-if="i.state" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中'  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
-					
-					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'" :style="{'color':i.toColor}">  立即使用 </view>
+
+					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'||i.state == '已核销'" :style="{'color':i.state == '已核销'?'#999999':i.toColor}"> 立即使用 </view>
 					<view class="Immediately-receive useing-ticket" v-if="i.receive>0" :style="{'color':i.state=='已结束' ?  '#999999':i.toColor}"> 立即领取 </view>
-					
+
 				</view>
-				
+
 				<view class="ticket-images-exclusiveName" v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
-					
-					<view class="Immediately-receive useing-ticket" v-if="i.receive>0 " :style="{'color':i.receive>0&&i.receiveTime?i.toColor:'#999999'}"> 立即领取 </view>
-					
-					<view class="useing-ticket" v-if="i.receive==0" :style="{'color':'#999999'}">  立即使用 </view>
-					
+
+					<view class="Immediately-receive useing-ticket" v-if="i.receive>0 " :style="{'color':i.receive>0&&i.receiveTime?i.toColor:'#999999'}">
+						立即领取 </view>
+
+					<view class="useing-ticket" v-if="i.receive==0&&i.allReceive>=0" :style="{'color':'#999999'}"> 立即使用 </view>
+
 				</view>
-				
-				
+
 			</view>
 			<view class="ticketDetails" @tap='showDetails(i.serialNumber)'>
 				<view class="details-title"> <text>卡券详情</text>
@@ -89,8 +88,11 @@
 			<view class="ticket-label-images" v-if="i.state == '已失效'">
 				<image src="../static/images/state1.png" mode=""></image>
 			</view>
-			
-			<view class="ticket-label-images" v-if="i.receive==0&&i.receiveTime&& i.allReceive > 0">
+			<view class="ticket-label-images" v-if="i.state == '已核销'" style="top: 80rpx;">
+				<image src="../static/images/check.png" mode=""></image>
+			</view>
+
+			<view class="ticket-label-images" v-if="i.receive==0&&i.receiveTime&& i.uesrReceive == 2">
 				<!-- 上限 -->
 				<image src="../static/images/upper-limit.png" mode=""></image>
 			</view>
@@ -112,12 +114,12 @@
 	export default {
 		props: {
 			ticketList: Array,
-			marginTop:Number
+			marginTop: Number
 		},
 
 		methods: {
 			// 显示卡券详情
-			showDetails:function(number) {
+			showDetails: function(number) {
 				this.$emit('showDetails', number)
 			}
 		}
@@ -138,6 +140,7 @@
 		align-items: center;
 		justify-content: space-between;
 		font-size: 20rpx;
+		margin-bottom: 20rpx;
 	}
 
 	.ticket-number {
@@ -189,35 +192,38 @@
 		font-size: 24rpx;
 		margin-top: 47rpx;
 	}
-	
-	.can-receive{
+
+	.can-receive {
 		font-size: 24rpx;
 		color: #fa3475;
 		margin-top: 40rpx;
 	}
-	.receive-time{
+
+	.receive-time {
 		font-size: 24rpx;
 		display: flex;
 		margin-top: 16rpx;
 	}
-	.receive-times{
+
+	.receive-times {
 		font-size: 24rpx;
 		font-weight: bolder;
 		margin-top: 80rpx;
 	}
-	
-	.receive-time .times{
+
+	.receive-time .times {
 		display: inline-block;
 		height: 30rpx;
 		width: 30rpx;
 		background-color: #fa3475;
-		border-radius: 4rpx; 
+		border-radius: 4rpx;
 		color: #FFFFFF;
 		text-align: center;
 		line-height: 30rpx;
 		margin-left: 10rpx;
 	}
-	.receive-time .time-line{
+
+	.receive-time .time-line {
 		color: #fa3475;
 		margin-left: 10rpx;
 		line-height: 30rpx;

@@ -2,13 +2,18 @@
 	"pages": [ 
 		
 		{
-			"path": "pages/check/check_card", //核销
+			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}
 		},
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}
 		},
+		{
+			"path": "pages/check/check_card", //核销
+			"style": {}
+		},
+		
 		{
 			"path": "pages/check/check_order", //核销
 			"style": {}
@@ -99,15 +104,12 @@
 			"style": {}
 		}, 
 		 
-		 
 		{
-			"path": "pages/my/my_card_use", //使用卡卷
+			"path": "pages/my/my-collection", //我的收藏
 			"style": {}
-		},
-		{
-			"path": "pages/my/my_collection", //我的收藏
-			"style": {}
-		},
+		}, 
+		
+		
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}

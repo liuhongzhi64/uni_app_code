@@ -266,7 +266,8 @@
 				if (type == 0 && k == 0) {
 					this.TicketNumber = 1
 					this.contentList[k].selectContent = {
-						ticketItemList: [{
+						ticketItemList: [
+							{
 								serialNumber: '02048492', //编号
 								expirationTime: 328, //过期时间
 								exclusiveName: '金钻卡专享', //专享名称

@@ -16,6 +16,7 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 	font-size: 20rpx;
+	margin-bottom: 20rpx;
 }
 .ticket-number.data-v-ab11f3f2 {
 	color: #999999;
@@ -71,35 +72,35 @@
 	font-size: 24rpx;
 	margin-top: 47rpx;
 }
-.can-receive.data-v-ab11f3f2{
+.can-receive.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	color: #fa3475;
 	margin-top: 40rpx;
 }
-.receive-time.data-v-ab11f3f2{
+.receive-time.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	margin-top: 16rpx;
 }
-.receive-times.data-v-ab11f3f2{
+.receive-times.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	font-weight: bolder;
 	margin-top: 80rpx;
 }
-.receive-time .times.data-v-ab11f3f2{
+.receive-time .times.data-v-ab11f3f2 {
 	display: inline-block;
 	height: 30rpx;
 	width: 30rpx;
 	background-color: #fa3475;
-	border-radius: 4rpx; 
+	border-radius: 4rpx;
 	color: #FFFFFF;
 	text-align: center;
 	line-height: 30rpx;
 	margin-left: 10rpx;
 }
-.receive-time .time-line.data-v-ab11f3f2{
+.receive-time .time-line.data-v-ab11f3f2 {
 	color: #fa3475;
 	margin-left: 10rpx;
 	line-height: 30rpx;

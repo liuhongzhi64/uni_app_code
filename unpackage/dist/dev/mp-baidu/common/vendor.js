@@ -1902,6 +1902,17 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 101:
+/*!************************************************!*\
+  !*** D:/Code/code/uniapp/static/images/18.png ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/images/18.png";
+
+/***/ }),
+
 /***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
@@ -7970,17 +7981,6 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 
-
-/***/ }),
-
-/***/ 93:
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/images/18.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/images/18.png";
 
 /***/ })
 

@@ -11,8 +11,13 @@
 	background-color: #FFFFFF;
 	font-size: 28rpx;
 }
+.top-item.data-v-e3febc3e{
+	height: 80rpx;
+	line-height: 80rpx;
+}
 .item-content.data-v-e3febc3e{
-	margin-right: 52rpx;
+	width: 160rpx;
+	/* margin-right: 36rpx; */
 	color: #111111;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -20,6 +25,27 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.item-all-name.data-v-e3febc3e{
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+}
+.item-all>.item-low.data-v-e3febc3e {
+	margin-top: -1rpx;
+	margin-left: 10rpx;
+	-webkit-transform: rotate(180deg);
+	        transform: rotate(180deg);
+}
+.item-all>.item-tall.data-v-e3febc3e {
+	margin-top: 1px;
+	margin-left:-10rpx;
+	-webkit-transform: rotate(0deg);
+	        transform: rotate(0deg);
 }
 .changeItem.data-v-e3febc3e{
 	color: #fa3475;
@@ -51,6 +77,61 @@
 }
 .changTallLow.data-v-e3febc3e{
 	border-color: transparent #111111 transparent transparent;
+}
+.classifyList.data-v-e3febc3e{
+	position: fixed;
+	z-index: 9;
+	width: 100%;
+	display: none;
+}
+.classifyList-content.data-v-e3febc3e{
+	width: 100%;
+	background-color: #FFFFFF;
+	padding: 20rpx 20rpx 40rpx;
+	border-top: 1px solid #999999;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.showClassify.data-v-e3febc3e{
+	display: block;
+}
+.define-item-btn.data-v-e3febc3e{
+	background-color: #FFFFFF;
+	padding: 40rpx 0;
+	width: 100%;
+}
+.item-btn.data-v-e3febc3e{
+	padding: 0 40rpx;
+	border: none;
+}
+.define-btn.data-v-e3febc3e{
+	height: 80rpx;
+	border-radius: 40rpx;
+	line-height: 80rpx;
+	text-align: center;	
+	border: none;
+}
+.classify-item.data-v-e3febc3e{
+	height: 80rpx;
+	text-align: center;
+	line-height: 80rpx;
+	border-radius: 40rpx;
+	background-color: #F6F6F6;
+	margin-right: 30rpx;
+	margin-bottom: 20rpx;
+	width: 320rpx;
+}
+.changeItemClass.data-v-e3febc3e{
+	height: 76rpx;
+	width: 316rpx;
+	border: 1px solid #fa3475;
+	color: #fa3475;
 }
 .user-card-content.data-v-e3febc3e{
 	background-color: #F6F6F6;

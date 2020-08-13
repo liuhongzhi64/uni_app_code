@@ -66,7 +66,7 @@
 					<view class="Immediately-receive useing-ticket" v-if="i.receive>0 " :style="{'color':i.receive>0&&i.receiveTime?i.toColor:'#999999'}">
 						立即领取 </view>
 
-					<view class="useing-ticket" v-if="i.receive==0&&i.allReceive>=0" :style="{'color':'#999999'}"> 立即使用 </view>
+					<view class="useing-ticket" v-if="i.receive==0&&i.allReceive>=0" @tap='goUserCard' :style="{'color':'#999999'}"> 立即使用 </view>
 
 				</view>
 
@@ -121,6 +121,11 @@
 			// 显示卡券详情
 			showDetails: function(number) {
 				this.$emit('showDetails', number)
+			},
+			goUserCard:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_card_use`,
+				})
 			}
 		}
 	}

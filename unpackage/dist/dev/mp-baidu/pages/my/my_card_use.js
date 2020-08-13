@@ -135,7 +135,56 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 302));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 302));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 330));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -200,7 +249,8 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    topBar: topBar },
+    topBar: topBar,
+    porduct: porduct },
 
   data: function data() {
     return {
@@ -238,8 +288,51 @@ __webpack_require__.r(__webpack_exports__);
 
 
       itemBtn: true, //是否禁止点击确定按钮
-      changeItemName: '' //选中后确定按钮按下时要改变的名称
-    };
+      changeItemName: '', //选中后确定按钮按下时要改变的名称
+      porductList: [
+      {
+        url: '../../static/images/19.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: ['眼部美容', '眼部'],
+        activity: [],
+        originalCost: 68800,
+        vipPrice: 58800,
+        subscribe: 477,
+        goodReputation: 98 },
+
+      {
+        url: '../../static/images/23.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: ['眼部美容', '眼部'],
+        activity: [],
+        originalCost: 18800,
+        vipPrice: 12800,
+        subscribe: 422,
+        goodReputation: 98 },
+
+      {
+        url: '../../static/images/19.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: [],
+        activity: ['首单必减', '折扣'],
+        originalCost: 18800,
+        vipPrice: 0,
+        subscribe: 477,
+        goodReputation: 98 },
+
+      {
+        url: '../../static/images/23.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: [],
+        activity: ['首单必减', '折扣'],
+        originalCost: 18800,
+        vipPrice: 12800,
+        subscribe: 422,
+        goodReputation: 98 }] };
+
+
+
+
   },
   onReady: function onReady() {
     var that = this;
@@ -295,7 +388,11 @@ __webpack_require__.r(__webpack_exports__);
           this.classifyLists[i].itemChange = false;
         }
       }
-
+    },
+    gotoGoods: function gotoGoods(e) {
+      var goods = e.currentTarget.dataset.name;
+      uni.navigateTo({
+        url: "/pages/goods/goods_detail?goods=".concat(goods) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

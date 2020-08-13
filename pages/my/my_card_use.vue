@@ -3,7 +3,7 @@
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :barImage='barImage' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 		 
-		<view class="user-card-top" :style="[{'padding-top':menuBottom+10+'px'}]">
+		<view class="user-card-top" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="top-item" v-for="(i,k) in topList" :key='k'> 
 			
 				<view class="item-content item-all" :class="{'changeItem':changeBtn == k}" v-if="i.type == 1 " @tap='changeItem(k,i.type)'>
@@ -43,13 +43,61 @@
 			</view>
 		</view>
 			
-		<view class="user-card-content">
-			<scroll-view class="my_card-content" scroll-y :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
-				<template>
-					
+		<view class="user-card-content" >
+			<scroll-view class="my_card-content" scroll-y :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
+				<template>		
 					<view class="user-card-contents">
-						1111
-						<image src="../../static/images/19.png" mode=""></image>
+						<view class="card-use-hint"> 以下商品可使用每满5000减500元的优惠券，最高可减2000元（部分商品存在多规格，部分规格不参与此优惠，请注意选择规格） </view>
+						
+						<view class="user-card-porduct">
+							<view class="porduct-list" v-for="(i,k) in porductList" :key='k' :data-name="i.title" @tap="gotoGoods">
+								<view class="porduct-items">
+								
+									<view class="porduct-item-images">
+										<image :src="i.url" mode=""></image>
+									</view>
+								
+									<view class="porduct-introduce">
+								
+										<view class="product-title"> {{i.title}} </view>
+								
+										<view class="label" v-if="i.label.length>0">
+											<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}}  </view>
+										</view>
+								
+										<view class="activity" v-if="i.activity.length>0">
+											<view class="activity-name" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+										</view>
+								
+										<view class="porduct-price">
+											<view class="porduct-original-cost"> <text>￥</text>{{i.originalCost}} </view>
+											<view class="porduct-vip-price" v-if="i.vipPrice>0">
+												<view class="vip">钻卡</view> <view class="vip-price">￥{{i.vipPrice}}</view>
+											</view>
+										</view>
+										
+										<view class="subscribe-goodReputation">
+											<!-- 预约 -->
+											<view class="subscribe"> {{i.subscribe}}预约 </view>
+											<!-- 好评 -->
+											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
+										</view>
+										
+										
+									</view>
+													
+								</view>
+							</view>
+							<view class="no-have-porduct" v-if="porductList.length==0">
+								<view class="Ticket-number">
+									<view class="images">
+										<image src="../../static/images/cartBg.png" mode=""></image>
+									</view>
+																		
+									<view class="no-have-ticket">喵！暂无相关卡券~</view>
+								</view>
+							</view>
+						</view>
 					</view>
 					
 				</template>
@@ -61,9 +109,11 @@
 
 <script>
 	import topBar from "../../components/topBar.vue";
+	import porduct from "../../components/porduct.vue";
 	export default {
 		components: {
 			topBar,
+			porduct
 		},
 		data() {
 			return {
@@ -102,6 +152,49 @@
 				],
 				itemBtn:true,//是否禁止点击确定按钮
 				changeItemName:'',//选中后确定按钮按下时要改变的名称
+				porductList:[
+					{
+						url:'../../static/images/19.png',
+						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label:['眼部美容','眼部'],
+						activity:[],
+						originalCost:68800,
+						vipPrice:58800,
+						subscribe:477,
+						goodReputation:98,
+					},
+					{
+						url:'../../static/images/23.png',
+						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label:['眼部美容','眼部'],
+						activity:[],
+						originalCost:18800,
+						vipPrice:12800,
+						subscribe:422,
+						goodReputation:98,
+					},
+					{
+						url:'../../static/images/19.png',
+						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label:[],
+						activity:['首单必减','折扣'],
+						originalCost:18800,
+						vipPrice:0,
+						subscribe:477,
+						goodReputation:98,
+					},
+					{
+						url:'../../static/images/23.png',
+						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label:[],
+						activity:['首单必减','折扣'],
+						originalCost:18800,
+						vipPrice:12800,
+						subscribe:422,
+						goodReputation:98,
+					},
+				
+				]
 			}
 		},
 		onReady() {
@@ -157,10 +250,14 @@
 					}else{
 						this.classifyLists[i].itemChange = false
 					}
-				}
-				
-				
-			}
+				}				
+			},
+			gotoGoods: function(e) {
+				let goods = e.currentTarget.dataset.name
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?goods=${goods}`,
+				})
+			},
 		}
 	}
 </script>
@@ -168,6 +265,7 @@
 <style scoped>
 	.user-card-top{
 		position: fixed;
+		z-index: 9;
 		display: flex;
 		height: 80rpx;
 		width: 100%;
@@ -290,4 +388,151 @@
 	.user-card-content{
 		background-color: #F6F6F6;
 	}
+	.user-card-porduct{
+		padding-bottom: 80rpx;
+	}
+	
+	.card-use-hint{
+		padding: 40rpx 57rpx 30rpx;
+		font-size: 24rpx;
+		color: #999999;
+	}
+	.porduct-list{
+		margin-bottom: 20rpx;
+	}
+	.porduct-items {
+		display: flex;
+		align-items: center;
+		padding: 32rpx 30rpx;
+		background-color: #FFFFFF;
+	}
+	
+	.porduct-item-images {
+		width: 240rpx;
+		height: 240rpx;
+		margin-right: 28rpx;
+	}
+	
+	.porduct-item-images image {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.porduct-introduce {
+		flex: 1;
+		font-size: 26rpx;
+		white-space: normal;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.product-title {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		color: #111111;
+		line-height: 36rpx;
+	}
+	
+	.label {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 12rpx;
+	}
+	
+	.label-name {
+		background-color: #999999;
+		text-align: center;
+		font-size: 16rpx;
+		padding: 5rpx 8rpx;
+		margin-right: 10rpx;
+		border-radius: 4rpx;
+		color: #FFFFFF;
+	}
+	
+	.activity {
+		display: flex;
+		font-size: 16rpx;
+		color: #fa3475;
+		flex-wrap: wrap;
+		margin-top: 12rpx;
+	}
+	
+	.activity-name {
+		border: 1rpx solid #fa3475;
+		margin-right: 10rpx;
+		padding: 5rpx;
+		border-radius: 4rpx;
+	}
+	
+	.porduct-price{
+		display: flex;
+		margin-top: 20rpx;
+	}
+	.porduct-vip-price{
+		display: flex;
+		margin-left: 25rpx;
+		border: 1rpx solid #282828;
+		border-radius:4rpx ;
+	}
+	
+	.vip{
+		font-size: 16rpx;
+		border-radius: 4rpx;
+		width: 48rpx;
+		height: 29rpx;
+		line-height: 30rpx;
+		background-image: linear-gradient(0deg, #000000 0%,  #2c2c2c 100%),  linear-gradient( #282828, #282828);
+		color: #FFFFFF;
+		text-align: center;
+	}
+	
+	.vip-price{
+		height: 28rpx;
+		font-size: 16rpx;
+		color: #282828;
+		border-width: 1rpx;
+		border-image-source: linear-gradient(0deg,  #000000 0%,  #2c2c2c 100%);
+		border-image-slice: 1;
+		padding: 0 9rpx;
+	}
+	
+	.porduct-price{
+		line-height: 34rpx;
+		display: flex;
+		align-items: center;
+	}
+	
+	.porduct-original-cost{
+		color: #fa3475;
+		font-size: 52rpx;
+	}
+	.porduct-original-cost text{
+		font-size: 36rpx;
+	}
+	
+	.subscribe-goodReputation{
+		display: flex;
+		font-size: 20rpx;
+		margin-top: 36rpx;
+		color: #666666;
+	}
+	
+	.goodReputation{
+		color: #fa3576;
+		margin-left: 30rpx;
+	}
+	.no-have-porduct{
+		padding: 32rpx 36rpx 0;
+		font-size: 20rpx;
+		line-height: 32rpx;
+		color: #999999;
+	}
+	.no-have-ticket {
+		text-align: center;
+		font-size: 32rpx;
+		color: #111111;
+	}
+	
 </style>

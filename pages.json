@@ -2,22 +2,30 @@
 	"pages": [ 
 		
 		{
-			"path": "pages/my/my_card_use", //使用卡卷
+			"path": "pages/my/my_order_detail", //订单详情
 			"style": {}
 		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"enablePullDownRefresh": true
+			}
+		},
+		
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}
 		},
 		{
-			"path": "pages/check/check_card", //核销
+			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}
 		},
 		
 		{
-			"path": "pages/check/check_order", //核销
+			"path": "pages/check/check_card", //核销
 			"style": {}
 		},
+	
 		{
 			"path": "pages/my/my_card", //我的卡卷
 			"style": {}
@@ -43,12 +51,7 @@
 			"path": "pages/my/account_number", //账号管理
 			"style": {}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"enablePullDownRefresh": true
-			}
-		},
+		
 		
 		{
 			"path": "pages/cart/cart", //购物车
@@ -113,10 +116,9 @@
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
-		}, {
-			"path": "pages/my/my_order_detail", //订单详情
-			"style": {}
-		}, {
+		}, 
+		 
+		{
 			"path": "pages/my/my_order_refund", //申请退款
 			"style": {}
 		}, {

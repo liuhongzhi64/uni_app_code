@@ -337,6 +337,7 @@
 								exclusivePrice: 1000,
 								meetPriceUser: 10000,
 								receive:0,//可领取的券数量
+								uesrReceive:2,//用户最多领取
 								allReceive:1,//总券数量
 								receiveTime:true,//是否开启领取券倒计时
 							},

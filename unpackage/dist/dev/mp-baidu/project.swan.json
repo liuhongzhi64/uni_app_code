@@ -1,21 +1,18 @@
 {
-    "appInfo": {},
     "appid": "21316050",
+    "appInfo": {},
     "appkey": "",
     "condition": {},
-    "host": "baiduboxapp",
-    "libVersion": "",
-    "preview": {
-        "packageId": 799327
-    },
-    "projectname": "plastic-surgery",
     "setting": {
         "urlCheck": true
     },
+    "libVersion": "",
+    "projectname": "plastic-surgery",
+    "host": "baiduboxapp",
     "swan": {
         "baiduboxapp": {
-            "extensionJsVersion": "100.14.255",
-            "swanJsVersion": "3.190.255-rc"
+            "swanJsVersion": "3.190.255-rc",
+            "extensionJsVersion": "100.14.255"
         }
     }
 }

@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my/my_order",
     "pages/my/my_order_detail",
     "pages/index/index",
     "pages/my/my_card_gain",
@@ -25,7 +26,6 @@
     "pages/my/my",
     "pages/my/after_sales",
     "pages/my/my-collection",
-    "pages/my/my_order",
     "pages/my/my_order_refund",
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",

@@ -1,18 +1,23 @@
 <template>
 	<view class="uni-tab-bar">
-		<scroll-view class="uni-swiper-tab" :style="[{'background-color':tabBackgroundColor}]">
+		<scroll-view class="uni-swiper-tab" :style="[{'background-color':tabBackgroundColor}]" >
 			<block  v-for="(tab,index) in tabBars" :key="tab.id">
-				<view class="swiper-tab-list" 
-				 :style="[{'width':tabBars.length == 4?'25%':'20%'}]"
+				<view class="swiper-tab-list" :style="[{'width':tabBars.length == 4?'25%':'20%'}]"
 				 :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type)" 
 				 >
-					<view class="tabName">
-						{{tab.name}} <text v-if="tab.number">({{tab.number}})</text>
+					<view class="all-content">
+						<view class="tabName-tabContent">
+							<view class="tabName">
+								{{tab.name}} <text v-if="tab.number">({{tab.number}})</text>
+							</view>
+							<view class="tabContent"  v-if="tab.content">
+								{{tab.content}}
+							</view>
+						</view>
+						
+						<view class="swiper-tab-line" v-if="line" ></view>
 					</view>
-					<view class="tabContent"  v-if="tab.content">
-						{{tab.content}}
-					</view>
-					<view class="swiper-tab-line" v-if="line" ></view>
+					
 				</view>
 			</block>
 		</scroll-view>
@@ -47,7 +52,7 @@
 		white-space: nowrap;
 		display: flex;
 		justify-content: space-around;
-		height: 60rpx;
+		height: 80rpx;
 		background-color: #F6F6F6;
 	}
 	.swiper-tab-list {
@@ -55,8 +60,13 @@
 		font-weight: bold;
 		display: inline-block;
 		text-align: center;
-		line-height: 60rpx;
+		line-height: 80rpx;
 		font-size: 24rpx;
+		
+	}
+	.all-content{
+		display: flex;
+		flex-direction: column;
 	}
 	.tabContent{
 		font-size: 20rpx;
@@ -70,10 +80,12 @@
 	}
 
 	.active .swiper-tab-line {
-		border-bottom: 6rpx solid #FA3475;
+		/* border-top: 6rpx solid ; */
+		height: 6rpx;
+		background-color: #FA3475;
 		width: 80rpx;
 		margin: auto;
-		/* border-top: 6rpx solid #FEDE33; */
-		border-radius: 10rpx;
+		border-radius: 3rpx;
+		margin-top: -8rpx;
 	}
 </style>

@@ -4,7 +4,7 @@
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+10+'px'}]">
-			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
+			<swiperTabHead :tabBars="tabBars" :size='size' :line="line"  :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
 			 @tabtap="tabtap"></swiperTabHead>
 		</view>
 

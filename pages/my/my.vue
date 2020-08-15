@@ -46,7 +46,7 @@
 			<view class="my-order">
 				<view class="order-all-order">
 					<view class="order"> 我的订单 </view>
-					<view class="all-order"> 全部订单 > </view>
+					<view class="all-order" @tap='goToOrder'> 全部订单 > </view>
 				</view>
 
 				<view class="order-message">
@@ -69,7 +69,7 @@
 			<view class="serve-and-tool">
 				<view class="serve-and-tool-title"> 服务与工具 </view>
 				<view class="serve-and-tool-list">
-					<view class="serve-tool-list" v-for="(i,k) in serveToolList" :key='k'>
+					<view class="serve-tool-list" v-for="(i,k) in serveToolList" @tap='goToPages(i)' :key='k'>
 						<view class="tool-item">
 							<view class="tool-image">
 								<image :src="i.url" mode=""></image>
@@ -393,6 +393,20 @@
 				uni.navigateTo({
 					url: `/pages/my/my_card`,
 				})
+			},
+			goToOrder:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_order`,
+				})
+			},
+			goToPages:function(name){
+				console.log(name)
+				if(name.toolName == '购物车'){
+					uni.navigateTo({
+						url: `/pages/cart/cart`,
+					})
+				}
+					
 			}
 		}
 	}

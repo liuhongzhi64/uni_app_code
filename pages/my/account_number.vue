@@ -81,6 +81,9 @@
 				this.hintShow = !this.hintShow
 				setTimeout(() => {
 					this.setHint()
+					uni.navigateTo({
+						url: `/pages/login/login`,
+					})
 				}, 3000)
 				
 			},

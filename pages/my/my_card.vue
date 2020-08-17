@@ -36,14 +36,14 @@
 								<text v-if="!ticketList[index].ticketContent">{{i.name}}</text>
 
 								<view class="ticket-content" v-if="ticketList[index].ticketContent">
-									<view class="ticket-label" :style="[{'top':menuBottom+80+'px'}]">
+									<view class="ticket-label" :style="[{'top':menuBottom+90+'px'}]">
 										<view class="label-name" :class="{labelColor:colorNum==k}" @tap='selectLabel(k,listType)' v-for="(i,k) in ticketList[index].ticketContent.lableList"
 										 :key='k'>
 											{{i}}
 										</view>
 									</view>
 
-									<view class="select-content end-cont" :style="[{'padding-top':50+'px'}]" :class="{dis:colorNum == index}"
+									<view class="select-content end-cont" :style="[{'padding-top':60+'px'}]" :class="{dis:colorNum == index}"
 									 v-for="(i,index) in contentList" :key="index">
 
 										<!-- 按钮为除可使用状态时显示的券说明 -->

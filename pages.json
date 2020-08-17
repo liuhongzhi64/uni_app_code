@@ -2,15 +2,16 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/my/my_order", //我的订单
+			"style": {}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"enablePullDownRefresh": true
 			}
 		},
-		{
-			"path": "pages/my/my_order", //我的订单
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/my_order_detail", //订单详情
 			"style": {}

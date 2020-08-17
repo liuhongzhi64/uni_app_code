@@ -231,6 +231,62 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar,
@@ -280,78 +336,16 @@ __webpack_require__.r(__webpack_exports__);
       size: 24,
       tabIndex: 0, // 选中的顶部的导航，全部。线上下，礼品券的索引
       listType: 0, //券的类型
-      contentList: [{
-        name: '全部' },
-
-      {
-        name: '待付款' },
-
-      {
-        name: '已付款' },
-
-      {
-        name: '已完成' },
-
-      {
-        name: '已退款' }],
+      contentList: [
+      { name: '全部' },
+      { name: '待付款' },
+      { name: '已付款' },
+      { name: '已完成' },
+      { name: '已退款' }],
 
 
-
-      orderPorduct: [
-      {
-        name: '收费室使用',
-        porductImagesList: [
-        {
-          id: 1,
-          url: '../../static/images/23.png' },
-        {
-          id: 2,
-          url: '../../static/images/20.png' },
-        {
-          id: 1,
-          url: '../../static/images/23.png' },
-        {
-          id: 1,
-          url: '../../static/images/19.png' }],
-
-
-        poructNumber: 4 },
-
-      {
-        name: '会员中心使用',
-        porductImagesList: [
-        {
-          id: 1,
-          url: '../../static/images/23.png' },
-        {
-          id: 2,
-          url: '../../static/images/20.png' },
-        {
-          id: 1,
-          url: '../../static/images/23.png' },
-        {
-          id: 1,
-          url: '../../static/images/19.png' }],
-
-
-        poructNumber: 4 },
-
-      {
-        name: '邮寄商品',
-        porductImagesList: [
-        {
-          id: 1,
-          url: '../../static/images/23.png' },
-        {
-          id: 2,
-          url: '../../static/images/20.png' }],
-
-
-        poructNumber: 2 }],
-
-
-      bottomList: [{ name: '订单详情', type: 1 }, { name: '取消订单', type: 2 }, { name: '立即支付', type: 3 }] };
-
+      allOrderList: [] //所有订单信息
+    };
   },
   onReady: function onReady() {
     var that = this;
@@ -374,13 +368,162 @@ __webpack_require__.r(__webpack_exports__);
     tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       this.tabIndex = index;
       this.listType = type; //订单的类型
-      // console.log(type)
+      if (type == 0) {
+        var allOrderList = [
+        {
+          orderInvalidTime: '0天14时59分59秒',
+          state: '待付款',
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          orderPorduct: [
+          {
+            name: '收费室使用',
+            porductImagesList: [{
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 2,
+              url: '../../static/images/20.png' },
+            {
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 1,
+              url: '../../static/images/19.png' }],
+
+            poructNumber: 4 },
+
+          {
+            name: '会员中心使用',
+            porductImagesList: [{
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 2,
+              url: '../../static/images/20.png' },
+            {
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 1,
+              url: '../../static/images/19.png' }],
+
+            poructNumber: 4 },
+
+          {
+            name: '邮寄商品',
+            porductImagesList: [{
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 2,
+              url: '../../static/images/20.png' }],
+
+            poructNumber: 2 }],
+
+
+          bottomList: [
+          {
+            name: '订单详情',
+            type: 1 },
+          {
+            name: '取消订单',
+            type: 2 },
+          {
+            name: '立即支付',
+            type: 3 }] },
+
+
+
+        {
+          orderInvalidTime: '0天14时59分59秒',
+          state: '已付款',
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          orderPorduct: [
+          {
+            name: '收费室使用',
+            porductImagesList: [{
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 2,
+              url: '../../static/images/20.png' },
+            {
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 1,
+              url: '../../static/images/19.png' }],
+
+            poructNumber: 4 },
+
+          {
+            name: '会员中心使用',
+            porductImagesList: [{
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 2,
+              url: '../../static/images/20.png' },
+            {
+              id: 1,
+              url: '../../static/images/23.png' },
+            {
+              id: 1,
+              url: '../../static/images/19.png' }],
+
+            poructNumber: 4 },
+
+          {
+            name: '邮寄商品',
+            porductImagesList: [
+            {
+              id: 1,
+              url: '../../static/images/20.png',
+              porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+              content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+              price: 608000,
+              arrowImages: '../../static/images/arrow-down.png',
+              topImages: '../../static/images/arrow-top.png',
+              showPorduct: false }],
+
+
+            poructNumber: 2 }],
+
+
+          bottomList: [
+          {
+            name: '申请退款',
+            type: 1 },
+          {
+            name: '订单详情',
+            type: 2 },
+          {
+            name: '核销使用',
+            type: 3 }] }];
+
+
+
+
+        this.allOrderList = allOrderList;
+      }
     },
     tabChange: function tabChange(e) {
-      // console.log(e.detail.current)
       this.tabIndex = e.detail.current;
       var index = e.detail.current;
       var type = e.detail.current;
+    },
+    openPorductContent: function openPorductContent() {
+      var showPorduct = this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct;
+      console.log(this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct);
+      this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

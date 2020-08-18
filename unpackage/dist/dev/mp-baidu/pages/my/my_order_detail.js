@@ -173,8 +173,97 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
-
 {
 
   data: function data() {
@@ -189,7 +278,236 @@ var _default =
       topBackgroundColor: '#fa3474',
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
-      title: '订单详情' };
+      title: '订单详情',
+      orderPorduct: [{
+        name: '收费室使用',
+        porductImagesList: [{
+          id: 1,
+          url: '../../static/images/23.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 2 },
+
+        {
+          id: 2,
+          url: '../../static/images/20.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 1 },
+        {
+          id: 1,
+          url: '../../static/images/23.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 2 },
+        {
+          id: 1,
+          url: '../../static/images/19.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 2 }] },
+
+
+
+      {
+        name: '会员中心使用',
+        porductImagesList: [{
+          id: 1,
+          url: '../../static/images/23.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 2 },
+
+        {
+          id: 2,
+          url: '../../static/images/20.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 1 },
+        {
+          id: 1,
+          url: '../../static/images/23.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 1 },
+        {
+          id: 1,
+          url: '../../static/images/19.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 2 }],
+
+
+        poructNumber: 4 },
+
+      {
+        name: '邮寄商品',
+        porductImagesList: [{
+          id: 1,
+          url: '../../static/images/23.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 2 },
+
+        {
+          id: 2,
+          url: '../../static/images/20.png',
+          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+          contentList: [{
+            versions: '尊享版',
+            specification: '傲诺拉-星熠光面圆盘',
+            part: '腋下切口+内窥镜(进口)+双平面',
+            doctor: '艾剑英/邱伟' }],
+
+          price: 608000,
+          arrowImages: '../../static/images/arrow-down.png',
+          topImages: '../../static/images/arrow-top.png',
+          showPorduct: false,
+          allPrice: 19600,
+          onLinePay: 500,
+          discounts: 600,
+          hospitalPay: 18500,
+          copeWith: 19000,
+          porductNumber: 1 }] }] };
+
+
+
 
   },
   onReady: function onReady() {
@@ -208,7 +526,18 @@ var _default =
       } });
 
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    // 返回上一级
+    goBack: function goBack() {
+      console.log('back');
+      uni.navigateBack({
+        delta: 1 });
+
+    },
+    openPorductContent: function openPorductContent(index, k) {
+      var showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct;
+      this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct;
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

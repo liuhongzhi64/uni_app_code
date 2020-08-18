@@ -24,11 +24,21 @@
 												<!-- 顶部作废时间和订单类型 -->
 												<view class="order-message-top">
 													<view class="order-invalid-time-order-label">
-														<view class="order-invalid-time">
+														<view class="order-invalid-time" v-if="item.state!='已完成'">
 															订单作废：{{item.orderInvalidTime}}
 														</view>
 
-														<view class="order-label">{{item.state}}</view>
+														<view class="order-label" v-if="item.state!='已完成'">{{item.state}}</view>
+														
+														<view class="order-invalid-time" v-if="item.state=='已完成'">
+															下单时间: {{item.orderInvalidTime}}
+														</view>
+														<view class="order-state" v-if="item.state=='已完成'">
+															<image src="../../static/images/complete.png" mode=""></image>
+														</view>
+														<view class="order-state" v-if="item.state=='已作废'">
+															<image src="../../static/images/cancellation.png" mode=""></image>
+														</view>
 													</view>
 												</view>
 
@@ -71,28 +81,100 @@
 															</view>
 																														
 															<view class="porduct-content" 
-															 v-if="item.state=='已付款'&& i.name=='邮寄商品'"
-															>
+															 v-if="item.state=='已付款'&& i.name=='邮寄商品'" >
+																
 																<view class="porduct-content-item" 
 																 v-for="(i,k) in i.porductImagesList" :key='k' 
 																 >
-																	<view class="porduct-name">{{i.porductName}}</view>
+																	<view class="porduct-name">{{i.porductName}}</view>																	
 																	<view class="content-item" @tap='openPorductContent' v-if="!i.showPorduct">
 																		<view class="porduct-content-items">{{i.content}}</view>
 																		<image :src="i.arrowImages" mode=""></image>
-																	</view>
-																	
+																	</view>																	
 																	<view class="show-porduct-content" 
 																	 v-if="i.showPorduct" @tap='openPorductContent'>
-																		<view class="content-items">1111</view>
+																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
+																			<view class="versions">版本: {{i.versions}} </view>
+																			<view class="specification">规格: {{i.specification}} </view>
+																			<view class="part">部位: {{i.part}} </view>
+																			<view class="doctor">医生: {{i.doctor}} </view>
+																		</view>
 																		<image :src="i.topImages" mode=""></image>
-																	</view>
-																	
-																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>
-																	
-																</view>
+																	</view>																	
+																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
+																</view>			
+															</view>
+															<view class="porduct-content"
+															 v-if="item.state=='已完成'&& i.name=='邮寄商品'" >
 																
+																<view class="porduct-content-item" 
+																 v-for="(i,k) in i.porductImagesList" :key='k' 
+																 >
+																	<view class="porduct-name">{{i.porductName}}</view>																	
+																	<view class="content-item" @tap='openAccomplishPorductContent' v-if="!i.showPorduct">
+																		<view class="porduct-content-items">{{i.content}}</view>
+																		<image :src="i.arrowImages" mode=""></image>
+																	</view>																	
+																	<view class="show-porduct-content" 
+																	 v-if="i.showPorduct" @tap='openAccomplishPorductContent'>
+																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
+																			<view class="versions">版本: {{i.versions}} </view>
+																			<view class="specification">规格: {{i.specification}} </view>
+																			<view class="part">部位: {{i.part}} </view>
+																			<view class="doctor">医生: {{i.doctor}} </view>
+																		</view>
+																		<image :src="i.topImages" mode=""></image>
+																	</view>																	
+																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
+																</view>			
+															</view>
+															<view class="porduct-content"
+															 v-if="item.state=='已作废'&& i.name=='邮寄商品'" >
 																
+																<view class="porduct-content-item" 
+																 v-for="(i,k) in i.porductImagesList" :key='k' 
+																 >
+																	<view class="porduct-name">{{i.porductName}}</view>																	
+																	<view class="content-item" @tap='openCancellationPorductContent' v-if="!i.showPorduct">
+																		<view class="porduct-content-items">{{i.content}}</view>
+																		<image :src="i.arrowImages" mode=""></image>
+																	</view>																	
+																	<view class="show-porduct-content" 
+																	 v-if="i.showPorduct" @tap='openCancellationPorductContent'>
+																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
+																			<view class="versions">版本: {{i.versions}} </view>
+																			<view class="specification">规格: {{i.specification}} </view>
+																			<view class="part">部位: {{i.part}} </view>
+																			<view class="doctor">医生: {{i.doctor}} </view>
+																		</view>
+																		<image :src="i.topImages" mode=""></image>
+																	</view>																	
+																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
+																</view>			
+															</view>
+															<view class="porduct-content"
+															 v-if="item.state=='待付款'&& i.name=='收费室使用'&&i.porductImagesList.length==1" >
+																
+																<view class="porduct-content-item" 
+																 v-for="(i,k) in i.porductImagesList" :key='k' 
+																 >
+																	<view class="porduct-name">{{i.porductName}}</view>																	
+																	<view class="content-item" @tap='openPorduct' v-if="!i.showPorduct">
+																		<view class="porduct-content-items">{{i.content}}</view>
+																		<image :src="i.arrowImages" mode=""></image>
+																	</view>																	
+																	<view class="show-porduct-content" 
+																	 v-if="i.showPorduct" @tap='openPorduct'>
+																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
+																			<view class="versions">版本: {{i.versions}} </view>
+																			<view class="specification">规格: {{i.specification}} </view>
+																			<view class="part">部位: {{i.part}} </view>
+																			<view class="doctor">医生: {{i.doctor}} </view>
+																		</view>
+																		<image :src="i.topImages" mode=""></image>
+																	</view>																	
+																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
+																</view>			
 															</view>
 														</view>
 														
@@ -125,14 +207,16 @@
 														 class="button" 
 														 type="default" 
 														 plain="true" 
-														 v-if="i.name != '立即支付'&&i.name != '核销使用'">
+														 v-if="i.name != '立即支付'&&i.name != '核销使用'&&i.name != '写评价'"
+														 @tap='gotoPages(i.name)'>
 															{{i.name}}
+														
 														</button>
 														<button 
 														 class="immediate-payment" 
 														  type="default" 
 														  plain="true" 
-														  v-if="i.name == '立即支付'||i.name == '核销使用'">
+														  v-if="i.name == '立即支付'||i.name == '核销使用'||i.name == '写评价'">
 															{{i.name}}
 														</button>
 													</view>
@@ -357,13 +441,18 @@
 											url: '../../static/images/20.png',
 											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
 											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
+											contentList:[
+												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
+												part :'腋下切口+内窥镜(进口)+双平面',
+												doctor:'艾剑英/邱伟'},
+											],
 											price:608000,
 											arrowImages: '../../static/images/arrow-down.png',
 											topImages:'../../static/images/arrow-top.png',
 											showPorduct:false,
 										},  
 									],
-									poructNumber: 2
+									poructNumber: 1
 								},
 							],
 							bottomList: [
@@ -375,6 +464,201 @@
 									type: 2
 								}, {
 									name: '核销使用',
+									type: 3
+								}, 
+							],
+						},
+						{
+							orderInvalidTime:'2020-06-28',
+							state:'已完成',
+							allPrice:19600,
+							onLinePay:500,
+							discounts:600,
+							hospitalPay:18500,
+							copeWith:19000,
+							orderPorduct: [
+								{
+									name: '收费室使用',
+									porductImagesList: [{
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 2,
+										url: '../../static/images/20.png',
+									}, {
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 1,
+										url: '../../static/images/19.png',
+									}, ],
+									poructNumber: 4
+								},
+								{
+									name: '会员中心使用',
+									porductImagesList: [{
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 2,
+										url: '../../static/images/20.png',
+									}, {
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 1,
+										url: '../../static/images/19.png',
+									}, ],
+									poructNumber: 4
+								},
+								{
+									name: '邮寄商品',
+									porductImagesList: [
+										{
+											id: 1,
+											url: '../../static/images/20.png',
+											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
+											contentList:[
+												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
+												part :'腋下切口+内窥镜(进口)+双平面',
+												doctor:'艾剑英/邱伟'},
+											],
+											price:608000,
+											arrowImages: '../../static/images/arrow-down.png',
+											topImages:'../../static/images/arrow-top.png',
+											showPorduct:false,
+										},  
+									],
+									poructNumber: 1
+								},
+							],
+							bottomList: [
+								{
+									name: '订单详情',
+									type: 1
+								}, {
+									name: '再次购买',
+									type: 2
+								}, {
+									name: '写评价',
+									type: 3
+								}, 
+							],
+						}, 
+						{
+							orderInvalidTime:'2020-06-28',
+							state:'已作废',
+							allPrice:19600,
+							onLinePay:500,
+							discounts:600,
+							hospitalPay:18500,
+							copeWith:19000,
+							orderPorduct: [
+								{
+									name: '收费室使用',
+									porductImagesList: [{
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 2,
+										url: '../../static/images/20.png',
+									}, {
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 1,
+										url: '../../static/images/19.png',
+									}, ],
+									poructNumber: 4
+								},
+								{
+									name: '会员中心使用',
+									porductImagesList: [{
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 2,
+										url: '../../static/images/20.png',
+									}, {
+										id: 1,
+										url: '../../static/images/23.png',
+									}, {
+										id: 1,
+										url: '../../static/images/19.png',
+									}, ],
+									poructNumber: 4
+								},
+								{
+									name: '邮寄商品',
+									porductImagesList: [
+										{
+											id: 1,
+											url: '../../static/images/20.png',
+											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
+											contentList:[
+												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
+												part :'腋下切口+内窥镜(进口)+双平面',
+												doctor:'艾剑英/邱伟'},
+											],
+											price:608000,
+											arrowImages: '../../static/images/arrow-down.png',
+											topImages:'../../static/images/arrow-top.png',
+											showPorduct:false,
+										},  
+									],
+									poructNumber: 1
+								},
+							],
+							bottomList: [
+								{
+									name: '订单详情',
+									type: 1,
+									
+								},  
+							],
+						}, 
+						{
+							orderInvalidTime:'2020-06-28',
+							state:'待付款',
+							allPrice:19600,
+							onLinePay:500,
+							discounts:600,
+							hospitalPay:18500,
+							copeWith:19000,
+							orderPorduct: [
+								{
+									name: '收费室使用',
+									porductImagesList: [
+										{
+											id: 1,
+											url: '../../static/images/20.png',
+											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
+											contentList:[
+												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
+												part :'腋下切口+内窥镜(进口)+双平面',
+												doctor:'艾剑英/邱伟'},
+											],
+											price:608000,
+											arrowImages: '../../static/images/arrow-down.png',
+											topImages:'../../static/images/arrow-top.png',
+											showPorduct:false,
+										},  
+									],
+								},
+								
+							],
+							bottomList: [
+								{
+									name: '订单详情',
+									type: 1
+								}, {
+									name: '取消订单',
+									type: 2
+								}, {
+									name: '立即支付',
 									type: 3
 								}, 
 							],
@@ -392,6 +676,25 @@
 				let  showPorduct = this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct
 				console.log(this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct)
 				this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct
+			},
+			openAccomplishPorductContent:function(){
+				let  showPorduct = this.allOrderList[2].orderPorduct[2].porductImagesList[0].showPorduct
+				this.allOrderList[2].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct
+			},
+			openCancellationPorductContent:function(){
+				let  showPorduct = this.allOrderList[3].orderPorduct[2].porductImagesList[0].showPorduct
+				this.allOrderList[3].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct
+			},
+			openPorduct:function(){
+				let  showPorduct = this.allOrderList[4].orderPorduct[0].porductImagesList[0].showPorduct
+				this.allOrderList[4].orderPorduct[0].porductImagesList[0].showPorduct = !showPorduct
+			},
+			gotoPages:function(name){
+				if(name=='订单详情'){
+					uni.navigateTo({
+						url: `/pages/my/my_order_detail`,
+					})
+				}
 			}
 		}
 	}
@@ -440,6 +743,18 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		position: relative;
+	}
+	.order-state{
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 166rpx;
+		height: 130rpx;
+	}
+	.order-state image{
+		width: 166rpx;
+		height: 130rpx;
 	}
 
 	.order-invalid-time {
@@ -511,6 +826,7 @@
 	.porduct-content-item {
 		padding-top:12rpx ;
 		padding-bottom: 12rpx;
+		position: relative;
 	}
 	.porduct-content-item .porduct-name{
 		overflow: hidden;
@@ -534,12 +850,24 @@
 		padding: 0 14rpx 0 16rpx;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 	}
 	.porduct-content-item .show-porduct-content{
 		font-size: 20rpx;
 		background-color: #f0f0f0;
 		border-radius: 20rpx;
-		padding: 0 16rpx;
+		padding: 10rpx 16rpx ;
+		position: absolute;
+		width: 360rpx;
+		min-height: 140rpx;
+		display: flex;
+		color: #333333;
+		font-weight: lighter;
+		justify-content: space-between;
+		line-height: 30rpx;
+	}
+	.show-porduct-content .content-items{
+		width: 290rpx;
 	}
 	.show-porduct-content image{
 		width: 32rpx;
@@ -555,7 +883,7 @@
 	.porduct-content-item .content-item image{
 		width: 32rpx;
 		height: 32rpx;
-		margin-left: 25rpx;
+		/* margin-left: 30rpx; */
 	}
 	.porduct-content-item .porduct-price{
 		color: #fa3475;
@@ -600,7 +928,7 @@
 
 	.trilateral {
 		position: absolute;
-		top: 15rpx;
+		top: 80rpx;
 		left: 0;
 		display: block;
 		width: 0;

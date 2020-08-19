@@ -14,12 +14,17 @@
 					<view class="user-images">
 						<image src="../../static/images/23.png" mode=""></image>
 					</view>
-					<view class="user-useing-time-price">
+					<view class="user-useing-time-price" v-if="state=='待付款'">
 						<view class="wait-pay">等待付款</view>
 						<view class="residue-time">剩余支付时间：<text>0</text>天<text>0</text>时<text>3</text>分<text>59</text>秒</view>
 						<view class="user-pay-price">
 							在线支付￥<text>5000.00</text>，到院再付￥<text>38500.00</text>
 						</view>
+					</view>
+					<view class="user-useing-time-price" v-if="state=='已付款'">
+						<view class="wait-pay">已付款</view>
+						<view class="residue-time">有商品于2020-06-28  11:20:23作废</view>
+						<view class="user-pay-prices"> 请尽快到院使用 </view>
 					</view>
 				</view>
 			</view>
@@ -48,8 +53,8 @@
 		</view>
 
 		<view class="order-particulars">
-			<scroll-view class="order-particulars" scroll-y>
-				<template>
+			<scroll-view class="order-particulars" >
+				<template>					
 					<view class="all-order-message">
 						<view class="order-content">
 							<view class="order-items" v-for="(item,index) in orderPorduct" :key='index'>
@@ -121,19 +126,158 @@
 								<view class="top-name">赠送信息</view>
 								<view class="my-complimentary">我的赠品 > </view>
 							</view>
+							<view class="complimentary-hint">
+								温馨提示：所有赠品将以卡券的形式发放到账户中。若发生整单退款，或是部分退款，我院有权收回相关赠品，并根据退款/退单后的情况重新计算赠品信息
+							</view>
+							
+							<view class="all-complimentary">
+								<view class="complimentary-item" v-for="(i,k) in complimentaryList" :key='k'>
+									<view class="complimentary-name">赠品</view>
+									<view class="complimentary-content">{{i}}</view>
+								</view>
+							</view>
+							
 						</view>
+						
+						<view class="ticket-discount-full-reduction">
+							<view class="ticket-content">
+								<view class="ticket-name-message">
+									<view class="ticket-name">卡券</view>
+									<view class="ticket-message">满5000减500</view>
+								</view>
+								<view class="ticket-price">-￥500</view>
+							</view>
+							<view class="full-reduction-content">
+								<view class="full-reduction-name-message">
+									<view class="full-reduction-name">满减</view>
+									<view class="full-reduction-message">满5000减500</view>
+								</view>
+								<view class="full-reduction-price">-￥500</view>
+							</view>
+							<view class="discount-content">
+								<view class="discount-name-message">
+									<view class="discount-name">折扣</view>
+									<view class="discount-message">满2件减500</view>
+								</view>
+								<view class="discount-price">-￥500</view>
+							</view>
+							
+							<view class="integral-discount">
+								<view class="integral-discount-name">积分抵扣</view>
+								<view class="integral-discount-price">-￥120</view>
+							</view>
+							<view class="integral-discount">
+								<view class="integral-discount-name">喵豆抵扣</view>
+								<view class="integral-discount-price">-￥200</view>
+							</view>
+							<view class="integral-discount">
+								<view class="integral-discount-name">余额抵扣</view>
+								<view class="integral-discount-price">-￥220</view>
+							</view>
+							
+							<view class="total-discounts">
+								<view class="total-discounts-name">优惠合计</view>
+								<view class="all-total-discounts">-￥2040</view>
+							</view>
+						
+						</view>
+						
+						<view class="all-price-message">
+							<view class="price-name-message"  v-for="(i,k) in priceList" :key='k'>
+								<view class="price-name" :style="{color:i.name=='在线支付'||i.name=='到院再付'?'#fa3475':'#000000'}">{{i.name}}  <image v-if="i.name=='优惠合计'" src="../../static/images/ask1.png" mode=""></image> </view>
+								<view class="price-message" :style="{color:i.name=='在线支付'||i.name=='到院再付'?'#fa3475':'#000000'}">￥{{i.price}}</view>
+							</view>
+						</view>
+						
+						<view class="pay-phone-service">
+							<view class="pay-phone">
+								 <button type="default"  plain="true">拨打电话</button> 
+							</view>
+							<view class="connection-service">
+								<button type="default"  plain="true">联系客服</button>
+							</view>
+						</view>
+												
+						<view class="return-mew-bean">
+							<view class="mew-bean-images-message">
+								<view class="mew-bean-images"><image src="../../static/images/cartBg.png" mode=""></image></view>
+								<view class="mew-bean-message">
+									<view class="return-number">返喵豆1000个</view>
+									<view class="return-hint">返喵豆1000个</view>
+								</view>
+							</view>
+							<view class="my-mew-nean">我的喵豆 > </view>
+						</view>
+						
+						<view class="order-information">
+							<view class="order-serial-number">
+								<view class="title-name">订单编号:</view>
+								<view class="serial-number">{{serialNumber}}</view>
+								<view class="copy" @tap='copySerialNumber'>复制</view>
+							</view>
+							<view class="order-time">
+								<view class="title-name">下单时间:</view>
+								<view class="order-time-content">2020-04-28  11:01:07</view>
+							</view>
+							<view class="pay-label">
+								<view class="title-name">支付类型:</view>
+								<view class="pay-label-content">预约金支付/全款付</view>
+							</view>
+							<view class="pay-way">
+								<view class="title-name">支付方式:</view>
+								<view class="pay-way-content">微信支付</view>
+							</view>							
+						</view>
+						
+						<view class="guess-what-you-like">
+							<view class="related-title">
+								<view class="line"></view> 猜你喜欢
+							</view>	
+							<view class="subject-content">
+								<porduct :width=350 :porductList='productList' ></porduct>
+							</view>
+								
+						</view>
+						
+						<view class="bottom-images">
+							<image src="../../static/images/cartBg.png" mode=""></image>
+							<view class="bottom-hint">本喵也是有底线的~</view>
+						</view>
+							
 					</view>
 					
 				</template>
 			</scroll-view>
 		</view>
-
+		
+		<view class="immobilization-button">
+			<view class="all-botton">
+				<view class="cancel-order">
+					 <button class="cancel-orders" type="default"  plain="true">取消订单</button> 
+				</view>
+				<view class="connection-services">
+					 <button class="connection-servicess" type="default"  plain="true">联系客服</button> 
+				</view>
+				<view class="promptly-pay">
+					<button class="promptly-pays" type="default"  plain="true">立即支付</button>
+				</view>
+			</view>
+			
+		</view>
+		
+		<view class="top-button" @click="ToTop" v-if="showTop">
+			TOP
+		</view>
+		
 	</view>
 </template>
 
 <script>
+	import porduct from "../../components/porduct.vue";
 	export default {
-
+		components: {
+			porduct
+		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -147,6 +291,7 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '订单详情',
+				state:'已付款',//是否付款
 				orderPorduct: [{
 						name: '收费室使用',
 						porductImagesList: [{
@@ -376,6 +521,80 @@
 						}, ],
 					},
 				],
+				complimentaryList:[
+					'HB面膜(2片装)一盒',
+					'华桑葆骊科玮防晒霜SPF30（2支）',
+					'20元无门槛卡券',
+					'2000元满减券'
+				],
+				priceList:[
+					{name:'商品总价',price:56800},
+					{name:'优惠合计',price:6800},
+					{name:'邮寄运费',price:0},
+					{name:'实际应付',price:50000},
+					{name:'在线支付',price:1000},
+					{name:'到院再付',price:49000},
+				],
+				serialNumber:2354777654,//订单编号
+				showTop:false,
+				productList: [
+					{
+						url: '../../static/images/19.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/23.png', //头像
+						price: 19800,
+						closed:'闭馆特推',
+						activity: [],
+						vipPrice: 0,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+				
+					},
+					{
+						url: '../../static/images/20.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/test.jpg', //头像
+						activity: ['首单必减', '折扣'],
+						price: 19800,
+						vipPrice: 18800,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					},
+					{
+						url: '../../static/images/19.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/23.png', //头像
+						price: 19800,
+						closed:'闭馆特推',
+						activity: [],
+						vipPrice: 0,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					
+					},
+					{
+						url: '../../static/images/20.png',
+						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label: [], //标签
+						headPortrait: '../../static/images/test.jpg', //头像
+						activity: ['首单必减', '折扣'],
+						price: 19800,
+						vipPrice: 18800,
+						subscribeAndGoodReputation: [{
+							subscribe: '441',
+							goodReputation: '98'
+						}],
+					},
+				],
 			}
 		},
 		onReady() {
@@ -405,6 +624,28 @@
 			openPorductContent:function(index,k){
 				let showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct
 				this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct
+			},
+			copySerialNumber:function(){
+				uni.setClipboardData({
+				    data: this.serialNumber,
+				    success: function () {
+				        console.log('复制成功');
+				    }
+				});
+			},
+			ToTop:function() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 600
+				})
+			}
+		},
+		onPageScroll:function(e){
+			if(e.scrollTop > 0 ){
+				this.showTop = true
+			}
+			else if(e.scrollTop == 0){
+				this.showTop = false
 			}
 		}
 	}
@@ -486,13 +727,15 @@
 
 	.wait-pay {
 		font-size: 40rpx;
-		line-height: 32rpx;
+	}
+	.user-pay-prices{
+		font-size: 32rpx;
 	}
 
 	.residue-time {
 		opacity: 0.7;
 		margin-top: 20rpx;
-		margin-bottom: 30rpx;
+		margin-bottom: 22rpx;
 	}
 
 	.user-all-message {
@@ -663,7 +906,7 @@
 		margin-bottom: 20rpx;
 	}
 	.content-item{
-		width: 360rpx;
+		width: 320rpx;
 		height: 40rpx;
 		line-height: 40rpx;
 		background-color: #f0f0f0;
@@ -797,4 +1040,311 @@
 		font-size: 24rpx;
 	}
 	
+	.complimentary-hint{
+		font-size: 24rpx;
+		color: #999999;
+		line-height: 32rpx;
+		padding: 15rpx 0 32rpx;
+		border-bottom: 2rpx solid #f0f0f0;
+	}
+	.all-complimentary{
+		padding-top:  40rpx;
+	}
+	.complimentary-item{
+		display: flex;
+		align-items: center;
+		line-height: 30rpx;
+		margin-bottom: 20rpx;
+	}
+	.complimentary-item:last-child{
+		margin-bottom: 0;
+	}
+	.complimentary-name{
+		width: 80rpx;
+		height: 30rpx;
+		background-color: #ffe8f0;
+		border-radius: 15rpx;
+		text-align: center;
+		font-size: 20rpx;
+		color: #fa3475;
+		margin-right: 18rpx;
+	}
+	.complimentary-content{
+		font-size: 24rpx;
+		color: #000000;
+		
+	}
+	
+	.ticket-discount-full-reduction{
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		padding: 40rpx;
+		margin-top: 20rpx;
+	}
+	.ticket-content,.full-reduction-content,.discount-content{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 35rpx;
+	}
+	.ticket-name-message,.full-reduction-name-message,.discount-name-message{
+		display: flex;
+		line-height: 30rpx;
+		
+	}
+	.ticket-name,.full-reduction-name,.discount-name{
+		width: 80rpx;
+		height: 30rpx;
+		background-color: #ffe8f0;
+		border-radius: 15rpx;
+		
+		text-align: center;
+		font-size: 20rpx;
+		color: #fa3475;
+		margin-right: 16rpx;
+	}
+	.ticket-message,.full-reduction-message,.discount-message{
+		color: #000000;
+		font-size: 24rpx;
+	}
+	.ticket-price,.full-reduction-price,.discount-price{
+		color: #999999;
+		font-size: 32rpx;
+	}
+	
+	.integral-discount{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 24rpx;
+		line-height: 30rpx;
+		margin-bottom: 30rpx;
+	}
+	.integral-discount-name{
+		color: #000000;
+	}
+	.integral-discount-price{
+		color: #999999;
+		font-size: 32rpx;
+	}
+	.total-discounts{
+		border-top: 2rpx solid #f0f0f0;
+		padding-top: 30rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.total-discounts-name{
+		font-size: 24rpx;
+		color: #000000;
+	}
+	.all-total-discounts{
+		color: #fa3475;
+		font-size: 32rpx;
+	}
+	
+	.all-price-message{
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		margin-top: 24rpx;
+		padding: 40rpx;
+	}
+	
+	.price-name-message{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 40rpx;
+		color: #fa3475;
+	}
+	.price-name-message:last-child{
+		margin-bottom: 0;
+	}
+	.price-name{
+		color: #000000;
+		font-size: 24rpx;
+		display: flex;
+		align-items: center;
+	}
+	.price-name image{
+		width: 32rpx;
+		height: 32rpx;
+		margin-left: 12rpx;
+	}
+	.price-message{
+		font-size: 32rpx;
+		color: #111111;
+	}
+	
+	.pay-phone-service{
+		padding: 30rpx 20rpx;
+		display: flex;
+		justify-content: space-between;
+	}
+	.pay-phone{
+		width: 350rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		background-image: linear-gradient(270deg, #8834fa 0%, #bc66ff 100%);
+		border-radius: 40rpx;	
+		font-size: 28rpx;
+	}
+	.pay-phone button,.connection-service button{
+		border: 0;
+		color: #FFFFFF;
+		text-align: center;
+	}
+	.connection-service{
+		width: 349rpx;
+		height: 80rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		border-radius: 40rpx;	
+		font-size: 28rpx;		
+	}
+	
+	.return-mew-bean{
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		padding: 33rpx 40rpx ;
+		display: flex;
+		justify-content: space-between;
+	}
+	.mew-bean-images-message{
+		display: flex;
+		font-size: 24rpx;
+	}
+	.mew-bean-message{
+		margin-left: 40rpx;
+	}
+	.mew-bean-images image{
+		width: 90rpx;
+		height: 70rpx;
+	}
+	.return-number{
+		color: #000000;
+	}
+	.return-hint{	
+		color: #999999;
+		margin-top: 15rpx;
+	}
+	.my-mew-nean{
+		color: #fa3475;
+	}
+	
+	.order-information{
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		padding: 40rpx;
+		font-size: 24rpx;
+		margin-top: 20rpx;
+	}
+	
+	.order-serial-number,.order-time,.pay-label,.pay-way{
+		display: flex;
+		align-items: center;
+		margin-bottom: 24rpx;
+	}
+	.pay-way{
+		margin-bottom: 0;
+	}
+	.title-name{
+		color: #999999;
+		margin-right: 32rpx;
+	}
+	.copy{
+		color: #fa3475;
+		 margin-left: 24rpx;
+	}
+	
+	/* 猜你喜欢 */
+	.guess-what-you-like {
+		padding: 40rpx 20rpx;
+	}
+	.line {
+		width: 4rpx;
+		height: 16rpx;
+		background-color: #fa3576;
+		margin-right: 20rpx;
+	}
+	
+	.related-title {
+		font-size: 28rpx;
+		line-height: 48rpx;
+		color: #111111;
+		display: flex;
+		align-items: center;
+	}
+	
+	.bottom-images{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin-top: 70rpx;
+	}
+	.bottom-images image{
+		width: 366rpx;
+		height: 260rpx;
+	}
+	.bottom-hint{
+		font-size: 24rpx;
+		color: #111111;
+		margin-top: 48rpx;
+	}
+	
+	.immobilization-button{
+		height: 104rpx;
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		background-color: #FFFFFF;	
+		display: flex;
+		justify-content: flex-end;
+	}
+	.all-botton{
+		display: flex;
+		align-items: center;
+	}
+	.cancel-order,.connection-services,.promptly-pay{
+		font-size: 24rpx;
+		margin-right: 20rpx;
+		
+	}
+	.cancel-orders,.connection-servicess{
+		width: 160rpx;
+		height: 64rpx;
+		font-size: 24rpx;
+		line-height: 64rpx;
+		border-radius: 32rpx;
+		border: solid 1rpx #999999;	
+		color: #999999;
+	}
+	.promptly-pays{
+		width: 160rpx;
+		height: 64rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
+		box-shadow: 0rpx 4rpx 8rpx 0rpx  rgba(250, 53, 118, 0.5);
+		border-radius: 32rpx;	
+		font-size: 24rpx;
+		line-height: 64rpx;
+		border-radius: 32rpx;
+		color: #FFFFFF;
+		border: 0;
+	}
+	
+	.top-button {
+		width: 64rpx;
+		height: 65rpx;
+		line-height: 65rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		box-shadow: 0rpx 8rpx 16rpx 0rpx  rgba(250, 53, 118, 0.32);
+		border-radius: 50%;
+		position: fixed;
+		right: 40rpx;
+		bottom: 130px;
+		z-index: 9999;
+		font-size: 27rpx;
+		color: #FFFFFF;
+		text-align: center;
+	}
 </style>

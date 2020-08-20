@@ -2,9 +2,15 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/my/my_order_refund", //申请退款
+			"style": {}
+		},
+		{
 			"path": "pages/my/my_order_detail", //订单详情
 			"style": {}
 		},
+		
+		
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
@@ -119,13 +125,7 @@
 			"style": {}
 		}, 
 		
-		
-		 
-		 
 		{
-			"path": "pages/my/my_order_refund", //申请退款
-			"style": {}
-		}, {
 			"path": "pages/my/my_order_refund_progress", //退款进度
 			"style": {}
 		},
@@ -134,7 +134,7 @@
 			"style": {}
 		},
 		{
-			"path": "pages/my/harves_address", //退款原因
+			"path": "pages/my/harves_address", //收货地址
 			"style": {}
 		},	
 		

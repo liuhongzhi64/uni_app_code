@@ -56,6 +56,19 @@
 			<scroll-view class="order-particulars" >
 				<template>					
 					<view class="all-order-message">
+						
+						<!-- 已付款的核销码 -->
+						<view class="account-paid-code" v-if="state=='已付款'">
+							<view class="account-paid-code-content">
+								<view class="account-paid-code-number">订单核销码 - D119387 </view>
+								<view class="account-paid-code-hint">医美项目请在收费室出示</view>
+								<view class="account-paid-code-hint">护肤品项目在会员中心出示</view>
+								<view class="account-paid-code-image">
+									<image src="../../static/images/19.png" mode=""></image>
+								</view>
+							</view>
+						</view>
+												
 						<view class="order-content">
 							<view class="order-items" v-for="(item,index) in orderPorduct" :key='index'>
 								<view class="service-conditions">
@@ -68,6 +81,19 @@
 															
 								<view class="order-porduct-content" v-for="(i,k) in item.porductImagesList" :key='k'>
 									<view class="order-porduct-line"><view class="porduct-line"></view></view>
+									
+									<view class="failure-time">
+										<view class="time-hint">商品失效：2020-04-28  22:25:27</view>
+										<view class="hint-image" v-if="i.state=='已退款'">
+											<image src="../../static/images/refund.png" mode=""></image>
+										</view>
+										<view class="hint-image" v-if="i.state=='已使用'">
+											<image src="../../static/images/state2.png" mode=""></image>
+										</view>
+										
+										<view class="hint-text" v-if="i.state=='待使用'">待使用</view>
+									</view>
+									
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
 											<image :src="i.url" mode=""></image>
@@ -250,7 +276,8 @@
 			</scroll-view>
 		</view>
 		
-		<view class="immobilization-button">
+		<!-- 待付款 -->
+		<view class="immobilization-button" v-if="state=='待付款'">
 			<view class="all-botton">
 				<view class="cancel-order">
 					 <button class="cancel-orders" type="default"  plain="true">取消订单</button> 
@@ -261,9 +288,25 @@
 				<view class="promptly-pay">
 					<button class="promptly-pays" type="default"  plain="true">立即支付</button>
 				</view>
-			</view>
-			
+			</view>			
 		</view>
+		
+		<!-- 已付款 -->
+		<view class="immobilization-buttons" v-if="state=='已付款'">
+			<view class="left-contnet">
+				<view class="detail">退款明细</view>
+				<view class="apply-for" @tap='goToRefund'>申请退款</view>
+			</view>
+			<view class="all-botton">
+				<view class="connection-services">
+					 <button class="connection-servicess" type="default"  plain="true">立即预约</button> 
+				</view>
+				<view class="promptly-pay">
+					<button class="promptly-pays" type="default"  plain="true">核销使用</button>
+				</view>
+			</view>			
+		</view>
+		
 		
 		<view class="top-button" @click="ToTop" v-if="showTop">
 			TOP
@@ -314,7 +357,8 @@
 								discounts:600,
 								hospitalPay:18500,
 								copeWith:19000,
-								porductNumber:2
+								porductNumber:2,
+								state:'已退款',
 							},
 							{
 								id: 2,
@@ -357,7 +401,8 @@
 								discounts:600,
 								hospitalPay:18500,
 								copeWith:19000,
-								porductNumber:2
+								porductNumber:2,
+								state:'已使用',
 							}, {
 								id: 1,
 								url: '../../static/images/19.png',
@@ -378,7 +423,8 @@
 								discounts:600,
 								hospitalPay:18500,
 								copeWith:19000,
-								porductNumber:2
+								porductNumber:2,
+								state:'待使用', 
 							},
 						],
 					},
@@ -551,7 +597,7 @@
 							subscribe: '441',
 							goodReputation: '98'
 						}],
-				
+						
 					},
 					{
 						url: '../../static/images/20.png',
@@ -637,6 +683,11 @@
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 600
+				})
+			},
+			goToRefund:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_order_refund`,
 				})
 			}
 		},
@@ -826,9 +877,38 @@
 	.all-order-message{
 		padding-bottom: 170rpx;
 	}
+	
+	.account-paid-code{
+		padding: 40rpx 20rpx 0;
+	}
+	.account-paid-code-content{
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		padding: 40rpx 0 30rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.account-paid-code-number{
+		font-size: 32rpx;
+		color: #000000;
+		margin-bottom: 24rpx;
+	}
+	.account-paid-code-hint{
+		font-size: 24rpx;
+		color: #999999;
+		line-height: 32rpx;
+	}
+	.account-paid-code-image image{
+		width: 320rpx;
+		height: 320rpx;
+		margin-top: 25rpx;
+	}
+	
 	.order-content{
 		padding: 40rpx 20rpx 0;
 	}
+	
 	.order-items{
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -865,12 +945,40 @@
 		padding: 0 30rpx;
 	}
 	.order-porduct-line{
-		padding: 0 0 40rpx;
+		padding: 0 0 32rpx;
 	}
 	.porduct-line{
 		background-color: #F0F0F0;
 		height: 2rpx;
 	}
+	
+	.failure-time{
+		position: relative;
+		margin-bottom: 25rpx;
+		display: flex;
+		justify-content: space-between;
+	}
+	.time-hint{
+		font-size: 24rpx;
+		color: #999999;
+	}
+	.hint-image{
+		width: 165rpx;
+		height: 130rpx;
+		position: absolute;
+		top: -60rpx;
+		right: 0;
+		opacity: 0.5;
+	}
+	.hint-image image{
+		width: 165rpx;
+		height: 130rpx;
+	}
+	.hint-text{
+		font-size: 24rpx;
+		color: #fa3475;
+	}
+	
 	
 	.order-porduct-images-name{
 		border-bottom: 2rpx solid #F0F0F0;
@@ -1301,6 +1409,27 @@
 		display: flex;
 		justify-content: flex-end;
 	}
+	.immobilization-buttons{
+		height: 104rpx;
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		background-color: #FFFFFF;	
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.left-contnet{
+		padding: 0 20rpx;
+		font-size: 24rpx;
+		color: #999999;
+		display: flex;
+		align-items: center;
+	}
+	.apply-for{
+		margin-left: 20rpx;
+	}
 	.all-botton{
 		display: flex;
 		align-items: center;
@@ -1347,4 +1476,9 @@
 		color: #FFFFFF;
 		text-align: center;
 	}
+	
+	
+	
+	
+	
 </style>

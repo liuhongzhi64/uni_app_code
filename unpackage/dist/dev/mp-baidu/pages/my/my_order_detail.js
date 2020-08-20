@@ -135,7 +135,50 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 321));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 300));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -451,7 +494,8 @@ __webpack_require__.r(__webpack_exports__);
           discounts: 600,
           hospitalPay: 18500,
           copeWith: 19000,
-          porductNumber: 2 },
+          porductNumber: 2,
+          state: '已退款' },
 
         {
           id: 2,
@@ -494,7 +538,8 @@ __webpack_require__.r(__webpack_exports__);
           discounts: 600,
           hospitalPay: 18500,
           copeWith: 19000,
-          porductNumber: 2 },
+          porductNumber: 2,
+          state: '已使用' },
         {
           id: 1,
           url: '../../static/images/19.png',
@@ -515,7 +560,8 @@ __webpack_require__.r(__webpack_exports__);
           discounts: 600,
           hospitalPay: 18500,
           copeWith: 19000,
-          porductNumber: 2 }] },
+          porductNumber: 2,
+          state: '待使用' }] },
 
 
 
@@ -774,6 +820,11 @@ __webpack_require__.r(__webpack_exports__);
       uni.pageScrollTo({
         scrollTop: 0,
         duration: 600 });
+
+    },
+    goToRefund: function goToRefund() {
+      uni.navigateTo({
+        url: "/pages/my/my_order_refund" });
 
     } },
 

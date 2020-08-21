@@ -1,6 +1,6 @@
 <template>
 	<view class="my_collection"> 
-		ζ‘η„ζ”¶θ—
+		ΞÒ  µΔ  ΚΥ²Ψ
 	</view>
 </template>
 

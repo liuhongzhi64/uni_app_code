@@ -81,6 +81,11 @@
 				userInputContent:''
 			}
 		},
+		onLoad: function(option) {
+			let that = this
+			console.log(option.refundporduct)
+		},
+		
 		onReady() {
 			let that = this;
 			// 获取屏幕高度
@@ -99,7 +104,7 @@
 		},
 		methods: {
 			checkboxChange: function(e) {
-				this.changeList = e.detail.value;
+				this.changeList = e.detail.value.join();
 			},
 			userCause:function(e){
 				 this.userInputContent = e.detail.value

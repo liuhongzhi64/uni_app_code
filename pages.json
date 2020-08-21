@@ -2,6 +2,14 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/my/my_order_refund_progress", //退款进度
+			"style": {}
+		},
+		{
+			"path": "pages/check/check_order", //订单核销
+			"style": {}
+		},
+		{
 			"path": "pages/my/my_order_refund", //申请退款
 			"style": {}
 		},
@@ -21,10 +29,7 @@
 				"enablePullDownRefresh": true
 			}
 		},
-		
-		
-		
-		
+			
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}
@@ -35,7 +40,7 @@
 		},
 		
 		{
-			"path": "pages/check/check_card", //核销
+			"path": "pages/check/check_card", //核销卡券
 			"style": {}
 		},
 	
@@ -125,10 +130,6 @@
 			"style": {}
 		}, 
 		
-		{
-			"path": "pages/my/my_order_refund_progress", //退款进度
-			"style": {}
-		},
 		{
 			"path": "pages/my/my_order_refund_reason", //退款原因
 			"style": {}

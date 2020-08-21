@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/my/my_order_refund_progress",
+    "pages/check/check_order",
     "pages/my/my_order_refund",
     "pages/my/my_order_detail",
     "pages/my/my_order",
@@ -27,7 +29,6 @@
     "pages/my/my",
     "pages/my/after_sales",
     "pages/my/my-collection",
-    "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
     "pages/my/harves_address",
     "pages/diary/diary_detail",

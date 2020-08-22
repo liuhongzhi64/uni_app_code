@@ -2,6 +2,10 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/my/after_sales", //退换/售后
+			"style": {}
+		}, 
+		{
 			"path": "pages/my/my_order_refund_progress", //退款进度
 			"style": {}
 		},
@@ -120,11 +124,7 @@
 			"path": "pages/my/my", //我的
 			"style": {}
 		},
-		{
-			"path": "pages/my/after_sales", //退换/售后
-			"style": {}
-		}, 
-		 
+			 
 		{
 			"path": "pages/my/my-collection", //我的收藏
 			"style": {}

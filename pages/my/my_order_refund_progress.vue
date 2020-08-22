@@ -9,7 +9,7 @@
 					<view class="refund_progress_content">
 						<view class="top-message">
 							<view class="order-number">订单编号:<text>23143546789</text></view>
-							<view class="schedule">取消/退款进度：<text>已退款</text></view>
+							<view class="schedules">取消/退款进度：<text>已退款</text></view>
 						</view>
 
 						<view class="refund-porduct">
@@ -92,8 +92,25 @@
 							</view>
 						</view>
 						
-						<view class="schedule">
-							这是进度条
+						<view class="porduct-refund-schedule">
+							<view class="refund-time-content">
+								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
+								<view class="refund-schedule-content">您的订单已提交管理员等待确认</view>
+							</view>
+							<view class="refund-time-content">
+								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
+								<view class="refund-schedule-content">您的取消申请已通过，退款金额将在1-3个工作日原路退回</view>
+							</view>
+							<view class="refund-time-content">
+								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
+								<view class="refund-schedule-content">您的取消申请已通过，退款金额将在1-3个工作日原路退回</view>
+							</view>
+						</view>
+						
+						<view class="contact-service">
+							<view class="contact-service-bottom">
+								<button class="bottom" type="default" plain="true" @tap='whetherCheck'>立即核销</button>
+							</view>
 						</view>
 						
 
@@ -261,7 +278,7 @@
 	
 	.refund_progress_content {
 		background-color: #F6F6F6;
-		padding-bottom: 120rpx;
+		padding-bottom: 60rpx;
 	}
 
 	.top-message {
@@ -276,17 +293,16 @@
 		margin-bottom: 30rpx;
 	}
 
-	.order-number text,
-	.schedule text {
+	.order-number text {
 		margin-left: 10rpx;
 	}
 
-	.schedule {
+	.top-message .schedules {
 		font-size: 28rpx;
 		color: #111111;
 	}
 
-	.schedule text {
+	.schedules text {
 		color: #fa3475;
 	}
 
@@ -544,11 +560,76 @@
 		margin-left: 10rpx;
 	}
 	
-	.schedule{
+	.porduct-refund-schedule{
 		padding: 50rpx 40rpx;
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-top: 20rpx;
+		
+	}
+	
+	.refund-time-content{
+		margin-bottom: 40rpx;
+		position: relative;
+		padding-left: 20rpx;
+	}
+	.refund-time-content:last-child{
+		margin-bottom: 0;
+	}
+	
+	.refund-time-content::before {
+	        content: "";/* 必须存在如果没有图标就留空 */
+	        position: absolute;/* 定位 */
+	        left: -20rpx;/* 移动到左边 */
+	        width: 20rpx;
+			height: 20rpx;
+			border-radius: 10rpx;
+			background-color: #fa3475;
+			top: 10rpx;
+	}
+	
+	.refund-time-content::after {
+        content: '';/* 必须存在如果没有图标就留空 */
+        top: 24%;/* 定位 距离*/
+        border-left: 1rpx solid #fa3475;/* 横线颜色 */
+        left: -10rpx;/* 定位 距离*/
+        height: 150%;/* 高度 */
+        position: absolute;/* 定位 */
+	}
+	.refund-time-content:last-child::after{
+		display: none;
+	}
+	
+	.refund-time{
+		color: #999999;
+		font-size: 20rpx;
+		line-height: 42rpx;
+	}
+	.refund-schedule-content{
+		font-size: 20rpx;
+		line-height: 30rpx;
+		color: #111111;
+	}
+	
+	
+	.contact-service{
+		margin-top: 60rpx;
+	}
+	
+	.contact-service-bottom{
+		padding: 0 40rpx;
+	}
+	.contact-service-bottom .bottom {
+		height: 88rpx;
+		line-height: 88rpx;
+		text-align: center;
+		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
+		box-shadow: 3rpx 3rpx 8rpx 0rpx rgba(233, 30, 97, 0.56);
+		border-radius: 44rpx;
+		background-color: #FFFFFF;
+		border: 0;
+		font-size: 32rpx;
+		color: #FFFFFF;
 	}
 	
 </style>

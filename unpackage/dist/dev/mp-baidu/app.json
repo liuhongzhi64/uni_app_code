@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my/after_sales",
     "pages/my/my_order_refund_progress",
     "pages/check/check_order",
     "pages/my/my_order_refund",
@@ -27,7 +28,6 @@
     "pages/doctor/doctor_detail",
     "pages/doctor/doctor_star",
     "pages/my/my",
-    "pages/my/after_sales",
     "pages/my/my-collection",
     "pages/my/my_order_refund_reason",
     "pages/my/harves_address",

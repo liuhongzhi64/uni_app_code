@@ -17,7 +17,7 @@
 						</view>
 
 						<view class="check-porduct">
-							<porduct :changePorduct='changePorduct' @checkboxChange='checkboxChange' @openPorductContent='openPorductContent' />
+							<porduct :changePorduct='changePorduct' :porductWidth="porductWidth"  @checkboxChange='checkboxChange' @openPorductContent='openPorductContent' />
 						</view>
 
 						<view class="price-list">
@@ -196,6 +196,7 @@
 						}]
 					},
 				],
+				porductWidth:400,
 				allPrice: '39600.00',
 				discountsPrice: '1200.45',
 				postPrice: '0.00', //邮寄

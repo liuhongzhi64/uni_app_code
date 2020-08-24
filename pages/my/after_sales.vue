@@ -15,7 +15,16 @@
 							<template>
 								<block>
 									<view class="after_sales_items-content">
-										{{i.name}}
+										<!-- 没有商品 -->
+										<view class="no-have-code" v-if="changePorduct.length==0">
+											<view class="images">
+												<image src="../../static/images/cartBg.png" mode=""></image>
+											</view>
+											
+											<view class="no-have-ticket">喵！暂无相关卡券~</view>
+										</view>
+										
+										<porduct :changePorduct='changePorduct' :porductWidth="porductWidth" @openPorductContent='openPorductContent' />
 									</view>
 								</block>
 							</template>
@@ -80,11 +89,13 @@
 				size: 24,
 				tabIndex: 0, // 选中的顶部的导航的索引
 				contentList: [
-					{ name: '全部'  },
-					{ name: '待付款'},
-					{ name: '已付款'},
-					{ name: '已完成'},
+					{ name: '申请售后'  },
+					{ name: '处理中'},
+					{ name: '售后评价'},
+					{ name: '申请记录'},
 				],
+				changePorduct: [],
+				porductWidth:453
 			}
 		},
 		onReady() {
@@ -102,15 +113,188 @@
 					that.menuPaddingRight = res.windowWidth - menu.right
 				}
 			})
+			this.tabtap()
 		},
 		methods: {
 			tabtap: function(index = 0, type = 0) {
 				this.tabIndex = index;
+				if(type==0){
+					this.changePorduct =  [
+						{
+							porduct: [{
+								id: '02048492',
+								url: '../../static/images/23.png',
+								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+								contentList: [{
+									versions: '尊享版',
+									specification: '傲诺拉-星熠光面圆盘',
+									part: '腋下切口+内窥镜(进口)+双平面',
+									doctor: '艾剑英/邱伟'
+								}, ],
+								price: 608000,
+								arrowImages: '../../static/images/arrow-down.png',
+								topImages: '../../static/images/arrow-top.png',
+								showPorduct: false,
+								allPrice: 19600,
+								onLinePay: 500,
+								discounts: 600,
+								hospitalPay: 18500,
+								copeWith: 19000,
+								porductNumber: 2,
+								state: 'after'
+							}]
+						},
+						{
+							porduct: [{
+								id: '02048495',
+								url: '../../static/images/23.png',
+								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+								contentList: [{
+									versions: '尊享版',
+									specification: '傲诺拉-星熠光面圆盘',
+									part: '腋下切口+内窥镜(进口)+双平面',
+									doctor: '艾剑英/邱伟'
+								}, ],
+								price: 608000,
+								arrowImages: '../../static/images/arrow-down.png',
+								topImages: '../../static/images/arrow-top.png',
+								showPorduct: false,
+								allPrice: 19600,
+								onLinePay: 500,
+								discounts: 600,
+								hospitalPay: 18500,
+								copeWith: 19000,
+								porductNumber: 2,
+								state: 'aftered'
+							}]
+						},
+						{
+							porduct: [{
+								id: '02048499',
+								url: '../../static/images/23.png',
+								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+								contentList: [{
+									versions: '尊享版',
+									specification: '傲诺拉-星熠光面圆盘',
+									part: '腋下切口+内窥镜(进口)+双平面',
+									doctor: '艾剑英/邱伟'
+								}, ],
+								price: 608000,
+								arrowImages: '../../static/images/arrow-down.png',
+								topImages: '../../static/images/arrow-top.png',
+								showPorduct: false,
+								allPrice: 19600,
+								onLinePay: 500,
+								discounts: 600,
+								hospitalPay: 18500,
+								copeWith: 19000,
+								porductNumber: 2,
+								state: 'aftered'
+							}]
+						},
+					]
+				}
+				else{
+					this.changePorduct = []
+				}
+				
 			},
 			tabChange: function(e) {
 				this.tabIndex = e.detail.current;
 				let index = e.detail.current;
 				let type = e.detail.current
+				if(type==0){
+					this.changePorduct =  [
+						{
+							porduct: [{
+								id: '02048492',
+								url: '../../static/images/23.png',
+								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+								contentList: [{
+									versions: '尊享版',
+									specification: '傲诺拉-星熠光面圆盘',
+									part: '腋下切口+内窥镜(进口)+双平面',
+									doctor: '艾剑英/邱伟'
+								}, ],
+								price: 608000,
+								arrowImages: '../../static/images/arrow-down.png',
+								topImages: '../../static/images/arrow-top.png',
+								showPorduct: false,
+								allPrice: 19600,
+								onLinePay: 500,
+								discounts: 600,
+								hospitalPay: 18500,
+								copeWith: 19000,
+								porductNumber: 2,
+								state: 'after'
+							}]
+						},
+						{
+							porduct: [{
+								id: '02048495',
+								url: '../../static/images/23.png',
+								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+								contentList: [{
+									versions: '尊享版',
+									specification: '傲诺拉-星熠光面圆盘',
+									part: '腋下切口+内窥镜(进口)+双平面',
+									doctor: '艾剑英/邱伟'
+								}, ],
+								price: 608000,
+								arrowImages: '../../static/images/arrow-down.png',
+								topImages: '../../static/images/arrow-top.png',
+								showPorduct: false,
+								allPrice: 19600,
+								onLinePay: 500,
+								discounts: 600,
+								hospitalPay: 18500,
+								copeWith: 19000,
+								porductNumber: 2,
+								state: 'aftered'
+							}]
+						},
+						{
+							porduct: [{
+								id: '02048499',
+								url: '../../static/images/23.png',
+								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
+								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
+								contentList: [{
+									versions: '尊享版',
+									specification: '傲诺拉-星熠光面圆盘',
+									part: '腋下切口+内窥镜(进口)+双平面',
+									doctor: '艾剑英/邱伟'
+								}, ],
+								price: 608000,
+								arrowImages: '../../static/images/arrow-down.png',
+								topImages: '../../static/images/arrow-top.png',
+								showPorduct: false,
+								allPrice: 19600,
+								onLinePay: 500,
+								discounts: 600,
+								hospitalPay: 18500,
+								copeWith: 19000,
+								porductNumber: 2,
+								state: 'aftered'
+							}]
+						},
+					]
+				}
+				else{
+					this.changePorduct = []
+				}
+			},
+			
+			openPorductContent: function(index, k) {
+				console.log(index, k)
+				// console.log(this.porductList[k].porduct[index].showPorduct)
+				let showPorduct = this.changePorduct[k].porduct[index].showPorduct
+				this.changePorduct[k].porduct[index].showPorduct = !showPorduct
 			},
 		}
 	}
@@ -128,5 +312,23 @@
 	
 	.after_sales_items-content {
 		/* padding-top: 20rpx; */
+		height: 100%;
+	}
+	.no-have-code{
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.no-have-ticket {
+		text-align: center;
+		font-size: 32rpx;
+		color: #111111;
+	}
+	.images image {
+		width: 360rpx;
+		height: 345rpx;
 	}
 </style>

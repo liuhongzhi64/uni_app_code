@@ -98,8 +98,8 @@
 
 		<view class="change-porduct" v-if="changePorduct">
 			<view class="refund-porduct-list" v-for="(i,k) in changePorduct" :key="k">
-				<view class="top-change-all">
-					<checkbox color="#ff5f93" v-if="i.title!='不支持在线退款商品' && i.title!='已核销商品' " />
+				<view class="top-change-all" v-if="i.title">
+					<checkbox color="#ff5f93" v-if="i.title!='不支持在线退款商品' && i.title!='已核销商品'  " />
 					<view class="change-title" :style="[{'margin-left':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?50+'rpx':0+'rpx'}]">
 						{{i.title}} <text v-if="i.title=='不支持在线退款商品'">（需到院于收费室处退款)</text>
 					</view>
@@ -107,7 +107,7 @@
 				<view class="porduct-list-item">
 					<checkbox-group @change="checkboxChange">
 						<label class="list-item" v-for="(item,index) in i.porduct" :key="item.id">
-							<view class="left-checkbox" v-if="i.title!='不支持在线退款商品' && i.title!='已核销商品'">
+							<view class="left-checkbox" v-if="i.title!='不支持在线退款商品' && i.title!='已核销商品'&&i.title ">
 								<checkbox color="#ff5f93" :value="item.id" :checked="item.checked" />
 							</view>
 							<view class="porduct-content" :style="[{'margin-left':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?50+'rpx':0+'rpx'}]">
@@ -115,8 +115,8 @@
 									<view class="porduct-images">
 										<image :src="item.url" mode=""></image>
 									</view>
-									<view class="porduct-right">
-										<view class="porduct-name" :style="[{'color':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?'#999999':'#111111'}]">{{item.porductName}}</view>
+									<view class="porduct-right" :style="[{'width':porductWidth+'rpx'}]">
+										<view class="porduct-name" :style="[{'color':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?'#999999':'#111111','width':porductWidth+'rpx'}]">{{item.porductName}}</view>
 			
 										<view class="content-item" @tap='openPorductContent(index,k)' v-if="!item.showPorduct">
 											<view class="porduct-content-items">{{item.content}}</view>
@@ -135,14 +135,14 @@
 			
 										<view class="porduct-price-number" :style="[{'color':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?'#999999':'#fa3475'}]">
 											<view class="porduct-price"><text>￥</text>{{item.price}}</view>
-											<view class="porduct-number">x{{item.porductNumber}} <text>{{item.state}}</text> </view>
+											<view class="porduct-number">x{{item.porductNumber}} <text v-if="i.title">{{item.state}}</text> </view>
 										</view>
 			
 			
 									</view>
 								</view>
 			
-								<view class="pay-for-the-order ">
+								<view class="pay-for-the-order " v-if="i.title">
 									<view class="pay-order-content">
 										<view class=" total-price-on-line-pay">
 											<view class="total-price" :style="[{'color':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?'#999999':'#111111'}]">总价 <text>￥{{item.allPrice}}</text>
@@ -161,6 +161,23 @@
 										</view>
 									</view>
 								</view>
+								
+								<view class="after_sales" v-if="!i.title">
+									<view class="left-hint">
+										<view class="left-hint-content">该商品已超过售后期</view>
+									</view>
+									<view class="right-content">
+										<view class="right-content-bottom" v-if="item.state =='after'">
+											<button class="bottom" type="default" plain="true" >申请售后</button>
+										</view>
+										<view class="right-content-bottom" v-if="item.state =='evaluate'">
+											<button class="bottom" type="default" plain="true">评价</button>
+										</view>
+										<view class="right-content-hint" v-if="item.state !='after'">该商品已申请售后</view>
+									</view>
+								</view>
+								
+								
 							</view>
 						</label>
 					</checkbox-group>
@@ -179,7 +196,8 @@
 			changePorduct: Array,
 			crosswisePorduct: Array,
 			width: Number,
-			height: Number
+			height: Number,
+			porductWidth:Number,
 		},
 		data(){
 			return {
@@ -698,9 +716,38 @@
 		font-size: 24rpx;
 	}
 	
-	
-	
-	
+	.after_sales{
+		padding: 20rpx 0 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.left-hint-content{
+		color: #999999;
+		font-size: 24rpx;
+	}
+	.right-content-bottom .bottom{
+		width: 170rpx;
+		height: 50rpx;
+		background-image: linear-gradient(0deg, 
+			#fa3475 0%, 
+			#ff6699 100%), 
+		linear-gradient(
+			#e0619d, 
+			#e0619d);
+		background-blend-mode: normal, 
+			normal;
+		border-radius: 25rpx;
+		text-align: center;
+		line-height: 50rpx;
+		border: 0;
+		font-size: 24rpx;
+		color: #FFFFFF;
+	}
+	.right-content-hint{
+		font-size: 24rpx;
+		color: #111111;
+	}
 	
 	
 	

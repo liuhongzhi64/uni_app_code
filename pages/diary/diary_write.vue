@@ -1,6 +1,6 @@
 <template>
-	<view class="doctor_star"> 
-		拜托了医生
+	<view class="diary_write"> 
+		写日记
 	</view>
 </template>
 
@@ -20,3 +20,4 @@
 <style>
 
 </style>
+

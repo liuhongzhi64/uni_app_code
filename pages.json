@@ -1,6 +1,13 @@
 {
 	"pages": [ 
 		
+		
+		{
+			"path": "pages/index/index",
+			"style": {
+				"enablePullDownRefresh": true
+			}
+		},
 		{
 			"path": "pages/my/after_sales", //退换/售后
 			"style": {}
@@ -27,12 +34,7 @@
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"enablePullDownRefresh": true
-			}
-		},
+		
 			
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
@@ -87,10 +89,7 @@
 			"path": "pages/login/register", //登录
 			"style": {}
 		},
-		{
-			"path": "pages/diary/diary", //日记
-			"style": {}
-		},
+		
 		{
 			"path": "pages/goods/goods_detail", //商品详情
 			"style": {}
@@ -113,11 +112,15 @@
 			"style": {}
 		},
 		{
-			"path": "pages/doctor/doctor_detail", //医生主页
+			"path": "pages/doctor/doctor_certificate", //医生证书
 			"style": {}
 		},
 		{
-			"path": "pages/doctor/doctor_star", //拜托了医生
+			"path": "pages/doctor/doctor_photo", //医生相册
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
 			"style": {}
 		},
 		{
@@ -129,47 +132,100 @@
 			"path": "pages/my/my-collection", //我的收藏
 			"style": {}
 		}, 
+		{
+			"path": "pages/my/my_comment", //我的评价-评价列表
+			"style": {}
+		}, 
 		
 		{
 			"path": "pages/my/my_order_refund_reason", //退款原因
 			"style": {}
 		},
 		{
+			"path": "pages/agreement/agreement", //用户协议
+			"style": {}
+		},
+		{
+			"path": "pages/consultation/consultation", //咨询
+			"style": {}
+		},
+		{
 			"path": "pages/my/harves_address", //收货地址
 			"style": {}
 		},	
-		
+		{
+			"path": "pages/diary/diary", //日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_personal", //个人主页
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_write", //写日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_about", //日记关联商品+医生
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_keep", //日记类型图文+视频
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_successs", //发布成功
+			"style": {}
+		},
 		{
 			"path": "pages/diary/diary_detail", //日记详情（图文）
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/diary/diary_video", //日记详情（视频）
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/search/search", //搜索主页
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/search/search_result", //搜索结果）
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/message/message", //消息主页
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/message/message_detail", //日记详情（视频）
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
 			"style": {}
-		}, {
+		}, 
+		{
+			"path": "pages/goods/goods_detail_comment_detail", //商品详情（全部评价详情）
+			"style": {}
+		}, 
+		{
 			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/goods/goods_detail_problem", //商品详情（相关问答）
 			"style": {}
-		}, {
+		}, 
+		{
+			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
+			"style": {}
+		}, 
+		{
 			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/goods/goods_list", //商品列表
 			"style": {}
 		}

@@ -1,23 +1,243 @@
 <template>
 	<view class="search_result"> 
-		搜索结果页
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
+		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		<!-- 搜索栏 -->
+		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
+			<view class="search-input-text">
+				<view class="left-input"> <icon type="search" size="18"/> <input class="search-content" @input="onKeyInput" placeholder-style='color: #b2b2b2;' placeholder="请输入关键词搜索" /></view>
+				<view class="right-text">确定</view>
+			</view>
+			
+		</view>
+		<view class="top-swiper-tab" :style="[{'top':menuBottom+60+'px'}]">
+			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
+			 @tabtap="tabtap"></swiperTabHead>
+		</view>
+		
+		<view class="search-input_content" :style="[{'padding-top':menuBottom+100+'px'}]">
+			<view class="search-input_items">
+				<swiper :style="[{'height':height-menuBottom-100+'px'}]" :current="tabIndex" @change="tabChange">
+					<swiper-item v-for="(i,index) in contentList" :key="index">
+						<scroll-view scroll-y :style="[{'height':height-menuBottom-100+'px'}]">
+							<template>
+								<block>
+									<view class="result_content">
+										<!-- {{i.name}} -->
+										<porduct :width=350 :porductList='productList' ></porduct>
+									</view>
+								</block>
+							</template>
+						</scroll-view>
+					</swiper-item>
+				</swiper>
+				</view>
+			</view>
+		
 	</view>
 </template>
 
 <script>
+	import topBar from "../../components/topBar.vue";
+	import porduct from '../../components/porduct.vue'
+	import swiperTabHead from "../../components/swiper-tab.vue";
 	export default {
+		components: {
+			topBar,
+			porduct,
+			swiperTabHead,
+		},
 		data() {
 			return {
+				menuWidth: 0,
+				menuTop: 0,
+				menuHeight: 0,
+				menuLeft: 0,
+				menuBottom: 0,
+				height: 0,
+				barName: 'particularsPage', //导航条名称
+				topBackgroundColor: '#222222',
+				color: '#FFFFFF',
+				backImage: '../static/images/back2.png',
+				title: '搜索结果页',
+				tabBars: [
+					{
+						name: '商品',
+						id: 'porduct',
+						type: 0
+					},
+					{
+						name: '医生',
+						id: 'doctor',
+						type: 1,
+					},
+					{
+						name: '日记',
+						id: 'diary',
+						type: 2
+					},
+					{
+						name: '视频',
+						id: 'video',
+						type: 3
+					},
 				
+				],
+				line: true, //是否显示选中线
+				tabBackgroundColor: '#FFFFFF',
+				size: 24,
+				tabIndex: 3, // 选中的顶部的导航的索引
+				inputValue: '',
+				contentList: [
+					{ name: '商品'  },
+					{ name: '医生'},
+					{ name: '日记'},
+					{ name: '视频'},
+				],
+				productList:[
+					{
+						url:'../../static/images/19.png',
+						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label:['眼部美容','眼部'],//标签
+						headPortrait:'../../static/images/23.png',//头像
+						userName:'用户昵称几个字',
+						like:99,//点赞
+						productUrl:'',
+						productTitle:'',
+						prouctPrice:0
+					},
+					{
+						url:'../../static/images/20.png',
+						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label:['眼部美容','眼部'],//标签
+						headPortrait:'../../static/images/test.jpg',//头像
+						userName:'用户昵称几个字',
+						like:99,//点赞
+						productUrl:'../../static/images/20.png',
+						productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						prouctPrice:998
+					},
+					{
+						url:'../../static/images/19.png',
+						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label:['眼部美容','眼部'],//标签
+						headPortrait:'../../static/images/23.png',//头像
+						userName:'用户昵称几个字',
+						like:99,//点赞
+						productUrl:'',
+						productTitle:'',
+						prouctPrice:0
+					},
+					{
+						url:'../../static/images/20.png',
+						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label:['眼部美容','眼部'],//标签
+						headPortrait:'../../static/images/test.jpg',//头像
+						userName:'用户昵称几个字',
+						like:99,//点赞
+						productUrl:'../../static/images/20.png',
+						productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						prouctPrice:998
+					},
+					{
+						url:'../../static/images/20.png',
+						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						label:['眼部美容','眼部'],//标签
+						headPortrait:'../../static/images/test.jpg',//头像
+						userName:'用户昵称几个字',
+						like:99,//点赞
+						productUrl:'../../static/images/20.png',
+						productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
+						prouctPrice:998
+					},
+				],
 			}
 		},
+		onLoad: function(option) {
+			let that = this
+			let search = option.search
+			console.log(search)
+		},
+		onReady() {
+			let that = this;
+			// 获取屏幕高度
+			uni.getSystemInfo({
+				success: function(res) {
+					that.height = res.screenHeight
+					let menu = uni.getMenuButtonBoundingClientRect();
+					that.menuWidth = menu.width
+					that.menuTop = menu.top
+					that.menuHeight = menu.height
+					that.menuLeft = menu.left
+					that.menuBottom = menu.bottom
+					that.menuPaddingRight = res.windowWidth - menu.right
+				}
+			})
+		},
 		methods: {
-			
+			onKeyInput: function(event) {
+			   this.inputValue = event.target.value
+			},
+			tabtap: function(index = 0, type = 0) {
+				this.tabIndex = index;
+			},
+			tabChange: function(e) {
+				this.tabIndex = e.detail.current;
+				let index = e.detail.current;
+				let type = e.detail.current
+			}
 		}
 	}
 </script>
 
-<style>
-
+<style scoped>
+	.search-input{
+		background-color: #F6F6F6;
+		height: 88rpx;
+		position: fixed;
+		z-index: 9;
+		width: 100%;
+	}
+	.search-input-text{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 16rpx  20rpx;
+	}
+	.left-input{
+		width: 620rpx;
+		height: 56rpx;
+		background-color: #ffffff;
+		border-radius: 10rpx;
+		border: solid 1rpx #e6e6ea;
+		background-color: #FFFFFF;
+		line-height: 56rpx;
+		display: flex;
+		align-items: center;
+		padding-left: 24rpx;
+	}
+	.left-input icon{
+		height: 40rpx;
+	}
+	.search-content{
+		font-size: 26rpx;
+		height: 56rpx;
+		line-height: 56rpx;
+		/* text-indent: 55rpx; */
+	}
+	.right-text{
+		font-size: 26rpx;
+	}
+	.top-swiper-tab {
+		position: fixed;
+		z-index: 9;
+		width: 100%;
+	}
+	.search-input_items {
+		background-color: #F6F6F6;
+	}
+	.result_content{
+		padding: 0 20rpx;
+	}
 </style>
 

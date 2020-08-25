@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/search/search",
+    "pages/search/search_result",
     "pages/index/index",
     "pages/my/after_sales",
     "pages/my/my_order_refund_progress",
@@ -42,8 +44,6 @@
     "pages/diary/diary_successs",
     "pages/diary/diary_detail",
     "pages/diary/diary_video",
-    "pages/search/search",
-    "pages/search/search_result",
     "pages/message/message",
     "pages/message/message_detail",
     "pages/goods/goods_detail_comment",

@@ -1,7 +1,14 @@
 {
 	"pages": [ 
 		
-		
+		{
+			"path": "pages/search/search", //搜索主页
+			"style": {}
+		},
+		{
+			"path": "pages/search/search_result", //搜索结果）
+			"style": {}
+		},
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -185,14 +192,8 @@
 			"path": "pages/diary/diary_video", //日记详情（视频）
 			"style": {}
 		}, 
-		{
-			"path": "pages/search/search", //搜索主页
-			"style": {}
-		}, 
-		{
-			"path": "pages/search/search_result", //搜索结果）
-			"style": {}
-		}, 
+		 
+		 
 		{
 			"path": "pages/message/message", //消息主页
 			"style": {}

@@ -1,0 +1,111 @@
+
+.user-message.data-v-bfd8c1fe {
+	background-color: #222222;
+	border-radius: 0 0 50rpx 50rpx;
+}
+.user-head-portrait-name-phone-set.data-v-bfd8c1fe {
+	padding: 10rpx 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 24rpx;
+}
+.user-head-portrait.data-v-bfd8c1fe {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.content.data-v-bfd8c1fe {
+	background-color: #F6F6F6;
+}
+.user-head-portrait image.data-v-bfd8c1fe {
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 80rpx;
+	margin-right: 24rpx;
+}
+.user-name-cart.data-v-bfd8c1fe {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.user-name-cart .user-name.data-v-bfd8c1fe {
+	font-size: 32rpx;
+	color: #FFFFFF;
+}
+.user-signature.data-v-bfd8c1fe {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-height: 30rpx;
+	width: 432rpx;
+	color: #999999;
+	margin-top: 12rpx;
+}
+.card-volume-integral-bean-balance-currency.data-v-bfd8c1fe {
+	padding: 40rpx 50rpx 160rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	color: #FFFFFF;
+	font-size: 32rpx;
+	text-align: center;
+}
+.all-card .card-name.data-v-bfd8c1fe {
+	color: #999999;
+	font-size: 24rpx;
+}
+.diary_personal_content.data-v-bfd8c1fe{
+	background-color: #F6F6F6;
+}
+.personal_content-all.data-v-bfd8c1fe{
+	padding-bottom: 200rpx;
+}
+.diary_content.data-v-bfd8c1fe{
+	margin-top: -120rpx;
+	padding: 0 20rpx;
+}
+.bottom-botton.data-v-bfd8c1fe{
+	position: fixed;
+	width: 100%;
+	background-color: #FFFFFF;
+	bottom: 0;
+	left: 0;
+}
+.keep-diary.data-v-bfd8c1fe{
+	padding: 40rpx;
+}
+.keep-diary-botton.data-v-bfd8c1fe{
+	width: 670rpx;
+	height: 80rpx;
+	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%,  #ff6699 100%);
+	background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+	box-shadow: 0rpx 4rpx 16rpx 0rpx  rgba(250, 53, 118, 0.56);
+	border-radius: 40rpx;	
+	line-height: 80rpx;
+	color: #FFFFFF;
+	font-size: 28rpx;
+	border: 0;
+}
+
+
+

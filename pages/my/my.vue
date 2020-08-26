@@ -413,6 +413,7 @@
 </script>
 
 <style scoped>
+	
 	.top-nav-message {
 		background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
 		overflow: hidden;

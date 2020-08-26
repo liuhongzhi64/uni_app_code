@@ -2,6 +2,14 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/diary/diary_detail", //日记详情（图文）
+			"style": {}
+		}, 
+		{
+			"path": "pages/diary/diary_personal", //个人主页
+			"style": {}
+		},
+		{
 			"path": "pages/search/search", //搜索主页
 			"style": {}
 		},

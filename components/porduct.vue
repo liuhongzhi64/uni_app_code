@@ -13,6 +13,13 @@
 			<view class="activity" v-if="i.activity.length>1">
 				<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
 			</view>
+			
+			<!-- 选择的项目类型 -->
+			<view class="selected-items" v-if="i.selectedItems">
+				#急速纳米美眼（尊享版）急速...
+			</view>
+			
+			
 			<view class="porduct-price-vip-cart" v-if="i.price">
 				<view class="porduct-price">
 					<text>￥</text>{{i.price}}
@@ -52,6 +59,49 @@
 					<view class="product-price"> <text>￥</text> {{i.prouctPrice}} </view>
 				</view>
 			</view>
+		</view>
+		<!-- 日记版面 -->
+		<view class="product-show" :style="[{'width':width+'rpx'}]" v-for="(i,k) in diaryList" :class="(k%2==0)?'product-item-fl':'product-item-fr'"
+		 :key='k' :data-name="i.title" @tap="gotoDiary">
+			<view class="images">
+				<image :src="i.url" mode="" :style="[{'width':width+'rpx','height':width+'rpx'}]"></image>
+			</view>
+			<view class="product-title"> <text class="closed" v-if="i.closed">{{i.closed}}</text> {{i.title}} </view>
+			<view class="product-label" v-if="i.label.length>1">
+				<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
+			</view>
+			<view class="activity" v-if="i.activity.length>1">
+				<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+			</view>
+			
+			<!-- 选择的项目类型 -->
+			<view class="selected-items" v-if="i.selectedItems">
+				#急速纳米美眼（尊享版）急速...
+			</view>
+			
+			
+			
+			<!-- 预约和好评 -->
+			<view class="subscribeAndGoodReputation" v-for="(i,k) in i.subscribeAndGoodReputation" :key='k'>
+				<view class="subscribe-goodReputation">
+					<!-- 预约 -->
+					<view class="subscribe"> {{i.subscribe}}预约 </view>
+					<!-- 好评 -->
+					<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
+				</view>
+			</view>
+			<!-- 用户信息 -->
+			<view class="user-message" v-if="i.headPortrait&&i.userName&&i.like&&!i.productUrl&&!i.productTitle">
+				<view class="headPortrait-userName">
+					<image :src="i.headPortrait" mode=""></image>
+					<view class="user-name"> {{i.userName}} </view>
+				</view>
+				<view class="like">
+					<image src="../../static/images/like.png" mode=""></image>
+					<text>{{i.like}}</text>
+				</view>
+			</view>
+			
 		</view>
 
 		<view class="crosswise-porduct" v-if="crosswisePorduct">
@@ -211,6 +261,11 @@
 					url: `/pages/goods/goods_detail?goods=${goods}`,
 				})
 			},
+			gotoDiary:function(e){
+				uni.navigateTo({
+					url: `/pages/diary/diary_detail`,
+				})
+			},
 			checkboxChange: function(e) {
 				
 				let value = e.detail.value
@@ -311,6 +366,18 @@
 		border: 1rpx solid #fa3475;
 		margin-right: 10rpx;
 		padding: 5rpx;
+	}
+	
+	.selected-items{
+		color: #999999;
+		font-size: 20rpx;
+		line-height: 44rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		width: 286rpx;
+		padding-left: 20rpx;
 	}
 
 	.porduct-price-vip-cart {

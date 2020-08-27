@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/diary/diary_successs",
     "pages/diary/diary_detail",
     "pages/diary/diary_personal",
     "pages/search/search",

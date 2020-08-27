@@ -37,21 +37,42 @@
 										</view>
 										
 										<view class="correlation-doctor">
+											<view class="doctor-images"><image src="../../static/images/19.png" mode=""></image></view>
+											<view class="doctor-name-subordinate-position">
+												<view class="doctor-name">李黠</view>
+												<view class="subordinate-position">华美紫馨无创整形中心整形中心...</view>
+											</view>
 											
 										</view>
 										
 									</view>
 								</swiper-item>
-							</swiper>
+							</swiper>				
 						</view>
 						
-						
+						<view class="detail_contents">
+							<view class="details-title"> 日记标题全部显示 </view>
+							<view class="user-details-contents">
+								整形分享 成都整形攻略 整形分享
+								<br/>								作为一个在医美整形这个巨浪里摸爬滚打很多年的人，来告诉你如何选择适合自己的医院								<view class="blank"></view>								不吹不黑，但是拒绝转载 ，呕心沥血之作
+								<br/>								希望每一个妹子在选择决定想变美的时候能够谨慎！谨慎！谨慎！都能美的不可方物，又保留自己的特色								<view class="blank"></view>								现在的整形医院真的花样百出，眼花缭乱
+								<view class="blank"></view>								每一家医院都有自己擅长的项目，不能只依靠广告和外装修来判断适不适合自己哦～								<view class="blank"></view>								现在由我一一为想做整形的妹子分析一下
+							</view>
+						</view>
 					</view>
 
 				</template>
 			</scroll-view>
-
 		</view>
+		
+		<view class="bottom-messages">
+			<view class="page-view-collect-transpond">
+				<view class="page-view">浏览量: <text>1423</text></view>
+				<view class="collect"><image src="../../static/images/collect.png" mode=""></image> <text>145</text></view>
+				<view class="transpond"> <image src="../../static/images/share.png" mode=""></image> <text>145</text> </view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
@@ -119,9 +140,9 @@
 </script>
 
 <style scoped>
-	.diary_detail_content {
+/* 	.diary_detail_content {
 		background-color: #F6F6F6;
-	}
+	} */
 
 	.user-message {
 		background-color: #222222;
@@ -208,17 +229,26 @@
 		width: 80rpx;
 		height: 80rpx;	
 	}
+	.correlation-doctor .doctor-images,.correlation-doctor .doctor-images image{
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 40rpx;
+	}
 	
 	.top-swiper-item .top-swiper-images {
 		height: 584rpx;
 		width: 100%;
 	}
-	.porduct-name-price{
+	.porduct-name-price,.doctor-name-subordinate-position{
 		display: flex;
 		flex-direction: column;
 		margin-left: 12rpx;
 	}
-	.porduct-name-price .porduct-name{
+	.doctor-name{
+		color: #ffffff;
+		font-size: 24rpx;
+	}
+	.porduct-name-price .porduct-name,.subordinate-position{
 		font-size: 24rpx;
 		color: #ffffff;
 		width: 208rpx;
@@ -234,6 +264,57 @@
 	}
 	.porduct-price text{
 		font-size: 32rpx;
+	}
+	
+	.detail_contents{
+		padding: 40rpx;
+		background-color: #FFFFFF;
+	}
+	.details-title{
+		font-size: 40rpx;
+		color: #111111;
+		padding-bottom: 24rpx;
+		border-bottom:2rpx solid #f0f0f0 ;
+	}
+	.user-details-contents{
+		font-size: 24rpx;
+		line-height: 40rpx;
+		color: #333333;
+		padding-top: 32rpx;
+		padding-bottom: 160rpx;
+	}
+	.user-details-contents .blank{
+		height: 60rpx;
+	}
+	
+	.bottom-messages{
+		background-color: #F6F6F6;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: 30rpx 0;
+		border-top:2rpx solid #f0f0f0  ;
+	}
+	
+	.page-view-collect-transpond{
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	}
+	.page-view-collect-transpond image{
+		width: 40rpx;
+		height: 40rpx;
+	}
+	.collect ,.transpond{
+		display: flex;
+		font-size: 26rpx;
+		color: #999999;
+		align-items: center;
+	}
+	.page-view{
+		color: #fa3475;
+		font-size: 26rpx;
 	}
 	
 	

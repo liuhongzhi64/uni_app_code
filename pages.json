@@ -2,6 +2,10 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/diary/diary_successs", //发布成功
+			"style": {}
+		},
+		{
 			"path": "pages/diary/diary_detail", //日记详情（图文）
 			"style": {}
 		}, 

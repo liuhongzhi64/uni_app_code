@@ -2,6 +2,36 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/doctor/doctor_certificate", //医生证书
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_photo", //医生相册
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor", //医生
+			"style": {}
+		},
+		
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		},
+		{
+			"path": "pages/login/login_gather", //微信登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/login", //登录
+			"style": {}
+		},
+		
+		{
+			"path": "pages/login/login_phone", //手机登录
+			"style": {}
+		},
+		{
 			"path": "pages/diary/diary_successs", //发布成功
 			"style": {}
 		},
@@ -100,10 +130,7 @@
 			"path": "pages/cart/cart", //购物车
 			"style": {}
 		},	
-		{
-			"path": "pages/login/login", //登录
-			"style": {}
-		},
+		
 		{
 			"path": "pages/login/register", //登录
 			"style": {}
@@ -126,22 +153,7 @@
 			"path": "pages/sign/sign", //签到
 			"style": {}
 		},
-		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_certificate", //医生证书
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_photo", //医生相册
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/my", //我的
 			"style": {}

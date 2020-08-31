@@ -2,13 +2,22 @@
 	"pages": [ 
 		
 		{
-			"path": "pages/doctor/doctor_certificate", //医生证书
+			"path": "pages/goods/goods_classify", //商品分类
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail", //商品详情
 			"style": {}
 		},
 		{
 			"path": "pages/doctor/doctor_photo", //医生相册
 			"style": {}
 		},
+		{
+			"path": "pages/doctor/doctor_certificate", //医生证书
+			"style": {}
+		},
+		
 		{
 			"path": "pages/doctor/doctor", //医生
 			"style": {}
@@ -136,15 +145,7 @@
 			"style": {}
 		},
 		
-		{
-			"path": "pages/goods/goods_detail", //商品详情
-			"style": {}
-		},
-
-		{
-			"path": "pages/goods/goods_classify", //商品分类
-			"style": {}
-		},
+		
 
 		{
 			"path": "pages/poster/poster", //邀请码
@@ -286,7 +287,7 @@
 				"text": "日记"
 			},
 			{
-				"pagePath": "pages/doctor/doctor_detail",
+				"pagePath": "pages/doctor/doctor",
 				"iconPath": "static/images/doctor.png",
 				"selectedIconPath": "static/images/doctor1.png",
 				"text": "医生"

@@ -59,7 +59,7 @@
 				<view class="back" @click="goBack" >
 					<image :src="backImage" mode=""></image>
 				</view>
-				<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> {{title}} </view>
+				<view class="title" > {{title}} </view>
 			</view>
 		</view>
 		
@@ -294,7 +294,6 @@
 	.share{
 		width: 50rpx;
 		height: 50rpx;
-		/*  */
 		border-radius: 25rpx;
 	}
 	.share image{
@@ -316,10 +315,12 @@
 	}
 	
 	.back-title {
-		display: flex;
+		/* display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: center; */
 		font-size: 38rpx;
+		position: relative;
+		text-align: center;
 	}
 	
 	.back {
@@ -328,6 +329,9 @@
 		margin-left: 20rpx;
 		width: 60rpx;
 		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
 	}
 	
 	.back image {
@@ -337,7 +341,7 @@
 	
 	.back-title .title {
 		flex: 1;
-		margin-left: 80rpx;
+		/* margin-left: 80rpx; */
 		font-size: 37rpx;
 	}
 	

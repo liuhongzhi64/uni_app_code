@@ -6,7 +6,7 @@
 			<scroll-view scroll-y class="photo_content">
 				<template>
 					<view class="photo_content-all">
-						<view class="doctor-photo-list" v-for="(item,index) in doctorPhotoList" :key='index'>
+						<view class="doctor-photo-list" v-for="(item,index) in doctorPhotoList" :key='index' @tap='goToDoctor'>
 							<image :src="item.url" mode=""></image>
 						</view>
 						<view class="bottom-hint">
@@ -70,7 +70,11 @@
 			})
 		},
 		methods: {
-
+			goToDoctor:function(){
+				uni.navigateTo({
+					url: `/pages/doctor/doctor_detail`,
+				})
+			}
 		}
 	}
 </script>

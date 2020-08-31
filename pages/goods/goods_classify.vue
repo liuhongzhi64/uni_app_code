@@ -8,19 +8,19 @@
 		<view class="content" :style="[{'padding-top':menuBottom+52+'px'}]">
 			<!-- 左边导航条 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height +'rpx'">
-				<view v-if="leftList.length>0" @tap="categoryClickMain(item,index)" :key="index" :class="index==btnnum?'btna':''"
-				 v-for="(item,index) in leftList">
-					{{item}}
+				<view v-if="leftList.length>0" @tap="categoryClickMain(item.id,index)" :class="index==btnnum?'btna':''"
+				 v-for="(item,index) in leftList" :key="index" >
+					{{item.name}}
 				</view>
 			</scroll-view>
 			<!-- 右边内容 -->
 			<scroll-view class="rightContent" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"
 			 scroll-with-animation>
 				<view class="rightContentItem">
-					<view class="right-swiper" v-if="rightContentList.swiperList">
+					<view class="right-swiper" v-if="swiperList">
 						<swiper indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime' :duration="durationTime"
-						 circular :style="[{height:rightContentList.swiperHeight+'rpx',borderRadius:'24rpx'}]">
-							<swiper-item class="swiper-item" v-for="(i,index) in rightContentList.swiperList" :key="index">
+						 circular :style="[{height:swiperHeight+'rpx',borderRadius:'24rpx'}]">
+							<swiper-item class="swiper-item" v-for="(i,index) in swiperList" :key="index">
 								<!-- 顶部广告图 -->
 								<view class="advertisingImg">
 									<image :src="i.url" mode=""></image>
@@ -31,24 +31,20 @@
 
 					<!-- 主体内容 -->
 					<view class="detailed-goods-list">
-						<view class="tabBarList" v-if="rightContentList.newslist.length>0">
-							<swiperTabHead :tabBars="tabBars" :line="line" :tabIndex="tabIndex" @tabtap="tabtap" v-if="rightContentList.newslist"></swiperTabHead>
+						<view class="tabBarList" >
+							<swiperTabHead :tabBars="tabBars" :line="line" :tabIndex="tabIndex" @tabtap="tabtap" ></swiperTabHead>
 						</view>
 
-						<view class="uni-tab-bar" v-if="rightContentList.newslist.length>0">
-							<swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'" v-if="rightContentList.newslist.length>0"
+						<view class="uni-tab-bar">
+							<swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'" 
 							 :current="tabIndex" @change="tabChange">
-								<swiper-item v-for="(items,index) in rightContentList.newslist" :key="index">
+								<swiper-item v-for="(items,index) in tabBars" :key="index">
 									<scroll-view scroll-y class="list">
-										<template v-if="items.list.length > 0">
+										<template >
 											<block>
-												<view class="detailed-goods" v-if="items.list.length > 1">
-													<porduct :width=260 :porductList='items.list'></porduct>
-
-
-													<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
-														{{i}}
-													</view>
+												<view class="detailed-goods">
+													<porduct :width=260 :porductLists='newslist' :requestUrl='requestUrl'></porduct>
+													<!-- {{items.name}} -->
 												</view>
 
 											</block>
@@ -62,7 +58,6 @@
 
 					</view>
 				</view>
-				{{rightContentList.content}}
 			</scroll-view>
 		</view>
 	</view>
@@ -99,9 +94,7 @@
 				scrollHeight: 0,
 				btnnum: 0, //当前选中的
 				leftList: [
-					'热门推荐', '双眼皮', '隆鼻', '丰胸', '脂肪填充', '祛斑', '瘦身塑形', '口腔美容', '紧肤抗衰', '毛发移植', '脱毛', '双眼皮', '隆鼻', '丰胸', '脂肪填充', '祛斑',
-					'瘦身塑形', '口腔美容', '紧肤抗衰', '毛发移植', '脱毛'
-				], //左边导航条
+					'热门推荐', '双眼皮', '隆鼻', '丰胸', '脂肪填充', '祛斑', '瘦身塑形', '口腔美容', '紧肤抗衰', '毛发移植', '脱毛', '双眼皮', '隆鼻', '丰胸', '脂肪填充', '祛斑','瘦身塑形', '口腔美容', '紧肤抗衰', '毛发移植', '脱毛' ], //左边导航条
 
 				rightContentList: {}, //右边内容
 				tabBars: [{
@@ -124,14 +117,42 @@
 				],
 				line: false, //是否显示选中线
 				tabIndex: 0, // 选中的
-				swiperheight: 0, //高度
+				swiperheight: 210, //高度
 				rightswiperHeight: 0, //右边的滑动元素高度
-				newslist: [],
+				newslist: [],//商品数组
+				swiperList:[
+					{
+							id: 0,
+							url: '../../static/images/22.png',
+						},
+						{
+							id: 1,
+							url: '../../static/images/22.png',
+						},
+				],
+				requestUrl:''
 			}
 		},
 		onLoad: function() {
-			this.height = uni.getSystemInfoSync().windowHeight * 1.6;
-			this.categoryClickMain()
+			
+			this.request = this.$request
+			let that = this
+			that.height = uni.getSystemInfoSync().windowHeight * 1.6;
+			
+			that.requestUrl = that.request.globalData.requestUrl
+			let dataInfo = {
+				interfaceId : 'categorylist',
+				type : 0
+			}
+			that.request.uniRequest("goods", dataInfo).then(res => {
+				// console.log(res)
+				if(res.statusCode == 200 ){
+					// console.log(res.data.data)
+					that.leftList = res.data.data
+					that.categoryClickMain(res.data.data[0].id)
+					that.tabtap()
+				}
+			})
 		},
 		onReady() {
 			let that = this;
@@ -150,99 +171,24 @@
 			})
 		},
 		methods: {
-			categoryClickMain: function(id = "热门推荐", index = 0) {
+			categoryClickMain: function(id , index = 0) {
+				let that = this
+				let	dataInfo = {
+						interfaceId:'categoryspulist',
+						cid:id //id是左边的顶级分类26表示护肤品
+					}
+				// console.log(id)
 				this.btnnum = index
-				let current = this.leftList.find(item => item === id);
-				if (current === "热门推荐") {
-					this.rightContentList.swiperList = [{
-							id: 0,
-							url: '../../static/images/22.png',
-						},
-						{
-							id: 1,
-							url: '../../static/images/22.png',
-						},
-					]
-					this.rightContentList.swiperHeight = 210
-					this.rightContentList.newslist = [{
-							list: [
-								{
-									url: '../../static/images/19.png',
-									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-									label: ['眼部美容','眼部'], //标签
-									headPortrait: '../../static/images/23.png', //头像
-									price: 19800,
-									closed:'闭馆特推',
-									activity: [],
-									vipPrice: 0,
-									subscribeAndGoodReputation: [{
-										subscribe: '441',
-										goodReputation: '98'
-									}],
-												
-								},
-								{
-									url: '../../static/images/20.png',
-									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-									label: ['眼部美容','眼部'], //标签
-									headPortrait: '../../static/images/test.jpg', //头像
-									activity: [],
-									price: 19800,
-									subscribeAndGoodReputation: [{
-										subscribe: '441',
-										goodReputation: '98'
-									}],
-								},
-								{
-									url: '../../static/images/19.png',
-									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-									label: [], //标签
-									headPortrait: '../../static/images/23.png', //头像
-									price: 19800,
-									closed:'闭馆特推',
-									activity: [],
-									subscribeAndGoodReputation: [{
-										subscribe: '441',
-										goodReputation: '98'
-									}],
-								
-								},
-								{
-									url: '../../static/images/20.png',
-									title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-									label: [], //标签
-									headPortrait: '../../static/images/test.jpg', //头像
-									activity: ['首单必减', '折扣'],
-									price: 19800,
-									subscribeAndGoodReputation: [{
-										subscribe: '441',
-										goodReputation: '98'
-									}],
-								},
-							]
-						},
-						{
-							list: ['精选视频']
-						},
-						{
-							list: ['优质回答']
-						},
-						{
-							list: ['真人记录']
-						},
-					]
-					this.rightContentList.content = current
-					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 550
-				} else {
-					this.rightContentList.swiperList = []
-					this.rightContentList.swiperHeight = 0
-					this.rightContentList.newslist = []
-					this.rightContentList.content = current
-					this.rightContentList.goodsList = []
-				}
+				// let current = this.leftList.find(item => item === id);
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					console.log(res)
+					
+				})
+				
 			},
 			scroll: function(e) {
-				console.log(e)
+				// console.log(e)
+				let Y =e.detail.timeStamp
 			},
 			gotoGoods: function(e) {
 				let goods = e.currentTarget.dataset.name
@@ -252,23 +198,38 @@
 			},
 
 			//接受子组件传过来的值点击切换导航
-			tabtap: function(index) {
+			tabtap: function(index=0) {
+				let that = this
 				this.tabIndex = index;
-				if (this.tabIndex == 0) {
-					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 550
-				} else {
-					this.rightswiperHeight = 0
-				}
+				console.log(index)
+				let	dataInfo = {
+						interfaceId:'hotrecommendedspulist',
+						type:index+1 ,//推荐类型1最新 2最热 3:特价
+						offset:0,//分页起始数量 默认 0
+						limit:6, //每页数量 默认6
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						console.log(res.data.data)
+						that.rightswiperHeight = Math.ceil(res.data.data.length / 2)*550
+						that.newslist = res.data.data
+					})
 
 			},
 			// 选中的内容
 			tabChange: function(e) {
 				this.tabIndex = e.detail.current;
-				if (this.tabIndex == 0) {
-					this.rightswiperHeight = Math.ceil(this.rightContentList.newslist[0].list.length / 2) * 550
-				} else {
-					this.rightswiperHeight = 350
-				}
+				let that = this
+				let	dataInfo = {
+						interfaceId:'hotrecommendedspulist',
+						type:this.tabIndex+1 ,//推荐类型1最新 2最热 3:特价
+						offset:0,//分页起始数量 默认 0
+						limit:6, //每页数量 默认6
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						// console.log(res.data.data)
+						that.rightswiperHeight = Math.ceil(res.data.data.length / 2)*550
+						that.newslist = res.data.data
+					})
 			},
 		}
 	}
@@ -320,9 +281,6 @@
 		padding-top: 13rpx;
 	}
 	
-	.detailed-goods{
-		display: flex;
-	}
 
 	
 </style>

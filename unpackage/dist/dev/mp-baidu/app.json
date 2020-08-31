@@ -1,7 +1,9 @@
 {
   "pages": [
-    "pages/doctor/doctor_certificate",
+    "pages/goods/goods_classify",
+    "pages/goods/goods_detail",
     "pages/doctor/doctor_photo",
+    "pages/doctor/doctor_certificate",
     "pages/doctor/doctor",
     "pages/doctor/doctor_detail",
     "pages/login/login_gather",
@@ -30,8 +32,6 @@
     "pages/my/account_number",
     "pages/cart/cart",
     "pages/login/register",
-    "pages/goods/goods_detail",
-    "pages/goods/goods_classify",
     "pages/poster/poster",
     "pages/sign/sign",
     "pages/my/my",
@@ -89,7 +89,7 @@
         "text": "日记"
       },
       {
-        "pagePath": "pages/doctor/doctor_detail",
+        "pagePath": "pages/doctor/doctor",
         "iconPath": "static/images/doctor.png",
         "selectedIconPath": "static/images/doctor1.png",
         "text": "医生"

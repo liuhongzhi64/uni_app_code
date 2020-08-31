@@ -60,6 +60,68 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- 联调数据 -->
+		<view class="product-show" :style="[{'width':width+'rpx'}]" v-for="(i,k) in porductLists" :class="(k%2==0)?'product-item-fl':'product-item-fr'"
+		 :key='k' :data-name="i.goods_name" :data-id='i.encrypted_id' @tap="gotoGoods">
+			<view class="images">
+				<image src="../../static/images/23.png" mode="" :style="[{'height':width+'rpx'}]" ></image>
+				<!-- <image :src="requestUrl + i.head_img" mode="" :style="[{'width':width+'rpx','height':width+'rpx'}]"></image> -->
+			</view>
+			<view class="product-title"> 
+				{{i.goods_name}}
+				<!-- <text class="closed" v-if="i.closed">{{i.closed}}</text> {{i.title}} -->
+			</view>
+			<view class="product-label">
+				<view class="label-name" v-for="(i,k) in i.label.list" :key='k'> {{i}} </view>
+			</view>
+			<!-- <view class="activity" v-if="i.activity.length>1">
+				<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+			</view> -->			
+			
+			<view class="porduct-price-vip-cart" v-if="i.sale_price">
+				<view class="porduct-price">
+					<text>￥</text>{{i.sale_price}}
+				</view>
+				<view class="vip-cart-price" v-if="i.vipPrice>0">
+					<text class="vip-cart">钻卡</text>
+					<text class="vip-price">￥{{i.vipPrice}}</text>
+				</view>
+			</view>
+			<!-- 预约和好评 -->
+			<view class="subscribeAndGoodReputation" >
+				<view class="subscribe-goodReputation">
+					<!-- 预约 -->
+					<view class="subscribe"> {{i.sales}}预约 </view>
+					<!-- 好评 -->
+					<view class="goodReputation"> {{i.rate}}%好评 </view>
+				</view>
+			</view>
+			<!-- 用户信息 -->
+			<view class="user-message" v-if="i.headPortrait&&i.userName&&i.like&&!i.productUrl&&!i.productTitle">
+				<view class="headPortrait-userName">
+					<image :src="i.headPortrait" mode=""></image>
+					<view class="user-name"> {{i.userName}} </view>
+				</view>
+				<view class="like">
+					<image src="../../static/images/like.png" mode=""></image>
+					<text>{{i.like}}</text>
+				</view>
+			</view>
+			<!-- 关联商品 -->
+			<view class="associated-goods" v-if="i.headPortrait&&i.userName&&i.like&&i.productUrl&&i.productTitle">
+				<view class="productUrl">
+					<image :src="i.productUrl" mode=""></image>
+				</view>
+				<view class="product-title-price">
+					<view class="productTitle"> {{i.productTitle}} </view>
+					<view class="product-price"> <text>￥</text> {{i.prouctPrice}} </view>
+				</view>
+			</view>
+		</view>
+		
+		
+		
 		<!-- 日记版面 -->
 		<view class="product-show" :style="[{'width':width+'rpx'}]" v-for="(i,k) in diaryList" :class="(k%2==0)?'product-item-fl':'product-item-fr'"
 		 :key='k' :data-name="i.title" @tap="gotoDiary">
@@ -245,13 +307,14 @@
 			porductList: Array,
 			changePorduct: Array,
 			crosswisePorduct: Array,
+			requestUrl:String,
 			width: Number,
 			height: Number,
 			porductWidth:Number,
 		},
 		data(){
 			return {
-				changePorductNumber:[]
+				changePorductNumber:[],
 			}
 		},
 		methods: {
@@ -303,10 +366,15 @@
 		margin-top: 20rpx;
 		padding-bottom: 20rpx;
 	}
-
+	.images{
+		width: 100%;
+		height: 100%;
+	}
 	.images image {
 		border-top-left-radius: 16rpx;
 		border-top-right-radius: 16rpx;
+		width: 100%;
+		height: 100%;
 	}
 
 	.product-title {
@@ -318,6 +386,7 @@
 		padding: 0 20rpx;
 		color: #111111;
 		font-weight: lighter;
+		margin-top: 13rpx;
 	}
 
 	.closed {
@@ -390,6 +459,7 @@
 		font-size: 32rpx;
 		padding-left: 20rpx;
 		padding-right: 20rpx;
+		color: #fa3475;
 	}
 
 	.porduct-price text {
@@ -424,7 +494,7 @@
 	}
 
 	.subscribeAndGoodReputation {
-		font-size: 24rpx;
+		font-size: 20rpx;
 		padding: 20rpx 20rpx 0;
 	}
 

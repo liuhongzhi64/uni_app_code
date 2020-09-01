@@ -1913,7 +1913,7 @@ function normalizeComponent (
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
   globalData: {
     appid: "wx805c90d4affed9a4",
-    requestUrl: "http://mtest.hmzixin.com/" },
+    requestUrl: "https://mtest.hmzixin.com/" },
 
   // 模态对话框
   showModal: function showModal(content) {var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "提示";
@@ -1932,10 +1932,10 @@ function normalizeComponent (
   // 数据请求(异步)
   uniRequest: function uniRequest(fileName, data) {var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "POST";
     var that = this;
-    uni.showLoading({
-      title: '加载中...',
-      mask: true });
-
+    // uni.showLoading({
+    // 	title: '加载中...',
+    // 	mask: true
+    // })
     return new Promise(function (resolve) {
       uni.request({
         method: method,
@@ -8023,7 +8023,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 238:
+/***/ 254:
 /*!************************************************!*\
   !*** D:/Code/code/uniapp/static/images/18.png ***!
   \************************************************/

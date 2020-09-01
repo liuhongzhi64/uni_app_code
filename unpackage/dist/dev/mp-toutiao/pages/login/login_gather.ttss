@@ -1,0 +1,92 @@
+
+.weichat-login.data-v-6d2c3d30 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	background-color: #F6F6F6;
+}
+.weichat-login .login-top.data-v-6d2c3d30 {
+	text-align: center;
+}
+.back-title.data-v-6d2c3d30 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 38rpx;
+	width: 100%;
+}
+.back.data-v-6d2c3d30 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	margin-left: 20rpx;
+	width: 60rpx;
+	height: 100%;
+}
+.back image.data-v-6d2c3d30 {
+	width: 36rpx;
+	height: 36rpx;
+}
+.title.data-v-6d2c3d30 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.advertising-images.data-v-6d2c3d30 {
+	padding-top: 233rpx;
+	padding-bottom: 264rpx;
+	/* background-color: #FFFFFF; */
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.advertising-images image.data-v-6d2c3d30 {
+	width: 168rpx;
+	height: 168rpx;
+	box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
+	-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.3) 0%, transparent 40%, transparent 100%);
+}
+.go-weichat-login-btn.data-v-6d2c3d30 {
+	padding: 0 30rpx 44rpx;
+}
+.go-weichat-login.data-v-6d2c3d30 {
+	width: 690rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	background-color: #09bb07;
+	border-radius: 44rpx;
+	border: solid 1rpx #029400;
+	color: #ffffff;
+	font-size: 32rpx;
+}
+.phone-login-and-register.data-v-6d2c3d30 {
+	font-size: 24rpx;
+	text-align: center;
+}
+.agreement.data-v-6d2c3d30 {
+	position: fixed;
+	width: 100%;
+	text-align: center;
+	bottom: 44rpx;
+	font-size: 24rpx;
+}
+.agreement text.data-v-6d2c3d30 {
+	color: #fa3475;
+}
+

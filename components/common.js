@@ -1,7 +1,7 @@
 export default {
 	globalData: {
 		appid: "wx805c90d4affed9a4",
-		requestUrl: "http://mtest.hmzixin.com/"
+		requestUrl: "https://mtest.hmzixin.com/"
 	},
 	// 模态对话框
 	showModal: function(content, title = "提示") {
@@ -20,10 +20,10 @@ export default {
 	// 数据请求(异步)
 	uniRequest: function(fileName, data, method = "POST") {
 		const that = this;
-		uni.showLoading({
-			title: '加载中...',
-			mask: true
-		})
+		// uni.showLoading({
+		// 	title: '加载中...',
+		// 	mask: true
+		// })
 		return new Promise((resolve) => {
 			uni.request({
 				method: method,

@@ -3,7 +3,7 @@
 		<scroll-view class="uni-swiper-tab" :style="[{'background-color':tabBackgroundColor}]" >
 			<block  v-for="(tab,index) in tabBars" :key="tab.id">
 				<view class="swiper-tab-list" :style="[{'width':tabBars.length == 4?'25%':'20%'}]"
-				 :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type)" 
+				 :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type,tab.id)" 
 				 >
 					<view class="all-content">
 						<view class="tabName-tabContent">
@@ -37,8 +37,8 @@
 
 		methods: {
 			//点击切换导航
-			tabtap(index,type) {
-				this.$emit('tabtap', index,type)
+			tabtap(index,type,id) {
+				this.$emit('tabtap', index,type,id)
 				
 			}
 		}

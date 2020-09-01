@@ -1,15 +1,5 @@
 
-.login.data-v-b237504c,.weichat-login.data-v-b237504c{
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	background-color: #F6F6F6;
-}
-.login .login-top.data-v-b237504c {
+.login .login-top.data-v-0a73af49 {
 	color: #FFFFFF;
 	background-image: -webkit-linear-gradient(left, #ff6699 0%, #fa3475 100%);
 	background-image: linear-gradient(90deg, #ff6699 0%, #fa3475 100%);
@@ -31,10 +21,7 @@
 	        justify-content: center;
 	padding-bottom: 100rpx;
 }
-.weichat-login .login-top.data-v-b237504c{
-	text-align: center;
-}
-.back-title.data-v-b237504c {
+.back-title.data-v-0a73af49 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -47,7 +34,7 @@
 	font-size: 38rpx;
 	width: 100%;
 }
-.back.data-v-b237504c {
+.back.data-v-0a73af49 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -58,62 +45,47 @@
 	width: 60rpx;
 	height: 100%;
 }
-.back image.data-v-b237504c {
+.back image.data-v-0a73af49 {
 	width: 36rpx;
 	height: 36rpx;
 }
-.title-compile.data-v-b237504c {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	        flex: 1;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	font-size: 38rpx;
-}
-.title-compile .compile.data-v-b237504c {
-	font-size: 24rpx;
-}
-.title.data-v-b237504c {
+.title.data-v-0a73af49 {
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
 }
-.advertising.data-v-b237504c {
+.advertising.data-v-0a73af49 {
 	width: 509rpx;
 	height: 212rpx;
 	box-shadow: 3rpx 4rpx 0rpx 0rpx gba(101, 101, 101, 0.25);
 	text-align: center;
 	line-height: 212rpx;
 }
-.login-input.data-v-b237504c {
+.login-input.data-v-0a73af49 {
 	padding: 0 45rpx 100rpx;
 }
-.login-message.data-v-b237504c {
+.login-message.data-v-0a73af49 {
 	background-color: #FFFFFF;
 	padding: 72rpx 45rpx;
 	margin-top: -20rpx;
 	border-radius: 24rpx;
 	box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.16);
 }
-.phone.data-v-b237504c {
+.phone.data-v-0a73af49 {
 	border-bottom: 2rpx solid #e0e0e0;
 	padding: 20rpx 0;
 }
-.phone input.data-v-b237504c {
+.phone input.data-v-0a73af49 {
 	padding-left: 10rpx;
 }
-.phone-hint.data-v-b237504c {
+.phone-hint.data-v-0a73af49 {
 	font-size: 20rpx;
 	line-height: 34rpx;
 	color: #de0a0a;
 	padding: 15rpx 8rpx;
 }
-.graphic-code.data-v-b237504c,
-.verification-code.data-v-b237504c {
+.graphic-code.data-v-0a73af49,
+.verification-code.data-v-0a73af49 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -124,13 +96,13 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.graphic-code input.data-v-b237504c,
-.verification-code input.data-v-b237504c {
+.graphic-code input.data-v-0a73af49,
+.verification-code input.data-v-0a73af49 {
 	margin-right: 30rpx;
 	padding-bottom: 15rpx;
 	border-bottom: 2rpx solid #e0e0e0;
 }
-.graphic.data-v-b237504c {
+.graphic.data-v-0a73af49 {
 	width: 200rpx;
 	height: 70rpx;
 	line-height: 70rpx;
@@ -138,10 +110,10 @@
 	text-align: center;
 	border: 0;
 }
-.verification-code.data-v-b237504c {
+.verification-code.data-v-0a73af49 {
 	margin-top: 40rpx;
 }
-.verification.data-v-b237504c {
+.verification.data-v-0a73af49 {
 	width: 200rpx;
 	height: 70rpx;
 	border-radius: 35rpx;
@@ -151,7 +123,7 @@
 	border: solid 2rpx #fa3475;
 	text-align: center;
 }
-.go-login.data-v-b237504c {
+.go-login.data-v-0a73af49 {
 	height: 80rpx;
 	line-height: 80rpx;
 	margin-top: 70rpx;
@@ -163,7 +135,7 @@
 	color: #ffffff;
 	border: 0;
 }
-.no-have-code-content.data-v-b237504c {
+.no-have-code-content.data-v-0a73af49 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -174,21 +146,21 @@
 	margin-top: 40rpx;
 	padding-right: 35rpx;
 }
-.no-have-code.data-v-b237504c {
+.no-have-code.data-v-0a73af49 {
 	font-size: 24rpx;
 	color: #fa3475;
 }
-.agreement.data-v-b237504c {
+.agreement.data-v-0a73af49 {
 	position: fixed;
 	width: 100%;
 	text-align: center;
 	bottom: 44rpx;
 	font-size: 24rpx;
 }
-.agreement text.data-v-b237504c {
+.agreement text.data-v-0a73af49 {
 	color: #fa3475;
 }
-.advertising-images.data-v-b237504c{
+.advertising-images.data-v-0a73af49 {
 	padding-top: 233rpx;
 	padding-bottom: 264rpx;
 	/* background-color: #FFFFFF; */
@@ -199,29 +171,10 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 }
-.advertising-images image.data-v-b237504c{
+.advertising-images image.data-v-0a73af49 {
 	width: 168rpx;
 	height: 168rpx;
-	box-shadow: 0rpx 0rpx 9rpx 0rpx  rgba(108, 108, 108, 0.26);	
-	-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255,255,255,0.3) 0%, transparent 40%, transparent 100%);
+	box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
+	-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.3) 0%, transparent 40%, transparent 100%);
 }
-.go-weichat-login-btn.data-v-b237504c{
-	padding: 0 30rpx 44rpx;
-}
-.go-weichat-login.data-v-b237504c{
-	width: 690rpx;
-	height: 88rpx;
-	line-height: 88rpx;
-	background-color: #09bb07;
-	border-radius: 44rpx;
-	border: solid 1rpx #029400;
-	color: #ffffff;
-	font-size: 32rpx;
-}
-.phone-login-and-register.data-v-b237504c{
-	font-size: 24rpx;
-	text-align: center;
-}
-
-
 

@@ -63,7 +63,7 @@
 		
 		<!-- 联调数据 -->
 		<view class="product-show" :style="[{'width':width+'rpx'}]" v-for="(i,k) in porductLists" :class="(k%2==0)?'product-item-fl':'product-item-fr'"
-		 :key='k' :data-name="i.goods_name" :data-id='i.encrypted_id' @tap="gotoGoods">
+		 :key='k' :data-name="i.goods_name" :data-id='i.encrypted_id' :data-sku_id = 'i.sku_id' @tap="changeGoods">
 			<view class="images">
 				<image src="../../static/images/23.png" mode="" :style="[{'height':width+'rpx'}]" ></image>
 				<!-- <image :src="requestUrl + i.head_img" mode="" :style="[{'width':width+'rpx','height':width+'rpx'}]"></image> -->
@@ -315,7 +315,13 @@
 		data(){
 			return {
 				changePorductNumber:[],
+				
 			}
+		},
+		onLoad:function(){
+			this.request = this.$request
+			let that = this
+			console.log(porductList)
 		},
 		methods: {
 			gotoGoods: function(e) {
@@ -323,6 +329,21 @@
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?goods=${goods}`,
 				})
+			},
+			// 联调
+			changeGoods: function(e) {
+				
+				let that = this
+				
+				let id = e.currentTarget.dataset.id
+				let sku_id = e.currentTarget.dataset.sku_id
+				
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?id=${id}&&sku_id=${sku_id}`,
+				})
+				// console.log(dataInfo)
+				
+				
 			},
 			gotoDiary:function(e){
 				uni.navigateTo({
@@ -355,10 +376,10 @@
 	}
 
 	.product-show {
-		width: 100%;
-		margin-top: 10rpx;
+		/* width: 100%; */
+		height: 100%;
 		display: flex;
-		justify-content: space-around;
+		/* justify-content: space-around; */
 		flex-direction: column;
 		background-color: #FFFFFF;
 		white-space: normal;
@@ -381,7 +402,7 @@
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		font-size: 24rpx;
 		padding: 0 20rpx;
 		color: #111111;

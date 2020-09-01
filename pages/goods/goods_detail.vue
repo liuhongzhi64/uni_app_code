@@ -5,8 +5,6 @@
 		<!-- 主体内容 -->
 		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]">
 			<scroll-view scroll-y :style="'height:'+height +'rpx'">
-			<!-- 设置的初始跳转过来的值，后期删除 -->
-			<view class="default"> {{goodsName}} </view>
 			<!-- 头部轮播 -->
 			<view class="topSwiper">
 				<view id="topSwiper" v-if="swiperList">
@@ -389,13 +387,12 @@
 		},
 		data() {
 			return {
-				goodsName: '', //商品名
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				barImage:'../static/images/wechat.png',
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
@@ -413,6 +410,7 @@
 				],
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
+				requestUrl:'',
 				carts: 3, //购物车
 				couponsList: ['首单必减', '满20000减2000', '支付有礼'], //优惠卷
 				discountsList:[
@@ -625,11 +623,22 @@
 			}
 		},
 		onLoad: function(option) {
+			this.request = this.$request
 			let that = this
-			that.goodsName = option.goods
 			that.height = uni.getSystemInfoSync().screenHeight*1.6;
-			// console.log(that.height)
-			// console.log(option)
+			let id = option.id
+			let sku_id = option.sku_id
+			let dataInfo = {
+				interfaceId : 'goodsspudetails',
+				encrypted_id : id,
+				sku_id:sku_id
+			}
+			that.request.uniRequest("goods", dataInfo).then(res => {
+				
+				let data = res.data.data
+				console.log(data)
+				
+			})
 		},
 		onReady: function() {
 			let that = this;

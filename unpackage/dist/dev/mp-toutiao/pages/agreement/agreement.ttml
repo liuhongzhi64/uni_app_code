@@ -1,0 +1,1 @@
+<view class="agreement"><top-bar class="topBar" vue-id="2e632589-1" topBackgroundColor="{{topBackgroundColor}}" color="{{color}}" backImage="{{backImage}}" barName="{{barName}}" title="{{title}}" menuWidth="{{menuWidth}}" menuTop="{{menuTop}}" menuHeight="{{menuHeight}}" menuLeft="{{menuLeft}}" menuBottom="{{menuBottom}}" bind:__l="__l"></top-bar></view>

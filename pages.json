@@ -2,13 +2,14 @@
 	"pages": [ 
 		
 		{
-			"path": "pages/goods/goods_classify", //商品分类
-			"style": {}
-		},
-		{
 			"path": "pages/goods/goods_detail", //商品详情
 			"style": {}
 		},
+		{
+			"path": "pages/goods/goods_classify", //商品分类
+			"style": {}
+		},
+		
 		{
 			"path": "pages/doctor/doctor_photo", //医生相册
 			"style": {}

@@ -128,33 +128,56 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 411));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
 {
+  components: {
+    topBar: topBar },
+
   data: function data() {
     return {
-      goodsName: '' //默认搜索内容
-    };
+      menuWidth: 0,
+      menuTop: 0,
+      menuHeight: 0,
+      menuLeft: 0,
+      menuBottom: 0,
+      height: 0,
+      barName: 'particularsPage', //导航条名称
+      topBackgroundColor: '#222222',
+      color: '#FFFFFF',
+      backImage: '../static/images/back2.png',
+      title: '商品列表' };
+
+  },
+  onReady: function onReady() {
+    var that = this;
+    // 获取屏幕高度
+    uni.getSystemInfo({
+      success: function success(res) {
+        that.height = res.screenHeight;
+        // console.log(res)
+        var menu = uni.getMenuButtonBoundingClientRect();
+        that.menuWidth = menu.width;
+        that.menuTop = menu.top;
+        that.menuHeight = menu.height;
+        that.menuLeft = menu.left;
+        that.menuBottom = menu.bottom;
+      } });
+
   },
   onLoad: function onLoad(option) {
     var that = this;
-    that.goodsName = option.goodsname;
     console.log(option);
   },
-  methods: {
-    goBack: function goBack() {
-      uni.navigateBack({
-        delta: 1 });
-
-    } } };exports.default = _default;
+  methods: {} };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ })

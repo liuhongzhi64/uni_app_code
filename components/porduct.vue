@@ -166,7 +166,7 @@
 			
 		</view>
 
-		<view class="crosswise-porduct" v-if="crosswisePorduct">
+		<view class="crosswise-porduct" v-if="crosswisePorduct&&crosswisePorducts.length==0">
 			<scroll-view class="product-items" scroll-x="true" :style="[{'height':height+'rpx'}]">
 				<view class="product-item-content">
 					<view class="productImgs" v-for="(i,k) in crosswisePorduct" :key='k' :data-name="i.content" @tap="gotoGoods">
@@ -207,6 +207,47 @@
 				</view>
 			</scroll-view>
 		</view>
+		
+		<!-- 联调数据横向 -->
+		<view class="crosswise-porduct" v-if="crosswisePorducts">
+			<scroll-view class="product-items" scroll-x="true" >
+				<view class="product-item-content">
+					<view class="productImgs" v-for="(i,k) in crosswisePorducts" :key='k' :data-id='i.encrypted_id' :data-sku_id = 'i.sku_id' :data-name="i.goods_name" @tap="changeGoods">
+						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
+							<!-- 图片 -->
+							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
+								<image src="../../static/images/23.png" mode="" ></image>
+								<!-- <image :src="requestUrl + i.head_img" mode="" ></image> -->
+							</view>
+							<!-- 内容 -->
+							<view class="productContent"> {{i.goods_name}} </view>
+							<view class="product-label">
+								<view class="label-name" v-for="(i,k) in i.label.list" :key='k'> {{i}} </view>
+							</view>
+							<!-- <view class="activity" v-if="i.activity.length>1">
+								<view class="activityName" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+							</view> -->
+							<!-- 价格 -->
+							<view class="prouctPrice" v-if="i.sale_price">
+								<view class="newprice"> <text>￥</text> {{i.sale_price}}</view>
+								<view class="oldPrice" v-if="i.oldPrice"> <text>￥</text> {{i.oldPrice}} </view>
+							</view>
+							<!-- 预约和好评 -->
+							<view class="subscribeAndGoodReputation" >
+								<view class="subscribe-goodReputation">
+									<!-- 预约 -->
+									<view class="subscribe"> {{i.sales}}预约 </view>
+									<!-- 好评 -->
+									<view class="goodReputation"> {{i.rate}}%好评 </view>
+								</view>
+							</view>
+						</view>
+					</view>
+					
+				</view>
+			</scroll-view>
+		</view>
+		
 
 		<view class="change-porduct" v-if="changePorduct">
 			<view class="refund-porduct-list" v-for="(i,k) in changePorduct" :key="k">
@@ -307,6 +348,7 @@
 			porductList: Array,
 			changePorduct: Array,
 			crosswisePorduct: Array,
+			crosswisePorducts: Array,
 			requestUrl:String,
 			width: Number,
 			height: Number,
@@ -623,8 +665,19 @@
 		display: inline-block;
 		font-size: 20rpx;
 		margin-right: 30rpx;
+		padding-bottom: 18rpx;
+		border-radius: 24rpx;
 	}
-
+	.productItems {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			height: 100%;
+			white-space: normal;
+		padding-bottom: 18rpx;
+		border-radius: 24rpx;	
+	}
 	.Imgs image {
 		width: 100%;
 		height: 100%;
@@ -639,14 +692,7 @@
 		height: 100%;
 	}
 
-	.productItems {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-		height: 100%;
-		white-space: normal;
-	}
+	
 
 	.productContent {
 		width: 220rpx;
@@ -658,6 +704,7 @@
 		color: #2e2e2e;
 		font-weight: lighter;
 		text-align: center;
+		text-align: left;
 	}
 
 
@@ -667,10 +714,12 @@
 	}
 
 	.prouctPrice {
-		display: flex;
+		/* display: flex;
 		justify-content: space-between;
-		align-items: baseline;
-		padding: 10rpx 20rpx 0 0;
+		align-items: baseline; */
+		padding: 10rpx 0 0 ;
+		text-align: left;
+		width: 100%;
 	}
 
 	.residueProduct {
@@ -684,7 +733,7 @@
 	.newprice {
 		color: #EF6174;
 		font-size: 30rpx;
-		margin-right: 13rpx;
+		padding-left: 20rpx;
 	}
 
 	.oldPrice {

@@ -105,19 +105,28 @@
 				<!-- 版本、规格、部位、医生 -->
 
 				<view class="specs">
-					<block v-for="(i,index) in spec_value" :key="index">
-						<view class="specs-title">{{i.name}}</view>
-						<view class="specs-cont">
-							<view class="li" :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
-							 v-for="(i,sindex) in i.attr" 
-							 :key="sindex" 
-							 :data-index="index" 
-							 :data-sindex="sindex" 
-							 @tap="[spec[index].attr[sindex]==0?'getSpec':(spec[index].attr[sindex]==1?'cancelSpec':'')]">
-								{{sindex}}{{i}}
+					<template >
+						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
+							<view class="specs-title">{{item.name}}</view>
+							<view class="specs-cont">
+								<view class="li" 
+								 v-for="(is,sindex) in item.attr" 
+								 :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
+								 
+								 :key="sindex" 
+								 :data-index="index" 
+								 :data-sindex="sindex" 
+								 @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
+									{{sindex}}{{is}} {{index}}
+								<!-- 	{{spec[index].attr[sindex]}}
+									<text   :class="spec[index].attr[sindex]==0?'getSpec1':'cancelSpec2'">22</text> -->
+									<!-- [spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')] -->
+								</view>
+								
 							</view>
 						</view>
-					</block>
+						
+					</template>
 				</view>
 
 
@@ -482,40 +491,6 @@
 					},
 				], //优惠政策
 				
-				productList: [{
-						url: '../../static/images/19.png',
-						content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-						newPrice: '19800', //价格
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-						closed: '',
-						label: [] //标签
-					},
-					{
-						url: '../../static/images/20.png',
-						content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-						newPrice: '19800', //价格
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-						closed: '闭馆特推',
-						label: ['眼部美容', '眼部'] //标签
-					},
-					{
-						url: '../../static/images/20.png',
-						content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-						newPrice: '19800', //价格
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-						closed: '',
-						label: ['眼部美容', '眼部'] //标签
-					},
-				], //相关商品
 				productLists: [{
 						url: '../../static/images/19.png',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
@@ -680,6 +655,8 @@
 				market_price: '', //市场价
 				is_collect: 0, //收藏
 				goods_name: '0', //商品名称
+				// index:1,
+				// sindex:'11',
 				details_prompt: '',
 				pay_type: 0,
 				isPay: 0, // 0=预约金，1=全额付
@@ -698,7 +675,7 @@
 			let dataInfo = {
 				interfaceId: 'goodsspudetails',
 				encrypted_id: id,
-				sku_id: sku_id
+				// sku_id: sku_id
 			}
 			that.request.uniRequest("goods", dataInfo).then(res => {
 				if (res.data.code == 1000) {
@@ -719,12 +696,15 @@
 					}
 					that.spec_value = data.spec_value
 					// console.log(data)
-					// console.log(that.spec_value)
-					
+					console.log(that.spec)
+					for(let i in that.spec){
+						console.log(that.spec[i].attr)
+					}
 				}
 			})
 
 			that.getRelevantGoods()
+			
 		},
 		onReady: function() {
 			let that = this;
@@ -769,9 +749,8 @@
 				// 新规格数组，与原规格spec_value相对应，用于标记各种状态
 				let specValue = uni.getStorageSync("goodsDetail").spec_value;
 				let spec = uni.getStorageSync("goodsDetail").spec_value;
-				
 				let defaultSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
-				
+				// console.log(defaultSpec,2222222)
 				// 遍历规格类型
 				for (let i in specValue) {
 					for (let k in specValue[i].attr) {
@@ -806,25 +785,27 @@
 						}
 					}
 				}
+				// console.log(spec,33333)
 				return spec;
 			},
-			// 规格切换
-			getSpec: function(e) {
+			
+			// getSpec: function(e) {
+			getSpec: function(index,sindex,spec) {
 				this.request = this.$request
 				const that = this;
-				console.log(e.currentTarget.dataset)
-				let index = e.currentTarget.dataset.index;
-				let sindex = e.currentTarget.dataset.sindex;
-				for (let i in that.data.spec[index].attr) {
-					that.data.spec[index].attr[i] = 0;
+				that.spec = spec
+				// let index = e.currentTarget.dataset.index;
+				// let sindex = e.currentTarget.dataset.sindex;
+				for (let i in that.spec[index].attr) {
+					that.spec[index].attr[i] = 0;
 				}
-				that.data.spec[index].attr[sindex] = 1;
+				that.spec[index].attr[sindex] = 1;
 
 				// 查找当前选择数据
 				let nowCheck = [];
-				for (let i in that.data.spec) {
-					for (let k in that.data.spec[i].attr) {
-						if (that.data.spec[i].attr[k] == 1) {
+				for (let i in that.spec) {
+					for (let k in that.spec[i].attr) {
+						if (that.spec[i].attr[k] == 1) {
 							nowCheck.push(k);
 						}
 					}
@@ -845,7 +826,7 @@
 				}
 				let dataInfo = {
 					interfaceId: "selectsku",
-					encrypted_id: that.data.spuId,
+					encrypted_id: that.spuId,
 					spec_attr: specAttr
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
@@ -859,24 +840,26 @@
 			},
 
 			// 取消选项
-			cancelSpec: function(e) {
+			cancelSpec: function(index,sindex,spec) {
+				// cancelSpec: function(e) {
 				this.request = this.$request
 				const that = this;
-				let index = e.currentTarget.dataset.index;
-				let sindex = e.currentTarget.dataset.sindex;
-				that.data.spec[index].attr[sindex] = 0;
+				
+				// let index = e.currentTarget.dataset.index;
+				// let sindex = e.currentTarget.dataset.sindex;
+				// that.spec[index].attr[sindex] = 0;
 				// 查找当前选择数据
 				let nowCheck = [];
-				for (let i in that.data.spec) {
-					for (let k in that.data.spec[i].attr) {
-						if (that.data.spec[i].attr[k] == 1) {
+				for (let i in that.spec) {
+					for (let k in that.spec[i].attr) {
+						if (that.spec[i].attr[k] == 1) {
 							nowCheck.push(k);
 						}
 					}
 				}
 				let dataInfo = {
 					interfaceId: "selectsku",
-					encrypted_id: that.data.spuId,
+					encrypted_id: that.spuId,
 					spec_attr: nowCheck
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
@@ -897,6 +880,7 @@
 					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
 			},
+			
 		}
 	}
 </script>

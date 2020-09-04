@@ -1,8 +1,16 @@
 <template>
-	<view class="diary_write"> 
-	<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-	 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-		写日记
+	<view class="diary_write">
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
+		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		
+		<view class="diary_write-content" :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
+			<view class="top-content">
+				<view class="title">日记形式</view>
+			</view>
+			<view class="hint">
+				有疑问？ <text>立即咨询</text>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -25,7 +33,7 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '写日记',
-				
+
 			}
 		},
 		onReady() {
@@ -45,12 +53,39 @@
 			})
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
 
-<style>
+<style scoped>
+	.diary_write-content{
+		background-color: #F0F0F0;
+	}
+	.top-content{
+		background-color: #FFFFFF;
+		border-radius: 0rpx 0rpx 24rpx 24rpx;
+		padding: 40rpx;
+	}
+	.title{
+		font-size: 32rpx;
+		color: #111111;
+		padding-bottom: 30rpx;
+		border-bottom: 2rpx solid #F0F0F0;
+	}
+	
+	
+	
+	
+	.hint{
+		padding-left: 40rpx;
+		padding-top: 32rpx;
+		font-size: 24rpx;
+		font-size: 24rpx;
+		color: #999999;
+	}
+	.hint{
+		color: #fa3475;
+	}
 
 </style>
-

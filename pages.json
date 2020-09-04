@@ -2,6 +2,46 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/diary/diary_write", //写日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_detail", //日记详情（图文）
+			"style": {}
+		},
+		
+		{
+			"path": "pages/diary/diary", //日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_personal", //个人主页
+			"style": {}
+		},
+		
+		{
+			"path": "pages/diary/diary_about", //日记关联商品+医生
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_keep", //日记类型图文+视频
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_successs", //发布成功
+			"style": {}
+		},
+		 
+		{
+			"path": "pages/diary/diary_video", //日记详情（视频）
+			"style": {}
+		}, 
+		
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		},
+		{
 			"path": "pages/goods/goods_detail", //商品详情
 			"style": {}
 		},
@@ -24,10 +64,7 @@
 			"style": {}
 		},
 		
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
+		
 		{
 			"path": "pages/login/login_gather", //微信登录
 			"style": {}
@@ -186,46 +223,14 @@
 			"path": "pages/my/harves_address", //收货地址
 			"style": {}
 		},	
-		{
-			"path": "pages/diary/diary", //日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_personal", //个人主页
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_write", //写日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_about", //日记关联商品+医生
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_keep", //日记类型图文+视频
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_successs", //发布成功
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_detail", //日记详情（图文）
-			"style": {}
-		}, 
-		{
-			"path": "pages/diary/diary_video", //日记详情（视频）
-			"style": {}
-		}, 
-		 
+		
 		 
 		{
 			"path": "pages/message/message", //消息主页
 			"style": {}
 		}, 
 		{
-			"path": "pages/message/message_detail", //日记详情（视频）
+			"path": "pages/message/message_detail", //消息详情（视频）
 			"style": {}
 		}, 
 		{

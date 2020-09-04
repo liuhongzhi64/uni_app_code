@@ -5,6 +5,7 @@
 		 :key='k' :data-name="i.title" @tap="gotoGoods">
 			<view class="images">
 				<image :src="i.url" mode="" :style="[{'width':width+'rpx','height':width+'rpx'}]"></image>
+				<!-- <image :src="i.url" mode="" :style="[{'width':width+'rpx','height':'auto'}]"></image> -->
 			</view>
 			<view class="product-title"> <text class="closed" v-if="i.closed">{{i.closed}}</text> {{i.title}} </view>
 			<view class="product-label" v-if="i.label.length>1">
@@ -169,8 +170,11 @@
 		<view class="crosswise-porduct" v-if="crosswisePorduct&&crosswisePorducts.length==0">
 			<scroll-view class="product-items" scroll-x="true" :style="[{'height':height+'rpx'}]">
 				<view class="product-item-content">
-					<view class="productImgs" v-for="(i,k) in crosswisePorduct" :key='k' :data-name="i.content" @tap="gotoGoods">
-						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
+					<view class="productImgs" 
+					 
+					 v-for="(i,k) in crosswisePorduct" :key='k' :data-name="i.content" @tap="gotoGoods">
+						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" 
+						:style="[{'width':width+'rpx','border-radius': radius+'rpx'}]">
 							<!-- 图片 -->
 							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
 								<image :src="i.url" mode=""></image>
@@ -212,7 +216,7 @@
 		<view class="crosswise-porduct" v-if="crosswisePorducts">
 			<scroll-view class="product-items" scroll-x="true" >
 				<view class="product-item-content">
-					<view class="productImgs" v-for="(i,k) in crosswisePorducts" :key='k' :data-id='i.encrypted_id' :data-sku_id = 'i.sku_id' :data-name="i.goods_name" @tap="changeGoods">
+					<view class="productImgs" v-for="(i,k) in crosswisePorducts" :key='k' :data-id='i.encrypted_id' :data-sku_id = 'i.sku_id' :data-name="i.goods_name" @tap="changeGoods" >
 						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
 							<!-- 图片 -->
 							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
@@ -353,6 +357,7 @@
 			width: Number,
 			height: Number,
 			porductWidth:Number,
+			radius:Number
 		},
 		data(){
 			return {

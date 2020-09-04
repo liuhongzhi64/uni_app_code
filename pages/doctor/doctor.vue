@@ -145,7 +145,8 @@
 															<view :class="{checkedLine :btnPleaseDoctorNum == k}"></view>
 														</view>
 													</view>
-													<view class="please-doctor-introduce end-cont" :class="{dis:btnPleaseDoctorNum == k}" v-for="(item,k) in recommendDoctorList"
+													<view class="please-doctor-introduce end-cont" 
+													 :class="{dis:btnPleaseDoctorNum == k}" v-for="(item,k) in recommendDoctorList"
 													 :key="k">
 														<porduct :width=350 :porductList='pleaseDoctorList'></porduct>
 													</view>

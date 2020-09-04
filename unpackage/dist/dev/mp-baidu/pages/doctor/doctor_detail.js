@@ -130,7 +130,161 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 411));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 411));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 418));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -152,7 +306,8 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    topBar: topBar },
+    topBar: topBar,
+    porduct: porduct },
 
   data: function data() {
     return {
@@ -167,8 +322,80 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '医生个人主页',
-      doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg' //医生的背景图片
-    };
+      doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
+      doctorList: [
+      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' },
+      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' },
+      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' },
+      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' }],
+
+      porductList: [
+      {
+        url: '../../static/images/19.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: ['眼部美容', '眼部'],
+        activity: [],
+        originalCost: 68800,
+        vipPrice: 58800,
+        subscribe: 477,
+        goodReputation: 98 },
+
+      {
+        url: '../../static/images/23.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: ['眼部美容', '眼部'],
+        activity: [],
+        originalCost: 18800,
+        vipPrice: 12800,
+        subscribe: 422,
+        goodReputation: 98 },
+
+      {
+        url: '../../static/images/19.png',
+        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+        label: [],
+        activity: ['首单必减', '折扣'],
+        originalCost: 18800,
+        vipPrice: 0,
+        subscribe: 477,
+        goodReputation: 98 }],
+
+
+      pleaseDoctorList: [
+      {
+        url: '../../static/images/20.png',
+        title: '我是文章标题，显示两排后就以省略号结束？...',
+        label: ['眼部美容', '眼部'],
+        headPortrait: '../../static/images/test.jpg', //头像
+        userName: '用户昵称几个字',
+        like: 99 },
+
+      {
+        url: '../../static/images/23.png',
+        title: '我是文章标题，显示两排后就以省略号结束？...',
+        label: ['眼部美容', '眼部'],
+        headPortrait: '../../static/images/test.jpg', //头像
+        userName: '程阳',
+        like: 99 },
+
+      {
+        url: '../../static/images/23.png',
+        title: '我是文章标题，显示两排后就以省略号结束？...',
+        label: ['眼部美容', '眼部'],
+        headPortrait: '../../static/images/test.jpg', //头像
+        userName: '程阳',
+        like: 99 },
+
+      {
+        url: '../../static/images/23.png',
+        title: '我是文章标题，显示两排后就以省略号结束？...',
+        label: ['眼部美容', '眼部'],
+        headPortrait: '../../static/images/test.jpg', //头像
+        userName: '程阳',
+        like: 99 }] };
+
+
+
   },
   onReady: function onReady() {
     var that = this;
@@ -186,7 +413,19 @@ __webpack_require__.r(__webpack_exports__);
       } });
 
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    gotoPhoto: function gotoPhoto() {
+      uni.navigateTo({
+        url: "/pages/doctor/doctor_photo" });
+
+    },
+    // 购物车
+    cart: function cart(event) {
+
+      uni.navigateTo({
+        url: "/pages/cart/cart" });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

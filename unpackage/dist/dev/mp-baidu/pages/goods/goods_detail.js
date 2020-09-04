@@ -107,13 +107,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
-      ;[
-        _vm.spec[_vm.index].attr[_vm.sindex] == 0
-          ? "getSpec"
-          : _vm.spec[_vm.index].attr[_vm.sindex] == 1
-          ? "cancelSpec"
-          : ""
-      ]
+      _vm.spec[_vm.index].attr[_vm.sindex] == 0
+        ? _vm.getSpec(_vm.index, _vm.sindex)
+        : _vm.spec[_vm.index].attr[_vm.sindex] == 1
+        ? _vm.cancelSpec(_vm.index, _vm.sindex)
+        : ""
     }
   }
 }
@@ -148,6 +146,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 411));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 418));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
 
 
 
@@ -631,40 +638,6 @@ __webpack_require__.r(__webpack_exports__);
 
       //优惠政策
 
-      productList: [{
-        url: '../../static/images/19.png',
-        content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-        newPrice: '19800', //价格
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }],
-
-        closed: '',
-        label: [] //标签
-      },
-      {
-        url: '../../static/images/20.png',
-        content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-        newPrice: '19800', //价格
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }],
-
-        closed: '闭馆特推',
-        label: ['眼部美容', '眼部'] //标签
-      },
-      {
-        url: '../../static/images/20.png',
-        content: '商品名称商品名称商品名称商品名称,超过两黄金自动省略号', //名称
-        newPrice: '19800', //价格
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }],
-
-        closed: '',
-        label: ['眼部美容', '眼部'] //标签
-      }],
-      //相关商品
       productLists: [{
         url: '../../static/images/19.png',
         title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
@@ -829,6 +802,8 @@ __webpack_require__.r(__webpack_exports__);
       market_price: '', //市场价
       is_collect: 0, //收藏
       goods_name: '0', //商品名称
+      // index:1,
+      // sindex:'11',
       details_prompt: '',
       pay_type: 0,
       isPay: 0, // 0=预约金，1=全额付
@@ -846,9 +821,9 @@ __webpack_require__.r(__webpack_exports__);
     var sku_id = option.sku_id;
     var dataInfo = {
       interfaceId: 'goodsspudetails',
-      encrypted_id: id,
-      sku_id: sku_id };
-
+      encrypted_id: id
+      // sku_id: sku_id
+    };
     that.request.uniRequest("goods", dataInfo).then(function (res) {
       if (res.data.code == 1000) {
         var data = res.data.data;
@@ -868,12 +843,15 @@ __webpack_require__.r(__webpack_exports__);
         }
         that.spec_value = data.spec_value;
         // console.log(data)
-        // console.log(that.spec_value)
-
+        console.log(that.spec);
+        for (var i in that.spec) {
+          console.log(that.spec[i].attr);
+        }
       }
     });
 
     that.getRelevantGoods();
+
   },
   onReady: function onReady() {
     var that = this;
@@ -918,9 +896,8 @@ __webpack_require__.r(__webpack_exports__);
       // 新规格数组，与原规格spec_value相对应，用于标记各种状态
       var specValue = uni.getStorageSync("goodsDetail").spec_value;
       var spec = uni.getStorageSync("goodsDetail").spec_value;
-
       var defaultSpec = isCancel == 1 ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
-
+      // console.log(defaultSpec,2222222)
       // 遍历规格类型
       for (var i in specValue) {
         for (var k in specValue[i].attr) {
@@ -955,25 +932,27 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+      // console.log(spec,33333)
       return spec;
     },
-    // 规格切换
-    getSpec: function getSpec(e) {
+
+    // getSpec: function(e) {
+    getSpec: function getSpec(index, sindex, spec) {
       this.request = this.$request;
       var that = this;
-      console.log(e.currentTarget.dataset);
-      var index = e.currentTarget.dataset.index;
-      var sindex = e.currentTarget.dataset.sindex;
-      for (var i in that.data.spec[index].attr) {
-        that.data.spec[index].attr[i] = 0;
+      that.spec = spec;
+      // let index = e.currentTarget.dataset.index;
+      // let sindex = e.currentTarget.dataset.sindex;
+      for (var i in that.spec[index].attr) {
+        that.spec[index].attr[i] = 0;
       }
-      that.data.spec[index].attr[sindex] = 1;
+      that.spec[index].attr[sindex] = 1;
 
       // 查找当前选择数据
       var nowCheck = [];
-      for (var _i in that.data.spec) {
-        for (var k in that.data.spec[_i].attr) {
-          if (that.data.spec[_i].attr[k] == 1) {
+      for (var _i in that.spec) {
+        for (var k in that.spec[_i].attr) {
+          if (that.spec[_i].attr[k] == 1) {
             nowCheck.push(k);
           }
         }
@@ -994,7 +973,7 @@ __webpack_require__.r(__webpack_exports__);
       }
       var dataInfo = {
         interfaceId: "selectsku",
-        encrypted_id: that.data.spuId,
+        encrypted_id: that.spuId,
         spec_attr: specAttr };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
@@ -1008,24 +987,26 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     // 取消选项
-    cancelSpec: function cancelSpec(e) {
+    cancelSpec: function cancelSpec(index, sindex, spec) {
+      // cancelSpec: function(e) {
       this.request = this.$request;
       var that = this;
-      var index = e.currentTarget.dataset.index;
-      var sindex = e.currentTarget.dataset.sindex;
-      that.data.spec[index].attr[sindex] = 0;
+
+      // let index = e.currentTarget.dataset.index;
+      // let sindex = e.currentTarget.dataset.sindex;
+      // that.spec[index].attr[sindex] = 0;
       // 查找当前选择数据
       var nowCheck = [];
-      for (var i in that.data.spec) {
-        for (var k in that.data.spec[i].attr) {
-          if (that.data.spec[i].attr[k] == 1) {
+      for (var i in that.spec) {
+        for (var k in that.spec[i].attr) {
+          if (that.spec[i].attr[k] == 1) {
             nowCheck.push(k);
           }
         }
       }
       var dataInfo = {
         interfaceId: "selectsku",
-        encrypted_id: that.data.spuId,
+        encrypted_id: that.spuId,
         spec_attr: nowCheck };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {

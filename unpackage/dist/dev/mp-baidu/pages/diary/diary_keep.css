@@ -1,0 +1,63 @@
+
+.diary_write-content.data-v-5750f646 {
+	background-color: #F0F0F0;
+}
+.top-content.data-v-5750f646 {
+	background-color: #FFFFFF;
+	border-radius: 0rpx 0rpx 24rpx 24rpx;
+	padding: 40rpx 40rpx 60rpx;
+}
+.title.data-v-5750f646 {
+	font-size: 32rpx;
+	color: #111111;
+	padding-bottom: 30rpx;
+	border-bottom: 2rpx solid #F0F0F0;
+}
+.diary-classfiy.data-v-5750f646 {
+	padding: 50rpx;
+}
+.diary-classfiy  radio-group.data-v-5750f646{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.change-video.data-v-5750f646, .change-text-photo.data-v-5750f646{
+	position: relative;
+	text-align: center;
+}
+.diary-classfiy image.data-v-5750f646{
+	width: 240rpx;
+	height: 320rpx;
+	border-radius: 16rpx;
+	margin-bottom: 25rpx;
+}
+.change-type.data-v-5750f646{
+	position: absolute;
+	top: 16rpx;
+	right: 10rpx;
+}
+.next-botton.data-v-5750f646 {
+	width: 670rpx;
+	height: 88rpx;
+	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
+	border-radius: 44rpx;
+	font-size: 32rpx;
+	color: #FFFFFF;
+	border: none;
+	margin-top: 50rpx;
+}
+.hint.data-v-5750f646 {
+	padding-left: 40rpx;
+	padding-top: 32rpx;
+	font-size: 24rpx;
+	font-size: 24rpx;
+	color: #999999;
+}
+.hint.data-v-5750f646 {
+	color: #fa3475;
+}
+

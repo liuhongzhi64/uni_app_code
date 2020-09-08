@@ -124,23 +124,23 @@
 				that.request.uniRequest("login", dataInfo).then(res => {
 					if (res.data.code === 1000) {
 						let data = res.data.data;
-						// uni.setStorageSync("consultation", data.consultation);
-						// uni.setStorageSync("token", data.token);
-						// uni.setStorageSync("userInfo", data);
-						// that.onShow();
-						// if (type === "0") {
-						// 	that.isCheckPhone = true
-						// }
+						uni.setStorageSync("consultation", data.consultation);
+						uni.setStorageSync("token", data.token);
+						uni.setStorageSync("userInfo", data);
+						that.onShow();
+						if (type === "0") {
+							that.isCheckPhone = true
+						}
 					} else if (res.data.code === 2007 || res.data.code === 2008) {
 						uni.setStorageSync("sessionKey", "");
-						app.showModal("网络错误，稍后再试！");
+						that.request.showModal("网络错误，稍后再试！");
 					} else if (res.data.code === 2013) {
-						that.data.accountTel = res.data.data.tel;
-						// that.setData({
-						// 	accountPopup: true,
-						// 	accountTips: true,
-						// 	accountTelCompile: res.data.data.tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
-						// })
+						that.accountTel = res.data.data.tel;
+						
+							that.accountPopup = true,
+							that.accountTips = true,
+							that.accountTelCompile = res.data.data.tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+					
 					}
 				})
 			},

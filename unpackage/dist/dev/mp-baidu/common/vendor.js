@@ -8023,17 +8023,6 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 288:
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/images/18.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/images/18.png";
-
-/***/ }),
-
 /***/ 3:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -8065,6 +8054,17 @@ module.exports = g;
 
 /***/ }),
 
+/***/ 317:
+/*!************************************************!*\
+  !*** D:/Code/code/uniapp/static/images/18.png ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/images/18.png";
+
+/***/ }),
+
 /***/ 4:
 /*!**************************************!*\
   !*** D:/Code/code/uniapp/pages.json ***!
@@ -8076,18 +8076,18 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 500:
+/***/ 88:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 501);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 89);
 
 /***/ }),
 
-/***/ 501:
+/***/ 89:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8118,7 +8118,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 502);
+module.exports = __webpack_require__(/*! ./runtime */ 90);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8135,7 +8135,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 502:
+/***/ 90:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

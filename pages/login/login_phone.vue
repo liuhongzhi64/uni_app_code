@@ -2,7 +2,7 @@
 	<view class="login_phone">
 		<view class="login" :style="[{'height':height+'px'}]">
 			<view class="login-top" :style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px'}]">
-				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
+				<view class="back-title">
 					<view class="back" @tap='goBack'>
 						<image src="../../static/images/return.png" mode=""></image>
 					</view>
@@ -10,34 +10,35 @@
 						<view class="title-name" :style="[{'padding-right':80+'rpx'}]"> 手机号登录 </view>
 					</view>
 				</view>
-
-				<view class="advertising">
-					20万女性的不悔选择
-				</view>
 			</view>
 
-			<view class="login-input">
+			<view class="login-input" :style="'height:'+height +'rpx'">
 				<view class="login-message">
 					<view class="phone">
-						<input class="phone-input" type="number" @input="phoneInput" placeholder="请输入手机号" maxlength="11" />
+						<input class="phone-input" type="number" @blur="phoneInput" placeholder="请输入手机号" maxlength="11" />
 					</view>
-					<view class="phone-hint"> *请输入手机号 / 请输入正确的手机号 </view>
+					<view class="phone-hint" v-if="!phoneValueState"> *请输入手机号 / 请输入正确的手机号 </view>
 
 					<view class="graphic-code">
-						<input class="phone-input" @input="graphicInput" placeholder="请输入图形码" maxlength="4" />
-						<button class="graphic" type="default" plain="true">{{graphicCode}} </button>
+						<input class="phone-input" @blur="graphicInput" placeholder="请输入图形码" maxlength="4" />
+						<!-- <button class="graphic" type="default" plain="true">{{graphicCode}} </button> -->
+						<image class="graphic" :src="imageCode" @tap="getImageCode"></image>
+
 					</view>
+					<view class="phone-hint" v-if="!imageCodeValueState">图形码错误</view>
+
 
 					<view class="verification-code">
-						<input class="phone-input" @input="verificationInput" placeholder="请输入验证码" maxlength="4" />
-						<button class="verification" type="default" plain="true">发送请求</button>
+						<input class="phone-input" @blur="verificationInput" placeholder="请输入验证码" maxlength="4" />
+						<button class="verification" type="default" plain="true" @tap='getPhoneCode'>发送请求</button>
 					</view>
+					<view class="phone-hint" v-if="!phoneCodeValueState">请输入验证码 / 验证码错误</view>
 
-					<button class="go-login" type="default" plain="true">登录</button>
+					<button class="go-login" type="default" plain="true" form-type='submit' @tap="submit">登录</button>
 				</view>
 
 				<view class="no-have-code-content">
-					<text class="no-have-code">收不到验证码？</text>
+					<text class="no-have-code" @tap='consultation'>收不到验证码？</text>
 				</view>
 			</view>
 
@@ -56,9 +57,18 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				phone: 0,
-				graphicCode: 'D2e6', //图形 码的内容
+				imageCode: "", // 图形验证码
+				imageCodeKey: "", // 图形码key值
+				phoneValue: "", // 手机号输入值
+				phoneValueState: true, // 手机号验证状态
+				imageCodeValue: "", // 图形码输入值
+				imageCodeValueState: true, // 图形码验证状态
+				phoneCodeValue: "", // 短信验证码输入值
+				phoneCodeValueState: true, // 短信验证码验证状态
 			}
+		},
+		onShow: function() {
+			this.getImageCode();
 		},
 		onReady() {
 			let that = this;
@@ -73,8 +83,9 @@
 					that.menuHeight = menu.height
 					that.menuLeft = menu.left
 					that.menuBottom = menu.bottom
-				}
+				},				
 			})
+			
 		},
 		methods: {
 			// 返回
@@ -86,19 +97,123 @@
 				});
 			},
 			phoneInput: function(event) {
-				this.phone = event.target.value
-				console.log(this.phone)
+				this.phoneValue = event.target.value
+				console.log(this.phoneValue)
 			},
-			agreement:function(){
+			// 获取、刷新图形码
+			getImageCode: function() {
+				this.request = this.$request
+				const that = this;
+				let dataInfo = {
+					interfaceId: "captcha"
+				}
+				this.request.uniRequest("login", dataInfo).then(res => {
+					if (res.data.code === 1000) {
+						that.imageCodeKey = res.data.data.captcha_key;
+						that.imageCode = res.data.data.url
+
+					} else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
+			graphicInput: function(event) {
+				this.imageCodeValue = event.target.value
+				console.log(this.imageCodeValue)
+			},
+
+			// 获取短信验证码
+			getPhoneCode: function() {
+				this.request = this.$request
+				const that = this;
+				if (!that.check()) return false;
+				let dataInfo = {
+					interfaceId: "mobilecode",
+					type: "webverifi",
+					mobile: that.phoneValue,
+					captcha: that.imageCodeValue,
+					captcha_key: that.imageCodeKey
+				}
+				this.request.uniRequest("login", dataInfo).then(res => {
+					that.getImageCode();
+					if (res.data.code === 1000) {
+						this.request.showToast("发送成功");
+					}
+				})
+			},
+
+			verificationInput: function(event) {
+				this.phoneCodeValue = event.target.value
+			},
+			agreement: function() {
 				uni.navigateTo({
 					url: '/pages/agreement/agreement'
 				});
+			},
+			// 验证
+			check: function(type) {
+				const that = this;
+				if (!/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.phoneValue)) {
+					that.phoneValueState = false,
+						that.imageCodeValueState = true,
+						that.phoneCodeValueState = true
+					return false;
+				} else if (that.imageCodeValue === "") {
+					that.phoneValueState = true,
+						that.imageCodeValueState = false,
+						that.phoneCodeValueState = true
+					return false;
+				}
+				// type=1则验证短信验证码，默认不验证
+				else if (type === "1" && that.phoneCodeValue === "") {
+					that.phoneValueState = true,
+						that.imageCodeValueState = true,
+						that.phoneCodeValueState = false
+					return false;
+				} else {
+					that.phoneValueState = true,
+						that.imageCodeValueState = true,
+						that.phoneCodeValueState = true
+					return true;
+				}
+			},
+			// 登录
+			submit: function(e) {
+				this.request = this.$request
+				const that = this;
+				if (!that.check(e.currentTarget.dataset.type)) return false;
+				let dataInfo = {
+					interfaceId: "phoneregister",
+					tel: that.phoneValue,
+					mobile_code: that.phoneCodeValue,
+					type: 1,
+					code_session: uni.getStorageSync("sessionKey"),
+					channelSource: uni.getStorageSync("userInfo").channelSource
+				}
+				this.request.uniRequest("login", dataInfo).then(res => {
+					that.getImageCode();
+					if (res.data.code === 1000) {
+						let data = res.data.data;
+						uni.setStorageSync("consultation", data.consultation);
+						uni.setStorageSync("token", data.token);
+						uni.setStorageSync("userInfo", data);
+						this.request.showToast("登录成功");
+					}
+				})
+			},
+			consultation:function(){
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
 			}
 		}
 	}
 </script>
 
 <style scoped>
+	.login{
+		background-color: #F5F5F5;
+	}
 	.login .login-top {
 		color: #FFFFFF;
 		background-image: linear-gradient(90deg, #ff6699 0%, #fa3475 100%);
@@ -109,7 +224,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding-bottom: 100rpx;
 	}
 
 	.back-title {
@@ -137,17 +251,10 @@
 		flex: 1;
 	}
 
-	.advertising {
-		width: 509rpx;
-		height: 212rpx;
-		box-shadow: 3rpx 4rpx 0rpx 0rpx gba(101, 101, 101, 0.25);
-		text-align: center;
-		line-height: 212rpx;
-
-	}
-
 	.login-input {
-		padding: 0 45rpx 100rpx;
+		padding: 300rpx 45rpx 100rpx;
+		background: #f6f6f6 url(https://xcx.hmzixin.com/upload/images/3.0/login_phone_bg.jpg?v=0) no-repeat;
+		background-size: 100%;
 	}
 
 	.login-message {
@@ -180,6 +287,10 @@
 		justify-content: space-between;
 		align-items: center;
 
+	}
+
+	.graphic-code {
+		margin-top: 30rpx;
 	}
 
 	.graphic-code input,

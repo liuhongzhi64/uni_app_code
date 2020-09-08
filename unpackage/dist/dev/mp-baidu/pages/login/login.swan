@@ -1,1 +1,1 @@
-<view class="all-login data-v-b237504c">登录</view>
+<view class="all-login data-v-b237504c"><view class="all-login-content data-v-b237504c"><block s-if="{{adImg}}"><image class="ad data-v-b237504c" src="{{adImg}}" data-link="{{adLink}}" data-event-opts="{{[['tap',[['adJump',['$event']]]]]}}" bindtap="__e"></image></block><view data-event-opts="{{[['tap',[['skip',['$event']]]]]}}" class="time data-v-b237504c" bindtap="__e">{{timeNum+" 秒"}}</view></view></view>

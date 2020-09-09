@@ -2,7 +2,11 @@
 	"pages": [ 
 		
 		{
-			"path": "pages/my/write_comment", //手机登录
+			"path": "pages/my/my_collection", //我的收藏
+			"style": {}
+		}, 
+		{
+			"path": "pages/my/write_comment", //写评价
 			"style": {}
 		},
 		{
@@ -210,10 +214,7 @@
 			"style": {}
 		},
 			 
-		{
-			"path": "pages/my/my-collection", //我的收藏
-			"style": {}
-		}, 
+		
 		{
 			"path": "pages/my/my_comment", //我的评价-评价列表
 			"style": {}

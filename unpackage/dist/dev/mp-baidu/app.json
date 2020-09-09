@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my/my_collection",
     "pages/my/write_comment",
     "pages/login/login_phone",
     "pages/diary/diary_detail",
@@ -45,7 +46,6 @@
     "pages/poster/poster",
     "pages/sign/sign",
     "pages/my/my",
-    "pages/my/my-collection",
     "pages/my/my_comment",
     "pages/my/my_order_refund_reason",
     "pages/agreement/agreement",

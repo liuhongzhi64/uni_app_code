@@ -2,6 +2,19 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
+			"style": {}
+		}, 
+		{
+			"path": "pages/goods/goods_detail_comment_detail", //商品详情（全部评价详情）
+			"style": {}
+		}, 
+		
+		{
+			"path": "pages/my/my_comment", //我的评价-评价列表
+			"style": {}
+		}, 
+		{
 			"path": "pages/my/my_collection", //我的收藏
 			"style": {}
 		}, 
@@ -213,13 +226,7 @@
 			"path": "pages/my/my", //我的
 			"style": {}
 		},
-			 
-		
-		{
-			"path": "pages/my/my_comment", //我的评价-评价列表
-			"style": {}
-		}, 
-		
+			 		
 		{
 			"path": "pages/my/my_order_refund_reason", //退款原因
 			"style": {}
@@ -232,9 +239,7 @@
 			"path": "pages/consultation/consultation", //咨询
 			"style": {}
 		},
-			
-		
-		 
+					 
 		{
 			"path": "pages/message/message", //消息主页
 			"style": {}
@@ -243,14 +248,7 @@
 			"path": "pages/message/message_detail", //消息详情（视频）
 			"style": {}
 		}, 
-		{
-			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
-			"style": {}
-		}, 
-		{
-			"path": "pages/goods/goods_detail_comment_detail", //商品详情（全部评价详情）
-			"style": {}
-		}, 
+		
 		{
 			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
 			"style": {}

@@ -152,9 +152,28 @@
 				this.listType = type //类型 0商品 1医生 2日记 3问答
 			},
 			deleteItem:function(e){
+				let that = this
 				let index = e.currentTarget.dataset.index;
 				console.log(this.contentList)
-				this.contentList.splice(index,1)
+				uni.showModal({
+					title: '提示',
+					content: '确定删除此收藏？',
+					success: function (res) {
+					    if (res.confirm) {
+					      that.contentList.splice(index,1)
+						  uni.showToast({
+						  	title:'删除成功',
+						  	duration: 1000
+						  })
+					    } else if (res.cancel) {
+					        uni.showToast({
+					        	title:'取消删除',
+								duration: 1000
+					        })
+					    }
+					}
+				})
+				
 			}
 		}
 	}

@@ -1,5 +1,8 @@
 {
   "pages": [
+    "pages/goods/goods_detail_comment",
+    "pages/goods/goods_detail_comment_detail",
+    "pages/my/my_comment",
     "pages/my/my_collection",
     "pages/my/write_comment",
     "pages/login/login_phone",
@@ -46,14 +49,11 @@
     "pages/poster/poster",
     "pages/sign/sign",
     "pages/my/my",
-    "pages/my/my_comment",
     "pages/my/my_order_refund_reason",
     "pages/agreement/agreement",
     "pages/consultation/consultation",
     "pages/message/message",
     "pages/message/message_detail",
-    "pages/goods/goods_detail_comment",
-    "pages/goods/goods_detail_comment_detail",
     "pages/goods/goods_detail_notice",
     "pages/goods/goods_detail_problem",
     "pages/goods/goods_detail_problem_detail",

@@ -8,7 +8,7 @@
 					<view class="title">
 						<view class="line"></view>评价
 					</view>
-					<view class="good-reputation">好评度93.6%</view>
+					<view class="good-reputation">好评度{{rate}}%</view>
 				</view>
 				<view class="change-type">
 					<view class="type-item" :class="{'active' : tabIndex==index}" @tap='tabtap(index,item.type)' v-for="(item,index) in typeList"
@@ -22,38 +22,38 @@
 			<scroll-view class="comment_content">
 				<template>
 					<view class="content-details">
-						<view class="ueser-comment-list">
+						<view class="ueser-comment-list" v-for="(item,index) in contentList" :key='index' @tap='detailComment(item.id)'>
 							
 							<view class="top-content">
 								<view class="left-content">
-									<image class="user-images" src="../../static/images/20.png" mode=""></image>
+									<image class="user-images" :src="item.head_ico" mode=""></image>
 									<view class="user-name-star">
-										<view class="user-name">用户昵称几个字</view>
+										<view class="user-name" v-if="item.is_anonymous==0">{{item.nick_name}}</view>
+										<view class="user-name" v-else>匿名用户</view>
 										<view class="star-list">
-											<view class="star-img" v-for="(item,index) in imgs" :key="index" :data-index="item.id">
-												<image class="star" :src="item.id>starId?src2:src1"></image>
+											<view class="star-img" v-for="(i,k) in imgs" :key="k" >
+												<image class="star" :src="i.id>item.point?src2:src1"></image>
 											</view>
 										</view>
 									</view>
 								</view>
-								<view class="top-right" v-if="starId==1||starId==2">较差</view>
-								<view class="top-right" v-else-if="starId==3">一般</view>
-								<view class="top-right" v-else-if="starId==4">满意</view>
+								<view class="top-right" v-if="item.point==1||item.point==2">较差</view>
+								<view class="top-right" v-else-if="item.point==3">一般</view>
+								<view class="top-right" v-else-if="item.point==4">满意</view>
 								<view class="top-right" v-else>非常满意</view>
 							</view>
 							
 							<view class="service_list">
-								<view class="service_list_content" v-for="(item,index) in label" :key="index">
+								<view class="service_list_content" v-for="(item,index) in item.label" :key="index">
 									{{item}}
 								</view>
 							</view>
 							
-							<view class="ueser-comment-details">
-								我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，								   我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是
-							</view>
+							<view class="ueser-comment-details"> {{item.contents}} </view>
 							
 							<view class="image-video">
 								<view class="image_list" v-for="(item,index) in  imgs_list" :key='index'>
+									<!-- 后期使用item.imgs_list  item.video_list-->
 									<image class="list-content" :src="item" mode=""></image>
 								</view>
 								<view class="image_list" v-for="(item,index) in  video_list" :key='index'>
@@ -61,7 +61,26 @@
 								</view>
 							</view>
 							
+							<view class="browse-like-consult">
+								<view class="browse" v-if="item.views_num<=9999">{{item.views_num}}浏览量</view>
+								<view class="browse" v-else>9999+浏览量</view>
+								<view class="like">
+									<image src="../../static/images/collect.png" mode="" v-if="item.is_collect == 0" ></image> 
+									<image src="../../static/images/checked-collect.png" mode="" v-else ></image> 
+									<text>{{item.collect_num}}</text>
+								</view>
+								<view class="consult">
+									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
+								</view>
+							</view>
+							
 						</view>
+						
+						<view class="no-content" v-if="contentList.length==0">
+							<image src="../../static/images/cartBg.png" mode=""></image>
+							<view class="hint">喵~ 暂无相关内容</view>
+						</view>
+						
 					</view>
 				</template>
 			</scroll-view>
@@ -84,7 +103,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
@@ -111,7 +130,9 @@
 					},
 				],
 				tabIndex: 0,
-				listType: 0,
+				listType: 1,
+				contentList:[],
+				rate:'',//评分
 				imgs: [{
 					id: 1
 				}, {
@@ -125,8 +146,6 @@
 				}],
 				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
 				src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
-				starId: 5,
-				label:['医生专业','环境很好','服务很好','效果很棒'],
 				imgs_list:['../../static/images/20.png','../../static/images/19.png','../../static/images/20.png']
 			}
 		},
@@ -147,14 +166,45 @@
 		},
 		onLoad: function(option) {
 			let that = this
-			console.log(option)
+			that.getMessage()
 		},
 		methods: {
 			tabtap: function(index = 0, type = 0) {
 				let that = this
 				that.tabIndex = index;
-				that.listType = type //类型 0待评价 1已评价
-			}
+				that.listType = type //类型 1全部 2最新 3有视频 4有图 5无图
+				that.getMessage()
+			},
+			getMessage:function(){
+				this.request = this.$request
+				let that = this
+				let encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09'
+				let dataInfo = {
+					interfaceId : 'goodscommentlist',
+					encrypted_id : encrypted_id,
+					type:that.listType,
+					offset:0,
+					limit:6
+				}
+				this.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code === 1000) {
+						console.log(res.data.data)
+						let data = res.data.data
+						that.contentList = data.list
+						that.rate = data.rate
+				
+					} else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
+			detailComment:function(id){
+				let conmentId = id
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail_comment_detail?id=${conmentId}`,
+				})
+			},
+			
 		}
 	}
 </script>
@@ -307,6 +357,53 @@
 		background-color: #acacac;
 		border-radius: 16rpx;
 		margin-right: 6rpx;
+	}
+	.browse-like-consult{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 24rpx;
+		color: #b2b2b2;
+		padding-top: 26rpx;
+	}
+	.browse-like-consult image{
+		width: 40rpx;
+		height: 40rpx;
+		margin-right: 10rpx;
+	}
+	.browse-like-consult .like{
+		font-size: 30rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 33.3%;
+	}
+	.browse-like-consult .consult{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 33.3%;
+	}
+	.browse{
+		color: #fa3475;
+		flex: 1;
+		text-align: center;
+	}
+	.no-content{
+		margin-top: 140rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		
+	}
+	.no-content image{
+		width: 525rpx;
+		height: 370rpx;
+	}
+	.no-content .hint{
+		color: #9e9e9e;
+		font-size: 28rpx;
+		margin-top: 56rpx;
 	}
 	
 </style>

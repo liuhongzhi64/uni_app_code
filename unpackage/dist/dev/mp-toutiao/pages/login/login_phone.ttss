@@ -1,4 +1,7 @@
 
+.login.data-v-0a73af49{
+	background-color: #F5F5F5;
+}
 .login .login-top.data-v-0a73af49 {
 	color: #FFFFFF;
 	background-image: -webkit-linear-gradient(left, #ff6699 0%, #fa3475 100%);
@@ -19,7 +22,6 @@
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
-	padding-bottom: 100rpx;
 }
 .back-title.data-v-0a73af49 {
 	display: -webkit-box;
@@ -54,15 +56,10 @@
 	-webkit-flex: 1;
 	        flex: 1;
 }
-.advertising.data-v-0a73af49 {
-	width: 509rpx;
-	height: 212rpx;
-	box-shadow: 3rpx 4rpx 0rpx 0rpx gba(101, 101, 101, 0.25);
-	text-align: center;
-	line-height: 212rpx;
-}
 .login-input.data-v-0a73af49 {
-	padding: 0 45rpx 100rpx;
+	padding: 300rpx 45rpx 100rpx;
+	background: #f6f6f6 url(https://xcx.hmzixin.com/upload/images/3.0/login_phone_bg.jpg?v=0) no-repeat;
+	background-size: 100%;
 }
 .login-message.data-v-0a73af49 {
 	background-color: #FFFFFF;
@@ -95,6 +92,9 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+}
+.graphic-code.data-v-0a73af49 {
+	margin-top: 30rpx;
 }
 .graphic-code input.data-v-0a73af49,
 .verification-code input.data-v-0a73af49 {

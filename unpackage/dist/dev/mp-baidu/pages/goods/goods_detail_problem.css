@@ -1,0 +1,117 @@
+
+.goods_detail_problem_contnet.data-v-89af38e8{
+	background-color: #F0F0F0;
+}
+.content-list.data-v-89af38e8{
+	padding: 32rpx 20rpx 40rpx;
+	background-color: #FFFFFF;
+	border-radius: 24rpx;
+	margin-bottom: 20rpx;
+}
+.content-list.data-v-89af38e8:first-child{
+	border-radius: 0 0 24rpx 24rpx;
+}
+.top-ask.data-v-89af38e8{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.ask-title.data-v-89af38e8{
+	width: 32rpx;
+	line-height: 32rpx;
+	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
+	font-size: 18rpx;
+	color: #FFFFFF;	
+	border-radius: 18rpx;
+	text-align: center;
+}
+.ask-contnet.data-v-89af38e8{
+	font-size: 28rpx;
+	margin-left: 15rpx;
+}
+.answer.data-v-89af38e8{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	padding-top: 40rpx;
+	padding-bottom: 23rpx;
+	border-bottom: 1px solid #F0F0F0;
+}
+.answer-title.data-v-89af38e8{
+	width: 32rpx;
+	height: 32rpx;
+	font-size: 18rpx;
+	color: #FFFFFF;	
+	border-radius: 18rpx;
+	text-align: center;
+	background-image: -webkit-linear-gradient(135deg, #8834fa 0%, #bc66ff 100%);
+	background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
+}
+.answer-content.data-v-89af38e8{
+	font-size: 24rpx;
+	line-height: 36rpx;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 5;
+	margin-left: 15rpx;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.browse-like-consult.data-v-89af38e8{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	font-size: 24rpx;
+	color: #b2b2b2;
+	padding-top: 26rpx;
+}
+.browse-like-consult image.data-v-89af38e8{
+	width: 40rpx;
+	height: 40rpx;
+	margin-right: 10rpx;
+}
+.browse-like-consult .like.data-v-89af38e8{
+	font-size: 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	width: 33.3%;
+}
+.browse-like-consult .consult.data-v-89af38e8{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	width: 33.3%;
+}
+.browse.data-v-89af38e8{
+	color: #fa3475;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	text-align: center;
+}
+

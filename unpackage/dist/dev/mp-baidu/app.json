@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/goods/goods_detail_problem",
     "pages/goods/goods_detail_comment",
+    "pages/goods/goods_detail_problem_detail",
     "pages/goods/goods_detail_comment_detail",
     "pages/my/my_comment",
     "pages/my/my_collection",
@@ -55,8 +57,6 @@
     "pages/message/message",
     "pages/message/message_detail",
     "pages/goods/goods_detail_notice",
-    "pages/goods/goods_detail_problem",
-    "pages/goods/goods_detail_problem_detail",
     "pages/goods/goods_detail_video",
     "pages/goods/goods_list"
   ],

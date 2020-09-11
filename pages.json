@@ -2,9 +2,19 @@
 	"pages": [ 
 		
 		{
+			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
+			"style": {}
+		}, 
+		{
 			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
 			"style": {}
 		}, 
+		
+		{
+			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
+			"style": {}
+		}, 
+		
 		{
 			"path": "pages/goods/goods_detail_comment_detail", //商品详情（全部评价详情）
 			"style": {}
@@ -253,14 +263,7 @@
 			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
 			"style": {}
 		}, 
-		{
-			"path": "pages/goods/goods_detail_problem", //商品详情（相关问答）
-			"style": {}
-		}, 
-		{
-			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
-			"style": {}
-		}, 
+		
 		{
 			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
 			"style": {}

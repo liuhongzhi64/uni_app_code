@@ -6,12 +6,13 @@
 		<view class="goods_detail_comment_detail_contnet" :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
 			<scroll-view class="comment_detail_contnet-content">
 				<template>
-					<view class="content-details">
+					<view class="content-details" >
 						<view class="top-content">
 							<view class="left-content">
-								<image class="user-images" src="../../static/images/20.png" mode=""></image>
+								<image class="user-images" :src="head_ico" mode=""></image>
 								<view class="user-name-star">
-									<view class="user-name">用户昵称几个字</view>
+									<view class="user-name" v-if="is_anonymous == 0">{{nick_name}}</view>
+									<view class="user-name" v-else>匿名用户</view>
 									<view class="star-list">
 										<view class="star-img" v-for="(item,index) in imgs" :key="index" :data-index="item.id">
 											<image class="star" :src="item.id>starId?src2:src1"></image>
@@ -33,9 +34,7 @@
 							</swiper>
 						</view>
 						
-						<view class="ueser-comment">
-							我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价							  内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，我是用户评价内容，
-						</view>
+						<view class="ueser-comment"> {{contents}} </view>
 						
 						<view class="guess-what-you-like">
 							<view class="related-title">
@@ -45,23 +44,29 @@
 								<porduct :width=350 :porductList='productList' ></porduct>
 							</view>
 						</view>
+						
+						<view class="footer">
+							<view class="page-view-collect-transpond">
+								<view class="page-view">浏览量: <text>{{views_num}}</text></view>
+								<view class="collect" v-if="is_collect == 0"  @tap='clickLike(id)'>
+									<image src="../../static/images/collect.png" mode="" ></image><text>{{collect_num}}</text>
+									<!-- <image src="../../static/images/collect.png" mode=""></image> <text>{{collect_num}}</text> -->
+								</view>
+								<view class="collect" v-else  @tap='cancelLike(id)'>
+									<image src="../../static/images/checked-collect.png" mode="" ></image><text>{{collect_num}}</text>
+								</view>
+								<view class="transpond">
+									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
+								</view>
+							</view>
+						</view>
 
 					</view>
 				</template>
 			</scroll-view>
 		</view>
 		
-		<view class="footer">
-			<view class="page-view-collect-transpond">
-				<view class="page-view">浏览量: <text>1423</text></view>
-				<view class="collect" @tap="collectdiary" :data-id="diary.id">
-					<image src="../../static/images/collect.png" mode=""></image> <text>145</text>
-				</view>
-				<view class="transpond">
-					<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
-				</view>
-			</view>
-		</view>
+		
 		
 	</view>
 </template>
@@ -104,6 +109,17 @@
 				interval: 5000,
 				duration: 1000,
 				swiperList:['../../static/images/20.png','../../static/images/19.png'],
+				collect_num:0,//点赞
+				views_num:0,//浏览量
+				is_anonymous:0,//是否匿名
+				contents: "评价测试",//评价内容
+				label:[],
+				video_list:[],
+				imgs_list:[],
+				head_ico:'',
+				is_collect:0,
+				nick_name:'',
+				id:0,
 				productList: [
 					{
 						url: '../../static/images/19.png',
@@ -168,10 +184,76 @@
 		},
 		onLoad: function(option) {
 			let that = this
-			// console.log(option)
+			let goods_comment_id= option.id
+			that.getDetail(goods_comment_id)
 		},
 		methods: {
-
+			getDetail:function(id){
+				this.request = this.$request
+				let that = this
+				let comment_id = id
+				let dataInfo = {
+					interfaceId:'goodscommentdetails',
+					goods_comment_id:comment_id
+				}
+				this.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code === 1000) {
+						let data = res.data.data
+						that.collect_num = data.collect_num
+						that.views_num = data.views_num
+						that.is_anonymous = data.is_anonymous
+						that.contents = data.contents
+						that.label = data.label
+						that.starId = data.point
+						that.imgs_list = data.imgs_list
+						that.video_list = data.video_list
+						that.head_ico = data.head_ico
+						that.is_collect = data.is_collect
+						that.nick_name = data.nick_name
+						that.id = data.id
+					} else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
+			// 点赞
+			clickLike:function(id){
+				this.request = this.$request
+				let that = this
+				let commentId = id.toString()
+				// commentId = parseInt(commentId)
+				console.log( typeof commentId)
+				let dataInfo = {
+					interfaceId:'goodscollectcomment',
+					goods_comment_id:commentId
+				}
+				console.log(dataInfo)
+				this.request.uniRequest("goods", dataInfo).then(res => {
+					console.log(res.data)
+					if (res.data.code === 1000) {
+						this.request.showToast('点赞成功');
+					} else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
+			// 取消点赞
+			cancelLike:function(id){
+				this.request = this.$request
+				let that = this
+				let commentId = id.toString()
+				let dataInfo = {
+					interfaceId:'goodscancelcomment',
+					goods_comment_id:commentId
+				}
+				this.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code === 1000) {
+						this.request.showToast('取消成功');
+					} else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -252,7 +334,7 @@
 		align-items: center;
 	}
 	.footer {
-		background-color: #F6F6F6;
+		background-color: #FFFFFF;
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -270,6 +352,7 @@
 	.page-view-collect-transpond image {
 		width: 40rpx;
 		height: 40rpx;
+		margin-right: 10rpx;
 	}
 	
 	.collect,

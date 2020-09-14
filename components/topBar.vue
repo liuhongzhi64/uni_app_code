@@ -156,7 +156,7 @@
 			
 			// 返回上一级
 			goBack: function() {
-				console.log('back')
+				// console.log('back')
 				uni.navigateBack({
 					delta: 1
 				});

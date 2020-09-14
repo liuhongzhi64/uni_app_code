@@ -7,35 +7,59 @@
 			<scroll-view class="problem-content">
 				<template>
 					<view class="content-details">
-						<view class="content-list" >
-							<view class="top-ask">
-								<view class="ask-title">问</view>
-								<view class="ask-contnet">请问植发在哪个季节做比较好？</view>
-							</view>
-							
-							<view class="answer">
-								<view class="answer-title">答</view>
-								<view class="answer-content">
-									您好！植发是不分季节的哟，而且夏季的话从医学角度上讲对于植发回更加好，因为夏天的新陈代谢快，我们的头发生长快最多五排多的就会有.....
+						<view class="content-list" v-for="(item,index) in contentList" :key='index'>
+							<view class="subject-content"  @tap='problemDetail(item.id)'>
+								<view class="top-ask">
+									<view class="ask-title">问</view>
+									<view class="ask-contnet">{{item.q_contents}}</view>
+								</view>								
+								<view class="all-img-video">
+									<view class="image-video" v-for="(i,k) in item.q_img_list" :key='k'>
+										<image class="correlation" :src="requestUrl+i.img" mode="" :data-type='i.type'></image>
+										<!-- <video class="correlation" :src="requestUrl+i.video" controls v-else></video> -->
+									</view>
+									<image class="correlation" src="../../static/images/19.png" mode=""></image>
+								</view>																
+								<view class="all-answer">
+									<view class="answer">
+										<view class="answer-title">答</view>
+										<view class="answer-content"> {{item.a_contents}} </view>	
+									</view>
+									<view class="all-img-video">
+										<view class="image-video" v-for="(i,k) in item.a_img_list" :key='k'>
+											<image class="correlation" :src="requestUrl+i.img" mode="" :data-type='i.type'></image>
+											<!-- <video class="correlation" :src="requestUrl+i.video" controls v-else></video> -->
+										</view>
+									</view>
 								</view>
 							</view>
-							
+														
 							<view class="browse-like-consult">
 								<view class="browse" v-if="item.views_num<=9999">{{item.views_num}}浏览量</view>
 								<view class="browse" v-else>9999+浏览量</view>
-								<view class="like">
+								<view class="like" @tap='clickLike(item.id,item.is_collect)'>
 									<image src="../../static/images/collect.png" mode="" v-if="item.is_collect == 0" ></image> 
 									<image src="../../static/images/checked-collect.png" mode="" v-else ></image> 
-									<text>45</text>
+									<text>{{item.collect_num}}</text>
 								</view>
-								<view class="consult">
+								<view class="consult" @tap='goToCondult(item.id)'>
 									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
 								</view>
 							</view>
+						</view>						
+						<view class="no-content" v-if="contentList.length==0">
+							<image src="../../static/images/cartBg.png" mode=""></image>
+							<view class="hint">喵~ 暂无相关内容</view>
 						</view>
 					</view>
 				</template>
 			</scroll-view>
+		</view>
+		
+		<view class="footer">
+			<view class="next-step">
+				<button class="issue-botton" type="default" plain="true" @tap='quiz'> 立即提问 </button>
+			</view>
 		</view>
 
 	</view>
@@ -60,12 +84,15 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '整呗官方答疑',
-				contentList:[]
+				contentList:[],
+				requestUrl: '', //请求地址前缀
 			}
 		},
 		onLoad: function(option) {
 			let that = this
 			that.getMessage()
+			that.requestUrl = that.request.globalData.requestUrl
+			console.log(that.requestUrl)
 		},
 		onReady() {
 			let that = this;
@@ -91,16 +118,71 @@
 					interfaceId : 'qalist',
 					encrypted_id : encrypted_id,
 					offset:0,
-					limit:6
+					limit:10
 				}
 				this.request.uniRequest("qa", dataInfo).then(res => {
 					if (res.data.code === 1000) {
-						console.log(res.data.data)
+						// console.log(res.data.data)
+						that.contentList = res.data.data
 				
 					} else {
 						this.request.showToast(res.data.message);
 					}
 				})
+			},
+			
+			problemDetail:function(id){
+				// console.log(id)
+				let problemId = id
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail_problem_detail?id=${problemId}`,
+				})
+			},
+			// 收藏
+			clickLike:function(id,state){
+				this.request = this.$request
+				let that = this
+				let problemId = id
+				// state状态 是否收藏  0未收藏 1 收藏
+				if(state == 0){
+					let dataInfo = {
+						interfaceId:'collectqa',
+						qa_id:problemId
+					}
+					this.request.uniRequest("qa", dataInfo).then(res => {
+						if (res.data.code === 1000) {
+							this.request.showToast("收藏"+res.data.message);
+						} else {
+							this.request.showToast(res.data.message);
+						}
+					})
+				}else{
+					let dataInfo = {
+						interfaceId:'cancelcollectqa',
+						qa_id:problemId
+					}
+					this.request.uniRequest("qa", dataInfo).then(res => {
+						if (res.data.code === 1000) {
+							this.request.showToast("取消"+res.data.message);
+						} else {
+							this.request.showToast(res.data.message);
+						}
+					})
+				}
+				
+			},
+			
+			// 提问
+			goToCondult:function(id){
+				let problemId = id
+				uni.navigateTo({
+					url: `/pages/consultation/consultation?id=${problemId}`,
+				})
+			},
+			
+			// 立即提问
+			quiz:function(){
+				console.log('立即提问')
 			}
 		}
 	}
@@ -136,11 +218,25 @@
 		font-size: 28rpx;
 		margin-left: 15rpx;
 	}
-	.answer{
+	.all-img-video{
 		display: flex;
+		width: 100%;
+		padding: 26rpx 0 0;
+	}
+	.correlation{
+		width: 230rpx;
+		height: 230rpx;
+		border-radius: 10rpx;
+		background-color: #d9d9d9;
+		margin-right: 6rpx;
+	}
+	.all-answer{	
 		padding-top: 40rpx;
 		padding-bottom: 23rpx;
 		border-bottom: 1rpx solid #F0F0F0;
+	}
+	.answer{
+		display: flex;
 	}
 	.answer-title{
 		width: 32rpx;
@@ -191,5 +287,41 @@
 		color: #fa3475;
 		flex: 1;
 		text-align: center;
+	}
+	.no-content{
+		margin-top: 140rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		
+	}
+	.no-content image{
+		width: 525rpx;
+		height: 370rpx;
+	}
+	.no-content .hint{
+		color: #9e9e9e;
+		font-size: 28rpx;
+		margin-top: 56rpx;
+	}
+	
+	.footer {
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		/* background-color: #FFFFFF; */
+	}
+	.next-step {
+		padding: 40rpx;
+	}
+	.issue-botton {
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+		box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
+		border-radius: 40rpx;
+		color: #FFFFFF;
+		font-size: 28rpx;
+		border: none;
+		text-align: center;
+		line-height: 80rpx;
 	}
 </style>

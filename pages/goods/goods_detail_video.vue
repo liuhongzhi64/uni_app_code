@@ -32,7 +32,15 @@
 				backImage: '../static/images/back2.png',
 				title: '',
 				list: [],
+				requestUrl: '', //请求地址前缀
 			}
+		},
+		onLoad: function(option) {
+			this.request = this.$request
+			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
+			let videoUrl = that.requestUrl + option.video
+			console.log(videoUrl)
 		},
 		onReady() {
 			let that = this;

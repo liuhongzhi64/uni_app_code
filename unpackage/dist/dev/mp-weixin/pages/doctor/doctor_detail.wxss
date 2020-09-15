@@ -1,279 +1,138 @@
 
-.doctor-top-bar.data-v-15d581fa {
-	background-color: #111111;
-	color: #FFFFFF;
-	text-align: center;
-	font-size: 40rpx;
-	position: fixed;
-	width: 100%;
-	top: 0;
-	left: 0;
-	z-index: 100;
-	padding-bottom: 20rpx;
+.detail_content-all.data-v-15d581fa {
+	padding-bottom: 200rpx;
 }
-.bar-name.data-v-15d581fa {
-	width: 100%;
-	height: 100%;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-justify-content: space-around;
-	        justify-content: space-around;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-}
-.doctor-top-bars.data-v-15d581fa {
-	white-space: nowrap;
-	padding: 0 20rpx 0;
-	background-image: -webkit-linear-gradient(bottom, #2c2d31 0%, #101013 100%);
-	background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
-}
-.related-doctor-items.data-v-15d581fa {
-	width: 100%;
-}
-.related-doctor-centent.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	height: 100%;
-	width: 100%;
-	padding: 20rpx 0 0;
-}
-.doctor-head-portrait image.data-v-15d581fa {
-	width: 88rpx;
-	height: 88rpx;
-	border-radius: 44rpx;
-}
-.checked .doctor-head-portrait.data-v-15d581fa {
-	width: 104rpx;
-	height: 104rpx;
-	border: 4rpx solid #d1bf86;
-	border-radius: 54rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-}
-.doctor-item.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	color: #f0f0f0;
-	font-size: 24rpx;
-	padding: 0 30rpx 0;
-}
-.checked.data-v-15d581fa {
-	font-size: 24rpx;
-	font-weight: normal;
-	font-stretch: normal;
-	color: #d1bf86;
-}
-.doctor-head-portrait-doctorName.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-}
-.checkedBarLine.data-v-15d581fa {
-	height: 30rpx;
-}
-.checkedBar.data-v-15d581fa {
-	display: block;
-	width: 0;
-	height: 0;
-	border-width: 30rpx;
-	border-style: solid;
-	border-color: transparent #d1bf86 transparent transparent;
-	-webkit-transform: rotate(90deg);
-	        transform: rotate(90deg);
-	margin-top: -15rpx;
-}
-.end-cont.data-v-15d581fa {
-	display: none;
-}
-.dis.data-v-15d581fa {
-	display: block;
-}
-.doctor-information.data-v-15d581fa {
+.top-doctor-message.data-v-15d581fa {
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
-	padding: 0 0 20rpx 45rpx;
+	padding-top: 60rpx;
+	height: 100%;
+	padding-bottom: 80rpx;
 }
-.doctor-case.data-v-15d581fa {
-	padding-top: 130rpx;
+.doctor-photos.data-v-15d581fa {
+	width: 237rpx;
+	text-align: center;
+	line-height: 48rpx;
+	background-image: -webkit-linear-gradient(bottom, #ac995b 0%, #d1bf86 100%);
+	background-image: linear-gradient(0deg, #ac995b 0%, #d1bf86 100%);
+	box-shadow: 1rpx 4rpx 6rpx 0rpx rgba(0, 0, 0, 0.71);
+	border-top-right-radius: 24rpx;
+	border-bottom-right-radius: 24rpx;
+	font-size: 26rpx;
+	color: #FFFFFF;
+}
+.doctor-introduce.data-v-15d581fa {
+	padding-left: 20rpx;
+	padding-top: 120rpx;
+}
+.doctor-name.data-v-15d581fa {
+	font-size: 64rpx;
+	color: #d1bf86;
+}
+.position.data-v-15d581fa {
+	width: 352rpx;
+	line-height: 48rpx;
+	font-size: 32rpx;
+	color: #d1bf86;
+	margin-top: 20rpx;
+}
+.subline.data-v-15d581fa {
+	margin-top: 20rpx;
+	margin-bottom: 20rpx;
+	width: 304rpx;
+	height: 2rpx;
+	background-color: #d1bf86;
+}
+.experience-case.data-v-15d581fa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-align: start;
-	-webkit-align-items: flex-start;
-	        align-items: flex-start;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-}
-.doctor-name.data-v-15d581fa {
-	font-size: 60rpx;
-	color: #d1bf86;
-	margin-bottom: 24rpx;
-}
-.post.data-v-15d581fa {
-	width: 235rpx;
-	color: #d1bf86;
-	line-height: 36rpx;
+	color: #FFFFFF;
 	font-size: 26rpx;
-	margin-bottom: 35rpx;
+	margin-bottom: 32rpx;
 }
-.all-title.data-v-15d581fa {
-	color: #C0C0C0;
-	line-height: 36rpx;
-	font-size: 20rpx;
-	margin-bottom: 45rpx;
+.experience.data-v-15d581fa {
+	margin-right: 20rpx;
 }
-.be-good-at.data-v-15d581fa {
+.get-title.data-v-15d581fa {
+	width: 470rpx;
+	padding: 30rpx 33rpx 30rpx 23rpx;
+	background-color: #121212;
+	border-radius: 24rpx;
+	opacity: 0.8;
+	margin-bottom: 20rpx;
+}
+.title-item.data-v-15d581fa {
+	font-size: 24rpx;
+	color: #FFFFFF;
+	line-height: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.dot.data-v-15d581fa {
+	margin-right: 10rpx;
+}
+.doctor-title.data-v-15d581fa {
+	width: 360rpx;
+	padding: 30rpx 33rpx 30rpx 23rpx;
+	background-color: #222222;
+	border-radius: 24rpx;
+	opacity: 0.8;
+	margin-bottom: 20rpx;
+}
+.top-title.data-v-15d581fa {
 	font-size: 28rpx;
 	line-height: 30rpx;
 	color: #d1bf86;
-	margin-bottom: 16rpx;
 }
-.be-good-at-item.data-v-15d581fa {
-	width: 190rpx;
-	line-height: 30rpx;
-	font-size: 22rpx;
-	color: #C0C0C0;
-	margin-bottom: 44rpx;
+.doctor-content-item.data-v-15d581fa{
+	background-color: #151515;
+	padding-bottom: 40rpx;
 }
-.case-list.data-v-15d581fa {
+.doctor-item.data-v-15d581fa {
+	padding-left: 30rpx;
+}
+.doctor-projects-item.data-v-15d581fa{
+	margin-top: 12rpx;
+}
+.doctor-item-title.data-v-15d581fa {
+	font-size: 48rpx;
+	color: #d1bf86;
+	padding: 30rpx 0;
+	border-bottom: 2rpx solid #4a4a4a;
+}
+.doctor-item-list.data-v-15d581fa {
 	width: 100%;
+	padding-top: 32rpx;
+}
+.product-items.data-v-15d581fa {
+	overflow: hidden;
 	white-space: nowrap;
-	padding-bottom: 30rpx;
-}
-.case-all-item.data-v-15d581fa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	height: 100%;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
 	width: 100%;
 }
-
-/* 推荐医生 */
-.recommend-doctor.data-v-15d581fa {
+.product-item-content.data-v-15d581fa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-justify-content: space-around;
-	        justify-content: space-around;
-	font-size: 24rpx;
-	background-color: #111111;
-	color: #FFFFFF;
-	line-height: 30rpx;
-	-webkit-box-align: baseline;
-	-webkit-align-items: baseline;
-	        align-items: baseline;
-	padding: 30rpx 0 0;
+	width: 100%;
+	height: 100%;
 }
-.checkedDoctor.data-v-15d581fa {
-	font-size: 32rpx;
-	line-height: 30rpx;
+.productImgs.data-v-15d581fa {
+	display: inline-block;
+	font-size: 20rpx;
+	margin-right: 10rpx;
 }
-.checkedLine.data-v-15d581fa {
-	border-bottom: 4rpx solid #d1bf86;
-	margin-top: 20rpx;
-}
-.recommend-doctor-introduce.data-v-15d581fa {
-	padding:0 30rpx;
-	background-image: -webkit-linear-gradient(bottom, #2c2d31 0%, #101013 100%);
-	background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
-	color: #FFFFFF;
-}
-.doctor-swiper.data-v-15d581fa {
-	color: #FFFFFF;
-	height: 960rpx;
-}
-.swiper-item.data-v-15d581fa {
-	background-color: #202020;
-	padding: 30rpx 40rpx;
-	margin-top: 20rpx;
-	border-radius: 24rpx;
-}
-.head-portrait-name-introduce-workingYears-case-consult.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	font-size: 24rpx;
-}
-.head-portrait image.data-v-15d581fa {
-	height: 120rpx;
-	width: 120rpx;
-	border-radius: 60rpx;
-}
-.head-portrait-name-introduce-workingYears-case-consult .name.data-v-15d581fa {
-	font-size: 32rpx;
-}
-.name-introduce.data-v-15d581fa,
-.workingYears-case.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: baseline;
-	-webkit-align-items: baseline;
-	        align-items: baseline;
-	margin-bottom: 10rpx;
-}
-.introduce.data-v-15d581fa,
-.workingYears-case .case.data-v-15d581fa {
-	margin-left: 10rpx;
-}
-.consult.data-v-15d581fa {
-	border: 2rpx solid #cfbe85;
-	padding: 10rpx 30rpx;
-	border-radius: 10rpx;
-	color: #cfbe85;
-}
-.beGoodAt-viewpoint.data-v-15d581fa {
+.productItems.data-v-15d581fa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -281,127 +140,222 @@
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
-	-webkit-justify-content: space-around;
-	        justify-content: space-around;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	font-size: 24rpx;
-}
-.viewpoint.data-v-15d581fa {
-	width: 360rpx;
-	height: 36rpx;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
-	margin-top: 10rpx;
-	margin-bottom: 10rpx;
-}
-.beGoodAt text.data-v-15d581fa {
-	color: #e85c9e;
-	font-size: 20rpx;
-	border-radius: 5rpx;
-	margin-right: 10rpx;
-	border: 1rpx solid #e85c9e;
-	text-align: center;
-	line-height: 24rpx;
-	height: 24rpx;
-	padding: 0 5rpx;
-}
-.viewpoint text.data-v-15d581fa {
-	height: 22rpx;
-	border-radius: 5rpx;
-	border: 1rpx solid #689efb;
-	font-size: 20rpx;
-	color: #689efb;
-	padding: 0 5rpx;
-	line-height: 24rpx;
-	margin-right: 10rpx;
-}
-.doctor-recommend-product.data-v-15d581fa,
-.hot-product.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	font-size: 24rpx;
-	padding: 10rpx;
-	margin-bottom: 20rpx;
+	height: 100%;
+	white-space: normal;
+	border-radius: 24rpx;
 }
-.doctor-recommend-product .recommend-content.data-v-15d581fa,
-.hot-recommend-content.data-v-15d581fa {
-	width: 320rpx;
-	height: 30rpx;
+.productImgs image.data-v-15d581fa {
+	border-radius: 16rpx;
+}
+.doctor-item-explain.data-v-15d581fa {
+	margin-top: 17rpx;
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
+	-webkit-line-clamp: 2;
+	color: #FFFFFF;
+	font-size: 20rpx;
 }
-.order-price.data-v-15d581fa {
+.doctor-project.data-v-15d581fa{
+	padding: 0 30rpx 30rpx;
+	background-color: #222222;
+	height: 100%;
+}
+.doctor-projects.data-v-15d581fa{
+	padding: 0 30rpx 30rpx;
+	background-color: #151515;
+}
+.doctor-item-swiper.data-v-15d581fa{
+	margin-top: 32rpx;
+}
+.doctor-swiper.data-v-15d581fa{
+	height: 820rpx;
+}
+.doctor-swiper-item.data-v-15d581fa,.project-content.data-v-15d581fa{
+	width: 100%;
+	height: 100%;
+}
+.porduct-items.data-v-15d581fa {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	border-radius: 16rpx;
+	background-color: #f0f0f0;
+	margin-bottom: 20rpx;
 }
-.doctor-recommend-product .recommend-content text.data-v-15d581fa {
-	display: inline-block;
-	width: 30rpx;
-	height: 30rpx;
-	text-align: center;
-	line-height: 30rpx;
-	border-radius: 5rpx;
-	background-color: #ff7b1a;
+.porduct-item-images.data-v-15d581fa {
+	width: 240rpx;
+	height: 240rpx;
+	margin-right: 28rpx;
 }
-.hot-recommend-content text.data-v-15d581fa {
-	display: inline-block;
-	width: 30rpx;
-	height: 30rpx;
+.porduct-item-images image.data-v-15d581fa {
+	width: 100%;
+	height: 100%;
+	border-top-left-radius: 16rpx;
+	border-bottom-left-radius: 16rpx;
+}
+.porduct-introduce.data-v-15d581fa {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	font-size: 26rpx;
+	white-space: normal;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	padding-right: 48rpx;
+}
+.product-title.data-v-15d581fa {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	color: #111111;
+	line-height: 36rpx;
+}
+.label.data-v-15d581fa {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	margin-top: 12rpx;
+}
+.label-name.data-v-15d581fa {
+	background-color: #999999;
 	text-align: center;
+	font-size: 16rpx;
+	padding: 5rpx 8rpx;
+	margin-right: 10rpx;
+	border-radius: 4rpx;
+	color: #FFFFFF;
+}
+.activity.data-v-15d581fa {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	font-size: 16rpx;
+	color: #fa3475;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	margin-top: 12rpx;
+}
+.activity-name.data-v-15d581fa {
+	border: 1rpx solid #fa3475;
+	margin-right: 10rpx;
+	padding: 5rpx;
+	border-radius: 4rpx;
+}
+.porduct-price.data-v-15d581fa{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	margin-top: 20rpx;
+}
+.porduct-vip-price.data-v-15d581fa{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	margin-left: 25rpx;
+	border: 1rpx solid #282828;
+	border-radius:4rpx ;
+}
+.vip.data-v-15d581fa{
+	font-size: 16rpx;
+	border-radius: 4rpx;
+	width: 48rpx;
+	height: 29rpx;
 	line-height: 30rpx;
-	border-radius: 5rpx;
-	background-color: #da129f;
+	background-image: -webkit-linear-gradient(bottom, #000000 0%,  #2c2c2c 100%),  -webkit-linear-gradient( #282828, #282828);
+	background-image: linear-gradient(0deg, #000000 0%,  #2c2c2c 100%),  linear-gradient( #282828, #282828);
+	color: #FFFFFF;
+	text-align: center;
+}
+.vip-price.data-v-15d581fa{
+	height: 28rpx;
+	font-size: 16rpx;
+	color: #282828;
+	border-width: 1rpx;
+	border-image-source: linear-gradient(0deg,  #000000 0%,  #2c2c2c 100%);
+	border-image-slice: 1;
+	padding: 0 9rpx;
+}
+.porduct-price.data-v-15d581fa{
+	line-height: 34rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.porduct-original-cost.data-v-15d581fa{
+	color: #fa3475;
+	font-size: 52rpx;
+}
+.porduct-original-cost text.data-v-15d581fa{
+	font-size: 36rpx;
+}
+.subscribe-goodReputation.data-v-15d581fa{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	font-size: 20rpx;
+	margin-top: 10rpx;
+	color: #666666;
+}
+.goodReputation.data-v-15d581fa{
+	color: #fa3576;
+	margin-left: 30rpx;
+}
+.footer.data-v-15d581fa{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 2;
+	width: 750rpx;
+	height: 104rpx;
+	background-image: -webkit-linear-gradient(left,  #282828 50%,  #272727 100%);
+	background-image: linear-gradient(90deg,  #282828 50%,  #272727 100%);
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.footer .mar.data-v-15d581fa{
+	width: 33.3%;
+	color: #FFFFFF;
+	font-size: 28rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	border-right: 1rpx solid #505050;
+}
+.footer .mar image.data-v-15d581fa{
+	width: 50rpx;
+	height: 50rpx;
+	margin-right: 16rpx;
 }
 
-/* 拜托了医生 */
-.please-doctor.data-v-15d581fa {
-	background-image: -webkit-linear-gradient(bottom, #2c2d31 0%, #101013 100%);
-	background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
-	color: #FFFFFF;
-}
-.please-doctor-content.data-v-15d581fa {
-	padding-bottom: 20rpx;
-}
-.please-doctor-title.data-v-15d581fa {
-	padding: 50rpx 32rpx 20rpx;
-	color: #d1bf86;
-	font-size: 56rpx;
-}
-.please-doctor-title-line.data-v-15d581fa {
-	padding: 0 20rpx;
-}
-.please-doctor-title-line view.data-v-15d581fa {
-	border-bottom: 2rpx solid #000000;
-}
-.please-doctor-all-name.data-v-15d581fa {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-justify-content: space-around;
-	        justify-content: space-around;
-	font-size: 24rpx;
-	color: #FFFFFF;
-	line-height: 30rpx;
-	-webkit-box-align: baseline;
-	-webkit-align-items: baseline;
-	        align-items: baseline;
-	padding: 30rpx 0 0;
-}
-.please-doctor-introduce.data-v-15d581fa {
-	padding: 0 20rpx 20rpx;
-}
 

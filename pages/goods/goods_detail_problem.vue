@@ -92,7 +92,7 @@
 			let that = this
 			that.getMessage()
 			that.requestUrl = that.request.globalData.requestUrl
-			console.log(that.requestUrl)
+					
 		},
 		onReady() {
 			let that = this;
@@ -309,7 +309,6 @@
 		width: 100%;
 		position: fixed;
 		bottom: 0;
-		/* background-color: #FFFFFF; */
 	}
 	.next-step {
 		padding: 40rpx;

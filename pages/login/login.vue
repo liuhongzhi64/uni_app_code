@@ -22,8 +22,15 @@
 		onLoad: function(options) {
 			// 缓存options参数
 			uni.setStorageSync("options", options)
-
 			this.shareParameter();
+			// 获取token
+			this.request.getToken(1,3).then(res=>{
+				if (res.data.code === 1000) {
+					console.log(res.data)
+				} else {
+					this.request.showToast(res.data.message);
+				}
+			})
 		},
 		onShow: function() {
 			const that = this;

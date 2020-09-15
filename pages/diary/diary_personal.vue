@@ -87,6 +87,8 @@
 						name: '浏览量'
 					},
 				],
+				requestUrl:'',
+				contentList:'',
 				diaryList:[
 					{
 						url:'../../static/images/19.png',
@@ -139,6 +141,11 @@
 				]
 			}
 		},
+		onLoad:function(){
+			let that = this
+			that.getMessage()
+			that.requestUrl = that.request.globalData.requestUrl
+		},
 		onReady() {
 			let that = this;
 			// 获取屏幕高度
@@ -159,6 +166,25 @@
 			keepDiary:function(){
 				uni.navigateTo({
 					url: `/pages/diary/diary_write`,
+				})
+			},
+			getMessage:function(){
+				this.request = this.$request
+				let that = this
+				let dataInfo = {
+					interfaceId:'inexuserhome',
+					user_mark:'',
+					offset:'0',
+					limit:'10'
+				}
+				this.request.uniRequest("diary", dataInfo).then(res => {
+					if (res.data.code === 1000) {
+						// console.log(res.data.data)
+						that.contentList = res.data.data
+				
+					} else {
+						this.request.showToast(res.data.message);
+					}
 				})
 			}
 		}

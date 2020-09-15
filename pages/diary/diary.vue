@@ -2,37 +2,91 @@
 	<view class="diary">
 		<view class="diary-top-bar">
 			<view class="bar-name" :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px','padding-right':menuWidth+20+'px','padding-bottom':10+'px'}]">
-				<view id="top-navigation-bars" class="top-navigation-bars" v-for="(item,index) in navigationList" :key='index'
-				 :class="{checked :btnnum == index}" @tap="change(index)">
-					{{ item }}
+				<view class="top-navigation-bars" v-for="(item,index) in navigationList" :key='index' :class="{checked :btnnum == index}"
+				 @tap="change(index)"> {{ item }}
 					<view :class="{checkedBar :btnnum == index}"> </view>
 				</view>
 			</view>
 		</view>
-		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]">
-			<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in topTabList" :key="index">
-				<scroll-view scroll-y class="topList">
-					<template v-if="items.topList.length > 0">
-						<view class="all-content" v-for="(item,k) in items.topList" :key="k">
-							<text v-if="items.topList.length ==1">{{item}}</text>
-							<view class="content-all-bar" :style="[{'top':menuBottom+10+'px'}]">
-								<view class="content-bar">
-									<view class="content-bar-name" :class="{checkedbar :item.btnnum == k}" @tap="changeContentBar(k)" v-for="(i,k) in item.contentBar"
-									 :key="k">
-										{{i.name}}
-										<view :class="{checkedTopBar :item.btnnum == k}"></view>
+		<view class="content-all-bar" :style="[{'top':menuBottom+10+'px'}]">
+			<view class="content-bar">
+				<scroll-view class="content-bar-items" scroll-x="true">
+					<view class="top-content">
+						<view class="top-content-list" v-for="(i,k) in topTabList" :key="k" @tap="changeContentBar(k)">
+							<view class="list-items">
+								<view class="item-image">
+									<image :src="requestUrl+i.icon" mode=""></image>
+								</view>
+								<view class="item-name">{{i.name}}</view>
+							</view>
+						</view>
+					</view>
+
+				</scroll-view>
+			</view>
+		</view>
+		<view class="content" :style="[{'padding-top':menuBottom+85+'px','min-height':height-menuBottom-130+'px'}]">
+			<view class="content-list">
+				<scroll-view scroll-y>
+					<template>
+						<!-- 主体内容 -->
+						<view class="detail-content">
+							<view class="left-content">
+								<view class="subject-content ">
+									<view class="subject-content-list"
+									 v-for="(item,index) in contentList" :key='index'
+									 v-if="index%2==0">
+										<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
+										<view class="label">{{item.label}}</view>
+										<view class="diary-title"> {{item.title}} </view>
+										
+										<view class="category_name-doctor_name">
+											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
+											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
+										</view>
+										
+										
+										<view class="goods_name">{{item.goods_name}}</view>
+										
+										<view class="head_ico-nick_name-collect_num">
+											<view class="head_ico-nick_name">
+												<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
+												<text class="nick_name">{{item.nick_name}}</text>
+											</view>
+											<view class="collect_num" v-if="item.collect_num"> {{item.collect_num}}  </view>
+											<view class="collect_num" v-else>0</view>
+										</view>
 									</view>
-									
+								</view>
+							</view>
+							<view class="right-content">
+								<view class="subject-content ">
+									<view class="subject-content-list"
+									 v-for="(item,index) in contentList" :key='index'
+									 v-if="index%2==1">
+										<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
+										<view class="label">{{item.label}}</view>
+										<view class="diary-title"> {{item.title}} </view>
+										
+										<view class="category_name-doctor_name">
+											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
+											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
+										</view>
+										
+										<view class="goods_name">{{item.goods_name}}</view>
+										
+										<view class="head_ico-nick_name-collect_num">
+											<view class="head_ico-nick_name">
+												<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
+												<text class="nick_name">{{item.nick_name}}</text>
+											</view>
+											<view class="collect_num" v-if="item.collect_num"> {{item.collect_num}}  </view>
+											<view class="collect_num" v-else>0</view>
+										</view>
+									</view>
 								</view>
 							</view>
 							
-							<!-- 主体内容 -->
-							<view class="end-cont" :class="{dis:item.btnnum == i}" v-for="(k,i) in contentList" :key="i">
-								<text v-if="!k.productList">{{k.name}}</text>
-								<view class="subject-content" v-if="k.productList">
-									<porduct :width = 350  :porductList='k.productList'  ></porduct>
-								</view>
-							</view>
 						</view>
 
 					</template>
@@ -47,7 +101,6 @@
 <script>
 	import porduct from "../../components/porduct.vue";
 	export default {
-		
 		components: {
 			porduct
 		},
@@ -58,114 +111,32 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
+				height: 0,
 				btnnum: 0,
 				navigationList: ['全部', '直播', '日记', '视频'],
-				topTabList: [{
-						topList: [
-							'全部',
-							{
-								btnnum: 0,
-							}
-						],
-					},
-					{
-						topList: ['直播']
-					},
-					{
-						topList: ['日记']
-					},
-					{
-						topList: ['视频']
-					}
-				],
-				contentList: [
-					{
-						name: '精选',
-						productList:[
-							{
-								url:'../../static/images/19.png',
-								title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label:['眼部美容','眼部'],//标签
-								headPortrait:'../../static/images/23.png',//头像
-								userName:'用户昵称几个字',
-								like:99,//点赞
-								productUrl:'',
-								productTitle:'',
-								prouctPrice:0
-							},
-							{
-								url:'../../static/images/20.png',
-								title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label:['眼部美容','眼部'],//标签
-								headPortrait:'../../static/images/test.jpg',//头像
-								userName:'用户昵称几个字',
-								like:99,//点赞
-								productUrl:'../../static/images/20.png',
-								productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								prouctPrice:998
-							},
-							{
-								url:'../../static/images/19.png',
-								title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label:['眼部美容','眼部'],//标签
-								headPortrait:'../../static/images/23.png',//头像
-								userName:'用户昵称几个字',
-								like:99,//点赞
-								productUrl:'',
-								productTitle:'',
-								prouctPrice:0
-							},
-							{
-								url:'../../static/images/20.png',
-								title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label:['眼部美容','眼部'],//标签
-								headPortrait:'../../static/images/test.jpg',//头像
-								userName:'用户昵称几个字',
-								like:99,//点赞
-								productUrl:'../../static/images/20.png',
-								productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								prouctPrice:998
-							},
-							{
-								url:'../../static/images/20.png',
-								title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label:['眼部美容','眼部'],//标签
-								headPortrait:'../../static/images/test.jpg',//头像
-								userName:'用户昵称几个字',
-								like:99,//点赞
-								productUrl:'../../static/images/20.png',
-								productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								prouctPrice:998
-							},
-						],
-						
-					},
-					{
-						name: '眼部'
-					},
-					{
-						name: '鼻部'
-					},
-					{
-						name: '胸部'
-					},
-					{
-						name: '抗衰'
-					}, {
-						name: '美肤'
-					},
-				]
+				topTabList: [],
+				contentList: [],
+				requestUrl: '',
+				offset: 0,//开始数据下标
+				limit: 5,//条数
 			}
+		},
+		onLoad: function() {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.getDiaryClassfiy()
+			that.getDiaryList()
+			that.change()
+			
 		},
 		onReady() {
 			let that = this;
 			let pageHeight = 0
-			that.change()
-			that.changeContentBar()
 			// 获取屏幕高度
 			uni.getSystemInfo({
 				success: function(res) {
-					pageHeight = res.windowHeight
+					that.height = res.screenHeight
 					let menu = uni.getMenuButtonBoundingClientRect();
 					that.menuWidth = menu.width
 					that.menuTop = menu.top
@@ -175,35 +146,50 @@
 				}
 			})
 		},
+		onReachBottom: function () {
+			var that = this;
+			that.offset += 5;
+			that.getDiaryList()
+		},
 		methods: {
-			change: function(e = 0) {
-				this.btnnum = e
-				if (this.btnnum === 0) {
-					this.topTabList[0].topList[1].contentBar = [
-						{
-							name: '精选'
-						},
-						{
-							name: '眼部'
-						},
-						{
-							name: '鼻部'
-						},
-						{
-							name: '胸部'
-						},
-						{
-							name: '抗衰'
-						}, {
-							name: '美肤'
-						},
-					]
+			change: function(index = 2) {
+				this.btnnum = index
+			},
+			changeContentBar: function(k) {
+				console.log(k)
+			},
+			// 获取日记分类
+			getDiaryClassfiy: function() {
+				let that = this
+				let dataInfo = {
+					interfaceId: 'category'
 				}
+				that.request.uniRequest("diary", dataInfo).then(res => {
+					if (res.data.code == 1000) {
+						that.topTabList = res.data.data
+						// console.log(that.topTabList)
+					}
+				})
 			},
-			changeContentBar: function(e = 0) {
-				this.topTabList[0].topList[1].btnnum = e
-			},
-		
+			// 获取推荐日记列表
+			getDiaryList: function() {
+				let that = this
+				let dataInfo = {
+					interfaceId: 'recommenddiarylist',
+					offset: that.offset,
+					limit: that.limit
+				}
+				that.request.uniRequest("diary", dataInfo).then(res => {
+					if (res.data.code == 1000) {
+						let data = res.data.data
+						if(data.length == 0){
+							that.request.showToast('没有更多了')
+						}
+						that.contentList = that.contentList.concat(data)
+						console.log(that.contentList)
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -240,12 +226,12 @@
 	.checkedBar {
 		width: 0;
 		height: 0;
-		border-width: 30rpx;
+		border-width: 15rpx;
 		border-style: solid;
 		border-color: transparent #FFFFFF transparent transparent;
 		transform: rotate(90deg);
-		margin-top: -10px;
-		margin-left: 10rpx;
+		margin-top: -5px;
+		margin-left: 20rpx;
 		margin-bottom: 0;
 	}
 
@@ -257,36 +243,179 @@
 		display: block;
 	}
 
-	.all-content {
-		padding: 30rpx 20rpx 20rpx;
+	.content {
 		background-color: #F6F6F6;
 	}
-	.content-all-bar{
+
+	.content-all-bar {
 		width: 100%;
 		position: fixed;
 		background-color: #FFFFFF;
 		left: 0;
-		z-index: 100;
-	}
-	.content-bar {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		font-size: 24rpx;
-		line-height: 60rpx;
+		z-index: 9;
+		border-radius: 0 0 24rpx 24rpx;
 	}
 
-	.checkedbar {
-		color: #fa3475;
-		font-size: 28rpx;
+	.content-bar {
+		white-space: nowrap;
 	}
-	.checkedTopBar{
-		border-bottom: 4rpx solid red;
+
+	.content-bar-items {
+		width: 100%;
+		height: 155rpx;
 	}
-	.subject-content{
+
+	.top-content {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.top-content-list {
+		height: 100%;
+		text-align: center;
+		padding: 0 45rpx;
+		font-size: 24rpx;
+		color: #4f4f4f;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.list-items {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.item-image {
+		margin-bottom: 20rpx;
+	}
+
+	.item-image,
+	.item-image image {
+		width: 64rpx;
+		height: 48rpx;
+	}
+
+	.subject-content {
 		background-color: #F6F6F6;
+	}
+	.detail-content{
 		display: flex;
 		justify-content: space-between;
+		padding: 33rpx 20rpx;
+		width: 710rpx;
+	}
+	.left-content,.right-content{
+		display: flex;
+		flex-direction: column;
 	}
 	
+	
+	.subject-content-list{
+		background-color: #FFFFFF;
+		border-radius: 16rpx;
+		margin-bottom: 10rpx;
+		width: 350rpx;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: auto;
+	}
+	
+	.diary-image{
+		width: 350rpx;
+		/* height: 350rpx; */
+		border-radius: 16rpx 16rpx 0 0;
+		background-color: #EEEEEE;
+	}
+	.diary-title {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		font-size: 24rpx;
+		line-height: 34rpx;
+		padding: 0 20rpx;
+		color: #111111;
+	}
+	
+	.diary-label{
+		padding: 0 20rpx;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.label-name{
+		line-height: 26rpx;
+		font-size: 16rpx;
+		padding: 0 14rpx;
+		background-color: #d3d3d3;
+		color: #4f4f4f;
+		margin-right: 10rpx;
+	}
+	.label{
+		position: absolute;
+		right: 0;
+		top: 410rpx;
+		line-height: 40rpx;
+		padding: 0 10rpx;
+		background-color: #fa3475;
+		border-radius: 16rpx 0rpx 0rpx 0rpx;
+		opacity: 0.8;
+		color: #FFFFFF;
+		font-size: 24rpx;
+	}
+	.category_name-doctor_name{
+		display: flex;
+		padding: 15rpx 20rpx;
+	}
+	.category_name,.doctor_name{
+		line-height: 26rpx;
+		background-color: #d3d3d3;
+		border-radius: 4rpx;
+		font-size: 16rpx;
+		width: 80rpx;
+		text-align: center;
+		color: #4f4f4f;
+		margin-right: 10rpx;
+	}
+	.goods_name{
+		padding: 0 20rpx ;
+		color: #999999;
+		font-size: 20rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		margin-top: 15rpx;
+	}
+	.head_ico-nick_name-collect_num{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 24rpx 20rpx;
+	}
+	.head_ico-nick_name{
+		display: flex;
+		align-items: center;
+	}
+	.head_ico{
+		width: 48rpx;
+		height: 48rpx;
+		border-radius: 24rpx;
+		border: 1rpx solid red;
+		margin-right: 10rpx;
+	}
+	.nick_name{
+		font-size: 20rpx;
+		color: #111111;
+	}
+	.collect_num{
+		font-size: 30rpx;
+		color: #B2B2B2;
+	}
 </style>

@@ -17,6 +17,57 @@ export default {
 			icon: icon
 		})
 	},
+	// 获取token
+	getToken:function(businessId=1,unique_id=3, method = "POST"){
+		let that = this
+		return new Promise((resolve) => {
+			uni.request({
+				method: method,
+				url: that.globalData.requestUrl + "login" + "?d=" + new Date().getTime(),
+				header: {
+					appid:that.globalData.appid,
+					businessId:businessId
+				},
+				data:{
+					interfaceId:'token',
+					unique_id:unique_id
+				},
+				success: res => {
+					resolve(res);
+					if (res.data.status !== "ok") {
+						that.showModal("系统错误：" + res.data.code);
+					} else {
+						if (res.data.code !== 1000) that.showModal(res.data.message);
+					}
+					
+				},
+				complete() {
+					uni.hideLoading();
+				}
+			})
+		})
+		// uni.request({
+		// 	method:'POST',
+		// 	url:that.globalData.requestUrl + 'login' + "?d=" + new Date().getTime(),
+		// 	header:{
+		// 		appid:that.globalData.appid,
+		// 		businessId:businessId
+		// 	},
+		// 	data:{
+		// 		interfaceId:'token',
+		// 		unique_id:unique_id
+		// 	},
+		// 	success: (res) => {
+		// 		if(res.data.code==1000){
+		// 			let data = res.data.data
+		// 			console.log(data)
+		// 			return data
+		// 		}else{
+		// 			that.showModal(res.data.message)
+		// 		}
+		// 	}
+		// })
+	},
 	// 数据请求(异步)
 	uniRequest: function(fileName, data, method = "POST") {
 		const that = this;

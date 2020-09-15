@@ -1,66 +1,18 @@
 {
 	"pages": [ 
 		
+		// 测试时的首页
+		// 日记
 		{
-			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
-			"style": {}
-		}, 
-		{
-			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
-			"style": {}
-		}, 
-		
-		{
-			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
-			"style": {}
-		}, 
-		
-		{
-			"path": "pages/goods/goods_detail_comment_detail", //商品详情（全部评价详情）
-			"style": {}
-		}, 
-		
-		{
-			"path": "pages/my/my_comment", //我的评价-评价列表
-			"style": {}
-		}, 
-		{
-			"path": "pages/my/my_collection", //我的收藏
-			"style": {}
-		}, 
-		{
-			"path": "pages/my/write_comment", //写评价
+			"path": "pages/diary/diary", //日记
 			"style": {}
 		},
 		{
-			"path": "pages/login/login_phone", //手机登录
+			"path": "pages/diary/diary_about", //日记关联商品+医生
 			"style": {}
 		},
 		{
 			"path": "pages/diary/diary_detail", //日记详情（图文）
-			"style": {}
-		}, 
-		{
-			"path": "pages/diary/diary_personal", //个人主页
-			"style": {}
-		},
-		{
-			"path": "pages/login/login", //登录
-			"style": {}
-		},
-		
-		{
-			"path": "pages/login/login_gather", //微信登录
-			"style": {}
-		},
-		
-				
-		{
-			"path": "pages/my/harves_address", //收货地址
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_write_video", //日记类型图文+视频
 			"style": {}
 		},
 		{
@@ -68,135 +20,76 @@
 			"style": {}
 		},
 		{
-			"path": "pages/diary/diary_detail", //日记详情（图文）
+			"path": "pages/diary/diary_personal", //个人主页
+			"style": {}
+		},		
+		{
+			"path": "pages/diary/diary_successs", //发布成功
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_video", //日记详情（视频）
 			"style": {}
 		},
 		{
 			"path": "pages/diary/diary_write", //写日记
 			"style": {}
 		},
-		
-		
 		{
-			"path": "pages/diary/diary", //日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_personal", //个人主页
+			"path": "pages/diary/diary_write_video", //日记类型图文+视频
 			"style": {}
 		},
 		
+		
+		
+		// 登录
 		{
-			"path": "pages/diary/diary_about", //日记关联商品+医生
+			"path": "pages/login/login_phone", //手机登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/login", //登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/login_gather", //微信登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/register", //登录
 			"style": {}
 		},
 		
-		{
-			"path": "pages/diary/diary_successs", //发布成功
-			"style": {}
-		},
-		 
-		{
-			"path": "pages/diary/diary_video", //日记详情（视频）
-			"style": {}
-		}, 
-		
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail", //商品详情
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_classify", //商品分类
-			"style": {}
-		},
-		
-		{
-			"path": "pages/doctor/doctor_photo", //医生相册
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_certificate", //医生证书
-			"style": {}
-		},
-		
-		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
-			
-		
-		{
-			"path": "pages/search/search", //搜索主页
-			"style": {}
-		},
-		{
-			"path": "pages/search/search_result", //搜索结果）
-			"style": {}
-		},
+		// 首页
 		{
 			"path": "pages/index/index",
 			"style": {
 				"enablePullDownRefresh": true
 			}
 		},
+		
+		// 用户协议
 		{
-			"path": "pages/my/after_sales", //退换/售后
+			"path": "pages/agreement/agreement", //用户协议
 			"style": {}
-		}, 
+		},
+		
+		// 购物车
 		{
-			"path": "pages/my/my_order_refund_progress", //退款进度
+			"path": "pages/cart/cart", //购物车
+			"style": {}
+		},
+		
+		// 核销
+		{
+			"path": "pages/check/check_card", //核销卡券
 			"style": {}
 		},
 		{
 			"path": "pages/check/check_order", //订单核销
 			"style": {}
 		},
-		{
-			"path": "pages/my/my_order_refund", //申请退款
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_order_detail", //订单详情
-			"style": {}
-		},
-		
-		
-		{
-			"path": "pages/my/my_order", //我的订单
-			"style": {}
-		},
-		
-			
-		{
-			"path": "pages/my/my_card_gain", //领取卡卷
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_card_use", //使用卡卷
-			"style": {}
-		},
-		
-		{
-			"path": "pages/check/check_card", //核销卡券
-			"style": {}
-		},
-	
-		{
-			"path": "pages/my/my_card", //我的卡卷
-			"style": {}
-		},
-		{
-			"path": "pages/pay_success/pay_success", //支付成功
-			"style": {}
-		},
-		{
-			"path": "pages/my/add_address", //退款原因
-			"style": {}
-		},
+		// 确认订单
 		{
 			"path": "pages/confirm_order/confirm_order", //确认订单
 			"style": {}
@@ -206,64 +99,60 @@
 			"style": {}
 		},
 		
-		{
-			"path": "pages/my/account_number", //账号管理
-			"style": {}
-		},
-		
-		
-		{
-			"path": "pages/cart/cart", //购物车
-			"style": {}
-		},	
-		
-		{
-			"path": "pages/login/register", //登录
-			"style": {}
-		},
-		
-		
-
-		{
-			"path": "pages/poster/poster", //邀请码
-			"style": {}
-		}, {
-			"path": "pages/sign/sign", //签到
-			"style": {}
-		},
-		
-		{
-			"path": "pages/my/my", //我的
-			"style": {}
-		},
-			 		
-		{
-			"path": "pages/my/my_order_refund_reason", //退款原因
-			"style": {}
-		},
-		{
-			"path": "pages/agreement/agreement", //用户协议
-			"style": {}
-		},
+		//咨询 
 		{
 			"path": "pages/consultation/consultation", //咨询
 			"style": {}
 		},
-					 
-		{
-			"path": "pages/message/message", //消息主页
-			"style": {}
-		}, 
-		{
-			"path": "pages/message/message_detail", //消息详情（视频）
-			"style": {}
-		}, 
 		
+	
+		// 医生
+		{
+			"path": "pages/doctor/doctor", //医生
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_certificate", //医生证书
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_photo", //医生相册
+			"style": {}
+		},
+		
+		// 商品
+		{
+			"path": "pages/goods/goods_classify", //商品分类
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail", //商品详情
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_comment_detail", //商品详情（评价详情）
+			"style": {}
+		},
 		{
 			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
 			"style": {}
-		}, 
-		
+		},
+		{
+			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
+			"style": {}
+		}, 	 		
+		{
+			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
+			"style": {}
+		}, 		
 		{
 			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
 			"style": {}
@@ -271,12 +160,120 @@
 		{
 			"path": "pages/goods/goods_list", //商品列表
 			"style": {}
+		},
+		
+		 // 消息
+		{
+		 	"path": "pages/message/message", //消息主页
+		 	"style": {}
+		}, 
+		{
+		 	"path": "pages/message/message_detail", //消息详情（视频）
+		 	"style": {}
+		}, 
+		
+		// 我的
+		{
+			"path": "pages/my/account_number", //账号管理
+			"style": {}
+		},
+		{
+			"path": "pages/my/add_address", //退款原因
+			"style": {}
+		},
+		{
+			"path": "pages/my/after_sales", //退换/售后
+			"style": {}
+		},
+		{
+			"path": "pages/my/harves_address", //收货地址
+			"style": {}
+		},
+		{
+			"path": "pages/my/my", //我的
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_card", //我的卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_card_gain", //领取卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_card_use", //使用卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_collection", //我的收藏
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_comment", //我的评价-评价列表
+			"style": {}
+		}, 
+		{
+			"path": "pages/my/my_order", //我的订单
+			"style": {}
+		},		 				
+		{
+			"path": "pages/my/my_order_detail", //订单详情
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_order_refund", //申请退款
+			"style": {}
+		},		 
+		{
+			"path": "pages/my/my_order_refund_progress", //退款进度
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_order_refund_reason", //退款原因
+			"style": {}
+		},
+		{
+			"path": "pages/my/write_comment", //写评价
+			"style": {}
+		},
+		
+		// 其他
+		{
+			"path": "pages/other/jump", //跳转
+			"style": {}
+		},				
+		
+		// 支付成功
+		{
+			"path": "pages/pay_success/pay_success", //支付成功
+			"style": {}
+		},
+		
+		// 邀请码
+		{
+			"path": "pages/poster/poster", //邀请码
+			"style": {}
+		},
+		
+		// 搜索
+		{
+			"path": "pages/search/search", //搜索主页
+			"style": {}
+		},
+		{
+			"path": "pages/search/search_result", //搜索结果）
+			"style": {}
+		},
+		
+		// 签到
+		{
+			"path": "pages/sign/sign", //签到
+			"style": {}
 		}
-
-		
+	
 	],
-	"globalStyle": {
-		
+	"globalStyle": {		
 		"renderingMode": "seperated",
 		"navigationStyle": "custom" //取消头部导航条
 	},

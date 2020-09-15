@@ -861,7 +861,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-baidu","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-baidu","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1929,6 +1929,57 @@ function normalizeComponent (
       icon: icon });
 
   },
+  // 获取token
+  getToken: function getToken() {var businessId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;var unique_id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "POST";
+    var that = this;
+    return new Promise(function (resolve) {
+      uni.request({
+        method: method,
+        url: that.globalData.requestUrl + "login" + "?d=" + new Date().getTime(),
+        header: {
+          appid: that.globalData.appid,
+          businessId: businessId },
+
+        data: {
+          interfaceId: 'token',
+          unique_id: unique_id },
+
+        success: function success(res) {
+          resolve(res);
+          if (res.data.status !== "ok") {
+            that.showModal("系统错误：" + res.data.code);
+          } else {
+            if (res.data.code !== 1000) that.showModal(res.data.message);
+          }
+
+        },
+        complete: function complete() {
+          uni.hideLoading();
+        } });
+
+    });
+    // uni.request({
+    // 	method:'POST',
+    // 	url:that.globalData.requestUrl + 'login' + "?d=" + new Date().getTime(),
+    // 	header:{
+    // 		appid:that.globalData.appid,
+    // 		businessId:businessId
+    // 	},
+    // 	data:{
+    // 		interfaceId:'token',
+    // 		unique_id:unique_id
+    // 	},
+    // 	success: (res) => {
+    // 		if(res.data.code==1000){
+    // 			let data = res.data.data
+    // 			console.log(data)
+    // 			return data
+    // 		}else{
+    // 			that.showModal(res.data.message)
+    // 		}
+    // 	}
+    // })
+  },
   // 数据请求(异步)
   uniRequest: function uniRequest(fileName, data) {var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "POST";
     var that = this;
@@ -1991,6 +2042,17 @@ function normalizeComponent (
     return specArr;
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 133:
+/*!************************************************!*\
+  !*** D:/Code/code/uniapp/static/images/18.png ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/images/18.png";
 
 /***/ }),
 
@@ -7524,7 +7586,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-baidu","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-baidu","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7545,14 +7607,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-baidu","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-baidu","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-baidu","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-baidu","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7628,7 +7690,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-baidu","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-baidu","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8054,17 +8116,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 365:
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/images/18.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/images/18.png";
-
-/***/ }),
-
 /***/ 4:
 /*!**************************************!*\
   !*** D:/Code/code/uniapp/pages.json ***!
@@ -8076,18 +8127,18 @@ module.exports = "/static/images/18.png";
 
 /***/ }),
 
-/***/ 64:
+/***/ 70:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 65);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 71);
 
 /***/ }),
 
-/***/ 65:
+/***/ 71:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8118,7 +8169,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 66);
+module.exports = __webpack_require__(/*! ./runtime */ 72);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8135,7 +8186,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 66:
+/***/ 72:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

@@ -1,6 +1,4 @@
 {
   "component": true,
-  "usingComponents": {
-    "porduct": "/components/porduct"
-  }
+  "usingComponents": {}
 }

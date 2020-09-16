@@ -228,6 +228,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -240,37 +244,37 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
-      topBackgroundColor: '#222222',
+      barName: 'back', //导航条名称
+      topBackgroundColor: '#333333',
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '日记详情',
       intervalTime: 3000, //自动切换时间间隔
       durationTime: 1000, //	滑动动画时长
-      swiperList: [{
-        id: 0,
-        url: '../../static/images/19.png' },
-
-      {
-        id: 1,
-        url: '../../static/images/20.png' },
-
-      {
-        id: 0,
-        url: '../../static/images/19.png' },
-
-      {
-        id: 1,
-        url: '../../static/images/20.png' }],
-
-
-      id: '',
-      diary: [] };
+      swiperList: [],
+      id: '', //日记id
+      content: '', //内容
+      collect_num: 0, //日记收藏数
+      diary_num: 1, //日记总数,
+      doctor: [{}], //医生信息    为空则不展示
+      goods: [{}], //日记关联的商品信息
+      head_ico: '', // 日记用户用户头像
+      imgs: [], //日记图片地址     该字段不为空  日记有图片
+      is_collect: 0, // 浏览用户是否收藏    0 未收藏  1 已收藏
+      nick_name: '', // 日记用户昵称
+      share_num: 0,
+      diaryTitle: '', //日记标题
+      user_mark: '', //日记用户标示
+      video: '', // 日记视频地址    该字段不为空  日记有视频
+      view_num: 0, //日记浏览数
+      requestUrl: '' };
 
   },
   onLoad: function onLoad(options) {
     var that = this;
     that.id = options.id;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
     that.diarydetails(that.id);
   },
   onReady: function onReady() {
@@ -299,13 +303,48 @@ __webpack_require__.r(__webpack_exports__);
         diary_id: id };
 
       this.request.uniRequest("/diary", data).then(function (res) {
-        console.log(res.data);
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          that.diary = res.data.data; //对象转数组
-          console.log(that.diary);
+          var _data = res.data.data;
+          console.log(_data.imgs);
+          that.id = _data.id; //日记id
+          that.content = _data.content; //内容
+          that.collect_num = _data.collect_num; //日记收藏数
+          that.diary_num = _data.diary_num; //日记总数,
+          that.doctor = _data.doctor; //医生信息    为空则不展示
+          that.goods = _data.goods; //日记关联的商品信息
+          that.head_ico = _data.head_ico; // 日记用户用户头像
+          that.imgs = _data.imgs; //日记图片地址     该字段不为空  日记有图片
+          that.is_collect = _data.is_collect; // 浏览用户是否收藏    0 未收藏  1 已收藏
+          that.nick_name = _data.nick_name; // 日记用户昵称
+          that.share_num = _data.share_num;
+          that.diaryTitle = _data.title; //日记标题
+          that.user_mark = _data.user_mark; //日记用户标示
+          that.video = _data.video; // 日记视频地址    该字段不为空  日记有视频
+          that.view_num = _data.view_num; //日记浏览数
+          that.swiperList = that.imgs;
         }
       });
     },
+    // 相关商品
+    goToGoods: function goToGoods(goodsId) {
+      // console.log(goodsId)
+      uni.navigateTo({
+        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
+
+    },
+    // 相关医生
+    goToDoctor: function goToDoctor(doctorId) {
+      uni.navigateTo({
+        url: "/pages/doctor/doctor_detail?id=".concat(doctorId) });
+
+    },
+    // 个人主页
+    personal: function personal(user_mark) {
+      uni.navigateTo({
+        url: "/pages/diary/diary_personal?user_mark=".concat(user_mark) });
+
+    },
+
     // 收藏
     collectdiary: function collectdiary(e) {var _this = this;
       this.request = this.$request;
@@ -319,6 +358,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.request.showToast('成功');
         }
       });
+    },
+    cancelLike: function cancelLike(id) {
+      console.log(id);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

@@ -184,6 +184,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar,
@@ -197,30 +210,15 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '个人主页',
-      cardList: [{
-        number: 20,
-        name: '日记' },
-
-      {
-        number: 99999,
-        name: '收藏量' },
-
-      {
-        number: 400,
-        name: '分享量' },
-
-      {
-        number: 20,
-        name: '浏览量' }],
-
-
       requestUrl: '',
-      contentList: '',
+      count: {}, //第一页 offset 等于0 才返回 统计数据
+      user: {}, //用户信息 第一页 offset 等于0 才返回 用户信息
+      list: [], //日记列表
       diaryList: [
       {
         url: '../../static/images/19.png',
@@ -273,10 +271,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
   },
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
     var that = this;
-    that.getMessage();
+    this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
+    var user_mark = options.user_mark;
+    that.getMessage(user_mark);
+
   },
   onReady: function onReady() {
     var that = this;
@@ -300,20 +301,22 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/diary/diary_write" });
 
     },
-    getMessage: function getMessage() {var _this = this;
+    getMessage: function getMessage(user_mark) {var _this = this;
       this.request = this.$request;
       var that = this;
       var dataInfo = {
         interfaceId: 'inexuserhome',
-        user_mark: '',
+        user_mark: user_mark,
         offset: '0',
         limit: '10' };
 
       this.request.uniRequest("diary", dataInfo).then(function (res) {
         if (res.data.code === 1000) {
-          // console.log(res.data.data)
-          that.contentList = res.data.data;
-
+          console.log(res.data.data);
+          var data = res.data.data;
+          that.count = data.count;
+          that.list = data.list;
+          that.user = data.user;
         } else {
           _this.request.showToast(res.data.message);
         }

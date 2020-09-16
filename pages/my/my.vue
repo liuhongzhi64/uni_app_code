@@ -405,6 +405,23 @@
 					uni.navigateTo({
 						url: `/pages/cart/cart`,
 					})
+				}else if(name.toolName == '我的问答'){
+					uni.navigateTo({
+						url: `/pages/goods/goods_detail_problem`,
+					})
+				}
+				else if(name.toolName == '我的日记'){
+					uni.navigateTo({
+						url: `/pages/diary/diary_personal`,
+					})
+				}else if(name.toolName == '我的收藏'){
+					uni.navigateTo({
+						url: `/pages/my/my_collection`,
+					})
+				}else if(name.toolName == '我的评价'){
+					uni.navigateTo({
+						url: `/pages/my/my_comment`,
+					})
 				}
 					
 			}

@@ -9,13 +9,13 @@
 						<view class="user-message">
 							<view class="user-head-portrait-name-phone-set">
 								<view class="user-head-portrait">
-									<image src="../../static/images/19.png" mode=""></image>
+									<image :src="requestUrl+head_ico" mode=""></image>
 									<view class="name-cart-phone">
 										<view class="user-name-cart">
-											<view class="user-name">用户名字就八个字</view>
+											<view class="user-name">{{nick_name}}</view>
 										</view>
-										<view class="detail_number">
-											共计10篇 >
+										<view class="detail_number" @tap='personal(user_mark)'>
+											共计{{diary_num}}篇 >
 										</view>
 									</view>
 								</view>
@@ -27,24 +27,25 @@
 							 circular>
 								<swiper-item v-for="(i,index) in swiperList" :key="index">
 									<view class="top-swiper-item">
-										<image class="top-swiper-images" :src="i.url" mode=""></image>
-										<view class="porduct-message">
+										<image class="top-swiper-images" :src="requestUrl+i" mode="widthFix"></image>
+										
+										<view class="porduct-message" @tap='goToGoods(goods.id)'>
 											<view class="porduct-images">
-												<image src="../../static/images/19.png" mode=""></image>
+												<image :src="requestUrl+goods.head_img" mode=""></image>
 											</view>
 											<view class="porduct-name-price">
-												<view class="porduct-name">商品名称商品名的商品名称商品名的...</view>
-												<view class="porduct-price">¥<text>1980</text></view>
+												<view class="porduct-name">{{goods.goods_name}}</view>
+												<view class="porduct-price">¥<text>{{goods.sale_price}}</text></view>
 											</view>
 										</view>
 
-										<view class="correlation-doctor">
+										<view class="correlation-doctor" @tap='goToDoctor(doctor.id)'>
 											<view class="doctor-images">
-												<image src="../../static/images/19.png" mode=""></image>
+												<image :src="requestUrl+doctor.heading" mode=""></image>
 											</view>
 											<view class="doctor-name-subordinate-position">
-												<view class="doctor-name">李黠</view>
-												<view class="subordinate-position">华美紫馨无创整形中心整形中心...</view>
+												<view class="doctor-name">{{doctor.name}}</view>
+												<view class="subordinate-position">{{doctor.zhicheng}}</view>
 											</view>
 
 										</view>
@@ -55,10 +56,10 @@
 						</view>
 
 						<view class="detail_contents">
-							<view class="details-title"> 日记标题全部显示 </view>
+							<view class="details-title"> {{diaryTitle}} </view>
 							<view class="user-details-contents">
-								整形分享 成都整形攻略 整形分享
-								<br />
+								{{content}}
+								<!-- <br />
 								作为一个在医美整形这个巨浪里摸爬滚打很多年的人，来告诉你如何选择适合自己的医院
 								<view class="blank"></view>
 								不吹不黑，但是拒绝转载 ，呕心沥血之作
@@ -70,7 +71,7 @@
 
 								每一家医院都有自己擅长的项目，不能只依靠广告和外装修来判断适不适合自己哦～
 								<view class="blank"></view>
-								现在由我一一为想做整形的妹子分析一下
+								现在由我一一为想做整形的妹子分析一下 -->
 							</view>
 						</view>
 					</view>
@@ -81,12 +82,15 @@
 
 		<view class="bottom-messages">
 			<view class="page-view-collect-transpond">
-				<view class="page-view">浏览量: <text>1423</text></view>
-				<view class="collect" @tap="collectdiary" :data-id="diary.id">
-					<image src="../../static/images/collect.png" mode=""></image> <text>145</text>
+				<view class="page-view">浏览量: <text>{{view_num}}</text></view>
+				<view class="collect" v-if="is_collect == 0" :data-id='id' @tap='collectdiary'>
+					<image src="../../static/images/collect.png" mode=""></image><text>{{collect_num}}</text>
+				</view>
+				<view class="collect" v-else @tap='cancelLike(id)'>
+					<image src="../../static/images/checked-collect.png" mode=""></image><text>{{collect_num}}</text>
 				</view>
 				<view class="transpond">
-					<image src="../../static/images/share.png" mode=""></image> <text>145</text>
+					<image src="../../static/images/share.png" mode=""></image> <text>{{share_num}}</text>
 				</view>
 			</view>
 		</view>
@@ -108,37 +112,37 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
-				topBackgroundColor: '#222222',
+				barName: 'back', //导航条名称
+				topBackgroundColor: '#333333',
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '日记详情',
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
-				swiperList: [{
-						id: 0,
-						url: '../../static/images/19.png',
-					},
-					{
-						id: 1,
-						url: '../../static/images/20.png',
-					},
-					{
-						id: 0,
-						url: '../../static/images/19.png',
-					},
-					{
-						id: 1,
-						url: '../../static/images/20.png',
-					},
-				],
-				id:'',
-				diary:[]
+				swiperList: [],
+				id:'',//日记id
+				content:'',//内容
+				collect_num:0,//日记收藏数
+				diary_num:1,//日记总数,
+				doctor:[{}],//医生信息    为空则不展示
+				goods:[{}],//日记关联的商品信息
+				head_ico:'',// 日记用户用户头像
+				imgs:[],//日记图片地址     该字段不为空  日记有图片
+				is_collect:0,// 浏览用户是否收藏    0 未收藏  1 已收藏
+				nick_name:'' ,// 日记用户昵称
+				share_num:0,
+				diaryTitle:'',//日记标题
+				user_mark:'',//日记用户标示
+				video:'' ,// 日记视频地址    该字段不为空  日记有视频
+				view_num:0,//日记浏览数
+				requestUrl: '',
 			}
 		},
 		onLoad: function(options) {
 			const that = this
 			that.id = options.id
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
 			that.diarydetails(that.id)
 		},
 		onReady() {
@@ -167,13 +171,48 @@
 					diary_id :id
 				}
 				this.request.uniRequest("/diary", data).then(res => {
-					console.log(res.data)
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						that.diary = (res.data.data)//对象转数组
-						console.log(that.diary)
+						let data = res.data.data
+						console.log(data.imgs)
+						that.id = data.id//日记id
+						that.content = data.content //内容
+						that.collect_num = data.collect_num//日记收藏数
+						that.diary_num = data.diary_num//日记总数,
+						that.doctor = data.doctor//医生信息    为空则不展示
+						that.goods = data.goods//日记关联的商品信息
+						that.head_ico = data.head_ico// 日记用户用户头像
+						that.imgs = data.imgs//日记图片地址     该字段不为空  日记有图片
+						that.is_collect = data.is_collect// 浏览用户是否收藏    0 未收藏  1 已收藏
+						that.nick_name = data.nick_name // 日记用户昵称
+						that.share_num = data.share_num
+						that.diaryTitle = data.title//日记标题
+						that.user_mark = data.user_mark//日记用户标示
+						that.video = data.video// 日记视频地址    该字段不为空  日记有视频
+						that.view_num = data.view_num//日记浏览数
+						that.swiperList = that.imgs
 					}
 				})
 			},
+			// 相关商品
+			goToGoods:function(goodsId){
+				// console.log(goodsId)
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?id=${goodsId}`,
+				})
+			},
+			// 相关医生
+			goToDoctor:function(doctorId){
+				uni.navigateTo({
+					url: `/pages/doctor/doctor_detail?id=${doctorId}`,
+				})
+			},
+			// 个人主页
+			personal:function(user_mark){
+				uni.navigateTo({
+					url: `/pages/diary/diary_personal?user_mark=${user_mark}`,
+				})
+			},
+			
 			// 收藏
 			collectdiary:function(e){
 				this.request = this.$request
@@ -188,6 +227,9 @@
 					}
 				})
 			},
+			cancelLike:function(id){
+				console.log(id)
+			}
 		}
 	}
 </script>
@@ -198,7 +240,7 @@
 	} */
 
 	.user-message {
-		background-color: #222222;
+		background-color: #333333;
 	}
 
 	.user-head-portrait-name-phone-set {
@@ -223,6 +265,7 @@
 		height: 160rpx;
 		border-radius: 80rpx;
 		margin-right: 24rpx;
+		border: 1rpx solid #FFFFFF;
 	}
 
 	.user-name-cart {
@@ -242,15 +285,25 @@
 	}
 
 	.detail-swiper {
-		height: 584rpx;
+		min-height:1000rpx;
+		/* height: auto; */
 	}
 
 	.top-swiper {
-		height: 584rpx;
+		min-height:1000rpx;
+	}
+	.top-swiper-item .top-swiper-images {
+		/* min-height: 584rpx; */
+		width: 750rpx;
+		/* height: auto; */
 	}
 
 	.top-swiper-item {
 		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: auto;
 	}
 
 	.porduct-message {
@@ -294,11 +347,6 @@
 		width: 80rpx;
 		height: 80rpx;
 		border-radius: 40rpx;
-	}
-
-	.top-swiper-item .top-swiper-images {
-		height: 584rpx;
-		width: 100%;
 	}
 
 	.porduct-name-price,
@@ -377,6 +425,7 @@
 	.page-view-collect-transpond image {
 		width: 40rpx;
 		height: 40rpx;
+		margin-right: 10rpx;
 	}
 
 	.collect,
@@ -390,5 +439,8 @@
 	.page-view {
 		color: #fa3475;
 		font-size: 26rpx;
+	}
+	.page-view  text{
+		margin-left: 10rpx;
 	}
 </style>

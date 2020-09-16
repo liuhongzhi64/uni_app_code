@@ -35,26 +35,33 @@
 								<view class="subject-content ">
 									<view class="subject-content-list"
 									 v-for="(item,index) in contentList" :key='index'
+									 @tap='diaryDetail(item.id)'
 									 v-if="index%2==0">
 										<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
 										<view class="label">{{item.label}}</view>
-										<view class="diary-title"> {{item.title}} </view>
-										
+										<view class="diary-title"> {{item.title}} </view>										
 										<view class="category_name-doctor_name">
 											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
-										</view>
-										
-										
-										<view class="goods_name">{{item.goods_name}}</view>
-										
+										</view>																				
+										<view class="goods_name">{{item.goods_name}}</view>										
 										<view class="head_ico-nick_name-collect_num">
 											<view class="head_ico-nick_name">
 												<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
 												<text class="nick_name">{{item.nick_name}}</text>
 											</view>
-											<view class="collect_num" v-if="item.collect_num"> {{item.collect_num}}  </view>
-											<view class="collect_num" v-else>0</view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num">
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												{{item.collect_num}} 
+											 </view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												0
+											</view>
 										</view>
 									</view>
 								</view>
@@ -63,47 +70,53 @@
 								<view class="subject-content ">
 									<view class="subject-content-list"
 									 v-for="(item,index) in contentList" :key='index'
+									 @tap='diaryDetail(item.id)'
 									 v-if="index%2==1">
 										<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
 										<view class="label">{{item.label}}</view>
 										<view class="diary-title"> {{item.title}} </view>
 										
 										<view class="category_name-doctor_name">
-											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
+											<view class="category_name" v-if="item.category_name!=''"> {{item.category_name}} </view>
 											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
-										</view>
-										
-										<view class="goods_name">{{item.goods_name}}</view>
-										
+										</view>										
+										<view class="goods_name">{{item.goods_name}}</view>										
 										<view class="head_ico-nick_name-collect_num">
 											<view class="head_ico-nick_name">
 												<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
 												<text class="nick_name">{{item.nick_name}}</text>
 											</view>
-											<view class="collect_num" v-if="item.collect_num"> {{item.collect_num}}  </view>
-											<view class="collect_num" v-else>0</view>
-										</view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num"> 
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												{{item.collect_num}} 
+											 </view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												0
+											</view>
+										</view>											
 									</view>
 								</view>
-							</view>
-							
+							</view>							
 						</view>
-
 					</template>
 				</scroll-view>
-
 			</view>
-
 		</view>
+		
+		<view class="write_diary" @tap='writeDiary'>
+			 写日记
+		</view>
+		
 	</view>
 </template>
 
 <script>
-	import porduct from "../../components/porduct.vue";
 	export default {
-		components: {
-			porduct
-		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -186,8 +199,23 @@
 							that.request.showToast('没有更多了')
 						}
 						that.contentList = that.contentList.concat(data)
-						console.log(that.contentList)
+						// console.log(that.contentList)
 					}
+				})
+			},
+			
+			// 写日记
+			writeDiary:function(){
+				uni.navigateTo({
+					url: `/pages/diary/diary_write`,
+				})
+			},
+			// 点击日记进入详情页
+			diaryDetail:function(id){
+				let that = this
+				let detail_id = id
+				uni.navigateTo({
+					url: `/pages/diary/diary_detail?id=${detail_id}`,
 				})
 			}
 		}
@@ -378,7 +406,8 @@
 		background-color: #d3d3d3;
 		border-radius: 4rpx;
 		font-size: 16rpx;
-		width: 80rpx;
+		/* width: 80rpx; */
+		padding: 0 15rpx;
 		text-align: center;
 		color: #4f4f4f;
 		margin-right: 10rpx;
@@ -391,7 +420,7 @@
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
-		margin-top: 15rpx;
+		/* margin-top: 15rpx; */
 	}
 	.head_ico-nick_name-collect_num{
 		display: flex;
@@ -416,6 +445,54 @@
 	}
 	.collect_num{
 		font-size: 30rpx;
+		color: #fc4783;		
+		display: flex;
+		align-items: center;
+	}
+	.is_no_collect{
 		color: #B2B2B2;
+		display: flex;
+		align-items: center;
+		font-size: 30rpx;
+	}
+	.is_no_collect .like{
+		background-color: #d0d0d0;
+		width: 40rpx;
+		height: 40rpx;
+		border-radius: 20rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 16rpx;
+	}
+	.collect_num .like{
+		width: 42rpx;
+		height: 42rpx;
+		border-radius: 21rpx;
+		background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 16rpx;
+	}
+	.like-image{
+		width: 24rpx;
+		height: 24rpx;
+	}
+	
+	/* 写日记 */
+	.write_diary{
+		position: fixed;
+		right: 30rpx;
+		top: 50%;
+		width: 92rpx;
+		line-height: 110rpx;
+		font-size: 24rpx;
+		color: #FFFFFF;
+		z-index: 9;
+		background-color: #E0619D;
+		text-align: center;
+		opacity: 0.8;
+		border-radius: 16rpx;
 	}
 </style>

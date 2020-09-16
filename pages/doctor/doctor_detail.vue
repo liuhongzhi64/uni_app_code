@@ -265,6 +265,11 @@
 				]
 			}
 		},
+		onLoad: function(option) {
+			let doctorId = option.id
+			console.log(doctorId)
+		},
+		
 		onReady() {
 			let that = this;
 			// 获取屏幕高度

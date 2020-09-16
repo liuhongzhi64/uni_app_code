@@ -812,6 +812,7 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.height = uni.getSystemInfoSync().screenHeight * 1.6;
     var id = option.id || that.spuId;
+    console.log(id);
     var sku_id = option.sku_id;
     var dataInfo = {
       interfaceId: 'goodsspudetails',
@@ -819,6 +820,7 @@ __webpack_require__.r(__webpack_exports__);
       // sku_id: sku_id
     };
     that.request.uniRequest("goods", dataInfo).then(function (res) {
+      console.log(res.data);
       if (res.data.code == 1000) {
         var data = res.data.data;
         uni.setStorageSync("goodsDetail", data);
@@ -837,10 +839,12 @@ __webpack_require__.r(__webpack_exports__);
         }
         that.spec_value = data.spec_value;
         // console.log(data)
-        console.log(that.spec);
+        // console.log(that.spec)
         for (var i in that.spec) {
           console.log(that.spec[i].attr);
         }
+      } else {
+        that.request.showToast(res.data.message);
       }
     });
 

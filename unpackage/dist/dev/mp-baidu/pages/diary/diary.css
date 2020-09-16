@@ -207,7 +207,8 @@
 	background-color: #d3d3d3;
 	border-radius: 4rpx;
 	font-size: 16rpx;
-	width: 80rpx;
+	/* width: 80rpx; */
+	padding: 0 15rpx;
 	text-align: center;
 	color: #4f4f4f;
 	margin-right: 10rpx;
@@ -220,7 +221,7 @@
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
-	margin-top: 15rpx;
+	/* margin-top: 15rpx; */
 }
 .head_ico-nick_name-collect_num.data-v-61fd5b0e{
 	display: -webkit-box;
@@ -255,6 +256,75 @@
 }
 .collect_num.data-v-61fd5b0e{
 	font-size: 30rpx;
+	color: #fc4783;		
+	display: -webkit-box;		
+	display: -webkit-flex;		
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.is_no_collect.data-v-61fd5b0e{
 	color: #B2B2B2;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 30rpx;
+}
+.is_no_collect .like.data-v-61fd5b0e{
+	background-color: #d0d0d0;
+	width: 40rpx;
+	height: 40rpx;
+	border-radius: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	margin-right: 16rpx;
+}
+.collect_num .like.data-v-61fd5b0e{
+	width: 42rpx;
+	height: 42rpx;
+	border-radius: 21rpx;
+	background-image: -webkit-linear-gradient(bottom,  #fa3475 0%,  #ff6699 100%),  -webkit-linear-gradient( #f56fb4, #f56fb4);
+	background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	margin-right: 16rpx;
+}
+.like-image.data-v-61fd5b0e{
+	width: 24rpx;
+	height: 24rpx;
+}
+
+/* 写日记 */
+.write_diary.data-v-61fd5b0e{
+	position: fixed;
+	right: 30rpx;
+	top: 50%;
+	width: 92rpx;
+	line-height: 110rpx;
+	font-size: 24rpx;
+	color: #FFFFFF;
+	z-index: 9;
+	background-color: #E0619D;
+	text-align: center;
+	opacity: 0.8;
+	border-radius: 16rpx;
 }
 

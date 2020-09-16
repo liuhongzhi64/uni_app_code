@@ -397,6 +397,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
   },
+  onLoad: function onLoad(option) {
+    var doctorId = option.id;
+    console.log(doctorId);
+  },
+
   onReady: function onReady() {
     var that = this;
     // 获取屏幕高度

@@ -10,23 +10,36 @@
 						<view class="user-message">
 							<view class="user-head-portrait-name-phone-set">
 								<view class="user-head-portrait">
-									<image src="../../static/images/19.png" mode=""></image>
+									<image :src="requestUrl+user.head_ico" mode=""></image>
 									<view class="name-cart-phone">
 										<view class="user-name-cart">
-											<view class="user-name">用户名字就八个字</view>
+											<view class="user-name">{{user.nick_name}}</view>
 										</view>
-										<view class="user-signature">
-											我是用户签名，后台需在用户处添加一个
-											字段，没有则不显示出来......
-										</view>
+										<view class="user-signature" v-if="user.signature!=''"> {{user.signature}} </view>
 									</view>
 								</view>
 						
 							</view>
 							<view class="card-volume-integral-bean-balance-currency">
-								<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="changeOrder(i.name)">
-									<view class="card-number"> {{i.number}} </view>
-									<view class="card-name"> {{i.name}} </view>
+								<view class="all-card">
+									<view class="card-number" v-if="count.num"> {{count.num}} </view>
+									<view class="card-number" v-else> 0 </view>
+									<view class="card-name"> 日记 </view>
+								</view>
+								<view class="all-card">
+									<view class="card-number" v-if="count.collect_num"> {{count.collect_num}} </view>
+									<view class="card-number" v-else> 0 </view>
+									<view class="card-name"> 收藏量 </view>
+								</view>
+								<view class="all-card">
+									<view class="card-number" v-if="count.share_num"> {{count.share_num}} </view>
+									<view class="card-number" v-else> 0 </view>
+									<view class="card-name"> 分享量 </view>
+								</view>
+								<view class="all-card">
+									<view class="card-number" v-if="count.view_num"> {{count.view_num}} </view>
+									<view class="card-number" v-else> 0 </view>
+									<view class="card-name"> 浏览量 </view>
 								</view>
 							</view>
 									
@@ -65,30 +78,15 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '个人主页',
-				cardList: [{
-						number: 20,
-						name: '日记'
-					},
-					{
-						number: 99999,
-						name: '收藏量'
-					},
-					{
-						number: 400,
-						name: '分享量'
-					},
-					{
-						number: 20,
-						name: '浏览量'
-					},
-				],
 				requestUrl:'',
-				contentList:'',
+				count:{},//第一页 offset 等于0 才返回 统计数据
+				user:{},//用户信息 第一页 offset 等于0 才返回 用户信息
+				list:[],//日记列表
 				diaryList:[
 					{
 						url:'../../static/images/19.png',
@@ -141,10 +139,13 @@
 				]
 			}
 		},
-		onLoad:function(){
+		onLoad:function(options){
 			let that = this
-			that.getMessage()
+			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
+			let user_mark = options.user_mark
+			that.getMessage(user_mark)
+			
 		},
 		onReady() {
 			let that = this;
@@ -168,20 +169,22 @@
 					url: `/pages/diary/diary_write`,
 				})
 			},
-			getMessage:function(){
+			getMessage:function(user_mark){
 				this.request = this.$request
 				let that = this
 				let dataInfo = {
 					interfaceId:'inexuserhome',
-					user_mark:'',
+					user_mark:user_mark,
 					offset:'0',
 					limit:'10'
 				}
 				this.request.uniRequest("diary", dataInfo).then(res => {
 					if (res.data.code === 1000) {
-						// console.log(res.data.data)
-						that.contentList = res.data.data
-				
+						console.log(res.data.data)
+						let data = res.data.data
+						that.count = data.count
+						that.list = data.list
+						that.user = data.user
 					} else {
 						this.request.showToast(res.data.message);
 					}
@@ -219,6 +222,7 @@
 		height: 160rpx;
 		border-radius: 80rpx;
 		margin-right: 24rpx;
+		border: 1rpx solid #FFFFFF;
 	}
 
 	.user-name-cart {

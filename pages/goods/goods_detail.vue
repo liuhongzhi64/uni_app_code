@@ -671,6 +671,7 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.height = uni.getSystemInfoSync().screenHeight * 1.6;
 			let id = option.id || that.spuId
+			console.log(id)
 			let sku_id = option.sku_id
 			let dataInfo = {
 				interfaceId: 'goodsspudetails',
@@ -678,6 +679,7 @@
 				// sku_id: sku_id
 			}
 			that.request.uniRequest("goods", dataInfo).then(res => {
+				console.log(res.data)
 				if (res.data.code == 1000) {
 					let data = res.data.data
 					uni.setStorageSync("goodsDetail", data);
@@ -696,10 +698,12 @@
 					}
 					that.spec_value = data.spec_value
 					// console.log(data)
-					console.log(that.spec)
+					// console.log(that.spec)
 					for(let i in that.spec){
 						console.log(that.spec[i].attr)
 					}
+				}else{
+					that.request.showToast(res.data.message)
 				}
 			})
 

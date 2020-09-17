@@ -1,243 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 	.diary_detail_content {
-	background-color: #F6F6F6;
-} */
 .user-message.data-v-799f96d2 {
 	background-color: #333333;
 }
@@ -291,7 +52,6 @@
 }
 .detail-swiper.data-v-799f96d2 {
 	min-height:1000rpx;
-	/* height: auto; */
 }
 .top-swiper.data-v-799f96d2 {
 	min-height:1000rpx;
@@ -299,7 +59,6 @@
 .top-swiper-item .top-swiper-images.data-v-799f96d2 {
 	/* min-height: 584rpx; */
 	width: 750rpx;
-	/* height: auto; */
 }
 .top-swiper-item.data-v-799f96d2 {
 	position: relative;
@@ -411,9 +170,6 @@
 	padding-top: 32rpx;
 	padding-bottom: 160rpx;
 }
-.user-details-contents .blank.data-v-799f96d2 {
-	height: 60rpx;
-}
 .bottom-messages.data-v-799f96d2 {
 	background-color: #F6F6F6;
 	position: fixed;
@@ -456,4 +212,18 @@
 .page-view  text.data-v-799f96d2{
 	margin-left: 10rpx;
 }
+.consult.data-v-799f96d2{
+	position: fixed;
+	z-index: 9;
+	background-color: #FA3475;
+	opacity: 0.8;
+	width: 130rpx;
+	line-height: 120rpx;
+	text-align: center;
+	top: 50%;
+	right: 10rpx;
+	color: #FFFFFF;
+	border-radius: 24rpx;
+}
+
 

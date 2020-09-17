@@ -1,6 +1,8 @@
 
 .detail_content-all.data-v-15d581fa {
 	padding-bottom: 200rpx;
+	background-image: -webkit-linear-gradient(bottom, #222222 0%, #151515 100%);
+	background-image: linear-gradient(0deg, #222222 0%, #151515 100%);
 }
 .top-doctor-message.data-v-15d581fa {
 	background-repeat: no-repeat;
@@ -61,6 +63,13 @@
 	border-radius: 24rpx;
 	opacity: 0.8;
 	margin-bottom: 20rpx;
+}
+.goods_project.data-v-15d581fa{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
 }
 .title-item.data-v-15d581fa {
 	font-size: 24rpx;
@@ -126,6 +135,7 @@
 	display: flex;
 	width: 100%;
 	height: 100%;
+	color: #FFFFFF;
 }
 .productImgs.data-v-15d581fa {
 	display: inline-block;
@@ -163,7 +173,7 @@
 	font-size: 20rpx;
 }
 .doctor-project.data-v-15d581fa{
-	padding: 0 30rpx 30rpx;
+	padding: 0 20rpx 30rpx;
 	background-color: #222222;
 	height: 100%;
 }

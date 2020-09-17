@@ -130,7 +130,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 551));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -200,7 +201,7 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    porduct: porduct },
+    diary: diary },
 
   data: function data() {
     return {
@@ -218,57 +219,8 @@ __webpack_require__.r(__webpack_exports__);
       requestUrl: '',
       count: {}, //第一页 offset 等于0 才返回 统计数据
       user: {}, //用户信息 第一页 offset 等于0 才返回 用户信息
-      list: [], //日记列表
-      diaryList: [
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        productUrl: '',
-        productTitle: '',
-        prouctPrice: 0,
-        selectedItems: '#急速纳米美眼（尊享版）急速...' },
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        productUrl: '',
-        productTitle: '',
-        prouctPrice: 0,
-        selectedItems: '#急速纳米美眼（尊享版）急速...' },
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        productUrl: '',
-        productTitle: '',
-        prouctPrice: 0,
-        selectedItems: '#急速纳米美眼（尊享版）急速...' },
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        productUrl: '',
-        productTitle: '',
-        prouctPrice: 0,
-        selectedItems: '#急速纳米美眼（尊享版）急速...' }] };
-
-
+      list: [] //日记列表
+    };
 
   },
   onLoad: function onLoad(options) {
@@ -298,7 +250,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     keepDiary: function keepDiary() {
       uni.navigateTo({
-        url: "/pages/diary/diary_write" });
+        url: "/pages/diary/diary_keep" });
 
     },
     getMessage: function getMessage(user_mark) {var _this = this;

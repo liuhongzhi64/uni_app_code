@@ -69,6 +69,12 @@
 				}
 			})
 		},
+		onLoad: function(option) {
+			this.request = this.$request			
+			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
+			let doctorId = option.id
+		},
 		methods: {
 			goToDoctor:function(){
 				uni.navigateTo({

@@ -361,8 +361,7 @@
 		},
 		data(){
 			return {
-				changePorductNumber:[],
-				
+				changePorductNumber:[],				
 			}
 		},
 		onLoad:function(){

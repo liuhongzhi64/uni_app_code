@@ -11,63 +11,63 @@
 								医生相册一览 >
 							</view>
 							<view class="doctor-introduce">
-								<view class="doctor-name">Dr. 陈杨</view>
-								<view class="position">华美紫馨眼部整形及修复中心主任</view>
+								<view class="doctor-name">Dr. {{doctorMessage.name}}</view>
+								<view class="position">{{doctorMessage.zhicheng}}</view>
 								<view class="subline"></view>
 								<view class="experience-case">
-									<view class="experience">从业经验: 8年</view>
-									<view class="case">案列数: 12000</view>
+									<view class="experience">从业经验: {{ doctorMessage.employed_y }} 年</view>
+									<view class="case">案列数: {{ doctorMessage.case_num }} </view>
 								</view>
 								<view class="get-title">
-									<view class="title-item"> <text class="dot">·</text> <text>华美紫馨眼部整形及修复中心学20个字符就换行自动换行</text> </view>
-									<view class="title-item"> <text class="dot">·</text> <text>华美紫馨鼻整形及修复中心首席专家</text> </view>
-									<view class="title-item"> <text class="dot">·</text> <text>中国医师协会美容与整形医师分会会员</text> </view>
-									<view class="title-item"> <text class="dot">·</text> <text>中国整形美容协会鼻整形分会委员</text> </view>
-									<view class="title-item"> <text class="dot">·</text> <text>美国射极峰公司亚洲首批特聘高级专家</text> </view>
+									<view class="title-item" v-for="(item,index) in doctorMessage.sign" :key='index'> 
+										<text class="dot">·</text> <text>{{item}}</text> 
+									</view>
 								</view>
 
 								<view class="doctor-title">
 									<view class="top-title">擅长项目</view>
-									<view class="title-item"> 双眼皮、手术隆鼻、面部综合塑形 </view>
+									<view class="goods_project">
+										<view class="title-item" v-for="(item,index) in doctorMessage.goods_project" :key='index'>
+											{{item}} <text class="project_line">、</text>
+										</view>
+									</view>
+									
 								</view>
 								<view class="get-title">
 									<view class="top-title">手术特点</view>
-									<view class="title-item">
-										精于保留血管术式，术中出血少，术后恢复快。精微切口，重睑分层手术，创口隐秘恢复快。“急速轻龄美眼”的研发，
-										将重睑手术与上眼抗衰预提升融合，在重睑手术中，对眼部3个易松弛下垂的层次进行复位提升，一个手术达到美眼+抗衰的效果。
-									</view>
+									<view class="title-item"> {{doctorMessage.surgery}} </view>
 								</view>
 
 							</view>
 						</view>
-						
+						<!-- 专辑证书 -->
 						<view class="doctor-content-item">
+							<!-- 个人专辑 -->
 							<view class="doctor-item">
-								<view class="doctor-item-title">个人专辑</view>
-							
+								<view class="doctor-item-title">个人专辑</view>							
 								<view class="doctor-item-list">
 									<scroll-view class="product-items" scroll-x="true">
-										<view class="product-item-content">
-											<view class="productImgs" v-for="(i,k) in doctorList" :key='k'>
+										<view class="product-item-content" v-if="doctorVideo.length>0">
+											<view class="productImgs" v-for="(i,k) in doctorVideo" :key='k'>
 												<view class="productItems">
-													<image :src="i.url" mode="" style="width: 210rpx;height: 210rpx;"></image>
+													<image :src="requestUrl+i.cover_img" mode="" style="width: 210rpx;height: 210rpx;"></image>
 													<view class="doctor-item-explain" style="width: 210rpx;">{{i.content}}</view>
 												</view>
 											</view>
 										</view>
+										<view class="product-item-content" v-else> 暂无相关专辑推荐 </view>
 									</scroll-view>
 								</view>
 							</view>
-							
+							<!-- 专业证书 -->
 							<view class="doctor-item">
 								<view class="doctor-item-title">个人证书</view>
-							
 								<view class="doctor-item-list">
 									<scroll-view class="product-items" scroll-x="true">
 										<view class="product-item-content">
-											<view class="productImgs" v-for="(i,k) in doctorList" :key='k'>
+											<view class="productImgs" v-for="(i,k) in doctorList" :key='k' @tap='certificate(i.doctor_id)'>
 												<view class="productItems">
-													<image :src="i.url" mode="" style="width: 280rpx;height: 210rpx;"></image>
+													<image :src="requestUrl+i.url" mode="" style="width: 280rpx;height: 210rpx;"></image>
 												</view>
 											</view>
 										</view>
@@ -75,7 +75,7 @@
 								</view>
 							</view>
 						</view>
-						
+						<!-- TA的项目 -->
 						<view class="doctor-project">
 							<view class="doctor-item-title">TA的项目</view>
 							<view class="doctor-item-swiper">
@@ -83,8 +83,7 @@
 									<swiper-item class="doctor-swiper-item" >
 										<view class="project-content" >
 											<view class="porduct-list" v-for="(i,k) in porductList" :key='k'>
-												<view class="porduct-items">
-												
+												<view class="porduct-items">											
 													<view class="porduct-item-images">
 														<image :src="i.url" mode=""></image>
 													</view>
@@ -114,8 +113,7 @@
 															<!-- 好评 -->
 															<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
 														</view>
-														
-														
+																												
 													</view>
 																	
 												</view>
@@ -137,7 +135,7 @@
 						<view class="doctor-projects">
 							<view class="doctor-item-title">拜托了医生</view>
 							<view class="doctor-projects-item">
-								<porduct :width=340 :porductList='pleaseDoctorList'></porduct>
+								<porduct :width=340 :porductLists='pleaseDoctorList'></porduct>
 							</view>
 							
 						</view>
@@ -145,7 +143,7 @@
 						<view class="doctor-project">
 							<view class="doctor-item-title">用户日记</view>
 							<view class="doctor-projects-item">
-								<porduct :width=340 :porductList='pleaseDoctorList'></porduct>
+								<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
 							</view>
 						</view>
 	
@@ -172,10 +170,12 @@
 <script>
 	import topBar from "../../components/topBar.vue";
 	import porduct from "../../components/porduct.vue";
+	import diary from '../../components/diary.vue';
 	export default {
 		components: {
 			topBar,
 			porduct,
+			diary
 		},
 		data() {
 			return {
@@ -190,13 +190,12 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '医生个人主页',
+				requestUrl:'',
 				doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
-				doctorList:[
-					{url:'../../static/images/19.png',content:'华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...'},
-					{url:'../../static/images/19.png',content:'华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...'},
-					{url:'../../static/images/19.png',content:'华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...'},
-					{url:'../../static/images/19.png',content:'华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...'},
-				],
+				doctorMessage:{},
+				doctorVideo:[],
+				doctorList:[],
+				diaryList:[],
 				porductList:[
 					{
 						url:'../../static/images/19.png',
@@ -229,45 +228,17 @@
 						goodReputation:98,
 					},
 				],
-				pleaseDoctorList : [
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？...',
-						label: ['眼部美容', '眼部'],
-						headPortrait: '../../static/images/test.jpg', //头像
-						userName: '用户昵称几个字',
-						like: 99
-					},
-					{
-						url: '../../static/images/23.png',
-						title: '我是文章标题，显示两排后就以省略号结束？...',
-						label: ['眼部美容', '眼部'],
-						headPortrait: '../../static/images/test.jpg', //头像
-						userName: '程阳',
-						like: 99
-					},
-					{
-						url: '../../static/images/23.png',
-						title: '我是文章标题，显示两排后就以省略号结束？...',
-						label: ['眼部美容', '眼部'],
-						headPortrait: '../../static/images/test.jpg', //头像
-						userName: '程阳',
-						like: 99
-					},
-					{
-						url: '../../static/images/23.png',
-						title: '我是文章标题，显示两排后就以省略号结束？...',
-						label: ['眼部美容', '眼部'],
-						headPortrait: '../../static/images/test.jpg', //头像
-						userName: '程阳',
-						like: 99
-					},
-				]
+				pleaseDoctorList : []
 			}
 		},
 		onLoad: function(option) {
+			this.request = this.$request			
+			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
 			let doctorId = option.id
-			console.log(doctorId)
+			// console.log(doctorId)
+			that.getDetail(doctorId)
+			that.getDoctormessage(doctorId)
 		},
 		
 		onReady() {
@@ -287,14 +258,58 @@
 			})
 		},
 		methods: {
-			gotoPhoto: function() {
+			getDetail:function(doctorId){
+				let that = this
+				let dataInfo = {
+					interfaceId:'info',
+					doctor_id:doctorId
+				}
+				this.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000) {
+						let data = res.data.data
+						console.log(data)
+						that.doctorHeadPortrait = that.requestUrl + data[0].heading
+						that.doctorMessage = data[0]
+						that.doctorVideo = data.video
+						that.diaryList = data.diary
+						that.pleaseDoctorList = data.goods
+					}
+					else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
+			// 获取证书
+			getDoctormessage:function(doctorId){
+				let that = this
+				let dataInfo = {
+					interfaceId:'docker_img',
+					doctor_id:doctorId,
+					type:'1'
+				}
+				this.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000) {
+						let data = res.data.data
+						that.doctorList = data
+					}
+					else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
+			gotoPhoto: function(doctorId) {
 				uni.navigateTo({
-					url: `/pages/doctor/doctor_photo`,
+					url: `/pages/doctor/doctor_photo?id=${doctorId}`,
+				})
+			},
+			// 证书
+			certificate:function(doctorId){
+				uni.navigateTo({
+					url: `/pages/doctor/doctor_certificate?id=${doctorId}`,
 				})
 			},
 			// 购物车
-			cart: function(event) {
-				
+			cart: function(event) {				
 				uni.navigateTo({
 					url: `/pages/cart/cart`,
 				})
@@ -306,6 +321,7 @@
 <style scoped>
 	.detail_content-all {
 		padding-bottom: 200rpx;
+		background-image: linear-gradient(0deg, #222222 0%, #151515 100%);
 	}
 
 	.top-doctor-message {
@@ -373,6 +389,10 @@
 		opacity: 0.8;
 		margin-bottom: 20rpx;
 	}
+	.goods_project{
+		display: flex;
+		flex-wrap: wrap;
+	}
 
 	.title-item {
 		font-size: 24rpx;
@@ -437,6 +457,7 @@
 		display: flex;
 		width: 100%;
 		height: 100%;
+		color: #FFFFFF;
 	}
 
 	.productImgs {
@@ -469,7 +490,7 @@
 		font-size: 20rpx;
 	}
 	.doctor-project{
-		padding: 0 30rpx 30rpx;
+		padding: 0 20rpx 30rpx;
 		background-color: #222222;
 		height: 100%;
 	}

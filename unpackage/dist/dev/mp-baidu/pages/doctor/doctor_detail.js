@@ -130,8 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 551));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -307,7 +306,8 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    porduct: porduct },
+    porduct: porduct,
+    diary: diary },
 
   data: function data() {
     return {
@@ -322,13 +322,12 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '医生个人主页',
+      requestUrl: '',
       doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
-      doctorList: [
-      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' },
-      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' },
-      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' },
-      { url: '../../static/images/19.png', content: '华美紫馨薇拉美塑Ⅲ华美紫馨薇拉美塑Ⅲ—美体最多两排...' }],
-
+      doctorMessage: {},
+      doctorVideo: [],
+      doctorList: [],
+      diaryList: [],
       porductList: [
       {
         url: '../../static/images/19.png',
@@ -361,45 +360,17 @@ __webpack_require__.r(__webpack_exports__);
         goodReputation: 98 }],
 
 
-      pleaseDoctorList: [
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？...',
-        label: ['眼部美容', '眼部'],
-        headPortrait: '../../static/images/test.jpg', //头像
-        userName: '用户昵称几个字',
-        like: 99 },
-
-      {
-        url: '../../static/images/23.png',
-        title: '我是文章标题，显示两排后就以省略号结束？...',
-        label: ['眼部美容', '眼部'],
-        headPortrait: '../../static/images/test.jpg', //头像
-        userName: '程阳',
-        like: 99 },
-
-      {
-        url: '../../static/images/23.png',
-        title: '我是文章标题，显示两排后就以省略号结束？...',
-        label: ['眼部美容', '眼部'],
-        headPortrait: '../../static/images/test.jpg', //头像
-        userName: '程阳',
-        like: 99 },
-
-      {
-        url: '../../static/images/23.png',
-        title: '我是文章标题，显示两排后就以省略号结束？...',
-        label: ['眼部美容', '眼部'],
-        headPortrait: '../../static/images/test.jpg', //头像
-        userName: '程阳',
-        like: 99 }] };
-
-
+      pleaseDoctorList: [] };
 
   },
   onLoad: function onLoad(option) {
+    this.request = this.$request;
+    var that = this;
+    that.requestUrl = that.request.globalData.requestUrl;
     var doctorId = option.id;
-    console.log(doctorId);
+    // console.log(doctorId)
+    that.getDetail(doctorId);
+    that.getDoctormessage(doctorId);
   },
 
   onReady: function onReady() {
@@ -419,14 +390,58 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   methods: {
-    gotoPhoto: function gotoPhoto() {
+    getDetail: function getDetail(doctorId) {var _this = this;
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'info',
+        doctor_id: doctorId };
+
+      this.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000) {
+          var data = res.data.data;
+          console.log(data);
+          that.doctorHeadPortrait = that.requestUrl + data[0].heading;
+          that.doctorMessage = data[0];
+          that.doctorVideo = data.video;
+          that.diaryList = data.diary;
+          that.pleaseDoctorList = data.goods;
+        } else
+        {
+          _this.request.showToast(res.data.message);
+        }
+      });
+    },
+    // 获取证书
+    getDoctormessage: function getDoctormessage(doctorId) {var _this2 = this;
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'docker_img',
+        doctor_id: doctorId,
+        type: '1' };
+
+      this.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000) {
+          var data = res.data.data;
+          that.doctorList = data;
+        } else
+        {
+          _this2.request.showToast(res.data.message);
+        }
+      });
+    },
+    gotoPhoto: function gotoPhoto(doctorId) {
       uni.navigateTo({
-        url: "/pages/doctor/doctor_photo" });
+        url: "/pages/doctor/doctor_photo?id=".concat(doctorId) });
+
+    },
+    // 证书
+    certificate: function certificate(doctorId) {
+      uni.navigateTo({
+        url: "/pages/doctor/doctor_certificate?id=".concat(doctorId) });
 
     },
     // 购物车
     cart: function cart(event) {
-
       uni.navigateTo({
         url: "/pages/cart/cart" });
 

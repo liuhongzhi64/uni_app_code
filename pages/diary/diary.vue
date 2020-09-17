@@ -31,77 +31,8 @@
 					<template>
 						<!-- 主体内容 -->
 						<view class="detail-content">
-							<view class="left-content">
-								<view class="subject-content ">
-									<view class="subject-content-list"
-									 v-for="(item,index) in contentList" :key='index'
-									 @tap='diaryDetail(item.id)'
-									 v-if="index%2==0">
-										<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
-										<view class="label">{{item.label}}</view>
-										<view class="diary-title"> {{item.title}} </view>										
-										<view class="category_name-doctor_name">
-											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
-											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
-										</view>																				
-										<view class="goods_name">{{item.goods_name}}</view>										
-										<view class="head_ico-nick_name-collect_num">
-											<view class="head_ico-nick_name">
-												<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
-												<text class="nick_name">{{item.nick_name}}</text>
-											</view>
-											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num">
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												{{item.collect_num}} 
-											 </view>
-											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												0
-											</view>
-										</view>
-									</view>
-								</view>
-							</view>
-							<view class="right-content">
-								<view class="subject-content ">
-									<view class="subject-content-list"
-									 v-for="(item,index) in contentList" :key='index'
-									 @tap='diaryDetail(item.id)'
-									 v-if="index%2==1">
-										<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
-										<view class="label">{{item.label}}</view>
-										<view class="diary-title"> {{item.title}} </view>
-										
-										<view class="category_name-doctor_name">
-											<view class="category_name" v-if="item.category_name!=''"> {{item.category_name}} </view>
-											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
-										</view>										
-										<view class="goods_name">{{item.goods_name}}</view>										
-										<view class="head_ico-nick_name-collect_num">
-											<view class="head_ico-nick_name">
-												<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
-												<text class="nick_name">{{item.nick_name}}</text>
-											</view>
-											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num"> 
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												{{item.collect_num}} 
-											 </view>
-											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												0
-											</view>
-										</view>											
-									</view>
-								</view>
-							</view>							
+							<!-- 主体内容 -->
+							<diary :diaryList="contentList" :requestUrl='requestUrl'></diary>
 						</view>
 					</template>
 				</scroll-view>
@@ -116,7 +47,11 @@
 </template>
 
 <script>
+	import diary from '../../components/diary.vue';
 	export default {
+		components: {
+			diary
+		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -327,6 +262,7 @@
 	.item-image image {
 		width: 64rpx;
 		height: 48rpx;
+		border: 1rpx solid #EEEEEE;
 	}
 
 	.subject-content {

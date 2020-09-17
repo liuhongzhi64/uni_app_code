@@ -13,9 +13,10 @@
 									<image :src="requestUrl+user.head_ico" mode=""></image>
 									<view class="name-cart-phone">
 										<view class="user-name-cart">
-											<view class="user-name">{{user.nick_name}}</view>
+											<view class="user-name" v-if="user.nick_name!=''">{{user.nick_name}}</view>
+											<view class="user-name" v-else>用户昵称</view>
 										</view>
-										<view class="user-signature" v-if="user.signature!=''"> {{user.signature}} </view>
+										<view class="user-signature" v-if="user.signature!=''"> {{user.signature}} </view>										
 									</view>
 								</view>
 						
@@ -45,10 +46,10 @@
 									
 						</view>
 						<view class="diary_content">
-							   <porduct :width=350 :diaryList='diaryList' ></porduct>
+							<!-- 主体内容 -->
+							<diary :diaryList="list" :requestUrl='requestUrl'></diary>
 						</view>
-					</view>
-					
+					</view>					
 				</template>
 			</scroll-view> 
 
@@ -64,11 +65,11 @@
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import porduct from '../../components/porduct.vue';
+	import diary from '../../components/diary.vue';
 	export default {
 		components: {
 			topBar,
-			porduct
+			diary
 		},
 		data() {
 			return {
@@ -87,56 +88,7 @@
 				count:{},//第一页 offset 等于0 才返回 统计数据
 				user:{},//用户信息 第一页 offset 等于0 才返回 用户信息
 				list:[],//日记列表
-				diaryList:[
-					{
-						url:'../../static/images/19.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/23.png',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'',
-						productTitle:'',
-						prouctPrice:0,
-						selectedItems:'#急速纳米美眼（尊享版）急速...'
-					},
-					{
-						url:'../../static/images/19.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/23.png',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'',
-						productTitle:'',
-						prouctPrice:0,
-						selectedItems:'#急速纳米美眼（尊享版）急速...'
-					},
-					{
-						url:'../../static/images/19.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/23.png',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'',
-						productTitle:'',
-						prouctPrice:0,
-						selectedItems:'#急速纳米美眼（尊享版）急速...'
-					},
-					{
-						url:'../../static/images/19.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/23.png',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'',
-						productTitle:'',
-						prouctPrice:0,
-						selectedItems:'#急速纳米美眼（尊享版）急速...'
-					},
-				]
+				
 			}
 		},
 		onLoad:function(options){
@@ -166,7 +118,7 @@
 		methods: {
 			keepDiary:function(){
 				uni.navigateTo({
-					url: `/pages/diary/diary_write`,
+					url: `/pages/diary/diary_keep`,
 				})
 			},
 			getMessage:function(user_mark){
@@ -189,7 +141,8 @@
 						this.request.showToast(res.data.message);
 					}
 				})
-			}
+			},
+			
 		}
 	}
 </script>
@@ -275,7 +228,7 @@
 	.bottom-botton{
 		position: fixed;
 		width: 100%;
-		background-color: #FFFFFF;
+		/* background-color: #FFFFFF; */
 		bottom: 0;
 		left: 0;
 	}

@@ -2,6 +2,6 @@
   "component": true,
   "usingComponents": {
     "top-bar": "/components/topBar",
-    "porduct": "/components/porduct"
+    "diary": "/components/diary"
   }
 }

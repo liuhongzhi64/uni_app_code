@@ -130,15 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -305,7 +297,7 @@ __webpack_require__.r(__webpack_exports__);
       this.request.uniRequest("/diary", data).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var _data = res.data.data;
-          console.log(_data.imgs);
+          // console.log(data)
           that.id = _data.id; //日记id
           that.content = _data.content; //内容
           that.collect_num = _data.collect_num; //日记收藏数
@@ -359,8 +351,16 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    // 取消收藏
     cancelLike: function cancelLike(id) {
       console.log(id);
+    },
+    // 咨询
+    goToConsult: function goToConsult() {
+      console.log('咨询');
+      // uni.navigateTo({
+      // 	url: `/pages/consultation/consultation`,
+      // })
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

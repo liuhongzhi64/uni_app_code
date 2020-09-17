@@ -59,19 +59,7 @@
 							<view class="details-title"> {{diaryTitle}} </view>
 							<view class="user-details-contents">
 								{{content}}
-								<!-- <br />
-								作为一个在医美整形这个巨浪里摸爬滚打很多年的人，来告诉你如何选择适合自己的医院
-								<view class="blank"></view>
-								不吹不黑，但是拒绝转载 ，呕心沥血之作
-								<br />
-								希望每一个妹子在选择决定想变美的时候能够谨慎！谨慎！谨慎！都能美的不可方物，又保留自己的特色
-								<view class="blank"></view>
-								现在的整形医院真的花样百出，眼花缭乱
-								<view class="blank"></view>
-
-								每一家医院都有自己擅长的项目，不能只依靠广告和外装修来判断适不适合自己哦～
-								<view class="blank"></view>
-								现在由我一一为想做整形的妹子分析一下 -->
+								
 							</view>
 						</view>
 					</view>
@@ -93,6 +81,10 @@
 					<image src="../../static/images/share.png" mode=""></image> <text>{{share_num}}</text>
 				</view>
 			</view>
+		</view>
+		
+		<view class="consult" @tap='goToConsult'>
+			咨询>
 		</view>
 
 	</view>
@@ -166,14 +158,14 @@
 			diarydetails: function (id) {
 				this.request = this.$request
 				const that = this
-				var data = {
+				let data = {
 					interfaceId: 'diarydetails',
 					diary_id :id
 				}
 				this.request.uniRequest("/diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data.imgs)
+						// console.log(data)
 						that.id = data.id//日记id
 						that.content = data.content //内容
 						that.collect_num = data.collect_num//日记收藏数
@@ -227,17 +219,22 @@
 					}
 				})
 			},
+			// 取消收藏
 			cancelLike:function(id){
 				console.log(id)
+			},
+			// 咨询
+			goToConsult:function(){
+				console.log('咨询')
+				// uni.navigateTo({
+				// 	url: `/pages/consultation/consultation`,
+				// })
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	/* 	.diary_detail_content {
-		background-color: #F6F6F6;
-	} */
 
 	.user-message {
 		background-color: #333333;
@@ -286,7 +283,6 @@
 
 	.detail-swiper {
 		min-height:1000rpx;
-		/* height: auto; */
 	}
 
 	.top-swiper {
@@ -295,7 +291,6 @@
 	.top-swiper-item .top-swiper-images {
 		/* min-height: 584rpx; */
 		width: 750rpx;
-		/* height: auto; */
 	}
 
 	.top-swiper-item {
@@ -402,10 +397,6 @@
 		padding-bottom: 160rpx;
 	}
 
-	.user-details-contents .blank {
-		height: 60rpx;
-	}
-
 	.bottom-messages {
 		background-color: #F6F6F6;
 		position: fixed;
@@ -443,4 +434,19 @@
 	.page-view  text{
 		margin-left: 10rpx;
 	}
+	
+	.consult{
+		position: fixed;
+		z-index: 9;
+		background-color: #FA3475;
+		opacity: 0.8;
+		width: 130rpx;
+		line-height: 120rpx;
+		text-align: center;
+		top: 50%;
+		right: 10rpx;
+		color: #FFFFFF;
+		border-radius: 24rpx;
+	}
+	
 </style>

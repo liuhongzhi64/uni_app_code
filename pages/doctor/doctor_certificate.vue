@@ -75,6 +75,12 @@
 			}
 
 		},
+		onLoad: function(option) {
+			this.request = this.$request			
+			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
+			let doctorId = option.id
+		},
 		onReady() {
 			let that = this;
 			// 获取屏幕高度

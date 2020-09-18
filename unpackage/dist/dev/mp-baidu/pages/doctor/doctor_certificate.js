@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -173,37 +173,8 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '../static/images/back2.png',
       title: '医生证书',
       duration: 1000, //	滑动动画时长
-      doctorPhotoList: [{
-        url: '../../static/images/19.png' },
-
-      {
-        url: '../../static/images/20.png' },
-
-      {
-        url: '../../static/images/19.png' },
-
-      {
-        url: '../../static/images/20.png' },
-
-      {
-        url: '../../static/images/19.png' },
-
-      {
-        url: '../../static/images/test.jpg' },
-
-      {
-        url: '../../static/images/20.png' },
-
-      {
-        url: '../../static/images/19.png' },
-
-      {
-        url: '../../static/images/test.jpg' },
-
-      {
-        url: '../../static/images/20.png' }] };
-
-
+      doctorPhotoList: [],
+      requestUrl: '' };
 
 
   },
@@ -211,14 +182,14 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    var doctorId = option.id;
+    // console.log(option)
+    that.getDoctormessage(option.id);
   },
   onReady: function onReady() {
     var that = this;
     // 获取屏幕高度
     uni.getSystemInfo({
       success: function success(res) {
-        console.log(res);
         that.height = res.screenHeight;
         var menu = uni.getMenuButtonBoundingClientRect();
         that.menuWidth = menu.width;
@@ -229,7 +200,25 @@ __webpack_require__.r(__webpack_exports__);
       } });
 
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    // 获取证书
+    getDoctormessage: function getDoctormessage(doctorId) {var _this = this;
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'docker_img',
+        doctor_id: doctorId,
+        type: '1' };
+
+      this.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000) {
+          var data = res.data.data;
+          that.doctorPhotoList = data;
+        } else
+        {
+          _this.request.showToast(res.data.message);
+        }
+      });
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

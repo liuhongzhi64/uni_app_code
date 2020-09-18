@@ -7,7 +7,7 @@
 				<template>
 					<view class="detail_content-all">
 						<view class="top-doctor-message" :style="{backgroundImage:'url('+doctorHeadPortrait+')'}">
-							<view class="doctor-photos" @tap='gotoPhoto'>
+							<view class="doctor-photos" @tap='gotoPhoto(doctorMessage.id)'>
 								医生相册一览 >
 							</view>
 							<view class="doctor-introduce">
@@ -19,8 +19,8 @@
 									<view class="case">案列数: {{ doctorMessage.case_num }} </view>
 								</view>
 								<view class="get-title">
-									<view class="title-item" v-for="(item,index) in doctorMessage.sign" :key='index'> 
-										<text class="dot">·</text> <text>{{item}}</text> 
+									<view class="title-item" v-for="(item,index) in doctorMessage.sign" :key='index'>
+										<text class="dot">·</text> <text>{{item}}</text>
 									</view>
 								</view>
 
@@ -31,7 +31,7 @@
 											{{item}} <text class="project_line">、</text>
 										</view>
 									</view>
-									
+
 								</view>
 								<view class="get-title">
 									<view class="top-title">手术特点</view>
@@ -44,14 +44,14 @@
 						<view class="doctor-content-item">
 							<!-- 个人专辑 -->
 							<view class="doctor-item">
-								<view class="doctor-item-title">个人专辑</view>							
+								<view class="doctor-item-title">个人专辑</view>
 								<view class="doctor-item-list">
 									<scroll-view class="product-items" scroll-x="true">
 										<view class="product-item-content" v-if="doctorVideo.length>0">
 											<view class="productImgs" v-for="(i,k) in doctorVideo" :key='k'>
-												<view class="productItems">
+												<view class="productItems" @tap='goToVideo(i.path)'>
 													<image :src="requestUrl+i.cover_img" mode="" style="width: 210rpx;height: 210rpx;"></image>
-													<view class="doctor-item-explain" style="width: 210rpx;">{{i.content}}</view>
+													<view class="doctor-item-explain" style="width: 210rpx;">{{i.name}}</view>
 												</view>
 											</view>
 										</view>
@@ -67,7 +67,7 @@
 										<view class="product-item-content">
 											<view class="productImgs" v-for="(i,k) in doctorList" :key='k' @tap='certificate(i.doctor_id)'>
 												<view class="productItems">
-													<image :src="requestUrl+i.url" mode="" style="width: 280rpx;height: 210rpx;"></image>
+													<image :src="requestUrl+i.url" mode="heightFix" style="width: 280rpx;height: 210rpx;"></image>
 												</view>
 											</view>
 										</view>
@@ -79,79 +79,147 @@
 						<view class="doctor-project">
 							<view class="doctor-item-title">TA的项目</view>
 							<view class="doctor-item-swiper">
-								<swiper class="doctor-swiper" indicator-dots indicator-active-color="#f6db93" >
-									<swiper-item class="doctor-swiper-item" >
-										<view class="project-content" >
+								<swiper class="doctor-swiper" indicator-dots indicator-active-color="#f6db93">
+									<swiper-item class="doctor-swiper-item">
+										<view class="project-content">
 											<view class="porduct-list" v-for="(i,k) in porductList" :key='k'>
-												<view class="porduct-items">											
+												<view class="porduct-items">
 													<view class="porduct-item-images">
 														<image :src="i.url" mode=""></image>
 													</view>
-												
+
 													<view class="porduct-introduce">
-												
+
 														<view class="product-title"> {{i.title}} </view>
-												
+
 														<view class="label" v-if="i.label.length>0">
-															<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}}  </view>
+															<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
 														</view>
-												
+
 														<view class="activity" v-if="i.activity.length>0">
 															<view class="activity-name" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
 														</view>
-												
+
 														<view class="porduct-price">
 															<view class="porduct-original-cost"> <text>￥</text>{{i.originalCost}} </view>
 															<view class="porduct-vip-price" v-if="i.vipPrice>0">
-																<view class="vip">钻卡</view> <view class="vip-price">￥{{i.vipPrice}}</view>
+																<view class="vip">钻卡</view>
+																<view class="vip-price">￥{{i.vipPrice}}</view>
 															</view>
 														</view>
-														
+
 														<view class="subscribe-goodReputation">
 															<!-- 预约 -->
 															<view class="subscribe"> {{i.subscribe}}预约 </view>
 															<!-- 好评 -->
 															<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
 														</view>
-																												
+
 													</view>
-																	
+
 												</view>
 											</view>
 										</view>
 									</swiper-item>
-									
-									<swiper-item class="doctor-swiper-item" >
-										<view class="project-content" >
+
+									<swiper-item class="doctor-swiper-item">
+										<view class="project-content">
 											2222
 										</view>
 									</swiper-item>
-									
-									
+
+
 								</swiper>
 							</view>
 						</view>
-						
+						<!-- 拜托了医生 -->
 						<view class="doctor-projects">
 							<view class="doctor-item-title">拜托了医生</view>
-							<view class="doctor-projects-item">
-								<porduct :width=340 :porductLists='pleaseDoctorList'></porduct>
-							</view>
-							
+							<view class="all-please-doctor">
+								<!-- 左边 -->
+								<view class="left">
+									<view class="doctor-projects-item  please-doctor"
+									 v-for="(item,index) in doctorVideo" :key='index'
+									 v-if="index%2==0">
+									 <view class="top-content" @tap='goToVideo(item.path)'>
+									 	<view class="please-doctor-image">
+									 		<image class="please-doctor-image" :src="requestUrl+item.cover_img" mode=""></image>
+									 	</view>
+									 	<view class="please-doctor-name">{{item.name}}</view>
+									 	<view class="all-category_name">
+									 		<view class="category_name" v-for="(i,k) in item.category_name" :key='k'>{{i}}</view>
+									 	</view>
+									 </view>																			
+										<view class="heading-collect">
+											<view class="heaing-content">
+												<image :src="requestUrl+doctorMessage.heading" mode=""></image>
+												<text class="heading-doctor-name">{{doctorMessage.name}}</text>
+											</view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect">
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												{{item.collect}} 
+											 </view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												0
+											</view>
+										</view>
+									</view>
+								</view>
+								
+								<!-- 右边 -->
+								<view class="right">
+									<view class="doctor-projects-item  please-doctor"
+									 v-for="(item,index) in doctorVideo" :key='index'
+									 v-if="index%2==1">
+										<view class="top-content" @tap='goToVideo(item.path)'>
+											<view class="please-doctor-image">
+												<image class="please-doctor-image" :src="requestUrl+item.cover_img" mode=""></image>
+											</view>
+											<view class="please-doctor-name">{{item.name}}</view>
+											<view class="all-category_name">
+												<view class="category_name" v-for="(i,k) in item.category_name" :key='k'>{{i}}</view>
+											</view>
+										</view>								
+										<view class="heading-collect">
+											<view class="heaing-content">
+												<image :src="requestUrl+doctorMessage.heading" mode=""></image>
+												<text class="heading-doctor-name">{{doctorMessage.name}}</text>
+											</view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect">
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												{{item.collect}} 
+											 </view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+												</view>
+												0
+											</view>
+										</view>
+									</view>
+								</view>
+								
+							</view>						
 						</view>
-
 						<view class="doctor-project">
 							<view class="doctor-item-title">用户日记</view>
 							<view class="doctor-projects-item">
 								<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
 							</view>
 						</view>
-	
+
 					</view>
 				</template>
 			</scroll-view>
 		</view>
-		
+
 		<view class="footer">
 			<view class="mar">
 				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>咨询
@@ -161,9 +229,9 @@
 			</view>
 			<view class="mar" @tap="cart">
 				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_cart.png"></image>购物车
-			</view>		
+			</view>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -190,49 +258,104 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '医生个人主页',
-				requestUrl:'',
-				doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
-				doctorMessage:{},
-				doctorVideo:[],
-				doctorList:[],
-				diaryList:[],
-				porductList:[
+				requestUrl: '',
+				doctorHeadPortrait: '', //医生的背景图片
+				doctorMessage: {},
+				doctorVideo: [
 					{
-						url:'../../static/images/19.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:['眼部美容','眼部'],
-						activity:[],
-						originalCost:68800,
-						vipPrice:58800,
-						subscribe:477,
-						goodReputation:98,
+						id: 2,
+						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+						cover_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //封面图
+						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+						collect: 2, //真实收藏数
+						collect_weighting: 1, //收藏加权值
+						category_name: [ //所属分类
+							"视频分类222",
+							"眼泪",
+							'眼部美容',
+							'微针双眼皮'
+						],
+						is_collect:0  // 是否收藏： 0 否1是
 					},
 					{
-						url:'../../static/images/23.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:['眼部美容','眼部'],
-						activity:[],
-						originalCost:18800,
-						vipPrice:12800,
-						subscribe:422,
-						goodReputation:98,
+						id: 5,
+						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+						cover_img: "upload/diary/images/202009/11/UrqE9tLcUAuYhJsOpyqH6uAAih5fYW8EjPGzunXu.jpeg", //封面图
+						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+						collect: 260, //真实收藏数
+						collect_weighting: 1, //收藏加权值
+						category_name: [ //所属分类
+							"视频分类222",
+							"眼泪",
+						],
+						is_collect:1  // 是否收藏： 0 否1是
 					},
 					{
-						url:'../../static/images/19.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:[],
-						activity:['首单必减','折扣'],
-						originalCost:18800,
-						vipPrice:0,
-						subscribe:477,
-						goodReputation:98,
+						id: 2,
+						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+						cover_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //封面图
+						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+						collect: 102, //真实收藏数
+						collect_weighting: 1, //收藏加权值
+						category_name: [ //所属分类
+							"视频分类222",
+							"眼泪",
+							'眼部美容',
+							'微针双眼皮'
+						],
+						is_collect:1 // 是否收藏： 0 否1是
+					},
+					{
+						id: 2,
+						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+						cover_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //封面图
+						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+						collect: 240, //真实收藏数
+						collect_weighting: 1, //收藏加权值
+						category_name: [ //所属分类
+							"视频分类222",
+						],
+						is_collect:0  // 是否收藏： 0 否1是
+					},
+				],//这是专辑和拜托医生
+				doctorList: [],//医生相册
+				diaryList: [],//日记
+				porductList: [{
+						url: '../../static/images/19.png',
+						title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label: ['眼部美容', '眼部'],
+						activity: [],
+						originalCost: 68800,
+						vipPrice: 58800,
+						subscribe: 477,
+						goodReputation: 98,
+					},
+					{
+						url: '../../static/images/23.png',
+						title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label: ['眼部美容', '眼部'],
+						activity: [],
+						originalCost: 18800,
+						vipPrice: 12800,
+						subscribe: 422,
+						goodReputation: 98,
+					},
+					{
+						url: '../../static/images/19.png',
+						title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
+						label: [],
+						activity: ['首单必减', '折扣'],
+						originalCost: 18800,
+						vipPrice: 0,
+						subscribe: 477,
+						goodReputation: 98,
 					},
 				],
-				pleaseDoctorList : []
+				pleaseDoctorList: []//商品
 			}
 		},
 		onLoad: function(option) {
-			this.request = this.$request			
+			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
 			let doctorId = option.id
@@ -240,7 +363,7 @@
 			that.getDetail(doctorId)
 			that.getDoctormessage(doctorId)
 		},
-		
+
 		onReady() {
 			let that = this;
 			// 获取屏幕高度
@@ -258,41 +381,40 @@
 			})
 		},
 		methods: {
-			getDetail:function(doctorId){
+			getDetail: function(doctorId) {
 				let that = this
 				let dataInfo = {
-					interfaceId:'info',
-					doctor_id:doctorId
+					interfaceId: 'info',
+					doctor_id: doctorId
 				}
 				this.request.uniRequest("doctor", dataInfo).then(res => {
 					if (res.data.code == 1000) {
 						let data = res.data.data
 						console.log(data)
 						that.doctorHeadPortrait = that.requestUrl + data[0].heading
-						that.doctorMessage = data[0]
-						that.doctorVideo = data.video
-						that.diaryList = data.diary
-						that.pleaseDoctorList = data.goods
-					}
-					else {
+						that.doctorMessage = data[0] //医生信息
+						console.log(that.doctorMessage)
+						// that.doctorVideo = data.video //这是专辑和拜托医生
+						that.diaryList = data.diary //日记
+						that.pleaseDoctorList = data.goods //商品
+					} else {
 						this.request.showToast(res.data.message);
 					}
 				})
 			},
 			// 获取证书
-			getDoctormessage:function(doctorId){
+			getDoctormessage: function(doctorId) {
 				let that = this
 				let dataInfo = {
-					interfaceId:'docker_img',
-					doctor_id:doctorId,
-					type:'1'
+					interfaceId: 'docker_img',
+					doctor_id: doctorId,
+					type: '1'
 				}
 				this.request.uniRequest("doctor", dataInfo).then(res => {
 					if (res.data.code == 1000) {
 						let data = res.data.data
 						that.doctorList = data
-					}
-					else {
+					} else {
 						this.request.showToast(res.data.message);
 					}
 				})
@@ -303,17 +425,23 @@
 				})
 			},
 			// 证书
-			certificate:function(doctorId){
+			certificate: function(doctorId) {
 				uni.navigateTo({
 					url: `/pages/doctor/doctor_certificate?id=${doctorId}`,
 				})
 			},
 			// 购物车
-			cart: function(event) {				
+			cart: function(event) {
 				uni.navigateTo({
 					url: `/pages/cart/cart`,
 				})
 			},
+			// 点击专辑和拜托医生
+			goToVideo:function(path){
+				uni.navigateTo({
+					url: `/pages/diary/diary_video?path=${path}`,
+				})
+			}
 		},
 	}
 </script>
@@ -389,7 +517,8 @@
 		opacity: 0.8;
 		margin-bottom: 20rpx;
 	}
-	.goods_project{
+
+	.goods_project {
 		display: flex;
 		flex-wrap: wrap;
 	}
@@ -419,8 +548,8 @@
 		line-height: 30rpx;
 		color: #d1bf86;
 	}
-	
-	.doctor-content-item{
+
+	.doctor-content-item {
 		background-color: #151515;
 		padding-bottom: 40rpx;
 	}
@@ -428,8 +557,116 @@
 	.doctor-item {
 		padding-left: 30rpx;
 	}
-	.doctor-projects-item{
+
+	.doctor-projects-item {
 		margin-top: 12rpx;
+	}
+	
+	/* 拜托了医生 */
+	.all-please-doctor{
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+	.left,.right{
+		display: flex;
+		flex-direction: column;
+	}
+	.please-doctor{
+		background-color: #FFFFFF;
+		border-radius: 10rpx;
+		width: 340rpx;
+		white-space: normal;
+		display: flex;
+		flex-direction: column;
+	}
+	.please-doctor-image{
+		width: 340rpx;
+		border-radius: 10rpx 10rpx 0 0;
+	}
+	.please-doctor-name{
+		padding: 20rpx 20rpx 0;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		font-size: 26rpx;
+		margin-bottom: 12rpx;
+	}
+	.all-category_name{
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding: 0 20rpx;
+	}
+	.category_name{
+		line-height: 36rpx;
+		padding: 0 20rpx;
+		font-size: 20rpx;
+		color: #ffffff;
+		background-color: #aaaaaa;
+		border-radius: 5rpx;
+		margin-right: 12rpx;
+		margin-bottom: 10rpx;
+	}
+	.heading-collect{
+		padding: 10rpx 20rpx 30rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;		
+	}
+	.heaing-content{
+		display: flex;
+		align-items: center;
+	}
+	.heaing-content image{
+		width: 46rpx;
+		height: 46rpx;
+		border-radius: 23rpx;
+	}
+	.heading-doctor-name{
+		font-size: 24rpx;
+		color: #b2b2b2;
+		margin-left: 10rpx;
+	}
+	
+	
+	
+	.collect_num{
+		font-size: 30rpx;
+		color: #fc4783;		
+		display: flex;
+		align-items: center;
+	}
+	.is_no_collect{
+		color: #B2B2B2;
+		display: flex;
+		align-items: center;
+		font-size: 30rpx;
+	}
+	.is_no_collect .like{
+		background-color: #d0d0d0;
+		width: 40rpx;
+		height: 40rpx;
+		border-radius: 20rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 16rpx;
+	}
+	.collect_num .like{
+		width: 42rpx;
+		height: 42rpx;
+		border-radius: 21rpx;
+		background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 16rpx;
+	}
+	.like-image{
+		width: 24rpx;
+		height: 24rpx;
 	}
 
 	.doctor-item-title {
@@ -489,26 +726,33 @@
 		color: #FFFFFF;
 		font-size: 20rpx;
 	}
-	.doctor-project{
+
+	.doctor-project {
 		padding: 0 20rpx 30rpx;
 		background-color: #222222;
 		height: 100%;
 	}
-	.doctor-projects{
+
+	.doctor-projects {
 		padding: 0 30rpx 30rpx;
 		background-color: #151515;
 	}
-	.doctor-item-swiper{
+
+	.doctor-item-swiper {
 		margin-top: 32rpx;
 	}
-	.doctor-swiper{
+
+	.doctor-swiper {
 		height: 820rpx;
 	}
-	.doctor-swiper-item,.project-content{
+
+	.doctor-swiper-item,
+	.project-content {
 		width: 100%;
 		height: 100%;
-		
+
 	}
+
 	.porduct-items {
 		display: flex;
 		align-items: center;
@@ -516,20 +760,20 @@
 		background-color: #f0f0f0;
 		margin-bottom: 20rpx;
 	}
-	
+
 	.porduct-item-images {
 		width: 240rpx;
 		height: 240rpx;
 		margin-right: 28rpx;
 	}
-	
+
 	.porduct-item-images image {
 		width: 100%;
 		height: 100%;
 		border-top-left-radius: 16rpx;
 		border-bottom-left-radius: 16rpx;
 	}
-	
+
 	.porduct-introduce {
 		flex: 1;
 		font-size: 26rpx;
@@ -538,7 +782,7 @@
 		flex-direction: column;
 		padding-right: 48rpx;
 	}
-	
+
 	.product-title {
 		overflow: hidden;
 		display: -webkit-box;
@@ -547,13 +791,13 @@
 		color: #111111;
 		line-height: 36rpx;
 	}
-	
+
 	.label {
 		display: flex;
 		flex-wrap: wrap;
 		margin-top: 12rpx;
 	}
-	
+
 	.label-name {
 		background-color: #999999;
 		text-align: center;
@@ -563,7 +807,7 @@
 		border-radius: 4rpx;
 		color: #FFFFFF;
 	}
-	
+
 	.activity {
 		display: flex;
 		font-size: 16rpx;
@@ -571,83 +815,87 @@
 		flex-wrap: wrap;
 		margin-top: 12rpx;
 	}
-	
+
 	.activity-name {
 		border: 1rpx solid #fa3475;
 		margin-right: 10rpx;
 		padding: 5rpx;
 		border-radius: 4rpx;
 	}
-	
-	.porduct-price{
+
+	.porduct-price {
 		display: flex;
 		margin-top: 20rpx;
 	}
-	.porduct-vip-price{
+
+	.porduct-vip-price {
 		display: flex;
 		margin-left: 25rpx;
 		border: 1rpx solid #282828;
-		border-radius:4rpx ;
+		border-radius: 4rpx;
 	}
-	
-	.vip{
+
+	.vip {
 		font-size: 16rpx;
 		border-radius: 4rpx;
 		width: 48rpx;
 		height: 29rpx;
 		line-height: 30rpx;
-		background-image: linear-gradient(0deg, #000000 0%,  #2c2c2c 100%),  linear-gradient( #282828, #282828);
+		background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
 		color: #FFFFFF;
 		text-align: center;
 	}
-	
-	.vip-price{
+
+	.vip-price {
 		height: 28rpx;
 		font-size: 16rpx;
 		color: #282828;
 		border-width: 1rpx;
-		border-image-source: linear-gradient(0deg,  #000000 0%,  #2c2c2c 100%);
+		border-image-source: linear-gradient(0deg, #000000 0%, #2c2c2c 100%);
 		border-image-slice: 1;
 		padding: 0 9rpx;
 	}
-	
-	.porduct-price{
+
+	.porduct-price {
 		line-height: 34rpx;
 		display: flex;
 		align-items: center;
 	}
-	
-	.porduct-original-cost{
+
+	.porduct-original-cost {
 		color: #fa3475;
 		font-size: 52rpx;
 	}
-	.porduct-original-cost text{
+
+	.porduct-original-cost text {
 		font-size: 36rpx;
 	}
-	
-	.subscribe-goodReputation{
+
+	.subscribe-goodReputation {
 		display: flex;
 		font-size: 20rpx;
 		margin-top: 10rpx;
 		color: #666666;
 	}
-	
-	.goodReputation{
+
+	.goodReputation {
 		color: #fa3576;
 		margin-left: 30rpx;
 	}
-	.footer{
+
+	.footer {
 		position: fixed;
 		left: 0;
 		bottom: 0;
 		z-index: 2;
 		width: 750rpx;
 		height: 104rpx;
-		background-image: linear-gradient(90deg,  #282828 50%,  #272727 100%);
+		background-image: linear-gradient(90deg, #282828 50%, #272727 100%);
 		display: flex;
 		align-items: center;
 	}
-	.footer .mar{
+
+	.footer .mar {
 		width: 33.3%;
 		color: #FFFFFF;
 		font-size: 28rpx;
@@ -656,10 +904,10 @@
 		align-items: center;
 		border-right: 1rpx solid #505050;
 	}
-	.footer .mar image{
+
+	.footer .mar image {
 		width: 50rpx;
 		height: 50rpx;
 		margin-right: 16rpx;
 	}
-	
 </style>

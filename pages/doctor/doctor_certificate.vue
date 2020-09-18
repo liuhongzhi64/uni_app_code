@@ -7,9 +7,9 @@
 
 			<view class="certificate-photo">
 				<swiper class="swiper" indicator-active-color="#ffffff" display-multiple-items='1.5' :duration="duration" circular previous-margin='64rpx' next-margin='64rpx'>
-					<swiper-item v-for="(i,index) in doctorPhotoList" :key="index">
+					<swiper-item class="swiper-item" v-for="(i,index) in doctorPhotoList" :key="index">
 						<view class="swiper-item">
-							<image :src="i.url" mode=""></image>
+							<image :src="requestUrl+i.url" mode="heightFix"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -41,37 +41,8 @@
 				backImage: '../static/images/back2.png',
 				title: '医生证书',
 				duration: 1000, //	滑动动画时长
-				doctorPhotoList: [{
-						url: '../../static/images/19.png'
-					},
-					{
-						url: '../../static/images/20.png'
-					},
-					{
-						url: '../../static/images/19.png'
-					},
-					{
-						url: '../../static/images/20.png'
-					},
-					{
-						url: '../../static/images/19.png'
-					},
-					{
-						url: '../../static/images/test.jpg'
-					},
-					{
-						url: '../../static/images/20.png'
-					},
-					{
-						url: '../../static/images/19.png'
-					},
-					{
-						url: '../../static/images/test.jpg'
-					},
-					{
-						url: '../../static/images/20.png'
-					},
-				]
+				doctorPhotoList: [],
+				requestUrl:'',
 			}
 
 		},
@@ -79,14 +50,14 @@
 			this.request = this.$request			
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			let doctorId = option.id
+			// console.log(option)
+			that.getDoctormessage(option.id)
 		},
 		onReady() {
 			let that = this;
 			// 获取屏幕高度
 			uni.getSystemInfo({
 				success: function(res) {
-					console.log(res)
 					that.height = res.screenHeight
 					let menu = uni.getMenuButtonBoundingClientRect();
 					that.menuWidth = menu.width
@@ -98,7 +69,24 @@
 			})
 		},
 		methods: {
-
+			// 获取证书
+			getDoctormessage:function(doctorId){
+				let that = this
+				let dataInfo = {
+					interfaceId:'docker_img',
+					doctor_id:doctorId,
+					type:'1'
+				}
+				this.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000) {
+						let data = res.data.data
+						that.doctorPhotoList = data
+					}
+					else {
+						this.request.showToast(res.data.message);
+					}
+				})
+			},
 		}
 	}
 </script>
@@ -118,5 +106,9 @@
 		color: #FFFFFF;
 		display: flex;
 		align-items: center;
+	}
+	.swiper{
+		height: 225px;
+		width: 100%;
 	}
 </style>

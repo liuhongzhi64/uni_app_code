@@ -12,7 +12,7 @@
 							<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
 							<view class="label">{{item.label}}</view>
 							<view class="diary-title"> {{item.title}} </view>										
-							<view class="category_name-doctor_name">
+							<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 								<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 							</view>																				
@@ -48,7 +48,7 @@
 							<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
 							<view class="label">{{item.label}}</view>
 							<view class="diary-title"> {{item.title}} </view>										
-							<view class="category_name-doctor_name">
+							<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 								<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 							</view>																				
@@ -85,10 +85,7 @@
 			diaryList: Array,
 			requestUrl:String
 		},
-		onLoad:function(){
-			let that = this
-			console.log(common)
-		},
+		
 		data() {
 			return {
 				// requestUrl:'https://mtest.hmzixin.com/'

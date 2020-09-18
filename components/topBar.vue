@@ -302,8 +302,7 @@
 	}
 	
 	/* 带返回导航 */
-	.top-bar {
-		
+	.top-bar {		
 		text-align: center;
 		font-size: 40rpx;
 		position: fixed;
@@ -315,9 +314,6 @@
 	}
 	
 	.back-title {
-		/* display: flex;
-		justify-content: space-between;
-		align-items: center; */
 		font-size: 38rpx;
 		position: relative;
 		text-align: center;

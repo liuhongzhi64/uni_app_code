@@ -316,8 +316,7 @@
 	height: 50rpx;
 }
 /* 带返回导航 */
-.top-bar.data-v-2a9c4f0e {
-	
+.top-bar.data-v-2a9c4f0e {		
 	text-align: center;
 	font-size: 40rpx;
 	position: fixed;
@@ -328,9 +327,6 @@
 	left: 0;
 }
 .back-title.data-v-2a9c4f0e {
-	/* display: flex;
-	justify-content: space-between;
-	align-items: center; */
 	font-size: 38rpx;
 	position: relative;
 	text-align: center;

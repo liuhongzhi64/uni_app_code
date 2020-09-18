@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -171,18 +171,8 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '医生相册一览',
-      doctorPhotoList: [
-      { url: '../../static/images/19.png' },
-      { url: '../../static/images/20.png' },
-      { url: '../../static/images/19.png' },
-      { url: '../../static/images/20.png' },
-      { url: '../../static/images/19.png' },
-      { url: '../../static/images/test.jpg' },
-      { url: '../../static/images/20.png' },
-      { url: '../../static/images/19.png' },
-      { url: '../../static/images/test.jpg' },
-      { url: '../../static/images/20.png' }] };
-
+      doctorPhotoList: [],
+      requestUrl: '' };
 
   },
   onReady: function onReady() {
@@ -205,13 +195,32 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    var doctorId = option.id;
+    that.getDetail(option.id);
   },
   methods: {
     goToDoctor: function goToDoctor() {
-      uni.navigateTo({
-        url: "/pages/doctor/doctor_detail" });
+      // uni.navigateTo({
+      // 	url: `/pages/doctor/doctor_detail`,
+      // })
+      console.log('点击了图片');
+    },
+    // 获取相册
+    getDetail: function getDetail(doctorId) {var _this = this;
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'docker_img',
+        doctor_id: doctorId,
+        type: '0' };
 
+      this.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000) {
+          var data = res.data.data;
+          that.doctorPhotoList = data;
+        } else
+        {
+          _this.request.showToast(res.data.message);
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

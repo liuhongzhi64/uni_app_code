@@ -130,7 +130,75 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 551));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 463));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 470));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -323,13 +391,68 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '../static/images/back2.png',
       title: '医生个人主页',
       requestUrl: '',
-      doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
+      doctorHeadPortrait: '', //医生的背景图片
       doctorMessage: {},
-      doctorVideo: [],
-      doctorList: [],
-      diaryList: [],
-      porductList: [
+      doctorVideo: [
       {
+        id: 2,
+        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+        cover_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //封面图
+        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+        collect: 2, //真实收藏数
+        collect_weighting: 1, //收藏加权值
+        category_name: [//所属分类
+        "视频分类222",
+        "眼泪",
+        '眼部美容',
+        '微针双眼皮'],
+
+        is_collect: 0 // 是否收藏： 0 否1是
+      },
+      {
+        id: 5,
+        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+        cover_img: "upload/diary/images/202009/11/UrqE9tLcUAuYhJsOpyqH6uAAih5fYW8EjPGzunXu.jpeg", //封面图
+        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+        collect: 260, //真实收藏数
+        collect_weighting: 1, //收藏加权值
+        category_name: [//所属分类
+        "视频分类222",
+        "眼泪"],
+
+        is_collect: 1 // 是否收藏： 0 否1是
+      },
+      {
+        id: 2,
+        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+        cover_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //封面图
+        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+        collect: 102, //真实收藏数
+        collect_weighting: 1, //收藏加权值
+        category_name: [//所属分类
+        "视频分类222",
+        "眼泪",
+        '眼部美容',
+        '微针双眼皮'],
+
+        is_collect: 1 // 是否收藏： 0 否1是
+      },
+      {
+        id: 2,
+        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
+        cover_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //封面图
+        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
+        collect: 240, //真实收藏数
+        collect_weighting: 1, //收藏加权值
+        category_name: [//所属分类
+        "视频分类222"],
+
+        is_collect: 0 // 是否收藏： 0 否1是
+      }],
+      //这是专辑和拜托医生
+      doctorList: [], //医生相册
+      diaryList: [], //日记
+      porductList: [{
         url: '../../static/images/19.png',
         title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
         label: ['眼部美容', '眼部'],
@@ -360,8 +483,8 @@ __webpack_require__.r(__webpack_exports__);
         goodReputation: 98 }],
 
 
-      pleaseDoctorList: [] };
-
+      pleaseDoctorList: [] //商品
+    };
   },
   onLoad: function onLoad(option) {
     this.request = this.$request;
@@ -401,12 +524,12 @@ __webpack_require__.r(__webpack_exports__);
           var data = res.data.data;
           console.log(data);
           that.doctorHeadPortrait = that.requestUrl + data[0].heading;
-          that.doctorMessage = data[0];
-          that.doctorVideo = data.video;
-          that.diaryList = data.diary;
-          that.pleaseDoctorList = data.goods;
-        } else
-        {
+          that.doctorMessage = data[0]; //医生信息
+          console.log(that.doctorMessage);
+          // that.doctorVideo = data.video //这是专辑和拜托医生
+          that.diaryList = data.diary; //日记
+          that.pleaseDoctorList = data.goods; //商品
+        } else {
           _this.request.showToast(res.data.message);
         }
       });
@@ -423,8 +546,7 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000) {
           var data = res.data.data;
           that.doctorList = data;
-        } else
-        {
+        } else {
           _this2.request.showToast(res.data.message);
         }
       });
@@ -444,6 +566,12 @@ __webpack_require__.r(__webpack_exports__);
     cart: function cart(event) {
       uni.navigateTo({
         url: "/pages/cart/cart" });
+
+    },
+    // 点击专辑和拜托医生
+    goToVideo: function goToVideo(path) {
+      uni.navigateTo({
+        url: "/pages/diary/diary_video?path=".concat(path) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

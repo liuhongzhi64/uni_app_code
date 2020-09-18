@@ -7,7 +7,7 @@
 				<template>
 					<view class="photo_content-all">
 						<view class="doctor-photo-list" v-for="(item,index) in doctorPhotoList" :key='index' @tap='goToDoctor'>
-							<image :src="item.url" mode=""></image>
+							<image :src="requestUrl+item.url" mode="heightFix"></image>
 						</view>
 						<view class="bottom-hint">
 							本喵也是有底线的喵~
@@ -39,18 +39,8 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '医生相册一览',
-				doctorPhotoList:[
-					{url:'../../static/images/19.png'},
-					{url:'../../static/images/20.png'},
-					{url:'../../static/images/19.png'},
-					{url:'../../static/images/20.png'},
-					{url:'../../static/images/19.png'},
-					{url:'../../static/images/test.jpg'},
-					{url:'../../static/images/20.png'},
-					{url:'../../static/images/19.png'},
-					{url:'../../static/images/test.jpg'},
-					{url:'../../static/images/20.png'},
-				]
+				doctorPhotoList:[],
+				requestUrl:''
 			}
 		},
 		onReady() {
@@ -73,14 +63,33 @@
 			this.request = this.$request			
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			let doctorId = option.id
+			that.getDetail(option.id)
 		},
 		methods: {
 			goToDoctor:function(){
-				uni.navigateTo({
-					url: `/pages/doctor/doctor_detail`,
+				// uni.navigateTo({
+				// 	url: `/pages/doctor/doctor_detail`,
+				// })
+				console.log('点击了图片')
+			},
+			// 获取相册
+			getDetail:function(doctorId){
+				let that = this
+				let dataInfo = {
+					interfaceId:'docker_img',
+					doctor_id:doctorId,
+					type:'0'
+				}
+				this.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000) {
+						let data = res.data.data
+						that.doctorPhotoList = data
+					}
+					else {
+						this.request.showToast(res.data.message);
+					}
 				})
-			}
+			},
 		}
 	}
 </script>

@@ -80,39 +80,38 @@
 							<view class="doctor-item-title">TA的项目</view>
 							<view class="doctor-item-swiper">
 								<swiper class="doctor-swiper" indicator-dots indicator-active-color="#f6db93">
-									<swiper-item class="doctor-swiper-item">
+									<swiper-item class="doctor-swiper-item" v-for="(item,index) in porductList" :key='index'>
 										<view class="project-content">
-											<view class="porduct-list" v-for="(i,k) in porductList" :key='k'>
+											<view class="porduct-list" v-for="(i,k) in item" :key='k'>
 												<view class="porduct-items">
 													<view class="porduct-item-images">
-														<image :src="i.url" mode=""></image>
+														<image :src="requestUrl+i.head_img" mode=""></image>
 													</view>
-
 													<view class="porduct-introduce">
-
-														<view class="product-title"> {{i.title}} </view>
-
-														<view class="label" v-if="i.label.length>0">
-															<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
+														<view class="product-title"> {{i.goods_name}} </view>
+														<view class="label" v-if="i.label.type==0">
+															<view class="label-name" v-for="(j,q) in i.label.list":key='q'> {{j}}</view>
 														</view>
-
-														<view class="activity" v-if="i.activity.length>0">
-															<view class="activity-name" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+														<view class="activity" v-if="i.label.type==1">
+															<view class="activity-name" v-for="(j,q) in i.label.list":key='q'> 
+																{{j}}
+															</view>
 														</view>
 
 														<view class="porduct-price">
-															<view class="porduct-original-cost"> <text>￥</text>{{i.originalCost}} </view>
-															<view class="porduct-vip-price" v-if="i.vipPrice>0">
-																<view class="vip">钻卡</view>
-																<view class="vip-price">￥{{i.vipPrice}}</view>
+															<view class="porduct-original-cost"> <text>￥</text>{{i.sale_price}} </view>
+															<view class="porduct-vip-price" v-if="i.member.price>0">
+																<view class="vip" v-if="i.member.member_title">{{i.member.member_title}}</view>
+																<view class="vip" v-else>钻卡</view>
+																<view class="vip-price">￥{{i.member.price}}</view>
 															</view>
 														</view>
 
 														<view class="subscribe-goodReputation">
 															<!-- 预约 -->
-															<view class="subscribe"> {{i.subscribe}}预约 </view>
+															<view class="subscribe"> {{i.sales}}预约 </view>
 															<!-- 好评 -->
-															<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
+															<view class="goodReputation"> {{i.rate}}%好评 </view>
 														</view>
 
 													</view>
@@ -121,14 +120,11 @@
 											</view>
 										</view>
 									</swiper-item>
-
-									<swiper-item class="doctor-swiper-item">
+									<!-- 		<swiper-item class="doctor-swiper-item">
 										<view class="project-content">
 											2222
 										</view>
-									</swiper-item>
-
-
+									</swiper-item> -->
 								</swiper>
 							</view>
 						</view>
@@ -138,44 +134,7 @@
 							<view class="all-please-doctor">
 								<!-- 左边 -->
 								<view class="left">
-									<view class="doctor-projects-item  please-doctor"
-									 v-for="(item,index) in doctorVideo" :key='index'
-									 v-if="index%2==0">
-									 <view class="top-content" @tap='goToVideo(item.path)'>
-									 	<view class="please-doctor-image">
-									 		<image class="please-doctor-image" :src="requestUrl+item.cover_img" mode=""></image>
-									 	</view>
-									 	<view class="please-doctor-name">{{item.name}}</view>
-									 	<view class="all-category_name">
-									 		<view class="category_name" v-for="(i,k) in item.category_name" :key='k'>{{i}}</view>
-									 	</view>
-									 </view>																			
-										<view class="heading-collect">
-											<view class="heaing-content">
-												<image :src="requestUrl+doctorMessage.heading" mode=""></image>
-												<text class="heading-doctor-name">{{doctorMessage.name}}</text>
-											</view>
-											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect">
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												{{item.collect}} 
-											 </view>
-											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												0
-											</view>
-										</view>
-									</view>
-								</view>
-								
-								<!-- 右边 -->
-								<view class="right">
-									<view class="doctor-projects-item  please-doctor"
-									 v-for="(item,index) in doctorVideo" :key='index'
-									 v-if="index%2==1">
+									<view class="doctor-projects-item  please-doctor" v-for="(item,index) in doctorVideo" :key='index' v-if="index%2==0">
 										<view class="top-content" @tap='goToVideo(item.path)'>
 											<view class="please-doctor-image">
 												<image class="please-doctor-image" :src="requestUrl+item.cover_img" mode=""></image>
@@ -184,7 +143,7 @@
 											<view class="all-category_name">
 												<view class="category_name" v-for="(i,k) in item.category_name" :key='k'>{{i}}</view>
 											</view>
-										</view>								
+										</view>
 										<view class="heading-collect">
 											<view class="heaing-content">
 												<image :src="requestUrl+doctorMessage.heading" mode=""></image>
@@ -192,21 +151,54 @@
 											</view>
 											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect">
 												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
 												</view>
-												{{item.collect}} 
-											 </view>
+												{{item.collect}}
+											</view>
 											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
 												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
 												</view>
 												0
 											</view>
 										</view>
 									</view>
 								</view>
-								
-							</view>						
+
+								<!-- 右边 -->
+								<view class="right">
+									<view class="doctor-projects-item  please-doctor" v-for="(item,index) in doctorVideo" :key='index' v-if="index%2==1">
+										<view class="top-content" @tap='goToVideo(item.path)'>
+											<view class="please-doctor-image">
+												<image class="please-doctor-image" :src="requestUrl+item.cover_img" mode=""></image>
+											</view>
+											<view class="please-doctor-name">{{item.name}}</view>
+											<view class="all-category_name">
+												<view class="category_name" v-for="(i,k) in item.category_name" :key='k'>{{i}}</view>
+											</view>
+										</view>
+										<view class="heading-collect">
+											<view class="heaing-content">
+												<image :src="requestUrl+doctorMessage.heading" mode=""></image>
+												<text class="heading-doctor-name">{{doctorMessage.name}}</text>
+											</view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect">
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+												</view>
+												{{item.collect}}
+											</view>
+											<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+												<view class="like">
+													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+												</view>
+												0
+											</view>
+										</view>
+									</view>
+								</view>
+
+							</view>
 						</view>
 						<view class="doctor-project">
 							<view class="doctor-item-title">用户日记</view>
@@ -261,8 +253,7 @@
 				requestUrl: '',
 				doctorHeadPortrait: '', //医生的背景图片
 				doctorMessage: {},
-				doctorVideo: [
-					{
+				doctorVideo: [{
 						id: 2,
 						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
 						cover_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //封面图
@@ -275,7 +266,7 @@
 							'眼部美容',
 							'微针双眼皮'
 						],
-						is_collect:0  // 是否收藏： 0 否1是
+						is_collect: 0 // 是否收藏： 0 否1是
 					},
 					{
 						id: 5,
@@ -288,10 +279,10 @@
 							"视频分类222",
 							"眼泪",
 						],
-						is_collect:1  // 是否收藏： 0 否1是
+						is_collect: 1 // 是否收藏： 0 否1是
 					},
 					{
-						id: 2,
+						id: 4,
 						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
 						cover_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //封面图
 						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
@@ -303,10 +294,10 @@
 							'眼部美容',
 							'微针双眼皮'
 						],
-						is_collect:1 // 是否收藏： 0 否1是
+						is_collect: 1 // 是否收藏： 0 否1是
 					},
 					{
-						id: 2,
+						id: 8,
 						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
 						cover_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //封面图
 						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
@@ -315,43 +306,114 @@
 						category_name: [ //所属分类
 							"视频分类222",
 						],
-						is_collect:0  // 是否收藏： 0 否1是
+						is_collect: 0 // 是否收藏： 0 否1是
 					},
-				],//这是专辑和拜托医生
-				doctorList: [],//医生相册
-				diaryList: [],//日记
-				porductList: [{
-						url: '../../static/images/19.png',
-						title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label: ['眼部美容', '眼部'],
-						activity: [],
-						originalCost: 68800,
-						vipPrice: 58800,
-						subscribe: 477,
-						goodReputation: 98,
+				], //这是专辑和拜托医生
+				doctorList: [], //医生相册
+				diaryList: [], //日记
+				porductList: [
+					{
+						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
+						goods_name: "祛眼袋", //名称
+						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
+						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
+						head_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //头图
+						rate: "88.8", //好评率
+						label: { // 标签
+							type: 0, //0分类标签   1 非分类标签
+							list: [ //标签内容
+								"周年庆活动",
+								"新品特推"
+							]
+						},
+						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
+						plateform: "1,2",
+						sku_id: 101,
+						sale_price: "16000.0", //销售价
+						act_id: 0,
+						sales: 1000, //销量  预约数
+						member: {
+							"price": 16000, //会员价格
+							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
+						}
 					},
 					{
-						url: '../../static/images/23.png',
-						title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label: ['眼部美容', '眼部'],
-						activity: [],
-						originalCost: 18800,
-						vipPrice: 12800,
-						subscribe: 422,
-						goodReputation: 98,
+						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
+						goods_name: "祛眼袋", //名称
+						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
+						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
+						head_img: "upload/diary/images/202009/11/UrqE9tLcUAuYhJsOpyqH6uAAih5fYW8EjPGzunXu.jpeg", //头图
+						rate: "88.8", //好评率
+						label: { // 标签
+							type: 1, //0分类标签   1 非分类标签
+							list: [ //标签内容
+								"周年庆活动",
+								"新品特推0"
+							]
+						},
+						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
+						plateform: "1,2",
+						sku_id: 101,
+						sale_price: "16000.0", //销售价
+						act_id: 0,
+						sales: 1000, //销量  预约数
+						member: {
+							"price": 16000, //会员价格
+							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
+						}
 					},
 					{
-						url: '../../static/images/19.png',
-						title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label: [],
-						activity: ['首单必减', '折扣'],
-						originalCost: 18800,
-						vipPrice: 0,
-						subscribe: 477,
-						goodReputation: 98,
+						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
+						goods_name: "祛眼袋", //名称
+						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
+						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
+						head_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //头图
+						rate: "88.8", //好评率
+						label: { // 标签
+							type: 1, //0分类标签   1 非分类标签
+							list: [ //标签内容
+								"周年庆活动",
+								"新品特推1"
+							]
+						},
+						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
+						plateform: "1,2",
+						sku_id: 101,
+						sale_price: "19900.0", //销售价
+						act_id: 0,
+						sales: 1000, //销量  预约数
+						member: {
+							"price": 16800, //会员价格
+							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
+						}
+					},
+					{
+						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
+						goods_name: "祛眼袋", //名称
+						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
+						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
+						head_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //头图
+						rate: "99.9", //好评率
+						label: { // 标签
+							type: 0, //0分类标签   1 非分类标签
+							list: [ //标签内容
+								"周年庆活动",
+								"新品特推"
+							]
+						},
+						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
+						plateform: "1,2",
+						sku_id: 101,
+						sale_price: "27000.0", //销售价
+						act_id: 0,
+						sales: 1000, //销量  预约数
+						member: {
+							"price": 18800, //会员价格
+							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
+						}
 					},
 				],
-				pleaseDoctorList: []//商品
+
 			}
 		},
 		onLoad: function(option) {
@@ -396,7 +458,9 @@
 						console.log(that.doctorMessage)
 						// that.doctorVideo = data.video //这是专辑和拜托医生
 						that.diaryList = data.diary //日记
-						that.pleaseDoctorList = data.goods //商品
+						// that.porductList = data.goods //商品
+						that.porductList = that.group(that.porductList, 3)
+						console.log(that.porductList)
 					} else {
 						this.request.showToast(res.data.message);
 					}
@@ -437,10 +501,19 @@
 				})
 			},
 			// 点击专辑和拜托医生
-			goToVideo:function(path){
+			goToVideo: function(path) {
 				uni.navigateTo({
 					url: `/pages/diary/diary_video?path=${path}`,
 				})
+			},
+			// 分割数组
+			group: function(array, subGroupLength) {
+				let index = 0;
+				let newArray = [];
+				while (index < array.length) {
+					newArray.push(array.slice(index, index += subGroupLength));
+				}
+				return newArray;
 			}
 		},
 	}
@@ -561,18 +634,21 @@
 	.doctor-projects-item {
 		margin-top: 12rpx;
 	}
-	
+
 	/* 拜托了医生 */
-	.all-please-doctor{
+	.all-please-doctor {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
 	}
-	.left,.right{
+
+	.left,
+	.right {
 		display: flex;
 		flex-direction: column;
 	}
-	.please-doctor{
+
+	.please-doctor {
 		background-color: #FFFFFF;
 		border-radius: 10rpx;
 		width: 340rpx;
@@ -580,11 +656,13 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.please-doctor-image{
+
+	.please-doctor-image {
 		width: 340rpx;
 		border-radius: 10rpx 10rpx 0 0;
 	}
-	.please-doctor-name{
+
+	.please-doctor-name {
 		padding: 20rpx 20rpx 0;
 		overflow: hidden;
 		display: -webkit-box;
@@ -593,13 +671,15 @@
 		font-size: 26rpx;
 		margin-bottom: 12rpx;
 	}
-	.all-category_name{
+
+	.all-category_name {
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 		padding: 0 20rpx;
 	}
-	.category_name{
+
+	.category_name {
 		line-height: 36rpx;
 		padding: 0 20rpx;
 		font-size: 20rpx;
@@ -609,42 +689,48 @@
 		margin-right: 12rpx;
 		margin-bottom: 10rpx;
 	}
-	.heading-collect{
+
+	.heading-collect {
 		padding: 10rpx 20rpx 30rpx;
 		display: flex;
 		justify-content: space-between;
-		align-items: center;		
+		align-items: center;
 	}
-	.heaing-content{
+
+	.heaing-content {
 		display: flex;
 		align-items: center;
 	}
-	.heaing-content image{
+
+	.heaing-content image {
 		width: 46rpx;
 		height: 46rpx;
 		border-radius: 23rpx;
 	}
-	.heading-doctor-name{
+
+	.heading-doctor-name {
 		font-size: 24rpx;
 		color: #b2b2b2;
 		margin-left: 10rpx;
 	}
-	
-	
-	
-	.collect_num{
+
+
+
+	.collect_num {
 		font-size: 30rpx;
-		color: #fc4783;		
+		color: #fc4783;
 		display: flex;
 		align-items: center;
 	}
-	.is_no_collect{
+
+	.is_no_collect {
 		color: #B2B2B2;
 		display: flex;
 		align-items: center;
 		font-size: 30rpx;
 	}
-	.is_no_collect .like{
+
+	.is_no_collect .like {
 		background-color: #d0d0d0;
 		width: 40rpx;
 		height: 40rpx;
@@ -654,17 +740,19 @@
 		justify-content: center;
 		margin-right: 16rpx;
 	}
-	.collect_num .like{
+
+	.collect_num .like {
 		width: 42rpx;
 		height: 42rpx;
 		border-radius: 21rpx;
-		background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
+		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#f56fb4, #f56fb4);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-right: 16rpx;
 	}
-	.like-image{
+
+	.like-image {
 		width: 24rpx;
 		height: 24rpx;
 	}

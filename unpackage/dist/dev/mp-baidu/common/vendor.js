@@ -2045,7 +2045,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 133:
+/***/ 135:
 /*!************************************************!*\
   !*** D:/Code/code/uniapp/static/images/18.png ***!
   \************************************************/
@@ -8127,18 +8127,18 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 70:
+/***/ 72:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 71);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 73);
 
 /***/ }),
 
-/***/ 71:
+/***/ 73:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8169,7 +8169,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 72);
+module.exports = __webpack_require__(/*! ./runtime */ 74);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8186,7 +8186,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

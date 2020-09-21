@@ -1,9 +1,10 @@
 <template>
 	<view class="doctor">
-
 		<view class="doctor-top-bar">
 			<view class="bar-name">
-				<view :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px'}]">明星医生</view>
+				<view :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px'}]">
+					明星医生
+				</view>
 			</view>
 		</view>
 		<scroll-view scroll-y :style="[{'padding-top':menuBottom+'px'}]">
@@ -13,15 +14,15 @@
 						<scroll-view class="related-doctor-items" scroll-x="true">
 							<view class="related-doctor-centent" v-if="doctorList">
 								<view id="doctor-item" class="doctor-item" v-for="(i,k) in doctorList" :key='k' :class="{checked :btnnum == k}"
-								 @tap="change(k)">
+								 @tap="change(k,i.id)">
 									<view class="doctor-head-portrait-doctorName">
 										<!-- 医生 -->
 										<view class="doctor-head-portrait">
-											<image :src="i.url" mode=""></image>
+											<image :src="requestUrl+i.heading" mode=""></image>
 										</view>
 										<!-- 医生名字 -->
 										<view class="doctorName">
-											<view class="doctor-item-content"> {{i.doctorName}} </view>
+											<view class="doctor-item-content"> {{i.name}} </view>
 										</view>
 									</view>
 									<view class="checkedBarLine">
@@ -32,83 +33,95 @@
 						</scroll-view>
 					</view>
 					<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in doctorAllList" :key="index">
-
 						<scroll-view scroll-y class="Details-of-the-doctor">
-							<text v-if="doctorInformationList.length==0">{{items.doctorName}}</text>
 							<template>
-								<view class="doctor-content" v-for="(i,k) in doctorInformationList" :key="k">
-									<view class="doctor-information" :style="{backgroundImage:'url('+i.doctorHeadPortrait+')'}">
+								<view class="doctor-content" >
+									<view class="doctor-information" :style="{backgroundImage:'url('+requestUrl+doctorInformationList.tar_image+')'}">
 										<view class="doctor-case">
-											<view class="doctor-name"> {{i.doctorName}} </view>
-											<view class="post"> {{i.post}} </view>
+											<view class="doctor-name"> {{doctorInformationList.name}} </view>
+											<view class="post"> {{doctorInformationList.tar_sign}} </view>
 											<view class="all-title">
-												<view class="title-item" v-for="(i,k) in i.title" :key='k'> . {{i}} </view>
+												<view class="title-item" v-for="(i,k) in doctorInformationList.sign" :key='k'> · {{i}} </view>
 											</view>
 											<view class="be-good-at"> 擅长项目 </view>
-											<view class="be-good-at-item"> {{i.beGoodAt}} </view>
-
+											<view class="be-good-at-item"> 
+												<text v-for="(item,index) in doctorInformationList.goods_project" :key='index'>{{item}} 、</text> 
+											</view>
+											<!-- 医生视频 -->
 											<view class="case-list">
-												<porduct :width= 210 :height=280 :crosswisePorduct='i.case'   ></porduct>
-												<!-- <scroll-view class="case-items" scroll-x="true">
+												<scroll-view class="case-items" scroll-x="true">
 													<view class="case-all-item">
-														<view class="case-item" v-for="(i,k) in i.case" :key='k' :data-name="i.content" @tap="gotoGoods">
-															<image :src="i.url" mode=""></image>
-															<view class="case-explain"> {{i.content}} </view>
+														<view class="case-item" v-for="(i,k) in doctorInformationList.video" :key='k' >
+															<image :src="requestUrl+i.cover_img" mode=""></image>
+															<view class="case-explain"> {{i.name}} </view>
 														</view>
 
 													</view>
-												</scroll-view> -->
+												</scroll-view>
 											</view>
 										</view>
 
 									</view>
 								</view>
-								<view class="recommend-content" v-if="doctorInformationList.length!=0">
+								<view class="recommend-content" >
+									<!-- 医生中心分类 -->
 									<view class="recommend-doctor">
-										<view class="recommend-doctor-name" v-for="(i,k) in doctorNameList" :key='k' :class="{checkedDoctor :btndoctornum == k}"
-										 @tap="changeDoctor(k)">
-											{{ i }}
-											<view :class="{checkedLine :btndoctornum == k}"></view>
-										</view>
+										<scroll-view class="recommend-doctor-items" scroll-x="true">
+											<view class="recommend-doctor-items-content">
+												<view class="recommend-doctor-name"
+												 v-for="(i,k) in doctorNameList" :key='k' 
+												 :class="{checkedDoctor :btndoctornum == k}"
+												  @tap="changeDoctor(k,i.id)">
+													<view class="item-name">
+														{{ i.name }}
+													</view>
+													<view :class="{checkedLine :btndoctornum == k}"></view>
+												</view>
+											</view>											
+										</scroll-view>
 									</view>
 									<!-- 相关医生 -->
-									<view class="recommend-doctor-introduce end-cont" :class="{dis:btndoctornum == index}" v-for="(item,index) in recommendDoctorList"
+									<view class="recommend-doctor-introduce end-cont" 
+									 :class="{dis:btndoctornum == index}" 
+									 v-for="(item,index) in recommendDoctorList"
 									 :key="index">
-										<text v-if="particularDoctorList.length==0">{{item.name}}</text>
-										<view class="recommend-doctor-swiper" v-if="particularDoctorList.length!=0">
+										<view class="recommend-doctor-swiper" >
 											<swiper id="doctor-swiper" class="doctor-swiper" indicator-dots indicator-active-color="#ffffff">
 												<swiper-item v-for="(i,index) in particularDoctorList" :key='index'>
-													<view class="swiper-item" v-for="(i,k) in i.swiperList" :key='k'>
+													<view class="swiper-item" v-for="(i,k) in item" :key='k'>
 														<view class="head-portrait-name-introduce-workingYears-case-consult">
 															<view class="head-portrait">
-																<image :src="i.url" mode=""></image>
+																<image :src="requestUrl+i.heading" mode=""></image>
 															</view>
 															<view class="name-introduce-workingYears-case">
 																<view class="name-introduce">
 																	<view class="name"> {{i.name}} </view>
-																	<view class="introduce"> {{i.introduce}} </view>
+																	<view class="introduce"> {{i.zhicheng}} </view>
 																</view>
 																<view class="workingYears-case">
-																	<view class="workingYears"> 从业经验: {{i.workingYears}}年 </view>
-																	<view class="case"> 案列数： {{i.case}} </view>
+																	<view class="workingYears"> 从业经验: {{i.employed_time}}年 </view>
+																	<view class="case"> 案列数： {{i.case_num}} </view>
 																</view>
 															</view>
 															<view class="consult"> 咨询 </view>
 														</view>
 
 														<view class="beGoodAt-viewpoint">
-															<view class="beGoodAt"> <text>擅长</text> {{i.beGoodAt}} </view>
-															<view class="viewpoint"> <text>观点</text> {{i.viewpoint}} </view>
+															<view class="beGoodAt"> 
+																<text>擅长</text>  
+																<text v-for="(item,index) in i.goods_category">{{item}}</text>
+															</view>
+															<view class="viewpoint"> <text>观点</text> {{i.view}} </view>
 														</view>
 
 														<view class="doctor-recommend-product" v-for="(i,k) in i.product" :key='k'>
 															<view class="recommend-content">
 																<text>推</text>{{i.content}}
 															</view>
-															<view class="order-price">
+															<!-- <view class="order-price">
 																<view class="order"> {{i.order}}人预约 </view>
 																<view class="price"> ￥ {{i.price}} </view>
-															</view>
+															</view> -->
 														</view>
 
 														<view class="hot-product" v-for="(i,k) in i.hot" :key='k'>
@@ -121,15 +134,13 @@
 															</view>
 														</view>
 													</view>
-
 												</swiper-item>
-
 											</swiper>
 										</view>
 									</view>
 
 									<!-- 拜托了医生 -->
-									<view class="please-doctor" v-if="particularDoctorList.length!=0">
+									<view class="please-doctor" >
 										<!-- 标题 -->
 										<view class="please-doctor-title"> 拜托了医生 </view>
 										<view class="please-doctor-title-line">
@@ -140,10 +151,24 @@
 											<scroll-view scroll-y>
 												<template>
 													<view class="please-doctor-all-name">
-														<view class="please-doctor-name" v-for="(i,k) in doctorNameList" :key='k' :class="{checkedDoctor :btnPleaseDoctorNum == k}"
+														<scroll-view class="recommend-doctor-items" scroll-x="true">
+															<view class="recommend-doctor-items-content">
+																<view class="recommend-doctor-name"
+																 v-for="(i,k) in doctorNameList" :key='k' 
+																 :class="{checkedDoctor :btnPleaseDoctorNum == k}"
+																  @tap="changePleaseDoctor(k,i.id)">
+																	<view class="item-name">
+																		{{ i.name }}
+																	</view>
+																	<view :class="{checkedLine :btnPleaseDoctorNum == k}"></view>
+																</view>
+															</view>											
+														</scroll-view>
+														<!-- <view class="please-doctor-name" 
+														v-for="(i,k) in doctorNameList" :key='k' :class="{checkedDoctor :btnPleaseDoctorNum == k}"
 														 @tap="changePleaseDoctor(k)"> {{ i }}
 															<view :class="{checkedLine :btnPleaseDoctorNum == k}"></view>
-														</view>
+														</view> -->
 													</view>
 													<view class="please-doctor-introduce end-cont" 
 													 :class="{dis:btnPleaseDoctorNum == k}" v-for="(item,k) in recommendDoctorList"
@@ -157,7 +182,6 @@
 								</view>
 							</template>
 						</scroll-view>
-
 					</view>
 
 				</view>
@@ -241,35 +265,26 @@
 				doctorInformationList: [],
 				doctorNameList: ['眼部', '鼻部', '脂肪填充', '胸部', '纤体瘦身', '线雕'],
 				btndoctornum: 0,
-				recommendDoctorList: [{
-						name: '眼部'
-					},
-					{
-						name: '鼻部'
-					},
-					{
-						name: '脂肪填充'
-					},
-					{
-						name: '胸部'
-					},
-					{
-						name: '纤体瘦身'
-					},
-					{
-						name: '线雕'
-					}
-				],
-
+				recommendDoctorList: [],
 				particularDoctorList: [], //医生列表	
 				btnPleaseDoctorNum: 0,
 				pleaseDoctorList: [], //拜托了医生左边
+				requestUrl:''
 			}
+		},
+		onLoad: function() {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			// 头部导航医生
+			that.getDetail()
+			// 医生中心分类
+			that.getDoctorClassfiy()
+			
 		},
 		onReady() {
 			let that = this;
 			let pageHeight = 0
-
 			// 获取屏幕高度
 			uni.getSystemInfo({
 				success: function(res) {
@@ -281,121 +296,82 @@
 					that.menuLeft = menu.left
 					that.menuBottom = menu.bottom
 				}
-			})
-
-			that.change()
-			this.changeDoctor()
+			})			
 			this.changePleaseDoctor()
 		},
 		methods: {
-			change: function(e = 0) {
-				this.btnnum = e
-				if (e == 0) {
-					this.doctorInformationList = [{
-						doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
-						doctorName: '陈杨',
-						post: '华美紫馨眼部整形及 修复中心主任', //职位
-						title: ['华美紫馨眼部整形及修复中心学科带头人', '华美紫馨鼻整形及修复中心首席专家', '中国医师协会美容与整形医师分会会员', '中国整形美容协会鼻整形分会委员', '美国射极峰公司亚洲首批特聘高级专家'], //称谓
-						beGoodAt: '双眼皮、手术隆鼻、面部综合塑形', //擅长项目
-						case: [{
-								url: '../../static/images/19.png',
-								content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...'
-							},
-							{
-								url: '../../static/images/20.png',
-								content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...'
-							},
-							{
-								url: '../../static/images/19.png',
-								content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...'
-							},
-							{
-								url: '../../static/images/20.png',
-								content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...'
-							},
-						] //案例
-					}]
-
-				} else {
-					this.doctorInformationList = []
+			// 获取详情
+			getDetail:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId : 'start_list'
 				}
+				that.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						// console.log(data)
+						that.doctorList = data
+						that.change(0,data[0].id)
+					}
+				})
+			},
+			// 医生中心分类
+			getDoctorClassfiy:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId : 'centon'
+				}
+				that.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						// console.log(data)
+						that.doctorNameList = data
+						this.changeDoctor(0,data[0].id)
+					}
+				})
+			},
+			// 带你头部的明星医生
+			change: function(e = 0,id) {
+				let that = this
+				that.btnnum = e
+				let doctorId = id
+				let dataInfo = {
+					interfaceId:'star',
+					doctor_id:doctorId
+				}
+				that.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						this.doctorInformationList = data
+					}
+				})
 			},
 			// 点击商品
-			gotoGoods: function(e) {
+			gotoGoods: function(e,id) {
 				let goods = e.currentTarget.dataset.name
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?goods=${goods}`,
 				})
 			},
-			changeDoctor: function(e = 0) {
-				this.btndoctornum = e
-				if (e == 0) {
-					this.particularDoctorList = [{
-							swiperList: [{
-									url: '../../static/images/19.png',
-									name: '邱伟',
-									introduce: '眼部整形带头人', //简介
-									workingYears: 8, //工作时长
-									case: 12000, //案例
-									beGoodAt: '眼部、眼部美容', //擅长
-									viewpoint: '尽心尽力服务好每一位求美者，月亮不睡啦……', //观点
-									product: [{
-										content: '【复合隆胸】华美紫馨TSG十点多……',
-										order: 6025,
-										price: 36800
-									}], //推荐产品
-									hot: [{
-										content: '【复合隆胸】华美紫馨TSG十点多……',
-										order: 6025,
-										price: 16800
-									}], //热门产品
-								},
-								{
-									url: '../../static/images/20.png',
-									name: '宋晓东',
-									introduce: '眼部整形带头人', //简介
-									workingYears: 8, //工作时长
-									case: 12000, //案例
-									beGoodAt: '眼部、眼部美容', //擅长
-									viewpoint: '尽心尽力服务好每一位求美者，月亮不睡啦……', //观点
-									product: [{
-										content: '【复合隆胸】华美紫馨TSG十点多……',
-										order: 6025,
-										price: 36800
-									}], //推荐产品
-									hot: [{
-										content: '【复合隆胸】华美紫馨TSG十点多……',
-										order: 6025,
-										price: 16800
-									}], //热门产品
-								},
-							],
-						},
-						{
-							swiperList: [{
-								url: '../../static/images/19.png',
-								name: '宋晓东',
-								introduce: '眼部整形带头人', //简介
-								workingYears: 8, //工作时长
-								case: 12000, //案例
-								beGoodAt: '眼部、眼部美容', //擅长
-								viewpoint: '尽心尽力服务好每一位求美者，月亮不睡啦……', //观点
-								product: [{
-									content: '【复合隆胸】华美紫馨TSG十点多……',
-									order: 6025,
-									price: 36800
-								}], //推荐产品
-								hot: [{
-									content: '【复合隆胸】华美紫馨TSG十点多……',
-									order: 6025,
-									price: 16800
-								}], //热门产品
-							}, ],
-						},
-					]
-				} else {
-					this.particularDoctorList = []
+			// 点击医生中心分类
+			changeDoctor: function(e,id) {
+				let that = this
+				that.btndoctornum = e
+				let doctorId = id
+				let dataInfo = {
+					interfaceId:'docker_centon',
+					doctor_centon_id:doctorId
 				}
+				that.request.uniRequest("doctor", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.particularDoctorList = data
+						that.particularDoctorList = that.group(that.particularDoctorList, 3)
+						console.log(that.particularDoctorList)
+					}
+				})
+				
+			
 			},
 			changePleaseDoctor: function(e = 0) {
 				this.btnPleaseDoctorNum = e
@@ -422,7 +398,16 @@
 				} else {
 					this.pleaseDoctorList = []
 				}
-			}
+			},
+			// 分割数组
+			group: function(array, subGroupLength) {
+				let index = 0;
+				let newArray = [];
+				while (index < array.length) {
+					newArray.push(array.slice(index, index += subGroupLength));
+				}
+				return newArray;
+			},
 		}
 	}
 </script>
@@ -455,7 +440,7 @@
 		background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
 	}
 
-	.related-doctor-items {
+	.related-doctor-items ,.recommend-doctor-items{
 		width: 100%;
 	}
 
@@ -534,6 +519,7 @@
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 		padding: 0 0 20rpx 45rpx;
+		background-color: #222222;
 	}
 
 	.doctor-case {
@@ -582,9 +568,10 @@
 
 	.case-list {
 		width: 100%;
-		white-space: nowrap;
+		
 		padding-bottom: 30rpx;
 	}
+	
 
 	.case-all-item {
 		display: flex;
@@ -592,29 +579,74 @@
 		align-items: center;
 		height: 100%;
 		width: 100%;
+		white-space: normal;
+	}
+	.case-item{
+		width: 210rpx;
+		margin-right: 10rpx;
+		height: 280rpx;
+	}
+	.case-item image{
+		width: 210rpx;
+		height: 210rpx;
+		border-radius: 16rpx;
+	}
+	.case-explain{
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		font-size: 24rpx;
+		color: #FFFFFF;
+		font-weight: lighter;
 	}
 
 
 	/* 推荐医生 */
-	.recommend-doctor {
-		display: flex;
-		justify-content: space-around;
-		font-size: 24rpx;
+	.recommend-doctor-items {
 		background-color: #111111;
+		padding: 30rpx 0;
+	}
+	.recommend-doctor-items-content{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		font-size: 24rpx;
 		color: #FFFFFF;
+		
+	}
+	.recommend-doctor-name{
+		padding: 0 30rpx;
+		margin: 30rpx 0;	
 		line-height: 30rpx;
-		align-items: baseline;
-		padding: 30rpx 0 0;
+		word-break:keep-all; /* 不换行 */
+		white-space:nowrap; /* 不换行 */
+		position: relative;
+	}
+	.item-name{
+		width: auto;
+		text-align: center;
 	}
 
 	.checkedDoctor {
 		font-size: 32rpx;
 		line-height: 30rpx;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.checkedLine {
-		border-bottom: 4rpx solid #d1bf86;
-		margin-top: 20rpx;
+		height: 4rpx;
+		width: 60%;
+		background-color: #FFFFFF;
+		/* border-bottom: 4rpx solid #d1bf86; */
+		position: absolute;
+		bottom: -20rpx;
+		left: 0;
+		z-index: 9;
+		left: 20%;
 	}
 
 	.recommend-doctor-introduce {

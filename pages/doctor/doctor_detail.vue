@@ -82,7 +82,7 @@
 								<swiper class="doctor-swiper" indicator-dots indicator-active-color="#f6db93">
 									<swiper-item class="doctor-swiper-item" v-for="(item,index) in porductList" :key='index'>
 										<view class="project-content">
-											<view class="porduct-list" v-for="(i,k) in item" :key='k'>
+											<view class="porduct-list" v-for="(i,k) in item" :key='k' @tap='goodsDetail(i.sku_id)'>
 												<view class="porduct-items">
 													<view class="porduct-item-images">
 														<image :src="requestUrl+i.head_img" mode=""></image>
@@ -213,14 +213,17 @@
 		</view>
 
 		<view class="footer">
-			<view class="mar">
+			<view class="mar" v-if="is_doctor_collect == 0" :data-id='doctor_id' @tap='collectdiary'>
+				<image class="icon-img" src="../../static/images/collect.png"></image>收藏
+			</view>
+			<view class="mar" v-else @tap='cancelLike(doctor_id)'>
+				<image class="icon-img" src="../../static/images/checked-collect.png"></image>收藏
+			</view>
+			<view class="mar" @tap='goToConsult'>
 				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>咨询
 			</view>
-			<view class="mar">
+			<view class="mar" @tap='share(doctor_id)'>
 				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_share.png"></image>分享
-			</view>
-			<view class="mar" @tap="cart">
-				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_cart.png"></image>购物车
 			</view>
 		</view>
 
@@ -328,7 +331,7 @@
 						},
 						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
 						plateform: "1,2",
-						sku_id: 101,
+						sku_id: 17,
 						sale_price: "16000.0", //销售价
 						act_id: 0,
 						sales: 1000, //销量  预约数
@@ -353,7 +356,7 @@
 						},
 						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
 						plateform: "1,2",
-						sku_id: 101,
+						sku_id: 14,
 						sale_price: "16000.0", //销售价
 						act_id: 0,
 						sales: 1000, //销量  预约数
@@ -378,7 +381,7 @@
 						},
 						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
 						plateform: "1,2",
-						sku_id: 101,
+						sku_id: 42,
 						sale_price: "19900.0", //销售价
 						act_id: 0,
 						sales: 1000, //销量  预约数
@@ -403,7 +406,7 @@
 						},
 						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
 						plateform: "1,2",
-						sku_id: 101,
+						sku_id: 17,
 						sale_price: "27000.0", //销售价
 						act_id: 0,
 						sales: 1000, //销量  预约数
@@ -413,7 +416,8 @@
 						}
 					},
 				],
-
+				doctor_id:'',
+				is_doctor_collect:0
 			}
 		},
 		onLoad: function(option) {
@@ -421,6 +425,7 @@
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
 			let doctorId = option.id
+			that.doctor_id = option.id
 			// console.log(doctorId)
 			that.getDetail(doctorId)
 			that.getDoctormessage(doctorId)
@@ -455,10 +460,11 @@
 						console.log(data)
 						that.doctorHeadPortrait = that.requestUrl + data[0].heading
 						that.doctorMessage = data[0] //医生信息
+						that.is_doctor_collect = data.is_doctor_collect
 						console.log(that.doctorMessage)
 						// that.doctorVideo = data.video //这是专辑和拜托医生
 						that.diaryList = data.diary //日记
-						// that.porductList = data.goods //商品
+						that.porductList = data.goods //商品
 						that.porductList = that.group(that.porductList, 3)
 						console.log(that.porductList)
 					} else {
@@ -494,12 +500,7 @@
 					url: `/pages/doctor/doctor_certificate?id=${doctorId}`,
 				})
 			},
-			// 购物车
-			cart: function(event) {
-				uni.navigateTo({
-					url: `/pages/cart/cart`,
-				})
-			},
+			
 			// 点击专辑和拜托医生
 			goToVideo: function(path) {
 				uni.navigateTo({
@@ -514,6 +515,44 @@
 					newArray.push(array.slice(index, index += subGroupLength));
 				}
 				return newArray;
+			},
+			// 商品详情
+			goodsDetail:function(id){
+				console.log(id)
+				let that = this
+				let goodsId = id
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?id=${goodsId}`,
+				})
+			},
+			// 收藏
+			collectdiary:function(e){
+				this.request = this.$request
+				var id = e.currentTarget.dataset.id
+				var data = {
+					interfaceId: 'collectdiary',
+					diary_id :id
+				}
+				this.request.uniRequest("/diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						this.request.showToast('成功')					
+					}
+				})
+			},
+			// 取消收藏
+			cancelLike:function(id){
+				console.log(id)
+			},
+			// 咨询
+			goToConsult:function(){
+				console.log('咨询')
+				// uni.navigateTo({
+				// 	url: `/pages/consultation/consultation`,
+				// })
+			},
+			// 分享
+			share:function(id){
+				console.log("分享了id是"+id +"的医生")
 			}
 		},
 	}

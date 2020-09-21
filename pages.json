@@ -2,44 +2,24 @@
 	"pages": [ 
 		
 		// 测试时的首页
-		// 日记
-		{
-			"path": "pages/diary/diary", //日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_about", //日记关联商品+医生
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_detail", //日记详情（图文）
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_keep", //日记类型图文+视频
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_personal", //个人主页
-			"style": {}
-		},		
-		{
-			"path": "pages/diary/diary_successs", //发布成功
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_video", //日记详情（视频）
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_write", //写日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_write_video", //日记类型图文+视频
-			"style": {}
-		},
 		
+		// 医生
+		{
+			"path": "pages/doctor/doctor", //医生
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_certificate", //医生证书
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_photo", //医生相册
+			"style": {}
+		},
 		
 		
 		// 登录
@@ -105,24 +85,45 @@
 			"style": {}
 		},
 		
+		// 日记
+		{
+			"path": "pages/diary/diary", //日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_about", //日记关联商品+医生
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_detail", //日记详情（图文）
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_keep", //日记类型图文+视频
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_personal", //个人主页
+			"style": {}
+		},		
+		{
+			"path": "pages/diary/diary_successs", //发布成功
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_video", //日记详情（视频）
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_write", //写日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_write_video", //日记类型图文+视频
+			"style": {}
+		},
 	
-		// 医生
-		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_certificate", //医生证书
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_photo", //医生相册
-			"style": {}
-		},
+		
 		
 		// 商品
 		{

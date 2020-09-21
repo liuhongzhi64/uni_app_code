@@ -300,6 +300,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     porduct: porduct },
@@ -373,35 +397,26 @@ __webpack_require__.r(__webpack_exports__);
       doctorInformationList: [],
       doctorNameList: ['眼部', '鼻部', '脂肪填充', '胸部', '纤体瘦身', '线雕'],
       btndoctornum: 0,
-      recommendDoctorList: [{
-        name: '眼部' },
-
-      {
-        name: '鼻部' },
-
-      {
-        name: '脂肪填充' },
-
-      {
-        name: '胸部' },
-
-      {
-        name: '纤体瘦身' },
-
-      {
-        name: '线雕' }],
-
-
-
+      recommendDoctorList: [],
       particularDoctorList: [], //医生列表	
       btnPleaseDoctorNum: 0,
-      pleaseDoctorList: [] //拜托了医生左边
-    };
+      pleaseDoctorList: [], //拜托了医生左边
+      requestUrl: '' };
+
+  },
+  onLoad: function onLoad() {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    // 头部导航医生
+    that.getDetail();
+    // 医生中心分类
+    that.getDoctorClassfiy();
+
   },
   onReady: function onReady() {
     var that = this;
     var pageHeight = 0;
-
     // 获取屏幕高度
     uni.getSystemInfo({
       success: function success(res) {
@@ -414,120 +429,81 @@ __webpack_require__.r(__webpack_exports__);
         that.menuBottom = menu.bottom;
       } });
 
-
-    that.change();
-    this.changeDoctor();
     this.changePleaseDoctor();
   },
   methods: {
-    change: function change() {var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      this.btnnum = e;
-      if (e == 0) {
-        this.doctorInformationList = [{
-          doctorHeadPortrait: 'https://wxmall.hmzixin.com/upload/2018/06/15/20180615134007961.jpg', //医生的背景图片
-          doctorName: '陈杨',
-          post: '华美紫馨眼部整形及 修复中心主任', //职位
-          title: ['华美紫馨眼部整形及修复中心学科带头人', '华美紫馨鼻整形及修复中心首席专家', '中国医师协会美容与整形医师分会会员', '中国整形美容协会鼻整形分会委员', '美国射极峰公司亚洲首批特聘高级专家'], //称谓
-          beGoodAt: '双眼皮、手术隆鼻、面部综合塑形', //擅长项目
-          case: [{
-            url: '../../static/images/19.png',
-            content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...' },
+    // 获取详情
+    getDetail: function getDetail() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'start_list' };
 
-          {
-            url: '../../static/images/20.png',
-            content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...' },
+      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // console.log(data)
+          that.doctorList = data;
+          that.change(0, data[0].id);
+        }
+      });
+    },
+    // 医生中心分类
+    getDoctorClassfiy: function getDoctorClassfiy() {var _this = this;
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'centon' };
 
-          {
-            url: '../../static/images/19.png',
-            content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...' },
+      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // console.log(data)
+          that.doctorNameList = data;
+          _this.changeDoctor(0, data[0].id);
+        }
+      });
+    },
+    // 带你头部的明星医生
+    change: function change() {var _this2 = this;var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var id = arguments.length > 1 ? arguments[1] : undefined;
+      var that = this;
+      that.btnnum = e;
+      var doctorId = id;
+      var dataInfo = {
+        interfaceId: 'star',
+        doctor_id: doctorId };
 
-          {
-            url: '../../static/images/20.png',
-            content: '华美紫馨薇拉美塑Ⅲ—美体最多两排显示省略号...' }]
-
-          //案例
-        }];
-
-      } else {
-        this.doctorInformationList = [];
-      }
+      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          _this2.doctorInformationList = data;
+        }
+      });
     },
     // 点击商品
-    gotoGoods: function gotoGoods(e) {
+    gotoGoods: function gotoGoods(e, id) {
       var goods = e.currentTarget.dataset.name;
       uni.navigateTo({
         url: "/pages/goods/goods_detail?goods=".concat(goods) });
 
     },
-    changeDoctor: function changeDoctor() {var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      this.btndoctornum = e;
-      if (e == 0) {
-        this.particularDoctorList = [{
-          swiperList: [{
-            url: '../../static/images/19.png',
-            name: '邱伟',
-            introduce: '眼部整形带头人', //简介
-            workingYears: 8, //工作时长
-            case: 12000, //案例
-            beGoodAt: '眼部、眼部美容', //擅长
-            viewpoint: '尽心尽力服务好每一位求美者，月亮不睡啦……', //观点
-            product: [{
-              content: '【复合隆胸】华美紫馨TSG十点多……',
-              order: 6025,
-              price: 36800 }],
-            //推荐产品
-            hot: [{
-              content: '【复合隆胸】华美紫馨TSG十点多……',
-              order: 6025,
-              price: 16800 }]
-            //热门产品
-          },
-          {
-            url: '../../static/images/20.png',
-            name: '宋晓东',
-            introduce: '眼部整形带头人', //简介
-            workingYears: 8, //工作时长
-            case: 12000, //案例
-            beGoodAt: '眼部、眼部美容', //擅长
-            viewpoint: '尽心尽力服务好每一位求美者，月亮不睡啦……', //观点
-            product: [{
-              content: '【复合隆胸】华美紫馨TSG十点多……',
-              order: 6025,
-              price: 36800 }],
-            //推荐产品
-            hot: [{
-              content: '【复合隆胸】华美紫馨TSG十点多……',
-              order: 6025,
-              price: 16800 }]
-            //热门产品
-          }] },
+    // 点击医生中心分类
+    changeDoctor: function changeDoctor(e, id) {
+      var that = this;
+      that.btndoctornum = e;
+      var doctorId = id;
+      var dataInfo = {
+        interfaceId: 'docker_centon',
+        doctor_centon_id: doctorId };
+
+      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.particularDoctorList = data;
+          that.particularDoctorList = that.group(that.particularDoctorList, 3);
+          console.log(that.particularDoctorList);
+        }
+      });
 
 
-        {
-          swiperList: [{
-            url: '../../static/images/19.png',
-            name: '宋晓东',
-            introduce: '眼部整形带头人', //简介
-            workingYears: 8, //工作时长
-            case: 12000, //案例
-            beGoodAt: '眼部、眼部美容', //擅长
-            viewpoint: '尽心尽力服务好每一位求美者，月亮不睡啦……', //观点
-            product: [{
-              content: '【复合隆胸】华美紫馨TSG十点多……',
-              order: 6025,
-              price: 36800 }],
-            //推荐产品
-            hot: [{
-              content: '【复合隆胸】华美紫馨TSG十点多……',
-              order: 6025,
-              price: 16800 }]
-            //热门产品
-          }] }];
-
-
-      } else {
-        this.particularDoctorList = [];
-      }
     },
     changePleaseDoctor: function changePleaseDoctor() {var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       this.btnPleaseDoctorNum = e;
@@ -554,6 +530,15 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.pleaseDoctorList = [];
       }
+    },
+    // 分割数组
+    group: function group(array, subGroupLength) {
+      var index = 0;
+      var newArray = [];
+      while (index < array.length) {
+        newArray.push(array.slice(index, index += subGroupLength));
+      }
+      return newArray;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

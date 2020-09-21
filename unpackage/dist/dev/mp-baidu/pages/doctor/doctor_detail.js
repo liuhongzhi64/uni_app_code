@@ -363,6 +363,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     topBar: topBar,
@@ -460,7 +463,7 @@ __webpack_require__.r(__webpack_exports__);
 
         spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
         plateform: "1,2",
-        sku_id: 101,
+        sku_id: 17,
         sale_price: "16000.0", //销售价
         act_id: 0,
         sales: 1000, //销量  预约数
@@ -485,7 +488,7 @@ __webpack_require__.r(__webpack_exports__);
 
         spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
         plateform: "1,2",
-        sku_id: 101,
+        sku_id: 14,
         sale_price: "16000.0", //销售价
         act_id: 0,
         sales: 1000, //销量  预约数
@@ -510,7 +513,7 @@ __webpack_require__.r(__webpack_exports__);
 
         spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
         plateform: "1,2",
-        sku_id: 101,
+        sku_id: 42,
         sale_price: "19900.0", //销售价
         act_id: 0,
         sales: 1000, //销量  预约数
@@ -535,17 +538,18 @@ __webpack_require__.r(__webpack_exports__);
 
         spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
         plateform: "1,2",
-        sku_id: 101,
+        sku_id: 17,
         sale_price: "27000.0", //销售价
         act_id: 0,
         sales: 1000, //销量  预约数
         member: {
           "price": 18800, //会员价格
           "member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
-        } }] };
+        } }],
 
 
-
+      doctor_id: '',
+      is_doctor_collect: 0 };
 
   },
   onLoad: function onLoad(option) {
@@ -553,6 +557,7 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
     var doctorId = option.id;
+    that.doctor_id = option.id;
     // console.log(doctorId)
     that.getDetail(doctorId);
     that.getDoctormessage(doctorId);
@@ -587,10 +592,11 @@ __webpack_require__.r(__webpack_exports__);
           console.log(data);
           that.doctorHeadPortrait = that.requestUrl + data[0].heading;
           that.doctorMessage = data[0]; //医生信息
+          that.is_doctor_collect = data.is_doctor_collect;
           console.log(that.doctorMessage);
           // that.doctorVideo = data.video //这是专辑和拜托医生
           that.diaryList = data.diary; //日记
-          // that.porductList = data.goods //商品
+          that.porductList = data.goods; //商品
           that.porductList = that.group(that.porductList, 3);
           console.log(that.porductList);
         } else {
@@ -626,12 +632,7 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/doctor/doctor_certificate?id=".concat(doctorId) });
 
     },
-    // 购物车
-    cart: function cart(event) {
-      uni.navigateTo({
-        url: "/pages/cart/cart" });
 
-    },
     // 点击专辑和拜托医生
     goToVideo: function goToVideo(path) {
       uni.navigateTo({
@@ -646,6 +647,44 @@ __webpack_require__.r(__webpack_exports__);
         newArray.push(array.slice(index, index += subGroupLength));
       }
       return newArray;
+    },
+    // 商品详情
+    goodsDetail: function goodsDetail(id) {
+      console.log(id);
+      var that = this;
+      var goodsId = id;
+      uni.navigateTo({
+        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
+
+    },
+    // 收藏
+    collectdiary: function collectdiary(e) {var _this3 = this;
+      this.request = this.$request;
+      var id = e.currentTarget.dataset.id;
+      var data = {
+        interfaceId: 'collectdiary',
+        diary_id: id };
+
+      this.request.uniRequest("/diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          _this3.request.showToast('成功');
+        }
+      });
+    },
+    // 取消收藏
+    cancelLike: function cancelLike(id) {
+      console.log(id);
+    },
+    // 咨询
+    goToConsult: function goToConsult() {
+      console.log('咨询');
+      // uni.navigateTo({
+      // 	url: `/pages/consultation/consultation`,
+      // })
+    },
+    // 分享
+    share: function share(id) {
+      console.log("分享了id是" + id + "的医生");
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

@@ -132,6 +132,7 @@
 						<view class="doctor-projects">
 							<view class="doctor-item-title">拜托了医生</view>
 							<view class="all-please-doctor">
+								<!-- <doctor :doctorList="doctorVideo" :requestUrl="requestUrl"></doctor> -->
 								<!-- 左边 -->
 								<view class="left">
 									<view class="doctor-projects-item  please-doctor" v-for="(item,index) in doctorVideo" :key='index' v-if="index%2==0">
@@ -234,10 +235,12 @@
 	import topBar from "../../components/topBar.vue";
 	import porduct from "../../components/porduct.vue";
 	import diary from '../../components/diary.vue';
+	import doctor from '../../components/doctor.vue'
 	export default {
 		components: {
 			topBar,
 			porduct,
+			doctor,
 			diary
 		},
 		data() {

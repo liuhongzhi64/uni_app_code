@@ -177,8 +177,11 @@
 }
 .case-list.data-v-1e282ce6 {
 	width: 100%;
-	
+	height: 280rpx;
 	padding-bottom: 30rpx;
+}
+.case-items.data-v-1e282ce6{
+	height: 280rpx;
 }
 .case-all-item.data-v-1e282ce6 {
 	display: -webkit-box;
@@ -190,7 +193,7 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	height: 100%;
+	height: 280rpx;
 	width: 100%;
 	white-space: normal;
 }
@@ -212,12 +215,16 @@
 	font-size: 24rpx;
 	color: #FFFFFF;
 	font-weight: lighter;
+	padding: 0 8rpx;
+}
+.recommend-doctor-classfiy.data-v-1e282ce6{
+	padding: 30rpx 0 0;
+	background-color: #111111;
 }
 
 /* 推荐医生 */
 .recommend-doctor-items.data-v-1e282ce6 {
-	background-color: #111111;
-	padding: 30rpx 0;
+	height: 45rpx;
 }
 .recommend-doctor-items-content.data-v-1e282ce6{
 	display: -webkit-box;
@@ -236,11 +243,10 @@
 }
 .recommend-doctor-name.data-v-1e282ce6{
 	padding: 0 30rpx;
-	margin: 30rpx 0;	
+	height: 100%;	
 	line-height: 30rpx;
 	word-break:keep-all; /* 不换行 */
 	white-space:nowrap; /* 不换行 */
-	position: relative;
 }
 .item-name.data-v-1e282ce6{
 	width: auto;
@@ -256,17 +262,11 @@
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
+	height: 100%;
 }
 .checkedLine.data-v-1e282ce6 {
-	height: 4rpx;
-	width: 60%;
-	background-color: #FFFFFF;
-	/* border-bottom: 4rpx solid #d1bf86; */
-	position: absolute;
-	bottom: -20rpx;
-	left: 0;
-	z-index: 9;
-	left: 20%;
+	border-bottom: 4rpx solid #d1bf86;
+	margin-top: 10rpx;
 }
 .recommend-doctor-introduce.data-v-1e282ce6 {
 	padding:0 30rpx;
@@ -276,102 +276,50 @@
 }
 .doctor-swiper.data-v-1e282ce6 {
 	color: #FFFFFF;
-	height: 960rpx;
+	height: 1480rpx;
+}
+.doctor-swiper-min.data-v-1e282ce6{
+	height: 990rpx;
+	color: #FFFFFF;
 }
 .swiper-item.data-v-1e282ce6 {
-	background-color: #202020;
+	background-color: #2A2A2A;
 	padding: 30rpx 40rpx;
 	margin-top: 20rpx;
 	border-radius: 24rpx;
 }
-.head-portrait-name-introduce-workingYears-case-consult.data-v-1e282ce6 {
+.swiper-item-content.data-v-1e282ce6 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
 	font-size: 24rpx;
+	position: relative;
 }
 .head-portrait image.data-v-1e282ce6 {
 	height: 120rpx;
 	width: 120rpx;
 	border-radius: 60rpx;
 }
-.head-portrait-name-introduce-workingYears-case-consult .name.data-v-1e282ce6 {
-	font-size: 32rpx;
+.middle-content.data-v-1e282ce6{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	margin: 0 10rpx;
 }
-.name-introduce.data-v-1e282ce6,
-.workingYears-case.data-v-1e282ce6 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: baseline;
-	-webkit-align-items: baseline;
-	        align-items: baseline;
-	margin-bottom: 10rpx;
+.middle-doctor-name.data-v-1e282ce6{
+	color: #ffffff;
+	font-size: 34rpx;
+	width: 80%;
 }
-.introduce.data-v-1e282ce6,
-.workingYears-case .case.data-v-1e282ce6 {
+.middle-doctor-name text.data-v-1e282ce6{
+	font-size: 26rpx;
 	margin-left: 10rpx;
 }
-.consult.data-v-1e282ce6 {
-	border: 2rpx solid #cfbe85;
-	padding: 10rpx 30rpx;
-	border-radius: 10rpx;
-	color: #cfbe85;
-}
-.beGoodAt-viewpoint.data-v-1e282ce6 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-justify-content: space-around;
-	        justify-content: space-around;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	font-size: 24rpx;
-}
-.viewpoint.data-v-1e282ce6 {
-	width: 360rpx;
-	height: 36rpx;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
-	margin-top: 10rpx;
-	margin-bottom: 10rpx;
-}
-.beGoodAt text.data-v-1e282ce6 {
-	color: #e85c9e;
-	font-size: 20rpx;
-	border-radius: 5rpx;
-	margin-right: 10rpx;
-	border: 1px solid #e85c9e;
-	text-align: center;
-	line-height: 24rpx;
-	height: 24rpx;
-	padding: 0 5rpx;
-}
-.viewpoint text.data-v-1e282ce6 {
-	height: 22rpx;
-	border-radius: 5rpx;
-	border: 1px solid #689efb;
-	font-size: 20rpx;
-	color: #689efb;
-	padding: 0 5rpx;
-	line-height: 24rpx;
-	margin-right: 10rpx;
-}
-.doctor-recommend-product.data-v-1e282ce6,
-.hot-product.data-v-1e282ce6 {
+.employed_time-case_num.data-v-1e282ce6{
+	width: 70%;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -381,41 +329,164 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	color: #F0F0F0;
 	font-size: 24rpx;
-	padding: 10rpx;
-	margin-bottom: 20rpx;
+	margin-top: 15rpx;
+	margin-bottom: 25rpx;
 }
-.doctor-recommend-product .recommend-content.data-v-1e282ce6,
-.hot-recommend-content.data-v-1e282ce6 {
-	width: 320rpx;
-	height: 30rpx;
+.goods_category.data-v-1e282ce6{
+	font-size: 24rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	color: #999999;
+}
+.goods_category-title.data-v-1e282ce6{
+	width: 50rpx;
+	line-height: 24rpx;
+	border-radius: 5rpx;
+	border: solid 1px #e85c9e;
+	color: #e85c9e;
+	font-size: 20rpx;
+	margin-right: 10rpx;
+	text-align: center;
+}
+.end_cont.data-v-1e282ce6{
+	display: none;
+}
+.doctor_view.data-v-1e282ce6{
+	width: 100%;	
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
+	font-size: 24rpx;
+	color: #999999;
+	margin-top: 10rpx;
 }
-.order-price.data-v-1e282ce6 {
+.doctor_view_content.data-v-1e282ce6{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 }
-.doctor-recommend-product .recommend-content text.data-v-1e282ce6 {
-	display: inline-block;
-	width: 30rpx;
-	height: 30rpx;
-	text-align: center;
-	line-height: 30rpx;
+.doctor_view_title.data-v-1e282ce6{
+	width: 50rpx;
+	line-height: 24rpx;
 	border-radius: 5rpx;
-	background-color: #ff7b1a;
+	border: solid 1px #689efb;	
+	font-size: 20rpx;
+	color: #689efb;
+	text-align: center;
+	margin-right: 10rpx;
 }
-.hot-recommend-content text.data-v-1e282ce6 {
-	display: inline-block;
+.recommended_goods.data-v-1e282ce6{
+	width: 570rpx;
+	padding: 0 20rpx;
+	height: 56rpx;
+	line-height: 56rpx;
+	background-color: #202020;
+	border-radius: 28rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	font-size: 24rpx;
+	margin-top: 27rpx;
+	margin-bottom: 15rpx;
+}
+.goods_left.data-v-1e282ce6{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.goods_title.data-v-1e282ce6{
 	width: 30rpx;
 	height: 30rpx;
-	text-align: center;
 	line-height: 30rpx;
+	background-color: #ff7b1a;
 	border-radius: 5rpx;
+	text-align: center;
+	margin-right: 10rpx;
+}
+.gooss_content.data-v-1e282ce6{
+	width: 90%;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	font-size: 24rpx;
+	line-height: 30rpx;
+}
+.goods_right.data-v-1e282ce6{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.sale_weight.data-v-1e282ce6{
+	color: #999999;
+	margin-right: 10rpx;
+	min-width: 100rpx;
+	text-align: right;
+}
+.sale_price.data-v-1e282ce6{
+	font-size: 28rpx;
+	color: #cfbe85;
+}
+.sale_price text.data-v-1e282ce6{
+	font-size: 24rpx;
+}
+.is_hot.data-v-1e282ce6{
+	width: 570rpx;
+	padding: 0 20rpx;
+	height: 56rpx;
+	line-height: 56rpx;
+	background-color: #202020;
+	border-radius: 28rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	font-size: 24rpx;
+}
+.is_hot_title.data-v-1e282ce6{
+	width: 30rpx;
+	line-height: 30rpx;
+	height: 30rpx;
 	background-color: #da129f;
+	border-radius: 5rpx;
+	text-align: center;
+	margin-right: 10rpx;
+}
+.consult.data-v-1e282ce6{
+	width: 110rpx;
+	line-height: 46rpx;
+	border-radius: 10rpx;
+	border: 2rpx solid #cfbe85;
+	color: #cfbd85;
+	font-size: 24rpx;
+	text-align: center;
+	position: absolute;
+	right: 0;
+	top:  0;
+	z-index: 9;
 }
 
 /* 拜托了医生 */
@@ -452,7 +523,17 @@
 	        align-items: baseline;
 	padding: 30rpx 0 0;
 }
+.please-doctor-all-name .recommend-doctor-items-content.data-v-1e282ce6{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	        justify-content: flex-start;
+}
 .please-doctor-introduce.data-v-1e282ce6 {
 	padding: 0 20rpx 20rpx;
 }
+
+
 

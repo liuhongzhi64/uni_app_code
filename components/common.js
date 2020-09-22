@@ -1,7 +1,7 @@
 export default {
 	globalData: {
 		appid: "wx805c90d4affed9a4",
-		requestUrl: "https://mtest.hmzixin.com/"
+		requestUrl: "https://mytest.hmzixin.com/"
 	},
 	// 模态对话框
 	showModal: function(content, title = "提示") {

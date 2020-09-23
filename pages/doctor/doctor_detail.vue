@@ -235,7 +235,7 @@
 	import topBar from "../../components/topBar.vue";
 	import porduct from "../../components/porduct.vue";
 	import diary from '../../components/diary.vue';
-	import doctor from '../../components/doctor.vue'
+	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
 			topBar,

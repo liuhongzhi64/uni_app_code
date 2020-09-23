@@ -46,7 +46,7 @@
 					<view class="user-name"> {{i.userName}} </view>
 				</view>
 				<view class="like">
-					<image src="../../static/images/like.png" mode=""></image>
+					<image src="../static/images/like.png" mode=""></image>
 					<text>{{i.like}}</text>
 				</view>
 			</view>
@@ -66,7 +66,7 @@
 		<view class="product-show" :style="[{'width':width+'rpx'}]" v-for="(i,k) in porductLists" :class="(k%2==0)?'product-item-fl':'product-item-fr'"
 		 :key='k' :data-name="i.goods_name" :data-id='i.encrypted_id' :data-sku_id = 'i.sku_id' @tap="changeGoods">
 			<view class="images">
-				<image src="../../static/images/23.png" mode="" :style="[{'height':width+'rpx'}]" ></image>
+				<image src="../static/images/19.png" mode="" :style="[{'height':width+'rpx'}]" ></image>
 				<!-- <image :src="requestUrl + i.head_img" mode="" :style="[{'width':width+'rpx','height':width+'rpx'}]"></image> -->
 			</view>
 			<view class="product-title"> 
@@ -105,7 +105,7 @@
 					<view class="user-name"> {{i.userName}} </view>
 				</view>
 				<view class="like">
-					<image src="../../static/images/like.png" mode=""></image>
+					<image src="../static/images/like.png" mode=""></image>
 					<text>{{i.like}}</text>
 				</view>
 			</view>
@@ -160,7 +160,7 @@
 					<view class="user-name"> {{i.userName}} </view>
 				</view>
 				<view class="like">
-					<image src="../../static/images/like.png" mode=""></image>
+					<image src="../static/images/like.png" mode=""></image>
 					<text>{{i.like}}</text>
 				</view>
 			</view>
@@ -220,7 +220,7 @@
 						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
 							<!-- 图片 -->
 							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
-								<image src="../../static/images/23.png" mode="" ></image>
+								<image src="../static/images/19.png" mode="" ></image>
 								<!-- <image :src="requestUrl + i.head_img" mode="" ></image> -->
 							</view>
 							<!-- 内容 -->
@@ -309,7 +309,7 @@
 										</view>
 										<view class="discounts-hospital-pay">
 											<view class="discounts" :style="[{'color':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?'#999999':'#fa3475'}]">优惠 <text>￥{{item.discounts}}</text>
-												<image src="../../static/images/ask1.png" mode=""></image>
+												<image src="../static/images/ask1.png" mode=""></image>
 											</view>
 											<view class="hospital-pay" :style="[{'color':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?'#999999':'#111111'}]">到院再付 <text>￥{{item.hospitalPay}}</text>
 											</view>

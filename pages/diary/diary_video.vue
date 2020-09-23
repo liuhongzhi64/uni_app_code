@@ -8,7 +8,8 @@
 				<view class="title" > {{title}} </view>
 			</view>
 		</view>
-		日记详情（视频）
+		<!-- 日记详情（视频） -->
+		<video class="play-video" :style="[{'height':height+'px'}]" :src="videoUrl" controls ></video>
 	</view>
 </template>
 
@@ -26,6 +27,7 @@
 				title:'视频播放',
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
+				videoUrl:''
 			}
 		},
 		onLoad: function(option) {
@@ -33,6 +35,7 @@
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
 			let videoUrl = that.requestUrl + option.path
+			that.videoUrl = videoUrl
 			console.log(videoUrl)
 		},
 		onReady() {
@@ -100,5 +103,9 @@
 	.back-title .title {
 		flex: 1;
 		font-size: 37rpx;
+	}
+	.play-video{
+		width: 100%;
+		height: 100%;
 	}
 </style>

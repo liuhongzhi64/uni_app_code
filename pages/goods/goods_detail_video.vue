@@ -4,7 +4,8 @@
 	 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 	 <view class="goods_detail_video_contnt" :style="[{'padding-top':menuBottom+10+'px'}]">
 		 <scroll-view scroll-y :style="'height:'+height +'rpx'">
-			 商品详情（视频播放）
+			 商品详情的视频播放
+			<video class="play-video" :src="videoUrl" controls ></video>
 		</scroll-view>
 	 	
 	 </view>
@@ -33,14 +34,18 @@
 				title: '',
 				list: [],
 				requestUrl: '', //请求地址前缀
+				videoUrl:''
 			}
 		},
 		onLoad: function(option) {
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
+			let doctorId = option.doctorid
+			let videoId = option.videoid
 			let videoUrl = that.requestUrl + option.video
-			console.log(videoUrl)
+			that.videoUrl = videoUrl
+			console.log(videoUrl,doctorId,videoId)
 		},
 		onReady() {
 			let that = this;
@@ -64,6 +69,6 @@
 	}
 </script>
 
-<style>
-
+<style scoped>
+	
 </style>

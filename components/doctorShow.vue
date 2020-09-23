@@ -3,11 +3,13 @@
 	<view class="doctor-content">
 		<view class="goods_content">
 			<view class="left-content">
-				<view class="goods_item-content" style="width: 340rpx;"  
+				<view class="goods_item-content" 
+				 style="width: 340rpx;"  
 				 v-for="(item,index) in doctorList" 
 				 :key='index' 
-				 v-if="index%2==0">
-					<image class="cover_img" :src="requestUrl+item.cover_img" mode=""></image>
+				 v-if="index%2==0" 
+				 >
+					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" mode=""></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
 						<view class="category_name">
@@ -17,33 +19,39 @@
 							<view class="doctor_heading_name">
 								<image :src="requestUrl+item.doctor_relation.heading" mode=""></image>
 								<text>{{item.doctor_relation.name}}</text>
-							</view>
+							</view>							
+							<view 
+							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-if="item.collect">
-								<view class="like">
+							 v-if="item.collect"
+							 >
+								<view class="like"  @click="1==2?collectLike:cancelLike">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
 								{{item.collect}} 
 							 </view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']"
+							 v-else
+							 >
 								<view class="like">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								0
+								0 
 							</view>
-						</view>
+						</view>											
 					</view>
 				</view>
 			</view>
 			<view class="right-content">
-				<view class="goods_item-content" style="width: 340rpx;"
+				<view class="goods_item-content"
+				 style="width: 340rpx;"
 				 v-for="(item,index) in doctorList" 
 				 :key='index' 
-				 v-if="index%2==1">
-					<image class="cover_img" :src="requestUrl+item.cover_img" mode=""></image>
+				 v-if="index%2==1" 
+				 >
+					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" mode=""></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
 						<view class="category_name">
@@ -53,17 +61,19 @@
 							<view class="doctor_heading_name">
 								<image :src="requestUrl+item.doctor_relation.heading" mode=""></image>
 								<text>{{item.doctor_relation.name}}</text>
-							</view>
-							
+							</view>							
 							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-if="item.collect">
+							 v-if="item.collect"
+							 >
 								<view class="like">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
 								{{item.collect}} 
 							 </view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
+							 v-else
+							 >
 								<view class="like">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
@@ -73,7 +83,7 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</view>			
 		</view>
 	</view>
 </template>
@@ -87,9 +97,27 @@
 
 		data() {
 			return {
+				
 			}
 		},
 		methods: {
+			playVideo:function(path){
+				uni.navigateTo({
+					url: `/pages/diary/diary_video?path=${path}`,
+				})
+			},
+			// 点赞
+			collectLike:function(){
+				console.log(111)
+				// let videoId = id
+				// this.$emit('collectLike',videoId)
+			},
+			// 取消点赞
+			cancelLike:function(){
+				console.log(222)
+				// // let videoId = id
+				// this.$emit('cancelLike',videoId)
+			},
 			
 		}
 	}

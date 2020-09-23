@@ -202,6 +202,9 @@
 	margin-right: 10rpx;
 	height: 280rpx;
 }
+.case-item.data-v-1e282ce6:last-child{
+	padding-right: 30rpx;
+}
 .case-item image.data-v-1e282ce6{
 	width: 210rpx;
 	height: 210rpx;
@@ -289,14 +292,16 @@
 	border-radius: 24rpx;
 }
 .swiper-item-content.data-v-1e282ce6 {
+	font-size: 24rpx;
+	position: relative;
+}
+.item-top-content.data-v-1e282ce6{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
-	font-size: 24rpx;
-	position: relative;
 }
 .head-portrait image.data-v-1e282ce6 {
 	height: 120rpx;
@@ -534,6 +539,5 @@
 .please-doctor-introduce.data-v-1e282ce6 {
 	padding: 0 20rpx 20rpx;
 }
-
 
 

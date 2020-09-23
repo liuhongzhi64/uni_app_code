@@ -53,7 +53,8 @@
 											<view class="case-list">
 												<scroll-view class="case-items" scroll-x="true">
 													<view class="case-all-item">
-														<view class="case-item" v-for="(i,k) in doctorInformationList.video" :key='k' >
+														<view class="case-item" v-for="(i,k) in doctorInformationList.video" :key='k'
+														 @tap='playVideo(i.pivot)'>
 															<image :src="requestUrl+i.cover_img" mode=""></image>
 															<view class="case-explain"> {{i.name}} </view>
 														</view>
@@ -96,35 +97,37 @@
 												 v-for="(item,index) in particularDoctorList" 
 												 :key='index'>
 													<view class="swiper-item" v-for="(i,k) in item" :key='k'>
-														<view class="swiper-item-content">															
-															<view class="head-portrait">
-																<image :src="requestUrl+i.heading" mode=""></image>
+														<view class="swiper-item-content">	
+															<view class="item-top-content" @tap='goToDoctor(i.id)'>
+																<view class="head-portrait">
+																	<image :src="requestUrl+i.heading" mode=""></image>
+																</view>
+																<view class="middle-content">
+																	<view class="middle-doctor-name">
+																		{{i.name}} <text>{{i.zhicheng}}</text>
+																	</view>
+																	<view class="employed_time-case_num">
+																		<view class="employed_time"> 从业经验:{{Math.round(i.employed_time/31104000)}}年</view>
+																		<view class="case_num">案列数:{{i.case_num}}</view>
+																	</view>																
+																	<view class="goods_category">
+																		<view class="goods_category-title">擅长</view>
+																		<text class='goods_category-item' v-for="(j,index) in i.goods_category" :key='index'>
+																			{{j}} <text :class="{end_cont:index+1 == i.goods_category.length}">、</text>
+																		</text>
+																	</view>
+																	<view class="doctor_view">
+																		<view class="doctor_view_content">
+																			<view class='doctor_view_title'>观点</view>
+																			<text class="view_content">{{i.view}}</text>
+																		</view>																	
+																	</view>														
+																</view>	
 															</view>
-															<view class="middle-content">
-																<view class="middle-doctor-name">
-																	{{i.name}} <text>{{i.zhicheng}}</text>
-																</view>
-																<view class="employed_time-case_num">
-																	<view class="employed_time"> 从业经验:{{Math.round(i.employed_time/31104000)}}年</view>
-																	<view class="case_num">案列数:{{i.case_num}}</view>
-																</view>
-																
-																<view class="goods_category">
-																	<view class="goods_category-title">擅长</view>
-																	<text class='goods_category-item' v-for="(j,index) in i.goods_category" :key='index'>
-																		{{j}} <text :class="{end_cont:index+1 == i.goods_category.length}">、</text>
-																	</text>
-																</view>
-																<view class="doctor_view">
-																	<view class="doctor_view_content">
-																		<view class='doctor_view_title'>观点</view>
-																		<text class="view_content">{{i.view}}</text>
-																	</view>																	
-																</view>														
-															</view>	
-															<view class="consult">咨询</view>
+															
+															<view class="consult" @tap='goToConsult'>咨询</view>
 														</view>
-														<view class="recommended_goods">
+														<view class="recommended_goods" @tap='gotoGoods(i.recommended_goods.id)'>
 															<view class="goods_left">
 																<view class="goods_title">推</view>
 																<view class="gooss_content">{{i.recommended_goods.goods_name}}</view>
@@ -136,7 +139,7 @@
 																<text class="sale_price"> <text>￥</text> {{i.recommended_goods.sale_price}}</text>
 															</view>
 														</view>		
-														<view class="is_hot">
+														<view class="is_hot" @tap='gotoGoods(i.is_hot.id)'>
 															<view class="goods_left">
 																<view class="is_hot_title">热</view>
 																<view class="gooss_content">{{i.is_hot.goods_name}}</view>
@@ -146,9 +149,7 @@
 																 {{i.is_hot.sale_weight}}人预约
 																</text>
 																<text class="sale_price"> <text>￥</text> {{i.is_hot.sale_price}}</text>
-															</view>
-															
-															
+															</view>															
 														</view>
 													</view>
 												</swiper-item>
@@ -184,12 +185,21 @@
 													 :class="{dis:btnPleaseDoctorNum == k}" v-for="(i,k) in pleaseClassfiy"
 													 :key="k">
 														<view class="goods_content">
-															<doctor :doctorList="pleaseDoctorList" :requestUrl="requestUrl"></doctor>
+															<doctor 
+															 :doctorList="pleaseDoctorList" 
+															 :requestUrl="requestUrl" 
+															 @collectLike='collectLike' 
+															 @cancelLike='cancelLike'>
+															</doctor>
 														</view>
 													</view>
 												</template>
 											</scroll-view>
 										</view>
+									</view>
+									
+									<view v-for="(item,index) in text" :key="index">
+										<view :data-index='index' @tap="see"  style="font-size: 60rpx;color: #000000;">试一试{{index}}</view>
 									</view>
 								</view>
 							</template>
@@ -203,13 +213,14 @@
 </template>
 
 <script>
-	import doctor from '../../components/doctor.vue'
+	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
 			doctor,
 		},
 		data() {
 			return {
+				text:{a:1,b:2,c:3},
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
@@ -225,7 +236,8 @@
 				pleaseClassfiy:[],//拜托了医生分类
 				btnPleaseDoctorNum: 0,
 				pleaseDoctorList: [], //拜托了医生
-				requestUrl:''
+				requestUrl:'',
+				
 			}
 		},
 		onLoad: function() {
@@ -299,7 +311,7 @@
 					}
 				})
 			},
-			// 带你头部的明星医生
+			// 点击头部的明星医生
 			change: function(e = 0,id) {
 				let that = this
 				that.btnnum = e
@@ -312,14 +324,39 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						this.doctorInformationList = data
+						// console.log(data)
 					}
 				})
 			},
-			// 点击商品
-			gotoGoods: function(e,id) {
-				let goods = e.currentTarget.dataset.name
+			// 点击播放视频
+			playVideo:function(pivot){
+				console.log(pivot)
+				let doctorId = pivot.doctor_id
+				let videoId = pivot.video_id
+				console.log('点击了id为'+videoId+'的视频'+',和医生id为'+doctorId)
+				// uni.navigateTo({
+				// 	url: `/pages/diary/diary_video?path=${path}`,
+				// })
+			},
+			// 医生主页
+			goToDoctor:function(doctorId){
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?goods=${goods}`,
+					url: `/pages/doctor/doctor_detail?id=${doctorId}`,
+				})
+			},
+			// 咨询
+			goToConsult:function(){
+				console.log('咨询')
+				// uni.navigateTo({
+				// 	url: `/pages/consultation/consultation`,
+				// })
+			},
+			// 点击商品
+			gotoGoods: function(id) {
+				let goodsId = id
+				console.log('点击了id为'+goodsId+'的商品')
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?id=${goodsId}`,
 				})
 			},
 			// 点击医生中心分类
@@ -334,13 +371,12 @@
 				that.request.uniRequest("doctor", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						// console.log(data)
 						that.particularDoctorList = data
 						that.particularDoctorList = that.group(that.particularDoctorList, 3)
 						that.doctorListLength = that.particularDoctorList[0].length
 					}
-				})
-				
-			
+				})							
 			},
 			// 点击拜托医生
 			changePleaseDoctor: function(e,id) {
@@ -368,6 +404,22 @@
 				}
 				return newArray;
 			},
+			// 点赞
+			collectLike:function(id){
+				let videoId = id
+				console.log(videoId)
+			},
+			// 取消点赞
+			cancelLike:function(id){
+				let videoId = id
+				console.log(videoId)
+			},
+			see:function(even){
+				console.log(even,111111)
+			},
+			look:function(){
+				console.log(even,22222)
+			}
 		}
 	}
 </script>
@@ -548,6 +600,9 @@
 		margin-right: 10rpx;
 		height: 280rpx;
 	}
+	.case-item:last-child{
+		padding-right: 30rpx;
+	}
 	.case-item image{
 		width: 210rpx;
 		height: 210rpx;
@@ -630,10 +685,12 @@
 	}
 
 	.swiper-item-content {
-		display: flex;
-		justify-content: space-between;
 		font-size: 24rpx;
 		position: relative;
+	}
+	.item-top-content{
+		display: flex;
+		justify-content: space-between;
 	}
 
 	.head-portrait image {
@@ -763,8 +820,7 @@
 	.sale_price text{
 		font-size: 24rpx;
 	}
-	
-	
+		
 	.is_hot{
 		width: 570rpx;
 		padding: 0 20rpx;
@@ -786,7 +842,6 @@
 		text-align: center;
 		margin-right: 10rpx;	
 	}
-
 
 	.consult{
 		width: 110rpx;
@@ -843,6 +898,5 @@
 	.please-doctor-introduce {
 		padding: 0 20rpx 20rpx;
 	}
-
 	
 </style>

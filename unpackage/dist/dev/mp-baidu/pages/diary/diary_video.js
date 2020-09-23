@@ -144,6 +144,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -157,7 +158,8 @@ var _default =
       height: 0,
       title: '视频播放',
       topBackgroundColor: '#222222',
-      color: '#FFFFFF' };
+      color: '#FFFFFF',
+      videoUrl: '' };
 
   },
   onLoad: function onLoad(option) {
@@ -165,6 +167,7 @@ var _default =
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
     var videoUrl = that.requestUrl + option.path;
+    that.videoUrl = videoUrl;
     console.log(videoUrl);
   },
   onReady: function onReady() {

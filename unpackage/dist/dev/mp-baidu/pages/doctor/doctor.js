@@ -173,7 +173,17 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctor */ "components/doctor").then((function () {return resolve(__webpack_require__(/*! ../../components/doctor.vue */ 562));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 458));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -385,6 +395,7 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
+      text: { a: 1, b: 2, c: 3 },
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
@@ -401,6 +412,7 @@ __webpack_require__.r(__webpack_exports__);
       btnPleaseDoctorNum: 0,
       pleaseDoctorList: [], //拜托了医生
       requestUrl: '' };
+
 
   },
   onLoad: function onLoad() {
@@ -474,7 +486,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    // 带你头部的明星医生
+    // 点击头部的明星医生
     change: function change() {var _this2 = this;var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var id = arguments.length > 1 ? arguments[1] : undefined;
       var that = this;
       that.btnnum = e;
@@ -487,14 +499,39 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           _this2.doctorInformationList = data;
+          // console.log(data)
         }
       });
     },
-    // 点击商品
-    gotoGoods: function gotoGoods(e, id) {
-      var goods = e.currentTarget.dataset.name;
+    // 点击播放视频
+    playVideo: function playVideo(pivot) {
+      console.log(pivot);
+      var doctorId = pivot.doctor_id;
+      var videoId = pivot.video_id;
+      console.log('点击了id为' + videoId + '的视频' + ',和医生id为' + doctorId);
+      // uni.navigateTo({
+      // 	url: `/pages/diary/diary_video?path=${path}`,
+      // })
+    },
+    // 医生主页
+    goToDoctor: function goToDoctor(doctorId) {
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?goods=".concat(goods) });
+        url: "/pages/doctor/doctor_detail?id=".concat(doctorId) });
+
+    },
+    // 咨询
+    goToConsult: function goToConsult() {
+      console.log('咨询');
+      // uni.navigateTo({
+      // 	url: `/pages/consultation/consultation`,
+      // })
+    },
+    // 点击商品
+    gotoGoods: function gotoGoods(id) {
+      var goodsId = id;
+      console.log('点击了id为' + goodsId + '的商品');
+      uni.navigateTo({
+        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
 
     },
     // 点击医生中心分类
@@ -509,13 +546,12 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("doctor", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
+          // console.log(data)
           that.particularDoctorList = data;
           that.particularDoctorList = that.group(that.particularDoctorList, 3);
           that.doctorListLength = that.particularDoctorList[0].length;
         }
       });
-
-
     },
     // 点击拜托医生
     changePleaseDoctor: function changePleaseDoctor(e, id) {
@@ -542,6 +578,22 @@ __webpack_require__.r(__webpack_exports__);
         newArray.push(array.slice(index, index += subGroupLength));
       }
       return newArray;
+    },
+    // 点赞
+    collectLike: function collectLike(id) {
+      var videoId = id;
+      console.log(videoId);
+    },
+    // 取消点赞
+    cancelLike: function cancelLike(id) {
+      var videoId = id;
+      console.log(videoId);
+    },
+    see: function see(even) {
+      console.log(even, 111111);
+    },
+    look: function look() {
+      console.log(even, 22222);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

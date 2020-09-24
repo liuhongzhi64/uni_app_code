@@ -1,203 +1,6 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 	.diary_detail_content {
-	background-color: #F6F6F6;
-} */
 .user-message.data-v-799f96d2 {
-	background-color: #222222;
+	background-color: #333333;
 }
 .user-head-portrait-name-phone-set.data-v-799f96d2 {
 	padding: 10rpx 40rpx 40rpx;
@@ -228,6 +31,7 @@
 	height: 160rpx;
 	border-radius: 80rpx;
 	margin-right: 24rpx;
+	border: 1rpx solid #FFFFFF;
 }
 .user-name-cart.data-v-799f96d2 {
 	display: -webkit-box;
@@ -247,13 +51,27 @@
 	margin-top: 18rpx;
 }
 .detail-swiper.data-v-799f96d2 {
-	height: 584rpx;
+	min-height:1000rpx;
 }
 .top-swiper.data-v-799f96d2 {
-	height: 584rpx;
+	min-height:1000rpx;
+}
+.top-swiper-item .top-swiper-images.data-v-799f96d2 {
+	/* min-height: 584rpx; */
+	width: 750rpx;
 }
 .top-swiper-item.data-v-799f96d2 {
 	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	height: auto;
 }
 .porduct-message.data-v-799f96d2 {
 	position: absolute;
@@ -301,10 +119,6 @@
 	width: 80rpx;
 	height: 80rpx;
 	border-radius: 40rpx;
-}
-.top-swiper-item .top-swiper-images.data-v-799f96d2 {
-	height: 584rpx;
-	width: 100%;
 }
 .porduct-name-price.data-v-799f96d2,
 .doctor-name-subordinate-position.data-v-799f96d2 {
@@ -356,9 +170,6 @@
 	padding-top: 32rpx;
 	padding-bottom: 160rpx;
 }
-.user-details-contents .blank.data-v-799f96d2 {
-	height: 60rpx;
-}
 .bottom-messages.data-v-799f96d2 {
 	background-color: #F6F6F6;
 	position: fixed;
@@ -381,6 +192,7 @@
 .page-view-collect-transpond image.data-v-799f96d2 {
 	width: 40rpx;
 	height: 40rpx;
+	margin-right: 10rpx;
 }
 .collect.data-v-799f96d2,
 .transpond.data-v-799f96d2 {
@@ -397,4 +209,21 @@
 	color: #fa3475;
 	font-size: 26rpx;
 }
+.page-view  text.data-v-799f96d2{
+	margin-left: 10rpx;
+}
+.consult.data-v-799f96d2{
+	position: fixed;
+	z-index: 9;
+	background-color: #FA3475;
+	opacity: 0.8;
+	width: 130rpx;
+	line-height: 120rpx;
+	text-align: center;
+	top: 50%;
+	right: 10rpx;
+	color: #FFFFFF;
+	border-radius: 24rpx;
+}
+
 

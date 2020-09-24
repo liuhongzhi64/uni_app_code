@@ -295,79 +295,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -404,8 +331,12 @@ __webpack_require__.r(__webpack_exports__);
         '眼部美容',
         '微针双眼皮'],
 
-        is_collect: 0 // 是否收藏： 0 否1是
-      },
+        is_collect: 0, // 是否收藏： 0 否1是
+        doctor_relation: {
+          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
+          name: '就是名字' } },
+
+
       {
         id: 5,
         name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
@@ -417,8 +348,12 @@ __webpack_require__.r(__webpack_exports__);
         "视频分类222",
         "眼泪"],
 
-        is_collect: 1 // 是否收藏： 0 否1是
-      },
+        is_collect: 1, // 是否收藏： 0 否1是
+        doctor_relation: {
+          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
+          name: '就是名字' } },
+
+
       {
         id: 4,
         name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
@@ -432,8 +367,12 @@ __webpack_require__.r(__webpack_exports__);
         '眼部美容',
         '微针双眼皮'],
 
-        is_collect: 1 // 是否收藏： 0 否1是
-      },
+        is_collect: 1, // 是否收藏： 0 否1是
+        doctor_relation: {
+          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
+          name: '就是名字' } },
+
+
       {
         id: 8,
         name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
@@ -444,8 +383,12 @@ __webpack_require__.r(__webpack_exports__);
         category_name: [//所属分类
         "视频分类222"],
 
-        is_collect: 0 // 是否收藏： 0 否1是
-      }],
+        is_collect: 0, // 是否收藏： 0 否1是
+        doctor_relation: {
+          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
+          name: '就是名字' } }],
+
+
       //这是专辑和拜托医生
       doctorList: [], //医生相册
       diaryList: [], //日记
@@ -552,7 +495,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
       doctor_id: '',
-      is_doctor_collect: 0 };
+      is_doctor_collect: 0,
+      paddingLR: 0,
+      heading: '',
+      doctorname: '' };
 
   },
   onLoad: function onLoad(option) {
@@ -560,8 +506,9 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
     var doctorId = option.id;
+    var heading = option.heading;
     that.doctor_id = option.id;
-    // console.log(doctorId)
+    console.log(doctorId, heading);
     that.getDetail(doctorId);
     that.getDoctormessage(doctorId);
   },
@@ -592,16 +539,16 @@ __webpack_require__.r(__webpack_exports__);
       this.request.uniRequest("doctor", dataInfo).then(function (res) {
         if (res.data.code == 1000) {
           var data = res.data.data;
-          console.log(data);
           that.doctorHeadPortrait = that.requestUrl + data[0].heading;
+          that.doctorname = data[0].name;
           that.doctorMessage = data[0]; //医生信息
           that.is_doctor_collect = data.is_doctor_collect;
-          console.log(that.doctorMessage);
-          // that.doctorVideo = data.video //这是专辑和拜托医生
+          // console.log(that.doctorMessage)
+          that.doctorVideo = data.video; //这是专辑和拜托医生
           that.diaryList = data.diary; //日记
           that.porductList = data.goods; //商品
           that.porductList = that.group(that.porductList, 3);
-          console.log(that.porductList);
+          // console.log(that.porductList)
         } else {
           _this.request.showToast(res.data.message);
         }

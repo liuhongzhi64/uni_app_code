@@ -537,7 +537,8 @@
 	        justify-content: flex-start;
 }
 .please-doctor-introduce.data-v-1e282ce6 {
-	padding: 0 20rpx 20rpx;
+	/* padding: 0 20rpx 20rpx; */
+	padding-top: 34rpx;
 }
 
 

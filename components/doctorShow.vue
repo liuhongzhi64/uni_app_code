@@ -1,7 +1,7 @@
 <template>
 	<!-- 医生模板 -->
 	<view class="doctor-content">
-		<view class="goods_content">
+		<view class="goods_content" :style="{'padding-left':paddingLR+'rpx','padding-right':paddingLR+'rpx'}">
 			<view class="left-content">
 				<view class="goods_item-content" 
 				 style="width: 340rpx;"  
@@ -16,30 +16,34 @@
 							<view v-for="(i,index) in item.category_name" :key="index"> {{i}} </view>
 						</view>
 						<view class="doctor_collect">
-							<view class="doctor_heading_name">
+							<view class="doctor_heading_name" v-if="item.doctor_relation">
 								<image :src="requestUrl+item.doctor_relation.heading" mode=""></image>
 								<text>{{item.doctor_relation.name}}</text>
-							</view>							
+							</view>	
+							<view class="doctor_heading_name" v-else>
+								<image :src="heading" mode=""></image>
+								<text>{{doctorname}}</text>
+							</view>								
 							<view 
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							
-							 v-if="item.collect"
-							 >
-								<view class="like"  @click="1==2?collectLike:cancelLike">
-									<image class="like-image" 
-									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view>
-								{{item.collect}} 
-							 </view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']"
-							 v-else
+							 v-if="item.is_collect==0" @tap='collectLike(item.id)'
 							 >
 								<view class="like">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								0 
+								{{item.collect}} 
 							</view>
+							<view
+							 :class="[item.is_collect==1?'is_no_collect':'collect_num']" 
+							 v-else @tap='cancelLike(item.id)'
+							 >
+								<view class="like">
+									<image class="like-image" 
+									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+								</view>
+								{{item.collect}} 
+							</view>							
 						</view>											
 					</view>
 				</view>
@@ -58,27 +62,33 @@
 							<view v-for="(i,index) in item.category_name" :key="index"> {{i}} </view>
 						</view>
 						<view class="doctor_collect">
-							<view class="doctor_heading_name">
+							<view class="doctor_heading_name" v-if="item.doctor_relation">
 								<image :src="requestUrl+item.doctor_relation.heading" mode=""></image>
 								<text>{{item.doctor_relation.name}}</text>
+							</view>	
+							<view class="doctor_heading_name" v-else>
+								<image :src="heading" mode=""></image>
+								<text>{{doctorname}}</text>
 							</view>							
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-if="item.collect"
+							<view
+							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
+							 v-if="item.is_collect==0" @tap='collectLike(item.id)'
 							 >
 								<view class="like">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
 								{{item.collect}} 
-							 </view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-else
+							</view>
+							<view
+							 :class="[item.is_collect==1?'is_no_collect':'collect_num']" 
+							 v-else @tap='cancelLike(item.id)'
 							 >
 								<view class="like">
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								0
+								{{item.collect}} 
 							</view>
 						</view>
 					</view>
@@ -92,7 +102,10 @@
 	export default {
 		props: {
 			doctorList: Array,
-			requestUrl: String
+			requestUrl: String,
+			heading:String,
+			doctorname:String,
+			paddingLR:Number
 		},
 
 		data() {
@@ -107,16 +120,16 @@
 				})
 			},
 			// 点赞
-			collectLike:function(){
-				console.log(111)
-				// let videoId = id
-				// this.$emit('collectLike',videoId)
+			collectLike:function(id){
+				// console.log(111)
+				let videoId = id
+				this.$emit('collectLike',videoId)
 			},
 			// 取消点赞
-			cancelLike:function(){
-				console.log(222)
-				// // let videoId = id
-				// this.$emit('cancelLike',videoId)
+			cancelLike:function(id){
+				// console.log(222)
+				let videoId = id
+				this.$emit('cancelLike',videoId)
 			},
 			
 		}
@@ -126,7 +139,7 @@
 <style scoped>
 /* 左右布局 */
 	.goods_content{
-		padding: 34rpx 10rpx;
+		/* padding: 34rpx 10rpx; */
 		display: flex;
 		justify-content: space-between;
 	}
@@ -161,7 +174,7 @@
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
-		padding: 12rpx 0 20rpx;
+		padding: 12rpx 0 10rpx;
 	}
 	.category_name view{
 		padding: 0 20rpx;
@@ -172,6 +185,7 @@
 		text-align: center;
 		color: #FFFFFF;
 		margin-right: 12rpx;
+		margin-bottom: 10rpx;
 	}
 	.doctor_collect{
 		display: flex;

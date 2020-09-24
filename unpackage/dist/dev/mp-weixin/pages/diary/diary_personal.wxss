@@ -32,6 +32,7 @@
 	height: 160rpx;
 	border-radius: 80rpx;
 	margin-right: 24rpx;
+	border: 1rpx solid #FFFFFF;
 }
 .user-name-cart.data-v-bfd8c1fe {
 	display: -webkit-box;
@@ -87,7 +88,7 @@
 .bottom-botton.data-v-bfd8c1fe{
 	position: fixed;
 	width: 100%;
-	background-color: #FFFFFF;
+	/* background-color: #FFFFFF; */
 	bottom: 0;
 	left: 0;
 }

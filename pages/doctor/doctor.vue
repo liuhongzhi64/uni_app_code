@@ -98,7 +98,7 @@
 												 :key='index'>
 													<view class="swiper-item" v-for="(i,k) in item" :key='k'>
 														<view class="swiper-item-content">	
-															<view class="item-top-content" @tap='goToDoctor(i.id)'>
+															<view class="item-top-content" @tap='goToDoctor(i.id,requestUrl+i.heading)'>
 																<view class="head-portrait">
 																	<image :src="requestUrl+i.heading" mode=""></image>
 																</view>
@@ -156,7 +156,6 @@
 											</swiper>
 										</view>
 									</view>
-
 									<!-- 拜托了医生 -->
 									<view class="please-doctor" >
 										<!-- 标题 -->
@@ -164,7 +163,6 @@
 										<view class="please-doctor-title-line">
 											<view></view>
 										</view>
-
 										<view class="please-doctor-content">
 											<scroll-view scroll-y>
 												<template>
@@ -188,6 +186,7 @@
 															<doctor 
 															 :doctorList="pleaseDoctorList" 
 															 :requestUrl="requestUrl" 
+															 :paddingLR = 'paddingLR'
 															 @collectLike='collectLike' 
 															 @cancelLike='cancelLike'>
 															</doctor>
@@ -196,11 +195,7 @@
 												</template>
 											</scroll-view>
 										</view>
-									</view>
-									
-									<view v-for="(item,index) in text" :key="index">
-										<view :data-index='index' @tap="see"  style="font-size: 60rpx;color: #000000;">试一试{{index}}</view>
-									</view>
+									</view>																		
 								</view>
 							</template>
 						</scroll-view>
@@ -220,7 +215,7 @@
 		},
 		data() {
 			return {
-				text:{a:1,b:2,c:3},
+				text:['1','2','3'],
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
@@ -237,7 +232,7 @@
 				btnPleaseDoctorNum: 0,
 				pleaseDoctorList: [], //拜托了医生
 				requestUrl:'',
-				
+				paddingLR:30//拜托医生的左右边距
 			}
 		},
 		onLoad: function() {
@@ -339,9 +334,9 @@
 				// })
 			},
 			// 医生主页
-			goToDoctor:function(doctorId){
+			goToDoctor:function(doctorId,heading){
 				uni.navigateTo({
-					url: `/pages/doctor/doctor_detail?id=${doctorId}`,
+					url: `/pages/doctor/doctor_detail?id=${doctorId}&&heading=${heading}`,
 				})
 			},
 			// 咨询
@@ -371,7 +366,7 @@
 				that.request.uniRequest("doctor", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						// console.log(data)
+						console.log(data)
 						that.particularDoctorList = data
 						that.particularDoctorList = that.group(that.particularDoctorList, 3)
 						that.doctorListLength = that.particularDoctorList[0].length
@@ -379,9 +374,9 @@
 				})							
 			},
 			// 点击拜托医生
-			changePleaseDoctor: function(e,id) {
+			changePleaseDoctor: function(index,id) {
 				let that = this
-				this.btnPleaseDoctorNum = e
+				this.btnPleaseDoctorNum = index
 				let doctorId = id
 				let dataInfo = {
 					interfaceId:'video',
@@ -407,19 +402,32 @@
 			// 点赞
 			collectLike:function(id){
 				let videoId = id
-				console.log(videoId)
+				let data = {
+					interfaceId: 'video_collect',
+					video_id :videoId,
+					status:'0'
+				}
+				this.request.uniRequest("/doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						this.request.showToast('成功')					
+					}
+				})
 			},
 			// 取消点赞
 			cancelLike:function(id){
 				let videoId = id
-				console.log(videoId)
+				let data = {
+					interfaceId: 'video_collect',
+					video_id :videoId,
+					status:'1'
+				}
+				this.request.uniRequest("/doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						this.request.showToast('成功')					
+					}
+				})
 			},
-			see:function(even){
-				console.log(even,111111)
-			},
-			look:function(){
-				console.log(even,22222)
-			}
+			
 		}
 	}
 </script>
@@ -896,7 +904,8 @@
 	}
 
 	.please-doctor-introduce {
-		padding: 0 20rpx 20rpx;
+		/* padding: 0 20rpx 20rpx; */
+		padding-top: 34rpx;
 	}
 	
 </style>

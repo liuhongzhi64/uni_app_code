@@ -21,4 +21,8 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
+.swiper.data-v-27f51bbe{
+	height: 225px;
+	width: 100%;
+}
 

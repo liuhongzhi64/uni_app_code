@@ -11,7 +11,7 @@
     "host": "baiduboxapp",
     "swan": {
         "baiduboxapp": {
-            "swanJsVersion": "3.200.114",
+            "swanJsVersion": "3.200.116",
             "extensionJsVersion": "1.16.2"
         }
     }

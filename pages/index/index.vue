@@ -710,25 +710,25 @@
 		},
 		onLoad(options) {
 
-			uni.setStorage({
-				key: 'token',
-				data: 'hello',
-				success: function() {
-					console.log('保存成功');
-				}
-			})
-			uni.getStorage({
-				key: 'token',
-				success: function(res) {
-					console.log(res.data);
-				}
-			})
+			// uni.setStorage({
+			// 	key: 'token',
+			// 	data: 'hello',
+			// 	success: function() {
+			// 		console.log('保存成功');
+			// 	}
+			// })
+			// uni.getStorage({
+			// 	key: 'token',
+			// 	success: function(res) {
+			// 		console.log(res.data);
+			// 	}
+			// })
 		},
 		// 下拉刷新
 		onPullDownRefresh: function() {
 			success: {
 				title: '刷新成功'
-				console.log('下拉刷新成功')
+				// console.log('下拉刷新成功')
 			};
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
@@ -804,7 +804,7 @@
 
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index) {
-				console.log(index, this.topTabTaplist[0])
+				// console.log(index, this.topTabTaplist[0])
 				this.tabIndex = index;
 			},
 			// 选中的内容

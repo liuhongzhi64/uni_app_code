@@ -384,18 +384,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
 {
   components: {
     doctor: doctor },
 
   data: function data() {
     return {
-      text: { a: 1, b: 2, c: 3 },
+      text: ['1', '2', '3'],
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
@@ -411,9 +406,9 @@ __webpack_require__.r(__webpack_exports__);
       pleaseClassfiy: [], //拜托了医生分类
       btnPleaseDoctorNum: 0,
       pleaseDoctorList: [], //拜托了医生
-      requestUrl: '' };
-
-
+      requestUrl: '',
+      paddingLR: 30 //拜托医生的左右边距
+    };
   },
   onLoad: function onLoad() {
     var that = this;
@@ -514,9 +509,9 @@ __webpack_require__.r(__webpack_exports__);
       // })
     },
     // 医生主页
-    goToDoctor: function goToDoctor(doctorId) {
+    goToDoctor: function goToDoctor(doctorId, heading) {
       uni.navigateTo({
-        url: "/pages/doctor/doctor_detail?id=".concat(doctorId) });
+        url: "/pages/doctor/doctor_detail?id=".concat(doctorId, "&&heading=").concat(heading) });
 
     },
     // 咨询
@@ -546,7 +541,7 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("doctor", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          // console.log(data)
+          console.log(data);
           that.particularDoctorList = data;
           that.particularDoctorList = that.group(that.particularDoctorList, 3);
           that.doctorListLength = that.particularDoctorList[0].length;
@@ -554,9 +549,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     // 点击拜托医生
-    changePleaseDoctor: function changePleaseDoctor(e, id) {
+    changePleaseDoctor: function changePleaseDoctor(index, id) {
       var that = this;
-      this.btnPleaseDoctorNum = e;
+      this.btnPleaseDoctorNum = index;
       var doctorId = id;
       var dataInfo = {
         interfaceId: 'video',
@@ -580,20 +575,32 @@ __webpack_require__.r(__webpack_exports__);
       return newArray;
     },
     // 点赞
-    collectLike: function collectLike(id) {
+    collectLike: function collectLike(id) {var _this3 = this;
       var videoId = id;
-      console.log(videoId);
+      var data = {
+        interfaceId: 'video_collect',
+        video_id: videoId,
+        status: '0' };
+
+      this.request.uniRequest("/doctor", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          _this3.request.showToast('成功');
+        }
+      });
     },
     // 取消点赞
-    cancelLike: function cancelLike(id) {
+    cancelLike: function cancelLike(id) {var _this4 = this;
       var videoId = id;
-      console.log(videoId);
-    },
-    see: function see(even) {
-      console.log(even, 111111);
-    },
-    look: function look() {
-      console.log(even, 22222);
+      var data = {
+        interfaceId: 'video_collect',
+        video_id: videoId,
+        status: '1' };
+
+      this.request.uniRequest("/doctor", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          _this4.request.showToast('成功');
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

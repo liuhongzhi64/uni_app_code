@@ -124,9 +124,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 左右布局 */
 .goods_content.data-v-19479237{
-		padding: 34rpx 10rpx;
+		/* padding: 34rpx 10rpx; */
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
@@ -179,7 +192,7 @@
 		        align-items: center;
 		-webkit-flex-wrap: wrap;
 		        flex-wrap: wrap;
-		padding: 12rpx 0 20rpx;
+		padding: 12rpx 0 10rpx;
 }
 .category_name view.data-v-19479237{
 		padding: 0 20rpx;
@@ -190,6 +203,7 @@
 		text-align: center;
 		color: #FFFFFF;
 		margin-right: 12rpx;
+		margin-bottom: 10rpx;
 }
 .doctor_collect.data-v-19479237{
 		display: -webkit-box;

@@ -81,11 +81,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  if (!_vm._isMounted) {
-    _vm.e0 = function($event) {
-       false ? undefined : _vm.cancelLike
-    }
-  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -209,11 +204,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
     doctorList: Array,
-    requestUrl: String },
+    requestUrl: String,
+    heading: String,
+    doctorname: String,
+    paddingLR: Number },
 
 
   data: function data() {
@@ -228,16 +236,16 @@ var _default =
 
     },
     // 点赞
-    collectLike: function collectLike() {
-      console.log(111);
-      // let videoId = id
-      // this.$emit('collectLike',videoId)
+    collectLike: function collectLike(id) {
+      // console.log(111)
+      var videoId = id;
+      this.$emit('collectLike', videoId);
     },
     // 取消点赞
-    cancelLike: function cancelLike() {
-      console.log(222);
-      // // let videoId = id
-      // this.$emit('cancelLike',videoId)
+    cancelLike: function cancelLike(id) {
+      // console.log(222)
+      var videoId = id;
+      this.$emit('cancelLike', videoId);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

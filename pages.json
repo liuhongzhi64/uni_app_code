@@ -3,21 +3,9 @@
 		
 		// 测试时的首页
 		
-		// 医生
+		// 用户协议
 		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_certificate", //医生证书
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
-		{
-			"path": "pages/doctor/doctor_photo", //医生相册
+			"path": "pages/agreement/agreement", //用户协议
 			"style": {}
 		},
 		
@@ -48,11 +36,7 @@
 			}
 		},
 		
-		// 用户协议
-		{
-			"path": "pages/agreement/agreement", //用户协议
-			"style": {}
-		},
+		
 		
 		// 购物车
 		{
@@ -123,7 +107,23 @@
 			"style": {}
 		},
 	
-		
+		// 医生
+		{
+			"path": "pages/doctor/doctor", //医生
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_certificate", //医生证书
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		},
+		{
+			"path": "pages/doctor/doctor_photo", //医生相册
+			"style": {}
+		},
 		
 		// 商品
 		{

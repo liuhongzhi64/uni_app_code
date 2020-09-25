@@ -260,108 +260,7 @@
 				], //这是专辑和拜托医生
 				doctorList: [], //医生相册
 				diaryList: [], //日记
-				porductList: [
-					{
-						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
-						goods_name: "祛眼袋", //名称
-						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
-						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
-						head_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //头图
-						rate: "88.8", //好评率
-						label: { // 标签
-							type: 0, //0分类标签   1 非分类标签
-							list: [ //标签内容
-								"周年庆活动",
-								"新品特推"
-							]
-						},
-						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
-						plateform: "1,2",
-						sku_id: 17,
-						sale_price: "16000.0", //销售价
-						act_id: 0,
-						sales: 1000, //销量  预约数
-						member: {
-							"price": 16000, //会员价格
-							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
-						}
-					},
-					{
-						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
-						goods_name: "祛眼袋", //名称
-						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
-						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
-						head_img: "upload/diary/images/202009/11/UrqE9tLcUAuYhJsOpyqH6uAAih5fYW8EjPGzunXu.jpeg", //头图
-						rate: "88.8", //好评率
-						label: { // 标签
-							type: 1, //0分类标签   1 非分类标签
-							list: [ //标签内容
-								"周年庆活动",
-								"新品特推0"
-							]
-						},
-						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
-						plateform: "1,2",
-						sku_id: 14,
-						sale_price: "16000.0", //销售价
-						act_id: 0,
-						sales: 1000, //销量  预约数
-						member: {
-							"price": 16000, //会员价格
-							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
-						}
-					},
-					{
-						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
-						goods_name: "祛眼袋", //名称
-						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
-						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
-						head_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //头图
-						rate: "88.8", //好评率
-						label: { // 标签
-							type: 1, //0分类标签   1 非分类标签
-							list: [ //标签内容
-								"周年庆活动",
-								"新品特推1"
-							]
-						},
-						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
-						plateform: "1,2",
-						sku_id: 42,
-						sale_price: "19900.0", //销售价
-						act_id: 0,
-						sales: 1000, //销量  预约数
-						member: {
-							"price": 16800, //会员价格
-							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
-						}
-					},
-					{
-						encrypted_id: "S0xLeFMrSlNjdmVkekxSK3MyRkh3UT09",
-						goods_name: "祛眼袋", //名称
-						seo_keyword: "双眼皮修复,双眼皮美容,去眼袋",
-						seo_description: "双眼皮修复,双眼皮美容,去眼袋",
-						head_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //头图
-						rate: "99.9", //好评率
-						label: { // 标签
-							type: 0, //0分类标签   1 非分类标签
-							list: [ //标签内容
-								"周年庆活动",
-								"新品特推"
-							]
-						},
-						spu_icon: "upload/goods6f5c9fa6d178e13848.jpg", //商品标签图片
-						plateform: "1,2",
-						sku_id: 17,
-						sale_price: "27000.0", //销售价
-						act_id: 0,
-						sales: 1000, //销量  预约数
-						member: {
-							"price": 18800, //会员价格
-							"member_title": "" //会员名称     member_title 该字段为空  不展示会员价格
-						}
-					},
-				],
+				porductList: [],
 				doctor_id:'',
 				is_doctor_collect:0,
 				paddingLR:0,
@@ -376,7 +275,7 @@
 			let doctorId = option.id
 			let heading = option.heading
 			that.doctor_id = option.id
-			console.log(doctorId,heading)
+			// console.log(doctorId,heading)
 			that.getDetail(doctorId)
 			that.getDoctormessage(doctorId)
 		},
@@ -702,8 +601,6 @@
 		color: #b2b2b2;
 		margin-left: 10rpx;
 	}
-
-
 
 	.collect_num {
 		font-size: 30rpx;

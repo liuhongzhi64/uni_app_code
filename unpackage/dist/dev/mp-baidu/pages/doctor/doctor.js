@@ -384,6 +384,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     doctor: doctor },
@@ -407,8 +441,35 @@ __webpack_require__.r(__webpack_exports__);
       btnPleaseDoctorNum: 0,
       pleaseDoctorList: [], //拜托了医生
       requestUrl: '',
-      paddingLR: 30 //拜托医生的左右边距
-    };
+      paddingLR: 30, //拜托医生的左右边距
+      showDoctor: false,
+      isShowPlease: false };
+
+  },
+  onPageScroll: function onPageScroll(event) {
+    // console.log(event.scrollTop)
+    var that = this;
+    if (event.scrollTop >= 800 && event.scrollTop < 1399 && that.doctorListLength <= 2) {
+      that.showDoctor = true;
+      that.isShowPlease = false;
+    } else
+    if (event.scrollTop >= 800 && event.scrollTop < 1599 && that.doctorListLength > 2) {
+      that.showDoctor = true;
+      that.isShowPlease = false;
+    } else
+    if (event.scrollTop > 1400 && that.doctorListLength <= 2) {
+      that.showDoctor = false;
+      that.isShowPlease = true;
+    } else
+    if (event.scrollTop > 1600 && that.doctorListLength > 2) {
+      that.showDoctor = false;
+      that.isShowPlease = true;
+    } else
+    if (event.scrollTop < 799) {
+      that.showDoctor = false;
+    }
+
+
   },
   onLoad: function onLoad() {
     var that = this;

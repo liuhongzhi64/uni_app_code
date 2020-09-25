@@ -204,6 +204,40 @@
 				</view>
 			</template>
 		</scroll-view>
+		
+		<!-- 定位的医生中心 -->
+		<view class="fixed-classfiy" :style="[{'top':menuBottom+10+'px'}]" v-if="showDoctor">
+			<scroll-view class="recommend-doctor-items" scroll-x="true">
+				<view class="recommend-doctor-items-content">
+					<view class="recommend-doctor-name"
+					 v-for="(i,k) in doctorNameList" :key='k' 
+					 :class="{checkedDoctor :btndoctornum == k}"
+					  @tap="changeDoctor(k,i.id)">
+						<view class="item-name">
+							{{ i.name }}
+						</view>
+						<view :class="{checkedLine :btndoctornum == k}"></view>
+					</view>
+				</view>											
+			</scroll-view>
+		</view>
+		
+		<!-- 拜托了医生的导航条 -->
+		<view class="fixed-classfiy" :style="[{'top':menuBottom+10+'px'}]" v-if="isShowPlease">
+			<scroll-view class="recommend-doctor-items" scroll-x="true">
+				<view class="recommend-doctor-items-content">
+					<view class="recommend-doctor-name"
+					 v-for="(i,k) in pleaseClassfiy" :key='k' 
+					 :class="{checkedDoctor :btnPleaseDoctorNum == k}"
+					  @tap="changePleaseDoctor(k,i.id)">
+						<view class="item-name"> {{ i.name }} </view>
+						<view :class="{checkedLine :btnPleaseDoctorNum == k}"></view>
+					</view>
+				</view>											
+			</scroll-view>
+		</view>
+		
+	
 	</view>
 </template>
 
@@ -232,8 +266,35 @@
 				btnPleaseDoctorNum: 0,
 				pleaseDoctorList: [], //拜托了医生
 				requestUrl:'',
-				paddingLR:30//拜托医生的左右边距
+				paddingLR:30,//拜托医生的左右边距
+				showDoctor:false,
+				isShowPlease:false
 			}
+		},
+		onPageScroll:function(event){
+			// console.log(event.scrollTop)
+			let that = this
+			if( event.scrollTop >=800 && event.scrollTop <1399 && that.doctorListLength <= 2  ){
+				that.showDoctor = true
+				that.isShowPlease =false
+			}
+			else if( event.scrollTop >=800 && event.scrollTop <1599 && that.doctorListLength > 2 ){
+				that.showDoctor = true
+				that.isShowPlease =false
+			}
+			else if( event.scrollTop > 1400 && that.doctorListLength <= 2 ){
+				that.showDoctor = false
+				that.isShowPlease =true
+			}
+			else if( event.scrollTop > 1600 && that.doctorListLength > 2 ){
+				that.showDoctor = false
+				that.isShowPlease =true
+			}
+			else if( event.scrollTop < 799 ){
+				that.showDoctor = false
+			}
+			
+	
 		},
 		onLoad: function() {
 			let that = this
@@ -635,6 +696,7 @@
 	/* 推荐医生 */
 	.recommend-doctor-items {
 		height: 45rpx;
+		width: 100%;
 	}
 	.recommend-doctor-items-content{
 		display: flex;
@@ -898,14 +960,19 @@
 		align-items: baseline;
 		padding: 30rpx 0 0;
 	}
-	.please-doctor-all-name .recommend-doctor-items-content{
+	.please-doctor-all-name .recommend-doctor-items-content , .fixed-classfiy .recommend-doctor-items-content{
 		display: flex;
 		justify-content: flex-start;
 	}
 
 	.please-doctor-introduce {
-		/* padding: 0 20rpx 20rpx; */
 		padding-top: 34rpx;
 	}
 	
+	.fixed-classfiy{
+		position: fixed;
+		padding: 30rpx 0 0;
+		background-color: #111111;
+		width: 100%;
+	}
 </style>

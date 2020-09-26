@@ -3,8 +3,10 @@
 		<!-- 左右布局商品展示 -->
 		<view class="left-right-layout" v-if="porductList">
 			<view class="left-content">
-				<view class="goods_item-content" style="width: 340rpx;border-radius: 24rpx;" v-for="(item,index) in porductList" :key='index' v-if="index%2==0">
-					<image class="goods_image" :src="item.head_img" mode="" style="width: 340rpx;border-radius: 24rpx 24rpx 0 0;"></image>
+				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]"
+				 v-for="(item,index) in porductList" :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id)">
+					<image class="goods_image" :src="requestUrl+item.head_img" mode=""
+					 :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -30,8 +32,10 @@
 				</view>
 			</view>
 			<view class="right-content">
-				<view class="goods_item-content" style="width: 340rpx;border-radius: 24rpx;" v-for="(item,index) in porductList" :key='index' v-if="index%2==1">
-					<image class="goods_image" :src="item.head_img" mode="" style="width: 340rpx;border-radius: 24rpx;"></image>
+				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]"
+				 v-for="(item,index) in porductList" :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id)">
+					<image class="goods_image" :src="requestUrl+item.head_img" mode=""
+					 :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -66,15 +70,19 @@
 			porductList: Array,
 			requestUrl: String,
 			width: Number,
-			height: Number,
+			borderRadius:Number
 		},
 		data() {
 			return {
-
+				
 			}
 		},
 		methods: {
-
+			changeGoods:function(id){
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?sku_id=${id}`,
+				})
+			}
 		}
 	}
 </script>
@@ -99,6 +107,7 @@
 	.goods_item-content{
 		padding-bottom: 20rpx;
 		background-color: #FFFFFF;
+		margin-bottom: 10rpx;
 	}
 	
 	.bottom-content{

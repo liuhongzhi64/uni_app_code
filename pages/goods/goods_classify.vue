@@ -14,7 +14,7 @@
 				</view>
 			</scroll-view>
 			<!-- 右边内容 -->
-			<scroll-view class="rightContent" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"
+			<scroll-view class="rightContent" scroll-y  :style="'height:'+height+'rpx'"
 			 scroll-with-animation>
 				<!-- 热门推荐 -->
 				<view class="rightContentItem" v-if="rightGoodsId == 0">
@@ -38,20 +38,18 @@
 
 						<view class="uni-tab-bar">
 							<swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'" :current="tabIndex" @change="tabChange">
-								<swiper-item v-for="(items,index) in tabBars" :key="index">
+								<swiper-item style="height: 100%;padding-top: 24rpx;" v-for="(items,index) in tabBars" :key="index">
 									<scroll-view scroll-y class="list">
 										<template>
 											<block>
 												<view class="detailed-goods">
-													<porduct :width=260 :porductLists='newslist' :requestUrl='requestUrl'></porduct>
-													<!-- {{items.name}} -->
+													<goodsShow :requestUrl='requestUrl' 
+													 :borderRadius=24 :width=260
+													 :porductList='newslist' ></goodsShow>
 												</view>
-
 											</block>
-
 										</template>
 									</scroll-view>
-
 								</swiper-item>
 							</swiper>
 						</view>
@@ -72,13 +70,17 @@
 								{{item.name}}
 							</view>
 							<view class="item-porduct">
-								<porduct :width=260 :porductLists='item.spu_list' :requestUrl='requestUrl'></porduct>
+								<goodsShow
+								 :borderRadius=24
+								 :requestUrl='requestUrl' 
+								 :width=260
+								 :porductList='item.spu_list' >
+								 </goodsShow>
+								
 							</view>
 						</view>
 					</view>
 				</view>
-
-
 			</scroll-view>
 		</view>
 	</view>
@@ -89,11 +91,13 @@
 	import topBar from "../../components/topBar.vue";
 	import swiperTabHead from "../../components/swiper-tab.vue";
 	import porduct from "../../components/porduct.vue";
+	import goodsShow from "../../components/goodsShow.vue"
 	export default {
 		components: {
 			topBar,
 			swiperTabHead,
-			porduct
+			porduct,
+			goodsShow
 		},
 		data() {
 			return {
@@ -111,7 +115,6 @@
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
 				height: 0,
-				scrollTop: 0,
 				scrollHeight: 0,
 				btnnum: 0, //当前选中的
 				leftList: [{
@@ -218,10 +221,6 @@
 
 
 			},
-			scroll: function(e) {
-				// console.log(e)
-				let Y = e.detail.timeStamp
-			},
 			gotoGoods: function(e) {
 				let goods = e.currentTarget.dataset.name
 				uni.navigateTo({
@@ -244,7 +243,7 @@
 					limit: 6, //每页数量 默认6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
-					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 550
+					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
 					that.newslist = res.data.data
 					// console.log(typeof that.newslist,Object.prototype.toString.call(res.data.data) )
 				})
@@ -266,20 +265,20 @@
 					limit: 6, //每页数量 默认6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
-					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 550
+					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
 					that.newslist = res.data.data
 					// console.log(that.newslist,)
 				})
-			},		
-			
-			gotoGoodsList:function(listName){
+			},
+
+			gotoGoodsList: function(listName) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_list?name=${listName}`,
 				})
 			}
-			
+
 		}
-		
+
 	}
 </script>
 
@@ -353,7 +352,9 @@
 		font-weight: bold;
 		margin: 20rpx 0 0 10rpx;
 	}
-	.item-porduct{
+
+	.item-porduct {
 		width: 100%;
+		padding-top: 10rpx;
 	}
 </style>

@@ -1,11 +1,11 @@
 {
   "pages": [
-    "pages/agreement/agreement",
+    "pages/index/index",
     "pages/login/login_phone",
     "pages/login/login",
     "pages/login/login_gather",
     "pages/login/register",
-    "pages/index/index",
+    "pages/agreement/agreement",
     "pages/cart/cart",
     "pages/check/check_card",
     "pages/check/check_order",

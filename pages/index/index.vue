@@ -709,7 +709,10 @@
 
 		},
 		onLoad(options) {
-
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.getIndexDetail()
 			// uni.setStorage({
 			// 	key: 'token',
 			// 	data: 'hello',
@@ -734,8 +737,24 @@
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
-
 		methods: {
+			// 获取首页信息
+			getIndexDetail:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'index'
+				}
+				that.request.uniRequest("home", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data,11111)
+					}
+				})
+			},
+			
+			
+			
+			
 			change: function(index) {
 				if(index!=0){
 					this.productImgListShow = false
@@ -756,9 +775,6 @@
 				this.topTabTaplist[0].list[1].count = e
 				this.topTabTaplist[0].list[1].btnnum = e
 			},
-
-
-
 			// 分类
 			gotoClassify: function(e) {
 				uni.switchTab({
@@ -801,7 +817,6 @@
 					"selectedIconPath": "static/images/doctor1.png",
 				})
 			},
-
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index) {
 				// console.log(index, this.topTabTaplist[0])

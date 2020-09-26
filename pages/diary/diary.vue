@@ -75,8 +75,7 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getDiaryClassfiy()
 			that.getDiaryList()
-			that.change()
-			
+			that.change()			
 		},
 		onReady() {
 			let that = this;

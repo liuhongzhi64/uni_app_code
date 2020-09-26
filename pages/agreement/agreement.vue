@@ -4,7 +4,7 @@
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 		<view class="agreement-content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
 			<view class="text">
-				<goodsShow :porductList='goodsList'></goodsShow>
+				<goodsShow :porductList='goodsList' :width = 'width' :borderRadius='borderRadius'></goodsShow>
 			</view>
 		</view>
 	</view>
@@ -45,7 +45,8 @@
 							member_title:'钻卡'
 						},
 						rate:98.8,
-						sales:452
+						sales:452,
+						sku_id:4
 					},
 					{
 						head_img: '../../static/images/test.jpg',
@@ -60,9 +61,12 @@
 							member_title:''
 						},
 						rate:98.8,
-						sales:452		
+						sales:452	,
+						sku_id:7
 					},
 				],
+				width:340,
+				borderRadius:24
 			}
 		},
 		onReady() {

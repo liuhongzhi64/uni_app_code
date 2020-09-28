@@ -9,8 +9,11 @@
 					 v-for="(item,index) in diaryList" :key='index'
 					 v-if="index%2==0">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
-							<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
-							<view class="label">{{item.label}}</view>
+							<view class="image-label">
+								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
+								<view class="label">{{item.label}}</view>
+							</view>
+							
 							<view class="diary-title"> {{item.title}} </view>										
 							<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
@@ -45,8 +48,10 @@
 					 v-for="(item,index) in diaryList" :key='index'
 					 v-if="index%2==1">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
-							<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
-							<view class="label">{{item.label}}</view>
+							<view class="image-label">
+								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
+								<view class="label">{{item.label}}</view>
+							</view>
 							<view class="diary-title"> {{item.title}} </view>										
 							<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
@@ -122,10 +127,12 @@
 		border-radius: 16rpx;
 		margin-bottom: 10rpx;
 		width: 350rpx;
-		position: relative;
 		display: flex;
 		flex-direction: column;
 		height: auto;
+	}
+	.image-label{
+		position: relative;
 	}
 	
 	.diary-image{
@@ -160,7 +167,7 @@
 	.label{
 		position: absolute;
 		right: 0;
-		top: 410rpx;
+		bottom: 10rpx;
 		line-height: 40rpx;
 		padding: 0 10rpx;
 		background-color: #fa3475;

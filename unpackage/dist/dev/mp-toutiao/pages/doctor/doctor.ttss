@@ -228,6 +228,7 @@
 /* 推荐医生 */
 .recommend-doctor-items.data-v-1e282ce6 {
 	height: 45rpx;
+	width: 100%;
 }
 .recommend-doctor-items-content.data-v-1e282ce6{
 	display: -webkit-box;
@@ -528,7 +529,7 @@
 	        align-items: baseline;
 	padding: 30rpx 0 0;
 }
-.please-doctor-all-name .recommend-doctor-items-content.data-v-1e282ce6{
+.please-doctor-all-name .recommend-doctor-items-content.data-v-1e282ce6, .fixed-classfiy .recommend-doctor-items-content.data-v-1e282ce6{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -537,8 +538,12 @@
 	        justify-content: flex-start;
 }
 .please-doctor-introduce.data-v-1e282ce6 {
-	/* padding: 0 20rpx 20rpx; */
 	padding-top: 34rpx;
 }
-
+.fixed-classfiy.data-v-1e282ce6{
+	position: fixed;
+	padding: 30rpx 0 0;
+	background-color: #111111;
+	width: 100%;
+}
 

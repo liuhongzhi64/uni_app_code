@@ -23,7 +23,6 @@
 		border-radius: 16rpx;
 		margin-bottom: 10rpx;
 		width: 350rpx;
-		position: relative;
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
@@ -32,6 +31,9 @@
 		-webkit-flex-direction: column;
 		        flex-direction: column;
 		height: auto;
+}
+.image-label.data-v-2f0b53d0{
+		position: relative;
 }
 .diary-image.data-v-2f0b53d0{
 		width: 350rpx;
@@ -67,7 +69,7 @@
 .label.data-v-2f0b53d0{
 		position: absolute;
 		right: 0;
-		top: 410rpx;
+		bottom: 10rpx;
 		line-height: 40rpx;
 		padding: 0 10rpx;
 		background-color: #fa3475;

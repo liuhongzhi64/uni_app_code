@@ -4,7 +4,7 @@
 		<!-- 主体内容 -->
 		<view class="subject-content" :style="[{'padding-top':menuBottom+42+'px'}]">
 			<view class="end-title">
-				<scroll-view class="endtitleitem" scroll-x="true" scroll-left="0" :style="{backgroundColor:topBackgroundColor}">
+				<scroll-view class="endtitleitem" scroll-x="true" :style="{backgroundColor:topBackgroundColor}">
 					<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index'
 					 :class="{btna:btnnum == index}" @tap="change(index)">
 						{{ item.title}}
@@ -138,10 +138,8 @@
 											</view>
 										</scroll-view>
 									</view>
-
 								</view>
 							</view>
-
 						</view>
 					</template>
 				</scroll-view>
@@ -174,15 +172,15 @@
 					</view>
 					<view class="time" v-else-if="seckill_module.countdwon_format==2"> 
 						<view class="house">
-							<view class="houses"> 23 </view>
+							<view class="houses"> {{house}} </view>
 							<view class="dots"> : </view>
 						</view>
 						<view class="second">
-							<view class="seconds"> 55 </view>
+							<view class="seconds"> {{ second }} </view>
 							<view class="dots"> : </view>
 						</view>
 						<view class="minute">
-							<view class="minutes"> 58 </view>
+							<view class="minutes"> {{ minute }} </view>
 						</view>
 					</view>
 				</view>
@@ -194,59 +192,61 @@
 
 			<!-- 图片商品 -->
 			<view class="productImg">
-				<porduct :width= 240 :height=370 :crosswisePorduct='productImgList'   ></porduct>	
+				<porduct :width= 240 :height=370 :crosswisePorducts='productImgList'   ></porduct>	
 			</view>
-
-		</view>
-		
+		</view>		
 		<!-- 自定义导航条可滑动 -->
 		<scroll-view id="image" class="customTab" >
 			<view class="tabBarList">
-				<swiperTabHead :tabBars="tabBars" :line="line" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+				<scroll-view class="bar-items" scroll-x="true">
+					<view class="tab-all-item">
+						<view class="tab-item" v-for="(i,index) in tabBars" :key='index' :class="{'changeTab' : tabIndex==index}" @tap="tabtap(index,i.type)">
+							<text class="tab-item-title"> {{i.title}} </text>
+							<text class="tab-item-name"> {{i.name}} </text>
+							<view class="tab-line" v-if="index<4"></view>
+						</view>
+					</view>
+				</scroll-view>
 			</view>
 			<view class="uni-tab-bar">
-				<swiper class="swiper-boxs" :style="{height:swiperheight+'rpx'}" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(items,index) in newslist" :key="index">
+				<swiper class="swiper-boxs" :style="{height:swiperheight+'rpx'}" :current="tabIndex" :data-type='tabType'  @change="tabChange">
+					<swiper-item v-for="(items,index) in tabBars" :key="index">
 						<scroll-view scroll-y class="list">
-							<template v-if="items.list.length > 0">
+							<template >
 								<block>
 									<view class="recommenListItem">
-										<porduct :porductList='items.list' :width=350 v-if="items.list.length>1"></porduct>
-										
-										<view v-if="items.list.length<=1" v-for="(i,k) in items.list" :key="k">
-											{{i}}
-										</view>
+										<goodsShow
+										 :borderRadius=24
+										 :requestUrl='requestUrl' 
+										 :width=350
+										 :porductList='newslist' >
+										 </goodsShow>
 									</view>
-
 								</block>
-
 							</template>
 						</scroll-view>
 					</swiper-item>
 				</swiper>
-
 			</view>
-
 		</scroll-view>
 		<!-- 底部 -->
 		<view id="footer" class="footer">
 			——人家也是有底线的喵！——
 		</view>
-
 	</view>
 </template>
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import swiperTabHead from "../../components/swiper-tab.vue";
 	import swiperDot from "../../components/swperDot.vue";
 	import porduct from "../../components/porduct.vue";
+	import goodsShow from "../../components/goodsShow.vue"
 	export default {
 		components: {
-			swiperTabHead,
 			swiperDot,
 			topBar,
-			porduct
+			porduct,
+			goodsShow
 		},
 		data() {
 			return {
@@ -278,135 +278,18 @@
 				house:0,
 				second:0,
 				minute:0,
-				tabBars: [{
-						name: '精选',
-						content: '猜你喜欢',
-						id: 'love',
-					},
-					{
-						name: '视频',
-						content: '精选视频',
-						id: 'video'
-					},
-					{
-						name: '问答',
-						content: '优质回答',
-						id: 'questions-and-answers'
-					},
-					{
-						name: '日记',
-						content: '真人记录',
-						id: 'record'
-					},
-
+				tabBars: [
+					{type:4,title:'精选',name:'猜你喜欢'},
+					{type:0,title:'护肤品',name:'猜你喜欢'},
+					{type:1,title:'直播',name:'猜你喜欢'},
+					{type:2,title:'视频',name:'猜你喜欢'},
+					{type:3,title:'日记',name:'猜你喜欢'},
 				],
-				line: false, //是否显示选中线
-				tabIndex: 0, // 选中的
+				tabIndex: 1, // 选中的
+				tabType:0,//类型
 				swiperheight: 0, //高度
-				productImgList: [{
-						id: 0,
-						url: '../../static/images/19.png',
-						content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 999
-					},
-					{
-						id: 1,
-						url: '../../static/images/20.png',
-						content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 0
-					},
-					{
-						id: 2,
-						url: '../../static/images/20.png',
-						content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 666
-					},
-					{
-						id: 3,
-						url: '../../static/images/19.png',
-						content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
-						newPrice: '15800',
-						oldPrice: '19800',
-						residueProduct: 888
-					},
-				],
-				newslist: [{
-						list: [
-							{
-								url: '../../static/images/19.png',
-								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label: [], //标签
-								headPortrait: '../../static/images/23.png', //头像
-								price: 19800,
-								closed:'闭馆特推',
-								activity: [],
-								vipPrice: 0,
-								subscribeAndGoodReputation: [{
-									subscribe: '441',
-									goodReputation: '98'
-								}],
-							
-							},
-							{
-								url: '../../static/images/20.png',
-								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label: ['眼部美容','眼部'], //标签
-								headPortrait: '../../static/images/test.jpg', //头像
-								activity: ['首单必减', '折扣'],
-								price: 19800,
-								vipPrice: 18800,
-								subscribeAndGoodReputation: [{
-									subscribe: '441',
-									goodReputation: '98'
-								}],
-							},
-							{
-								url: '../../static/images/20.png',
-								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label: [], //标签
-								headPortrait: '../../static/images/test.jpg', //头像
-								activity: ['首单必减', '折扣'],
-								price: 19800,
-								vipPrice: 18800,
-								subscribeAndGoodReputation: [{
-									subscribe: '441',
-									goodReputation: '98'
-								}],
-							},
-							{
-								url: '../../static/images/19.png',
-								title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-								label: [], //标签
-								headPortrait: '../../static/images/23.png', //头像
-								price: 19800,
-								closed:'618特惠',
-								activity: [],
-								vipPrice: 0,
-								subscribeAndGoodReputation: [{
-									subscribe: '441',
-									goodReputation: '98'
-								}],
-							
-							},
-							
-						]
-					},
-					{
-						list: ['精选视频']
-					},
-					{
-						list: ['优质回答']
-					},
-					{
-						list: ['真人记录']
-					},
-				],
+				productImgList: [],
+				newslist: [],
 			}
 		},
 		onReady() {
@@ -424,16 +307,14 @@
 					that.menuBottom = menu.bottom
 				}
 			})
-			setTimeout(() => {
-				that.swiperheight = Math.ceil(that.newslist[0].list.length / 2) * 750
-			}, 1000)
-
+			
 		},
 		onLoad(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getIndexDetail()
+			that.tabtap(0)
 			// uni.setStorage({
 			// 	key: 'token',
 			// 	data: 'hello',
@@ -476,37 +357,49 @@
 						that.tabBarSwiperList = that.group(that.tabBarSwiperList, 10)
 						that.seckill_module = data.seckill_module
 						that.times = that.seckill_module.rest_time
-						that.setTime()
-						if(that.times>0){
-							// setInterval(function(){
-							// 	that.setTime()
-							// },1000)
-						}
-						else{
-							clearInterval(that.setTime())
-						}
+						that.productImgList = that.seckill_module.act_goods_list
+						// that.setTime()
 						console.log(data,11111,that.seckill_module)
 					}
 				})
 			},
+			// 开启定时器
 			setTime:function(){
 				let that = this
 				if(that.times<=0){
-					text = '活动结束'
+					let text = '活动结束'
 				}else{
-					that.setTimes()
-					that.times = that.times-1
+					// that.setTimes()
+					that.day = parseInt(that.times / 1000 / 60 / 60 / 24)
+					that.house = parseInt(that.times / 1000 / 60 / 60 % 24)
+					that.second = parseInt(that.times / 1000 / 60 % 60 )
+					that.minute = parseInt(that.times / 1000 % 60 )					
+					setInterval(function(){
+						that.minute = that.minute-1
+						if(that.minute==0){
+							that.minute = 59
+							that.second = that.second-1
+							if(that.second==0){
+								that.second = 59
+								that.house = that.house-1
+								if(that.house==0){
+									that.house = 59
+									if(that.day>0){
+										that.day = that.day-1
+									}
+									else{
+										that.day=0
+										that.house=0
+										that.second=0
+										that.minute=0
+									}
+								}
+							}							
+						}
+						
+					},1000)
 				}
 				
-			},
-			setTimes:function(){
-				let that = this
-				
-				that.day = parseInt(that.times / 1000 / 60 / 60 / 24)
-				that.houses = parseInt(that.times / 1000 / 60 / 60 % 24)
-				that.second = parseInt(that.times / 1000 / 60 % 60 )
-				that.minute = parseInt(that.times / 1000 % 60 )
-				console.log(that.times,that.day,that.houses,that.second,that.minute)
 			},
 			
 			// 分割数组
@@ -526,10 +419,9 @@
 			changeSwiperDot: function(e) {
 				this.currents = e.detail.current;
 			},
-
-			changeRedpacket: function(e) {
-				this.topTabTaplist[0].list[1].count = e
-				this.topTabTaplist[0].list[1].btnnum = e
+			// 签到红包
+			changeRedpacket: function(index) {
+				console.log(index)
 			},
 			// 分类
 			gotoClassify: function(e) {
@@ -553,10 +445,6 @@
 					url: `/pages/goods/goods_detail?goods=${goods}`,
 				})
 			},
-
-			scroll: function(e) {
-				console.log(e.detail)
-			},
 			// 设置底部导航条的名称和图标
 			setTabBarItem: function(e) {
 				// 这是动态设置底部导航条的函数，详情见https://uniapp.dcloud.io/api/ui/tabbar?id=settabbaritem
@@ -574,13 +462,55 @@
 				})
 			},
 			//接受子组件传过来的值点击切换导航
-			tabtap: function(index) {
-				// console.log(index, this.topTabTaplist[0])
+			tabtap: function(index,type) {
+				let that = this
 				this.tabIndex = index;
+				that.tabType = type
+				console.log(type)
+				if(type=4){
+					let dataInfo = {
+						interfaceId:'userrecommendedgoodsspulist',
+						type:type,
+						offset:0
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.newslist = data
+							setTimeout(() => {
+								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
+							}, 1000)
+							console.log(data)
+						}
+					})
+				}else{
+					console.log(111111111)
+					let dataInfo = {
+						interfaceId:'siftlist',
+						type:that.tabType,
+						offset:0,
+						limit:6
+					}
+					that.request.uniRequest("home", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.newslist = data
+							setTimeout(() => {
+								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
+							}, 1000)
+							console.log(data)
+						}
+					})
+				}			
 			},
 			// 选中的内容
 			tabChange: function(e) {
-				this.tabIndex = e.detail.current;
+				let that = this
+				// that.tabIndex = e.detail.current;
+				that.tabType = e.detail.type
+				let type = that.tabType
+				console.log(e,"我想要的是")
+				
 			},
 
 		}
@@ -789,7 +719,6 @@
 	.advertising02 {
 		width: 49%;
 	}
-
 
 	.sign-in-red-packet {
 		display: flex;
@@ -1026,34 +955,56 @@
 		font-size: 20rpx;
 		color: #FFFFFF;
 	}
-
-
-
 	/* 导航条 */
 	.customTab {
 		height: auto;
-	}
-
-	.uni-tab-bar {
 		background-color: #F6F6F6;
+	}
+	
+	.tabBarList{
+		width: 100%;
+	}	
+	.bar-items{
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	.tab-all-item{
+		display: flex;
+		align-items: center;
+		padding: 30rpx 0;
+	}
+	.tab-item .tab-item-title{
+		font-size: 28rpx;
+	}
+	.tab-item{
+		padding: 0 45rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: #666666;
+		font-size: 24rpx;
+		position: relative;
+	}
+	.tab-line{
+		height: 32rpx;
+		width: 1rpx;
+		background-color: #666666;
+		position: absolute;
+		right: 0;
+		top: 25%;
+	}
+	.changeTab{
+		color: #fa3475;
+	}
+	.changeTab .tab-item-title{
+		font-size: 32rpx;
+		font-weight: bold;
 	}
 
 	/* 推荐内容 */
 	.recommenListItem {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		/* width: 100%; */
-		justify-content: space-between;
 		border-radius: 24rpx;
-		color: #111111;
-		padding: 10rpx 20rpx ;
-	}
-
-	
-
-	.swiper-boxs {
-		padding-bottom: 20rpx;
+		padding: 0 20rpx;
 	}
 
 	.footer {

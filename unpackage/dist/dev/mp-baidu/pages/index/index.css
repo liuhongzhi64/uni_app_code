@@ -447,32 +447,63 @@
 /* 导航条 */
 .customTab.data-v-57280228 {
 	height: auto;
-}
-.uni-tab-bar.data-v-57280228 {
 	background-color: #F6F6F6;
+}
+.tabBarList.data-v-57280228{
+	width: 100%;
+}
+.bar-items.data-v-57280228{
+	overflow: hidden;
+	white-space: nowrap;
+}
+.tab-all-item.data-v-57280228{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding: 30rpx 0;
+}
+.tab-item .tab-item-title.data-v-57280228{
+	font-size: 28rpx;
+}
+.tab-item.data-v-57280228{
+	padding: 0 45rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	color: #666666;
+	font-size: 24rpx;
+	position: relative;
+}
+.tab-line.data-v-57280228{
+	height: 32rpx;
+	width: 1px;
+	background-color: #666666;
+	position: absolute;
+	right: 0;
+	top: 25%;
+}
+.changeTab.data-v-57280228{
+	color: #fa3475;
+}
+.changeTab .tab-item-title.data-v-57280228{
+	font-size: 32rpx;
+	font-weight: bold;
 }
 
 /* 推荐内容 */
 .recommenListItem.data-v-57280228 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	-webkit-flex-wrap: wrap;
-	        flex-wrap: wrap;
-	/* width: 100%; */
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
 	border-radius: 24rpx;
-	color: #111111;
-	padding: 10rpx 20rpx ;
-}
-.swiper-boxs.data-v-57280228 {
-	padding-bottom: 20rpx;
+	padding: 0 20rpx;
 }
 .footer.data-v-57280228 {
 	text-align: center;

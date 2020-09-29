@@ -58,7 +58,6 @@
 															<image :src="requestUrl+i.cover_img" mode=""></image>
 															<view class="case-explain"> {{i.name}} </view>
 														</view>
-
 													</view>
 												</scroll-view>
 											</view>

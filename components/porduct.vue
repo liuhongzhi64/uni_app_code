@@ -234,11 +234,11 @@
 							<!-- 价格 -->
 							<view class="prouctPrice" v-if="i.sale_price">
 								<view class="newprice"> <text>￥</text> {{i.sale_price}}</view>
-								<view class="oldPrice" v-if="i.oldPrice"> <text>￥</text> {{i.oldPrice}} </view>
+								<view class="oldPrice" v-if="i.market_price"> <text>￥</text> {{i.market_price}} </view>
 							</view>
 							<!-- 预约和好评 -->
-							<view class="subscribeAndGoodReputation" >
-								<view class="subscribe-goodReputation">
+							<view class="subscribeAndGoodReputation" v-if="i.sales&&i.rate">
+								<view class="subscribe-goodReputation" >
 									<!-- 预约 -->
 									<view class="subscribe"> {{i.sales}}预约 </view>
 									<!-- 好评 -->
@@ -718,9 +718,9 @@
 	}
 
 	.prouctPrice {
-		/* display: flex;
+		display: flex;
 		justify-content: space-between;
-		align-items: baseline; */
+		align-items: baseline;
 		padding: 10rpx 0 0 ;
 		text-align: left;
 		width: 100%;

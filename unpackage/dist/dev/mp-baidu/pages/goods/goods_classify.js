@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 467));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 488));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 509));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -363,9 +363,7 @@ __webpack_require__.r(__webpack_exports__);
     //接受子组件传过来的值点击切换导航
     tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       var that = this;
-      // if(id==4){
-      // 	console.log(11111)
-      // }
+      console.log(index);
       this.tabIndex = index;
       // console.log(index)
       var dataInfo = {
@@ -384,11 +382,9 @@ __webpack_require__.r(__webpack_exports__);
     tabChange: function tabChange(e) {
       this.tabIndex = e.detail.current;
       var type = this.tabIndex;
-
       if (this.tabIndex == 3) {
         type = 0;
       }
-      console.log(type);
       var that = this;
       var dataInfo = {
         interfaceId: 'hotrecommendedspulist',
@@ -399,7 +395,6 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800;
         that.newslist = res.data.data;
-        // console.log(that.newslist,)
       });
     },
 

@@ -1,14 +1,10 @@
 {
   "pages": [
-    "pages/doctor/doctor",
-    "pages/doctor/doctor_certificate",
-    "pages/doctor/doctor_detail",
-    "pages/doctor/doctor_photo",
+    "pages/index/index",
     "pages/login/login_phone",
     "pages/login/login",
     "pages/login/login_gather",
     "pages/login/register",
-    "pages/index/index",
     "pages/agreement/agreement",
     "pages/cart/cart",
     "pages/check/check_card",
@@ -25,6 +21,10 @@
     "pages/diary/diary_video",
     "pages/diary/diary_write",
     "pages/diary/diary_write_video",
+    "pages/doctor/doctor",
+    "pages/doctor/doctor_certificate",
+    "pages/doctor/doctor_detail",
+    "pages/doctor/doctor_photo",
     "pages/goods/goods_classify",
     "pages/goods/goods_detail",
     "pages/goods/goods_detail_comment",
@@ -103,5 +103,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap75.json"
+  "sitemapLocation": "sitemap22.json"
 }

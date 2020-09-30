@@ -321,9 +321,15 @@
 	height: 100%;
 }
 .prouctPrice.data-v-1884e7aa {
-	/* display: flex;
-	justify-content: space-between;
-	align-items: baseline; */
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: baseline;
+	-webkit-align-items: baseline;
+	        align-items: baseline;
 	padding: 10rpx 0 0 ;
 	text-align: left;
 	width: 100%;

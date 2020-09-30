@@ -3,7 +3,7 @@
 		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber' :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
 		<!-- 主体内容 -->
 		<view class="subject-content" :style="[{'padding-top':menuBottom+42+'px'}]">
-			<view class="end-title">
+			<view class="end-title" v-if="skipList.length>0">
 				<scroll-view class="endtitleitem" scroll-x="true" :style="{backgroundColor:topBackgroundColor}">
 					<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index'
 					 :class="{btna:btnnum == index}" @tap="change(index)">
@@ -21,7 +21,11 @@
 				</view>
 			</view>
 			<!-- 主体内容 -->
-			<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in skipList" :key="index" :style="{backgroundColor:topBackgroundColor}">
+			<view class="end-cont"
+			 :class="{dis:btnnum == index}" 
+			 v-for="(items,index) in skipList" 
+			 :key="index" 
+			 :style="{backgroundColor:topBackgroundColor}">
 				<scroll-view scroll-y class="list">
 					<template>
 						<view class="top-content">
@@ -147,7 +151,7 @@
 		</view>
 		
 		<!-- 自定义导航条加倒计时 -->
-		<view id="countDown">
+		<view id="countDown" v-if="seckill_module.length>0">
 			<view class="countDown">
 				<!-- 自定义名称和时间倒计时 -->
 				<view class="timeTitle-time">
@@ -209,7 +213,7 @@
 				</scroll-view>
 			</view>
 			<view class="uni-tab-bar">
-				<swiper class="swiper-boxs" :style="{height:swiperheight+'rpx'}" :current="tabIndex" :data-type='tabType'  @change="tabChange">
+				<swiper class="swiper-boxs" :style="{height:swiperheight+'rpx'}" :current="tabIndex"  @change="tabChange">
 					<swiper-item v-for="(items,index) in tabBars" :key="index">
 						<scroll-view scroll-y class="list">
 							<template >
@@ -219,8 +223,17 @@
 										 :borderRadius=24
 										 :requestUrl='requestUrl' 
 										 :width=350
-										 :porductList='newslist' >
+										 :porductList='newslist' v-if='items.type==0||items.type==4'>
 										 </goodsShow>
+										 <diary :diaryList="newslist" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
+										 <doctor
+										  :doctorList="newslist" 
+										  :requestUrl="requestUrl" 
+										  :paddingLR = 'paddingLR'
+										  @collectLike='collectLike' 
+										  @cancelLike='cancelLike'
+										  v-else-if="items.type==1">
+										 </doctor>
 									</view>
 								</block>
 							</template>
@@ -230,9 +243,9 @@
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view id="footer" class="footer">
+		<!-- <view class="footer">
 			——人家也是有底线的喵！——
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -240,13 +253,17 @@
 	import topBar from "../../components/topBar.vue";
 	import swiperDot from "../../components/swperDot.vue";
 	import porduct from "../../components/porduct.vue";
-	import goodsShow from "../../components/goodsShow.vue"
+	import goodsShow from "../../components/goodsShow.vue";
+	import diary from '../../components/diary.vue';
+	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
 			swiperDot,
 			topBar,
 			porduct,
-			goodsShow
+			goodsShow,
+			diary,
+			doctor
 		},
 		data() {
 			return {
@@ -280,16 +297,16 @@
 				minute:0,
 				tabBars: [
 					{type:4,title:'精选',name:'猜你喜欢'},
-					{type:0,title:'护肤品',name:'猜你喜欢'},
-					{type:1,title:'直播',name:'猜你喜欢'},
-					{type:2,title:'视频',name:'猜你喜欢'},
-					{type:3,title:'日记',name:'猜你喜欢'},
+					{type:0,title:'护肤品',name:'品质推荐'},
+					{type:3,title:'直播',name:'精选视频'},
+					{type:1,title:'视频',name:'精选视频'},
+					{type:2,title:'日记',name:'优质内容'},
 				],
 				tabIndex: 1, // 选中的
-				tabType:0,//类型
 				swiperheight: 0, //高度
 				productImgList: [],
 				newslist: [],
+				paddingLR:10,//拜托医生的左右边距
 			}
 		},
 		onReady() {
@@ -314,7 +331,7 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getIndexDetail()
-			that.tabtap(0)
+			that.tabtap(0,4)
 			// uni.setStorage({
 			// 	key: 'token',
 			// 	data: 'hello',
@@ -331,9 +348,13 @@
 		},
 		// 下拉刷新
 		onPullDownRefresh: function() {
+			let that = this
 			success: {
-				title: '刷新成功'
+				title: '刷新成功',
+				this.request.showToast('刷新成功')
 				// console.log('下拉刷新成功')
+				that.getIndexDetail()
+				that.tabtap(0,4)
 			};
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
@@ -354,12 +375,17 @@
 						that.swiperList = data.banner.content
 						that.honor_list = data.honor_list
 						that.tabBarSwiperList = data.icon_list
-						that.tabBarSwiperList = that.group(that.tabBarSwiperList, 10)
+						if(that.tabBarSwiperList.length>10){
+							that.tabBarSwiperList = that.group(that.tabBarSwiperList, 10)
+						}
 						that.seckill_module = data.seckill_module
 						that.times = that.seckill_module.rest_time
 						that.productImgList = that.seckill_module.act_goods_list
 						// that.setTime()
 						console.log(data,11111,that.seckill_module)
+					}else{
+						// this.request.showToast('暂时没有数据')
+						console.log('11111111')
 					}
 				})
 			},
@@ -465,12 +491,10 @@
 			tabtap: function(index,type) {
 				let that = this
 				this.tabIndex = index;
-				that.tabType = type
-				console.log(type)
-				if(type=4){
+				if(type==4){
 					let dataInfo = {
 						interfaceId:'userrecommendedgoodsspulist',
-						type:type,
+						type:that.tabType,
 						offset:0
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {
@@ -484,10 +508,9 @@
 						}
 					})
 				}else{
-					console.log(111111111)
 					let dataInfo = {
 						interfaceId:'siftlist',
-						type:that.tabType,
+						type:type,
 						offset:0,
 						limit:6
 					}
@@ -506,13 +529,84 @@
 			// 选中的内容
 			tabChange: function(e) {
 				let that = this
-				// that.tabIndex = e.detail.current;
-				that.tabType = e.detail.type
-				let type = that.tabType
-				console.log(e,"我想要的是")
-				
+				that.tabIndex = e.detail.current;
+				let index = e.detail.current
+				let type = 0
+				// console.log(e,"我想要的是")
+				if(index==0){
+					type = 4
+				}else if(index==1){
+					type = 0
+				}else if(index==2){
+					type = 3
+				}else if(index==3){
+					type = 1
+				}else{
+					type = 2
+				}
+				if(type==4){
+					let dataInfo = {
+						interfaceId:'userrecommendedgoodsspulist',
+						type:that.tabType,
+						offset:0
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.newslist = data
+							setTimeout(() => {
+								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
+							}, 1000)
+							console.log(data)
+						}
+					})
+				}else{
+					let dataInfo = {
+						interfaceId:'siftlist',
+						type:type,
+						offset:0,
+						limit:6
+					}
+					that.request.uniRequest("home", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.newslist = data
+							setTimeout(() => {
+								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
+							}, 1000)
+							console.log(data)
+						}
+					})
+				}
 			},
-
+			// 点赞
+			collectLike:function(id){
+				let videoId = id
+				let data = {
+					interfaceId: 'video_collect',
+					video_id :videoId,
+					status:'0'
+				}
+				this.request.uniRequest("/doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						this.request.showToast('成功')					
+					}
+				})
+			},
+			// 取消点赞
+			cancelLike:function(id){
+				let videoId = id
+				let data = {
+					interfaceId: 'video_collect',
+					video_id :videoId,
+					status:'1'
+				}
+				this.request.uniRequest("/doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						this.request.showToast('成功')					
+					}
+				})
+			},
 		}
 	}
 </script>

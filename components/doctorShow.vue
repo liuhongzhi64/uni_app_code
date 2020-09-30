@@ -32,7 +32,8 @@
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								{{item.collect}} 
+								<text v-if="item.collect">{{item.collect}} </text>
+								<text v-if="item.collect_num">{{item.collect_num}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==1?'is_no_collect':'collect_num']" 
@@ -42,7 +43,8 @@
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								{{item.collect}} 
+								<text v-if="item.collect">{{item.collect}} </text>
+								<text v-if="item.collect_num">{{item.collect_num}} </text>
 							</view>							
 						</view>											
 					</view>
@@ -78,7 +80,8 @@
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								{{item.collect}} 
+								<text v-if="item.collect">{{item.collect}} </text>
+								<text v-if="item.collect_num">{{item.collect_num}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==1?'is_no_collect':'collect_num']" 
@@ -88,7 +91,8 @@
 									<image class="like-image" 
 									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								{{item.collect}} 
+								<text v-if="item.collect">{{item.collect}} </text>
+								<text v-if="item.collect_num">{{item.collect_num}} </text> 
 							</view>
 						</view>
 					</view>

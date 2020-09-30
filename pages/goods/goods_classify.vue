@@ -231,9 +231,7 @@
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index = 0, id = 1) {
 				let that = this
-				// if(id==4){
-				// 	console.log(11111)
-				// }
+				console.log(index)
 				this.tabIndex = index;
 				// console.log(index)
 				let dataInfo = {
@@ -252,11 +250,9 @@
 			tabChange: function(e) {
 				this.tabIndex = e.detail.current;
 				let type = this.tabIndex
-
 				if (this.tabIndex == 3) {
 					type = 0
 				}
-				console.log(type)
 				let that = this
 				let dataInfo = {
 					interfaceId: 'hotrecommendedspulist',
@@ -267,7 +263,6 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
 					that.newslist = res.data.data
-					// console.log(that.newslist,)
 				})
 			},
 

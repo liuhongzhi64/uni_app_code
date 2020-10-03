@@ -177,12 +177,16 @@
 			<view class="recommend-to-you">
 				<view class="related-title"> <view class="line"></view> <view>为你推荐</view>
 				</view>
-
 				<scroll-view scroll-y class="recommend-to-you-list">
 					<template>
 						<view class="subject-content">
-							<porduct :width = 350  :porductList='productLists'  ></porduct>
-							
+							<!-- <porduct :width = 350  :porductList='productLists'  ></porduct>	 -->
+							<goodsShow
+							 :borderRadius=24
+							 :requestUrl='requestUrl' 
+							 :width=350
+							 :porductList='productLists'>
+							 </goodsShow>						
 						</view>
 					</template>
 				</scroll-view>
@@ -193,9 +197,11 @@
 
 <script>
 	import porduct from "../../components/porduct.vue";
+	import goodsShow from "../../components/goodsShow.vue";
 	export default {
 		components: {
-			porduct
+			porduct,
+			goodsShow
 		},
 		props: {
 			cartNumber: {
@@ -230,64 +236,7 @@
 						url: '../../static/images/18.png'
 					},
 				],
-				productLists: [
-					{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						price: 19800,
-						closed:'闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-				
-					},
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-					{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						price: 19800,
-						closed:'闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					
-					},
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-				],
+				productLists: [],
 				productNameList: [{
 						name: '全部',
 						number: 25,
@@ -323,12 +272,14 @@
 				allchecked:false,
 				isActivity:false,//是否凑单
 				isCartEmpty:true,//
+				requestUrl:''
 			}
 		},
 		onLoad: function(option) {
 			let that = this
 			console.log(that.cartNumber,option.cartNumber)
-			
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
 			if(option.cartNumber){
 				that.cartNumber = parseInt(option.cartNumber) 
 				if(that.cartNumber>0){
@@ -337,7 +288,7 @@
 					this.isCartEmpty =false
 				}
 			}
-			
+			that.getLike()
 		},
 		onReady() {
 			let that = this;
@@ -363,6 +314,28 @@
 					delta: 1
 				});
 			},
+			
+			// 为你推荐
+			getLike:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'userrecommendedgoodsspulist',
+					type:'3',
+					offset:'0'
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.productLists = data
+						console.log(data)
+					}
+					else{
+						// this.request.showToast('暂时没有数据')
+						console.log('没有数据')
+					}
+				})				
+			},
+			
 			// 触底函数
 			onReachBottom: function() {
 				console.log("到底了")
@@ -691,8 +664,6 @@
 
 	.subject-content {
 		background-color: #F6F6F6;
-		display: flex;
-		justify-content: space-between;
 	}
 
 	.recommend-to-you-list {

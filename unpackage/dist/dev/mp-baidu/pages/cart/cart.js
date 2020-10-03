@@ -146,7 +146,12 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
 
 
 
@@ -343,7 +348,8 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    porduct: porduct },
+    porduct: porduct,
+    goodsShow: goodsShow },
 
   props: {
     cartNumber: {
@@ -378,64 +384,7 @@ __webpack_require__.r(__webpack_exports__);
         url: '../../static/images/18.png' }],
 
 
-      productLists: [
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/test.jpg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/test.jpg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] }],
-
-
-
+      productLists: [],
       productNameList: [{
         name: '全部',
         number: 25 },
@@ -470,13 +419,15 @@ __webpack_require__.r(__webpack_exports__);
       productList: [],
       allchecked: false,
       isActivity: false, //是否凑单
-      isCartEmpty: true //
-    };
+      isCartEmpty: true, //
+      requestUrl: '' };
+
   },
   onLoad: function onLoad(option) {
     var that = this;
     console.log(that.cartNumber, option.cartNumber);
-
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
     if (option.cartNumber) {
       that.cartNumber = parseInt(option.cartNumber);
       if (that.cartNumber > 0) {
@@ -485,7 +436,7 @@ __webpack_require__.r(__webpack_exports__);
         this.isCartEmpty = false;
       }
     }
-
+    that.getLike();
   },
   onReady: function onReady() {
     var that = this;
@@ -511,6 +462,28 @@ __webpack_require__.r(__webpack_exports__);
         delta: 1 });
 
     },
+
+    // 为你推荐
+    getLike: function getLike() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'userrecommendedgoodsspulist',
+        type: '3',
+        offset: '0' };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.productLists = data;
+          console.log(data);
+        } else
+        {
+          // this.request.showToast('暂时没有数据')
+          console.log('没有数据');
+        }
+      });
+    },
+
     // 触底函数
     onReachBottom: function onReachBottom() {
       console.log("到底了");

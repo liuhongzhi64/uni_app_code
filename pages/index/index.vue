@@ -494,7 +494,7 @@
 				if(type==4){
 					let dataInfo = {
 						interfaceId:'userrecommendedgoodsspulist',
-						type:that.tabType,
+						type:'0',
 						offset:0
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {

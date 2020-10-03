@@ -954,16 +954,6 @@
 	margin: 0;
 	margin-bottom: 20rpx;
 }
-.recommend-for-you-product.data-v-098a7e2c {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	-webkit-flex-wrap: wrap;
-	        flex-wrap: wrap;
-}
 
 /* 底部定位 */
 .consult-share-cart-addCart-shopNow.data-v-098a7e2c {

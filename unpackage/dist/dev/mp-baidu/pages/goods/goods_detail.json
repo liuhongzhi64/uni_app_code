@@ -2,6 +2,7 @@
   "component": true,
   "usingComponents": {
     "top-bar": "/components/topBar",
-    "porduct": "/components/porduct"
+    "porduct": "/components/porduct",
+    "goods-show": "/components/goodsShow"
   }
 }

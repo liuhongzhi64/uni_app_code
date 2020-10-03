@@ -229,41 +229,91 @@
 			},
 
 			//接受子组件传过来的值点击切换导航
-			tabtap: function(index = 0, id = 1) {
+			tabtap: function(index = 0,type=1, id = 4) {
 				let that = this
-				console.log(index)
 				this.tabIndex = index;
-				// console.log(index)
-				let dataInfo = {
-					interfaceId: 'hotrecommendedspulist',
-					type: id, //推荐类型1最新 2最热 3:特价
-					offset: 0, //分页起始数量 默认 0
-					limit: 6, //每页数量 默认6
-				}
-				that.request.uniRequest("goods", dataInfo).then(res => {
-					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
-					that.newslist = res.data.data
-					// console.log(typeof that.newslist,Object.prototype.toString.call(res.data.data) )
-				})
+				if(id==4){
+					let dataInfo = {
+						interfaceId: 'userrecommendedgoodsspulist',
+						type: '1', //推荐类型1最新 2最热 3:特价
+						offset: 0, //分页起始数量 默认 0
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
+							that.newslist = data
+						}
+						else{
+							console.log('没有数据')
+						}
+					})
+				}else{
+					let dataInfo = {
+						interfaceId: 'hotrecommendedspulist',
+						type: id, //推荐类型1最新 2最热 3:特价
+						offset: 0, //分页起始数量 默认 0
+						limit: 6, //每页数量 默认6
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
+							that.newslist = data
+						}
+						else{
+							// this.request.showToast('暂时没有数据')
+							console.log('没有数据')
+						}
+						
+					})
+				}				
 			},
 			// 选中的内容
 			tabChange: function(e) {
+				let that = this
 				this.tabIndex = e.detail.current;
 				let type = this.tabIndex
-				if (this.tabIndex == 3) {
-					type = 0
+				if(type==0){
+					let dataInfo = {
+						interfaceId: 'userrecommendedgoodsspulist',
+						type: '1', //推荐类型1最新 2最热 3:特价
+						offset: 0, //分页起始数量 默认 0
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
+							that.newslist = data
+						}
+						else{
+							console.log('没有数据')
+						}
+					})
+				}else{
+					console.log(type)
+					let dataInfo = {
+						interfaceId: 'hotrecommendedspulist',
+						type: type, //推荐类型1最新 2最热 3:特价
+						offset: 0, //分页起始数量 默认 0
+						limit: 6, //每页数量 默认6
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
+							that.newslist = data
+						}
+						else{
+							// this.request.showToast('暂时没有数据')
+							console.log('没有数据')
+						}
+						
+					})
 				}
-				let that = this
-				let dataInfo = {
-					interfaceId: 'hotrecommendedspulist',
-					type: type + 1, //推荐类型1最新 2最热 3:特价
-					offset: 0, //分页起始数量 默认 0
-					limit: 6, //每页数量 默认6
-				}
-				that.request.uniRequest("goods", dataInfo).then(res => {
-					that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
-					that.newslist = res.data.data
-				})
+				// if (this.tabIndex == 3) {
+				// 	type = 0
+				// }
 			},
 
 			gotoGoodsList: function(listName) {

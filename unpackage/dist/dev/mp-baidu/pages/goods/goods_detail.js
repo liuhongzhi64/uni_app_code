@@ -139,7 +139,12 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
 
 
 
@@ -587,10 +592,11 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    porduct: porduct },
+    porduct: porduct,
+    goodsShow: goodsShow },
 
   data: function data() {
-    return {
+    return _defineProperty({
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
@@ -632,63 +638,7 @@ __webpack_require__.r(__webpack_exports__);
 
       //优惠政策
 
-      productLists: [{
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/test.jpg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/test.jpg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] }],
-
-
-
+      productLists: [],
       doctorDurationTime: 1000,
       doctorSwiperList: [{
         doctorList: [{
@@ -803,7 +753,8 @@ __webpack_require__.r(__webpack_exports__);
       isPay: 0, // 0=预约金，1=全额付
       spec_value: [],
       spec: [],
-      relevantGoods: [] };
+      relevantGoods: [] }, "requestUrl",
+    '');
 
   },
   onLoad: function onLoad(option) {
@@ -812,7 +763,6 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.height = uni.getSystemInfoSync().screenHeight * 1.6;
     var id = option.id || that.spuId;
-    console.log(id);
     var sku_id = option.sku_id;
     var dataInfo = {
       interfaceId: 'goodsspudetails',
@@ -849,7 +799,7 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     that.getRelevantGoods();
-
+    that.getLike();
   },
   onReady: function onReady() {
     var that = this;
@@ -873,6 +823,27 @@ __webpack_require__.r(__webpack_exports__);
     subscribe: function subscribe() {
       console.log('提醒');
     },
+
+    // 为你推荐
+    getLike: function getLike() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'userrecommendedgoodsspulist',
+        type: '2',
+        offset: '0' };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.productLists = data;
+        } else
+        {
+          // this.request.showToast('暂时没有数据')
+          console.log('没有数据');
+        }
+      });
+    },
+
     // 获取相关商品
     getRelevantGoods: function getRelevantGoods() {
       this.request = this.$request;
@@ -1015,7 +986,6 @@ __webpack_require__.r(__webpack_exports__);
         that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck, 1);
       });
     },
-
 
     // 购物车
     cart: function cart(event) {

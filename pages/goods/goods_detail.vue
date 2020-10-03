@@ -394,8 +394,12 @@
 						<view class="line"></view> 为你推荐
 					</view>
 					<view class="recommend-for-you-product">
-						<porduct :width=350 :porductList='productLists'></porduct>
-
+						<goodsShow
+						 :borderRadius=24
+						 :requestUrl='requestUrl' 
+						 :width=350
+						 :porductList='productLists'>
+						 </goodsShow>
 					</view>
 
 				</view>
@@ -443,10 +447,12 @@
 <script>
 	import topBar from "../../components/topBar.vue";
 	import porduct from "../../components/porduct.vue";
+	import goodsShow from "../../components/goodsShow.vue";
 	export default {
 		components: {
 			topBar,
-			porduct
+			porduct,
+			goodsShow
 		},
 		data() {
 			return {
@@ -491,63 +497,7 @@
 					},
 				], //优惠政策
 				
-				productLists: [{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						price: 19800,
-						closed: '闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-
-					},
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-					{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						price: 19800,
-						closed: '闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-
-					},
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-				],
+				productLists: [],
 				doctorDurationTime: 1000,
 				doctorSwiperList: [{
 						doctorList: [{
@@ -662,7 +612,8 @@
 				isPay: 0, // 0=预约金，1=全额付
 				spec_value: [],
 				spec: [],
-				relevantGoods: []
+				relevantGoods: [],
+				requestUrl:''
 			}
 		},
 		onLoad: function(option) {
@@ -671,7 +622,6 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.height = uni.getSystemInfoSync().screenHeight * 1.6;
 			let id = option.id || that.spuId
-			console.log(id)
 			let sku_id = option.sku_id
 			let dataInfo = {
 				interfaceId: 'goodsspudetails',
@@ -708,7 +658,7 @@
 			})
 
 			that.getRelevantGoods()
-			
+			that.getLike()
 		},
 		onReady: function() {
 			let that = this;
@@ -732,6 +682,27 @@
 			subscribe: function() {
 				console.log('提醒')
 			},
+			
+			// 为你推荐
+			getLike:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'userrecommendedgoodsspulist',
+					type:'2',
+					offset:'0'
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.productLists = data
+					}
+					else{
+						// this.request.showToast('暂时没有数据')
+						console.log('没有数据')
+					}
+				})				
+			},
+			
 			// 获取相关商品
 			getRelevantGoods: function() {
 				this.request = this.$request
@@ -874,7 +845,6 @@
 					that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck, 1)
 				})
 			},
-
 
 			// 购物车
 			cart: function(event) {
@@ -1780,13 +1750,6 @@
 		margin: 0;
 		margin-bottom: 20rpx;
 	}
-
-	.recommend-for-you-product {
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-	}
-
 
 	/* 底部定位 */
 	.consult-share-cart-addCart-shopNow {

@@ -132,7 +132,12 @@
 				<scroll-view scroll-y class="topList">
 					<template>
 						<view class="subject-content">
-							<porduct :width=350 :porductList='productList' ></porduct>
+							<goodsShow
+							 :borderRadius=24
+							 :requestUrl='requestUrl' 
+							 :width=350
+							 :porductList='productList'>
+							 </goodsShow>
 						</view>
 					</template>
 				</scroll-view>
@@ -143,10 +148,10 @@
 </template>
 
 <script>
-	import porduct from "../../components/porduct.vue";
+	import goodsShow from "../../components/goodsShow.vue";
 	export default {
 		components: {
-			porduct
+			goodsShow,
 		},
 		data() {
 			return {
@@ -299,66 +304,15 @@
 						toolName: '真人秀报名',
 					},
 				],
-				productList: [
-					{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						price: 19800,
-						closed:'闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-
-					},
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-					{
-						url: '../../static/images/19.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
-						price: 19800,
-						closed:'闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					
-					},
-					{
-						url: '../../static/images/20.png',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-				],
-				
+				productList: [],
+				requestUrl:''
 			}
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.getLike()
 		},
 		onReady() {
 			let that = this;
@@ -377,6 +331,29 @@
 			})
 		},
 		methods: {
+			
+			
+			// 猜你喜欢
+			getLike:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'userrecommendedgoodsspulist',
+					type:'4',
+					offset:'0'
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+						that.productList = data
+					}
+					else{
+						// this.request.showToast('暂时没有数据')
+						console.log('没有数据')
+					}
+				})				
+			},
+						
 			gotoGoods: function(e) {
 				let goods = e.currentTarget.dataset.name
 				uni.navigateTo({

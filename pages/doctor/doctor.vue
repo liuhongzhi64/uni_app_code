@@ -255,7 +255,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				btnnum: 0,
-				doctorList: [],				
+				doctorList: [{name:'医生名字'}],				
 				doctorInformationList: [],
 				doctorNameList: [],
 				btndoctornum: 0,

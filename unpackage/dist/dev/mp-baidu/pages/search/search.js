@@ -209,6 +209,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -221,7 +226,7 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
@@ -253,6 +258,7 @@ __webpack_require__.r(__webpack_exports__);
       colorNum: -1,
       searchHistoryList: ['玻尿酸', '双眼皮', '脂肪填充', '吸脂', '水光针', '鼻综合', '瘦脸针', '隆鼻', '综合美胸', '草莓妆'],
       searchHistoryNum: -1,
+      requestUrl: '',
       announcementList: [
       { content: '拒绝大黄牙，分享我的牙齿美白经历', state: 'rise', number: 1597 },
       { content: '后台配置内容，可控制', state: 'rise', number: 1597 },
@@ -263,9 +269,11 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   onLoad: function onLoad(option) {
+    this.request = this.$request;
     var that = this;
-    console.log(option);
+    that.requestUrl = that.request.globalData.requestUrl;
     that.searchContent = option.search;
+    that.getDetails();
   },
   onReady: function onReady() {
     var that = this;
@@ -284,6 +292,25 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   methods: {
+    // 获取搜索关键词
+    getDetails: function getDetails() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'indexhotwords' };
+
+      that.request.uniRequest("search", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+          that.hotSearchList = data;
+        } else
+        {
+          // this.request.showToast('暂时没有数据')
+          console.log('没有数据');
+        }
+      });
+    },
+
     onKeyInput: function onKeyInput(event) {
       this.inputValue = event.target.value;
     },

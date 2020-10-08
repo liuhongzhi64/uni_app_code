@@ -30,7 +30,10 @@
 					<view class="hot-search">
 						<view class="title">热门搜索</view>
 						<view class="hot-search-list">
-							<view class="list-item" @tap='changeHotSearch(item,index)' :class="{changeStyle:colorNum==index}" v-for="(item,index) in hotSearchList" :key="index">
+							<view class="list-item" 
+							 @tap='changeHotSearch(item,index)' 
+							 :class="{changeStyle:colorNum==index}" 
+							 v-for="(item,index) in hotSearchList" :key="index">
 								{{item}}
 							</view>
 						</view>						
@@ -44,7 +47,10 @@
 						</view>
 						
 						<view class="search-history-list">
-							<view class="list-item" @tap='changeSearchHistory(item,index)' :class="{changeStyle:searchHistoryNum==index}" v-for="(item,index) in searchHistoryList" :key="index">
+							<view class="list-item"
+							 @tap='changeSearchHistory(item,index)' 
+							 :class="{changeStyle:searchHistoryNum==index}" 
+							 v-for="(item,index) in searchHistoryList" :key="index">
 								{{item}}
 							</view>
 						</view>
@@ -66,8 +72,7 @@
 							</view>
 						</view>
 					</view>
-					
-					
+										
 				</view>	
 			</template>
 		</scroll-view>			
@@ -89,7 +94,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
@@ -121,6 +126,7 @@
 				colorNum:-1,
 				searchHistoryList:['玻尿酸','双眼皮','脂肪填充','吸脂','水光针','鼻综合','瘦脸针','隆鼻','综合美胸','草莓妆'],
 				searchHistoryNum:-1,
+				requestUrl:'',
 				announcementList:[
 					{content:'拒绝大黄牙，分享我的牙齿美白经历',state:'rise',number:1597},
 					{content:'后台配置内容，可控制',state:'rise',number:1597},
@@ -131,9 +137,11 @@
 			}
 		},
 		onLoad: function(option) {
+			this.request = this.$request
 			let that = this
-			console.log(option)
+			that.requestUrl = that.request.globalData.requestUrl
 			that.searchContent = option.search
+			that.getDetails()
 		},
 		onReady() {
 			let that = this;
@@ -152,6 +160,25 @@
 			})
 		},
 		methods: {
+			// 获取搜索关键词
+			getDetails:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'indexhotwords'
+				}
+				that.request.uniRequest("search", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+						that.hotSearchList = data
+					}
+					else{
+						// this.request.showToast('暂时没有数据')
+						console.log('没有数据')
+					}
+				})
+			},
+			
 			onKeyInput: function(event) {
 			   this.inputValue = event.target.value
 			},
@@ -277,6 +304,7 @@
 		color: #505050;
 		margin-bottom:26rpx ;
 		margin-right: 17rpx;
+		overflow: hidden;
 	}
 	.changeStyle{
 		color: #fa3475;

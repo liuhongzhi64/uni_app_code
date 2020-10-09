@@ -274,22 +274,47 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.searchContent = option.search;
     that.getDetails();
+    that.advertising();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        // console.log('运行Android上')
+        platform = 'android';
+        break;
+      case 'ios':
+        // console.log('运行iOS上')
+        platform = 'ios';
+        break;
+      default:
+        // console.log('运行在开发者工具上')
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+          that.menuPaddingRight = res.windowWidth - menu.right;
+        } });
+
+    } else
+    {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
     // 获取搜索关键词
@@ -301,12 +326,26 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("search", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data);
           that.hotSearchList = data;
         } else
         {
           // this.request.showToast('暂时没有数据')
           console.log('没有数据');
+        }
+      });
+    },
+
+    // 获取广告
+    advertising: function advertising() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getadvertising',
+        location: 1 };
+
+      that.request.uniRequest("home", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
         }
       });
     },

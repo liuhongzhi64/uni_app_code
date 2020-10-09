@@ -437,21 +437,49 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
     that.getLike();
+    that.advertising();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        // console.log('运行Android上')
+        platform = 'android';
+        break;
+      case 'ios':
+        // console.log('运行iOS上')
+        platform = 'ios';
+        break;
+      default:
+        // console.log('运行在开发者工具上')
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          console.log(that.menuWidth);
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+          that.menuPaddingRight = res.windowWidth - menu.right;
+        } });
+
+    } else
+    {
+      that.menuWidth = 90;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+      that.menuPaddingRight = 10;
+    }
     that.changePorduct();
   },
   methods: {
@@ -484,6 +512,20 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
 
+    // 获取广告
+    advertising: function advertising() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getadvertising',
+        location: 1 };
+
+      that.request.uniRequest("home", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+        }
+      });
+    },
     // 触底函数
     onReachBottom: function onReachBottom() {
       console.log("到底了");

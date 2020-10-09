@@ -362,19 +362,44 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
 
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        // console.log('运行Android上')
+        platform = 'android';
+        break;
+      case 'ios':
+        // console.log('运行iOS上')
+        platform = 'ios';
+        break;
+      default:
+        // console.log('运行在开发者工具上')
+        platform = 'applet';
+        break;}
+
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+          that.menuPaddingRight = res.windowWidth - menu.right;
+        } });
+
+    } else
+    {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
     that.tabtap();
     that.selectLabel();
   },
@@ -388,6 +413,13 @@ __webpack_require__.r(__webpack_exports__);
         lableList: ['可使用', '冻结中', '已失效', '已使用'] };
 
       this.selectLabel(0, type);
+    },
+
+    // 领券中心
+    goToGain: function goToGain() {
+      uni.navigateTo({
+        url: "/pages/my/my_card_gain" });
+
     },
 
     selectLabel: function selectLabel() {var k = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;

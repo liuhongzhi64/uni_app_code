@@ -17,7 +17,7 @@
 	display: -webkit-flex;
 	display: flex;
 	height: 68rpx;
-	line-height:68rpx;
+	line-height: 68rpx;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
@@ -71,7 +71,7 @@
 	font-size: 24rpx;
 	color: #333333;
 	line-height: 30rpx;
-	padding: 0 10rpx ;
+	padding: 0 10rpx;
 }
 .certifications.data-v-57280228 {
 	display: -webkit-box;
@@ -388,9 +388,10 @@
 	text-align: center;
 	line-height: 60rpx;
 }
-.productImg.data-v-57280228{
+.productImg.data-v-57280228 {
 	padding-bottom: 40rpx;
-	padding-left: 40rpx;margin-top: -10rpx;
+	padding-left: 40rpx;
+	margin-top: -10rpx;
 }
 .timeTitle-time.data-v-57280228 {
 	display: -webkit-box;
@@ -449,14 +450,14 @@
 	height: auto;
 	background-color: #F6F6F6;
 }
-.tabBarList.data-v-57280228{
+.tabBarList.data-v-57280228 {
 	width: 100%;
 }
-.bar-items.data-v-57280228{
+.bar-items.data-v-57280228 {
 	overflow: hidden;
 	white-space: nowrap;
 }
-.tab-all-item.data-v-57280228{
+.tab-all-item.data-v-57280228 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -465,10 +466,10 @@
 	        align-items: center;
 	padding: 30rpx 0;
 }
-.tab-item .tab-item-title.data-v-57280228{
+.tab-item .tab-item-title.data-v-57280228 {
 	font-size: 28rpx;
 }
-.tab-item.data-v-57280228{
+.tab-item.data-v-57280228 {
 	padding: 0 45rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -484,7 +485,7 @@
 	font-size: 24rpx;
 	position: relative;
 }
-.tab-line.data-v-57280228{
+.tab-line.data-v-57280228 {
 	height: 32rpx;
 	width: 1px;
 	background-color: #666666;
@@ -492,10 +493,10 @@
 	right: 0;
 	top: 25%;
 }
-.changeTab.data-v-57280228{
+.changeTab.data-v-57280228 {
 	color: #fa3475;
 }
-.changeTab .tab-item-title.data-v-57280228{
+.changeTab .tab-item-title.data-v-57280228 {
 	font-size: 32rpx;
 	font-weight: bold;
 }

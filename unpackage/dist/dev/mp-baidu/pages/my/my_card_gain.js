@@ -188,9 +188,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 {
   components: {
     topBar: topBar,
@@ -264,27 +261,96 @@ __webpack_require__.r(__webpack_exports__);
 
       ticketList: {},
       ticketItemList: [],
-      marginTop: 54 };
+      marginTop: 54,
+      requestUrl: '',
+      cardsList: [] };
 
+  },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    that.getCard();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
 
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        // console.log('运行Android上')
+        platform = 'android';
+        break;
+      case 'ios':
+        // console.log('运行iOS上')
+        platform = 'ios';
+        break;
+      default:
+        // console.log('运行在开发者工具上')
+        platform = 'applet';
+        break;}
+
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+          that.menuPaddingRight = res.windowWidth - menu.right;
+        } });
+
+    } else {
+      that.menuTop = 50;
+      that.menuWidth = 87;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
     this.tabtap();
   },
   methods: {
+    // 获取卡卷
+    getCard: function getCard() {var _this = this;
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'cardlist',
+        card_flg: 0,
+        limit: 4,
+        offset: '0' };
+
+      that.request.getToken().then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var token = res.data.data.token;
+          uni.setStorage({
+            key: 'token',
+            data: token,
+            success: function success() {
+              that.request.uniRequest("card", dataInfo).then(function (res) {
+                if (res.data.code == 1000 && res.data.status == 'ok') {
+                  var data = res.data.data;
+                  that.cardsList = data.cards;
+                  console.log(that.cardsList);
+                } else
+                {
+                  // this.request.showToast('暂时没有数据')
+                  console.log('没有数据');
+                }
+              });
+            } });
+
+        } else
+        {
+          _this.request.showToast('未登录');
+        }
+
+      });
+    },
     tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       this.tabIndex = index;
       this.listType = type; //券的类型
@@ -292,8 +358,7 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(type)
       if (type == 0) {
         this.contentList[index].ticketList = {
-          ticketItemList: [
-          {
+          ticketItemList: [{
             serialNumber: '02048492', //编号
             expirationTime: 0, //过期时间
             exclusiveName: '金钻卡专享', //专享名称
@@ -412,8 +477,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
         this.ticketItemList = this.contentList[index].ticketList.ticketItemList;
-      } else
-      {
+      } else {
         this.contentList[index].ticketList = {};
         this.ticketItemList = [];
       }
@@ -425,8 +489,7 @@ __webpack_require__.r(__webpack_exports__);
       var type = e.detail.current;
       if (type == 0) {
         this.contentList[index].ticketList = {
-          ticketItemList: [
-          {
+          ticketItemList: [{
             serialNumber: '02048492', //编号
             expirationTime: 0, //过期时间
             exclusiveName: '金钻卡专享', //专享名称
@@ -545,8 +608,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
         this.ticketItemList = this.contentList[index].ticketList.ticketItemList;
-      } else
-      {
+      } else {
         this.contentList[index].ticketList = {};
         this.ticketItemList = [];
       }

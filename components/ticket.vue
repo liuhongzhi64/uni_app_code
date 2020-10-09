@@ -1,12 +1,12 @@
 <template>
 	<view class="ticket-content">
 		<view class="ticket-items" v-for="(i,k) in ticketList" :key='k'>
+			<!-- 过期时间 -->
 			<view class="ticket-number-expiration-time" v-if="i.expirationTime>0">
 				<view class="ticket-numer">{{i.serialNumber}}</view>
 				<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'|| i.state =='已核销'">{{i.expirationTime}}小时内过期</view>
 				<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
 			</view>
-
 			<view class="ticket-items-content">
 				<view class="ticket-label-writer-state-userTime">
 					<view class="ticket-label-writer">
@@ -78,10 +78,7 @@
 				<view class="details-content" v-if="i.showTicketDetails">
 					<view class="item-details" v-for="(i,k) in i.ticketDetails">{{i}}</view>
 				</view>
-
-
 			</view>
-
 			<view class="ticket-label-images" v-if="i.state == '已使用'">
 				<image src="../static/images/state2.png" mode=""></image>
 			</view>
@@ -91,7 +88,6 @@
 			<view class="ticket-label-images" v-if="i.state == '已核销'" style="top: 80rpx;">
 				<image src="../static/images/check.png" mode=""></image>
 			</view>
-
 			<view class="ticket-label-images" v-if="i.receive==0&&i.receiveTime&& i.uesrReceive == 2">
 				<!-- 上限 -->
 				<image src="../static/images/upper-limit.png" mode=""></image>
@@ -105,18 +101,21 @@
 				<image src="../static/images/ticke-over.png" mode=""></image>
 			</view>
 		</view>
+		<!-- 线上 -->
+		<view class="ticket-items" v-for="(i,k) in cardsList" :key='k'>
+			1
+		</view>				
 	</view>
-
-
+	
 </template>
 
 <script>
 	export default {
 		props: {
 			ticketList: Array,
+			cardsList:Array,
 			marginTop: Number
 		},
-
 		methods: {
 			// 显示卡券详情
 			showDetails: function(number) {

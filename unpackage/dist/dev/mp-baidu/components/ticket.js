@@ -225,13 +225,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var _default =
 {
   props: {
     ticketList: Array,
+    cardsList: Array,
     marginTop: Number },
-
 
   methods: {
     // 显示卡券详情

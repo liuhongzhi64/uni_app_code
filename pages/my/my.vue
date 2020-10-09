@@ -63,7 +63,7 @@
 			</view>
 
 			<view class="display-advertising">
-				<image src="../../static/images/12.png" mode=""></image>
+				<image src="../../static/images/0.png" mode=""></image>
 			</view>
 
 			<view class="serve-and-tool">
@@ -313,26 +313,65 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getLike()
+			that.advertising()
 		},
 		onReady() {
 			let that = this;
 			let pageHeight = 0
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					pageHeight = res.windowHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-				}
-			})
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					// console.log('运行Android上')
+					platform = 'android'
+					break;
+				case 'ios':
+					// console.log('运行iOS上')
+					platform = 'ios'
+					break;
+				default:
+					// console.log('运行在开发者工具上')
+					platform = 'applet'
+					break;
+			}
+			if(platform=='applet'){
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						pageHeight = res.screenHeight
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			}
+			else{
+				that.menuTop = 50
+				that.menuWidth = 87
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
-			
-			
+				
+			// 获取广告
+			advertising:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'getadvertising',
+					location:5
+				}
+				that.request.uniRequest("home", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			},	
 			// 猜你喜欢
 			getLike:function(){
 				let that = this
@@ -344,7 +383,6 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
 						that.productList = data
 					}
 					else{

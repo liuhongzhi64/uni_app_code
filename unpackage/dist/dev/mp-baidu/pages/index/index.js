@@ -382,18 +382,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     swiperDot: swiperDot,
@@ -433,12 +421,31 @@ __webpack_require__.r(__webpack_exports__);
       house: 0,
       second: 0,
       minute: 0,
-      tabBars: [
-      { type: 4, title: '精选', name: '猜你喜欢' },
-      { type: 0, title: '护肤品', name: '品质推荐' },
-      { type: 3, title: '直播', name: '精选视频' },
-      { type: 1, title: '视频', name: '精选视频' },
-      { type: 2, title: '日记', name: '优质内容' }],
+      tabBars: [{
+        type: 4,
+        title: '精选',
+        name: '猜你喜欢' },
+
+      {
+        type: 0,
+        title: '护肤品',
+        name: '品质推荐' },
+
+      {
+        type: 3,
+        title: '直播',
+        name: '精选视频' },
+
+      {
+        type: 1,
+        title: '视频',
+        name: '精选视频' },
+
+      {
+        type: 2,
+        title: '日记',
+        name: '优质内容' }],
+
 
       tabIndex: 1, // 选中的
       swiperheight: 0, //高度
@@ -450,19 +457,42 @@ __webpack_require__.r(__webpack_exports__);
   onReady: function onReady() {
     var that = this;
     var pageHeight = 0;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        pageHeight = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-      } });
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        // console.log('运行Android上')
+        platform = 'android';
+        break;
+      case 'ios':
+        // console.log('运行iOS上')
+        platform = 'ios';
+        break;
+      default:
+        // console.log('运行在开发者工具上')
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          pageHeight = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
 
+    } else
+    {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   onLoad: function onLoad(options) {
     var that = this;
@@ -470,6 +500,7 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.getIndexDetail();
     that.tabtap(0, 4);
+
     // uni.setStorage({
     // 	key: 'token',
     // 	data: 'hello',
@@ -509,18 +540,22 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.topBackgroundColor = data.background;
-          that.skipList = data.top_navigation;
+          if (data.top_navigation) {
+            that.skipList = data.top_navigation;
+          }
           that.swiperList = data.banner.content;
           that.honor_list = data.honor_list;
-          that.tabBarSwiperList = data.icon_list;
-          if (that.tabBarSwiperList.length > 10) {
-            that.tabBarSwiperList = that.group(that.tabBarSwiperList, 10);
+          if (data.icon_list) {
+            that.tabBarSwiperList = data.icon_list;
+            if (that.tabBarSwiperList.length > 10) {
+              that.tabBarSwiperList = that.group(that.tabBarSwiperList, 10);
+            }
           }
           that.seckill_module = data.seckill_module;
           that.times = that.seckill_module.rest_time;
           that.productImgList = that.seckill_module.act_goods_list;
           // that.setTime()
-          console.log(data, 11111, that.seckill_module);
+          console.log(data, 22222222);
         } else {
           // this.request.showToast('暂时没有数据')
           console.log('11111111');
@@ -550,8 +585,7 @@ __webpack_require__.r(__webpack_exports__);
                 that.house = 59;
                 if (that.day > 0) {
                   that.day = that.day - 1;
-                } else
-                {
+                } else {
                   that.day = 0;
                   that.house = 0;
                   that.second = 0;
@@ -565,6 +599,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
     },
+
 
     // 分割数组
     group: function group(array, subGroupLength) {
@@ -596,7 +631,7 @@ __webpack_require__.r(__webpack_exports__);
     // 商品列表
     goToGoodsList: function goToGoodsList(e) {
       var goodsList = e.currentTarget.dataset.goods;
-      console.log(e.currentTarget.dataset);
+      // console.log(e.currentTarget.dataset)
       uni.navigateTo({
         url: "/pages/goods/goods_list?goodsname=".concat(goodsList) });
 
@@ -642,7 +677,7 @@ __webpack_require__.r(__webpack_exports__);
             setTimeout(function () {
               that.swiperheight = Math.ceil(that.newslist.length / 2) * 750;
             }, 1000);
-            console.log(data);
+            // console.log(data)
           }
         });
       } else {
@@ -659,7 +694,7 @@ __webpack_require__.r(__webpack_exports__);
             setTimeout(function () {
               that.swiperheight = Math.ceil(that.newslist.length / 2) * 750;
             }, 1000);
-            console.log(data);
+            // console.log(data)
           }
         });
       }

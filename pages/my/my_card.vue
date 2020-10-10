@@ -37,15 +37,16 @@
 
 								<view class="ticket-content" v-if="ticketList[index].ticketContent">
 									<view class="ticket-label" :style="[{'top':menuBottom+90+'px'}]">
-										<view class="label-name" :class="{labelColor:colorNum==k}" @tap='selectLabel(k,listType)' v-for="(i,k) in ticketList[index].ticketContent.lableList"
+										<view class="label-name"
+										 :class="{labelColor:colorNum==k}" 
+										 @tap='selectLabel(k,listType)' 
+										 v-for="(i,k) in ticketList[index].ticketContent.lableList"
 										 :key='k'>
 											{{i}}
 										</view>
 									</view>
-
 									<view class="select-content end-cont" :style="[{'padding-top':60+'px'}]" :class="{dis:colorNum == index}"
 									 v-for="(i,index) in contentList" :key="index">
-
 										<!-- 按钮为除可使用状态时显示的券说明 -->
 										<view class="ticket-use-explain" v-if="colorNum != 0" :style="[{'padding-top':30+'px'}]">
 											<view class="title">{{i.selectContent.title}}</view>
@@ -58,19 +59,18 @@
 												<view class="images">
 													<image src="../../static/images/cartBg.png" mode=""></image>
 												</view>
-
 												<view class="no-have-ticket">喵！暂无相关卡券~</view>
 											</view>
-
 										</view>
 
 										<!-- 券不为空的 -->
 										<view class="content-list" v-if="TicketNumber > 0" :style="[{'padding-top':10+'px'}]">
-
 											<view class="ticket-items" v-for="(i,k) in ticketItemList">
 												<view class="ticket-number-expiration-time">
-													<view class="ticket-numer">{{i.serialNumber}}</view>
-													<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'">{{i.expirationTime}}小时内过期</view>
+													<view class="ticket-numer">卡券编号:{{i.serialNumber}}</view>
+													<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'">
+														{{i.expirationTime}}小时内过期
+													</view>
 													<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
 												</view>
 

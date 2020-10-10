@@ -579,16 +579,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -827,18 +817,15 @@ __webpack_require__.r(__webpack_exports__);
       uni.getSystemInfo({
         success: function success(res) {
           pageHeight = res.windowHeight;
-          that.height = res.screenHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
-          that.menuPaddingRight = res.windowWidth - menu.right;
         } });
 
-    } else
-    {
+    } else {
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
@@ -876,8 +863,7 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.productLists = data;
-        } else
-        {
+        } else {
           // this.request.showToast('暂时没有数据')
           console.log('没有数据');
         }

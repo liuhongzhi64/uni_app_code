@@ -3,7 +3,7 @@
 		<view class="ticket-items" v-for="(i,k) in ticketList" :key='k'>
 			<!-- 过期时间 -->
 			<view class="ticket-number-expiration-time" v-if="i.expirationTime>0">
-				<view class="ticket-numer">{{i.serialNumber}}</view>
+				<view class="ticket-numer">卡券编号:{{i.serialNumber}}</view>
 				<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'|| i.state =='已核销'">{{i.expirationTime}}小时内过期</view>
 				<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
 			</view>
@@ -13,7 +13,6 @@
 						<text class="ticket-labels" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' || i.receive>0 && i.state!='已结束'? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 							{{i.ticketLabel}}
 						</text>
-
 						<text class="ticket-writer"> {{i.writer}} </text>
 					</view>
 					<!-- 当前状态 -->
@@ -28,13 +27,9 @@
 					</view>
 
 					<!-- 可领取券数 -->
-					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime">
-						可领取{{i.receive}}张
-					</view>
-
+					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime"> 可领取{{i.receive}}张 </view>
 					<!-- 活动时间 -->
 					<view class="user-time" v-if="i.userTime">使用时间:<text>{{i.userTime}}</text></view>
-
 					<!-- 领取倒计时 -->
 					<view class="receive-time" v-if="i.receiveTime && i.allReceive>0">
 						距结束还剩
@@ -47,8 +42,9 @@
 					<view class="receive-times" v-if="!i.receiveTime && i.allReceive"> 已结束 </view>
 
 				</view>
-
-				<view class="ticket-images-exclusiveName" v-if="i.state" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中'  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				<view class="ticket-images-exclusiveName"
+				 v-if="i.state" 
+				 :style="[{'background-image': i.state == '可使用' || i.state =='冻结中'  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
@@ -58,7 +54,9 @@
 
 				</view>
 
-				<view class="ticket-images-exclusiveName" v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				<view
+				 class="ticket-images-exclusiveName" 
+				 v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
@@ -102,8 +100,48 @@
 			</view>
 		</view>
 		<!-- 线上 -->
-		<view class="ticket-items" v-for="(i,k) in cardsList" :key='k'>
-			1
+		<view class="ticket-items" v-for="(item,k) in cardsList" :key='k'>
+			<view class="ticket-number-expiration-time" v-if="item.get_end_time - item.get_start_time >0">
+				<view class="ticket-numer">卡券编号:{{i.serialNumber}}</view>
+				<view class="expiration-time" >{{i.expirationTime}}小时内过期</view>
+				<view class="expiration-time" > 删除 </view>
+			</view>
+			<!-- 主体内容 -->
+			<view class="ticket-items-content">
+				<view class="ticket-label-writer-state-userTime">
+					<view class="ticket-label-writer">
+						<text class="ticket-labels">{{}}</text>
+						<text class="ticket-writer"> {{}} </text>
+					</view>
+					<!-- 当前状态 -->
+					<view class="ticket-state">
+						当前状态:
+						<text>{{}}</text>
+					</view>				
+					<!-- 可领取券数 -->
+					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime"> 可领取{{}}张 </view>
+					<!-- 活动时间 -->
+					<view class="user-time">使用时间:<text>{{}}</text></view>
+					<!-- 领取倒计时 -->
+					<view class="receive-time">
+						距结束还剩
+						<text class="times">23</text>
+						<text class="time-line">:</text>
+						<text class="times">23</text>
+						<text class="time-line">:</text>
+						<text class="times">23</text>
+					</view>
+					<view class="receive-times"> 已结束 </view>			
+				</view>
+				<view class="ticket-images-exclusiveName">
+					<view class="exclusive-name">{{}}</view>
+					<view class="exclusive-price"> <text>￥</text> {{}}</view>
+					<view class="meet-price-user">满{{}}元可用</view>				
+					<view class="useing-ticket" > 立即使用 </view>
+					<view class="Immediately-receive useing-ticket" > 立即领取 </view>				
+				</view>
+				
+			</view>
 		</view>				
 	</view>
 	

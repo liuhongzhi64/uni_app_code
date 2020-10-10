@@ -5,7 +5,7 @@
 		 :menuBottom='menuBottom'></topBar>
 
 		<!-- 主体内容 -->
-		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]" v-for="(item,index) in contentList" :key='index'>
+		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]" >
 			<scroll-view scroll-y :style="'height:'+height +'rpx'">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
@@ -105,27 +105,21 @@
 				<!-- 版本、规格、部位、医生 -->
 
 				<view class="specs">
-					<template >
+					<template>
 						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
 							<view class="specs-title">{{item.name}}</view>
 							<view class="specs-cont">
-								<view class="li" 
-								 v-for="(is,sindex) in item.attr" 
-								 :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
-								 
-								 :key="sindex" 
-								 :data-index="index" 
-								 :data-sindex="sindex" 
-								 @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
+								<view class="li" v-for="(is,sindex) in item.attr" :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
+								 :key="sindex" :data-index="index" :data-sindex="sindex" @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
 									{{sindex}}{{is}} {{index}}
-								<!-- 	{{spec[index].attr[sindex]}}
+									<!-- 	{{spec[index].attr[sindex]}}
 									<text   :class="spec[index].attr[sindex]==0?'getSpec1':'cancelSpec2'">22</text> -->
 									<!-- [spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')] -->
 								</view>
-								
+
 							</view>
 						</view>
-						
+
 					</template>
 				</view>
 
@@ -394,12 +388,8 @@
 						<view class="line"></view> 为你推荐
 					</view>
 					<view class="recommend-for-you-product">
-						<goodsShow
-						 :borderRadius=24
-						 :requestUrl='requestUrl' 
-						 :width=350
-						 :porductList='productLists'>
-						 </goodsShow>
+						<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='productLists'>
+						</goodsShow>
 					</view>
 
 				</view>
@@ -496,7 +486,7 @@
 						content: '新人首单立减50元'
 					},
 				], //优惠政策
-				
+
 				productLists: [],
 				doctorDurationTime: 1000,
 				doctorSwiperList: [{
@@ -613,7 +603,7 @@
 				spec_value: [],
 				spec: [],
 				relevantGoods: [],
-				requestUrl:''
+				requestUrl: ''
 			}
 		},
 		onLoad: function(option) {
@@ -649,10 +639,10 @@
 					that.spec_value = data.spec_value
 					// console.log(data)
 					// console.log(that.spec)
-					for(let i in that.spec){
+					for (let i in that.spec) {
 						console.log(that.spec[i].attr)
 					}
-				}else{
+				} else {
 					that.request.showToast(res.data.message)
 				}
 			})
@@ -664,7 +654,7 @@
 		onReady: function() {
 			let that = this;
 			let pageHeight = 0
-			that.videoContext = uni.createVideoContext('myVideo')			
+			that.videoContext = uni.createVideoContext('myVideo')
 			// 判定运行平台
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
@@ -681,23 +671,20 @@
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						pageHeight = res.windowHeight
-						that.height = res.screenHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
-						that.menuPaddingRight = res.windowWidth - menu.right
 					}
 				})
-			}
-			else{
+			} else {
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
@@ -710,11 +697,11 @@
 				console.log('提醒')
 			},
 			// 获取广告
-			advertising:function(){
+			advertising: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'getadvertising',
-					location:4
+					interfaceId: 'getadvertising',
+					location: 4
 				}
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -724,25 +711,24 @@
 				})
 			},
 			// 为你推荐
-			getLike:function(){
+			getLike: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'userrecommendedgoodsspulist',
-					type:'2',
-					offset:'0'
+					interfaceId: 'userrecommendedgoodsspulist',
+					type: '2',
+					offset: '0'
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.productLists = data
-					}
-					else{
+					} else {
 						// this.request.showToast('暂时没有数据')
 						console.log('没有数据')
 					}
-				})				
+				})
 			},
-			
+
 			// 获取相关商品
 			getRelevantGoods: function() {
 				this.request = this.$request
@@ -803,9 +789,9 @@
 				// console.log(spec,33333)
 				return spec;
 			},
-			
+
 			// getSpec: function(e) {
-			getSpec: function(index,sindex,spec) {
+			getSpec: function(index, sindex, spec) {
 				this.request = this.$request
 				const that = this;
 				that.spec = spec
@@ -850,16 +836,16 @@
 					goodsDetail.sku.user_spec = res.data.data.user_spec;
 					uni.setStorageSync("goodsDetail", goodsDetail);
 					that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck)
-					
+
 				})
 			},
 
 			// 取消选项
-			cancelSpec: function(index,sindex,spec) {
+			cancelSpec: function(index, sindex, spec) {
 				// cancelSpec: function(e) {
 				this.request = this.$request
 				const that = this;
-				
+
 				// let index = e.currentTarget.dataset.index;
 				// let sindex = e.currentTarget.dataset.sindex;
 				// that.spec[index].attr[sindex] = 0;
@@ -894,7 +880,7 @@
 					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
 			},
-			
+
 		}
 	}
 </script>

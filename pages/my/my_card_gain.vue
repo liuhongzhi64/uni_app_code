@@ -203,6 +203,8 @@
 									if (res.data.code == 1000 && res.data.status == 'ok') {
 										let data = res.data.data
 										that.cardsList = data.cards
+										let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
+										let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
 										console.log(that.cardsList)
 									}
 									else{

@@ -46,6 +46,9 @@
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
 	padding: 30rpx 32rpx 20rpx;
 	border-top-left-radius: 16rpx;
 }
@@ -140,14 +143,14 @@
 }
 .exclusive-price.data-v-ab11f3f2 {
 	font-size: 56rpx;
-	margin-top: 10rpx;
+	margin-bottom: 10rpx;
 }
 .exclusive-price text.data-v-ab11f3f2 {
 	font-size: 32rpx;
 }
 .meet-price-user.data-v-ab11f3f2 {
 	font-size: 24rpx;
-	margin-top: 20rpx;
+	margin-bottom: 20rpx;
 }
 .useing-ticket.data-v-ab11f3f2 {
 	width: 160rpx;
@@ -157,7 +160,7 @@
 	background-color: #ffffff;
 	box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(0, 0, 0, 0.16);
 	border-radius: 20rpx;
-	margin-top: 20rpx;
+	margin-bottom: 20rpx;
 	font-size: 24rpx;
 }
 .ticketDetails.data-v-ab11f3f2 {

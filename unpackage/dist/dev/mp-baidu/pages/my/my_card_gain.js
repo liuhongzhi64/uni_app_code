@@ -334,10 +334,19 @@ __webpack_require__.r(__webpack_exports__);
               that.request.uniRequest("card", dataInfo).then(function (res) {
                 if (res.data.code == 1000 && res.data.status == 'ok') {
                   var data = res.data.data;
+                  that.tabBars[0].number = data.num.all;
+                  that.tabBars[1].number = data.num.online;
+                  that.tabBars[2].number = data.num.offline;
+                  that.tabBars[3].number = data.num.gift;
+                  that.tabBars[4].number = data.num.experience;
+                  // let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
+                  // let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
+                  for (var i = 0; i < data.cards.length; i++) {
+                    data.cards[i].showTicketDetails = false;
+                    data.cards[i].arrowImages = '../../static/images/arrow-top.png';
+                  }
                   that.cardsList = data.cards;
-                  var getTime = data.cards.get_end_time - data.cards.get_start_time; //领取时间值
-                  var userTime = data.cards.use_end_time - data.cards.use_start_time; //使用时间的倒计时
-                  console.log(that.cardsList);
+                  console.log(that.cardsList, data.cards);
                 } else
                 {
                   // this.request.showToast('暂时没有数据')
@@ -626,8 +635,25 @@ __webpack_require__.r(__webpack_exports__);
             this.ticketItemList[i].arrowImages = '../../static/images/arrow-down.png';
           }
         }
-
       }
+    },
+    showTicket: function showTicket(cardId) {
+      var that = this;
+      for (var i = 0; i < that.cardsList.length; i++) {
+        if (that.cardsList[i].id == cardId) {
+          that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails;
+          if (that.cardsList[i].showTicketDetails) {
+            that.cardsList[i].arrowImages = '../../static/images/arrow-top.png';
+          } else {
+            that.cardsList[i].arrowImages = '../../static/images/arrow-down.png';
+          }
+        }
+      }
+    },
+    goToMyCard: function goToMyCard() {
+      uni.navigateTo({
+        url: "/pages/my/my_card" });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

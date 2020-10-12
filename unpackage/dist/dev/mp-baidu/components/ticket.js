@@ -81,6 +81,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.cardsList, function(item, k) {
+    var m0 = parseInt(
+      item.get_end_time - ((item.get_start_time / 1000 / 60 / 60) % 24)
+    )
+    var m1 = parseInt(
+      item.get_end_time - ((item.get_start_time / 1000 / 60) % 60)
+    )
+    var m2 = parseInt(item.get_end_time - ((item.get_start_time / 1000) % 60))
+    return {
+      $orig: _vm.__get_orig(item),
+      m0: m0,
+      m1: m1,
+      m2: m2
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -263,6 +287,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
@@ -270,10 +311,18 @@ var _default =
     cardsList: Array,
     marginTop: Number },
 
+  data: function data() {
+    return {
+      show: false };
+
+  },
   methods: {
     // 显示卡券详情
     showDetails: function showDetails(number) {
       this.$emit('showDetails', number);
+    },
+    showTicket: function showTicket(id) {
+      this.$emit('showTicket', id);
     },
     goUserCard: function goUserCard() {
       uni.navigateTo({

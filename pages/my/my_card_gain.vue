@@ -20,8 +20,8 @@
 										<view class="ticket-hint"> 尊敬的顾客，小喵为您专属定制以下卡券 </view>
 
 										<view v-if="ticketItemList.length>0">
-											<ticket :ticketList='ticketItemList' :marginTop='marginTop' @showDetails='showDetails'></ticket>
-											<!-- <ticket :cardsList='cardsList' ></ticket> -->
+											<!-- <ticket :ticketList='ticketItemList' :marginTop='marginTop' @showDetails='showDetails'></ticket> -->
+											<ticket :cardsList='cardsList' @showTicket='showTicket'></ticket>
 										</view>
 
 										<!-- 券为空 -->
@@ -45,7 +45,7 @@
 		<view class="consult-my-ticket">
 			<view class="consult-my-ticket-content">
 				<view class="consult"> 立即咨询 </view>
-				<view class="my-ticket"> 我的卡券 </view>
+				<view class="my-ticket" @tabtap='goToMyCard'> 我的卡券 </view>
 			</view>
 		</view>
 
@@ -202,10 +202,19 @@
 								that.request.uniRequest("card", dataInfo).then(res => {
 									if (res.data.code == 1000 && res.data.status == 'ok') {
 										let data = res.data.data
+										that.tabBars[0].number = data.num.all
+										that.tabBars[1].number = data.num.online
+										that.tabBars[2].number = data.num.offline
+										that.tabBars[3].number = data.num.gift
+										that.tabBars[4].number = data.num.experience
+										// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
+										// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
+										for(let i=0;i<data.cards.length;i++){
+											data.cards[i].showTicketDetails = false
+											data.cards[i].arrowImages = '../../static/images/arrow-top.png'
+										}
 										that.cardsList = data.cards
-										let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
-										let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
-										console.log(that.cardsList)
+										console.log(that.cardsList,data.cards)
 									}
 									else{
 										// this.request.showToast('暂时没有数据')
@@ -494,8 +503,25 @@
 							this.ticketItemList[i].arrowImages = '../../static/images/arrow-down.png'
 						}
 					}
-
 				}
+			},
+			showTicket:function(cardId){
+				let that = this
+				for (let i = 0; i < that.cardsList.length; i++) {
+					if (that.cardsList[i].id == cardId) {
+						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
+						if (that.cardsList[i].showTicketDetails) {
+							that.cardsList[i].arrowImages = '../../static/images/arrow-top.png'
+						} else {
+							that.cardsList[i].arrowImages = '../../static/images/arrow-down.png'
+						}
+					}
+				}
+			},
+			goToMyCard:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_card`,
+				})
 			}
 		}
 	}

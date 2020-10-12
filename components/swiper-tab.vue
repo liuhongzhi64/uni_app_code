@@ -8,16 +8,17 @@
 					<view class="all-content">
 						<view class="tabName-tabContent">
 							<view class="tabName">
-								{{tab.name}} <text v-if="tab.number">({{tab.number}})</text>
+								{{tab.name}} 
+								<text v-if="tab.number">({{tab.number}})</text>
+								<text v-if="tab.number==0">(0)</text>
+								<text v-if="tab.number>99">(99+)</text>
 							</view>
 							<view class="tabContent"  v-if="tab.content">
 								{{tab.content}}
 							</view>
-						</view>
-						
+						</view>						
 						<view class="swiper-tab-line" v-if="line" ></view>
-					</view>
-					
+					</view>					
 				</view>
 			</block>
 		</scroll-view>

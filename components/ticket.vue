@@ -42,21 +42,19 @@
 					<view class="receive-times" v-if="!i.receiveTime && i.allReceive"> 已结束 </view>
 
 				</view>
-				<view class="ticket-images-exclusiveName"
-				 v-if="i.state" 
-				 :style="[{'background-image': i.state == '可使用' || i.state =='冻结中'  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				<view class="ticket-images-exclusiveName" v-if="i.state" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中'  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
 
-					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'||i.state == '已核销'" :style="{'color':i.state == '已核销'?'#999999':i.toColor}"> 立即使用 </view>
-					<view class="Immediately-receive useing-ticket" v-if="i.receive>0" :style="{'color':i.state=='已结束' ?  '#999999':i.toColor}"> 立即领取 </view>
+					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'||i.state == '已核销'" :style="{'color':i.state == '已核销'?'#999999':i.toColor}">
+						立即使用 </view>
+					<view class="Immediately-receive useing-ticket" v-if="i.receive>0" :style="{'color':i.state=='已结束' ?  '#999999':i.toColor}">
+						立即领取 </view>
 
 				</view>
 
-				<view
-				 class="ticket-images-exclusiveName" 
-				 v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				<view class="ticket-images-exclusiveName" v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name">{{i.exclusiveName}}</view>
 					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
 					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
@@ -64,7 +62,8 @@
 					<view class="Immediately-receive useing-ticket" v-if="i.receive>0 " :style="{'color':i.receive>0&&i.receiveTime?i.toColor:'#999999'}">
 						立即领取 </view>
 
-					<view class="useing-ticket" v-if="i.receive==0&&i.allReceive>=0" @tap='goUserCard' :style="{'color':'#999999'}"> 立即使用 </view>
+					<view class="useing-ticket" v-if="i.receive==0&&i.allReceive>=0" @tap='goUserCard' :style="{'color':'#999999'}">
+						立即使用 </view>
 
 				</view>
 
@@ -101,65 +100,91 @@
 		</view>
 		<!-- 线上 -->
 		<view class="ticket-items" v-for="(item,k) in cardsList" :key='k'>
-			<view class="ticket-number-expiration-time" v-if="item.get_end_time - item.get_start_time >0">
-				<view class="ticket-numer">卡券编号:{{i.serialNumber}}</view>
-				<view class="expiration-time" >{{i.expirationTime}}小时内过期</view>
-				<view class="expiration-time" > 删除 </view>
-			</view>
+			<!-- <view class="ticket-number-expiration-time" v-if="item.get_end_time - item.get_start_time >0">
+				<view class="ticket-numer">卡券编号:{{}}</view>
+				<view class="expiration-time">{{}}小时内过期</view>
+				<view class="expiration-time"> 删除 </view>
+			</view> -->
 			<!-- 主体内容 -->
 			<view class="ticket-items-content">
 				<view class="ticket-label-writer-state-userTime">
 					<view class="ticket-label-writer">
-						<text class="ticket-labels">{{}}</text>
-						<text class="ticket-writer"> {{}} </text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-if="item.card_type==1||item.card_type == 2">满减券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.card_type==3||item.card_type==4">折扣券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.card_type == 5">礼品券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else>体验券</text>
+						<text class="ticket-writer"> {{item.show_name}} </text>
 					</view>
-					<!-- 当前状态 -->
-					<view class="ticket-state">
-						当前状态:
-						<text>{{}}</text>
-					</view>				
-					<!-- 可领取券数 -->
-					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime"> 可领取{{}}张 </view>
-					<!-- 活动时间 -->
-					<view class="user-time">使用时间:<text>{{}}</text></view>
-					<!-- 领取倒计时 -->
-					<view class="receive-time">
-						距结束还剩
-						<text class="times">23</text>
-						<text class="time-line">:</text>
-						<text class="times">23</text>
-						<text class="time-line">:</text>
-						<text class="times">23</text>
+					<view class="left-bottom">
+						<!-- 当前状态 -->
+						<!-- <view class="ticket-state">
+							当前状态:
+							<text>{{}}</text>
+						</view> -->
+						<!-- 可领取券数 -->
+						<view class="can-receive"> 可领取{{item.get_limit}}张 </view>
+						<!-- 活动时间 -->
+						<!-- <view class="user-time">使用时间:<text>{{}}</text></view> -->
+						<!-- 领取倒计时 -->
+						<view class="receive-time" v-if="item.get_end_time-item.get_start_time > 0">
+							距结束还剩
+							<text class="times">{{ parseInt(item.get_end_time-item.get_start_time / 1000 / 60 / 60 % 24) }}</text>
+							<text class="time-line">:</text>
+							<text class="times">{{ parseInt(item.get_end_time-item.get_start_time / 1000 / 60 % 60) }}</text>
+							<text class="time-line">:</text>
+							<text class="times">{{ parseInt(item.get_end_time-item.get_start_time / 1000 % 60) }}</text>
+						</view>
+						<view class="receive-times" v-else> 已结束 </view>
 					</view>
-					<view class="receive-times"> 已结束 </view>			
+					
 				</view>
-				<view class="ticket-images-exclusiveName">
-					<view class="exclusive-name">{{}}</view>
-					<view class="exclusive-price"> <text>￥</text> {{}}</view>
-					<view class="meet-price-user">满{{}}元可用</view>				
-					<view class="useing-ticket" > 立即使用 </view>
-					<view class="Immediately-receive useing-ticket" > 立即领取 </view>				
+				<view class="ticket-images-exclusiveName"
+				 :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+					<view class="exclusive-name" v-if="item.note" >{{item.note}}</view>
+					<view class="exclusive-price" :style="[{'margin-top':item.note ? '10rpx':'16rpx'}]"> <text>￥</text> {{item.condition}}</view>
+					<view class="meet-price-user">满{{item.min_affect}}元可用</view>
+					<view class="Immediately-receive useing-ticket"
+					 v-if="item.get_limit>0"
+					 :style="{'color':item.status==1 ?  '#999999':item.card_style}"> 立即领取 </view>
+					<!-- <view class="useing-ticket" :style="{'color':item.status==1 ?  '#999999':item.card_style}"> 立即使用 </view> -->					
 				</view>
-				
+
 			</view>
-		</view>				
+			<view class="ticketDetails" @tap='showTicket(item.id)'>
+				<view class="details-title"> <text>卡券详情</text>
+					<image :src="item.arrowImages" mode=""></image>
+				</view>
+				<view class="details-content" v-if="item.showTicketDetails">
+					<view class="item-details">{{item.intro}}</view>
+				</view>
+			</view>
+		
+		</view>
 	</view>
-	
+
 </template>
 
 <script>
 	export default {
 		props: {
 			ticketList: Array,
-			cardsList:Array,
+			cardsList: Array,
 			marginTop: Number
+		},
+		data() {
+			return {
+				show:false
+			}
 		},
 		methods: {
 			// 显示卡券详情
 			showDetails: function(number) {
 				this.$emit('showDetails', number)
 			},
-			goUserCard:function(){
+			showTicket:function(id){
+				this.$emit('showTicket', id)
+			},
+			goUserCard: function() {
 				uni.navigateTo({
 					url: `/pages/my/my_card_use`,
 				})
@@ -205,6 +230,7 @@
 		display: flex;
 		flex: 1;
 		flex-direction: column;
+		justify-content: space-between;
 		padding: 30rpx 32rpx 20rpx;
 		border-top-left-radius: 16rpx;
 	}
@@ -302,7 +328,7 @@
 
 	.exclusive-price {
 		font-size: 56rpx;
-		margin-top: 10rpx;
+		margin-bottom: 10rpx;
 	}
 
 	.exclusive-price text {
@@ -311,7 +337,7 @@
 
 	.meet-price-user {
 		font-size: 24rpx;
-		margin-top: 20rpx;
+		margin-bottom: 20rpx;
 	}
 
 	.useing-ticket {
@@ -322,7 +348,7 @@
 		background-color: #ffffff;
 		box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(0, 0, 0, 0.16);
 		border-radius: 20rpx;
-		margin-top: 20rpx;
+		margin-bottom: 20rpx;
 		font-size: 24rpx;
 	}
 

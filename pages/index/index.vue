@@ -28,7 +28,7 @@
 					<template>
 						<view class="top-content">
 							<!-- 轮播 -->
-							<view id="top-swiper">
+							<view id="top-swiper" v-if="swiperList.length>0">
 								<swiper class="swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval="topInterval"
 								 :duration="topDuration" circular>
 									<swiper-item v-for="(i,index) in swiperList" :key="index">
@@ -50,7 +50,7 @@
 							<!-- 自定义导航条 -->
 							<view id="tabBarSwiper" v-if="tabBarSwiperList" class="swiperContent">
 								<swiper :duration="tabDuration" class="swiper-box" @change="changeSwiperDot">
-									<swiper-item class="tabBarSwiper" v-for="(item,index) in tabBarSwiperList" :key="index">
+									<swiper-item class="tabBarSwiper" v-for="(item,index) in barSwiperList" :key="index">
 										<view v-for="(i,index) in item" :key="index" class="tabBarSwiperItem" :data-goods="i.name" @tap="goToGoodsList">
 											<view class="icon">
 												<image :src="requestUrl+i.img" mode=""></image>
@@ -59,19 +59,21 @@
 										</view>
 									</swiper-item>
 								</swiper>
-								<swiperDot class="dot" :current="currents" :list="tabBarSwiperList"></swiperDot>
+								<swiperDot class="dot" :current="currents" :list="barSwiperList"></swiperDot>
 							</view>
 							<!-- 全部广告位 -->
-							<view class="advertisingAll" :style="[{backgroundImage:'url('+advertisingAllUrl+')',backgroundColor:advertisingAllColor}]"
-							 style="width: 100%;height: 100%;background-size: 100% 100%;">
+							<view class="advertisingAll"
+							 :style="[{backgroundImage:'url('+advertisingAllUrl+')',backgroundColor:advertisingAllColor}]"
+							 style="width: 100%;height: 100%;background-size: 100% 100%;" 
+							 v-for="(item,index) in advertisingList.content" :key='index'>
 								<!-- 广告位01 -->
-								<view id="advertising" :data-name="advertisingUrl" @tap="gotoGoods">
+								<view  v-show="advertisingList.type==3" v-for="(i,k) in item" :key='k'>
 									<view class="advertising">
-										<image class="advertisImg" :src="advertisingUrl" mode=""></image>
+										<image class="advertisImg" :src="requestUrl+i.img" mode=""></image>
 									</view>
 								</view>
 								<!-- 广告位03 -->
-								<view id="advertising03" class="advertisingItem">
+								<!-- <view id="advertising03" class="advertisingItem">
 									<view class="advertising03" v-for="(i,k) in item.advertisingList" :key='k'>
 										<view class="advertisingItems">
 											<view class="advertisingTitle">
@@ -88,10 +90,10 @@
 											<image :src="i.backgroungUrl" mode=""></image>
 										</view>
 									</view>
-								</view>
+								</view> -->
 
 								<!-- 广告位04 -->
-								<view id="scroll-view_H">
+								<!-- <view id="scroll-view_H">
 									<scroll-view class="scroll-view-item-Y" scroll-x="true" @scroll="scroll" scroll-left="0" enable-flex='true'>
 										<view id="scroll-view-item" class="scroll-view-item_H" v-for="(i,k) in item.scrollViewItemYList" :key='k'
 										 :data-name="i.name+i.content" @tap="gotoGoods">
@@ -115,23 +117,20 @@
 
 										</view>
 									</scroll-view>
-								</view>
+								</view> -->
 
 								<!-- 签到红包 -->
-								<view class="signIn-red-packet">
+								<!-- <view class="signIn-red-packet">
 									<view class="sign-in-red-packet">
 										<view class="title"> 每日签到 </view>
 										<view class="red-packet"> 即可领取 <text>现金红包</text>等大奖 </view>
 									</view>
-									<!-- 红包 -->
 									<view class="all-red-packet">
 										<scroll-view class="all-red-packet-items" scroll-x="true" @scroll="scroll">
 											<view id="all-red-packet-item" class="all-red-packet-item" v-for="(i,k) in item.redPacketList" :key='k'
 											 :class="{pitchOn:item.btnnum == k}" @click="changeRedpacket(k)">
 												<view :id="'all-red-packet-item'+k" class="red-packe-Items">
-													<!-- 图片 -->
 													<view class="Imgs"> </view>
-													<!-- 内容 -->
 													<view class="red-packe-ItemsContent" :class="{pitchOnItemsConten:item.btnnum == k}">
 														{{i}}
 													</view>
@@ -139,7 +138,7 @@
 											</view>
 										</scroll-view>
 									</view>
-								</view>
+								</view> -->
 							</view>
 						</view>
 					</template>
@@ -148,7 +147,7 @@
 		</view>
 
 		<!-- 自定义导航条加倒计时 -->
-		<view id="countDown" v-if="seckill_module.length>0">
+		<view id="countDown" v-if="seckill_module">
 			<view class="countDown">
 				<!-- 自定义名称和时间倒计时 -->
 				<view class="timeTitle-time">
@@ -193,7 +192,7 @@
 
 			<!-- 图片商品 -->
 			<view class="productImg">
-				<porduct :width=240 :height=370 :crosswisePorducts='productImgList'></porduct>
+				<porduct :width=240 :requestUrl='requestUrl' :height=370 :crosswisePorducts='productImgList'></porduct>
 			</view>
 		</view>
 		<!-- 自定义导航条可滑动 -->
@@ -276,6 +275,7 @@
 				honor_list: [],
 				tabDuration: 3000,
 				tabBarSwiperList: [], //中部icon
+				barSwiperList:[],
 				currents: 0,
 				seckill_module: {}, //秒杀模块
 				times: 0,
@@ -314,6 +314,7 @@
 				productImgList: [],
 				newslist: [],
 				paddingLR: 10, //拜托医生的左右边距
+				advertisingList:{},//广告
 			}
 		},
 		onReady() {
@@ -402,20 +403,27 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.topBackgroundColor = data.background
+						//导航栏
 						if(data.top_navigation){
 							that.skipList = data.top_navigation
 						}	
-						that.swiperList = data.banner.content
-						that.honor_list = data.honor_list
+						that.swiperList = data.banner.content//首页banner 
+						that.honor_list = data.honor_list //荣誉列表
+						//中部icon
 						if(data.icon_list){
 							that.tabBarSwiperList = data.icon_list
-							if (that.tabBarSwiperList.length > 10) {
-								that.tabBarSwiperList = that.group(that.tabBarSwiperList, 10)
-							}
-						}						
-						that.seckill_module = data.seckill_module
-						that.times = that.seckill_module.rest_time
-						that.productImgList = that.seckill_module.act_goods_list
+							that.barSwiperList = that.group(that.tabBarSwiperList, 10)
+							// if (that.tabBarSwiperList.length > 10) {
+							// 	that.barSwiperList = that.group(that.tabBarSwiperList, 10)
+							// }
+						}	
+						// 中部广告
+						if(data.centre_advertising){
+							that.advertisingList = data.centre_advertising
+						}					
+						that.seckill_module = data.seckill_module //秒杀模块
+						that.times = that.seckill_module.rest_time //倒计时秒数
+						that.productImgList = that.seckill_module.act_goods_list //活动商品
 						// that.setTime()
 						console.log(data,22222222)
 					} else {

@@ -2,6 +2,13 @@
 	"pages": [ 
 		
 		// 测试时的首页
+		// 首页
+		{
+			"path": "pages/index/index",
+			"style": {
+				"enablePullDownRefresh": true
+			}
+		},
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}
@@ -69,13 +76,7 @@
 			"style": {}
 		},
 		
-		// 首页
-		{
-			"path": "pages/index/index",
-			"style": {
-				"enablePullDownRefresh": true
-			}
-		},
+		
 		
 		// 登录
 		{

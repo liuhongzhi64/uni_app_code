@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/my/my_card_gain",
     "pages/my/account_number",
     "pages/my/add_address",
@@ -16,7 +17,6 @@
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
     "pages/my/write_comment",
-    "pages/index/index",
     "pages/login/login_phone",
     "pages/login/login",
     "pages/login/login_gather",

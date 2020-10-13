@@ -21,7 +21,7 @@
 
 										<view v-if="ticketItemList.length>0">
 											<!-- <ticket :ticketList='ticketItemList' :marginTop='marginTop' @showDetails='showDetails'></ticket> -->
-											<ticket :cardsList='cardsList' @showTicket='showTicket'></ticket>
+											<ticket :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket' @getCards='getCards' ></ticket>
 										</view>
 
 										<!-- 券为空 -->
@@ -45,7 +45,7 @@
 		<view class="consult-my-ticket">
 			<view class="consult-my-ticket-content">
 				<view class="consult"> 立即咨询 </view>
-				<view class="my-ticket" @tabtap='goToMyCard'> 我的卡券 </view>
+				<view class="my-ticket" @tap='goToMyCard'> 我的卡券 </view>
 			</view>
 		</view>
 
@@ -131,7 +131,8 @@
 				ticketItemList: [],
 				marginTop: 54,
 				requestUrl: '',
-				cardsList:[]
+				cardsList:[],
+				time_now:0
 			}
 		},
 		onLoad(options) {
@@ -207,14 +208,16 @@
 										that.tabBars[2].number = data.num.offline
 										that.tabBars[3].number = data.num.gift
 										that.tabBars[4].number = data.num.experience
+										that.time_now = data.time_now
 										// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
 										// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
 										for(let i=0;i<data.cards.length;i++){
 											data.cards[i].showTicketDetails = false
-											data.cards[i].arrowImages = '../../static/images/arrow-top.png'
+											data.cards[i].arrowImages = '../../static/images/arrow-down.png'
 										}
 										that.cardsList = data.cards
-										console.log(that.cardsList,data.cards)
+										
+										console.log(that.cardsList,that.cardsList[3].get_end_time-that.time_now)
 									}
 									else{
 										// this.request.showToast('暂时没有数据')
@@ -516,6 +519,24 @@
 							that.cardsList[i].arrowImages = '../../static/images/arrow-down.png'
 						}
 					}
+				}
+			},
+			// 领取卡券
+			getCards:function(cardId,prompt){
+				let that = this
+				if(prompt==''){
+					let dataInfo = {
+						interfaceId:'cardget',
+						card_id:cardId
+					}
+					that.request.uniRequest("card", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.request.showToast('领取成功')
+						}
+					})		
+				}
+				else{
+					that.request.showToast(prompt)
 				}
 			},
 			goToMyCard:function(){

@@ -1,6 +1,6 @@
 export default {
 	globalData: {
-		appid: "wx805c90d4affed9a4",
+		appid: "wxd8c2d232303432c2",
 		requestUrl: "https://mytest.hmzixin.com/"
 	},
 	// 模态对话框

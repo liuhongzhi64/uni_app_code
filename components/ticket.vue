@@ -122,17 +122,17 @@
 							<text>{{}}</text>
 						</view> -->
 						<!-- 可领取券数 -->
-						<view class="can-receive"> 可领取{{item.get_limit}}张 </view>
+						<view class="can-receive"> 可领取{{item.get_limit-item.take_store}}张 </view>
 						<!-- 活动时间 -->
 						<!-- <view class="user-time">使用时间:<text>{{}}</text></view> -->
 						<!-- 领取倒计时 -->
-						<view class="receive-time" v-if="item.get_end_time-item.get_start_time > 0">
+						<view class="receive-time" v-if="item.get_end_time-time_now > 0">
 							距结束还剩
-							<text class="times">{{ parseInt(item.get_end_time-item.get_start_time / 1000 / 60 / 60 % 24) }}</text>
+							<text class="times">{{ parseInt((item.get_end_time-time_now )/ 1000 / 60 / 60 % 24) }}</text>
 							<text class="time-line">:</text>
-							<text class="times">{{ parseInt(item.get_end_time-item.get_start_time / 1000 / 60 % 60) }}</text>
+							<text class="times">{{ parseInt((item.get_end_time-time_now) / 1000 / 60 % 60) }}</text>
 							<text class="time-line">:</text>
-							<text class="times">{{ parseInt(item.get_end_time-item.get_start_time / 1000 % 60) }}</text>
+							<text class="times">{{ parseInt((item.get_end_time-time_now) / 1000 % 60) }}</text>
 						</view>
 						<view class="receive-times" v-else> 已结束 </view>
 					</view>
@@ -143,10 +143,11 @@
 					<view class="exclusive-name" v-if="item.note" >{{item.note}}</view>
 					<view class="exclusive-price" :style="[{'margin-top':item.note ? '10rpx':'16rpx'}]"> <text>￥</text> {{item.condition}}</view>
 					<view class="meet-price-user">满{{item.min_affect}}元可用</view>
-					<view class="Immediately-receive useing-ticket"
-					 v-if="item.get_limit>0"
-					 :style="{'color':item.status==1 ?  '#999999':item.card_style}"> 立即领取 </view>
-					<!-- <view class="useing-ticket" :style="{'color':item.status==1 ?  '#999999':item.card_style}"> 立即使用 </view> -->					
+					<view class="Immediately-receive useing-ticket"					 
+					 :style="{'color':item.status==1 ? '#999999':item.card_style}" 
+					 @tap='getCard(item.id,item.store,item.take_store,item.get_limit)'
+					 v-if="item.get_limit>item.take_store&&item.store>0"> 立即领取 </view>
+					<view class="useing-ticket" v-else :style="{'color':item.status==1 ?  '#999999':item.card_style}"> 立即使用 </view>					
 				</view>
 
 			</view>
@@ -158,7 +159,15 @@
 					<view class="item-details">{{item.intro}}</view>
 				</view>
 			</view>
-		
+			<!-- 提示 -->
+			<view class="ticket-label-images" v-if="item.store-item.take_store==0">
+				<!-- 已抢光 -->
+				<image src="../static/images/loot-all.png" mode=""></image>
+			</view>
+			<view class="ticket-label-images" v-if="item.get_end_time-time_now == 0">
+				<!-- 已结束 -->
+				<image src="../static/images/ticke-over.png" mode=""></image>
+			</view>
 		</view>
 	</view>
 
@@ -169,7 +178,8 @@
 		props: {
 			ticketList: Array,
 			cardsList: Array,
-			marginTop: Number
+			marginTop: Number,
+			time_now:Number
 		},
 		data() {
 			return {
@@ -183,6 +193,17 @@
 			},
 			showTicket:function(id){
 				this.$emit('showTicket', id)
+			},
+			// 领取卡券
+			getCard:function(id,store,take_store,get_limit){
+				let prompt = ''
+				if(get_limit>take_store&&store>0){
+					this.$emit('getCards',id,prompt)
+				}
+				else{
+					prompt = '无法领取该卡券'
+					this.$emit('getCards',id,prompt)
+				}
 			},
 			goUserCard: function() {
 				uni.navigateTo({

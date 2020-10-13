@@ -220,8 +220,8 @@
 						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
 							<!-- 图片 -->
 							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
-								<image src="../static/images/19.png" mode="" ></image>
-								<!-- <image :src="requestUrl + i.head_img" mode="" ></image> -->
+								<!-- <image src="../static/images/19.png" mode="" ></image> -->
+								<image :src="requestUrl + i.head_img" mode="" ></image>
 							</view>
 							<!-- 内容 -->
 							<view class="productContent"> {{i.goods_name}} </view>

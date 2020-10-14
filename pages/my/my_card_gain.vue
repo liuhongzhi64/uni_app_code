@@ -8,24 +8,24 @@
 			 @tabtap="tabtap"></swiperTabHead>
 		</view>
 
-		<view class="my_card_gain-content" :style="[{'padding-top':menuBottom+40+'px'}]">
+		<view class="my_card_gain-content" :style="[{'padding-top':menuBottom+45+'px'}]" >
 			<view class="card_gain-items">
-				<swiper :style="[{'height':height-menuBottom-40+'px'}]" :current="tabIndex" @change="tabChange">
+				<swiper :style="[{'height':height+'px','background-color': '#F6F6F6'}]" :current="tabIndex" @change="tabChange">
 					<swiper-item v-for="(i,index) in contentList" :key="index">
-						<scroll-view scroll-y :style="[{'height':height-menuBottom-40+'px'}]">
+						<scroll-view scroll-y >
 							<template>
-								<block>
-									<view class="ticket-content" :style="[{'min-height':height-menuBottom-70+'px'}]">
+								<block >
+									<view class="ticket-content" >
 										<!-- 提示 -->
 										<view class="ticket-hint"> 尊敬的顾客，小喵为您专属定制以下卡券 </view>
 
-										<view v-if="ticketItemList.length>0">
+										<view v-if="cardsList.length>0">
 											<!-- <ticket :ticketList='ticketItemList' :marginTop='marginTop' @showDetails='showDetails'></ticket> -->
 											<ticket :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket' @getCards='getCards' ></ticket>
 										</view>
 
 										<!-- 券为空 -->
-										<view class="content-item" v-if="ticketItemList.length == 0||cardList.length==0">
+										<view class="content-item" v-else>
 											<view class="Ticket-number">
 												<view class="images">
 													<image src="../../static/images/cartBg.png" mode=""></image>
@@ -74,7 +74,7 @@
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
-				title: '领取卡卷',
+				title: '领取卡券',
 				tabBars: [{
 						name: '全部',
 						number: 99,
@@ -164,7 +164,6 @@
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
-						that.height = res.screenHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
@@ -193,45 +192,82 @@
 					limit: 4,
 					offset: '0'
 				}
-				that.request.getToken().then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let token = res.data.data.token
-						uni.setStorage({
-							key: 'token',
-							data: token,
-							success: function() {
-								that.request.uniRequest("card", dataInfo).then(res => {
-									if (res.data.code == 1000 && res.data.status == 'ok') {
-										let data = res.data.data
-										that.tabBars[0].number = data.num.all
-										that.tabBars[1].number = data.num.online
-										that.tabBars[2].number = data.num.offline
-										that.tabBars[3].number = data.num.gift
-										that.tabBars[4].number = data.num.experience
-										that.time_now = data.time_now
-										// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
-										// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
-										for(let i=0;i<data.cards.length;i++){
-											data.cards[i].showTicketDetails = false
-											data.cards[i].arrowImages = '../../static/images/arrow-down.png'
-										}
-										that.cardsList = data.cards
-										
-										console.log(that.cardsList,that.cardsList[3].get_end_time-that.time_now)
-									}
-									else{
-										// this.request.showToast('暂时没有数据')
-										console.log('没有数据')
-									}
-								})
+				if(uni.getStorageSync("token")){
+					that.request.uniRequest("card", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.tabBars[0].number = data.num.all
+							that.tabBars[1].number = data.num.online
+							that.tabBars[2].number = data.num.offline
+							that.tabBars[3].number = data.num.gift
+							that.tabBars[4].number = data.num.experience
+							that.time_now = data.time_now
+							// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
+							// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
+							for(let i=0;i<data.cards.length;i++){
+								data.cards[i].showTicketDetails = false
+								data.cards[i].arrowImages = '../../static/images/arrow-down.png'
 							}
-						})
-					}
-					else{
-						this.request.showToast('未登录')
-					}
+							that.cardsList = data.cards
+							if(that.cardsList.length<=3){
+								that.height = 3*260
+							}else{
+								that.height = that.cardsList.length*260
+							}
+							
+							console.log(that.cardsList,that.cardsList[3].get_end_time-that.time_now)
+						}
+						else{
+							// this.request.showToast('暂时没有数据')
+							console.log('没有数据')
+						}
+					})
+				}else{
+					this.request.showToast('未登录,将为您跳转到登录页面')
+					uni.navigateTo({
+						url: '/pages/login/login_phone'
+					});
+				}
+				
+				// that.request.getToken().then(res => {
+				// 	if (res.data.code == 1000 && res.data.status == 'ok') {
+				// 		let token = res.data.data.token
+				// 		uni.setStorage({
+				// 			key: 'token',
+				// 			data: token,
+				// 			success: function() {
+				// 				that.request.uniRequest("card", dataInfo).then(res => {
+				// 					if (res.data.code == 1000 && res.data.status == 'ok') {
+				// 						let data = res.data.data
+				// 						that.tabBars[0].number = data.num.all
+				// 						that.tabBars[1].number = data.num.online
+				// 						that.tabBars[2].number = data.num.offline
+				// 						that.tabBars[3].number = data.num.gift
+				// 						that.tabBars[4].number = data.num.experience
+				// 						that.time_now = data.time_now
+				// 						// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
+				// 						// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
+				// 						for(let i=0;i<data.cards.length;i++){
+				// 							data.cards[i].showTicketDetails = false
+				// 							data.cards[i].arrowImages = '../../static/images/arrow-down.png'
+				// 						}
+				// 						that.cardsList = data.cards
+										
+				// 						console.log(that.cardsList,that.cardsList[3].get_end_time-that.time_now)
+				// 					}
+				// 					else{
+				// 						// this.request.showToast('暂时没有数据')
+				// 						console.log('没有数据')
+				// 					}
+				// 				})
+				// 			}
+				// 		})
+				// 	}
+				// 	else{
+				// 		this.request.showToast('未登录')
+				// 	}
 					
-				})
+				// })
 			},
 			tabtap: function(index = 0, type = 0) {
 				this.tabIndex = index;
@@ -549,6 +585,9 @@
 </script>
 
 <style scoped>
+	.my_card_gain{
+		height: 100%;
+	}
 	.top-swiper-tab {
 		position: fixed;
 		z-index: 9;
@@ -566,10 +605,14 @@
 	.item-content {
 		display: flex;
 	}
-
+	.my_card_gain-content,.card_gain-items{
+		height: 820px;
+		width: 100%;
+	}
 	.ticket-content {
-		background-color: #F6F6F6;
+		
 		padding: 30rpx 20rpx 120rpx;
+		height: 100%;
 	}
 
 	.ticket-hint {

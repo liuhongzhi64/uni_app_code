@@ -141,6 +141,11 @@
 	font-size: 20rpx;
 	line-height: 36rpx;
 }
+.no-exclusive-name.data-v-ab11f3f2{
+	width: 128rpx;
+	height: 26rpx;
+	background-color: #999999;
+}
 .exclusive-price.data-v-ab11f3f2 {
 	font-size: 56rpx;
 	margin-bottom: 10rpx;
@@ -162,6 +167,7 @@
 	border-radius: 20rpx;
 	margin-bottom: 20rpx;
 	font-size: 24rpx;
+	border: none;
 }
 .ticketDetails.data-v-ab11f3f2 {
 	padding: 18rpx 26rpx 18rpx 30rpx;

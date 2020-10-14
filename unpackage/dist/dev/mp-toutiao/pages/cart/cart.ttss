@@ -197,12 +197,6 @@
 }
 .subject-content.data-v-0f00adf4 {
 	background-color: #F6F6F6;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
 }
 .recommend-to-you-list.data-v-0f00adf4 {
 	padding-bottom: 20rpx;

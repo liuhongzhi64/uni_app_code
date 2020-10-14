@@ -1,4 +1,7 @@
 
+.my_card_gain.data-v-5468ecd6{
+	height: 100%;
+}
 .top-swiper-tab.data-v-5468ecd6 {
 	position: fixed;
 	z-index: 9;
@@ -15,9 +18,14 @@
 	display: -webkit-flex;
 	display: flex;
 }
+.my_card_gain-content.data-v-5468ecd6,.card_gain-items.data-v-5468ecd6{
+	height: 820px;
+	width: 100%;
+}
 .ticket-content.data-v-5468ecd6 {
-	background-color: #F6F6F6;
+	
 	padding: 30rpx 20rpx 120rpx;
+	height: 100%;
 }
 .ticket-hint.data-v-5468ecd6 {
 	font-size: 24rpx;

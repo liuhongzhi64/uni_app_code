@@ -3,19 +3,18 @@
 		<!-- 左右布局商品展示 -->
 		<view class="left-right-layout" v-if="porductList">
 			<view class="left-content">
-				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]"
-				 v-for="(item,index) in porductList" :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode=""
-					 :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
+				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id)">
+					<image class="goods_image" :src="requestUrl+item.head_img" mode="" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
-							<view class="label-name" v-for="(i,k) in item.label.list" :key='k' > {{i}} </view>
+							<view class="label-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
 						</view>
 						<view class="goods-label" v-else>
-							<view class="activity-name" v-for="(i,k) in item.label.list" :key='k' > {{i}} </view>
+							<view class="activity-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
 						</view>
-						<view class="price-vip" >
+						<view class="price-vip">
 							<view class="price">
 								<text>￥</text>{{item.sale_price}}
 							</view>
@@ -32,19 +31,18 @@
 				</view>
 			</view>
 			<view class="right-content">
-				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]"
-				 v-for="(item,index) in porductList" :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode=""
-					 :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
+				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id)">
+					<image class="goods_image" :src="requestUrl+item.head_img" mode="" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
-							<view class="label-name" v-for="(i,k) in item.label.list" :key='k' > {{i}} </view>
+							<view class="label-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
 						</view>
 						<view class="goods-label" v-else>
-							<view class="activity-name" v-for="(i,k) in item.label.list" :key='k' > {{i}} </view>
+							<view class="activity-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
 						</view>
-						<view class="price-vip" >
+						<view class="price-vip">
 							<view class="price">
 								<text>￥</text>{{item.sale_price}}
 							</view>
@@ -61,6 +59,37 @@
 				</view>
 			</view>
 		</view>
+
+		<!-- 横向商品展示 -->
+		<view class="crosswise-porduct" v-if="crosswiseGoods">
+			<scroll-view class="product-items" scroll-x="true">
+				<view class="product-item-content">
+					<view class="productImgs" v-for="(item,k) in crosswiseGoods" :key='k' @tap="changeGoods(item.sku_id)">
+						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
+							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
+								<image :src="requestUrl + item.head_img" mode=""></image>
+							</view>
+							<view class="productContent"> {{item.goods_name}} </view>
+							<view class="product-label">
+								<view class="label-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
+							</view>
+							<view class="prouctPrice" v-if="item.sale_price">
+								<view class="newprice"> <text>￥</text> {{item.sale_price}}</view>
+								<view class="oldPrice" v-if="item.market_price"> <text>￥</text> {{item.market_price}} </view>
+							</view>
+							<!-- 预约和好评 -->
+							<view class="subscribeAndGoodReputation" v-if="item.sales&&item.rate">
+								<view class="rate-sales">
+									<view class="sales"> {{item.sales}}预约 </view>
+									<view class="rate"> {{item.rate}}%好评 </view>
+								</view>
+							</view>
+						</view>
+					</view>
+
+				</view>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 
@@ -68,17 +97,18 @@
 	export default {
 		props: {
 			porductList: Array,
+			crosswiseGoods: Array,
 			requestUrl: String,
 			width: Number,
-			borderRadius:Number
+			borderRadius: Number
 		},
 		data() {
 			return {
-				
+
 			}
 		},
 		methods: {
-			changeGoods:function(id){
+			changeGoods: function(id) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?sku_id=${id}`,
 				})
@@ -97,23 +127,25 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	
+
 	.left-content,
 	.right-content {
 		display: flex;
 		flex-direction: column;
 		margin-bottom: 10rpx;
 	}
-	.goods_item-content{
+
+	.goods_item-content {
 		padding-bottom: 20rpx;
 		background-color: #FFFFFF;
 		margin-bottom: 10rpx;
 	}
-	
-	.bottom-content{
+
+	.bottom-content {
 		padding: 10rpx 20rpx;
 		background-color: #FFFFFF;
 	}
+
 	.goods_name {
 		overflow: hidden;
 		display: -webkit-box;
@@ -123,6 +155,7 @@
 		color: #111111;
 		font-weight: lighter;
 	}
+
 	.goods-label {
 		display: flex;
 		flex-wrap: wrap;
@@ -130,6 +163,7 @@
 		font-size: 16rpx;
 		margin-top: 16rpx;
 	}
+
 	.label-name {
 		background-color: #999999;
 		text-align: center;
@@ -137,32 +171,35 @@
 		margin: 0 10rpx 10rpx 0;
 		padding: 5rpx 10rpx;
 	}
-	
+
 	.activity-name {
 		border: 1rpx solid #fa3475;
 		padding: 5rpx;
 		color: #fa3475;
 		margin: 0 10rpx 10rpx 0;
 	}
-	.price-vip{
+
+	.price-vip {
 		display: flex;
 		padding-bottom: 35rpx;
 		border-bottom: 1rpx solid #F0F0F0;
 	}
+
 	.price-vip .price {
 		font-size: 32rpx;
 		padding-right: 20rpx;
 		color: #fa3475;
 	}
-	
+
 	.price-vip .price text {
 		font-size: 24rpx;
 	}
+
 	.vip-price {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.vip-price .cart {
 		background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
 		font-size: 16rpx;
@@ -172,7 +209,7 @@
 		color: #fefefe;
 		border-radius: 8rpx 0 0 8rpx;
 	}
-	
+
 	.vip-price .price {
 		font-size: 20rpx;
 		color: #282828;
@@ -180,22 +217,108 @@
 		line-height: 20rpx;
 		text-align: center;
 		border: 1rpx solid #282828;
-		border-radius: 0 8rpx 8rpx 0 ;
+		border-radius: 0 8rpx 8rpx 0;
 	}
 
-	.rate-sales{
+	.rate-sales {
 		display: flex;
 		justify-content: space-between;
 		font-size: 20rpx;
 		padding-top: 20rpx;
 	}
-	
+
 	.sales {
 		color: #CCCCCC;
 	}
-	
+
 	.rate {
 		color: #fa3475;
 	}
-	
+
+	/* 横向商品 */
+	.crosswise-porduct {
+		width: 100%;
+	}
+
+	.product-items {
+		overflow: hidden;
+		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.productImgs {
+		display: inline-block;
+		font-size: 20rpx;
+		margin-right: 30rpx;
+	}
+
+	.productItems {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+		white-space: normal;
+	}
+
+	.Imgs image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.product-item-content {
+		display: flex;
+		width: 100%;
+		height: 100%;
+	}
+
+	.productContent {
+		width: 220rpx;
+		margin-top: 12rpx;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		color: #2e2e2e;
+		font-weight: lighter;
+		text-align: center;
+		text-align: left;
+	}
+
+	.productItems image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.prouctPrice {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 10rpx 0 0;
+		text-align: left;
+		width: 100%;
+	}
+
+	.residueProduct {
+		text-align: center;
+	}
+
+	.prouctPrice text {
+		font-size: 20rpx;
+	}
+
+	.newprice {
+		color: #EF6174;
+		font-size: 30rpx;
+	}
+
+	.oldPrice {
+		text-decoration: line-through;
+		line-height: 30rpx;
+		color: #2e2e2e;
+		font-weight: lighter;
+	}
 </style>

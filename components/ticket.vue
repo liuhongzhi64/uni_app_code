@@ -109,10 +109,10 @@
 			<view class="ticket-items-content">
 				<view class="ticket-label-writer-state-userTime">
 					<view class="ticket-label-writer">
-						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-if="item.card_type==1||item.card_type == 2">满减券</text>
-						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.card_type==3||item.card_type==4">折扣券</text>
-						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.card_type == 5">礼品券</text>
-						<text class="ticket-labels" :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else>体验券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 && item.store-item.take_store>0  ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-if="item.card_type==1||item.card_type == 2">满减券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 && item.store-item.take_store>0  ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.card_type==3||item.card_type==4">折扣券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 && item.store-item.take_store>0  ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.card_type == 5">礼品券</text>
+						<text class="ticket-labels" :style="[{'background-image': item.status==0 && item.store-item.take_store>0  ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else>体验券</text>
 						<text class="ticket-writer"> {{item.show_name}} </text>
 					</view>
 					<view class="left-bottom">
@@ -139,15 +139,32 @@
 					
 				</view>
 				<view class="ticket-images-exclusiveName"
-				 :style="[{'background-image': item.status==0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				 :style="[{'background-image': item.store-item.take_store>0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" v-if="item.note" >{{item.note}}</view>
+					<view class="no-exclusive-name" v-else></view>
 					<view class="exclusive-price" :style="[{'margin-top':item.note ? '10rpx':'16rpx'}]"> <text>￥</text> {{item.condition}}</view>
 					<view class="meet-price-user">满{{item.min_affect}}元可用</view>
-					<view class="Immediately-receive useing-ticket"					 
-					 :style="{'color':item.status==1 ? '#999999':item.card_style}" 
+					
+					<button class="Immediately-receive useing-ticket" type="default" plain="true" 
+					 :style="{'color':item.status==0 && item.store-item.take_store>0 ? item.card_style: '#999999'}"
 					 @tap='getCard(item.id,item.store,item.take_store,item.get_limit)'
-					 v-if="item.get_limit>item.take_store&&item.store>0"> 立即领取 </view>
-					<view class="useing-ticket" v-else :style="{'color':item.status==1 ?  '#999999':item.card_style}"> 立即使用 </view>					
+					 v-if="item.get_limit>item.take_store&&item.store>0"
+					 >立即领取</button>
+					<!-- <view class="Immediately-receive useing-ticket"					 
+					 :style="{'color':item.status==0 && item.store-item.take_store>0 ? item.card_style: '#999999'}" 
+					 @tap='getCard(item.id,item.store,item.take_store,item.get_limit)'
+					 v-if="item.get_limit>item.take_store&&item.store>0"
+					 > 立即领取 </view> -->
+					<button class="useing-ticket" type="default" plain="true" v-else 
+					  :disabled="item.get_end_time-time_now == 0||item.store-item.take_store==0?true:false"
+					  :style="{'color':item.status==0 && item.store-item.take_store > 0 ?  item.card_style: '#999999'}"
+					  v-else
+					  @tap='userCard(item.id)'
+					 >立即使用</button>
+					<!-- <view class="useing-ticket" v-else 
+					 :style="{'color':item.status==0 && item.store-item.take_store > 0 ?  item.card_style: '#999999'}"> 
+						立即使用 
+					</view> -->					
 				</view>
 
 			</view>
@@ -164,9 +181,13 @@
 				<!-- 已抢光 -->
 				<image src="../static/images/loot-all.png" mode=""></image>
 			</view>
-			<view class="ticket-label-images" v-if="item.get_end_time-time_now == 0">
+			<view class="ticket-label-images" v-else-if="item.get_end_time-time_now == 0">
 				<!-- 已结束 -->
 				<image src="../static/images/ticke-over.png" mode=""></image>
+			</view>
+			<!-- 上限 -->
+			<view class="ticket-label-images" v-else-if="item.get_limit-item.take_store==0">
+				<image src="../static/images/upper-limit.png" mode=""></image>
 			</view>
 		</view>
 	</view>
@@ -209,6 +230,10 @@
 				uni.navigateTo({
 					url: `/pages/my/my_card_use`,
 				})
+			},
+			// 使用卡券
+			userCard:function(id){
+				console.log(id)
 			}
 		}
 	}
@@ -346,6 +371,11 @@
 		font-size: 20rpx;
 		line-height: 36rpx;
 	}
+	.no-exclusive-name{
+		width: 128rpx;
+		height: 26rpx;
+		background-color: #999999;
+	}
 
 	.exclusive-price {
 		font-size: 56rpx;
@@ -371,6 +401,7 @@
 		border-radius: 20rpx;
 		margin-bottom: 20rpx;
 		font-size: 24rpx;
+		border: none;
 	}
 
 	.ticketDetails {

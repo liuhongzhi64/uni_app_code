@@ -11,7 +11,6 @@
 					</view>
 				</view>
 			</view>
-
 			<view class="login-input" :style="'height:'+height +'rpx'">
 				<view class="login-message">
 					<view class="phone">
@@ -21,15 +20,11 @@
 
 					<view class="graphic-code">
 						<input class="phone-input" @blur="graphicInput" placeholder="请输入图形码" maxlength="4" />
-						<!-- <button class="graphic" type="default" plain="true">{{graphicCode}} </button> -->
 						<image class="graphic" :src="imageCode" @tap="getImageCode"></image>
-
 					</view>
 					<view class="phone-hint" v-if="!imageCodeValueState">图形码错误</view>
-
-
 					<view class="verification-code">
-						<input class="phone-input" @blur="verificationInput" placeholder="请输入验证码" maxlength="4" />
+						<input class="phone-input" @blur="verificationInput" placeholder="请输入验证码" maxlength="6" />
 						<button class="verification" type="default" plain="true" @tap='getPhoneCode'>发送请求</button>
 					</view>
 					<view class="phone-hint" v-if="!phoneCodeValueState">请输入验证码 / 验证码错误</view>
@@ -65,6 +60,7 @@
 				imageCodeValueState: true, // 图形码验证状态
 				phoneCodeValue: "", // 短信验证码输入值
 				phoneCodeValueState: true, // 短信验证码验证状态
+				thisPlatform:'' //运行环境
 			}
 		},
 		onShow: function() {
@@ -72,25 +68,65 @@
 		},
 		onReady() {
 			let that = this;
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					// console.log('运行Android上')
+					platform = 'android'
+					this.thisPlatform = platform
+					break;
+				case 'ios':
+					// console.log('运行iOS上')
+					platform = 'ios'
+					this.thisPlatform = platform
+					break;
+				default:
+					// console.log('运行在开发者工具上')
+					platform = 'applet'
+					this.thisPlatform = platform
+					break;
+			}
+			if(platform=='applet'){
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						that.height = res.screenHeight
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			}
+			else{
+				that.height = 812
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
+			console.log(this.thisPlatform)
 			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					// console.log(res)
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-				},				
-			})
+			// uni.getSystemInfo({
+			// 	success: function(res) {
+			// 		that.height = res.screenHeight
+			// 		// console.log(res)
+			// 		let menu = uni.getMenuButtonBoundingClientRect();
+			// 		that.menuWidth = menu.width
+			// 		that.menuTop = menu.top
+			// 		that.menuHeight = menu.height
+			// 		that.menuLeft = menu.left
+			// 		that.menuBottom = menu.bottom
+			// 	},				
+			// })
 			
 		},
 		methods: {
 			// 返回
 			goBack: function() {
-				// console.log('back', 1111)
 				this.isPhoneLogin = !this.isPhoneLogin
 				uni.navigateBack({
 					delta: 1
@@ -98,7 +134,6 @@
 			},
 			phoneInput: function(event) {
 				this.phoneValue = event.target.value
-				console.log(this.phoneValue)
 			},
 			// 获取、刷新图形码
 			getImageCode: function() {
@@ -111,7 +146,6 @@
 					if (res.data.code === 1000) {
 						that.imageCodeKey = res.data.data.captcha_key;
 						that.imageCode = res.data.data.url
-
 					} else {
 						this.request.showToast(res.data.message);
 					}
@@ -119,7 +153,6 @@
 			},
 			graphicInput: function(event) {
 				this.imageCodeValue = event.target.value
-				console.log(this.imageCodeValue)
 			},
 
 			// 获取短信验证码
@@ -182,30 +215,100 @@
 				this.request = this.$request
 				const that = this;
 				if (!that.check(e.currentTarget.dataset.type)) return false;
-				let dataInfo = {
-					interfaceId: "phoneregister",
-					tel: that.phoneValue,
-					mobile_code: that.phoneCodeValue,
-					type: 1,
-					code_session: uni.getStorageSync("sessionKey"),
-					channelSource: uni.getStorageSync("userInfo").channelSource
+				
+				let dataInfo ={
+					interfaceId:'commonlogin',
+					tel:that.phoneValue,
+					mobile_code:that.phoneCodeValue,
+					archives_id:'',
+					f_unique_id:''					
 				}
 				this.request.uniRequest("login", dataInfo).then(res => {
 					that.getImageCode();
-					if (res.data.code === 1000) {
-						let data = res.data.data;
-						uni.setStorageSync("consultation", data.consultation);
-						uni.setStorageSync("token", data.token);
-						uni.setStorageSync("userInfo", data);
-						this.request.showToast("登录成功");
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+						uni.setStorageSync("token", data.token)
+						uni.setStorageSync("userInfo", data)
+						this.request.showToast("登录成功")
+						uni.switchTab({
+							url: `/pages/index/index`
+						});
 					}
 				})
+								
+				// 判定运行环境是小程序还是安卓IOS
+				// if(that.thisPlatform=='applet'){
+				// 	// 判定sessionKey是否有值
+				// 	if (uni.getStorageSync("sessionKey") !== "") {
+				// 		// 检查登录状态是否过期
+				// 		uni.checkSession({
+				// 			success() {
+				// 				let dataInfo = {
+				// 					interfaceId: "phoneregister",
+				// 					tel: that.phoneValue,
+				// 					mobile_code: that.phoneCodeValue,
+				// 					type: 1,
+				// 					code_session: uni.getStorageSync("sessionKey"),
+				// 					channelSource: uni.getStorageSync("userInfo").channelSource
+				// 				}
+				// 				console.log(dataInfo)
+				// 				// this.request.uniRequest("login", dataInfo).then(res => {
+				// 				// 	that.getImageCode();
+				// 				// 	if (res.data.code === 1000) {
+				// 				// 		let data = res.data.data;
+				// 				// 		uni.setStorageSync("consultation", data.consultation);
+				// 				// 		uni.setStorageSync("token", data.token);
+				// 				// 		uni.setStorageSync("userInfo", data);
+				// 				// 		this.request.showToast("登录成功");
+				// 				// 	}
+				// 				// })
+				// 			},
+				// 			fail() {
+				// 				that.getSessionKey();
+				// 			}
+				// 		})
+				// 	} else {
+				// 		that.getSessionKey();
+				// 	}
+				// }else{
+				// 	let dataInfo ={
+				// 		interfaceId:'commonlogin',
+				// 		tel:that.phoneValue,
+				// 		mobile_code:that.phoneCodeValue,
+				// 		archives_id:'',
+				// 		f_unique_id:''					
+				// 	}
+				// }
+							
 			},
 			consultation:function(){
 				uni.navigateTo({
 					url: `/pages/consultation/consultation`,
 				})
-			}
+			},
+			// 更新sessionKey
+			getSessionKey: function() {
+				const that = this;
+				uni.login({
+					success: function(res) {
+						if (res.code) {
+							let data = {
+								interfaceId: "sessionkey",
+								code_session: res.code
+							}						
+							that.request.uniRequest("login", data).then(res => {
+								console.log(res,111999999)
+								if (res.data.code === 1000) {
+									console.log(res.data)
+									// uni.setStorageSync("sessionKey", res.data.data.session_key);
+									// that.submitUserInfo(e, type);
+								}
+							})
+						}
+					}
+				})
+			},
 		}
 	}
 </script>

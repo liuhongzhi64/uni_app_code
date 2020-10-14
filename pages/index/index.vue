@@ -14,7 +14,7 @@
 				</scroll-view>
 				<!-- 分类 -->
 				<view class="goods_classify" :style="{backgroundColor:topBackgroundColor}">
-					<view class="goods_classify" @click="gotoClassify">
+					<view class="goods_classifys" @tap="gotoClassify">
 						<view class="classifyImg">
 							<image src="../../static/images/barcClassify.png" mode=""></image>
 						</view>
@@ -28,12 +28,12 @@
 					<template>
 						<view class="top-content">
 							<!-- 轮播 -->
-							<view id="top-swiper" v-if="swiperList.length>0">
-								<swiper class="swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval="topInterval"
+							<view id="top-swiper" >
+								<swiper v-if="swiperList" class="swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval="topInterval"
 								 :duration="topDuration" circular>
 									<swiper-item v-for="(i,index) in swiperList" :key="index">
 										<view class="swiper-item swiper-img">
-											<image :src="requestUrl+swiperList.img" mode=""></image>
+											<image :src="requestUrl+i.img" mode=""></image>
 										</view>
 									</swiper-item>
 								</swiper>
@@ -192,7 +192,8 @@
 
 			<!-- 图片商品 -->
 			<view class="productImg">
-				<porduct :width=240 :requestUrl='requestUrl' :height=370 :crosswisePorducts='productImgList'></porduct>
+				<!-- <porduct :width=240 :requestUrl='requestUrl' :height=370 :crosswisePorducts='productImgList'></porduct> -->
+				<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='productImgList' ></goodsShow>
 			</view>
 		</view>
 		<!-- 自定义导航条可滑动 -->
@@ -215,7 +216,12 @@
 							<template>
 								<block>
 									<view class="recommenListItem">
-										<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='newslist' v-if='items.type==0||items.type==4'>
+										<goodsShow
+										 :borderRadius=24 
+										 :requestUrl='requestUrl' 
+										 :width=350 
+										 :porductList='newslist' 
+										 v-if='items.type==0||items.type==4'>
 										</goodsShow>
 										<diary :diaryList="newslist" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
 										<doctor :doctorList="newslist" :requestUrl="requestUrl" :paddingLR='paddingLR' @collectLike='collectLike'
@@ -262,16 +268,16 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				BarImgs: '../static/images/0.png', //
-				cartNumber: 3, //购物车数量
-				messageNumber: 19, //消息
-				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
+				cartNumber: 0, //购物车数量
+				messageNumber: 0, //消息
+				topSearchContent: '', //头部搜索框的推荐内容
 				marginTopBar: 0, //距离顶部的距离
 				btnnum: 0,
 				requestUrl: '',
 				skipList: [], //头部导航条
 				topInterval: 5000,
 				topDuration: 2000,
-				swiperList: [], //顶部轮播
+				swiperList: [{img:'upload/goods/images/202009/16/oOwoBZAMkbqCSyLTy2i4taeyeMm7f0kK7EBSA5ol.jpeg'},{img:'upload/goods/images/202008/11/1c72d804fa4bcdfbf8778236565bce61129.jpg'}], //顶部轮播
 				honor_list: [],
 				tabDuration: 3000,
 				tabBarSwiperList: [], //中部icon
@@ -407,15 +413,15 @@
 						if(data.top_navigation){
 							that.skipList = data.top_navigation
 						}	
-						that.swiperList = data.banner.content//首页banner 
+						if(data.banner.length>0){
+							that.swiperList = data.banner.content//首页banner
+						}
+						 
 						that.honor_list = data.honor_list //荣誉列表
 						//中部icon
 						if(data.icon_list){
 							that.tabBarSwiperList = data.icon_list
 							that.barSwiperList = that.group(that.tabBarSwiperList, 10)
-							// if (that.tabBarSwiperList.length > 10) {
-							// 	that.barSwiperList = that.group(that.tabBarSwiperList, 10)
-							// }
 						}	
 						// 中部广告
 						if(data.centre_advertising){
@@ -424,7 +430,7 @@
 						that.seckill_module = data.seckill_module //秒杀模块
 						that.times = that.seckill_module.rest_time //倒计时秒数
 						that.productImgList = that.seckill_module.act_goods_list //活动商品
-						// that.setTime()
+						that.setTime()
 						console.log(data,22222222)
 					} else {
 						// this.request.showToast('暂时没有数据')
@@ -463,6 +469,9 @@
 									}
 								}
 							}
+						}
+						else if(that.minute == -1){
+							that.minute = 0
 						}
 
 					}, 1000)
@@ -696,14 +705,14 @@
 	.dis {
 		display: block;
 	}
-
-	.goods_classify {
-		width: 160rpx;
+	
+	.goods_classifys {
+		width: 140rpx;
 		display: flex;
 		font-weight: bolder;
 		font-size: 40rpx;
 		text-align: center;
-		padding: 0 10rpx;
+		/* padding: 0 0 0 20rpx; */
 		color: #FFFFFF;
 	}
 
@@ -715,7 +724,6 @@
 
 	.swiper {
 		text-align: center;
-		color: #FFFFFF;
 		height: 280rpx;
 	}
 
@@ -746,8 +754,6 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		color: #333333;
-		/* height: 270rpx; */
-
 	}
 
 	.swiperContent {
@@ -773,7 +779,7 @@
 	}
 
 	.swiper-img {
-		height: 260rpx;
+		height: 260rpx;	
 	}
 
 	.swiper-img image {
@@ -801,6 +807,7 @@
 	}
 
 	.advertisImg {
+		width: 100%;
 		height: 210rpx;
 		background-color: #FFFFFF;
 	}

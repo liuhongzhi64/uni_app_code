@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/my/my_card_gain",
+    "pages/index/index",
     "pages/my/account_number",
     "pages/my/add_address",
     "pages/my/after_sales",

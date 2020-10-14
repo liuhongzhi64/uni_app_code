@@ -18,7 +18,7 @@ export default {
 		})
 	},
 	// 获取token
-	getToken:function(businessId=1,unique_id=3, method = "POST"){
+	getToken:function(businessId=1,unique_id=16, method = "POST"){
 		let that = this
 		return new Promise((resolve) => {
 			uni.request({

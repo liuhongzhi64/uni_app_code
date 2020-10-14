@@ -108,6 +108,7 @@
 	color: #505050;
 	margin-bottom:26rpx ;
 	margin-right: 17rpx;
+	overflow: hidden;
 }
 .changeStyle.data-v-4cedc0c6{
 	color: #fa3475;

@@ -8,37 +8,24 @@
 			 @tabtap="tabtap"></swiperTabHead>
 		</view>
 
-		<view class="my_card_gain-content" :style="[{'padding-top':menuBottom+45+'px'}]" >
+		<view class="my_card_gain-content" :style="[{'padding-top':menuBottom+45+'px'}]">
 			<view class="card_gain-items">
-				<swiper :style="[{'height':height+'px','background-color': '#F6F6F6'}]" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(i,index) in contentList" :key="index">
-						<scroll-view scroll-y >
-							<template>
-								<block >
-									<view class="ticket-content" >
-										<!-- 提示 -->
-										<view class="ticket-hint"> 尊敬的顾客，小喵为您专属定制以下卡券 </view>
-
-										<view v-if="cardsList.length>0">
-											<!-- <ticket :ticketList='ticketItemList' :marginTop='marginTop' @showDetails='showDetails'></ticket> -->
-											<ticket :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket' @getCards='getCards' ></ticket>
-										</view>
-
-										<!-- 券为空 -->
-										<view class="content-item" v-else>
-											<view class="Ticket-number">
-												<view class="images">
-													<image src="../../static/images/cartBg.png" mode=""></image>
-												</view>
-												<view class="no-have-ticket">喵！暂无相关卡券~</view>
-											</view>
-										</view>
-									</view>
-								</block>
-							</template>
-						</scroll-view>
-					</swiper-item>
-				</swiper>
+				<scroll-view>
+					<view class="ticket-content end-cont" v-for="(i,index) in contentList" :key="index" :class="{dis:tabIndex == index}">
+						<view class="ticket-hint"> 尊敬的顾客，小喵为您专属定制以下卡券 </view>
+						<view class="have-card" v-if="cardsList.length>0">
+							<ticket :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket' @getCards='getCards'></ticket>
+						</view>
+						<view class="content-item" v-else :style="[{'height':'1000rpx'}]">
+							<view class="Ticket-number">
+								<view class="images">
+									<image src="../../static/images/cartBg.png" mode=""></image>
+								</view>
+								<view class="no-have-ticket">喵！暂无相关卡券~</view>
+							</view>
+						</view>
+					</view>
+				</scroll-view>
 			</view>
 		</view>
 
@@ -69,13 +56,13 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				height: 0,
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '领取卡券',
-				tabBars: [{
+				tabBars: [
+					{
 						name: '全部',
 						number: 99,
 						id: 'all',
@@ -97,13 +84,13 @@
 						name: '礼品券',
 						number: 4,
 						id: 'gift',
-						type: 3
+						type: 5
 					},
 					{
 						name: '体验券',
 						number: 4,
 						id: 'experience',
-						type: 4
+						type: 6
 					},
 				],
 				line: true, //是否显示选中线
@@ -127,23 +114,26 @@
 						name: '体验券',
 					},
 				],
-				ticketList: {},
-				ticketItemList: [],
-				marginTop: 54,
 				requestUrl: '',
-				cardsList:[],
-				time_now:0
+				cardsList: [],
+				time_now: 0,
+				limit: 4, //条数
+				offset: 1, //页数
 			}
 		},
 		onLoad(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.getCard()
+			that.getCard(0)
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.getCard(that.listType)
 		},
 		onReady() {
 			let that = this;
-
 			// 判定运行平台
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
@@ -180,19 +170,19 @@
 				that.menuLeft = 278
 				that.menuBottom = 82
 			}
-			this.tabtap()
 		},
 		methods: {
 			// 获取卡卷
-			getCard: function() {
+			getCard: function(type) {
 				let that = this
+				that.listType = type
 				let dataInfo = {
 					interfaceId: 'cardlist',
-					card_flg: 0,
-					limit: 4,
-					offset: '0'
+					card_flg: type,
+					limit: that.limit,
+					offset: that.offset
 				}
-				if(uni.getStorageSync("token")){
+				if (uni.getStorageSync("token")) {
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
@@ -204,347 +194,37 @@
 							that.time_now = data.time_now
 							// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
 							// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
-							for(let i=0;i<data.cards.length;i++){
+							for (let i = 0; i < data.cards.length; i++) {
 								data.cards[i].showTicketDetails = false
 								data.cards[i].arrowImages = '../../static/images/arrow-down.png'
 							}
-							that.cardsList = data.cards
-							if(that.cardsList.length<=3){
-								that.height = 3*260
-							}else{
-								that.height = that.cardsList.length*260
+							if (data.cards.length == 0) {
+								that.request.showToast('没有更多了')
 							}
-							
-							console.log(that.cardsList,that.cardsList[3].get_end_time-that.time_now)
-						}
-						else{
-							// this.request.showToast('暂时没有数据')
+							that.cardsList = that.cardsList.concat(data.cards)
+							console.log(that.cardsList, 1111111)
+						} else {
 							console.log('没有数据')
 						}
 					})
-				}else{
+				} else {
 					this.request.showToast('未登录,将为您跳转到登录页面')
 					uni.navigateTo({
 						url: '/pages/login/login_phone'
 					});
 				}
-				
-				// that.request.getToken().then(res => {
-				// 	if (res.data.code == 1000 && res.data.status == 'ok') {
-				// 		let token = res.data.data.token
-				// 		uni.setStorage({
-				// 			key: 'token',
-				// 			data: token,
-				// 			success: function() {
-				// 				that.request.uniRequest("card", dataInfo).then(res => {
-				// 					if (res.data.code == 1000 && res.data.status == 'ok') {
-				// 						let data = res.data.data
-				// 						that.tabBars[0].number = data.num.all
-				// 						that.tabBars[1].number = data.num.online
-				// 						that.tabBars[2].number = data.num.offline
-				// 						that.tabBars[3].number = data.num.gift
-				// 						that.tabBars[4].number = data.num.experience
-				// 						that.time_now = data.time_now
-				// 						// let getTime = data.cards.get_end_time - data.cards.get_start_time //领取时间值
-				// 						// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
-				// 						for(let i=0;i<data.cards.length;i++){
-				// 							data.cards[i].showTicketDetails = false
-				// 							data.cards[i].arrowImages = '../../static/images/arrow-down.png'
-				// 						}
-				// 						that.cardsList = data.cards
-										
-				// 						console.log(that.cardsList,that.cardsList[3].get_end_time-that.time_now)
-				// 					}
-				// 					else{
-				// 						// this.request.showToast('暂时没有数据')
-				// 						console.log('没有数据')
-				// 					}
-				// 				})
-				// 			}
-				// 		})
-				// 	}
-				// 	else{
-				// 		this.request.showToast('未登录')
-				// 	}
-					
-				// })
+
 			},
-			tabtap: function(index = 0, type = 0) {
+			tabtap: function(index, type) {
 				this.tabIndex = index;
 				this.listType = type //券的类型
+				let that = this
+				that.cardsList = []
+				that.offset = 1
+				that.getCard(type)
 				// type值：0全部 1线上 2线下 3 礼品 4体验
-				// console.log(type)
-				if (type == 0) {
-					this.contentList[index].ticketList = {
-						ticketItemList: [{
-								serialNumber: '02048492', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '金钻卡专享', //专享名称
-								ticketLabel: '满减券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa3475',
-								toColor: '#ff6699',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 1, //可领取的券数量
-								allReceive: 5, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048491', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '金钻卡专享', //专享名称
-								ticketLabel: '满减券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa7a34',
-								toColor: '#ff9c66',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 0, //可领取的券数量
-								uesrReceive: 2, //用户最多领取
-								allReceive: 1, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048495', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '618专享', //专享名称
-								ticketLabel: '折扣券券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#8834FA',
-								toColor: '#A25DFF',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 1, //可领取的券数量
-								allReceive: 5, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048499', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '618专享', //专享名称
-								ticketLabel: '体验券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa7a34',
-								toColor: '#ff9c66',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 0, //可领取的券数量
-								allReceive: 0, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048450', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '618专享', //专享名称
-								ticketLabel: '体验券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '已结束', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa7a34',
-								toColor: '#ff9c66',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 2, //可领取的券数量
-								allReceive: 10, //总券数量
-								receiveTime: false, //是否开启领取券倒计时
-							},
-						],
-					}
-					this.ticketItemList = this.contentList[index].ticketList.ticketItemList
-				} else {
-					this.contentList[index].ticketList = {}
-					this.ticketItemList = []
-				}
 			},
-			// 选中的内容
-			tabChange: function(e) {
-				this.tabIndex = e.detail.current;
-				let index = e.detail.current;
-				let type = e.detail.current
-				if (type == 0) {
-					this.contentList[index].ticketList = {
-						ticketItemList: [{
-								serialNumber: '02048492', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '金钻卡专享', //专享名称
-								ticketLabel: '满减券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa3475',
-								toColor: '#ff6699',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 1, //可领取的券数量
-								allReceive: 5, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048491', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '金钻卡专享', //专享名称
-								ticketLabel: '满减券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa7a34',
-								toColor: '#ff9c66',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 0, //可领取的券数量
-								uesrReceive: 2, //用户最多领取
-								allReceive: 1, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048495', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '618专享', //专享名称
-								ticketLabel: '折扣券券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#8834FA',
-								toColor: '#A25DFF',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 1, //可领取的券数量
-								allReceive: 5, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048499', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '618专享', //专享名称
-								ticketLabel: '体验券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa7a34',
-								toColor: '#ff9c66',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 0, //可领取的券数量
-								allReceive: 0, //总券数量
-								receiveTime: true, //是否开启领取券倒计时
-							},
-							{
-								serialNumber: '02048450', //编号
-								expirationTime: 0, //过期时间
-								exclusiveName: '618专享', //专享名称
-								ticketLabel: '体验券', //券类型
-								writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-								state: '已结束', //当前状态
-								userTime: '',
-								ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-									'2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-									'4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'
-								],
-								imagesUrl: '',
-								showTicketDetails: false,
-								arrowImages: '../../static/images/arrow-down.png',
-								goColor: '#fa7a34',
-								toColor: '#ff9c66',
-								exclusivePrice: 1000,
-								meetPriceUser: 10000,
-								receive: 2, //可领取的券数量
-								allReceive: 10, //总券数量
-								receiveTime: false, //是否开启领取券倒计时
-							},
-						],
-					}
-					this.ticketItemList = this.contentList[index].ticketList.ticketItemList
-				} else {
-					this.contentList[index].ticketList = {}
-					this.ticketItemList = []
-				}
-			},
-
-			showDetails: function(number) {
-				for (let i = 0; i < this.ticketItemList.length; i++) {
-					if (this.ticketItemList[i].serialNumber == number) {
-						this.ticketItemList[i].showTicketDetails = !this.ticketItemList[i].showTicketDetails
-						if (this.ticketItemList[i].showTicketDetails) {
-							this.ticketItemList[i].arrowImages = '../../static/images/arrow-top.png'
-						} else {
-							this.ticketItemList[i].arrowImages = '../../static/images/arrow-down.png'
-						}
-					}
-				}
-			},
-			showTicket:function(cardId){
+			showTicket: function(cardId) {
 				let that = this
 				for (let i = 0; i < that.cardsList.length; i++) {
 					if (that.cardsList[i].id == cardId) {
@@ -558,24 +238,26 @@
 				}
 			},
 			// 领取卡券
-			getCards:function(cardId,prompt){
+			getCards: function(cardId, prompt,index) {
 				let that = this
-				if(prompt==''){
+				console.log(index)
+				if (prompt == '') {
 					let dataInfo = {
-						interfaceId:'cardget',
-						card_id:cardId
+						interfaceId: 'cardget',
+						card_id: cardId
 					}
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('领取成功')
+							that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count+1
+							that.cardsList = that.cardsList 
 						}
-					})		
-				}
-				else{
+					})
+				} else {
 					that.request.showToast(prompt)
 				}
 			},
-			goToMyCard:function(){
+			goToMyCard: function() {
 				uni.navigateTo({
 					url: `/pages/my/my_card`,
 				})
@@ -585,13 +267,15 @@
 </script>
 
 <style scoped>
-	.my_card_gain{
+	.my_card_gain {
 		height: 100%;
 	}
+
 	.top-swiper-tab {
 		position: fixed;
 		z-index: 9;
 		width: 100%;
+		background-color: #FFFFFF;
 	}
 
 	.end-cont {
@@ -605,12 +289,16 @@
 	.item-content {
 		display: flex;
 	}
-	.my_card_gain-content,.card_gain-items{
-		height: 820px;
+
+	.my_card_gain-content,
+	.card_gain-items {
+		background-color: #F6F6F6;
 		width: 100%;
+		height: 100%;
 	}
+
 	.ticket-content {
-		
+
 		padding: 30rpx 20rpx 120rpx;
 		height: 100%;
 	}
@@ -621,12 +309,16 @@
 		text-align: center;
 		padding-bottom: 60rpx;
 	}
+	.have-card{
+		min-height: 1000rpx;
+	}
 
 	.content-item {
 		padding: 32rpx 36rpx 0;
 		font-size: 20rpx;
 		line-height: 32rpx;
 		color: #999999;
+		height: 100%;
 	}
 
 	.ticket-use-explain {

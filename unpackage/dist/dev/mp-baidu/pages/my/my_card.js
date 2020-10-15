@@ -130,75 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 502));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 467));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -276,7 +208,8 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    swiperTabHead: swiperTabHead },
+    swiperTabHead: swiperTabHead,
+    ticket: ticket },
 
   data: function data() {
     return {
@@ -285,84 +218,72 @@ __webpack_require__.r(__webpack_exports__);
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
-      height: 0,
       barName: 'particularsPage', //导航条名称
       topBackgroundColor: '#eeeeee',
       color: '#222222',
       backImage: '../static/images/back1.png',
       barImage: '../static/images/refresh.png',
-      title: '我的卡卷',
+      title: '我的卡券',
       line: true, //是否显示选中线
       tabBackgroundColor: '#FFFFFF',
       size: 24,
-      tabIndex: 1, // 选中的顶部的导航，全部。线上下，礼品券
+      tabIndex: 0, // 选中的顶部的导航，全部。线上下，礼品券
       listType: 1, //券的类型
       tabBars: [{
         name: '全部',
-        number: 99,
+        number: 0,
         id: 'all',
         type: 0 },
 
       {
         name: '线上券',
-        number: 4,
+        number: 0,
         id: 'on-line',
         type: 1 },
 
       {
         name: '线下券',
-        number: 10,
+        number: 0,
         id: 'offline',
         type: 2 },
 
       {
         name: '礼品券',
-        number: 4,
+        number: 0,
         id: 'gift',
         type: 3 },
 
       {
         name: '体验券',
-        number: 4,
+        number: 0,
         id: 'experience',
         type: 4 }],
 
 
-      ticketList: [{
-        name: '全部' },
-
-      {
-        name: '线上' },
-
-      {
-        name: '线下' },
-
-      {
-        name: '礼品' },
-
-      {
-        name: '体验' }],
-
-
-      ticketContent: {},
       colorNum: 0, //选择的券是冻结中,0可使用，1冻结中，2已失效 3已使用
-      contentList: [{
-        type: 0 },
-      {
-        type: 1 },
-      {
-        type: 2 },
-      {
-        type: 3 }],
-
-      selectContent: {},
-      TicketNumber: 0, //券数量
-      ticketItemList: [] };
-
+      requestUrl: '',
+      lableList: ['可使用', '冻结中', '已失效', '已使用'],
+      cardsList: [],
+      time_now: 0,
+      card_flg: 1, //1线上2线下3礼品4体验
+      card_state: 1, //1可使用2冻结中3已失效4已使用
+      limit: 4, //	每页多少条
+      offset: 1 //页数
+    };
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.getCard();
+  },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    that.getCard();
   },
   onReady: function onReady() {
     var that = this;
-
     // 判定运行平台
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
@@ -383,36 +304,70 @@ __webpack_require__.r(__webpack_exports__);
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
-          that.height = res.screenHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
-          that.menuPaddingRight = res.windowWidth - menu.right;
         } });
 
-    } else
-    {
+    } else {
+      that.menuWidth = 87;
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
       that.menuBottom = 82;
     }
-    that.tabtap();
-    that.selectLabel();
   },
   methods: {
-    //接受子组件传过来的值点击切换导航
-    tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      this.tabIndex = index;
-      this.listType = type; //券的类型
-      // type值：0全部 1线上 2线下 3 礼品 4体验
-      this.ticketList[index].ticketContent = {
-        lableList: ['可使用', '冻结中', '已失效', '已使用'] };
+    // 初始化获取卡券列表
+    getCard: function getCard() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'usercard',
+        card_flg: that.card_flg,
+        card_state: that.card_state,
+        limit: that.limit,
+        offset: that.offset };
 
-      this.selectLabel(0, type);
+      if (uni.getStorageSync("token")) {
+        that.request.uniRequest("card", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            var data = res.data.data;
+            that.tabBars[0].number = data.num.all;
+            that.tabBars[1].number = data.num.online;
+            that.tabBars[2].number = data.num.offline;
+            that.tabBars[3].number = data.num.gift;
+            that.tabBars[4].number = data.num.experience;
+            that.time_now = data.time_now;
+            that.cardsList = that.cardsList.concat(data.cards);
+            console.log(data);
+          } else {
+            // this.request.showToast('暂时没有数据')
+            console.log('没有数据');
+          }
+        });
+      } else {
+        this.request.showToast('未登录,将为您跳转到登录页面');
+        uni.navigateTo({
+          url: '/pages/login/login_phone' });
+
+      }
+    },
+
+    //接受子组件传过来的值点击切换导航
+    tabtap: function tabtap(index, type) {
+      var that = this;
+      that.tabIndex = index;
+      that.listType = type; //券的类型
+      that.card_flg = type;
+      that.card_state = 1;
+      that.colorNum = 0;
+      that.offset = 1;
+      // type值：0全部 1线上 2线下 3 礼品 4体验
+      that.cardsList = [];
+      that.getCard();
     },
 
     // 领券中心
@@ -422,143 +377,15 @@ __webpack_require__.r(__webpack_exports__);
 
     },
 
-    selectLabel: function selectLabel() {var k = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      this.colorNum = k;
+    selectLabel: function selectLabel(k, type) {
+      var that = this;
+      that.colorNum = k;
+      that.card_state = k + 1;
+      that.offset = 1;
+      that.cardsList = [];
       //type值：0全部 1线上 2线下 3 礼品 4体验
       // k值 0可使用 1冻结中 2 已失效 3已使用
-      // console.log("顶部点击的是",type ,"券的状态",k)
-      if (type == 0 && k == 0) {
-        this.TicketNumber = 1;
-        this.contentList[k].selectContent = {
-          ticketItemList: [
-          {
-            serialNumber: '02048492', //编号
-            expirationTime: 328, //过期时间
-            exclusiveName: '金钻卡专享', //专享名称
-            ticketLabel: '满减券', //券类型
-            writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-            state: '可使用', //当前状态
-            userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
-
-            imagesUrl: '',
-            showTicketDetails: false,
-            arrowImages: '../../static/images/arrow-down.png',
-            goColor: '#fa3475',
-            toColor: '#ff6699',
-            exclusivePrice: 1000,
-            meetPriceUser: 10000 },
-
-          {
-            serialNumber: '02048491', //编号
-            expirationTime: 24, //过期时间
-            exclusiveName: '金钻卡专享', //专享名称
-            ticketLabel: '满减券', //券类型
-            writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-            state: '冻结中', //当前状态
-            userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
-
-            imagesUrl: '',
-            showTicketDetails: false,
-            arrowImages: '../../static/images/arrow-down.png',
-            goColor: '#fa7a34',
-            toColor: '#ff9c66',
-            exclusivePrice: 1000,
-            meetPriceUser: 10000 },
-
-          {
-            serialNumber: '02048495', //编号
-            expirationTime: 24, //过期时间
-            exclusiveName: '618专享', //专享名称
-            ticketLabel: '礼品券', //券类型
-            writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-            state: '已使用', //当前状态
-            userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
-
-            imagesUrl: '',
-            showTicketDetails: false,
-            arrowImages: '../../static/images/arrow-down.png',
-            goColor: '#8834FA',
-            toColor: '#A25DFF',
-            exclusivePrice: 1000,
-            meetPriceUser: 10000 },
-
-          {
-            serialNumber: '02048499', //编号
-            expirationTime: 2, //过期时间
-            exclusiveName: '618专享', //专享名称
-            ticketLabel: '体验券', //券类型
-            writer: '这是后台配置的使用范围文案，这个最多显示两行，自动省略号...',
-            state: '已失效', //当前状态
-            userTime: '2020-05-01至2020-05-31',
-            ticketDetails: ['1、使用时间 ：2018年11月16日 – 2018年12月31日',
-            '2、使用范围 ： 全院正价产品满额可使用（不含注射类产品、院外专家、特价/限定产品、充值卡、药品、化妆品、住院费、麻醉费等）;',
-            '4、使用方式 ： 仅能在整呗商城线上使用，领取卡券后，在下单时选择卡券即可抵扣;', '5、其他说明：闭馆期间，每个顾客（新老）限一次，不得转让；本券不退换，不找零，卡券过期不予补发。'],
-
-            imagesUrl: '',
-            showTicketDetails: false,
-            arrowImages: '../../static/images/arrow-down.png',
-            goColor: '#fa7a34',
-            toColor: '#ff9c66',
-            exclusivePrice: 1000,
-            meetPriceUser: 10000 }] };
-
-
-
-        this.ticketItemList = this.contentList[k].selectContent.ticketItemList;
-        // console.log(this.ticketItemList)
-      } else if (type == 0 && k == 1) {
-        this.TicketNumber = 0;
-        this.contentList[k].selectContent = {
-          title: '冻结说明：',
-          list: [
-          '1）若卡券是下单后赠送的、支付有礼赠送的，需要核销订单后卡券才可使用;',
-          '2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效;',
-          '3）失效的卡券将不予补发;', '4）若提前领取卡券，还未到使用时间，也将处于冻结状态'] };
-
-
-      } else if (type == 0 && k == 2) {
-        this.TicketNumber = k;
-        this.contentList[k].selectContent = {
-          title: "顶部点击的是" + type + "券的状态" + k };
-
-        this.ticketItemList = [];
-      } else if (type == 0 && k == 3) {
-        this.TicketNumber = k;
-        this.contentList[k].selectContent = {
-          title: "顶部点击的是" + type + "券的状态" + k };
-
-        this.ticketItemList = [];
-      } else if (type != 0) {
-        this.contentList[k].selectContent = {
-          title: "顶部点击的是" + type + "券的状态" + k };
-
-        this.ticketItemList = [];
-      }
-    },
-
-    // 显示卡券详情
-    showDetails: function showDetails(number) {
-      // console.log(number)
-      for (var i = 0; i < this.ticketItemList.length; i++) {
-        if (this.ticketItemList[i].serialNumber == number) {
-          this.ticketItemList[i].showTicketDetails = !this.ticketItemList[i].showTicketDetails;
-        }
-        if (this.ticketItemList[i].showTicketDetails) {
-          this.ticketItemList[i].arrowImages = '../../static/images/arrow-top.png';
-        } else {
-          this.ticketItemList[i].arrowImages = '../../static/images/arrow-down.png';
-        }
-
-      }
+      that.getCard();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

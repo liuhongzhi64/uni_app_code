@@ -2,11 +2,11 @@
 	"pages": [ 
 		
 		// 测试时的首页
-		
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}
 		},
+		
 		// 首页
 		{
 			"path": "pages/index/index",

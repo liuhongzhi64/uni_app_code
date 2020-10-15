@@ -2,6 +2,9 @@
 .ticket-items.data-v-ab11f3f2 {
 	position: relative;
 }
+.ticket-items.data-v-ab11f3f2:last-child{
+	padding-bottom: 32rpx;
+}
 .ticket-numer.data-v-ab11f3f2 {
 	color: #999999;
 }
@@ -73,12 +76,12 @@
 }
 .ticket-state.data-v-ab11f3f2 {
 	font-size: 24rpx;
-	margin-top: 47rpx;
+	margin-top: 20rpx;
 }
 .can-receive.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	color: #fa3475;
-	margin-top: 40rpx;
+	/* margin-top: 40rpx; */
 }
 .receive-time.data-v-ab11f3f2 {
 	font-size: 24rpx;
@@ -90,7 +93,7 @@
 .receive-times.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	font-weight: bolder;
-	margin-top: 80rpx;
+	/* margin-top: 80rpx; */
 }
 .receive-time .times.data-v-ab11f3f2 {
 	display: inline-block;
@@ -199,7 +202,7 @@
 	position: absolute;
 	top: 40rpx;
 	right: 170rpx;
-	z-index: 9;
+	z-index: 6;
 }
 .ticket-label-images image.data-v-ab11f3f2 {
 	width: 195rpx;

@@ -82,7 +82,7 @@
 			},
 			backImage:{
 				type: String,
-				default: '../static/images/back1.png'
+				default: '../static/images/back2.png'
 			},
 			BarImgs: {
 				type: String,

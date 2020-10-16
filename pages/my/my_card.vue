@@ -11,7 +11,7 @@
 						<view class="card-top" :style="[{'top':menuBottom+10+'px'}]" @tap='goToGain'>
 							<view class="can-receive">
 								<view>您有</view>
-								<view class="text">7张专属优惠券</view>
+								<view class="text">{{get_count}}张专属优惠券</view>
 								<view class="texts">可领取~</view>
 							</view>
 							<view class="go-receive">
@@ -54,7 +54,8 @@
 													<view class="no-have-ticket">喵！暂无相关卡券~</view>
 												</view>
 											</view>
-											<ticket v-else :cardsList='cardsList' :time_now='time_now'></ticket>
+											<ticket v-else :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket'></ticket>
+											
 										</scroll-view>
 									</view>
 								</view>
@@ -62,7 +63,6 @@
 						</view>
 						
 					</view>
-
 				</template>
 			</scroll-view>
 		</view>
@@ -87,9 +87,9 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				barName: 'particularsPage', //导航条名称
-				topBackgroundColor: '#eeeeee',
-				color: '#222222',
-				backImage: '../static/images/back1.png',
+				topBackgroundColor: '#222222',
+				color: '#FFFFFF',
+				backImage: '../../static/images/return.png',
 				barImage: '../static/images/refresh.png',
 				title: '我的卡券',
 				line: true, //是否显示选中线
@@ -133,10 +133,11 @@
 				lableList: ['可使用', '冻结中', '已失效', '已使用'],
 				cardsList: [],
 				time_now: 0,
-				card_flg:1, //1线上2线下3礼品4体验
+				card_flg:0, //0全部1线上2线下3礼品4体验
 				card_state:1, //1可使用2冻结中3已失效4已使用
 				limit:4, //	每页多少条
-				offset:1 //页数
+				offset:1 ,//页数
+				get_count:0,//可领取数量
 			}
 		},
 		onReachBottom: function() {
@@ -208,11 +209,19 @@
 							that.tabBars[2].number = data.num.offline
 							that.tabBars[3].number = data.num.gift
 							that.tabBars[4].number = data.num.experience
-							that.time_now = data.time_now
+							that.get_count = data.get_count
+							that.time_now = data.cards[0].time_now
+							for (let i = 0; i < data.cards.length; i++) {
+								data.cards[i].showTicketDetails = false
+								data.cards[i].arrowImages = '../../static/images/arrow-down.png'
+								let startTime = data.cards[i].use_start_time
+								data.cards[i].c_use_start_time = that.setTimer(startTime)
+								let useTime = data.cards[i].use_end_time
+								data.cards[i].c_use_end_time = that.setTimer(useTime)
+							}
 							that.cardsList = that.cardsList.concat(data.cards)
-							console.log(data)
+							console.log(data,that.time_now)
 						} else {
-							// this.request.showToast('暂时没有数据')
 							console.log('没有数据')
 						}
 					})
@@ -223,7 +232,22 @@
 					});
 				}
 			},
-
+			
+			setTimer:function(date){
+				date = new Date(date*1000)
+				let month = date.getMonth() +1
+				if(month<10){
+					month = "0" + month
+				}
+				let day = date.getDate()
+				if(day<10){
+					day = "0" + day
+				}
+				let time = date.getFullYear() + '-' + month + '-' + day
+				// console.log(time)
+				return time
+			},
+			
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index, type) {
 				let that = this
@@ -255,7 +279,20 @@
 				// k值 0可使用 1冻结中 2 已失效 3已使用
 				that.getCard()
 			},
-
+			
+			showTicket: function(cardId) {
+				let that = this
+				for (let i = 0; i < that.cardsList.length; i++) {
+					if (that.cardsList[i].id == cardId) {
+						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
+						if (that.cardsList[i].showTicketDetails) {
+							that.cardsList[i].arrowImages = '../../static/images/arrow-top.png'
+						} else {
+							that.cardsList[i].arrowImages = '../../static/images/arrow-down.png'
+						}
+					}
+				}
+			},
 			
 		},
 
@@ -374,15 +411,16 @@
 		height: 1100rpx;
 	}
 
+
 	.ticket-use-explain {
 		padding: 32rpx 20rpx 0;
 		font-size: 20rpx;
 		line-height: 32rpx;
 		color: #999999;
-		margin-bottom: 32rpx;
 	}
 	.select-contents{
 		padding-bottom: 32rpx;
+		min-height: 1140rpx;
 	}
 
 	.images {

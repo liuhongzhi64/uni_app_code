@@ -4,7 +4,7 @@
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+10+'px'}]">
-			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
+			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" 
 			 @tabtap="tabtap"></swiperTabHead>
 		</view>
 
@@ -59,7 +59,7 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '../../static/images/return.png',
 				title: '领取卡券',
 				tabBars: [
 					{
@@ -84,13 +84,13 @@
 						name: '礼品券',
 						number: 4,
 						id: 'gift',
-						type: 5
+						type: 3
 					},
 					{
 						name: '体验券',
 						number: 4,
 						id: 'experience',
-						type: 6
+						type: 4
 					},
 				],
 				line: true, //是否显示选中线
@@ -310,7 +310,7 @@
 		padding-bottom: 60rpx;
 	}
 	.have-card{
-		min-height: 1000rpx;
+		/* min-height: 1000rpx; */
 	}
 
 	.content-item {

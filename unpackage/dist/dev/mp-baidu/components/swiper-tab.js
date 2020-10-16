@@ -146,6 +146,7 @@ var _default =
   props: {
     tabBars: Array,
     tabIndex: Number,
+    tabBackgroundColor: String,
     line: {
       type: Boolean,
       default: false } },

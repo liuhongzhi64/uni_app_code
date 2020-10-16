@@ -1999,11 +1999,42 @@ function normalizeComponent (
         data: data,
         success: function success(res) {
           resolve(res);
-          if (fileName != "goods") {
+          if (fileName != "goods" && fileName != 'card') {
             if (res.data.status !== "ok") {
               that.showModal("系统错误：" + res.data.code);
             } else {
-              if (res.data.code !== 1000) that.showModal(res.data.message);
+              if (res.data.code !== 1000) {
+                that.showModal(res.data.message);
+                if (res.data.message == '登录失败[1007]') {
+                  setTimeout(function () {
+                    uni.navigateTo({
+                      url: '/pages/login/login_phone' });
+
+                  }, 2000);
+                }
+              }
+            }
+          } else
+          if (fileName == 'card') {
+            if (res.data.status !== "ok") {
+              that.showModal("系统错误：" + res.data.code);
+            } else {
+              if (res.data.code !== 1000) {
+                if (res.data.message == '没有用户卡券信息') {
+                  that.showToast("没有更多了");
+                } else if (res.data.message == "没有卡券信息") {
+                  that.showToast("没有更多相关卡券了");
+                } else if (res.data.message == '登录失败[1007]') {
+                  that.showToast(res.data.message);
+                  setTimeout(function () {
+                    uni.navigateTo({
+                      url: '/pages/login/login_phone' });
+
+                  }, 2000);
+                } else {
+                  that.showModal(res.data.message);
+                }
+              }
             }
           }
         },

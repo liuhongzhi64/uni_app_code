@@ -118,10 +118,10 @@
 	font-size: 20rpx;
 	line-height: 32rpx;
 	color: #999999;
-	margin-bottom: 32rpx;
 }
 .select-contents.data-v-6e8e8cce{
 	padding-bottom: 32rpx;
+	min-height: 1140rpx;
 }
 .images.data-v-6e8e8cce {
 	padding: 100rpx 0 46rpx;

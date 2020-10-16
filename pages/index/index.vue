@@ -478,8 +478,7 @@
 				}
 
 			},
-			
-			
+						
 			// 分割数组
 			group: function(array, subGroupLength) {
 				let index = 0;

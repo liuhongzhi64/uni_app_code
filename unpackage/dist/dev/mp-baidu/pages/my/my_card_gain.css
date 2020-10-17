@@ -26,9 +26,8 @@
 	height: 100%;
 }
 .ticket-content.data-v-5468ecd6 {
-
+	min-height: 1100rpx;
 	padding: 30rpx 20rpx 120rpx;
-	height: 100%;
 }
 .ticket-hint.data-v-5468ecd6 {
 	font-size: 24rpx;

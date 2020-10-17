@@ -298,9 +298,8 @@
 	}
 
 	.ticket-content {
-
+		min-height: 1100rpx;
 		padding: 30rpx 20rpx 120rpx;
-		height: 100%;
 	}
 
 	.ticket-hint {

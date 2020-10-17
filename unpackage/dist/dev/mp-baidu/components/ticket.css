@@ -1,7 +1,4 @@
 
-.ticket-content.data-v-ab11f3f2{
-	height: 100%;
-}
 .ticket-items.data-v-ab11f3f2 {
 	position: relative;
 }
@@ -63,10 +60,11 @@
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
+	line-height: 28rpx;
 }
 .ticket-labels.data-v-ab11f3f2 {
-	padding: 2rpx 9rpx;
-	font-size: 18rpx;
+	padding: 0 9rpx;
+	font-size: 22rpx;
 	margin-right: 10rpx;
 	color: #FFFFFF;
 	background-image: -webkit-linear-gradient(right, #8834fa 0%, #a25eff 100%);
@@ -217,6 +215,9 @@
 	top: 40rpx;
 	right: 170rpx;
 	z-index: 6;
+}
+.invalid.data-v-ab11f3f2{
+	top: 80rpx;
 }
 .ticket-label-images image.data-v-ab11f3f2 {
 	width: 195rpx;

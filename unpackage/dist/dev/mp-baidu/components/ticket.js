@@ -86,11 +86,9 @@ var render = function() {
     var m1 = parseInt(((item.use_end_time - _vm.time_now) / 60 / 60 / 24) % 30)
     var m2 = parseInt(((item.use_end_time - _vm.time_now) / 60 / 60) % 24)
     var m3 = parseInt(((item.use_end_time - _vm.time_now) / 60 / 60) % 24)
-    var m4 = parseInt(
-      ((item.get_end_time - _vm.time_now) / 1000 / 60 / 60) % 24
-    )
-    var m5 = parseInt(((item.get_end_time - _vm.time_now) / 1000 / 60) % 60)
-    var m6 = parseInt(((item.get_end_time - _vm.time_now) / 1000) % 60)
+    var m4 = parseInt(((item.get_end_time - _vm.time_now) / 60 / 60) % 24)
+    var m5 = parseInt(((item.get_end_time - _vm.time_now) / 60) % 60)
+    var m6 = parseInt((item.get_end_time - _vm.time_now) % 60)
     return {
       $orig: _vm.__get_orig(item),
       m0: m0,
@@ -145,6 +143,80 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //

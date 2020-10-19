@@ -1,103 +1,5 @@
 <template>
-	<view class="ticket-content">
-		<view class="ticket-items" v-for="(i,k) in ticketList" :key='k'>
-			<!-- 过期时间 -->
-			<view class="ticket-number-expiration-time" v-if="i.expirationTime>0">
-				<view class="ticket-numer">卡券编号:{{i.serialNumber}}</view>
-				<view class="expiration-time" v-if="i.state == '可使用' || i.state =='冻结中'|| i.state =='已核销'">{{i.expirationTime}}小时内过期</view>
-				<view class="expiration-time" v-if="i.state == '已失效' || i.state =='已使用'"> 删除 </view>
-			</view>
-			<view class="ticket-items-content">
-				<view class="ticket-label-writer-state-userTime">
-					<view class="ticket-label-writer">
-						<text class="ticket-labels" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中' || i.receive>0 && i.state!='已结束'? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-							{{i.ticketLabel}}
-						</text>
-						<text class="ticket-writer"> {{i.writer}} </text>
-					</view>
-					<!-- 当前状态 -->
-					<view class="ticket-state" v-if="i.state&&i.state!='已结束'">当前状态:
-						<text v-if="i.state == '可使用'&&i.state != '冻结中'" :style="[{'color':'#fa3475'}]">
-							{{i.state}}
-						</text>
-						<text v-if="i.state != '可使用'&&i.state == '冻结中'" :style="[{'color':'#0073c4'}]">
-							{{i.state}}
-						</text>
-						<text v-if="i.state == '已使用'||i.state == '已失效' ||i.state == '已核销'" :style="[{'color':'#111111'}]">{{i.state}}</text>
-					</view>
-
-					<!-- 可领取券数 -->
-					<view class="can-receive" v-if="i.receive>=0 && i.receiveTime"> 可领取{{i.receive}}张 </view>
-					<!-- 活动时间 -->
-					<view class="user-time" v-if="i.userTime">使用时间:<text>{{i.userTime}}</text></view>
-					<!-- 领取倒计时 -->
-					<view class="receive-time" v-if="i.receiveTime && i.allReceive>0">
-						距结束还剩
-						<text class="times">23</text>
-						<text class="time-line">:</text>
-						<text class="times">23</text>
-						<text class="time-line">:</text>
-						<text class="times">23</text>
-					</view>
-					<view class="receive-times" v-if="!i.receiveTime && i.allReceive"> 已结束 </view>
-
-				</view>
-				<view class="ticket-images-exclusiveName" v-if="i.state" :style="[{'background-image': i.state == '可使用' || i.state =='冻结中'  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-					<view class="exclusive-name">{{i.exclusiveName}}</view>
-					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
-					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
-
-					<view class="useing-ticket" v-if="i.state == '可使用' || i.state =='冻结中'||i.state == '已核销'" :style="{'color':i.state == '已核销'?'#999999':i.toColor}">
-						立即使用 </view>
-					<view class="Immediately-receive useing-ticket" v-if="i.receive>0" :style="{'color':i.state=='已结束' ?  '#999999':i.toColor}">
-						立即领取 </view>
-
-				</view>
-
-				<view class="ticket-images-exclusiveName" v-if="!i.state" :style="[{'background-image': i.receive>0 &&i.receiveTime  ? `linear-gradient(-90deg,  ${i.goColor} 0%,  ${i.toColor} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-					<view class="exclusive-name">{{i.exclusiveName}}</view>
-					<view class="exclusive-price"> <text>￥</text> {{i.exclusivePrice}}</view>
-					<view class="meet-price-user">满{{i.meetPriceUser}}元可用</view>
-
-					<view class="Immediately-receive useing-ticket" v-if="i.receive>0 " :style="{'color':i.receive>0&&i.receiveTime?i.toColor:'#999999'}">
-						立即领取 </view>
-
-					<view class="useing-ticket" v-if="i.receive==0&&i.allReceive>=0" @tap='goUserCard' :style="{'color':'#999999'}">
-						立即使用 </view>
-
-				</view>
-
-			</view>
-			<view class="ticketDetails" @tap='showDetails(i.serialNumber)'>
-				<view class="details-title"> <text>卡券详情</text>
-					<image :src="i.arrowImages" mode=""></image>
-				</view>
-				<view class="details-content" v-if="i.showTicketDetails">
-					<view class="item-details" v-for="(i,k) in i.ticketDetails">{{i}}</view>
-				</view>
-			</view>
-			<view class="ticket-label-images" v-if="i.state == '已使用'">
-				<image src="../static/images/state2.png" mode=""></image>
-			</view>
-			<view class="ticket-label-images" v-if="i.state == '已失效'">
-				<image src="../static/images/state1.png" mode=""></image>
-			</view>
-			<view class="ticket-label-images" v-if="i.state == '已核销'" style="top: 80rpx;">
-				<image src="../static/images/check.png" mode=""></image>
-			</view>
-			<view class="ticket-label-images" v-if="i.receive==0&&i.receiveTime&& i.uesrReceive == 2">
-				<!-- 上限 -->
-				<image src="../static/images/upper-limit.png" mode=""></image>
-			</view>
-			<view class="ticket-label-images" v-if="i.receive==0 && i.allReceive == 0">
-				<!-- 已抢光 -->
-				<image src="../static/images/loot-all.png" mode=""></image>
-			</view>
-			<view class="ticket-label-images" v-if="i.receive>0&&!i.receiveTime&& i.allReceive > 0">
-				<!-- 已结束 -->
-				<image src="../static/images/ticke-over.png" mode=""></image>
-			</view>
-		</view>
+	<view class="ticket-content">					
 		<!-- 线上 -->
 		<view class="ticket-items" v-for="(item,k) in cardsList" :key='k' >
 			<view class="ticket-number-expiration-time" v-if="item.card_no">
@@ -108,14 +10,12 @@
 					</text>
 					<text v-else-if="parseInt((item.use_end_time - time_now) / 60 / 60 % 24 )>0"> 
 						{{ parseInt((item.use_end_time - time_now) / 60 / 60 % 24 ) }}小时内过期
-					</text>
-					
+					</text>					
 					<text v-else>
-						<!-- {{ parseInt((item.use_end_time - time_now)/ 1000 / 60 % 60) }}分钟内过期 -->
 						1小时内过期
 					</text>
 				</view>
-				<view class="expiration-time" v-else> 删除 </view>
+				<view class="expiration-time" v-else @tap='deleteCard(item.id)'> 删除 </view>
 			</view>
 			<!-- 主体内容 -->
 			<view class="ticket-items-content">
@@ -269,9 +169,15 @@
 						</view>
 					</view>	
 					<view class="useing-ticket"
-					  :style="{'color': item.state!=3&&item.state!=4 ?  item.c_card_style: '#999999'}"
-					  @tap='userCard(item.id)'>
+					 v-if="item.c_use_channel == 0 && item.c_card_type == 1 || item.c_card_type ==2 || item.c_card_type ==3 ||item.c_card_type ==4 "
+					 :style="{'color': item.state!=3&&item.state!=4 ?  item.c_card_style: '#999999'}"
+					 @tap='userCard(item.c_id,item.state)'>
 						立即使用
+					</view>	
+					<view class="useing-ticket" v-else
+					 :style="{'color': item.state!=3&&item.state!=4 ?  item.c_card_style: '#999999'}"
+					 @tap='scanCard(item.id)'>
+						立即核销
 					</view>				
 				</view>
 			</view>
@@ -280,7 +186,7 @@
 					<image :src="item.arrowImages" mode=""></image>
 				</view>
 				<view class="details-content" v-if="item.showTicketDetails">
-					<view class="item-details">{{item.c_intro}}</view>
+					<view class="item-details">{{item.c_intro||item.intro}}</view>
 				</view>
 			</view>
 			<!-- 已抢光 -->
@@ -346,8 +252,16 @@
 				})
 			},
 			// 使用卡券
-			userCard:function(id){
-				console.log(id)
+			userCard:function(id,state){
+				this.$emit('useCard', id,state)
+			},
+			// 核销卡券
+			scanCard:function(id){
+				this.$emit('scanCard', id)
+			},
+			// 删除卡券
+			deleteCard:function(id){
+				this.$emit('deleteCard',id)
 			}
 		}
 	}

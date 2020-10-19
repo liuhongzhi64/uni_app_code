@@ -130,25 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 488));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -254,140 +236,212 @@ __webpack_require__.r(__webpack_exports__);
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
-      height: 0,
       barName: 'particularsPage', //导航条名称
-      topBackgroundColor: '#dddddd',
-      color: '#222222',
-      backImage: '../static/images/back1.png',
+      topBackgroundColor: '#222222',
+      color: '#FFFFFF',
+      backImage: '../static/images/return.png',
       title: '我的卡券',
       barImage: '../static/images/refresh.png',
       changeBtn: 0,
       topList: [
-      { name: '全部分类', type: 1 },
-      { name: '销量', type: 2, TallLow: false, changLow: false },
-      { name: '价格', type: 3, TallLow: false, changLow: false },
-      { name: '评分', type: 4, TallLow: false, changLow: false }],
+      { name: '全部分类', type: 1, list: [{ sort_tall: false, sort_low: false }] },
+      { name: '销量', type: 2, list: [{ sort_tall: false, sort_low: false }] },
+      { name: '价格', type: 3, list: [{ sort_tall: false, sort_low: false }] },
+      { name: '评分', type: 4, list: [{ sort_tall: false, sort_low: false }] }],
 
-      // TallLow:false,//选中高低
-      // changLow:false,
       showClassify: false, //显示分类
-      classifyLists: [
-      { name: '双眼皮', type: 0, itemChange: false },
-      { name: '隆鼻', type: 1, itemChange: false },
-      { name: '丰胸', type: 2, itemChange: false },
-      { name: '脂肪填充', type: 3, itemChange: false },
-      { name: '祛斑', type: 4, itemChange: false },
-      { name: '分类名一', type: 5, itemChange: false },
-      { name: '分类名一', type: 6, itemChange: false },
-      { name: '分类名一', type: 7, itemChange: false }],
-
-
+      classifyLists: [],
+      classfiyId: 0, //分类初始化id
+      classfiyName: '',
+      lastIndex: -1,
+      currentIndex: -1,
       itemBtn: true, //是否禁止点击确定按钮
+      requestUrl: '',
       changeItemName: '', //选中后确定按钮按下时要改变的名称
-      porductList: [
-      {
-        url: '../../static/images/19.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: ['眼部美容', '眼部'],
-        activity: [],
-        originalCost: 68800,
-        vipPrice: 58800,
-        subscribe: 477,
-        goodReputation: 98 },
+      porductList: [],
+      cardId: '23', //卡卷id
+      card_intro: '', //卡券使用说明
+      sort: 0, //排序类型 类型 0综合排序  1 销量排序 2 价格排序 3 评分
+      cid: 0, //	分类id
+      sort_type: 0, //排序 0 倒序 1 正序
+      offset: 0 };
 
-      {
-        url: '../../static/images/23.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: ['眼部美容', '眼部'],
-        activity: [],
-        originalCost: 18800,
-        vipPrice: 12800,
-        subscribe: 422,
-        goodReputation: 98 },
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: [],
-        activity: ['首单必减', '折扣'],
-        originalCost: 18800,
-        vipPrice: 0,
-        subscribe: 477,
-        goodReputation: 98 },
-
-      {
-        url: '../../static/images/23.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: [],
-        activity: ['首单必减', '折扣'],
-        originalCost: 18800,
-        vipPrice: 12800,
-        subscribe: 422,
-        goodReputation: 98 }] };
-
-
-
-
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.getDetails();
+  },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    if (options.id) {
+      that.cardId = options.id;
+    }
+    that.requestUrl = that.request.globalData.requestUrl;
+    that.getDetails();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
+
+    if (platform == 'applet') {
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+          that.menuPaddingRight = res.windowWidth - menu.right;
+        } });
+
+    } else {
+      that.menuWidth = 87;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
 
   },
   methods: {
-    changeItem: function changeItem(k, type) {
-      this.changeBtn = k;
+    // 商品分类
+    getGoodsClassify: function getGoodsClassify() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'categorylist',
+        type: 0 };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          for (var i = 0; i < data.length; i++) {
+            data[i].isShow = false;
+          }
+          that.classifyLists = data;
+        }
+      });
+    },
+    // 初始化获取可用卡券商品
+    getDetails: function getDetails(id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getcardspulist',
+        card_id: that.cardId,
+        cid: that.cid,
+        sort: that.sort,
+        sort_type: that.sort_type,
+        offset: that.offset,
+        limit: 6 };
+
+      console.log(dataInfo);
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.card_intro = data.card_intro;
+          that.porductList = that.porductList.concat(data.spu_list);
+          if (data.spu_list.length == 0) {
+            that.request.showToast('没有更多啦');
+          }
+        }
+      });
+    },
+    // 排序类型 排序类型 类型 0综合排序  1 销量排序 2 价格排序 3 评分
+    changeTopItem: function changeTopItem(k, type) {
+      var that = this;
+      that.changeBtn = k;
+      that.sort = type - 1;
       if (type == 1) {
-        this.showClassify = !this.showClassify;
+        that.showClassify = !that.showClassify;
+        for (var i = 0; i < that.topList.length; i++) {
+          that.topList[i].list[0].sort_tall = false;
+          that.topList[i].list[0].sort_low = false;
+        }
+        // 商品分类
+        that.getGoodsClassify();
       } else
       {
-        this.showClassify = false;
+        that.showClassify = false;
+        that.porductList = [];
+        that.getDetails();
       }
-      // type值表示：1.全部 2.销量 3. 价格 4.评分
     },
-
-    changTallLow: function changTallLow(k, type) {
-      console.log(k, type);
-
-      this.topList[k].TallLow = !this.topList[k].TallLow;
-      this.topList[k].changLow = !this.topList[k].TallLow;
-      // this.TallLow = !this.TallLow
-      // this.changLow = !this.TallLow
-    },
-
-    showClassifyContent: function showClassifyContent(name) {
-      this.showClassify = !this.showClassify;
-      this.topList[0].name = name;
-    },
-
-    changeCalssfiyItem: function changeCalssfiyItem(k, type, name) {
-
-      for (var i = 0; i < this.classifyLists.length; i++) {
+    // 排序  0 倒序 1 正序
+    changSortType: function changSortType(k, type, index) {
+      var that = this;
+      that.changeBtn = k;
+      that.sort = type - 1;
+      for (var i = 0; i < that.topList.length; i++) {
         if (i == k) {
-          this.classifyLists[k].itemChange = !this.classifyLists[k].itemChange;
-          this.itemBtn = !this.classifyLists[k].itemChange;
-          this.changeItemName = name;
-
+          // console.log('相等',that.topList[i].list[index])
+          that.topList[k].list[index].sort_tall = !that.topList[k].list[index].sort_tall;
+          that.topList[k].list[index].sort_low = !that.topList[k].list[index].sort_tall;
+          if (!that.topList[k].list[index].sort_low) {
+            that.sort_type = 1;
+          } else {
+            that.sort_type = 0;
+          }
+          that.porductList = [];
+          that.getDetails();
         } else {
-          this.classifyLists[i].itemChange = false;
+          // console.log('不等',that.topList[i].list[index])
+          that.topList[i].list[index].sort_tall = false;
+          that.topList[i].list[index].sort_low = false;
         }
+
       }
+      // that.topList[k].sort_tall = !that.topList[k].sort_tall
+      // that.topList[k].sort_low  = !that.topList[k].sort_tall	
+      // // that.topList[index].sort_low = false 表示从小到大
+
     },
-    gotoGoods: function gotoGoods(e) {
-      var goods = e.currentTarget.dataset.name;
+    // 点击确定分类
+    define: function define() {
+      var that = this;
+      that.showClassify = !that.showClassify;
+      that.cid = that.classfiyId;
+      that.classfiyId = 0;
+      that.topList[0].name = that.classfiyName;
+      that.porductList = [];
+      that.getDetails();
+    },
+    // 点击分类
+    changeCalssfiyItem: function changeCalssfiyItem(index, id, name) {
+      var that = this;
+      that.currentIndex = index;
+      that.classfiyId = id;
+      that.classfiyName = name;
+      if (that.lastIndex != index) {
+        that.classifyLists[index].isShow = true;
+        that.itemBtn = false;
+      } else if (that.lastIndex == index) {
+        that.handleClicke(index);
+      }
+      that.lastIndex = index;
+    },
+    // 两次点击商品分类
+    handleClicke: function handleClicke(index) {
+      var that = this;
+      that.classifyLists[index].isShow = !that.classifyLists[index].isShow;
+      that.itemBtn = !that.itemBtn;
+      that.lastIndex = '';
+    },
+    gotoGoods: function gotoGoods(id) {
+      var goodsId = id;
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?goods=".concat(goods) });
+        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

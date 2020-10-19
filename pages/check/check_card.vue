@@ -62,9 +62,7 @@
 				</template>
 			</scroll-view>
 		</view>
-
 		
-
 	</view>
 </template>
 
@@ -89,6 +87,7 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '核销卡券',
+				requestUrl:'',
 				ticketMessage: [{
 					serialNumber: '02048492', //编号
 					expirationTime: 24, //过期时间
@@ -112,23 +111,71 @@
 				}, ]
 			}
 		},
+		onLoad: function(option) {
+			this.request = this.$request
+			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
+			let cardId = option.id
+			console.log('核销卡券的id:',cardId)
+			that.checkDetail(cardId)
+		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			let pageHeight = 0
+			that.videoContext = uni.createVideoContext('myVideo')
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						that.height = res.screenHeight
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+						that.menuPaddingRight = res.windowWidth - menu.right
+					}
+				})
+			} else {
+				that.menuWidth = 87
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
+			
 		},
 		methods: {
+			// 核销的内容
+			checkDetail:function(id){
+				let that = this
+				let dataInfo = {
+					interfaceId:'carduse',
+					card_user_id:id
+				}
+				that.request.uniRequest("card", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			},
+			
+			
 			// 显示卡券详情
 			showDetails: function(number) {
 				for (let i = 0; i < this.ticketMessage.length; i++) {

@@ -199,6 +199,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -218,62 +226,128 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '../static/images/return.png',
       userName: '',
       userPhone: '',
-      userAddress: '',
+      province: '', //省id
+      province_cn: '四川省', //省中文
+      city: '', //市id
+      city_cn: '成都市', //市中文
+      area: '', //区id
+      area_cn: '武侯区', //区中文
       detailedAddress: '', //详细地址
+      userAddress: '',
       select: true,
       labelList: ['家', '公司', '学校', '其他'],
       btnnum: 0,
-      selectLabelName: '',
-      whetherDefultAddress: true };
-
+      selectLabelName: '家',
+      is_default: 1,
+      requestUrl: '',
+      type: '', //1、添加，2、修改
+      array: ['四川省-成都市-武侯区'] //城市
+    };
+  },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    that.type = options.add;
+    that.requestUrl = that.request.globalData.requestUrl;
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuWidth = 87;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
+    // 名字
     nameInput: function nameInput(event) {
       this.userName = event.target.value;
     },
+    // 电话
     phoneInput: function phoneInput(event) {
       this.userPhone = event.target.value;
     },
+    // 详细地址
     addressInput: function addressInput(event) {
       this.detailedAddress = event.target.value;
     },
+    // 市省区
     bindPickerChange: function bindPickerChange(e) {
       console.log('picker发送选择改变，携带值为', e.target.value);
-      this.userAddress = e.target.value[0] + '' + e.target.value[1] + '' + e.target.value[2];
+      that.getarea(0);
       this.select = false;
     },
+    getarea: function getarea(index) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getareas',
+        parent_id: index };
+
+      that.request.uniRequest("address", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.array = data;
+        }
+      });
+    },
+    // 标签
     selectLabel: function selectLabel(e) {
       this.btnnum = e.currentTarget.dataset.k;
       this.selectLabelName = e.currentTarget.dataset.name;
     },
+    // 默认
     changeAddress: function changeAddress(e) {
-      this.whetherDefultAddress = e.target.value;
+      if (e.target.value) {
+        this.is_default = 1;
+      } else {
+        this.is_default = 0;
+      }
     },
     saveUserMessage: function saveUserMessage() {
-      var userMessage = {};
-      userMessage.name = this.userName;
-      userMessage.phone = this.userPhone;
-      userMessage.address = this.userAddress;
-      userMessage.detailedAddress = this.detailedAddress;
-      userMessage.labelName = this.selectLabelName;
-      userMessage.whetherDefultAddress = this.whetherDefultAddress;
-      console.log(userMessage);
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'change',
+        type: that.type,
+        accept_name: that.userName,
+        telphone: that.userPhone,
+        province: '', //省id
+        province_cn: '', //省中文
+        city: '', //市id
+        city_cn: '', //市中文
+        area: '', //区id
+        area_cn: '', //区中文
+        address: detailedAddress, //详细地址
+        is_default: 1, //0、否，1、是
+        tag: '', //标识
+        id: '' //修改时传输
+      };
+      console.log(dataInfo);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

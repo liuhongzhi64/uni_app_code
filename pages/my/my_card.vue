@@ -54,7 +54,14 @@
 													<view class="no-have-ticket">喵！暂无相关卡券~</view>
 												</view>
 											</view>
-											<ticket v-else :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket'></ticket>
+											<ticket v-else
+											 :cardsList='cardsList' 
+											 :time_now='time_now' 
+											 @showTicket='showTicket'
+											 @useCard = 'useCard'
+											 @deleteCard = 'deleteCard'
+											 @scanCard = 'scanCard'>
+											</ticket>
 											
 										</scroll-view>
 									</view>
@@ -279,7 +286,70 @@
 				// k值 0可使用 1冻结中 2 已失效 3已使用
 				that.getCard()
 			},
-			
+			// 使用卡券
+			useCard:function(id,state){
+				// console.log('使用的卡券id:',id,"卡券状态",state)
+				let cardId = id
+				if(state==1){
+					uni.navigateTo({
+						url: `/pages/my/my_card_use?id=${cardId}`
+					});
+				}
+				else{
+					uni.showModal({
+						title:'提示',
+						content:'当前卡券处于冻结中,暂不可用',
+						confirmText:'我知道了',
+						cancelText:'冻结说明',
+						success:function(res){
+							if (res.cancel){
+								uni.showModal({
+									title:'冻结说明',
+									content:'1）若卡券是下单后赠送的、支付有礼赠送的，需要核销订单后卡券才可使用;2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效3）失效的卡券将不予补发',
+									showCancel:true,
+									confirmText:'我知道了'		
+								})
+							}
+						}
+					})
+				}
+			},
+			// 核销卡券
+			scanCard:function(id){
+				let cardId = id
+				console.log('核销的卡券id:',cardId)
+				// uni.navigateTo({
+				// 	url: `/pages/check/check_card?id=${cardId}`
+				// });
+			},
+			// 删除卡券
+			deleteCard:function(id){
+				let that = this
+				let cardId = id
+				// console.log('要删除的卡券id:',id)
+				let dataInfo = {
+					interfaceId:'carduse_del',
+					card_user_id:cardId
+				}
+				uni.showModal({
+					title:'提示',
+					content:'确定要删除此卡券吗?',
+					success:function(res){
+						if (res.confirm) {
+							that.request.uniRequest("card", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									that.getCard()
+									uni.showToast({
+										title: '提示',
+										content: '删除成功'
+									})
+								}
+							})
+						}
+					}
+				})
+				
+			},
 			showTicket: function(cardId) {
 				let that = this
 				for (let i = 0; i < that.cardsList.length; i++) {

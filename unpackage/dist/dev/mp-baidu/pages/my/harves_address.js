@@ -186,58 +186,71 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '地址管理',
-      list: [] };
+      list: [],
+      requestUrl: '' };
 
   },
-  onShow: function onShow() {
-    this.request = this.$request;
+  onLoad: function onLoad(options) {
     var that = this;
-    console.log(111111111);
-    // uni.request({
-    // 	url: 'https://xcx.hmzixin.com/home', //仅为示例，并非真实的接口地址
-    // 	data: {
-    // 		interfaceId: 'getaddresslist',
-    // 		token: 'VVI2aStjbGtMSVRjVWxpZngxbnovMCtwSXorc1g0V29MNTI3MGlGMG40OG83TWg4YVhvMHpDR2R0YUJGeEhkSjJaa01xdDhGVGQyVnJXS0QrZGhFYzlxMEFHRmEvenJBN1R3RFFONjN5U1RYNEM1c1FFWkZua25EUWx0N3ZsUTI='
-    // 	},
-    // 	method: 'POST',
-    // 	header: {
-    // 		'content-type': 'application/json' // 默认值
-    // 	},
-    // 	success(res) {
-    // 		if (res.data.code == 200) {
-    // 			//  做一个默认地址排序
-    // 			res.data.data.sort(function(a, b) {
-    // 				return b.is_default - a.is_default
-    // 			})
-    // 			that.setData({
-    // 				list: res.data.data
-    // 			})
-    // 		}
-    // 	}
-    // })
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    that.getDetails();
   },
   onReady: function onReady() {
     var that = this;
     // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuWidth = 87;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
+    // 地址列表
+    getDetails: function getDetails() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getinfo' };
+
+      that.request.uniRequest("address", dataInfo).then(function (res) {
+        console.log(res);
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.list = data;
+        }
+      });
+    },
     //跳转新建
     bindViewTap: function bindViewTap() {
       uni.navigateTo({

@@ -1,109 +1,91 @@
 <template>
 	<view class="my_card_use"> 
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :barImage='barImage' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-		 
+		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>		 
 		<view class="user-card-top" :style="[{'top':menuBottom+10+'px'}]">
-			<view class="top-item" v-for="(i,k) in topList" :key='k'> 
-			
-				<view class="item-content item-all" :class="{'changeItem':changeBtn == k}" v-if="i.type == 1 " @tap='changeItem(k,i.type)'>
-					<view class="item-all-name">{{i.name}}</view> <view :class="[showClassify?'item-tall':'item-low']"></view>
-				</view>
-				
-				<view class="item-content" :class="{'changeItem':changeBtn == k}" v-if="i.type !=1 " @tap='changeItem(k,i.type)'>
-					<view class="item-name">{{i.name}}</view>
-					<view class="tall-low" @tap='changTallLow(k,i.type)'>
-						<view class="item-tall" :class="{'changTallLow':i.TallLow}"></view>
-						<view class="item-low" :class="{'changTallLow':i.changLow}"></view>
+			<view class="top-item" v-for="(i,k) in topList" :key='k' > 			
+				<view class="item-content item-all" :class="{'changeItem':changeBtn == k}" v-if="i.type == 1 " @tap='changeTopItem(k,i.type)'>
+					<view class="item-all-name">{{i.name || classfiyName}}</view> <view :class="[showClassify?'item-tall':'item-low']"></view>
+				</view>				
+				<view class="item-content" :class="{'changeItem':changeBtn == k}" v-else >
+					<view class="item-name" @tap='changeTopItem(k,i.type)'>{{i.name}}</view>
+					<view class="tall-low" @tap='changSortType(k,i.type,index)' v-for="(item,index) in i.list" :key='index'>
+						<view class="item-tall" :class="{'changTallLow':item.sort_tall}"></view>
+						<view class="item-low" :class="{'changTallLow':item.sort_low}"></view>
 					</view>	
-				</view>
-			 
+				</view>			 
 			</view>
 		</view> 
-		
+		<!-- 商品分类列表 -->
 		<view class="classifyList" :class="{'showClassify':showClassify}" :style="[{'top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]" >
 			<view class="classifyList-content">
 				<view class="classify-item"  
-				 :class="{'changeItemClass':i.itemChange}" 
-				 v-for="(i,k) in classifyLists" :key='k' 
-				 @tap='changeCalssfiyItem(k,i.type,i.name)'>
-					{{i.name}}
-				</view>
-				
-				
+				 :class="{'changeItemClass':currentIndex == k && item.isShow }" 
+				 v-for="(item,k) in classifyLists" :key='k' 
+				 @tap='changeCalssfiyItem(k,item.id,item.name)'>
+					{{item.name}}
+				</view>								
 			</view>
 			<view class="define-item-btn">
 				<view class="item-btn">
 					<button type="default" plain="true" class="define-btn" 
 					 :disabled = 'itemBtn' 
-					 :style="{'background-color':itemBtn?'#999999':'#fa3475'}"
-					 @tap='showClassifyContent(changeItemName)'>确定</button>
-				</view>
-				
+					 :style="{'background-color':classfiyBtn!=-1 ?'#fa3475':'#999999'}"
+					 @tap='define()'>
+						确定
+					 </button>
+				</view>				
 			</view>
-		</view>
-			
+		</view>			
 		<view class="user-card-content" >
-			<scroll-view class="my_card-content" scroll-y :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
+			<scroll-view class="my_card-content" :style="[{'padding-top':menuBottom+50+'px'}]">
 				<template>		
 					<view class="user-card-contents">
-						<view class="card-use-hint"> 以下商品可使用每满5000减500元的优惠券，最高可减2000元（部分商品存在多规格，部分规格不参与此优惠，请注意选择规格） </view>
-						
+						<!-- 使用说明 -->
+						<view class="card-use-hint"> 卡券说明: {{card_intro}} </view>						
 						<view class="user-card-porduct">
-							<view class="porduct-list" v-for="(i,k) in porductList" :key='k' :data-name="i.title" @tap="gotoGoods">
-								<view class="porduct-items">
-								
-									<view class="porduct-item-images">
-										<image :src="i.url" mode=""></image>
-									</view>
-								
-									<view class="porduct-introduce">
-								
-										<view class="product-title"> {{i.title}} </view>
-								
-										<view class="label" v-if="i.label.length>0">
-											<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}}  </view>
-										</view>
-								
-										<view class="activity" v-if="i.activity.length>0">
-											<view class="activity-name" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
-										</view>
-								
+							<view class="porduct-list" v-for="(item,index) in porductList" :key='index' @tap='gotoGoods(item.sku_id)'>
+								<view class="porduct-items">		
+									<!-- 商品图 -->
+									<view class="porduct-item-images"> <image :src="requestUrl+item.head_img" mode=""></image> </view>															
+									<view class="porduct-introduce">	
+										<!-- 商品名称 -->
+										<view class="product-title"> {{ item.goods_name }} </view>
+										<!-- 商品标签 -->								
+										<view class="label" v-if="item.label">
+											<view class="label-name" v-for="(i,k) in item.label.list" :key='k'> {{i}}  </view>
+										</view>	
+										<!-- 价格 -->								
 										<view class="porduct-price">
-											<view class="porduct-original-cost"> <text>￥</text>{{i.originalCost}} </view>
-											<view class="porduct-vip-price" v-if="i.vipPrice>0">
-												<view class="vip">钻卡</view> <view class="vip-price">￥{{i.vipPrice}}</view>
+											<!-- 销售价 -->
+											<view class="porduct-original-cost"> <text>￥</text>{{item.sale_price}} </view>
+											<!-- 会员价 -->
+											<view class="porduct-vip-price" v-if="item.member_title">
+												<view class="vip">{{ item.member_title }}</view> <view class="vip-price">￥{{item.price}}</view>
 											</view>
-										</view>
-										
+										</view>										
 										<view class="subscribe-goodReputation">
 											<!-- 预约 -->
-											<view class="subscribe"> {{i.subscribe}}预约 </view>
+											<view class="subscribe"> {{ item.sales }}预约 </view>
 											<!-- 好评 -->
-											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-										</view>
-										
-										
-									</view>
-													
+											<view class="goodReputation"> {{ item.rate }}%好评 </view>
+										</view>																				
+									</view>													
 								</view>
 							</view>
 							<view class="no-have-porduct" v-if="porductList.length==0">
 								<view class="Ticket-number">
 									<view class="images">
 										<image src="../../static/images/cartBg.png" mode=""></image>
-									</view>
-																		
+									</view>																		
 									<view class="no-have-ticket">喵！暂无相关卡券~</view>
 								</view>
 							</view>
 						</view>
-					</view>
-					
+					</view>					
 				</template>
 			</scroll-view>		
-		</view>
-		 
+		</view>		 
 	</view>
 </template>
 
@@ -122,140 +104,212 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				height: 0,
 				barName: 'particularsPage', //导航条名称
-				topBackgroundColor: '#dddddd',
-				color: '#222222',
-				backImage: '../static/images/back1.png',
+				topBackgroundColor: '#222222',
+				color: '#FFFFFF',
+				backImage: '../static/images/return.png',
 				title: '我的卡券',
 				barImage: '../static/images/refresh.png',
 				changeBtn:0,
 				topList:[
-					{name:'全部分类',type:1},
-					{name:'销量',type:2,TallLow:false,changLow:false,},
-					{name:'价格',type:3,TallLow:false,changLow:false,},
-					{name:'评分',type:4,TallLow:false,changLow:false,},
+					{name:'全部分类',type:1,list:[{sort_tall:false,sort_low:false}]},
+					{name:'销量',type:2,list:[{sort_tall:false,sort_low:false}]},
+					{name:'价格',type:3,list:[{sort_tall:false,sort_low:false}]},
+					{name:'评分',type:4,list:[{sort_tall:false,sort_low:false}]},
 				],
-				// TallLow:false,//选中高低
-				// changLow:false,
 				showClassify:false,//显示分类
-				classifyLists:[
-					{name:'双眼皮',type:0,itemChange:false},
-					{name:'隆鼻',type:1,itemChange:false},
-					{name:'丰胸',type:2,itemChange:false},
-					{name:'脂肪填充',type:3,itemChange:false},
-					{name:'祛斑',type:4,itemChange:false},
-					{name:'分类名一',type:5,itemChange:false},
-					{name:'分类名一',type:6,itemChange:false},
-					{name:'分类名一',type:7,itemChange:false},
-					
-				],
+				classifyLists:[],
+				classfiyId:0,//分类初始化id
+				classfiyName:'',
+				lastIndex:-1,
+				currentIndex:-1,
 				itemBtn:true,//是否禁止点击确定按钮
+				requestUrl:'',
 				changeItemName:'',//选中后确定按钮按下时要改变的名称
-				porductList:[
-					{
-						url:'../../static/images/19.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:['眼部美容','眼部'],
-						activity:[],
-						originalCost:68800,
-						vipPrice:58800,
-						subscribe:477,
-						goodReputation:98,
-					},
-					{
-						url:'../../static/images/23.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:['眼部美容','眼部'],
-						activity:[],
-						originalCost:18800,
-						vipPrice:12800,
-						subscribe:422,
-						goodReputation:98,
-					},
-					{
-						url:'../../static/images/19.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:[],
-						activity:['首单必减','折扣'],
-						originalCost:18800,
-						vipPrice:0,
-						subscribe:477,
-						goodReputation:98,
-					},
-					{
-						url:'../../static/images/23.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:[],
-						activity:['首单必减','折扣'],
-						originalCost:18800,
-						vipPrice:12800,
-						subscribe:422,
-						goodReputation:98,
-					},
-				
-				]
+				porductList:[],
+				cardId:'23', //卡卷id
+				card_intro:'', //卡券使用说明
+				sort:0, //排序类型 类型 0综合排序  1 销量排序 2 价格排序 3 评分
+				cid:0,//	分类id
+				sort_type:0, //排序 0 倒序 1 正序
+				offset:0,				
 			}
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.getDetails()
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			if( options.id ){
+				that.cardId = options.id
+			}
+			that.requestUrl = that.request.globalData.requestUrl
+			that.getDetails()
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+						that.menuPaddingRight = res.windowWidth - menu.right
+					}
+				})
+			} else {
+				that.menuWidth = 87
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
+			
 		},
 		methods: {
-			changeItem:function(k,type){
-				this.changeBtn = k
+			// 商品分类
+			getGoodsClassify:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'categorylist',
+					type:0
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						for (let i = 0; i < data.length; i++) {
+							data[i].isShow = false
+						}
+						that.classifyLists = data
+					}
+				})
+			},
+			// 初始化获取可用卡券商品
+			getDetails:function(id){
+				let that =this
+				let dataInfo = {
+					interfaceId:'getcardspulist',
+					card_id:that.cardId,
+					cid:that.cid,
+					sort:that.sort,
+					sort_type:that.sort_type,
+					offset:that.offset,
+					limit:6
+				}
+				console.log(dataInfo)
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.card_intro = data.card_intro
+						that.porductList = that.porductList.concat(data.spu_list)
+						if(data.spu_list.length == 0){
+							that.request.showToast('没有更多啦')
+						}
+					}
+				})
+			},
+			// 排序类型 排序类型 类型 0综合排序  1 销量排序 2 价格排序 3 评分
+			changeTopItem:function(k,type){
+				let that = this
+				that.changeBtn = k
+				that.sort = type - 1				
 				if(type == 1){
-					this.showClassify = !this.showClassify
+					that.showClassify = !that.showClassify
+					for(let i=0;i<that.topList.length;i++){
+						that.topList[i].list[0].sort_tall = false
+						that.topList[i].list[0].sort_low  = false
+					}
+					// 商品分类
+					that.getGoodsClassify()
 				}
 				else{
-					this.showClassify = false
+					that.showClassify = false
+					that.porductList = []
+					that.getDetails()
 				}
-				// type值表示：1.全部 2.销量 3. 价格 4.评分
 			},
-			
-			changTallLow:function(k,type){
-				console.log(k,type)
-				
-				this.topList[k].TallLow = !this.topList[k].TallLow
-				this.topList[k].changLow = !this.topList[k].TallLow
-				// this.TallLow = !this.TallLow
-				// this.changLow = !this.TallLow
-			},
-			
-			showClassifyContent:function(name){
-				this.showClassify = !this.showClassify
-				this.topList[0].name = name
-			},
-			
-			changeCalssfiyItem:function(k,type,name){
-				
-				for(let i = 0; i<this.classifyLists.length;i++){
+			// 排序  0 倒序 1 正序
+			changSortType:function(k,type,index){
+				let that = this
+				that.changeBtn = k
+				that.sort = type - 1 
+				for(let i=0;i<that.topList.length;i++){
 					if(i==k){
-						this.classifyLists[k].itemChange = !this.classifyLists[k].itemChange
-						this.itemBtn = ! this.classifyLists[k].itemChange
-						this.changeItemName = name
-						
+						// console.log('相等',that.topList[i].list[index])
+						that.topList[k].list[index].sort_tall = !that.topList[k].list[index].sort_tall
+						that.topList[k].list[index].sort_low  = !that.topList[k].list[index].sort_tall
+						if(!that.topList[k].list[index].sort_low){
+							that.sort_type = 1
+						}else{
+							that.sort_type = 0
+						} 
+						that.porductList = []
+						that.getDetails()	
 					}else{
-						this.classifyLists[i].itemChange = false
+						// console.log('不等',that.topList[i].list[index])
+						that.topList[i].list[index].sort_tall = false
+						that.topList[i].list[index].sort_low  = false
 					}
-				}				
+					
+				}	
+				// that.topList[k].sort_tall = !that.topList[k].sort_tall
+				// that.topList[k].sort_low  = !that.topList[k].sort_tall	
+				// // that.topList[index].sort_low = false 表示从小到大
+					
 			},
-			gotoGoods: function(e) {
-				let goods = e.currentTarget.dataset.name
+			// 点击确定分类
+			define:function(){
+				let that = this
+				that.showClassify = !that.showClassify	
+				that.cid = that.classfiyId
+				that.classfiyId = 0
+				that.topList[0].name = that.classfiyName
+				that.porductList = []
+				that.getDetails()
+			},
+			// 点击分类
+			changeCalssfiyItem:function(index,id,name){				
+				let that = this
+				that.currentIndex = index
+				that.classfiyId = id
+				that.classfiyName = name
+				if(that.lastIndex!=index){
+					that.classifyLists[index].isShow = true
+					that.itemBtn = false
+				}else if(that.lastIndex==index){
+					that.handleClicke(index)
+				}
+				that.lastIndex = index
+			},
+			// 两次点击商品分类
+			handleClicke:function(index){
+				let that = this
+				that.classifyLists[index].isShow = !that.classifyLists[index].isShow
+				that.itemBtn = !that.itemBtn
+				that.lastIndex = ''
+			},
+			gotoGoods: function(id) {
+				let goodsId = id
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?goods=${goods}`,
+					url: `/pages/goods/goods_detail?id=${goodsId}`,
 				})
 			},
 		}
@@ -302,6 +356,7 @@
 		margin-top: 1rpx;
 		margin-left:-10rpx;
 		transform: rotate(0deg);
+		border-color: transparent #fa3475 transparent transparent;
 	}
 	.changeItem{
 		color: #fa3475;
@@ -309,6 +364,7 @@
 	}
 	.tall-low{
 		margin-left: 16rpx;
+		width: 40%;
 	}
 	.item-tall {
 		display: block;
@@ -330,7 +386,7 @@
 		margin-top: 6rpx;
 	}
 	.changTallLow{
-		border-color: transparent #111111 transparent transparent;
+			border-color: transparent #fa3475 transparent transparent;
 	}
 	.classifyList{
 		position: fixed;
@@ -391,7 +447,9 @@
 	.user-card-porduct{
 		padding-bottom: 80rpx;
 	}
-	
+	.user-card-contents{
+		min-height: 1350rpx;
+	}
 	.card-use-hint{
 		padding: 40rpx 57rpx 30rpx;
 		font-size: 24rpx;
@@ -449,22 +507,7 @@
 		margin-right: 10rpx;
 		border-radius: 4rpx;
 		color: #FFFFFF;
-	}
-	
-	.activity {
-		display: flex;
-		font-size: 16rpx;
-		color: #fa3475;
-		flex-wrap: wrap;
-		margin-top: 12rpx;
-	}
-	
-	.activity-name {
-		border: 1rpx solid #fa3475;
-		margin-right: 10rpx;
-		padding: 5rpx;
-		border-radius: 4rpx;
-	}
+	}	
 	
 	.porduct-price{
 		display: flex;

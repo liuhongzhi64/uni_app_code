@@ -2,6 +2,13 @@
 	"pages": [ 
 		
 		// 测试时的首页
+		
+		{
+			"path": "pages/my/harves_address", //收货地址
+			"style": {}
+		},
+		
+		
 		// 首页
 		{
 			"path": "pages/index/index",
@@ -9,12 +16,6 @@
 				"enablePullDownRefresh": true
 			}
 		},
-		
-		{
-			"path": "pages/my/my_card_gain", //领取卡卷
-			"style": {}
-		},
-		
 		
 		
 		
@@ -31,10 +32,7 @@
 			"path": "pages/my/after_sales", //退换/售后
 			"style": {}
 		},
-		{
-			"path": "pages/my/harves_address", //收货地址
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/my", //我的
 			"style": {}
@@ -43,7 +41,10 @@
 			"path": "pages/my/my_card", //我的卡卷
 			"style": {}
 		},
-		
+		{
+			"path": "pages/my/my_card_gain", //领取卡卷
+			"style": {}
+		},
 		{
 			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}

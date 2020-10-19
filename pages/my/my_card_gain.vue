@@ -14,7 +14,7 @@
 					<view class="ticket-content end-cont" v-for="(i,index) in contentList" :key="index" :class="{dis:tabIndex == index}">
 						<view class="ticket-hint"> 尊敬的顾客，小喵为您专属定制以下卡券 </view>
 						<view class="have-card" v-if="cardsList.length>0">
-							<ticket :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket' @getCards='getCards'></ticket>
+							<ticket :cardsList='cardsList' :time_now='time_now' @showTicket='showTicket' @getCards='getCards' @useCard = 'useCard'></ticket>
 						</view>
 						<view class="content-item" v-else :style="[{'height':'1000rpx'}]">
 							<view class="Ticket-number">
@@ -257,10 +257,19 @@
 					that.request.showToast(prompt)
 				}
 			},
-			goToMyCard: function() {
+			// 使用卡券
+			useCard:function(id){
+				console.log('使用的卡券id:',id)
+				let cardId = id
 				uni.navigateTo({
-					url: `/pages/my/my_card`,
-				})
+					url: `/pages/my/my_card_use?id=${cardId}`
+				});
+			},
+			goToMyCard: function() {
+				let cardId = id
+				uni.navigateTo({
+					url: `/pages/check/check_card?id=${cardId}`
+				});
 			}
 		}
 	}

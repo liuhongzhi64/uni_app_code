@@ -260,11 +260,11 @@ __webpack_require__.r(__webpack_exports__);
       searchHistoryNum: -1,
       requestUrl: '',
       announcementList: [
-      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: 'rise', number: 1597 },
-      { content: '后台配置内容，可控制', state: 'rise', number: 1597 },
+      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: '↑', number: 1597 },
+      { content: '后台配置内容，可控制', state: '↑', number: 1597 },
       { content: '拒绝大黄牙，分享我的牙齿美白经历', state: '', number: 1200 },
-      { content: '后台配置内容，可控制', state: 'fall', number: 990 },
-      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: 'fall', number: 496 }] };
+      { content: '后台配置内容，可控制', state: '↓', number: 990 },
+      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: '↓', number: 496 }] };
 
 
   },

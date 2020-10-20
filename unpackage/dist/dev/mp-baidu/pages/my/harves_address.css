@@ -1,175 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* pages/my/harves_address.wxss */
 page.data-v-2ce88c3a {
 	background-color: #f6f6f6;
 }
@@ -197,7 +26,7 @@ page.data-v-2ce88c3a {
 	color: #dc296c;
 	margin: 35rpx 0 210rpx 0
 }
-.address-btn.data-v-2ce88c3a{
+.address-btn.data-v-2ce88c3a {
 	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -270,8 +99,12 @@ page.data-v-2ce88c3a {
 	width: 18rpx;
 	height: 18rpx;
 	border-radius: 50%;
-	border: 1px solid rgb(153, 153, 153);
+	border: 1px solid #999999;
 	margin-right: 15rpx;
+}
+.container .editBox .is_default.data-v-2ce88c3a {
+	background-color: #dc296c;
+	border: 1px solid #dc296c;
 }
 .container .address.data-v-2ce88c3a {
 	margin-top: 15rpx;

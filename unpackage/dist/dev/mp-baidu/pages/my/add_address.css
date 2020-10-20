@@ -28,16 +28,15 @@
 }
 .input-content.data-v-666261ac {
 	width: 45%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
 }
 .area.data-v-666261ac {
 	color: #999999;
 }
 .area-input.data-v-666261ac {
-	min-width: 200rpx;
-	text-align: start;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
+	color: #111111;
 }
 .all-label.data-v-666261ac {
 	background-color: #FFFFFF;

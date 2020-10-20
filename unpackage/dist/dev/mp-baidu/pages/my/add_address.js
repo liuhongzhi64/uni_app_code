@@ -199,14 +199,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar },
@@ -224,31 +216,49 @@ __webpack_require__.r(__webpack_exports__);
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '../static/images/return.png',
-      userName: '',
-      userPhone: '',
+      userName: '请输入收货人姓名',
+      userPhone: '请输入收货人手机号',
+      select: '省-市-区/县',
+      multiIndex: [0, 0, 0],
       province: '', //省id
-      province_cn: '四川省', //省中文
+      province_cn: '', //省中文
       city: '', //市id
-      city_cn: '成都市', //市中文
+      city_cn: '', //市中文
       area: '', //区id
-      area_cn: '武侯区', //区中文
+      area_cn: '', //区中文
       detailedAddress: '', //详细地址
       userAddress: '',
-      select: true,
       labelList: ['家', '公司', '学校', '其他'],
       btnnum: 0,
       selectLabelName: '家',
       is_default: 1,
       requestUrl: '',
-      type: '', //1、添加，2、修改
-      array: ['四川省-成都市-武侯区'] //城市
-    };
+      type: 1, //1、添加，2、修改
+      addrressId: 0,
+      areaArray: [], //城市
+      provinceArray: [],
+      provinceShow: false,
+      cityArray: [],
+      allAreaArray: [
+      [],
+      [],
+      []],
+
+      addrressItem: {} };
+
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
     that.type = options.add;
+    if (options.id) {
+      that.addrressId = options.id;
+      that.userName = options.name;
+      that.userPhone = options.telphone;
+    }
+    console.log(options, that.type, that.addrressId);
     that.requestUrl = that.request.globalData.requestUrl;
+    that.getarea(0, 0);
   },
   onReady: function onReady() {
     var that = this;
@@ -291,6 +301,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 电话
     phoneInput: function phoneInput(event) {
+      var that = this;
       this.userPhone = event.target.value;
     },
     // 详细地址
@@ -298,12 +309,32 @@ __webpack_require__.r(__webpack_exports__);
       this.detailedAddress = event.target.value;
     },
     // 市省区
-    bindPickerChange: function bindPickerChange(e) {
-      console.log('picker发送选择改变，携带值为', e.target.value);
-      that.getarea(0);
-      this.select = false;
+    allChange: function allChange(event) {
+      var that = this;
+      that.multiIndex = event.detail.value;
+      that.select = that.province_cn + '-' + that.city_cn + '-' + that.area_cn;
     },
-    getarea: function getarea(index) {
+    changeColumn: function changeColumn(event) {
+      var that = this;
+      var column = event.detail.column;
+      var value = event.detail.value;
+      if (column == 0) {
+        that.province = that.areaArray[value].area_id;
+        that.province_cn = that.areaArray[value].area_name;
+        that.getarea(that.province, column);
+        // console.log(that.areaArray[value],column,33333333)
+      } else if (column == 1) {
+        that.city = that.provinceArray[value].area_id;
+        that.city_cn = that.provinceArray[value].area_name;
+        that.getarea(that.city, column);
+        // console.log(that.provinceArray[value].area_id,column ,11111111)
+      } else {
+        that.area = that.cityArray[value].area_id;
+        that.area_cn = that.cityArray[value].area_name;
+        // console.log(222222)
+      }
+    },
+    getarea: function getarea(index, column) {
       var that = this;
       var dataInfo = {
         interfaceId: 'getareas',
@@ -312,7 +343,23 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("address", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.array = data;
+          if (index == 0) {
+            that.areaArray = data;
+            that.allAreaArray[0] = that.areaArray;
+            that.provinceArray = [];
+            that.cityArray = [];
+            // console.log('省',that.areaArray)	
+          } else {
+            if (column == 0) {
+              that.provinceArray = data;
+              that.allAreaArray[1] = that.provinceArray;
+              that.allAreaArray[2] = [];
+            } else if (column == 1) {
+              that.cityArray = data;
+              that.allAreaArray[2] = that.cityArray;
+              // console.log(data)
+            }
+          }
         }
       });
     },
@@ -331,23 +378,100 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveUserMessage: function saveUserMessage() {
       var that = this;
-      var dataInfo = {
-        interfaceId: 'change',
-        type: that.type,
-        accept_name: that.userName,
-        telphone: that.userPhone,
-        province: '', //省id
-        province_cn: '', //省中文
-        city: '', //市id
-        city_cn: '', //市中文
-        area: '', //区id
-        area_cn: '', //区中文
-        address: detailedAddress, //详细地址
-        is_default: 1, //0、否，1、是
-        tag: '', //标识
-        id: '' //修改时传输
-      };
-      console.log(dataInfo);
+      // 验证
+      var isKeep = that.verification();
+      if (isKeep) {
+        if (that.type == 1) {
+          var dataInfo = {
+            interfaceId: 'change',
+            type: that.type,
+            accept_name: that.userName,
+            telphone: that.userPhone,
+            province: that.province, //省id
+            province_cn: that.province_cn, //省中文
+            city: that.city, //市id
+            city_cn: that.city_cn, //市中文
+            area: that.area, //区id
+            area_cn: that.area_cn, //区中文
+            address: that.detailedAddress, //详细地址
+            is_default: this.is_default, //0、否，1、是
+            tag: that.selectLabelName //标识
+            // id: '' //修改时传输
+          };
+          that.request.uniRequest("address", dataInfo).then(function (res) {
+            if (res.data.code == 1000 && res.data.status == 'ok') {
+              that.request.showToast('地址添加成功');
+              setTimeout(function () {
+                uni.navigateTo({
+                  url: '/pages/my/harves_address' });
+
+              }, 2000);
+            }
+          });
+        } else {
+          var _dataInfo = {
+            interfaceId: 'change',
+            type: that.type,
+            accept_name: that.userName,
+            telphone: that.userPhone,
+            province: that.province, //省id
+            province_cn: that.province_cn, //省中文
+            city: that.city, //市id
+            city_cn: that.city_cn, //市中文
+            area: that.area, //区id
+            area_cn: that.area_cn, //区中文
+            address: that.detailedAddress, //详细地址
+            is_default: this.is_default, //0、否，1、是
+            tag: that.selectLabelName, //标识
+            id: that.addrressId //修改时传输
+          };
+          that.request.uniRequest("address", _dataInfo).then(function (res) {
+            if (res.data.code == 1000 && res.data.status == 'ok') {
+              that.request.showToast('地址修改成功');
+              setTimeout(function () {
+                uni.navigateTo({
+                  url: '/pages/my/harves_address' });
+
+              }, 2000);
+            }
+          });
+        }
+      }
+    },
+    verification: function verification() {
+      var that = this;
+      var isKeep = false;
+      if (that.userName == '请输入收货人姓名') {
+        that.request.showToast('请输入收货人姓名');
+        isKeep = false;
+      } else if (that.userPhone == '请输入收货人手机号') {
+        that.request.showToast('请输入收货人手机号');
+        isKeep = false;
+      } else if (that.userPhone != '请输入收货人手机号') {
+        if (!/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.userPhone)) {
+          that.request.showToast('请正确填写手机号码');
+          isKeep = false;
+        } else
+        if (that.select == '省-市-区/县' && that.province_cn == '' && that.city_cn == '' && that.area_cn == '') {
+          that.request.showToast('请选择省-市-区/县');
+          isKeep = false;
+        } else
+        if (that.select != '省-市-区/县' && that.province_cn != '' && that.city_cn == '' && that.area_cn == '') {
+          that.request.showToast('请选择省-市-区/县');
+          isKeep = false;
+        } else
+        if (that.select != '省-市-区/县' && that.province_cn != '' && that.city_cn != '' && that.area_cn == '') {
+          that.request.showToast('请选择省-市-区/县');
+          isKeep = false;
+        } else
+        if (that.detailedAddress == '') {
+          that.request.showToast('请输入详细地址');
+          isKeep = false;
+        } else {
+          isKeep = true;
+        }
+      }
+      return isKeep;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

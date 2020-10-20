@@ -15,27 +15,27 @@
 						<view class="addressLine">
 							<view class='name'>{{item.accept_name}}</view>
 							<text class='phone'>{{item.telphone}}</text>
-							<view class='label'>公司</view>
-							<view class="address">{{item.dizhi}}
-								<text class="detailed">{{item.address}}详细地址最多就两排，详细地址最多两排......</text>
+							<view class='label'>{{item.tag}}</view>
+							<view class="address">
+								<text class="detailed">{{ item.province_cn+item.city_cn+item.area_cn+item.address }}</text>
 							</view>
 						</view>
 						<view class="editBox">
-							<view class="set">
-								<view class="circular"></view>默认地址
+							<view class="set" @tap='setDefault(item.is_default,item.id)'>
+								<view class="circular" :class="{'is_default':item.is_default==1}"></view>默认地址
 							</view>
-							<view @tap="edit" class="edit" :data-gid='item.id'>编辑</view>
-							<view class="delete" :data-gid='item.id' bindtap="delete">删除</view>
+							<view @tap="edit(item.id,item)" class="edit">编辑</view>
+							<view class="delete" @tap="deleteArea(item.id)">删除</view>
 						</view>
 
 					</view>
 				</block>
 			</view>
-			
+
 			<view class="address-btn">
 				<view @tap="bindViewTap" class="btn">+添加新地址</view>
 			</view>
-			
+
 		</view>
 	</view>
 </template>
@@ -60,12 +60,12 @@
 				backImage: '../static/images/back2.png',
 				title: '地址管理',
 				list: [],
-				requestUrl:''
+				requestUrl: ''
 			}
 		},
 		onLoad(options) {
 			let that = this
-			this.request = this.$request			
+			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getDetails()
 		},
@@ -106,13 +106,12 @@
 		},
 		methods: {
 			// 地址列表
-			getDetails:function(){
+			getDetails: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'getinfo'
+					interfaceId: 'getinfo'
 				}
 				that.request.uniRequest("address", dataInfo).then(res => {
-					console.log(res)
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.list = data
@@ -122,54 +121,65 @@
 			//跳转新建
 			bindViewTap: function() {
 				uni.navigateTo({
-					url: `/pages/my/add_address?add = 1`,
+					url: `/pages/my/add_address?add=1`,
 				})
-
 			},
 			// 编辑
-			edit: function() {
+			edit: function(id,item) {
+				let name = item.accept_name
+				let telphone = item.telphone
+				// console.log(item)
 				uni.navigateTo({
-					url: `/pages/my/add_address?add = 2`,
+					url: `/pages/my/add_address?add=2&&id=${id}&&name=${name}&&telphone=${telphone}`,
 				})
-
 			},
 			// 删除
-			delete: function() {
-				this.request = this.$request
-				this.request.showModal('确认要删除该收获地址吗')
+			deleteArea: function(id) {
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '是否删除此地址?',
+					success: function(res) {
+						if (res.confirm) {
+							let dataInfo = {
+								interfaceId: 'del',
+								id: id
+							}
+							console.log(dataInfo)
+							that.request.uniRequest("address", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									that.request.showToast(res.message)
+									that.getDetails()
+								}
+							})
+						}
+					}
+				})
 			},
 
 			// 设为默认地址
-			radioChange: function(event) {
-				this.request = this.$request
-				var that = this;
-				console.log(event.currentTarget.dataset.gid, event.currentTarget.dataset.default)
-				//is_default<1(不是默认地址才能请求)
-				if (event.currentTarget.dataset.default < 1) {
-					let data = {
-						interfaceId: 'changedefaultaddress',
-						token: app.globalData.token,
-						address_id: event.currentTarget.dataset.gid,
+			setDefault: function(is_default, id) {
+				let that = this;
+				console.log(is_default, id)
+				// is_default<1(不是默认地址才能请求)
+				if (is_default < 1) {
+					let dataInfo = {
+						interfaceId: 'changedefault',
+						id: id,
 					}
-					that.request.uniRequest('home', data, res => {
-						if (res.data.code == 200) {
-							app.showModal("提示", '设置成功', false)
-							that.onShow()
+					that.request.uniRequest("address", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.request.showToast('设置成功')
+							that.getDetails()
 						}
-
-					}, err => {
-						console.log(err)
 					})
 				}
-
-
 			},
 		}
 	}
 </script>
 
 <style scoped>
-	/* pages/my/harves_address.wxss */
 	page {
 		background-color: #f6f6f6;
 	}
@@ -194,7 +204,8 @@
 		color: #dc296c;
 		margin: 35rpx 0 210rpx 0
 	}
-	.address-btn{
+
+	.address-btn {
 		width: 100%;
 		display: flex;
 		justify-content: center;
@@ -266,8 +277,13 @@
 		width: 18rpx;
 		height: 18rpx;
 		border-radius: 50%;
-		border: 1px solid rgb(153, 153, 153);
+		border: 1px solid #999999;
 		margin-right: 15rpx;
+	}
+
+	.container .editBox .is_default {
+		background-color: #dc296c;
+		border: 1rpx solid #dc296c;
 	}
 
 	.container .address {

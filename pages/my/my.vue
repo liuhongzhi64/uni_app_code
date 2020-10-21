@@ -25,7 +25,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="set"> 设置 > </view>
+						<view class="set" @tap='goToSet'> 设置 > </view>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
 						<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="changeOrder(i.name)">
@@ -38,26 +38,56 @@
 					</view>
 				</view>
 			</view>
-
 		</view>
-
 		<view class="content">
-
 			<view class="my-order">
 				<view class="order-all-order">
 					<view class="order"> 我的订单 </view>
 					<view class="all-order" @tap='goToOrder'> 全部订单 > </view>
 				</view>
-
 				<view class="order-message">
-					<view class="order-list" v-for="(i,k) in orderList" :key='k' >
+					<view class="order-list">
 						<view class="oder-image-number">
 							<view class="order-image">
-								<image :src="i.url" mode=""></image>
+								<image src="../../static/images/my-obligation.png" mode=""></image>
 							</view>
-							<view class="order-number" v-if="i.number"> {{i.number}} </view>
+							<view class="order-number" > {{orderList.need_pay}} </view>
 						</view>
-						<view class="order-name"> {{i.orderName}} </view>
+						<view class="order-name"> 待付款 </view>
+					</view>
+					<view class="order-list">
+						<view class="oder-image-number">
+							<view class="order-image">
+								<image src="../../static/images/my-account-paid.png" mode=""></image>
+							</view>
+							<view class="order-number" > {{orderList.pay}} </view>
+						</view>
+						<view class="order-name"> 已付款 </view>
+					</view>
+					<view class="order-list">
+						<view class="oder-image-number">
+							<view class="order-image">
+								<image src="../../static/images/my-completed.png" mode=""></image>
+							</view>
+						</view>
+						<view class="order-name"> 已完成 </view>
+					</view>
+					<view class="order-list">
+						<view class="oder-image-number">
+							<view class="order-image">
+								<image src="../../static/images/my-evaluate.png" mode=""></image>
+							</view>
+							<view class="order-number" > {{orderList.not_comment}} </view>
+						</view>
+						<view class="order-name"> 待评价 </view>
+					</view>
+					<view class="order-list">
+						<view class="oder-image-number">
+							<view class="order-image">
+								<image src="../../static/images/my-refund.png" mode=""></image>
+							</view>
+						</view>
+						<view class="order-name"> 已退款 </view>
 					</view>
 				</view>
 			</view>
@@ -90,8 +120,7 @@
 								<image :src="i.url" mode=""></image>
 							</view>
 							<view class="tool-name"> {{i.toolName}} </view>
-						</view>
-			
+						</view>			
 					</view>
 				</view>
 			</view>
@@ -161,52 +190,27 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				cardList: [{
-						number: 20,
+						number: 0,
 						name: '卡券'
 					},
 					{
-						number: 99999,
+						number: 0,
 						name: '积分'
 					},
 					{
-						number: 400,
+						number: 0,
 						name: '喵豆'
 					},
 					{
-						number: 20,
+						number: 0,
 						name: '余额'
 					},
 					{
-						number: 20,
+						number: 0,
 						name: '喵币'
 					},
 				],
-				orderList: [{
-						url: '../../static/images/classify1.png',
-						number: 3,
-						orderName: '待付款',
-					},
-					{
-						url: '../../static/images/classify1.png',
-						number: 3,
-						orderName: '已付款',
-					},
-					{
-						url: '../../static/images/classify1.png',
-						number: 3,
-						orderName: '待评价',
-					},
-					{
-						url: '../../static/images/classify1.png',
-						number: 3,
-						orderName: '已完成',
-					},
-					{
-						url: '../../static/images/classify1.png',
-						number: 3,
-						orderName: '已退款',
-					},
-				],
+				orderList:{},
 				serveToolList: [{
 						url: '../../static/images/cart0.png',
 						toolName: '购物车',
@@ -305,15 +309,27 @@
 					},
 				],
 				productList: [],
-				requestUrl:''
+				requestUrl:'',
+				offset:0//分页起始位置
 			}
 		},
 		onLoad(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
+			// 猜你喜欢
 			that.getLike()
-			that.advertising()
+			// 广告
+			// that.advertising()
+			// 个人中心卡券订单浮标数据
+			that.getCardOrder()
+			// 个人中心卡等级、积分获取 非微信小程序不显示
+			// that.crmInfo()
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.getLike()
 		},
 		onReady() {
 			let that = this;
@@ -356,8 +372,7 @@
 				that.menuBottom = 82
 			}
 		},
-		methods: {
-				
+		methods: {				
 			// 获取广告
 			advertising:function(){
 				let that = this
@@ -378,30 +393,55 @@
 				let dataInfo = {
 					interfaceId:'userrecommendedgoodsspulist',
 					type:'4',
-					offset:'0'
+					offset:that.offset
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.productList = data
-					}
-					else{
-						// this.request.showToast('暂时没有数据')
-						console.log('没有数据')
+						// that.productList = data
+						that.productList = that.productList.concat(data)
 					}
 				})				
-			},
-						
-			gotoGoods: function(e) {
-				let goods = e.currentTarget.dataset.name
-				uni.navigateTo({
-					url: `/pages/goods/goods_detail?goods=${goods}`,
+			},			
+			// 个人中心卡券订单浮标数据
+			getCardOrder:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'card_order'
+				}
+				that.request.uniRequest("my", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.orderList = data
+						that.cardList[0].number = data.sale_card
+						// console.log(data)
+					}
+				})
+			},	
+			// 个人中心卡等级、积分获取
+			crmInfo:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'crm_info'
+				}
+				that.request.uniRequest("my", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
 				})
 			},
+			// 去设置页面
+			goToSet:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_set`,
+				})
+			},			
 			goToAccount:function(e){
 				uni.navigateTo({
 					url: `/pages/my/account_number`,
 				})
+				
 			},
 			changeOrder:function(name){
 				if(name == '卡券')

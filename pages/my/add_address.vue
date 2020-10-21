@@ -190,16 +190,13 @@
 					that.province = that.areaArray[value].area_id
 					that.province_cn = that.areaArray[value].area_name
 					that.getarea(that.province, column)
-					// console.log(that.areaArray[value],column,33333333)
 				} else if (column == 1) {
 					that.city = that.provinceArray[value].area_id
 					that.city_cn = that.provinceArray[value].area_name
 					that.getarea(that.city, column)
-					// console.log(that.provinceArray[value].area_id,column ,11111111)
 				} else {
 					that.area = that.cityArray[value].area_id
 					that.area_cn = that.cityArray[value].area_name
-					// console.log(222222)
 				}
 			},
 			getarea: function(index, column) {

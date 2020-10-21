@@ -28,7 +28,7 @@
 					<template>
 						<view class="top-content">
 							<!-- 轮播 -->
-							<view id="top-swiper" >
+							<view id="top-swiper">
 								<swiper v-if="swiperList" class="swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval="topInterval"
 								 :duration="topDuration" circular>
 									<swiper-item v-for="(i,index) in swiperList" :key="index">
@@ -62,12 +62,11 @@
 								<swiperDot class="dot" :current="currents" :list="barSwiperList"></swiperDot>
 							</view>
 							<!-- 全部广告位 -->
-							<view class="advertisingAll"
-							 :style="[{backgroundImage:'url('+advertisingAllUrl+')',backgroundColor:advertisingAllColor}]"
-							 style="width: 100%;height: 100%;background-size: 100% 100%;" 
-							 v-for="(item,index) in advertisingList.content" :key='index'>
+							<view class="advertisingAll" :style="[{backgroundImage:'url('+advertisingAllUrl+')',backgroundColor:advertisingAllColor}]"
+							 style="width: 100%;height: 100%;background-size: 100% 100%;" v-for="(item,index) in advertisingList.content"
+							 :key='index'>
 								<!-- 广告位01 -->
-								<view  v-show="advertisingList.type==3" v-for="(i,k) in item" :key='k'>
+								<view v-show="advertisingList.type==3" v-for="(i,k) in item" :key='k'>
 									<view class="advertising">
 										<image class="advertisImg" :src="requestUrl+i.img" mode=""></image>
 									</view>
@@ -147,7 +146,7 @@
 		</view>
 
 		<!-- 自定义导航条加倒计时 -->
-		<view id="countDown" v-if="seckill_module">
+		<view id="countDown" v-if="seckill_module.length>0">
 			<view class="countDown">
 				<!-- 自定义名称和时间倒计时 -->
 				<view class="timeTitle-time">
@@ -193,7 +192,7 @@
 			<!-- 图片商品 -->
 			<view class="productImg">
 				<!-- <porduct :width=240 :requestUrl='requestUrl' :height=370 :crosswisePorducts='productImgList'></porduct> -->
-				<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='productImgList' ></goodsShow>
+				<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='productImgList'></goodsShow>
 			</view>
 		</view>
 		<!-- 自定义导航条可滑动 -->
@@ -216,12 +215,7 @@
 							<template>
 								<block>
 									<view class="recommenListItem">
-										<goodsShow
-										 :borderRadius=24 
-										 :requestUrl='requestUrl' 
-										 :width=350 
-										 :porductList='newslist' 
-										 v-if='items.type==0||items.type==4'>
+										<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='newslist' v-if='items.type==0||items.type==4'>
 										</goodsShow>
 										<diary :diaryList="newslist" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
 										<doctor :doctorList="newslist" :requestUrl="requestUrl" :paddingLR='paddingLR' @collectLike='collectLike'
@@ -236,9 +230,9 @@
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
-		<!-- <view class="footer">
+		<view class="footer">
 			——人家也是有底线的喵！——
-		</view> -->
+		</view>
 	</view>
 </template>
 
@@ -277,11 +271,15 @@
 				skipList: [], //头部导航条
 				topInterval: 5000,
 				topDuration: 2000,
-				swiperList: [{img:'upload/goods/images/202009/16/oOwoBZAMkbqCSyLTy2i4taeyeMm7f0kK7EBSA5ol.jpeg'},{img:'upload/goods/images/202008/11/1c72d804fa4bcdfbf8778236565bce61129.jpg'}], //顶部轮播
+				swiperList: [{
+					img: 'upload/goods/images/202009/16/oOwoBZAMkbqCSyLTy2i4taeyeMm7f0kK7EBSA5ol.jpeg'
+				}, {
+					img: 'upload/goods/images/202008/11/1c72d804fa4bcdfbf8778236565bce61129.jpg'
+				}], //顶部轮播
 				honor_list: [],
 				tabDuration: 3000,
 				tabBarSwiperList: [], //中部icon
-				barSwiperList:[],
+				barSwiperList: [],
 				currents: 0,
 				seckill_module: {}, //秒杀模块
 				times: 0,
@@ -320,8 +318,14 @@
 				productImgList: [],
 				newslist: [],
 				paddingLR: 10, //拜托医生的左右边距
-				advertisingList:{},//广告
+				advertisingList: {}, //广告
+				offset: 0,
 			}
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.tabtap(0, 4)
 		},
 		onReady() {
 			let that = this;
@@ -342,7 +346,7 @@
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
@@ -355,8 +359,7 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			}
-			else{
+			} else {
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
@@ -369,20 +372,6 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getIndexDetail()
 			that.tabtap(0, 4)
-			
-			// uni.setStorage({
-			// 	key: 'token',
-			// 	data: 'hello',
-			// 	success: function() {
-			// 		console.log('保存成功');
-			// 	}
-			// })
-			// uni.getStorage({
-			// 	key: 'token',
-			// 	success: function(res) {
-			// 		console.log(res.data);
-			// 	}
-			// })
 		},
 		// 下拉刷新
 		onPullDownRefresh: function() {
@@ -390,7 +379,6 @@
 			success: {
 				title: '刷新成功',
 				this.request.showToast('刷新成功')
-				// console.log('下拉刷新成功')
 				that.getIndexDetail()
 				that.tabtap(0, 4)
 			};
@@ -410,28 +398,27 @@
 						let data = res.data.data
 						that.topBackgroundColor = data.background
 						//导航栏
-						if(data.top_navigation){
+						if (data.top_navigation) {
 							that.skipList = data.top_navigation
-						}	
-						if(data.banner.length>0){
-							that.swiperList = data.banner.content//首页banner
 						}
-						 
+						if (data.banner.content.length > 0) {
+							that.swiperList = data.banner.content //首页banner
+						}
 						that.honor_list = data.honor_list //荣誉列表
 						//中部icon
-						if(data.icon_list){
+						if (data.icon_list) {
 							that.tabBarSwiperList = data.icon_list
 							that.barSwiperList = that.group(that.tabBarSwiperList, 10)
-						}	
+						}
 						// 中部广告
-						if(data.centre_advertising){
+						if (data.centre_advertising) {
 							that.advertisingList = data.centre_advertising
-						}					
+						}
 						that.seckill_module = data.seckill_module //秒杀模块
 						that.times = that.seckill_module.rest_time //倒计时秒数
 						that.productImgList = that.seckill_module.act_goods_list //活动商品
 						that.setTime()
-						console.log(data,22222222)
+						console.log(data, 22222222)
 					} else {
 						// this.request.showToast('暂时没有数据')
 						console.log('11111111')
@@ -469,8 +456,7 @@
 									}
 								}
 							}
-						}
-						else if(that.minute == -1){
+						} else if (that.minute == -1) {
 							that.minute = 0
 						}
 
@@ -478,7 +464,7 @@
 				}
 
 			},
-						
+
 			// 分割数组
 			group: function(array, subGroupLength) {
 				let index = 0;
@@ -546,15 +532,16 @@
 					let dataInfo = {
 						interfaceId: 'userrecommendedgoodsspulist',
 						type: '0',
-						offset: 0
+						offset: that.offset
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.newslist = data
+							// that.newslist = data
+							that.newslist = that.newslist.concat(data)
 							setTimeout(() => {
 								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
-							}, 1000)
+							}, 500)
 							// console.log(data)
 						}
 					})
@@ -562,7 +549,7 @@
 					let dataInfo = {
 						interfaceId: 'siftlist',
 						type: type,
-						offset: 0,
+						offset: that.offset,
 						limit: 6
 					}
 					that.request.uniRequest("home", dataInfo).then(res => {
@@ -584,17 +571,37 @@
 				let index = e.detail.current
 				let type = 0
 				// console.log(e,"我想要的是")
-				if (index == 0) {
-					type = 4
-				} else if (index == 1) {
-					type = 0
-				} else if (index == 2) {
-					type = 3
-				} else if (index == 3) {
-					type = 1
-				} else {
-					type = 2
+				switch (index) {
+					case 0:
+						type = 4
+						break;
+					case 1:
+						type = 0
+						break;
+					case 2:
+						type = 3
+						break;
+					case 3:
+						type = 1
+						break;
+					case 4:
+						type = 2
+						break;
+					default:
+						type = 2
+						break;
 				}
+				// if (index == 0) {
+				// 	type = 4
+				// } else if (index == 1) {
+				// 	type = 0
+				// } else if (index == 2) {
+				// 	type = 3
+				// } else if (index == 3) {
+				// 	type = 1
+				// } else {
+				// 	type = 2
+				// }
 				if (type == 4) {
 					let dataInfo = {
 						interfaceId: 'userrecommendedgoodsspulist',
@@ -704,7 +711,7 @@
 	.dis {
 		display: block;
 	}
-	
+
 	.goods_classifys {
 		width: 140rpx;
 		display: flex;
@@ -741,6 +748,7 @@
 
 	.certifications {
 		display: flex;
+		color: #333333;
 	}
 
 	.certificationimgs image {
@@ -778,7 +786,7 @@
 	}
 
 	.swiper-img {
-		height: 260rpx;	
+		height: 260rpx;
 	}
 
 	.swiper-img image {

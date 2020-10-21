@@ -1,44 +1,40 @@
 <template>
 	<view class="goods_detail">
 		<topBar class="topBar" :barName='barName' :barImage='barImage' :topBackgroundColor='topBackgroundColor' :backImage='backImage'
-		 :color='color' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :title='title'
+		 :color='color'  :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :title='title'
 		 :menuBottom='menuBottom'></topBar>
 
 		<!-- 主体内容 -->
-		<view class="content" :style="[{'padding-top':menuBottom+10+'px'}]" >
-			<scroll-view scroll-y :style="'height:'+height +'rpx'">
+		<view class="content" :style="[{'padding-top':menuBottom+10+'px','height':height-10+'px'}]" >
+			<scroll-view scroll-y>
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
 						 :duration="durationTime" circular>
-							<swiper-item>
-								<!-- <video class="video" :src="requestUrl+item.video_list"></video> -->
-							</swiper-item>
 							<swiper-item v-for="(i,k) in swiperList" :key="k">
 								<view class="top-swiper-item">
 									<!-- <image class="label" :src="item.sku.spu_icon" mode="widthFix"></image> -->
 									<image class="banner-img" :src="requestUrl+i" lazy-load='true'></image>
 								</view>
 							</swiper-item>
-
+							<swiper-item v-if="item.video_list">
+								<video class="video" :src="requestUrl+item.video_list"></video>
+							</swiper-item>
 						</swiper>
 					</view>
 				</view>
-
 				<!-- 活动节日 -->
 				<view class="activity">
 					<image src="https://xcx.hmzixin.com/upload/images/3.0/4.jpg" mode="widthFix"></image>
 				</view>
-
 				<!-- 价格、优惠卷、提醒、介绍、领取的卷介绍 -->
 				<view class="products-introduction">
-					<!-- 现在价格、会员价、降价通知、收藏 -->
 					<view class="price-depreciate-collect">
 						<!-- 现在价格、会员价 -->
 						<view class="price">
 							<view class="new-price">
-								<text>￥</text> {{market_price}}
+								<text>￥</text> {{sku.market_price}}
 							</view>
 							<!-- <view class="VIP-price">
 								<view class="VIP-name"> 钻卡 </view>
@@ -64,7 +60,7 @@
 						</view>
 					</view>
 					<!-- 以前的价格 -->
-					<view class="market-price"> 市场价 <text>￥{{sale_price}}</text> </view>
+					<view class="market-price"> 市场价 <text>￥{{sku.sale_price}}</text> </view>
 
 					<!-- 热卖提醒 -->
 					<view class="hot-sale-remind">
@@ -101,9 +97,7 @@
 						<view class="policy-content"> {{i.content}} </view>
 					</view>
 				</view>
-
 				<!-- 版本、规格、部位、医生 -->
-
 				<view class="specs">
 					<template>
 						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
@@ -122,8 +116,6 @@
 
 					</template>
 				</view>
-
-
 				<view class="specs">
 					<view class="specs-cont">
 						<text class="pay-txt">支付</text>
@@ -131,14 +123,12 @@
 						<view class="li" :class="[isPay==1?'li-hover':'']" v-if="pay_type==1 || pay_type==2">全款付</view>
 					</view>
 				</view>
-
 				<!-- 相关证书 -->
 				<view class="certificate">
 					<image src="https://xcx.hmzixin.com/upload/images/3.0/qualifications.jpg" mode="widthFix"></image>
 				</view>
-
 				<!-- 相关商品 -->
-				<view class="related-products">
+				<view class="related-products" v-if="relevantGoods.length>0">
 					<view class="related-title">
 						<view class="line"></view> 相关商品
 					</view>
@@ -146,7 +136,6 @@
 						<porduct :width=260 :requestUrl='requestUrl' :crosswisePorducts='relevantGoods'></porduct>
 					</view>
 				</view>
-
 				<!-- 相关医生 -->
 				<view class="related-doctor">
 					<view class="related-title">
@@ -185,7 +174,6 @@
 
 					</view>
 				</view>
-
 				<!-- 相关日记 -->
 				<view class="related-diary">
 					<view class="diary-top">
@@ -213,7 +201,6 @@
 						</view>
 					</view>
 				</view>
-
 				<!-- 问答 -->
 				<view class="questions-answers">
 					<view class="diary-top">
@@ -230,7 +217,6 @@
 						<view class="answers"> {{i.answers}}个问答 </view>
 					</view>
 				</view>
-
 				<!-- 评价 -->
 				<view class="evaluate">
 					<view class="diary-top">
@@ -251,7 +237,6 @@
 								<view class="evaluate-user-name"> {{i.userName}} </view>
 								<view class="score"> {{i.score}} </view>
 							</view>
-
 						</view>
 						<view class="evaluate-details"> {{i.content}} </view>
 						<view class="effect-picture">
@@ -260,7 +245,6 @@
 						<view class="trade-name"> {{i.tradename}} </view>
 					</view>
 				</view>
-
 				<!-- 项目价格表 -->
 				<view class="all-table">
 					<view class="item-price">
@@ -268,7 +252,6 @@
 							项目价格表
 						</view>
 						<view class="table">
-
 							<view class="vertical-item">
 								<view class="vertical-item-name"> 项目名称 </view>
 								<view class="vertical-item-explain"> 项目组合 </view>
@@ -293,10 +276,8 @@
 								<view class="vertical-item-explain"> 中 </view>
 								<view class="vertical-item-explain prouct-price"> 1680</view>
 							</view>
-
 						</view>
 					</view>
-
 					<!-- 额外费用 -->
 					<view class="extra-expense">
 						<view class="item-top">
@@ -323,7 +304,6 @@
 							</view>
 						</view>
 					</view>
-
 					<!-- 服务流程 -->
 					<view class="service-process">
 						<view class="item-top">
@@ -344,7 +324,6 @@
 							</view>
 						</view>
 					</view>
-
 					<!-- 购买需知 -->
 					<view class="need-to-know">
 						<view class="item-top">
@@ -370,8 +349,6 @@
 						</view>
 					</view>
 				</view>
-
-
 				<!-- 详情 -->
 				<view class="particulars">
 					<view class="related-title">
@@ -381,7 +358,6 @@
 						<image src="../../static/images/20.png" mode=""></image>
 					</view>
 				</view>
-
 				<!-- 为你推荐 -->
 				<view class="recommend-for-you">
 					<view class="related-title">
@@ -391,9 +367,7 @@
 						<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='productLists'>
 						</goodsShow>
 					</view>
-
 				</view>
-
 			</scroll-view>
 		</view>
 		<!-- 底部定位 -->
@@ -446,17 +420,16 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
+				height:0,
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				title: '详情页',
 				backImage: '../static/images/return.png',
-				height: 0, //
 				swiperList: [],
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
@@ -587,21 +560,7 @@
 						tradename: '# 急速纳米美眼，尊享版'
 					},
 				],
-
-				spuId: "cXJoWFpkamxFV1dmLzhPR25ubnhaQT09", //spuID
-				contentList: [], //详情的主要内容
-				requestUrl: '', //请求地址前缀
-				sale_price: '', //销售价
-				market_price: '', //市场价
-				is_collect: 0, //收藏
-				goods_name: '0', //商品名称
-				// index:1,
-				// sindex:'11',
-				details_prompt: '',
-				pay_type: 0,
-				isPay: 0, // 0=预约金，1=全额付
-				spec_value: [],
-				spec: [],
+				
 				relevantGoods: [],
 				requestUrl: ''
 			}
@@ -610,64 +569,28 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			that.height = uni.getSystemInfoSync().screenHeight * 1.6;
-			let id = option.id || that.spuId
-			let sku_id = option.sku_id
-			let dataInfo = {
-				interfaceId: 'goodsspudetails',
-				encrypted_id: id,
-				// sku_id: sku_id
-			}
-			that.request.uniRequest("goods", dataInfo).then(res => {
-				console.log(res.data)
-				if (res.data.code == 1000) {
-					let data = res.data.data
-					uni.setStorageSync("goodsDetail", data);
-					that.contentList = data
-					that.swiperList = data.img
-					that.market_price = data.sku.market_price
-					that.sale_price = data.sku.sale_price
-					that.is_collect = data.is_collect
-					that.goods_name = data.goods_name
-					that.details_prompt = data.sku.details_prompt
-					that.pay_type = data.sku.pay_type
-					that.spec = that.assembleSpec(data.sku.user_spec, 1)
-
-					if (data.sku.pay_type == 1 || data.sku.pay_type == 2) {
-						that.isPay = 1;
-					}
-					that.spec_value = data.spec_value
-					// console.log(data)
-					// console.log(that.spec)
-					for (let i in that.spec) {
-						console.log(that.spec[i].attr)
-					}
-				} else {
-					that.request.showToast(res.data.message)
-				}
-			})
-
-			that.getRelevantGoods()
+			let sku_id = option.id 
+			// let sku_id = option.sku_id
+			let encrypted_id = option.encrypted_id
+			that.getGoodsDetail(sku_id,encrypted_id)
+			that.getRelevantGoods(encrypted_id)
 			that.getLike()
 			that.advertising()
 		},
 		onReady: function() {
 			let that = this;
-			let pageHeight = 0
+			that.height = uni.getSystemInfoSync().screenHeight;
 			that.videoContext = uni.createVideoContext('myVideo')
 			// 判定运行平台
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
-					// console.log('运行Android上')
 					platform = 'android'
 					break;
 				case 'ios':
-					// console.log('运行iOS上')
 					platform = 'ios'
 					break;
 				default:
-					// console.log('运行在开发者工具上')
 					platform = 'applet'
 					break;
 			}
@@ -675,9 +598,7 @@
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
-						pageHeight = res.windowHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
@@ -695,6 +616,35 @@
 			// 提醒我
 			subscribe: function() {
 				console.log('提醒')
+			},
+			// 商品详情
+			getGoodsDetail:function(id,encrypted_id){
+				let that = this
+				let dataInfo = {
+					interfaceId: 'goodsspudetails',
+					encrypted_id: encrypted_id,
+					sku_id: id
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					console.log(res.data)
+					if (res.data.code == 1000) {
+						let data = res.data.data
+						uni.setStorageSync("goodsDetail", data);
+						that.contentList = data
+						that.swiperList = data.img
+						
+						// that.spec = that.assembleSpec(data.sku.user_spec, 1)
+						// if (data.sku.pay_type == 1 || data.sku.pay_type == 2) {
+						// 	that.isPay = 1;
+						// }
+						// that.spec_value = data.spec_value
+						// for (let i in that.spec) {
+						// 	console.log(that.spec[i].attr)
+						// }
+					} else {
+						that.request.showToast(res.data.message)
+					}
+				})
 			},
 			// 获取广告
 			advertising: function() {
@@ -730,14 +680,14 @@
 			},
 
 			// 获取相关商品
-			getRelevantGoods: function() {
+			getRelevantGoods: function(encrypted_id) {
 				this.request = this.$request
 				const that = this;
 				let dataInfo = {
 					interfaceId: "goodsrelevancespu",
-					encrypted_id: that.spuId,
+					encrypted_id: encrypted_id,
 					offset: 0,
-					limit: 1000
+					limit: 6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code === 1000) {
@@ -914,7 +864,6 @@
 	.products-introduction {
 		border-radius: 0 0 24rpx 24rpx;
 		background-color: #FFFFFF;
-		padding-bottom: 40rpx;
 		white-space: normal;
 		padding: 0 30rpx 40rpx;
 	}
@@ -1766,8 +1715,8 @@
 
 	/* 为你推荐 */
 	.recommend-for-you {
-		padding: 30rpx 20rpx;
-		margin-bottom: 105rpx;
+		padding: 30rpx 20rpx 105rpx;
+		/* padding: 105rpx; */
 	}
 
 	.recommend-for-you .product-item {

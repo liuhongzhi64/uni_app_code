@@ -197,8 +197,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   components: {
     topBar: topBar },
@@ -222,24 +220,45 @@ __webpack_require__.r(__webpack_exports__);
   },
   onLoad: function onLoad(option) {
     var that = this;
+    this.request = this.$request;
     that.getMessage();
     that.requestUrl = that.request.globalData.requestUrl;
-
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-      } });
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.height = 812;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
     getMessage: function getMessage() {var _this = this;
@@ -254,7 +273,6 @@ __webpack_require__.r(__webpack_exports__);
 
       this.request.uniRequest("qa", dataInfo).then(function (res) {
         if (res.data.code === 1000) {
-          // console.log(res.data.data)
           that.contentList = res.data.data;
 
         } else {

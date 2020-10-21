@@ -6,14 +6,15 @@
 		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="search-input-text">
 				<view class="left-input">
-					<icon type="search" size="18" /> <input class="search-content" @input="onKeyInput" placeholder-style='color: #b2b2b2;'
-					 placeholder="请输入关键词搜索" /></view>
-				<view class="right-text">确定</view>
+					<icon class="search-icon" type="search" size="16" />
+					<input class="search-content"
+					 @input="onKeyInput" v-model="defaultContent" placeholder-style='color: #b2b2b2;' :placeholder="searchContent" />
+				</view>
+				<view class="right-text" @tap='goToResult'>确定</view>
 			</view>
 		</view>
-	
 		<scroll-view class="search-all-content" scroll-y :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
-			<template>		
+			<template>
 				<view class="search-contents">
 					<view class="search-swiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
@@ -25,39 +26,31 @@
 							</swiper-item>
 						</swiper>
 					</view>
-					
 					<!-- 热门搜索 -->
 					<view class="hot-search">
 						<view class="title">热门搜索</view>
 						<view class="hot-search-list">
-							<view class="list-item" 
-							 @tap='changeHotSearch(item,index)' 
-							 :class="{changeStyle:colorNum==index}" 
-							 v-for="(item,index) in hotSearchList" :key="index">
+							<view class="list-item" @tap='changeHotSearch(item,index)' :class="{changeStyle:colorNum==index}" v-for="(item,index) in hotSearchList"
+							 :key="index">
 								{{item}}
 							</view>
-						</view>						
+						</view>
 					</view>
-					
 					<!-- 搜索历史 -->
-					<view class="search-history">
+					<view class="search-history" v-if="searchHistoryList.length>0">
 						<view class="title-empty">
 							<view class="title">搜索历史</view>
 							<view class="empty-search" @tap='emptySearch'>清空</view>
 						</view>
-						
 						<view class="search-history-list">
-							<view class="list-item"
-							 @tap='changeSearchHistory(item,index)' 
-							 :class="{changeStyle:searchHistoryNum==index}" 
+							<view class="list-item" @tap='changeSearchHistory(item,index)' :class="{changeStyle:searchHistoryNum==index}"
 							 v-for="(item,index) in searchHistoryList" :key="index">
 								{{item}}
 							</view>
 						</view>
 					</view>
-					
 					<!-- 热搜榜 -->
-					<view class="hot-search-announcement">
+					<view class="hot-search-announcement" v-if="announcementList.length>0">
 						<view class="title">热搜榜</view>
 						<view class="hot-search-announcement-list">
 							<view class="announcement-list-item" v-for="(item,index) in announcementList" :key='index'>
@@ -67,16 +60,15 @@
 								</view>
 								<view class="rise-and-fall-number">
 									<view class="rise-and-fall">{{item.state}}</view>
-									<view class="search-number" :style="[{'color':item.state == '↓'?'#fa3475':'#111111'}]">{{item.number}}</view>
+									<view class="search-number" :style="[{'color':item.state == '↑'?'#fa3475':'#111111'}]">{{item.number}}</view>
 								</view>
 							</view>
 						</view>
 					</view>
-										
-				</view>	
+
+				</view>
 			</template>
-		</scroll-view>			
-	
+		</scroll-view>
 	</view>
 </template>
 
@@ -99,11 +91,11 @@
 				color: '#FFFFFF',
 				backImage: '../static/images/back2.png',
 				title: '搜索',
-				searchContent: '', //默认搜索内容
+				searchContent: '请输入关键词搜索', //默认搜索内容
+				defaultContent:'',
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
-				swiperList: [
-					{
+				swiperList: [{
 						id: 0,
 						url: '../../static/images/0.png',
 					},
@@ -120,19 +112,39 @@
 						url: '../../static/images/22.png',
 					},
 				],
-				hotSearchList:[
-					'玻尿酸','双眼皮','脂肪填充','吸脂','水光针','鼻综合','瘦脸针','隆鼻','综合美胸','草莓妆'
+				hotSearchList: [
+					'玻尿酸', '双眼皮', '脂肪填充', '吸脂', '水光针', '鼻综合', '瘦脸针', '隆鼻', '综合美胸', '草莓妆'
 				],
-				colorNum:-1,
-				searchHistoryList:['玻尿酸','双眼皮','脂肪填充','吸脂','水光针','鼻综合','瘦脸针','隆鼻','综合美胸','草莓妆'],
-				searchHistoryNum:-1,
-				requestUrl:'',
-				announcementList:[
-					{content:'拒绝大黄牙，分享我的牙齿美白经历',state:'↑',number:1597},
-					{content:'后台配置内容，可控制',state:'↑',number:1597},
-					{content:'拒绝大黄牙，分享我的牙齿美白经历',state:'',number:1200},
-					{content:'后台配置内容，可控制',state:'↓',number:990},
-					{content:'拒绝大黄牙，分享我的牙齿美白经历',state:'↓',number:496},
+				colorNum: -1,
+				searchHistoryList: [],
+				searchHistoryNum: -1,
+				requestUrl: '',
+				announcementList: [
+					// {
+					// 	content: '拒绝大黄牙，分享我的牙齿美白经历',
+					// 	state: '↑',
+					// 	number: 1597
+					// },
+					// {
+					// 	content: '后台配置内容，可控制',
+					// 	state: '↑',
+					// 	number: 1597
+					// },
+					// {
+					// 	content: '拒绝大黄牙，分享我的牙齿美白经历',
+					// 	state: '',
+					// 	number: 1200
+					// },
+					// {
+					// 	content: '后台配置内容，可控制',
+					// 	state: '↓',
+					// 	number: 990
+					// },
+					// {
+					// 	content: '拒绝大黄牙，分享我的牙齿美白经历',
+					// 	state: '↓',
+					// 	number: 496
+					// },
 				]
 			}
 		},
@@ -141,8 +153,11 @@
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
 			that.searchContent = option.search
+			if(uni.getStorageSync("search_list")){
+				that.searchHistoryList = uni.getStorageSync("search_list")
+			}
 			that.getDetails()
-			that.advertising()
+			// that.advertising()
 		},
 		onReady() {
 			let that = this;
@@ -150,19 +165,16 @@
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
-					// console.log('运行Android上')
 					platform = 'android'
 					break;
 				case 'ios':
-					// console.log('运行iOS上')
 					platform = 'ios'
 					break;
 				default:
-					// console.log('运行在开发者工具上')
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
@@ -173,11 +185,10 @@
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
-						that.menuPaddingRight = res.windowWidth - menu.right
 					}
 				})
-			}
-			else{
+			} else {
+				that.height = uni.getSystemInfoSync().screenHeight;
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
@@ -186,29 +197,27 @@
 		},
 		methods: {
 			// 获取搜索关键词
-			getDetails:function(){
+			getDetails: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'indexhotwords'
+					interfaceId: 'indexhotwords'
 				}
 				that.request.uniRequest("search", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.hotSearchList = data
-					}
-					else{
+					} else {
 						// this.request.showToast('暂时没有数据')
 						console.log('没有数据')
 					}
 				})
 			},
-			
 			// 获取广告
-			advertising:function(){
+			advertising: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'getadvertising',
-					location:1
+					interfaceId: 'getadvertising',
+					location: 1
 				}
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -217,29 +226,62 @@
 					}
 				})
 			},
-			
 			onKeyInput: function(event) {
-			   this.inputValue = event.target.value
+				this.inputValue = event.target.value
+				that.defaultContent = this.inputValue
 			},
-			changeHotSearch:function(item,index){
+			// 点击确定
+			goToResult: function() {
+				let that = this
+				// console.log(that.inputValue)
+				uni.navigateTo({
+					url: `/pages/search/search_result?search=${that.inputValue}`,
+				})
+				if(that.inputValue){
+					that.searchHistoryList.unshift(that.inputValue)
+					that.searchHistoryList = that.setArr(that.searchHistoryList)
+					uni.setStorageSync("search_list", that.searchHistoryList)
+					that.defaultContent = ''
+				}
+			},
+
+			changeHotSearch: function(item, index) {
+				let that = this
 				this.colorNum = index
-				console.log(item)
 				uni.navigateTo({
 					url: `/pages/search/search_result?search=${item}`,
 				})
+				that.searchHistoryList.unshift(item)
+				that.searchHistoryList = that.setArr(that.searchHistoryList)
+				uni.setStorageSync("search_list", that.searchHistoryList)
 			},
-			changeSearchHistory:function(item,index){
+			changeSearchHistory: function(item, index) {
 				this.searchHistoryNum = index
-				console.log(item)
 				uni.navigateTo({
 					url: `/pages/search/search_result?search=${item}`,
 				})
 			},
 			// 清空历史
-			emptySearch:function(){
+			emptySearch: function() {
+				let that = this
 				this.searchHistoryList = []
+				uni.setStorageSync("search_list", that.searchHistoryList)
+			},
+			// 数组去重
+			setArr: function(arr){
+			    //新建一个空数组
+			    let newArr = [];
+			    for(let i = 0; i < arr.length; i++ ){
+			        //遍历传入的数组，查找传入数组的值第一次出现的下标
+			         if(arr.indexOf(arr[i]) === i){
+			             //push传入数组的一次出现的数字
+			            newArr.push(arr[i]);
+			         }
+			    }
+			    //返回新的数组
+			    return newArr;
 			}
-			
+
 		}
 	}
 </script>
@@ -273,66 +315,82 @@
 		padding-left: 24rpx;
 	}
 
-	.left-input icon {
-		height: 40rpx;
+	.left-input .search-icon {
+		height: 35rpx;
+		color: #b2b2b2;
+		padding: 5rpx 0 0;
 	}
 
 	.search-content {
-		font-size: 26rpx;
+		font-size: 28rpx;
 		height: 56rpx;
 		line-height: 56rpx;
-		/* text-indent: 55rpx; */
+		padding-left: 10rpx;
+		/* text-indent: 10rpx; */
 	}
 
 	.right-text {
 		font-size: 26rpx;
 	}
-	.search-contents{
+	.search-all-content{
 		background-color: #F6F6F6;
+	}
+	.search-contents {
+		
 		padding-bottom: 120rpx;
 	}
-	
-	.search-swiper{
+
+	.search-swiper {
 		height: 220rpx;
 		padding-top: 10rpx;
 	}
+
 	.top-swiper {
 		height: 220rpx;
 	}
-	
+
 	.top-swiper-item image {
 		height: 220rpx;
 		width: 100%;
 	}
-	
-	.hot-search,.search-history{
+
+	.hot-search,
+	.search-history {
 		padding: 40rpx 40rpx 14rpx;
 		background-color: #FFFFFF;
 		border-radius: 0rpx 0rpx 24rpx 24rpx;
 	}
-	.search-history{
+
+	.search-history {
 		margin-top: 20rpx;
 		border-radius: 24rpx;
 	}
-	.hot-search .title,.search-history .title{
+
+	.hot-search .title,
+	.search-history .title {
 		font-size: 32rpx;
 		color: #000000;
 		margin-bottom: 32rpx;
 	}
-	.hot-search-list,.search-history-list{
+
+	.hot-search-list,
+	.search-history-list {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	.title-empty{
+
+	.title-empty {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
 	}
-	.empty-search{
+
+	.empty-search {
 		font-size: 24rpx;
 		color: #fa3475;
 	}
-	.list-item{
+
+	.list-item {
 		width: 150rpx;
 		height: 56rpx;
 		background-color: #f0f0f0;
@@ -341,43 +399,47 @@
 		line-height: 56rpx;
 		font-size: 24rpx;
 		color: #505050;
-		margin-bottom:26rpx ;
+		margin-bottom: 26rpx;
 		margin-right: 17rpx;
 		overflow: hidden;
 	}
-	.changeStyle{
+
+	.changeStyle {
 		color: #fa3475;
 	}
-	
-	.hot-search-announcement .title{
+
+	.hot-search-announcement .title {
 		font-size: 32rpx;
 		color: #000000;
 		margin-bottom: 15rpx;
 	}
-	
-	.hot-search-announcement{
+
+	.hot-search-announcement {
 		background-color: #FFFFFF;
 		margin-top: 20rpx;
 		padding: 40rpx;
 		border-radius: 24rpx;
 	}
-	
-	.announcement-list-item{
+
+	.announcement-list-item {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom:15rpx;
+		margin-bottom: 15rpx;
 	}
-	.left-ranking-content{
+
+	.left-ranking-content {
 		display: flex;
 		font-size: 24rpx;
 	}
-	.item-content{
+
+	.item-content {
 		margin-left: 30rpx;
 	}
-	.rise-and-fall-number{
+
+	.rise-and-fall-number {
 		display: flex;
 		font-size: 28rpx;
+		color: #fa3475;
 	}
-	
 </style>

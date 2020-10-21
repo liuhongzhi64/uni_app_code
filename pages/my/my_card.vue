@@ -217,7 +217,7 @@
 							that.tabBars[3].number = data.num.gift
 							that.tabBars[4].number = data.num.experience
 							that.get_count = data.get_count
-							that.time_now = data.cards[0].time_now
+							that.time_now = data.time_now
 							for (let i = 0; i < data.cards.length; i++) {
 								data.cards[i].showTicketDetails = false
 								data.cards[i].arrowImages = '../../static/images/arrow-down.png'

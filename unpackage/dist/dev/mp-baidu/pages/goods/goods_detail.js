@@ -139,33 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -586,18 +560,17 @@ __webpack_require__.r(__webpack_exports__);
     goodsShow: goodsShow },
 
   data: function data() {
-    return _defineProperty({
-      menuWidth: 0,
+    return {
       menuTop: 0,
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
+      height: 0,
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       title: '详情页',
       backImage: '../static/images/return.png',
-      height: 0, //
       swiperList: [],
       intervalTime: 3000, //自动切换时间间隔
       durationTime: 1000, //	滑动动画时长
@@ -729,86 +702,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-      spuId: "cXJoWFpkamxFV1dmLzhPR25ubnhaQT09", //spuID
-      contentList: [], //详情的主要内容
-      requestUrl: '', //请求地址前缀
-      sale_price: '', //销售价
-      market_price: '', //市场价
-      is_collect: 0, //收藏
-      goods_name: '0', //商品名称
-      // index:1,
-      // sindex:'11',
-      details_prompt: '',
-      pay_type: 0,
-      isPay: 0, // 0=预约金，1=全额付
-      spec_value: [],
-      spec: [],
-      relevantGoods: [] }, "requestUrl",
-    '');
+      relevantGoods: [],
+      requestUrl: '' };
 
   },
   onLoad: function onLoad(option) {
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    that.height = uni.getSystemInfoSync().screenHeight * 1.6;
-    var id = option.id || that.spuId;
-    var sku_id = option.sku_id;
-    var dataInfo = {
-      interfaceId: 'goodsspudetails',
-      encrypted_id: id
-      // sku_id: sku_id
-    };
-    that.request.uniRequest("goods", dataInfo).then(function (res) {
-      console.log(res.data);
-      if (res.data.code == 1000) {
-        var data = res.data.data;
-        uni.setStorageSync("goodsDetail", data);
-        that.contentList = data;
-        that.swiperList = data.img;
-        that.market_price = data.sku.market_price;
-        that.sale_price = data.sku.sale_price;
-        that.is_collect = data.is_collect;
-        that.goods_name = data.goods_name;
-        that.details_prompt = data.sku.details_prompt;
-        that.pay_type = data.sku.pay_type;
-        that.spec = that.assembleSpec(data.sku.user_spec, 1);
-
-        if (data.sku.pay_type == 1 || data.sku.pay_type == 2) {
-          that.isPay = 1;
-        }
-        that.spec_value = data.spec_value;
-        // console.log(data)
-        // console.log(that.spec)
-        for (var i in that.spec) {
-          console.log(that.spec[i].attr);
-        }
-      } else {
-        that.request.showToast(res.data.message);
-      }
-    });
-
-    that.getRelevantGoods();
+    var sku_id = option.id;
+    // let sku_id = option.sku_id
+    var encrypted_id = option.encrypted_id;
+    that.getGoodsDetail(sku_id, encrypted_id);
+    that.getRelevantGoods(encrypted_id);
     that.getLike();
     that.advertising();
   },
   onReady: function onReady() {
     var that = this;
-    var pageHeight = 0;
+    that.height = uni.getSystemInfoSync().screenHeight;
     that.videoContext = uni.createVideoContext('myVideo');
     // 判定运行平台
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
       case 'android':
-        // console.log('运行Android上')
         platform = 'android';
         break;
       case 'ios':
-        // console.log('运行iOS上')
         platform = 'ios';
         break;
       default:
-        // console.log('运行在开发者工具上')
         platform = 'applet';
         break;}
 
@@ -816,9 +739,7 @@ __webpack_require__.r(__webpack_exports__);
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
-          pageHeight = res.windowHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
@@ -836,6 +757,35 @@ __webpack_require__.r(__webpack_exports__);
     // 提醒我
     subscribe: function subscribe() {
       console.log('提醒');
+    },
+    // 商品详情
+    getGoodsDetail: function getGoodsDetail(id, encrypted_id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'goodsspudetails',
+        encrypted_id: encrypted_id,
+        sku_id: id };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        console.log(res.data);
+        if (res.data.code == 1000) {
+          var data = res.data.data;
+          uni.setStorageSync("goodsDetail", data);
+          that.contentList = data;
+          that.swiperList = data.img;
+
+          // that.spec = that.assembleSpec(data.sku.user_spec, 1)
+          // if (data.sku.pay_type == 1 || data.sku.pay_type == 2) {
+          // 	that.isPay = 1;
+          // }
+          // that.spec_value = data.spec_value
+          // for (let i in that.spec) {
+          // 	console.log(that.spec[i].attr)
+          // }
+        } else {
+          that.request.showToast(res.data.message);
+        }
+      });
     },
     // 获取广告
     advertising: function advertising() {
@@ -871,14 +821,14 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     // 获取相关商品
-    getRelevantGoods: function getRelevantGoods() {
+    getRelevantGoods: function getRelevantGoods(encrypted_id) {
       this.request = this.$request;
       var that = this;
       var dataInfo = {
         interfaceId: "goodsrelevancespu",
-        encrypted_id: that.spuId,
+        encrypted_id: encrypted_id,
         offset: 0,
-        limit: 1000 };
+        limit: 6 };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code === 1000) {

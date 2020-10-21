@@ -23,7 +23,6 @@
 .products-introduction.data-v-098a7e2c {
 	border-radius: 0 0 24rpx 24rpx;
 	background-color: #FFFFFF;
-	padding-bottom: 40rpx;
 	white-space: normal;
 	padding: 0 30rpx 40rpx;
 }
@@ -945,8 +944,8 @@
 
 /* 为你推荐 */
 .recommend-for-you.data-v-098a7e2c {
-	padding: 30rpx 20rpx;
-	margin-bottom: 105rpx;
+	padding: 30rpx 20rpx 105rpx;
+	/* padding: 105rpx; */
 }
 .recommend-for-you .product-item.data-v-098a7e2c {
 	width: 48%;

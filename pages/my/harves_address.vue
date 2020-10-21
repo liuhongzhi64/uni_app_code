@@ -297,9 +297,9 @@
 
 	.container .edit,
 	.container .delete {
-		border-radius: 10rpx;
-		border: solid 2rpx #dc296c;
-		color: #dc296c;
+		border-radius: 20rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		color: #FFFFFF;
 		font-size: 24rpx;
 		width: 110rpx;
 		height: 40rpx;

@@ -3,8 +3,6 @@
 		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth'
 		 :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber'
 		 :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
-
-
 		<view class="content" :style="[{'padding-top':menuBottom+52+'px'}]">
 			<!-- 左边导航条 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height +'rpx'">
@@ -15,7 +13,8 @@
 			</scroll-view>
 			<!-- 右边内容 -->
 			<scroll-view class="rightContent" scroll-y  :style="'height:'+height+'rpx'"
-			 scroll-with-animation>
+			 scroll-with-animation
+			 @scrolltolower='onBottom'>
 				<!-- 热门推荐 -->
 				<view class="rightContentItem" v-if="rightGoodsId == 0">
 					<view class="right-swiper" v-if="swiperList">
@@ -155,7 +154,8 @@
 						url: '../../static/images/22.png',
 					},
 				],
-				requestUrl: ''
+				requestUrl: '',
+				offset:0
 			}
 		},
 		onLoad: function() {
@@ -272,14 +272,15 @@
 				if(id==4){
 					let dataInfo = {
 						interfaceId: 'userrecommendedgoodsspulist',
-						type: '1', //推荐类型1最新 2最热 3:特价
-						offset: 0, //分页起始数量 默认 0
+						type: '1', 
+						offset: that.offset, //分页起始数量 默认 0
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
-							that.newslist = data
+							// that.newslist = data
+							that.newslist = that.newslist.concat(data)
+							that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 800
 						}
 						else{
 							console.log('没有数据')
@@ -352,7 +353,11 @@
 				// 	type = 0
 				// }
 			},
-
+			onBottom: function() {
+				let that = this;
+				that.offset += 1;
+				that.tabtap()
+			},
 			gotoGoodsList: function(listName) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_list?name=${listName}`,

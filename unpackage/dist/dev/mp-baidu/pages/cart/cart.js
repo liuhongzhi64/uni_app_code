@@ -420,8 +420,14 @@ __webpack_require__.r(__webpack_exports__);
       allchecked: false,
       isActivity: false, //是否凑单
       isCartEmpty: true, //
-      requestUrl: '' };
+      requestUrl: '',
+      offset: 0 };
 
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.getLike();
   },
   onLoad: function onLoad(option) {
     var that = this;
@@ -497,13 +503,14 @@ __webpack_require__.r(__webpack_exports__);
       var dataInfo = {
         interfaceId: 'userrecommendedgoodsspulist',
         type: '3',
-        offset: '0' };
+        offset: that.offset };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.productLists = data;
-          console.log(data);
+          // that.productLists = data
+          that.productLists = that.productLists.concat(data);
+          // console.log(data)
         } else
         {
           // this.request.showToast('暂时没有数据')
@@ -526,10 +533,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    // 触底函数
-    onReachBottom: function onReachBottom() {
-      console.log("到底了");
-    },
+
     // 选中商品
     changePorduct: function changePorduct() {var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       this.btnnum = e;

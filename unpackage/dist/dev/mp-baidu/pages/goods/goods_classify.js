@@ -223,7 +223,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     topBar: topBar,
@@ -287,7 +286,8 @@ __webpack_require__.r(__webpack_exports__);
         url: '../../static/images/22.png' }],
 
 
-      requestUrl: '' };
+      requestUrl: '',
+      offset: 0 };
 
   },
   onLoad: function onLoad() {
@@ -404,14 +404,15 @@ __webpack_require__.r(__webpack_exports__);
       if (id == 4) {
         var dataInfo = {
           interfaceId: 'userrecommendedgoodsspulist',
-          type: '1', //推荐类型1最新 2最热 3:特价
-          offset: 0 //分页起始数量 默认 0
+          type: '1',
+          offset: that.offset //分页起始数量 默认 0
         };
         that.request.uniRequest("goods", dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
-            that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800;
-            that.newslist = data;
+            // that.newslist = data
+            that.newslist = that.newslist.concat(data);
+            that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 800;
           } else
           {
             console.log('没有数据');
@@ -484,7 +485,11 @@ __webpack_require__.r(__webpack_exports__);
       // 	type = 0
       // }
     },
-
+    onBottom: function onBottom() {
+      var that = this;
+      that.offset += 1;
+      that.tabtap();
+    },
     gotoGoodsList: function gotoGoodsList(listName) {
       uni.navigateTo({
         url: "/pages/goods/goods_list?name=".concat(listName) });

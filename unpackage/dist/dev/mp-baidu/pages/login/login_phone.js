@@ -240,21 +240,7 @@ var _default =
       that.menuLeft = 278;
       that.menuBottom = 82;
     }
-    console.log(this.thisPlatform);
-    // 获取屏幕高度
-    // uni.getSystemInfo({
-    // 	success: function(res) {
-    // 		that.height = res.screenHeight
-    // 		// console.log(res)
-    // 		let menu = uni.getMenuButtonBoundingClientRect();
-    // 		that.menuWidth = menu.width
-    // 		that.menuTop = menu.top
-    // 		that.menuHeight = menu.height
-    // 		that.menuLeft = menu.left
-    // 		that.menuBottom = menu.bottom
-    // 	},				
-    // })
-
+    // console.log(this.thisPlatform)			
   },
   methods: {
     // 返回

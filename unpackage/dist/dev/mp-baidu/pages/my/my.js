@@ -281,6 +281,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     goodsShow: goodsShow },
@@ -293,52 +322,27 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       cardList: [{
-        number: 20,
+        number: 0,
         name: '卡券' },
 
       {
-        number: 99999,
+        number: 0,
         name: '积分' },
 
       {
-        number: 400,
+        number: 0,
         name: '喵豆' },
 
       {
-        number: 20,
+        number: 0,
         name: '余额' },
 
       {
-        number: 20,
+        number: 0,
         name: '喵币' }],
 
 
-      orderList: [{
-        url: '../../static/images/classify1.png',
-        number: 3,
-        orderName: '待付款' },
-
-      {
-        url: '../../static/images/classify1.png',
-        number: 3,
-        orderName: '已付款' },
-
-      {
-        url: '../../static/images/classify1.png',
-        number: 3,
-        orderName: '待评价' },
-
-      {
-        url: '../../static/images/classify1.png',
-        number: 3,
-        orderName: '已完成' },
-
-      {
-        url: '../../static/images/classify1.png',
-        number: 3,
-        orderName: '已退款' }],
-
-
+      orderList: {},
       serveToolList: [{
         url: '../../static/images/cart0.png',
         toolName: '购物车' },
@@ -437,15 +441,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
       productList: [],
-      requestUrl: '' };
-
+      requestUrl: '',
+      offset: 0 //分页起始位置
+    };
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
+    // 猜你喜欢
     that.getLike();
-    that.advertising();
+    // 广告
+    // that.advertising()
+    // 个人中心卡券订单浮标数据
+    that.getCardOrder();
+    // 个人中心卡等级、积分获取 非微信小程序不显示
+    // that.crmInfo()
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.getLike();
   },
   onReady: function onReady() {
     var that = this;
@@ -489,7 +505,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-
     // 获取广告
     advertising: function advertising() {
       var that = this;
@@ -510,29 +525,54 @@ __webpack_require__.r(__webpack_exports__);
       var dataInfo = {
         interfaceId: 'userrecommendedgoodsspulist',
         type: '4',
-        offset: '0' };
+        offset: that.offset };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.productList = data;
-        } else
-        {
-          // this.request.showToast('暂时没有数据')
-          console.log('没有数据');
+          // that.productList = data
+          that.productList = that.productList.concat(data);
         }
       });
     },
+    // 个人中心卡券订单浮标数据
+    getCardOrder: function getCardOrder() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'card_order' };
 
-    gotoGoods: function gotoGoods(e) {
-      var goods = e.currentTarget.dataset.name;
+      that.request.uniRequest("my", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.orderList = data;
+          that.cardList[0].number = data.sale_card;
+          // console.log(data)
+        }
+      });
+    },
+    // 个人中心卡等级、积分获取
+    crmInfo: function crmInfo() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'crm_info' };
+
+      that.request.uniRequest("my", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+        }
+      });
+    },
+    // 去设置页面
+    goToSet: function goToSet() {
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?goods=".concat(goods) });
+        url: "/pages/my/my_set" });
 
     },
     goToAccount: function goToAccount(e) {
       uni.navigateTo({
         url: "/pages/my/account_number" });
+
 
     },
     changeOrder: function changeOrder(name) {

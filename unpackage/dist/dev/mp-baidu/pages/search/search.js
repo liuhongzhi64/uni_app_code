@@ -206,14 +206,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar },
@@ -231,11 +223,11 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
       title: '搜索',
-      searchContent: '', //默认搜索内容
+      searchContent: '请输入关键词搜索', //默认搜索内容
+      defaultContent: '',
       intervalTime: 3000, //自动切换时间间隔
       durationTime: 1000, //	滑动动画时长
-      swiperList: [
-      {
+      swiperList: [{
         id: 0,
         url: '../../static/images/0.png' },
 
@@ -256,16 +248,36 @@ __webpack_require__.r(__webpack_exports__);
       '玻尿酸', '双眼皮', '脂肪填充', '吸脂', '水光针', '鼻综合', '瘦脸针', '隆鼻', '综合美胸', '草莓妆'],
 
       colorNum: -1,
-      searchHistoryList: ['玻尿酸', '双眼皮', '脂肪填充', '吸脂', '水光针', '鼻综合', '瘦脸针', '隆鼻', '综合美胸', '草莓妆'],
+      searchHistoryList: [],
       searchHistoryNum: -1,
       requestUrl: '',
       announcementList: [
-      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: '↑', number: 1597 },
-      { content: '后台配置内容，可控制', state: '↑', number: 1597 },
-      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: '', number: 1200 },
-      { content: '后台配置内容，可控制', state: '↓', number: 990 },
-      { content: '拒绝大黄牙，分享我的牙齿美白经历', state: '↓', number: 496 }] };
-
+        // {
+        // 	content: '拒绝大黄牙，分享我的牙齿美白经历',
+        // 	state: '↑',
+        // 	number: 1597
+        // },
+        // {
+        // 	content: '后台配置内容，可控制',
+        // 	state: '↑',
+        // 	number: 1597
+        // },
+        // {
+        // 	content: '拒绝大黄牙，分享我的牙齿美白经历',
+        // 	state: '',
+        // 	number: 1200
+        // },
+        // {
+        // 	content: '后台配置内容，可控制',
+        // 	state: '↓',
+        // 	number: 990
+        // },
+        // {
+        // 	content: '拒绝大黄牙，分享我的牙齿美白经历',
+        // 	state: '↓',
+        // 	number: 496
+        // },
+      ] };
 
   },
   onLoad: function onLoad(option) {
@@ -273,8 +285,11 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
     that.searchContent = option.search;
+    if (uni.getStorageSync("search_list")) {
+      that.searchHistoryList = uni.getStorageSync("search_list");
+    }
     that.getDetails();
-    that.advertising();
+    // that.advertising()
   },
   onReady: function onReady() {
     var that = this;
@@ -282,15 +297,12 @@ __webpack_require__.r(__webpack_exports__);
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
       case 'android':
-        // console.log('运行Android上')
         platform = 'android';
         break;
       case 'ios':
-        // console.log('运行iOS上')
         platform = 'ios';
         break;
       default:
-        // console.log('运行在开发者工具上')
         platform = 'applet';
         break;}
 
@@ -305,11 +317,10 @@ __webpack_require__.r(__webpack_exports__);
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
-          that.menuPaddingRight = res.windowWidth - menu.right;
         } });
 
-    } else
-    {
+    } else {
+      that.height = uni.getSystemInfoSync().screenHeight;
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
@@ -327,14 +338,12 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.hotSearchList = data;
-        } else
-        {
+        } else {
           // this.request.showToast('暂时没有数据')
           console.log('没有数据');
         }
       });
     },
-
     // 获取广告
     advertising: function advertising() {
       var that = this;
@@ -349,27 +358,60 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-
     onKeyInput: function onKeyInput(event) {
       this.inputValue = event.target.value;
+      that.defaultContent = this.inputValue;
     },
+    // 点击确定
+    goToResult: function goToResult() {
+      var that = this;
+      // console.log(that.inputValue)
+      uni.navigateTo({
+        url: "/pages/search/search_result?search=".concat(that.inputValue) });
+
+      if (that.inputValue) {
+        that.searchHistoryList.unshift(that.inputValue);
+        that.searchHistoryList = that.setArr(that.searchHistoryList);
+        uni.setStorageSync("search_list", that.searchHistoryList);
+        that.defaultContent = '';
+      }
+    },
+
     changeHotSearch: function changeHotSearch(item, index) {
+      var that = this;
       this.colorNum = index;
-      console.log(item);
       uni.navigateTo({
         url: "/pages/search/search_result?search=".concat(item) });
 
+      that.searchHistoryList.unshift(item);
+      that.searchHistoryList = that.setArr(that.searchHistoryList);
+      uni.setStorageSync("search_list", that.searchHistoryList);
     },
     changeSearchHistory: function changeSearchHistory(item, index) {
       this.searchHistoryNum = index;
-      console.log(item);
       uni.navigateTo({
         url: "/pages/search/search_result?search=".concat(item) });
 
     },
     // 清空历史
     emptySearch: function emptySearch() {
+      var that = this;
       this.searchHistoryList = [];
+      uni.setStorageSync("search_list", that.searchHistoryList);
+    },
+    // 数组去重
+    setArr: function setArr(arr) {
+      //新建一个空数组
+      var newArr = [];
+      for (var i = 0; i < arr.length; i++) {
+        //遍历传入的数组，查找传入数组的值第一次出现的下标
+        if (arr.indexOf(arr[i]) === i) {
+          //push传入数组的一次出现的数字
+          newArr.push(arr[i]);
+        }
+      }
+      //返回新的数组
+      return newArr;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

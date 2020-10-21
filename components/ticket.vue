@@ -100,7 +100,7 @@
 						<view class="receive-times" v-else> 已结束 {{item.get_end_time-time_now }} </view>
 					</view>					
 				</view>
-				<view class="ticket-images-exclusiveName" v-if="!item.state"
+				<view class="ticket-images-exclusiveName" v-if="!item.status"
 				 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0  && item.store-item.take_store >0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" v-if="item.note" >
 						{{item.note}}
@@ -141,7 +141,7 @@
 				</view>
 				<!-- 我的卡券 -->
 				<view class="ticket-images-exclusiveName" v-else
-				 :style="[{'background-image': item.state!=3&&item.state!=4  ? `linear-gradient(-90deg,  ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+				 :style="[{'background-image': item.status!=2 && item.use_end_time-time_now>0  ? `linear-gradient(-90deg,  ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" v-if="item.c_note" >
 						{{item.c_note}}
 					</view>
@@ -170,12 +170,12 @@
 					</view>	
 					<view class="useing-ticket"
 					 v-if="item.c_use_channel == 0 && item.c_card_type == 1 || item.c_card_type ==2 || item.c_card_type ==3 ||item.c_card_type ==4 "
-					 :style="{'color': item.state!=3&&item.state!=4 ?  item.c_card_style: '#999999'}"
+					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
 					 @tap='userCard(item.c_id,item.state)'>
 						立即使用
 					</view>	
 					<view class="useing-ticket" v-else
-					 :style="{'color': item.state!=3&&item.state!=4 ?  item.c_card_style: '#999999'}"
+					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0  ?  item.c_card_style: '#999999'}"
 					 @tap='scanCard(item.id)'>
 						立即核销
 					</view>				

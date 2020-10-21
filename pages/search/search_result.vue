@@ -13,18 +13,31 @@
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+60+'px'}]">
 			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
 			 @tabtap="tabtap"></swiperTabHead>
-		</view>
-		
+		</view>		
 		<view class="search-input_content" :style="[{'padding-top':menuBottom+100+'px'}]">
 			<view class="search-input_items">
 				<swiper :style="[{'height':height-menuBottom-100+'px'}]" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(i,index) in contentList" :key="index">
+					<swiper-item v-for="(item,index) in tabBars" :key="index">
 						<scroll-view scroll-y :style="[{'height':height-menuBottom-100+'px'}]">
 							<template>
 								<block>
 									<view class="result_content">
-										<!-- {{i.name}} -->
-										<porduct :width=350 :porductList='productList' ></porduct>
+										<view class="item-all">
+											{{item.name+item.type}}
+										</view>
+										<goodsShow
+										 :borderRadius=24 
+										 :requestUrl='requestUrl' 
+										 :width=350 
+										 :porductList='productList' 
+										 v-if='items.type==0'>
+										</goodsShow>
+										<doctor :doctorList="productList"
+										 :requestUrl="requestUrl" :paddingLR='paddingLR' @collectLike='collectLike'
+										 @cancelLike='cancelLike' v-else-if="items.type==1">
+										</doctor>
+										<diary :diaryList="productList" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
+										<porduct :width=350 :porductList='productList' v-else-if="item.type==3"></porduct>	
 									</view>
 								</block>
 							</template>
@@ -32,8 +45,7 @@
 					</swiper-item>
 				</swiper>
 				</view>
-			</view>
-		
+			</view>		
 	</view>
 </template>
 
@@ -41,11 +53,17 @@
 	import topBar from "../../components/topBar.vue";
 	import porduct from '../../components/porduct.vue'
 	import swiperTabHead from "../../components/swiper-tab.vue";
+	import goodsShow from "../../components/goodsShow.vue";
+	import diary from '../../components/diary.vue';
+	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
 			topBar,
 			porduct,
 			swiperTabHead,
+			goodsShow,
+			diary,
+			doctor
 		},
 		data() {
 			return {
@@ -86,14 +104,9 @@
 				line: true, //是否显示选中线
 				tabBackgroundColor: '#FFFFFF',
 				size: 24,
-				tabIndex: 3, // 选中的顶部的导航的索引
+				tabIndex: 0, // 选中的顶部的导航的索引
 				inputValue: '',
-				contentList: [
-					{ name: '商品'  },
-					{ name: '医生'},
-					{ name: '日记'},
-					{ name: '视频'},
-				],
+				contentList: [],
 				productList:[
 					{
 						url:'../../static/images/19.png',
@@ -151,35 +164,125 @@
 						prouctPrice:998
 					},
 				],
+				offset:0,
+				searchContent:'祛斑'
 			}
 		},
 		onLoad: function(option) {
 			let that = this
-			let search = option.search
-			console.log(search)
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			if(option.search){
+				let search = option.search
+				that.searchContent = search
+			}
+			that.getVideo()
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						that.height = res.screenHeight
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.height = uni.getSystemInfoSync().screenHeight;
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
+			getGoods:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'goodssearch',
+					search:that.searchContent,
+					offset:that.offset,
+					limit:6
+				}
+				that.request.uniRequest("search", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			},
+			getDoctor:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'doctorsearch',
+					search:that.searchContent,
+					offset:that.offset,
+					limit:6
+				}
+				that.request.uniRequest("search", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			},
+			getDiary:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'diarysearch',
+					search:that.searchContent,
+					offset:that.offset,
+					limit:6
+				}
+				that.request.uniRequest("search", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			},
+			getVideo:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'videosearch',
+					search:that.searchContent,
+					offset:that.offset,
+					limit:6
+				}
+				that.request.uniRequest("search", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			},
+			
+			
 			onKeyInput: function(event) {
 			   this.inputValue = event.target.value
 			},
-			tabtap: function(index = 0, type = 0) {
+			tabtap: function(index, type) {
 				this.tabIndex = index;
+				console.log(index,type)
 			},
 			tabChange: function(e) {
 				this.tabIndex = e.detail.current;

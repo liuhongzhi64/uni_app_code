@@ -272,8 +272,14 @@
 				allchecked:false,
 				isActivity:false,//是否凑单
 				isCartEmpty:true,//
-				requestUrl:''
+				requestUrl:'',
+				offset:0
 			}
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.getLike()
 		},
 		onLoad: function(option) {
 			let that = this
@@ -349,13 +355,14 @@
 				let dataInfo = {
 					interfaceId:'userrecommendedgoodsspulist',
 					type:'3',
-					offset:'0'
+					offset:that.offset
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.productLists = data
-						console.log(data)
+						// that.productLists = data
+						that.productLists = that.productLists.concat(data)
+						// console.log(data)
 					}
 					else{
 						// this.request.showToast('暂时没有数据')
@@ -378,10 +385,7 @@
 					}
 				})
 			},
-			// 触底函数
-			onReachBottom: function() {
-				console.log("到底了")
-			},
+			
 			// 选中商品
 			changePorduct: function(e = 0) {
 				this.btnnum = e

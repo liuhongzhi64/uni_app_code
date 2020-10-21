@@ -130,7 +130,22 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 502));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 460));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 474));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 502));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 481));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 488));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 495));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -177,7 +192,10 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     topBar: topBar,
     porduct: porduct,
-    swiperTabHead: swiperTabHead },
+    swiperTabHead: swiperTabHead,
+    goodsShow: goodsShow,
+    diary: diary,
+    doctor: doctor },
 
   data: function data() {
     return {
@@ -218,14 +236,9 @@ __webpack_require__.r(__webpack_exports__);
       line: true, //是否显示选中线
       tabBackgroundColor: '#FFFFFF',
       size: 24,
-      tabIndex: 3, // 选中的顶部的导航的索引
+      tabIndex: 0, // 选中的顶部的导航的索引
       inputValue: '',
-      contentList: [
-      { name: '商品' },
-      { name: '医生' },
-      { name: '日记' },
-      { name: '视频' }],
-
+      contentList: [],
       productList: [
       {
         url: '../../static/images/19.png',
@@ -280,38 +293,128 @@ __webpack_require__.r(__webpack_exports__);
         like: 99, //点赞
         productUrl: '../../static/images/20.png',
         productTitle: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        prouctPrice: 998 }] };
+        prouctPrice: 998 }],
 
 
+      offset: 0,
+      searchContent: '祛斑' };
 
   },
   onLoad: function onLoad(option) {
     var that = this;
-    var search = option.search;
-    console.log(search);
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    if (option.search) {
+      var search = option.search;
+      that.searchContent = search;
+    }
+    that.getVideo();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          that.height = res.screenHeight;
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.height = uni.getSystemInfoSync().screenHeight;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
+    getGoods: function getGoods() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'goodssearch',
+        search: that.searchContent,
+        offset: that.offset,
+        limit: 6 };
+
+      that.request.uniRequest("search", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+        }
+      });
+    },
+    getDoctor: function getDoctor() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'doctorsearch',
+        search: that.searchContent,
+        offset: that.offset,
+        limit: 6 };
+
+      that.request.uniRequest("search", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+        }
+      });
+    },
+    getDiary: function getDiary() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'diarysearch',
+        search: that.searchContent,
+        offset: that.offset,
+        limit: 6 };
+
+      that.request.uniRequest("search", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+        }
+      });
+    },
+    getVideo: function getVideo() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'videosearch',
+        search: that.searchContent,
+        offset: that.offset,
+        limit: 6 };
+
+      that.request.uniRequest("search", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+        }
+      });
+    },
+
+
     onKeyInput: function onKeyInput(event) {
       this.inputValue = event.target.value;
     },
-    tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    tabtap: function tabtap(index, type) {
       this.tabIndex = index;
+      console.log(index, type);
     },
     tabChange: function tabChange(e) {
       this.tabIndex = e.detail.current;

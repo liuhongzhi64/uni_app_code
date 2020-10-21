@@ -224,9 +224,10 @@ var _default =
 
   },
   methods: {
-    changeGoods: function changeGoods(id) {
+    changeGoods: function changeGoods(id, pid) {
+      // console.log(id,pid)
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?sku_id=".concat(id) });
+        url: "/pages/goods/goods_detail?sku_id=".concat(id, "&&encrypted_id=").concat(pid) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

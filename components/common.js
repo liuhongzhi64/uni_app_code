@@ -18,7 +18,7 @@ export default {
 		})
 	},
 	// 获取token
-	getToken:function(businessId=1,unique_id=16, method = "POST"){
+	getToken:function(businessId='1',unique_id=16, method = "POST"){
 		let that = this
 		return new Promise((resolve) => {
 			uni.request({
@@ -94,6 +94,10 @@ export default {
 							if (res.data.code !== 1000){
 								that.showModal(res.data.message)
 								if(res.data.message=='登录失败[1007]'){
+									// that.getToken().then(res=>{
+									// 	console.log(res)
+									// })
+									// 后期使用
 									setTimeout(function(){
 										uni.navigateTo({
 											url: '/pages/login/login_phone'

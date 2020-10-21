@@ -4,7 +4,7 @@
 		<view class="left-right-layout" v-if="porductList">
 			<view class="left-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
-				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id)">
+				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id,item.encrypted_id)">
 					<image class="goods_image" :src="requestUrl+item.head_img" mode="" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
@@ -32,7 +32,7 @@
 			</view>
 			<view class="right-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
-				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id)">
+				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id,item.encrypted_id)">
 					<image class="goods_image" :src="requestUrl+item.head_img" mode="" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
@@ -64,7 +64,7 @@
 		<view class="crosswise-porduct" v-if="crosswiseGoods">
 			<scroll-view class="product-items" scroll-x="true">
 				<view class="product-item-content">
-					<view class="productImgs" v-for="(item,k) in crosswiseGoods" :key='k' @tap="changeGoods(item.sku_id)">
+					<view class="productImgs" v-for="(item,k) in crosswiseGoods" :key='k' @tap="changeGoods(item.sku_id,item.encrypted_id)">
 						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
 							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
 								<image :src="requestUrl + item.head_img" mode=""></image>
@@ -108,9 +108,10 @@
 			}
 		},
 		methods: {
-			changeGoods: function(id) {
+			changeGoods: function(id,pid) {
+				// console.log(id,pid)
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?sku_id=${id}`,
+					url: `/pages/goods/goods_detail?sku_id=${id}&&encrypted_id=${pid}`,
 				})
 			}
 		}

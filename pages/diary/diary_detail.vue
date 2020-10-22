@@ -21,14 +21,12 @@
 								</view>
 							</view>
 						</view>
-
-						<view class="detail-swiper">
+						<view class="detail-swiper" v-if="swiperList.length>0">
 							<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" :interval='intervalTime' :duration="durationTime"
 							 circular>
 								<swiper-item v-for="(i,index) in swiperList" :key="index">
 									<view class="top-swiper-item">
-										<image class="top-swiper-images" :src="requestUrl+i" mode="widthFix"></image>
-										
+										<image class="top-swiper-images" :src="requestUrl+i" mode="widthFix"></image>										
 										<view class="porduct-message" @tap='goToGoods(goods.id)'>
 											<view class="porduct-images">
 												<image :src="requestUrl+goods.head_img" mode=""></image>

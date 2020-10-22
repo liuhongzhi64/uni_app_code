@@ -1,19 +1,23 @@
 {
-	"pages": [ 
-		
+	"pages": [
+
 		// 测试时的首页
-		
-				
-		
-		
+
+		{
+			"path": "pages/goods/goods_detail", //商品详情
+			"style": {}
+		},
+
+
 		// 首页
 		{
 			"path": "pages/index/index",
 			"style": {
 				"enablePullDownRefresh": true
 			}
-		},		
-									
+		},
+		
+
 		// 登录
 		{
 			"path": "pages/login/login_phone", //手机登录
@@ -31,21 +35,21 @@
 			"path": "pages/login/register", //登录
 			"style": {}
 		},
-		
-		
-		
+
+
+
 		// 用户协议
 		{
 			"path": "pages/agreement/agreement", //用户协议
 			"style": {}
 		},
-		
+
 		// 购物车
 		{
 			"path": "pages/cart/cart", //购物车
 			"style": {}
 		},
-		
+
 		// 核销
 		{
 			"path": "pages/check/check_card", //核销卡券
@@ -64,13 +68,13 @@
 			"path": "pages/confirm_order/no_refund", //不可线上退款
 			"style": {}
 		},
-		
+
 		//咨询 
 		{
 			"path": "pages/consultation/consultation", //咨询
 			"style": {}
 		},
-		
+
 		// 日记
 		{
 			"path": "pages/diary/diary", //日记
@@ -91,7 +95,7 @@
 		{
 			"path": "pages/diary/diary_personal", //个人主页
 			"style": {}
-		},		
+		},
 		{
 			"path": "pages/diary/diary_successs", //发布成功
 			"style": {}
@@ -108,7 +112,7 @@
 			"path": "pages/diary/diary_write_video", //日记类型图文+视频
 			"style": {}
 		},
-	
+
 		// 医生
 		{
 			"path": "pages/doctor/doctor", //医生
@@ -126,16 +130,13 @@
 			"path": "pages/doctor/doctor_photo", //医生相册
 			"style": {}
 		},
-		
+
 		// 商品
 		{
 			"path": "pages/goods/goods_classify", //商品分类
 			"style": {}
 		},
-		{
-			"path": "pages/goods/goods_detail", //商品详情
-			"style": {}
-		},
+
 		{
 			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
 			"style": {}
@@ -151,30 +152,30 @@
 		{
 			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
 			"style": {}
-		}, 	 		
+		},
 		{
 			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
 			"style": {}
-		}, 		
+		},
 		{
 			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
 			"style": {}
-		}, 
+		},
 		{
 			"path": "pages/goods/goods_list", //商品列表
 			"style": {}
 		},
-		
-		 // 消息
+
+		// 消息
 		{
-		 	"path": "pages/message/message", //消息主页
-		 	"style": {}
-		}, 
+			"path": "pages/message/message", //消息主页
+			"style": {}
+		},
 		{
-		 	"path": "pages/message/message_detail", //消息详情（视频）
-		 	"style": {}
-		}, 
-		
+			"path": "pages/message/message_detail", //消息详情（视频）
+			"style": {}
+		},
+
 		// 我的
 		{
 			"path": "pages/my/account_number", //账号管理
@@ -215,11 +216,11 @@
 		{
 			"path": "pages/my/my_comment", //我的评价-评价列表
 			"style": {}
-		}, 
+		},
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
-		},		 				
+		},
 		{
 			"path": "pages/my/my_order_detail", //订单详情
 			"style": {}
@@ -227,7 +228,7 @@
 		{
 			"path": "pages/my/my_order_refund", //申请退款
 			"style": {}
-		},		 
+		},
 		{
 			"path": "pages/my/my_order_refund_progress", //退款进度
 			"style": {}
@@ -244,25 +245,25 @@
 			"path": "pages/my/my_set", //设置
 			"style": {}
 		},
-		
+
 		// 其他
 		{
 			"path": "pages/other/jump", //跳转
 			"style": {}
-		},				
-		
+		},
+
 		// 支付成功
 		{
 			"path": "pages/pay_success/pay_success", //支付成功
 			"style": {}
 		},
-		
+
 		// 邀请码
 		{
 			"path": "pages/poster/poster", //邀请码
 			"style": {}
 		},
-		
+
 		// 搜索
 		{
 			"path": "pages/search/search", //搜索主页
@@ -272,15 +273,15 @@
 			"path": "pages/search/search_result", //搜索结果）
 			"style": {}
 		},
-		
+
 		// 签到
 		{
 			"path": "pages/sign/sign", //签到
 			"style": {}
 		}
-	
+
 	],
-	"globalStyle": {		
+	"globalStyle": {
 		"renderingMode": "seperated",
 		"navigationStyle": "custom" //取消头部导航条
 	},

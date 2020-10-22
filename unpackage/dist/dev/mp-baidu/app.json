@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/goods/goods_detail",
     "pages/index/index",
     "pages/login/login_phone",
     "pages/login/login",
@@ -26,7 +27,6 @@
     "pages/doctor/doctor_detail",
     "pages/doctor/doctor_photo",
     "pages/goods/goods_classify",
-    "pages/goods/goods_detail",
     "pages/goods/goods_detail_comment",
     "pages/goods/goods_detail_comment_detail",
     "pages/goods/goods_detail_notice",

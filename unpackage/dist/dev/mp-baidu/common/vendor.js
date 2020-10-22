@@ -2080,18 +2080,18 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 146:
+/***/ 175:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 147);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 176);
 
 /***/ }),
 
-/***/ 147:
+/***/ 176:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -2122,7 +2122,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 148);
+module.exports = __webpack_require__(/*! ./runtime */ 177);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -2139,7 +2139,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 148:
+/***/ 177:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -2868,17 +2868,6 @@ if (hadRuntime) {
   })() || Function("return this")()
 );
 
-
-/***/ }),
-
-/***/ 195:
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/images/18.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/images/18.png";
 
 /***/ }),
 
@@ -8950,6 +8939,17 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 
+
+/***/ }),
+
+/***/ 72:
+/*!************************************************!*\
+  !*** D:/Code/code/uniapp/static/images/18.png ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/images/18.png";
 
 /***/ })
 

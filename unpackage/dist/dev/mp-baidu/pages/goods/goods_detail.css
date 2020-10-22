@@ -2,6 +2,7 @@
 .content.data-v-098a7e2c {
 	background-color: #F6F6F6;
 	height: 100%;
+	padding-bottom: 130rpx;
 }
 .top-swiper.data-v-098a7e2c {
 	height: 750rpx;
@@ -172,6 +173,7 @@
 	font-size: 32rpx;
 	line-height: 48rpx;
 	color: #111111;
+	/* display: flex; */
 }
 .sale-content.data-v-098a7e2c {
 	display: -webkit-box;
@@ -193,9 +195,9 @@
 .label-name.data-v-098a7e2c {
 	font-size: 18rpx;
 	color: #ffffff;
-	padding: 0 8rpx;
+	padding: 5rpx 8rpx 0;
+	line-height: 20rpx;
 	text-align: center;
-	height: 26rpx;
 	background-color: #882ddc;
 	border-radius: 4rpx;
 	margin-right: 10rpx;
@@ -209,14 +211,11 @@
 	color: #999999;
 	line-height: 30rpx;
 }
-.get-coupon text.data-v-098a7e2c {
-	color: #fa3475;
-}
 
 /* 优惠 */
 .discounts.data-v-098a7e2c {
 	margin-top: 20rpx;
-	margin-bottom: 30rpx;
+	/* margin-bottom: 30rpx; */
 	padding: 30rpx;
 	background-color: #FFFFFF;
 	border-radius: 24rpx;
@@ -269,14 +268,14 @@
 	overflow: hidden;
 }
 .specs-title.data-v-098a7e2c {
-	padding-top: 35rpx;
+	/* padding-top: 25rpx; */
 	font-size: 28rpx;
 	font-weight: bold;
 	color: #111111;
 }
 .specs.data-v-098a7e2c {
-	padding: 0 30rpx 30rpx;
-	background: #fff;
+	padding:  30rpx 30rpx;
+	background: #FFFFFF;
 	margin-top: 20rpx;
 	border-radius: 24rpx;
 	color: #999999;
@@ -287,9 +286,18 @@
 	font-weight: bold;
 }
 .specs-cont.data-v-098a7e2c {
-	padding-top: 10rpx;
 	margin-left: -30rpx;
 	font-size: 24rpx;
+}
+.specs-cont-pay.data-v-098a7e2c{
+	margin-left: -30rpx;
+	font-size: 24rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 }
 .li.data-v-098a7e2c {
 	display: inline-block;
@@ -299,6 +307,9 @@
 	border: 2rpx solid #f0f0f0;
 	background: #f0f0f0;
 	margin: 20rpx 0 0 30rpx;
+}
+.specs-cont-pay .li.data-v-098a7e2c{
+	margin: 0 0 0 30rpx;
 }
 .li-hover.data-v-098a7e2c {
 	border: 2rpx solid #fa3475;
@@ -311,16 +322,17 @@
 
 /* 相关证书 */
 .certificate.data-v-098a7e2c {
-	padding: 30rpx;
+	padding:  30rpx ;
 	background-color: #FFFFFF;
+	border-radius: 24rpx;
+	margin-top: 20rpx;
+	margin-bottom: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	border-radius: 24rpx;
-	margin-top: 20rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 }
 
 /* 相关商品 */
@@ -453,8 +465,9 @@
 
 /* 相关医生 */
 .related-doctor.data-v-098a7e2c {
-	padding: 0 20rpx 30rpx;
-	margin-top: 20rpx;
+	padding: 0  20rpx ;
+	background-color: #F6F6F6;
+	margin-bottom: 20rpx;
 }
 .doctor-recommend.data-v-098a7e2c {
 	display: -webkit-box;
@@ -526,22 +539,24 @@
 	margin-right: 5rpx;
 }
 .doctor-recommends.data-v-098a7e2c {
-	width: 280rpx;
+	width: 380rpx;
+}
+.doctor-synopsis.data-v-098a7e2c {
+	color: #9a9a9a;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
 	overflow: hidden;
 }
-.doctor-synopsis.data-v-098a7e2c {
-	color: #9a9a9a;
-}
 .doctor-label-list.data-v-098a7e2c {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
 }
 .doctor-label.data-v-098a7e2c {
 	font-size: 20rpx;
@@ -549,6 +564,7 @@
 	border-radius: 18px;
 	border: solid 1px #fa3475;
 	padding: 10rpx 20rpx;
+	margin-right: 20rpx;
 }
 .doctor-bottom.data-v-098a7e2c {
 	background-color: #f0f0f0;
@@ -580,7 +596,7 @@
 /* 相关日记 */
 .related-diary.data-v-098a7e2c {
 	background-color: #FFFFFF;
-	padding: 30rpx 20rpx;
+	padding: 30rpx 20rpx 0;
 	border-radius: 24rpx;
 }
 .diary-top.data-v-098a7e2c {
@@ -595,28 +611,7 @@
 	font-size: 24rpx;
 	color: #fa3475;
 }
-.diary-head-portrait.data-v-098a7e2c {
-	padding: 16rpx 0 0;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-}
-.diary-head-portrait image.data-v-098a7e2c {
-	width: 350rpx;
-	height: 320rpx;
-	border-radius: 16rpx;
-}
-.diary-content.data-v-098a7e2c {
-	font-size: #111111;
-	font-size: 24rpx;
-	line-height: 40rpx;
-	margin-top: 20rpx;
-	font-weight: lighter;
-}
-.userinfo.data-v-098a7e2c {
+.all-diary.data-v-098a7e2c{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -626,28 +621,6 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	color: #999999;
-	font-size: 24rpx;
-	margin-top: 20rpx;
-}
-.user-head-portrait-name.data-v-098a7e2c {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	width: 50%;
-}
-.user-head-portrait.data-v-098a7e2c {
-	width: 74rpx;
-	height: 74rpx;
-	margin-right: 20rpx;
-}
-.user-head-portrait image.data-v-098a7e2c {
-	width: 74rpx;
-	height: 74rpx;
-	border-radius: 37rpx;
 }
 
 /* 问答 */
@@ -936,15 +909,13 @@
 .particulars .related-title.data-v-098a7e2c {
 	padding: 0 20rpx 20rpx;
 }
-.particulars-image.data-v-098a7e2c,
 .particulars-image image.data-v-098a7e2c {
 	width: 100%;
-	/* height: 1528rpx; */
 }
 
 /* 为你推荐 */
 .recommend-for-you.data-v-098a7e2c {
-	padding: 30rpx 20rpx 105rpx;
+	padding: 30rpx 20rpx ;
 	/* padding: 105rpx; */
 }
 .recommend-for-you .product-item.data-v-098a7e2c {

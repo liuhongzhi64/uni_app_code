@@ -3,23 +3,21 @@
 		<topBar class="topBar" :barName='barName' :barImage='barImage' :topBackgroundColor='topBackgroundColor' :backImage='backImage'
 		 :color='color'  :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :title='title'
 		 :menuBottom='menuBottom'></topBar>
-
 		<!-- 主体内容 -->
-		<view class="content" :style="[{'padding-top':menuBottom+10+'px','height':height-10+'px'}]" >
-			<scroll-view scroll-y>
+		<view class="content" >
+			<scroll-view scroll-y :style="[{'padding-top':menuBottom+10+'px','min-height':height-10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
 						 :duration="durationTime" circular>
-							<swiper-item v-for="(i,k) in swiperList" :key="k">
-								<view class="top-swiper-item">
-									<!-- <image class="label" :src="item.sku.spu_icon" mode="widthFix"></image> -->
-									<image class="banner-img" :src="requestUrl+i" lazy-load='true'></image>
-								</view>
-							</swiper-item>
 							<swiper-item v-if="item.video_list">
 								<video class="video" :src="requestUrl+item.video_list"></video>
+							</swiper-item>
+							<swiper-item v-for="(i,k) in swiperList" :key="k">
+								<view class="top-swiper-item">
+									<image class="banner-img" :src="requestUrl+i" lazy-load='true'></image>
+								</view>
 							</swiper-item>
 						</swiper>
 					</view>
@@ -34,7 +32,7 @@
 						<!-- 现在价格、会员价 -->
 						<view class="price">
 							<view class="new-price">
-								<text>￥</text> {{sku.market_price}}
+								<text>￥</text> {{contentList.sku.sale_price}}
 							</view>
 							<!-- <view class="VIP-price">
 								<view class="VIP-name"> 钻卡 </view>
@@ -43,27 +41,26 @@
 						</view>
 						<!-- 降价通知、收藏 -->
 						<view class="depreciate-collect">
-							<view class="depreciate">
+							<view class="depreciate" v-if="contentList.share_able==1">
 								<view class="remind-images">
 									<image src="https://xcx.hmzixin.com/upload/images/3.0/icon_wechat.png" mode=""></image>
 								</view>
 								<view class="remind-text"> 分享 </view>
 							</view>
-							<view class="collect">
+							<view class="collect" >
 								<view class="collect-images">
-									<image v-if="is_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" mode=""></image>
-									<image v-if="is_collect == 1" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
+									<image v-if="contentList.is_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
+									<image v-if="contentList.is_collect == 1" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
 								</view>
 								<view class="collect-text"> 收藏 </view>
 							</view>
-
 						</view>
 					</view>
 					<!-- 以前的价格 -->
-					<view class="market-price"> 市场价 <text>￥{{sku.sale_price}}</text> </view>
+					<view class="market-price"> 市场价 <text>￥{{contentList.sku.market_price}}</text> </view>
 
 					<!-- 热卖提醒 -->
-					<view class="hot-sale-remind">
+					<view class="hot-sale-remind" v-if="contentList.sku.act.length>0">
 						<view class="hot-sale-content">
 							<view class="hot-sale"> 预热中 </view>
 							<view class="hot-sale-recommend"> 该商品6月18日 9:00:00开始售卖哦~ </view>
@@ -72,55 +69,55 @@
 					</view>
 					<!-- 商品名称 -->
 					<view class="prouct-name">
-						<text class="label-name"> 618特惠 </text>
-						<text> {{goods_name}}</text>
+						<!-- <text class="label-name"> 618特惠 </text> -->
+						<text class="all-goods_name">  {{contentList.goods_name}}</text>
 					</view>
-
 					<view class="sale-content">
 						<view>成都市</view>
-						<view class="red">好评率：98.47%</view>
-						<view>已售：1244</view>
+						<view class="red">好评率:{{contentList.rate}}%</view>
+						<view>已售：{{contentList.sku.take_store}}</view>
 					</view>
-					<view class="get-coupon">{{details_prompt}}<text>查看></text>
-					</view>
+					<!-- 领取 -->
+					<view class="get-coupon" v-if="contentList.sku.details_prompt==1"> {{details_prompt}} </view>
 				</view>
 
 				<!-- 优惠 -->
-				<view class="discounts">
+				<view class="discounts" v-if="contentList.sku.act.length>0">
 					<view class="discounts-title">
 						<view class="discounts-more"> 优惠 </view>
 						<view class="more"> 更多 > </view>
 					</view>
 					<!-- 优惠政策 -->
-					<view class="discounts-policy" v-for="(i,k) in discountsList" :key="k">
-						<view class="policy-name"> {{i.name}} </view>
-						<view class="policy-content"> {{i.content}} </view>
+					<!-- <view class="discounts-policy" v-for="(i,k) in discountsList" :key="k"> -->
+					<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
+						<view class="policy-name"> {{item.name}} </view>
+						<view class="policy-content" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
 					</view>
 				</view>
-				<!-- 版本、规格、部位、医生 -->
+				<!-- 版本、规格 -->
 				<view class="specs">
 					<template>
 						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
 							<view class="specs-title">{{item.name}}</view>
 							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
+								<view class="li" v-for="(is,sindex) in item.attr" 
+								 :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
 								 :key="sindex" :data-index="index" :data-sindex="sindex" @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
 									{{sindex}}{{is}} {{index}}
 									<!-- 	{{spec[index].attr[sindex]}}
 									<text   :class="spec[index].attr[sindex]==0?'getSpec1':'cancelSpec2'">22</text> -->
 									<!-- [spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')] -->
 								</view>
-
 							</view>
 						</view>
-
 					</template>
 				</view>
+				<!-- 支付方式 -->
 				<view class="specs">
-					<view class="specs-cont">
-						<text class="pay-txt">支付</text>
-						<view class="li" :class="[isPay==0?'li-hover':'']" v-if="pay_type==0 || pay_type==2">预约金</view>
-						<view class="li" :class="[isPay==1?'li-hover':'']" v-if="pay_type==1 || pay_type==2">全款付</view>
+					<view class="specs-cont-pay">
+						<text class="pay-txt">支付方式</text>
+						<view class="li" :class="[contentList.sku.pay_type==0||contentList.sku.pay_type==2?'li-hover':'']" >预约金</view>
+						<view class="li" :class="[contentList.sku.pay_type==1||contentList.sku.pay_type==2?'li-hover':'']" >全款付</view>
 					</view>
 				</view>
 				<!-- 相关证书 -->
@@ -142,36 +139,34 @@
 						<view class="line"></view> 相关医生
 					</view>
 					<view class="related-doctor-item">
-						<swiper class="doctor-swiper" indicator-dots indicator-active-color="#fa3475" indicator-color="#000000" :duration="doctorDurationTime"
+						<swiper class="doctor-swiper" indicator-dots 
+						 indicator-active-color="#fa3475" indicator-color="#000000" :duration="doctorDurationTime"
 						 circular>
-							<swiper-item v-for="(i,index) in doctorSwiperList" :key="index">
-								<view class="doctor-recommend" v-for="(i,k) in i.doctorList" :key='k' :data-name="i.name">
+							<swiper-item v-for="(item,index) in doctorList" :key="index">
+								<view class="doctor-recommend" v-for="(i,k) in item" :key='k' @tap='goToDoctor(i.id,i.heading)'>
 									<view class="doctor-top">
 										<view class="doctor-head-portrait">
-											<image :src="i.url" mode=""></image>
+											<image :src="requestUrl+i.heading" mode="" lazy-load='true'></image>
 										</view>
 										<view class="doctor-abstract">
 											<view class="doctor-name-recommend">
 												<view class="doctor-name"> {{i.name}} </view>
-												<view class="doctor-recommends"> {{i.recommend}} </view>
+												<view class="doctor-recommends"> {{ i.zhicheng }} </view>
 											</view>
-											<view class="doctor-synopsis"> {{i.synopsis}} </view>
+											<view class="doctor-synopsis"> {{ i.view }} </view>
 											<view class="doctor-label-list">
-												<view class="doctor-label" v-for="(i,k) in i.label" :key='k'> {{i}} </view>
+												<view class="doctor-label" v-for="(i,k) in i.goods_project" :key='k'> {{i}} </view>
 											</view>
-
 										</view>
-
 									</view>
 									<view class="doctor-bottom">
-										<view class="doctor-case"> 案例 <text class="text">{{i.case}}</text> </view>
-										<view class="doctor-subscribe"> 预约 <text class="text">{{i.subscribe}}</text> </view>
-										<view class="doctor-consult"> 咨询 <text>{{i.consult}}</text> </view>
+										<view class="doctor-case"> 案例 <text class="text">{{i.case_num}}</text> </view>
+										<view class="doctor-subscribe"> 预约 <text class="text">{{i.subscribe_num}}</text> </view>
+										<view class="doctor-consult"> 咨询 <text>{{i.consult_num}}</text> </view>
 									</view>
 								</view>
 							</swiper-item>
 						</swiper>
-
 					</view>
 				</view>
 				<!-- 相关日记 -->
@@ -182,27 +177,13 @@
 						</view>
 						<view class="diary-more"> 查看全部 > </view>
 					</view>
-					<view class="diary-recommend">
-						<view class="diary-head-portrait">
-							<image src="../../static/images/20.png" mode=""></image>
-							<image src="../../static/images/23.png" mode=""></image>
-						</view>
-						<view class="diary-content">
-							做完小气泡7天啦，皮肤做完后感觉整个面部的毛孔都打开了，精华也都吸收了。皮肤变得水水嫩嫩的嫩的……
-						</view>
-						<view class="userinfo">
-							<view class="user-head-portrait-name">
-								<view class="user-head-portrait">
-									<image src="../../static/images/20.png" mode=""></image>
-								</view>
-								<view class="user-name"> 用户昵称几个字 </view>
-							</view>
-							<view class="leave-word-time"> 2019.03.14</view>
-						</view>
+					<view class="all-diary">
+						<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
 					</view>
+					
 				</view>
 				<!-- 问答 -->
-				<view class="questions-answers">
+				<view class="questions-answers" v-if="questionsAnswersList.length>0">
 					<view class="diary-top">
 						<view class="related-title">
 							<view class="line"></view> 问答
@@ -212,37 +193,37 @@
 					<view class="questions-answers-item" v-for="(i,k) in questionsAnswersList" :key="k">
 						<view class="questions-and-content">
 							<view class="questions"> 问 </view>
-							<view class="questions-content"> {{i.content}} </view>
+							<view class="questions-content"> {{i.contents}} </view>
 						</view>
 						<view class="answers"> {{i.answers}}个问答 </view>
 					</view>
 				</view>
 				<!-- 评价 -->
-				<view class="evaluate">
+				<view class="evaluate" v-if="evaluateList.length>0">
 					<view class="diary-top">
 						<view class="related-title">
 							<view class="line"></view> 评价
 						</view>
 						<view class="diary-more"> 98%好评 </view>
 					</view>
-					<view class="evaluate-content" v-for="(i,k) in evaluate" :key="k">
+					<view class="evaluate-content" v-for="(item,index) in evaluateList" :key="index">
 						<view class="evaluate-label">
-							<view class="label-item" v-for="(i,k) in i.label" :key="k">{{i}}</view>
+							<view class="label-item" v-for="(i,k) in item.label" :key="k">{{i}}</view>
 						</view>
 						<view class="headPortrait-name">
 							<view class="headPortrait">
-								<image :src="i.headPortrait" mode=""></image>
+								<image :src="requestUrl+item.head_ico" mode=""></image>
 							</view>
 							<view class="name-score">
-								<view class="evaluate-user-name"> {{i.userName}} </view>
-								<view class="score"> {{i.score}} </view>
+								<view class="evaluate-user-name"> {{item.nick_name}} </view>
+								<view class="score"> {{item.point}} </view>
 							</view>
 						</view>
-						<view class="evaluate-details"> {{i.content}} </view>
+						<view class="evaluate-details"> {{item.contents}} </view>
 						<view class="effect-picture">
-							<image :src="i" mode="" v-for="(i,k) in i.effectPicture" :key="k"></image>
+							<image :src="requestUrl+i" mode="" v-for="(i,k) in item.imgs_list" :key="k"></image>
 						</view>
-						<view class="trade-name"> {{i.tradename}} </view>
+						<!-- <view class="trade-name"> {{i.tradename}} </view> -->
 					</view>
 				</view>
 				<!-- 项目价格表 -->
@@ -354,12 +335,21 @@
 					<view class="related-title">
 						<view class="line"></view> 详情
 					</view>
-					<view class="particulars-image">
-						<image src="../../static/images/20.png" mode=""></image>
+					<view class="particulars-image"  v-if='advertisingList.type==0' >
+						<image :src="requestUrl+item.img" mode="" v-for="(item,index) in advertisingList.content" :key='index'></image>
+					</view>
+					<view class="adverting-swpier" v-if="advertisingList.type==2">
+						<swiper class="top-swiper" indicator-dots  autoplay  circular>
+							<swiper-item v-for="(i,k) in advertisingList.content" :key="k">
+								<view class="top-swiper-item">
+									<image class="banner-img" :src="requestUrl+i.img" lazy-load='true'></image>
+								</view>
+							</swiper-item>
+						</swiper>
 					</view>
 				</view>
 				<!-- 为你推荐 -->
-				<view class="recommend-for-you">
+				<view class="recommend-for-you" v-if="productLists.length>0">
 					<view class="related-title">
 						<view class="line"></view> 为你推荐
 					</view>
@@ -412,11 +402,13 @@
 	import topBar from "../../components/topBar.vue";
 	import porduct from "../../components/porduct.vue";
 	import goodsShow from "../../components/goodsShow.vue";
+	import diary from '../../components/diary.vue';
 	export default {
 		components: {
 			topBar,
 			porduct,
-			goodsShow
+			goodsShow,
+			diary
 		},
 		data() {
 			return {
@@ -430,9 +422,11 @@
 				color: '#FFFFFF',
 				title: '详情页',
 				backImage: '../static/images/return.png',
+				contentList:[],
 				swiperList: [],
-				intervalTime: 3000, //自动切换时间间隔
-				durationTime: 1000, //	滑动动画时长
+				intervalTime: 4000, //自动切换时间间隔
+				durationTime: 2000, //	滑动动画时长
+				spec_value:{},
 				carts: 3, //购物车
 				discountsList: [{
 						name: '限购',
@@ -459,108 +453,13 @@
 						content: '新人首单立减50元'
 					},
 				], //优惠政策
-
 				productLists: [],
 				doctorDurationTime: 1000,
-				doctorSwiperList: [{
-						doctorList: [{
-								url: '../../static/images/20.png',
-								name: '程杨',
-								recommend: '华美紫馨眼部整形及修复修养调剂...',
-								synopsis: '急速纳米美眼创始人；急速轻龄美眼创始人',
-								label: ['双眼皮芙蓉', '手术隆鼻', '双眼皮修复'],
-								case: 143,
-								subscribe: 121,
-								consult: 2020
-							},
-							{
-								url: '../../static/images/20.png',
-								name: '程杨',
-								recommend: '华美紫馨眼部整形及修复修养调剂...',
-								synopsis: '急速纳米美眼创始人；急速轻龄美眼创始人',
-								label: ['双眼皮芙蓉', '手术隆鼻', '双眼皮修复'],
-								case: 143,
-								subscribe: 121,
-								consult: 2020
-							},
-						], //相关医生
-					},
-					{
-						doctorList: [{
-								url: '../../static/images/20.png',
-								name: '程杨',
-								recommend: '华美紫馨眼部整形及修复修养调剂...',
-								synopsis: '急速纳米美眼创始人；急速轻龄美眼创始人',
-								label: ['双眼皮芙蓉', '手术隆鼻', '双眼皮修复'],
-								case: 143,
-								subscribe: 121,
-								consult: 2020
-							},
-							{
-								url: '../../static/images/20.png',
-								name: '程杨',
-								recommend: '华美紫馨眼部整形及修复修养调剂...',
-								synopsis: '急速纳米美眼创始人；急速轻龄美眼创始人',
-								label: ['双眼皮芙蓉', '手术隆鼻', '双眼皮修复'],
-								case: 143,
-								subscribe: 121,
-								consult: 2020
-							},
-						], //相关医生
-					},
-					{
-						doctorList: [{
-								url: '../../static/images/20.png',
-								name: '程杨',
-								recommend: '华美紫馨眼部整形及修复修养调剂...',
-								synopsis: '急速纳米美眼创始人；急速轻龄美眼创始人',
-								label: ['双眼皮芙蓉', '手术隆鼻', '双眼皮修复'],
-								case: 143,
-								subscribe: 121,
-								consult: 2020
-							},
-							{
-								url: '../../static/images/20.png',
-								name: '程杨',
-								recommend: '华美紫馨眼部整形及修复修养调剂...',
-								synopsis: '急速纳米美眼创始人；急速轻龄美眼创始人',
-								label: ['双眼皮芙蓉', '手术隆鼻', '双眼皮修复'],
-								case: 143,
-								subscribe: 121,
-								consult: 2020
-							},
-						], //相关医生
-					},
-				],
-				questionsAnswersList: [{
-						content: '做了双眼皮之后会肿的很久嘛，对视力会不会有影响这些啊...',
-						answers: 3
-					},
-					{
-						content: '割双眼皮会不会很痛啊？',
-						answers: 2
-					},
-				],
-				evaluate: [{
-						label: ['医生专业', '环境很好', '服务很好', '效果很棒'], //标签
-						userName: '用户昵称几个字', //昵称
-						headPortrait: '../../static/images/test.jpg', //头像
-						score: 5,
-						content: "我是评论内容，我是评论内容，我是评论内容，我是评论内容，的最多显示两排多的内容省略我是评论内容多的内容互换不会不改变省略……",
-						effectPicture: ['../../static/images/test.jpg', '../../static/images/20.png', '../../static/images/23.png'], //效果图
-						tradename: '# 急速纳米美眼，尊享版'
-					},
-					{
-						label: [], //标签
-						userName: '用户昵称几个字', //昵称
-						headPortrait: '../../static/images/20.png', //头像
-						score: 5,
-						content: "我是评论内容，我是评论内容，我是评论内容，我是评论内容，的最多显示两排多的内容省略我是评论内容多的内容互换不会不改变省略……",
-						effectPicture: ['../../static/images/19.png', '../../static/images/20.png', '../../static/images/23.png'], //效果图
-						tradename: '# 急速纳米美眼，尊享版'
-					},
-				],
-				
+				doctorList: [],
+				diaryList:[],
+				advertisingList:{},
+				questionsAnswersList: [],
+				evaluateList: [],				
 				relevantGoods: [],
 				requestUrl: ''
 			}
@@ -569,11 +468,13 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			let sku_id = option.id 
-			// let sku_id = option.sku_id
-			let encrypted_id = option.encrypted_id
+			// let sku_id = option.sku_id 
+			let sku_id = '293'
+			// let encrypted_id = option.encrypted_id  
+			let encrypted_id = 'TXByR0VDc0hSVUNCUE1DaWszREY3Zz09'
 			that.getGoodsDetail(sku_id,encrypted_id)
 			that.getRelevantGoods(encrypted_id)
+			that.getRelated(encrypted_id)
 			that.getLike()
 			that.advertising()
 		},
@@ -631,13 +532,9 @@
 						let data = res.data.data
 						uni.setStorageSync("goodsDetail", data);
 						that.contentList = data
-						that.swiperList = data.img
-						
+						that.swiperList = data.img						
 						// that.spec = that.assembleSpec(data.sku.user_spec, 1)
-						// if (data.sku.pay_type == 1 || data.sku.pay_type == 2) {
-						// 	that.isPay = 1;
-						// }
-						// that.spec_value = data.spec_value
+						that.spec_value = data.spec_value
 						// for (let i in that.spec) {
 						// 	console.log(that.spec[i].attr)
 						// }
@@ -656,7 +553,8 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
+						that.advertisingList = data
+						console.log(data) //type 0 单行单图 1 轮播 2 平铺 3 铺平+竖铺  4 单行多图
 					}
 				})
 			},
@@ -672,10 +570,7 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.productLists = data
-					} else {
-						// this.request.showToast('暂时没有数据')
-						console.log('没有数据')
-					}
+					} 
 				})
 			},
 
@@ -695,6 +590,42 @@
 					}
 				})
 			},
+			
+			// 相关
+			getRelated:function(id){
+				let that = this
+				let dataInfo = {
+					interfaceId:'spurelatedcontent',
+					encrypted_id:id
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.doctorList = data.doctor_list
+						that.doctorList = that.group(that.doctorList, 3)
+						that.diaryList = data.diary_list
+						that.questionsAnswersList = data.goods_qa_list
+						that.evaluateList = data.comment_list
+						console.log(data)
+					} 
+				})
+			},
+			// 分割数组
+			group: function(array, subGroupLength) {
+				let index = 0;
+				let newArray = [];
+				while (index < array.length) {
+					newArray.push(array.slice(index, index += subGroupLength));
+				}
+				return newArray;
+			},
+			// 医生
+			goToDoctor:function(id,heading){
+				uni.navigateTo({
+					url: `/pages/doctor/doctor_detail?id=${id}&&heading=${heading}`,
+				})
+			},
+			
 			// userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
 			assembleSpec: function(userSpec, isFirst, nowCheck, isCancel) {
 				// 新规格数组，与原规格spec_value相对应，用于标记各种状态
@@ -839,6 +770,7 @@
 	.content {
 		background-color: #F6F6F6;
 		height: 100%;
+		padding-bottom: 130rpx;
 	}
 
 	.top-swiper {
@@ -1004,7 +936,7 @@
 		font-size: 32rpx;
 		line-height: 48rpx;
 		color: #111111;
-
+		/* display: flex; */
 	}
 
 	.sale-content {
@@ -1019,13 +951,14 @@
 	.sale-content .red {
 		color: #fa3475;
 	}
+	
 
 	.label-name {
 		font-size: 18rpx;
 		color: #ffffff;
-		padding: 0 8rpx;
+		padding: 5rpx 8rpx 0;
+		line-height: 20rpx;
 		text-align: center;
-		height: 26rpx;
 		background-color: #882ddc;
 		border-radius: 4rpx;
 		margin-right: 10rpx;
@@ -1040,14 +973,11 @@
 		line-height: 30rpx;
 	}
 
-	.get-coupon text {
-		color: #fa3475;
-	}
 
 	/* 优惠 */
 	.discounts {
 		margin-top: 20rpx;
-		margin-bottom: 30rpx;
+		/* margin-bottom: 30rpx; */
 		padding: 30rpx;
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -1100,15 +1030,15 @@
 	}
 
 	.specs-title {
-		padding-top: 35rpx;
+		/* padding-top: 25rpx; */
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #111111;
 	}
 
 	.specs {
-		padding: 0 30rpx 30rpx;
-		background: #fff;
+		padding:  30rpx 30rpx;
+		background: #FFFFFF;
 		margin-top: 20rpx;
 		border-radius: 24rpx;
 		color: #999999;
@@ -1121,9 +1051,14 @@
 	}
 
 	.specs-cont {
-		padding-top: 10rpx;
 		margin-left: -30rpx;
 		font-size: 24rpx;
+	}
+	.specs-cont-pay{
+		margin-left: -30rpx;
+		font-size: 24rpx;
+		display: flex;
+		align-items: center;
 	}
 
 	.li {
@@ -1134,6 +1069,9 @@
 		border: 2rpx solid #f0f0f0;
 		background: #f0f0f0;
 		margin: 20rpx 0 0 30rpx;
+	}
+	.specs-cont-pay .li{
+		margin: 0 0 0 30rpx;
 	}
 
 	.li-hover {
@@ -1148,12 +1086,13 @@
 
 	/* 相关证书 */
 	.certificate {
-		padding: 30rpx;
+		padding:  30rpx ;
 		background-color: #FFFFFF;
-		display: flex;
-		justify-content: space-between;
 		border-radius: 24rpx;
 		margin-top: 20rpx;
+		margin-bottom: 20rpx;
+		display: flex;
+		align-items: center;
 	}
 
 	/* 相关商品 */
@@ -1282,8 +1221,9 @@
 
 	/* 相关医生 */
 	.related-doctor {
-		padding: 0 20rpx 30rpx;
-		margin-top: 20rpx;
+		padding: 0  20rpx ;
+		background-color: #F6F6F6;
+		margin-bottom: 20rpx;
 	}
 
 	.doctor-recommend {
@@ -1337,20 +1277,21 @@
 	}
 
 	.doctor-recommends {
-		width: 280rpx;
+		width: 380rpx;
+	}
+
+	.doctor-synopsis {
+		color: #9a9a9a;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 	}
 
-	.doctor-synopsis {
-		color: #9a9a9a;
-	}
-
 	.doctor-label-list {
 		display: flex;
-		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
 	}
 
 	.doctor-label {
@@ -1359,6 +1300,7 @@
 		border-radius: 18px;
 		border: solid 1px #fa3475;
 		padding: 10rpx 20rpx;
+		margin-right: 20rpx;
 	}
 
 	.doctor-bottom {
@@ -1387,7 +1329,7 @@
 	/* 相关日记 */
 	.related-diary {
 		background-color: #FFFFFF;
-		padding: 30rpx 20rpx;
+		padding: 30rpx 20rpx 0;
 		border-radius: 24rpx;
 	}
 
@@ -1400,53 +1342,13 @@
 		font-size: 24rpx;
 		color: #fa3475;
 	}
-
-	.diary-head-portrait {
-		padding: 16rpx 0 0;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.diary-head-portrait image {
-		width: 350rpx;
-		height: 320rpx;
-		border-radius: 16rpx;
-	}
-
-	.diary-content {
-		font-size: #111111;
-		font-size: 24rpx;
-		line-height: 40rpx;
-		margin-top: 20rpx;
-		font-weight: lighter;
-	}
-
-	.userinfo {
+	
+	.all-diary{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: #999999;
-		font-size: 24rpx;
-		margin-top: 20rpx;
 	}
-
-	.user-head-portrait-name {
-		display: flex;
-		align-items: center;
-		width: 50%;
-	}
-
-	.user-head-portrait {
-		width: 74rpx;
-		height: 74rpx;
-		margin-right: 20rpx;
-	}
-
-	.user-head-portrait image {
-		width: 74rpx;
-		height: 74rpx;
-		border-radius: 37rpx;
-	}
+	
 
 	/* 问答 */
 	.questions-answers {
@@ -1707,15 +1609,14 @@
 		padding: 0 20rpx 20rpx;
 	}
 
-	.particulars-image,
+	
 	.particulars-image image {
 		width: 100%;
-		/* height: 1528rpx; */
 	}
 
 	/* 为你推荐 */
 	.recommend-for-you {
-		padding: 30rpx 20rpx 105rpx;
+		padding: 30rpx 20rpx ;
 		/* padding: 105rpx; */
 	}
 

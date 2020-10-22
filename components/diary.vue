@@ -205,7 +205,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 24rpx 20rpx;
+		padding: 0 20rpx 24rpx;
 	}
 	.head_ico-nick_name{
 		display: flex;

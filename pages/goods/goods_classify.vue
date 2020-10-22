@@ -177,7 +177,7 @@
 					that.categoryClickMain()
 				}
 			})
-			that.advertising()
+			// that.advertising()
 		},
 		onReady() {
 			let that = this;

@@ -114,7 +114,7 @@
 		-webkit-box-align: center;
 		-webkit-align-items: center;
 		        align-items: center;
-		padding: 24rpx 20rpx;
+		padding: 0 20rpx 24rpx;
 }
 .head_ico-nick_name.data-v-2f0b53d0{
 		display: -webkit-box;

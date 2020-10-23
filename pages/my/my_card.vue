@@ -2,7 +2,7 @@
 	<view class="my_card">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :barImage='barImage' :color='color' :backImage='backImage'
 		 :barName='barName' :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft'
-		 :menuBottom='menuBottom'></topBar>
+		 :menuBottom='menuBottom' ></topBar>
 
 		<view class="my_card-content">
 			<scroll-view class="my_card-content" :style="[{'padding-top':menuBottom+50+'px'}]">
@@ -94,7 +94,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				barName: 'particularsPage', //导航条名称
-				topBackgroundColor: '#222222',
+				topBackgroundColor: '#111111',
 				color: '#FFFFFF',
 				backImage: '../../static/images/return.png',
 				barImage: '../static/images/refresh.png',
@@ -288,12 +288,14 @@
 			},
 			// 使用卡券
 			useCard:function(id,state){
-				// console.log('使用的卡券id:',id,"卡券状态",state)
+				console.log('使用的卡券id:',id,"卡券状态",state)
 				let cardId = id
 				if(state==1){
 					uni.navigateTo({
 						url: `/pages/my/my_card_use?id=${cardId}`
 					});
+				}else if(state==3){
+					that.request.showToast('已使用')
 				}
 				else{
 					uni.showModal({

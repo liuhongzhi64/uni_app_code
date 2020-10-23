@@ -266,9 +266,9 @@
 				});
 			},
 			goToMyCard: function() {
-				let cardId = id
+				// let cardId = id
 				uni.navigateTo({
-					url: `/pages/check/check_card?id=${cardId}`
+					url: `/pages/my/my_card`
 				});
 			}
 		}

@@ -1,38 +1,63 @@
 <template>
 	<view class="goods_detail">
-		<topBar class="topBar" :barName='barName' :barImage='barImage' :topBackgroundColor='topBackgroundColor' :backImage='backImage'
-		 :color='color'  :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :title='title'
-		 :menuBottom='menuBottom'></topBar>
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color,}]">
+			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
+				<view class="back" @click="goBack">
+					<image :src="backImage" mode=""></image>
+				</view>
+				<view class="title"> {{title}} </view>
+			</view>
+		</view>
 		<!-- 主体内容 -->
-		<view class="content" >
+		<view class="content">
 			<scroll-view scroll-y :style="[{'padding-top':menuBottom+10+'px','min-height':height-10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
 						 :duration="durationTime" circular>
-							<swiper-item v-if="item.video_list">
-								<video class="video" :src="requestUrl+item.video_list"></video>
-							</swiper-item>
-							<swiper-item v-for="(i,k) in swiperList" :key="k">
-								<view class="top-swiper-item">
-									<image class="banner-img" :src="requestUrl+i" lazy-load='true'></image>
+							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
+								<view class="video">
+									视频
 								</view>
+								<!-- <video class="video" :src="requestUrl+contentList.video_list"></video> -->
+								<!-- <image :src="requestUrl+contentList.sku.act.banner" mode="widthFix"></image> -->
+							</swiper-item>
+							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
+								<view class="top-swiper-item">
+									<image class="banner-img" :src="requestUrl+i" lazy-load='true' mode="widthFix"></image>
+								</view>
+								<image class="top-banner" :src="requestUrl+'upload/pages/images/202010/23/mBGXkqPtH3wIYbl9pd2oRJr2XuvTO4pmeNYJEsg6.jpeg'"
+								 mode="widthFix"></image>
+								<!-- <image :src="requestUrl+contentList.sku.act.banner" mode="widthFix"></image> -->
 							</swiper-item>
 						</swiper>
 					</view>
 				</view>
 				<!-- 活动节日 -->
-				<view class="activity">
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/4.jpg" mode="widthFix"></image>
+				<view class="activity" v-if='advertisingList.type==2'>
+					<image :src="requestUrl+item.img" mode="widthFix" v-for="(item,index) in advertisingList.content" :key='index'></image>
+					<!-- <image src="https://xcx.hmzixin.com/upload/images/3.0/4.jpg" mode="widthFix"></image> -->
 				</view>
+				<!-- <view class="particulars-image"  v-if='advertisingList.type==0' >
+					<image :src="requestUrl+item.img" mode="" v-for="(item,index) in advertisingList.content" :key='index'></image>
+				</view>
+				<view class="adverting-swpier" v-if="advertisingList.type==1">
+					<swiper class="top-swiper" indicator-dots  autoplay  circular>
+						<swiper-item v-for="(i,k) in advertisingList.content" :key="k">
+							<view class="top-swiper-item">
+								<image class="banner-img" :src="requestUrl+i.img" lazy-load='true'></image>
+							</view>
+						</swiper-item>
+					</swiper>
+				</view> -->
 				<!-- 价格、优惠卷、提醒、介绍、领取的卷介绍 -->
 				<view class="products-introduction">
 					<view class="price-depreciate-collect">
 						<!-- 现在价格、会员价 -->
-						<view class="price">
+						<view class="price" v-if="contentList.sku.sale_price">
 							<view class="new-price">
-								<text>￥</text> {{contentList.sku.sale_price}}
+								<text>￥</text>{{contentList.sku.sale_price}}
 							</view>
 							<!-- <view class="VIP-price">
 								<view class="VIP-name"> 钻卡 </view>
@@ -47,7 +72,7 @@
 								</view>
 								<view class="remind-text"> 分享 </view>
 							</view>
-							<view class="collect" >
+							<view class="collect">
 								<view class="collect-images">
 									<image v-if="contentList.is_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
 									<image v-if="contentList.is_collect == 1" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
@@ -58,7 +83,6 @@
 					</view>
 					<!-- 以前的价格 -->
 					<view class="market-price"> 市场价 <text>￥{{contentList.sku.market_price}}</text> </view>
-
 					<!-- 热卖提醒 -->
 					<view class="hot-sale-remind" v-if="contentList.sku.act.length>0">
 						<view class="hot-sale-content">
@@ -70,18 +94,17 @@
 					<!-- 商品名称 -->
 					<view class="prouct-name">
 						<!-- <text class="label-name"> 618特惠 </text> -->
-						<text class="all-goods_name">  {{contentList.goods_name}}</text>
+						<text class="all-goods_name"> {{contentList.goods_name}}</text>
 					</view>
 					<view class="sale-content">
 						<view>成都市</view>
 						<view class="red">好评率:{{contentList.rate}}%</view>
 						<view>已售：{{contentList.sku.take_store}}</view>
 					</view>
-					<!-- 领取 -->
-					<view class="get-coupon" v-if="contentList.sku.details_prompt==1"> {{details_prompt}} </view>
+					<!-- 活动文案 -->
+					<view class="get-coupon" v-if="contentList.sku.details_prompt"> {{contentList.sku.details_prompt}} </view>
 				</view>
-
-				<!-- 优惠 -->
+				<!-- 优惠活动 -->
 				<view class="discounts" v-if="contentList.sku.act.length>0">
 					<view class="discounts-title">
 						<view class="discounts-more"> 优惠 </view>
@@ -98,15 +121,20 @@
 				<view class="specs">
 					<template>
 						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
-							<view class="specs-title">{{item.name}}</view>
+							<view class="specs-title">
+								{{item.name}} <text class="specs-hint" v-if="!specsCont&&!defaultSpec">请选择{{item.name}}</text>
+							</view>
 							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" 
+								<!-- <view class="li" v-for="(is,sindex) in item.attr" 
 								 :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
-								 :key="sindex" :data-index="index" :data-sindex="sindex" @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
+								 :key="sindex" 
+								 :data-index="index" :data-sindex="sindex" 
+								 @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
 									{{sindex}}{{is}} {{index}}
-									<!-- 	{{spec[index].attr[sindex]}}
-									<text   :class="spec[index].attr[sindex]==0?'getSpec1':'cancelSpec2'">22</text> -->
-									<!-- [spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')] -->
+								</view> -->
+								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" :class="[specsCont==sindex||sindex==defaultSpec?'li-hover':'li-gray']"
+								 :data-index="index" @tap="changeSpecs(sindex)">
+									{{is}}
 								</view>
 							</view>
 						</view>
@@ -116,8 +144,8 @@
 				<view class="specs">
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" :class="[contentList.sku.pay_type==0||contentList.sku.pay_type==2?'li-hover':'']" >预约金</view>
-						<view class="li" :class="[contentList.sku.pay_type==1||contentList.sku.pay_type==2?'li-hover':'']" >全款付</view>
+						<view class="li" :class="[contentList.sku.pay_type==0||contentList.sku.pay_type==2?'li-hover':'']">预约金</view>
+						<view class="li" :class="[contentList.sku.pay_type==1||contentList.sku.pay_type==2?'li-hover':'']">全款付</view>
 					</view>
 				</view>
 				<!-- 相关证书 -->
@@ -130,17 +158,18 @@
 						<view class="line"></view> 相关商品
 					</view>
 					<view class="related-products-item">
-						<porduct :width=260 :requestUrl='requestUrl' :crosswisePorducts='relevantGoods'></porduct>
+						<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=260 :crosswiseGoods='relevantGoods'>
+						</goodsShow>
+						<!-- <porduct :width=260 :requestUrl='requestUrl' :crosswiseGoods='relevantGoods'></porduct> -->
 					</view>
 				</view>
 				<!-- 相关医生 -->
-				<view class="related-doctor">
+				<view class="related-doctor" v-if="doctorList.length>0">
 					<view class="related-title">
 						<view class="line"></view> 相关医生
 					</view>
 					<view class="related-doctor-item">
-						<swiper class="doctor-swiper" indicator-dots 
-						 indicator-active-color="#fa3475" indicator-color="#000000" :duration="doctorDurationTime"
+						<swiper class="doctor-swiper" indicator-dots indicator-active-color="#fa3475" indicator-color="#000000" :duration="doctorDurationTime"
 						 circular>
 							<swiper-item v-for="(item,index) in doctorList" :key="index">
 								<view class="doctor-recommend" v-for="(i,k) in item" :key='k' @tap='goToDoctor(i.id,i.heading)'>
@@ -170,7 +199,7 @@
 					</view>
 				</view>
 				<!-- 相关日记 -->
-				<view class="related-diary">
+				<view class="related-diary" v-if="diaryList.length>0">
 					<view class="diary-top">
 						<view class="related-title">
 							<view class="line"></view> 相关日记
@@ -180,7 +209,7 @@
 					<view class="all-diary">
 						<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
 					</view>
-					
+
 				</view>
 				<!-- 问答 -->
 				<view class="questions-answers" v-if="questionsAnswersList.length>0">
@@ -335,17 +364,8 @@
 					<view class="related-title">
 						<view class="line"></view> 详情
 					</view>
-					<view class="particulars-image"  v-if='advertisingList.type==0' >
-						<image :src="requestUrl+item.img" mode="" v-for="(item,index) in advertisingList.content" :key='index'></image>
-					</view>
-					<view class="adverting-swpier" v-if="advertisingList.type==2">
-						<swiper class="top-swiper" indicator-dots  autoplay  circular>
-							<swiper-item v-for="(i,k) in advertisingList.content" :key="k">
-								<view class="top-swiper-item">
-									<image class="banner-img" :src="requestUrl+i.img" lazy-load='true'></image>
-								</view>
-							</swiper-item>
-						</swiper>
+					<view class="particulars-image" v-for="(item,index) in spu_info" :key='index'>
+						<image :src="requestUrl+item" mode="widthFix" lazy-load></image>
 					</view>
 				</view>
 				<!-- 为你推荐 -->
@@ -412,21 +432,22 @@
 		},
 		data() {
 			return {
+				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				height:0,
-				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				title: '详情页',
-				backImage: '../static/images/return.png',
-				contentList:[],
+				backImage: '../../static/images/return.png',
+				title: '商品详情',
+				height: 0,
+				contentList: [],
 				swiperList: [],
 				intervalTime: 4000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
-				spec_value:{},
+				spec_value: {},
+				defaultSpec: '',
 				carts: 3, //购物车
 				discountsList: [{
 						name: '限购',
@@ -456,23 +477,43 @@
 				productLists: [],
 				doctorDurationTime: 1000,
 				doctorList: [],
-				diaryList:[],
-				advertisingList:{},
+				diaryList: [],
+				advertisingList: {},
 				questionsAnswersList: [],
-				evaluateList: [],				
+				evaluateList: [],
+				spu_info: '',
 				relevantGoods: [],
-				requestUrl: ''
+				requestUrl: '',
+				specsCont: '',
+				lastIndex: '',
+				lastIndexs: 1,
+				offset: 0 //分页起始位置
 			}
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.getLike()
 		},
 		onLoad: function(option) {
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// let sku_id = option.sku_id 
-			let sku_id = '293'
-			// let encrypted_id = option.encrypted_id  
-			let encrypted_id = 'TXByR0VDc0hSVUNCUE1DaWszREY3Zz09'
-			that.getGoodsDetail(sku_id,encrypted_id)
+			// console.log(option)
+			let sku_id = ''
+			let encrypted_id = ''
+			if (option.sku_id) {
+				sku_id = option.sku_id
+			} else {
+				sku_id = '206'
+			}
+			if (option.encrypted_id) {
+				encrypted_id = option.encrypted_id
+			} else {
+				encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09'
+			}
+
+			that.getGoodsDetail(sku_id, encrypted_id)
 			that.getRelevantGoods(encrypted_id)
 			that.getRelated(encrypted_id)
 			that.getLike()
@@ -514,12 +555,19 @@
 			}
 		},
 		methods: {
+			// 返回上一级
+			goBack: function() {
+				// console.log('back')
+				uni.navigateBack({
+					delta: 1
+				});
+			},
 			// 提醒我
 			subscribe: function() {
 				console.log('提醒')
 			},
 			// 商品详情
-			getGoodsDetail:function(id,encrypted_id){
+			getGoodsDetail: function(id, encrypted_id) {
 				let that = this
 				let dataInfo = {
 					interfaceId: 'goodsspudetails',
@@ -532,12 +580,11 @@
 						let data = res.data.data
 						uni.setStorageSync("goodsDetail", data);
 						that.contentList = data
-						that.swiperList = data.img						
+						that.swiperList = data.img
 						// that.spec = that.assembleSpec(data.sku.user_spec, 1)
 						that.spec_value = data.spec_value
-						// for (let i in that.spec) {
-						// 	console.log(that.spec[i].attr)
-						// }
+						that.defaultSpec = that.contentList.sku.spec_attr[1]
+						// console.log(that.defaultSpec,222222)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -564,13 +611,17 @@
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
 					type: '2',
-					offset: '0'
+					offset: that.offset
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.productLists = data
-					} 
+						// that.productLists = data
+						// if(data.length>0){
+						// 	that.productList = that.productList.concat(data)
+						// }
+						that.productLists = that.productLists.concat(data)
+					}
 				})
 			},
 
@@ -590,13 +641,13 @@
 					}
 				})
 			},
-			
+
 			// 相关
-			getRelated:function(id){
+			getRelated: function(id) {
 				let that = this
 				let dataInfo = {
-					interfaceId:'spurelatedcontent',
-					encrypted_id:id
+					interfaceId: 'spurelatedcontent',
+					encrypted_id: id
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -606,8 +657,12 @@
 						that.diaryList = data.diary_list
 						that.questionsAnswersList = data.goods_qa_list
 						that.evaluateList = data.comment_list
-						console.log(data)
-					} 
+						that.spu_info = data.spu_info
+						let imgSrc = that.spu_info
+						imgSrc = imgSrc.match(/up(\S*)jpeg/g)
+						that.spu_info = imgSrc
+						console.log(imgSrc, 1111)
+					}
 				})
 			},
 			// 分割数组
@@ -620,12 +675,35 @@
 				return newArray;
 			},
 			// 医生
-			goToDoctor:function(id,heading){
+			goToDoctor: function(id, heading) {
 				uni.navigateTo({
 					url: `/pages/doctor/doctor_detail?id=${id}&&heading=${heading}`,
 				})
 			},
-			
+
+			changeSpecs: function(index) {
+				let that = this
+				that.specsCont = index
+				that.defaultSpec = ''
+				if (that.lastIndex != index) {
+					that.lastIndexs = 1
+				} else if (that.lastIndex == index) {
+					that.handleClicke(index)
+				}
+				that.lastIndex = index
+				that.lastIndexs += 1;
+			},
+			handleClicke: function(index) {
+				let that = this
+				// console.log(that.lastIndexs,index)
+				if (that.lastIndexs % 2 == 1) {
+					console.log('单次点击')
+				} else {
+					console.log('双次点击2')
+					that.specsCont = ''
+				}
+			},
+
 			// userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
 			assembleSpec: function(userSpec, isFirst, nowCheck, isCancel) {
 				// 新规格数组，与原规格spec_value相对应，用于标记各种状态
@@ -767,6 +845,42 @@
 </script>
 
 <style scoped>
+	.top-bar {
+		text-align: center;
+		font-size: 40rpx;
+		position: fixed;
+		z-index: 100;
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+	
+	.back-title {
+		font-size: 38rpx;
+		position: relative;
+		text-align: center;
+	}
+	
+	.back {
+		display: flex;
+		align-items: center;
+		margin-left: 20rpx;
+		width: 60rpx;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	
+	.back image {
+		width: 36rpx;
+		height: 36rpx;
+	}
+	
+	.back-title .title {
+		flex: 1;
+		font-size: 37rpx;
+	}
 	.content {
 		background-color: #F6F6F6;
 		height: 100%;
@@ -775,6 +889,7 @@
 
 	.top-swiper {
 		height: 750rpx;
+
 	}
 
 	.video {
@@ -782,13 +897,25 @@
 		height: 750rpx;
 	}
 
+	.all-top-swiper-item {
+		position: relative;
+	}
+
+	.top-banner {
+		position: absolute;
+		width: 300rpx;
+		top: 0;
+		left: 0;
+		z-index: 100;
+	}
+
 	.top-swiper-item image {
-		height: 750rpx;
+		/* height: 750rpx; */
 		width: 100%;
 	}
 
 	.activity image {
-		height: 100rpx;
+		/* height: 100rpx; */
 		width: 100%;
 	}
 
@@ -951,7 +1078,7 @@
 	.sale-content .red {
 		color: #fa3475;
 	}
-	
+
 
 	.label-name {
 		font-size: 18rpx;
@@ -1029,15 +1156,28 @@
 		overflow: hidden;
 	}
 
+	.specs-content {
+		margin-top: 30rpx;
+	}
+
+	.specs-content:first-child {
+		margin-top: 0;
+	}
+
 	.specs-title {
-		/* padding-top: 25rpx; */
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #111111;
 	}
 
+	.specs-hint {
+		color: #fa3475;
+		font-size: 22rpx;
+		margin-left: 20rpx;
+	}
+
 	.specs {
-		padding:  30rpx 30rpx;
+		padding: 30rpx 30rpx;
 		background: #FFFFFF;
 		margin-top: 20rpx;
 		border-radius: 24rpx;
@@ -1054,7 +1194,8 @@
 		margin-left: -30rpx;
 		font-size: 24rpx;
 	}
-	.specs-cont-pay{
+
+	.specs-cont-pay {
 		margin-left: -30rpx;
 		font-size: 24rpx;
 		display: flex;
@@ -1070,7 +1211,8 @@
 		background: #f0f0f0;
 		margin: 20rpx 0 0 30rpx;
 	}
-	.specs-cont-pay .li{
+
+	.specs-cont-pay .li {
 		margin: 0 0 0 30rpx;
 	}
 
@@ -1086,7 +1228,7 @@
 
 	/* 相关证书 */
 	.certificate {
-		padding:  30rpx ;
+		padding: 30rpx;
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-top: 20rpx;
@@ -1097,7 +1239,7 @@
 
 	/* 相关商品 */
 	.related-products {
-		padding: 30rpx 0 0 20rpx;
+		padding: 0 0 10rpx 20rpx;
 	}
 
 	.line {
@@ -1221,7 +1363,7 @@
 
 	/* 相关医生 */
 	.related-doctor {
-		padding: 0  20rpx ;
+		padding: 0 20rpx;
 		background-color: #F6F6F6;
 		margin-bottom: 20rpx;
 	}
@@ -1277,18 +1419,23 @@
 	}
 
 	.doctor-recommends {
-		width: 380rpx;
-	}
-
-	.doctor-synopsis {
-		color: #9a9a9a;
+		width: 360rpx;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 	}
 
+	.doctor-synopsis {
+		color: #9a9a9a;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+	}
+
 	.doctor-label-list {
+		width: 380rpx;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
@@ -1342,13 +1489,13 @@
 		font-size: 24rpx;
 		color: #fa3475;
 	}
-	
-	.all-diary{
+
+	.all-diary {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
-	
+
 
 	/* 问答 */
 	.questions-answers {
@@ -1481,6 +1628,7 @@
 
 	/* 所有表 */
 	.all-table {
+		margin-top: 20rpx;
 		padding: 40rpx 20rpx;
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -1609,14 +1757,19 @@
 		padding: 0 20rpx 20rpx;
 	}
 
-	
+	.particulars-image {
+		display: flex;
+		justify-content: center;
+	}
+
 	.particulars-image image {
 		width: 100%;
+		/* height: 320rpx; */
 	}
 
 	/* 为你推荐 */
 	.recommend-for-you {
-		padding: 30rpx 20rpx ;
+		padding: 30rpx 20rpx;
 		/* padding: 105rpx; */
 	}
 

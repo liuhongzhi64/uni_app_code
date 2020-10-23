@@ -226,7 +226,7 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       barName: 'particularsPage', //导航条名称
-      topBackgroundColor: '#222222',
+      topBackgroundColor: '#111111',
       color: '#FFFFFF',
       backImage: '../../static/images/return.png',
       barImage: '../static/images/refresh.png',
@@ -420,12 +420,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 使用卡券
     useCard: function useCard(id, state) {
-      // console.log('使用的卡券id:',id,"卡券状态",state)
+      console.log('使用的卡券id:', id, "卡券状态", state);
       var cardId = id;
       if (state == 1) {
         uni.navigateTo({
           url: "/pages/my/my_card_use?id=".concat(cardId) });
 
+      } else if (state == 3) {
+        that.request.showToast('已使用');
       } else
       {
         uni.showModal({

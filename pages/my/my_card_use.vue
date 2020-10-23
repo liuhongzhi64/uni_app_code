@@ -78,7 +78,7 @@
 									<view class="images">
 										<image src="../../static/images/cartBg.png" mode=""></image>
 									</view>																		
-									<view class="no-have-ticket">喵！暂无相关卡券~</view>
+									<view class="no-have-ticket">喵！暂无相关商品可用此卡券~</view>
 								</view>
 							</view>
 						</view>

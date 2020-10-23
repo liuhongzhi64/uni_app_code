@@ -2,13 +2,49 @@
 	"pages": [
 
 		// 测试时的首页
-
+		
+		
 		{
 			"path": "pages/goods/goods_detail", //商品详情
 			"style": {}
 		},
-
-
+		
+		// 商品
+		{
+			"path": "pages/goods/goods_classify", //商品分类
+			"style": {}
+		},
+		
+		{
+			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_comment_detail", //商品详情（评价详情）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_list", //商品列表
+			"style": {}
+		},
+		
+		
 		// 首页
 		{
 			"path": "pages/index/index",
@@ -16,7 +52,6 @@
 				"enablePullDownRefresh": true
 			}
 		},
-		
 
 		// 登录
 		{
@@ -131,40 +166,7 @@
 			"style": {}
 		},
 
-		// 商品
-		{
-			"path": "pages/goods/goods_classify", //商品分类
-			"style": {}
-		},
-
-		{
-			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_comment_detail", //商品详情（评价详情）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_list", //商品列表
-			"style": {}
-		},
+		
 
 		// 消息
 		{

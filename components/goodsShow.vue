@@ -5,7 +5,7 @@
 			<view class="left-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode="" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -33,7 +33,7 @@
 			<view class="right-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode="" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -65,20 +65,28 @@
 			<scroll-view class="product-items" scroll-x="true">
 				<view class="product-item-content">
 					<view class="productImgs" v-for="(item,k) in crosswiseGoods" :key='k' @tap="changeGoods(item.sku_id,item.encrypted_id)">
-						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx'}]">
-							<view class="Imgs" :style="[{'height':width+'rpx','width':width+'rpx'}]">
-								<image :src="requestUrl + item.head_img" mode=""></image>
+						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]">
+							<view class="Imgs">
+								<image :src="requestUrl + item.head_img" mode="widthFix" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx','width':width+'rpx'}]">
+								</image>
 							</view>
-							<view class="productContent"> {{item.goods_name}} </view>
-							<view class="product-label">
-								<view class="label-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
-							</view>
-							<view class="prouctPrice" v-if="item.sale_price">
-								<view class="newprice"> <text>￥</text> {{item.sale_price}}</view>
-								<view class="oldPrice" v-if="item.market_price"> <text>￥</text> {{item.market_price}} </view>
-							</view>
-							<!-- 预约和好评 -->
-							<view class="subscribeAndGoodReputation" v-if="item.sales&&item.rate">
+							<view class="bottom-content">
+								<view class="goods_name"> {{item.goods_name}} </view>
+								<view class="goods-label" v-if="item.label.type==0">
+									<view class="label-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
+								</view>
+								<view class="goods-label" v-else>
+									<view class="activity-name" v-for="(i,k) in item.label.list" :key='k'> {{i}} </view>
+								</view>
+								<view class="price-vip">
+									<view class="price">
+										<text>￥</text>{{item.sale_price}}
+									</view>
+									<view class="vip-price" v-if="item.member.member_title">
+										<text class="cart">{{item.member.member_title}}</text>
+										<text class="price">￥{{item.member.price}}</text>
+									</view>
+								</view>
 								<view class="rate-sales">
 									<view class="sales"> {{item.sales}}预约 </view>
 									<view class="rate"> {{item.rate}}%好评 </view>
@@ -108,7 +116,7 @@
 			}
 		},
 		methods: {
-			changeGoods: function(id,pid) {
+			changeGoods: function(id, pid) {
 				// console.log(id,pid)
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?sku_id=${id}&&encrypted_id=${pid}`,
@@ -142,6 +150,7 @@
 		margin-bottom: 10rpx;
 	}
 
+
 	.bottom-content {
 		padding: 10rpx 20rpx;
 		background-color: #FFFFFF;
@@ -165,12 +174,20 @@
 		margin-top: 16rpx;
 	}
 
+	.product-label {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0 20rpx;
+	}
+
 	.label-name {
 		background-color: #999999;
 		text-align: center;
-		border-radius: 4rpx;
+		border-radius: 10rpx;
 		margin: 0 10rpx 10rpx 0;
-		padding: 5rpx 10rpx;
+		padding: 0 10rpx;
+		line-height: 36rpx;
+
 	}
 
 	.activity-name {
@@ -256,6 +273,10 @@
 		margin-right: 30rpx;
 	}
 
+	.productImgs:last-child {
+		padding-right: 30rpx;
+	}
+
 	.productItems {
 		display: flex;
 		flex-direction: column;
@@ -298,7 +319,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		padding: 10rpx 0 0;
+		padding: 10rpx 20rpx;
 		text-align: left;
 		width: 100%;
 	}
@@ -314,6 +335,7 @@
 	.newprice {
 		color: #EF6174;
 		font-size: 30rpx;
+		padding: 0 20rpx;
 	}
 
 	.oldPrice {

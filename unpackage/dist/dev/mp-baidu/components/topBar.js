@@ -198,7 +198,7 @@ var _default =
 
     backImage: {
       type: String,
-      default: '../static/images/back2.png' },
+      default: '../static/images/return.png' },
 
     BarImgs: {
       type: String,

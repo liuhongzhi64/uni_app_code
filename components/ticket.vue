@@ -171,7 +171,7 @@
 					<view class="useing-ticket"
 					 v-if="item.c_use_channel == 0 && item.c_card_type == 1 || item.c_card_type ==2 || item.c_card_type ==3 ||item.c_card_type ==4 "
 					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
-					 @tap='userCard(item.c_id,item.state)'>
+					 @tap='userCard(item.c_id,item.status)'>
 						立即使用
 					</view>	
 					<view class="useing-ticket" v-else
@@ -202,11 +202,11 @@
 				<image src="../static/images/upper-limit.png" mode=""></image>
 			</view>			
 			<!-- 已失效 -->
-			<view class="ticket-label-images invalid" v-else-if="item.state==3">
+			<view class="ticket-label-images invalid" v-else-if="item.use_end_time-time_now<0">
 				<image src="../static/images/state1.png" mode=""></image>
 			</view>
 			<!-- 已使用 -->
-			<view class="ticket-label-images invalid" v-else-if="item.state==4">
+			<view class="ticket-label-images invalid" v-else-if="item.status==3">
 				<image src="../static/images/state2.png" mode=""></image>
 			</view>
 		</view>
@@ -246,11 +246,7 @@
 					this.$emit('getCards',id,prompt,index)
 				}
 			},
-			goUserCard: function() {
-				uni.navigateTo({
-					url: `/pages/my/my_card_use`,
-				})
-			},
+			
 			// 使用卡券
 			userCard:function(id,state){
 				this.$emit('useCard', id,state)

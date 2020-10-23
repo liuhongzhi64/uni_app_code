@@ -10,7 +10,7 @@
 					 v-if="index%2==0">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
 							<view class="image-label">
-								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
+								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image></view>
 								<view class="label">{{item.label}}</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>	
@@ -49,7 +49,7 @@
 					 v-if="index%2==1">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
 							<view class="image-label">
-								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
+								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image></view>
 								<view class="label">{{item.label}}</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>
@@ -58,7 +58,7 @@
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 								<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 							</view>																				
-							<view class="goods_name">{{item.goods_name}}</view>	
+							<view class="goods_name" v-if="item.goods_name">{{item.goods_name}}</view>	
 						</view>										
 						<view class="head_ico-nick_name-collect_num">
 							<view class="head_ico-nick_name">
@@ -120,6 +120,7 @@
 	.left-content,.right-content{
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 	}
 	
 	
@@ -130,6 +131,7 @@
 		width: 350rpx;
 		display: flex;
 		flex-direction: column;
+		
 		height: auto;
 	}
 	.image-label{
@@ -194,6 +196,7 @@
 	}
 	.goods_name{
 		padding: 0 20rpx ;
+		margin-bottom: 10rpx;
 		color: #999999;
 		font-size: 20rpx;
 		overflow: hidden;

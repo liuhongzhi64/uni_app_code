@@ -130,10 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 466));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 515));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 480));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 466));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 515));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 473));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 480));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -255,25 +252,25 @@ __webpack_require__.r(__webpack_exports__);
       rightGoodsId: 0, //导航条id
       tabBars: [{
         name: '猜你喜欢',
-        id: '4' },
+        type: '4' },
 
       {
         name: '最新',
-        id: '1' },
+        type: '1' },
 
       {
         name: '最热',
-        id: '2' },
+        type: '2' },
 
       {
         name: '特价',
-        id: '3' }],
+        type: '3' }],
 
 
 
       line: true, //是否显示选中线
       tabIndex: 0, // 选中的
-      swiperheight: 210, //高度
+      swiperHeight: 180, //高度
       rightswiperHeight: 0, //右边的滑动元素高度
       newslist: [], //商品数组
       classfyList: [], //非热门推荐商品列表
@@ -287,7 +284,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
       requestUrl: '',
-      offset: 0 };
+      offset: 0,
+      thisType: 0 };
 
   },
   onLoad: function onLoad() {
@@ -398,10 +396,13 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     //接受子组件传过来的值点击切换导航
-    tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4;
+    tabtap: function tabtap(index) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
       var that = this;
       this.tabIndex = index;
-      if (id == 4) {
+      that.thisType = type;
+      that.rightswiperHeight = 0;
+      console.log(that.thisType, '点击类型');
+      if (type == 4) {
         var dataInfo = {
           interfaceId: 'userrecommendedgoodsspulist',
           type: '1',
@@ -410,19 +411,16 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("goods", dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
-            // that.newslist = data
-            that.newslist = that.newslist.concat(data);
+            that.newslist = data;
+            // that.newslist = that.newslist.concat(data)
             that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 800;
-          } else
-          {
-            console.log('没有数据');
           }
         });
       } else {
         var _dataInfo = {
           interfaceId: 'hotrecommendedspulist',
-          type: id, //推荐类型1最新 2最热 3:特价
-          offset: 0, //分页起始数量 默认 0
+          type: type, //推荐类型1最新 2最热 3:特价
+          offset: that.offset, //分页起始数量 默认 0
           limit: 6 //每页数量 默认6
         };
         that.request.uniRequest("goods", _dataInfo).then(function (res) {
@@ -430,12 +428,8 @@ __webpack_require__.r(__webpack_exports__);
             var data = res.data.data;
             that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800;
             that.newslist = data;
-          } else
-          {
-            // this.request.showToast('暂时没有数据')
-            console.log('没有数据');
+            // that.newslist = that.newslist.concat(data)
           }
-
         });
       }
     },
@@ -444,51 +438,17 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       this.tabIndex = e.detail.current;
       var type = this.tabIndex;
+      console.log(type, '滑动类型');
       if (type == 0) {
-        var dataInfo = {
-          interfaceId: 'userrecommendedgoodsspulist',
-          type: '1', //推荐类型1最新 2最热 3:特价
-          offset: 0 //分页起始数量 默认 0
-        };
-        that.request.uniRequest("goods", dataInfo).then(function (res) {
-          if (res.data.code == 1000 && res.data.status == 'ok') {
-            var data = res.data.data;
-            that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800;
-            that.newslist = data;
-          } else
-          {
-            console.log('没有数据');
-          }
-        });
+        that.tabtap(this.tabIndex, 4);
       } else {
-        console.log(type);
-        var _dataInfo2 = {
-          interfaceId: 'hotrecommendedspulist',
-          type: type, //推荐类型1最新 2最热 3:特价
-          offset: 0, //分页起始数量 默认 0
-          limit: 6 //每页数量 默认6
-        };
-        that.request.uniRequest("goods", _dataInfo2).then(function (res) {
-          if (res.data.code == 1000 && res.data.status == 'ok') {
-            var data = res.data.data;
-            that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800;
-            that.newslist = data;
-          } else
-          {
-            // this.request.showToast('暂时没有数据')
-            console.log('没有数据');
-          }
-
-        });
+        that.tabtap(this.tabIndex, type);
       }
-      // if (this.tabIndex == 3) {
-      // 	type = 0
-      // }
     },
     onBottom: function onBottom() {
       var that = this;
-      that.offset += 1;
-      that.tabtap();
+      // that.offset += 1;
+      // that.tabtap(this.thisType,that.thisType)
     },
     gotoGoodsList: function gotoGoodsList(listName) {
       uni.navigateTo({

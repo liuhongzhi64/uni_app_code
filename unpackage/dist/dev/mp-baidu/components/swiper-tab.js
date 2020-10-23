@@ -157,7 +157,7 @@ var _default =
     //点击切换导航
     tabtap: function tabtap(index, type, id) {
       this.$emit('tabtap', index, type, id);
-
+      // console.log(index,type,this.tabBars)
     } } };exports.default = _default;
 
 /***/ }),

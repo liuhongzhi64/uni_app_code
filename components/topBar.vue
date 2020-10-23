@@ -82,7 +82,7 @@
 			},
 			backImage:{
 				type: String,
-				default: '../static/images/back2.png'
+				default: '../static/images/return.png'
 			},
 			BarImgs: {
 				type: String,
@@ -307,7 +307,6 @@
 		font-size: 40rpx;
 		position: fixed;
 		z-index: 100;
-		position: fixed;
 		width: 100%;
 		top: 0;
 		left: 0;

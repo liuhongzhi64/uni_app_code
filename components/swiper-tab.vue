@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-tab-bar">
 		<scroll-view class="uni-swiper-tab" :style="[{'background-color':tabBackgroundColor}]" >
-			<block  v-for="(tab,index) in tabBars" :key="tab.id">
+			<block  v-for="(tab,index) in tabBars" :key="index">
 				<view class="swiper-tab-list" :style="[{'width':tabBars.length == 4?'25%':'20%'}]"
 				 :class="{'active' : tabIndex==index}" @tap="tabtap(index,tab.type,tab.id)" 
 				 >
@@ -41,7 +41,7 @@
 			//点击切换导航
 			tabtap(index,type,id) {
 				this.$emit('tabtap', index,type,id)
-				
+				// console.log(index,type,this.tabBars)
 			}
 		}
 	}

@@ -398,9 +398,9 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     goToMyCard: function goToMyCard() {
-      var cardId = id;
+      // let cardId = id
       uni.navigateTo({
-        url: "/pages/check/check_card?id=".concat(cardId) });
+        url: "/pages/my/my_card" });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

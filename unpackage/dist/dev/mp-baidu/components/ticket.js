@@ -142,7 +142,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -390,11 +390,7 @@ var _default =
         this.$emit('getCards', id, prompt, index);
       }
     },
-    goUserCard: function goUserCard() {
-      uni.navigateTo({
-        url: "/pages/my/my_card_use" });
 
-    },
     // 使用卡券
     userCard: function userCard(id, state) {
       this.$emit('useCard', id, state);
@@ -407,7 +403,6 @@ var _default =
     deleteCard: function deleteCard(id) {
       this.$emit('deleteCard', id);
     } } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

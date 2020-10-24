@@ -1,6 +1,7 @@
 <template>
 	<view class="goods_detail">
-		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color,}]">
+		<view class="top-bar"
+		 :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
 					<image :src="backImage" mode=""></image>
@@ -126,15 +127,16 @@
 							</view>
 							<view class="specs-cont">
 								<!-- <view class="li" v-for="(is,sindex) in item.attr" 
-								 :class="[spec[index].attr[sindex]==0?'':(spec[index].attr[sindex]==1?'li-hover':'li-gray')]"
+								 :class="[spec_value[index].attr[sindex]==0?'':(spec_value[index].attr[sindex]==1?'li-hover':'li-gray')]"
 								 :key="sindex" 
 								 :data-index="index" :data-sindex="sindex" 
-								 @tap="spec[index].attr[sindex]==0?getSpec(index,sindex):(spec[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
+								 @tap="spec_value[index].attr[sindex]==0?getSpec(index,sindex):(spec_value[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
 									{{sindex}}{{is}} {{index}}
 								</view> -->
-								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" :class="[specsCont==sindex||sindex==defaultSpec?'li-hover':'li-gray']"
+								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
+								 :class="[specsCont==sindex||sindex==defaultSpec?'li-hover':'li-gray']"
 								 :data-index="index" @tap="changeSpecs(sindex)">
-									{{is}}
+									{{is}} {{sindex}}
 								</view>
 							</view>
 						</view>
@@ -144,8 +146,14 @@
 				<view class="specs">
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" :class="[contentList.sku.pay_type==0||contentList.sku.pay_type==2?'li-hover':'']">预约金</view>
-						<view class="li" :class="[contentList.sku.pay_type==1||contentList.sku.pay_type==2?'li-hover':'']">全款付</view>
+						<view class="li" @tap='changePay(0)'
+						 :class="[pay_type==0||pay_type==2?'li-hover':'']">
+							预约金
+						</view>
+						<view class="li" @tap='changePay(1)'
+						 :class="[pay_type==1||sku.pay_type==2?'li-hover':'']">
+							全款付
+						</view>
 					</view>
 				</view>
 				<!-- 相关证书 -->
@@ -209,7 +217,6 @@
 					<view class="all-diary">
 						<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
 					</view>
-
 				</view>
 				<!-- 问答 -->
 				<view class="questions-answers" v-if="questionsAnswersList.length>0">
@@ -256,106 +263,16 @@
 					</view>
 				</view>
 				<!-- 项目价格表 -->
-				<view class="all-table">
-					<view class="item-price">
-						<view class="item-top">
-							项目价格表
-						</view>
-						<view class="table">
-							<view class="vertical-item">
-								<view class="vertical-item-name"> 项目名称 </view>
-								<view class="vertical-item-explain"> 项目组合 </view>
-								<view class="vertical-item-explain "> 医生/级别 </view>
-								<view class="vertical-item-explain "> 销售价格 </view>
+				<view class="all-table" v-if="parameter.length>0">
+					<view class="table-list" v-for="(item,index) in parameter" :key='index' v-show="item.title">
+						<view class="table-title"> {{item.title}} </view>
+						<view class="all-table-li">
+							<view class="table-ul" v-for="(i,k) in item.data" :key='k'>
+								<view class="table-li" v-for="(is,j) in i" :key='j'
+								 :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':'20%'))}]">
+									{{is.val }}
+								</view>
 							</view>
-							<view class="vertical-item">
-								<view class="vertical-item-name"> 润百颜黑金 </view>
-								<view class="vertical-item-explain "> 1ML </view>
-								<view class="vertical-item-explain "> 中 </view>
-								<view class="vertical-item-explain  prouct-price"> 980</view>
-							</view>
-							<view class="vertical-item">
-								<view class="vertical-item-name"> 伊婉C </view>
-								<view class="vertical-item-explain"> 1ML </view>
-								<view class="vertical-item-explain"> 高 </view>
-								<view class="vertical-item-explain prouct-price"> 1280</view>
-							</view>
-							<view class="vertical-item">
-								<view class="vertical-item-name"> 伊婉V </view>
-								<view class="vertical-item-explain"> 1ML </view>
-								<view class="vertical-item-explain"> 中 </view>
-								<view class="vertical-item-explain prouct-price"> 1680</view>
-							</view>
-						</view>
-					</view>
-					<!-- 额外费用 -->
-					<view class="extra-expense">
-						<view class="item-top">
-							额外费用
-						</view>
-						<view class="across">
-							<view class="extra-across-item">
-								<view class="item-name"> 项目名称 </view>
-								<view class="item-name"> TSG动感深V胸2.0 </view>
-								<view class="item-name"> TSG动感深V胸2.0 </view>
-								<view class="item-name"> TSG动感深V胸2.0 </view>
-							</view>
-							<view class="extra-across-item">
-								<view class="item-name"> 医生 </view>
-								<view class="item-name"> 艾剑英 </view>
-								<view class="item-name"> 邱伟 </view>
-								<view class="item-name"> 谢凯英 </view>
-							</view>
-							<view class="extra-across-item">
-								<view class="item-name"> 额外收费 </view>
-								<view class="item-name"> 无额外费用 </view>
-								<view class="item-name"> 无额外费用 </view>
-								<view class="item-name prouct-price"> 加3000点名费 </view>
-							</view>
-						</view>
-					</view>
-					<!-- 服务流程 -->
-					<view class="service-process">
-						<view class="item-top">
-							服务流程
-						</view>
-						<view class="across">
-							<view class="service-across-item">
-								<view class="item-name"> 流程步骤 </view>
-								<view class="item-name"> 1、面诊 </view>
-								<view class="item-name"> 2、手术 </view>
-								<view class="item-name"> 3、术后消肿 </view>
-							</view>
-							<view class="service-across-item">
-								<view class="item-name"> 时间 </view>
-								<view class="item-name"> 10分钟 </view>
-								<view class="item-name"> 80分钟 </view>
-								<view class="item-name"> 15分钟 </view>
-							</view>
-						</view>
-					</view>
-					<!-- 购买需知 -->
-					<view class="need-to-know">
-						<view class="item-top">
-							购买需知
-						</view>
-						<view class="vertical-item">
-							<view class="vertical-item-name first"> 信息标题 </view>
-							<view class="vertical-item-explain first"> 详细说明 </view>
-						</view>
-						<view class="vertical-item">
-							<view class="vertical-item-name"> 1、有效期 </view>
-							<view class="vertical-item-explain"> 一个月 </view>
-						</view>
-						<view class="vertical-item">
-							<view class="vertical-item-name"> 2、预约信息 </view>
-							<view class="vertical-item-explain">
-								<view>1）拍下后一个月内使用 2）此项目仅限购买一次</view>
-							</view>
-						</view>
-						<view class="vertical-item">
-							<view class="vertical-item-name"> 3、可用时间 </view>
-							<view class="vertical-item-explain"> 08：30-18：00（休息日） </view>
 						</view>
 					</view>
 				</view>
@@ -443,6 +360,7 @@
 				title: '商品详情',
 				height: 0,
 				contentList: [],
+				pay_type:1,//支付方式  0预约金 1 全款 2 全选
 				swiperList: [],
 				intervalTime: 4000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
@@ -487,7 +405,9 @@
 				specsCont: '',
 				lastIndex: '',
 				lastIndexs: 1,
-				offset: 0 //分页起始位置
+				offset: 0 ,//分页起始位置
+				parameter:[],//各种表
+				encrypted_id:'',//加密商品skuid
 			}
 		},
 		onReachBottom: function() {
@@ -505,14 +425,16 @@
 			if (option.sku_id) {
 				sku_id = option.sku_id
 			} else {
-				sku_id = '206'
+				sku_id = '206'  //206 302
 			}
 			if (option.encrypted_id) {
 				encrypted_id = option.encrypted_id
+				that.encrypted_id = encrypted_id
 			} else {
-				encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09'
+				encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09'  //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+				that.encrypted_id = encrypted_id
 			}
-
+			
 			that.getGoodsDetail(sku_id, encrypted_id)
 			that.getRelevantGoods(encrypted_id)
 			that.getRelated(encrypted_id)
@@ -582,6 +504,7 @@
 						that.contentList = data
 						that.swiperList = data.img
 						// that.spec = that.assembleSpec(data.sku.user_spec, 1)
+						that.pay_type = data.sku.pay_type
 						that.spec_value = data.spec_value
 						that.defaultSpec = that.contentList.sku.spec_attr[1]
 						// console.log(that.defaultSpec,222222)
@@ -624,7 +547,12 @@
 					}
 				})
 			},
-
+			// 支付方式
+			changePay:function(index){
+				console.log(index)
+				let that = this
+				that.pay_type = index
+			},
 			// 获取相关商品
 			getRelevantGoods: function(encrypted_id) {
 				this.request = this.$request
@@ -661,7 +589,8 @@
 						let imgSrc = that.spu_info
 						imgSrc = imgSrc.match(/up(\S*)jpeg/g)
 						that.spu_info = imgSrc
-						console.log(imgSrc, 1111)
+						that.parameter = data.parameter
+						// console.log(imgSrc, 1111)
 					}
 				})
 			},
@@ -680,7 +609,7 @@
 					url: `/pages/doctor/doctor_detail?id=${id}&&heading=${heading}`,
 				})
 			},
-
+			
 			changeSpecs: function(index) {
 				let that = this
 				that.specsCont = index
@@ -692,7 +621,25 @@
 				}
 				that.lastIndex = index
 				that.lastIndexs += 1;
+				
+				
+				let specArr = []
+				specArr.push(index)
+				
+				let dataInfo = {
+					interfaceId:'selectsku',
+					encrypted_id:that.encrypted_id,
+					spec_attr:specArr
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data) 
+					}
+				})
+				
 			},
+			// 点击两次
 			handleClicke: function(index) {
 				let that = this
 				// console.log(that.lastIndexs,index)
@@ -889,7 +836,6 @@
 
 	.top-swiper {
 		height: 750rpx;
-
 	}
 
 	.video {
@@ -910,12 +856,14 @@
 	}
 
 	.top-swiper-item image {
-		/* height: 750rpx; */
 		width: 100%;
 	}
-
+	
+	.activity{
+		height: 100%;
+	}
+	
 	.activity image {
-		/* height: 100rpx; */
 		width: 100%;
 	}
 
@@ -924,7 +872,7 @@
 		border-radius: 0 0 24rpx 24rpx;
 		background-color: #FFFFFF;
 		white-space: normal;
-		padding: 0 30rpx 40rpx;
+		padding: 20rpx 30rpx 40rpx;
 	}
 
 	/* 价格、收藏 */
@@ -932,8 +880,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		/* margin-top: -10rpx; */
-		/* line-height: 80rpx; */
 	}
 
 	.price {
@@ -944,6 +890,11 @@
 	.depreciate-collect,
 	.VIP-price {
 		display: flex;
+	}
+	
+	.depreciate-collect{
+		height: 100rpx;
+		align-items: center;
 	}
 
 	.new-price {
@@ -978,7 +929,6 @@
 	.market-price {
 		font-size: 24rpx;
 		color: #9e9e9e;
-		/* margin-top: -20rpx; */
 	}
 
 	.market-price text {
@@ -991,18 +941,19 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: space-between;
 	}
 
 	.depreciate {
-		margin-right: 20rpx;
+		margin-right: 40rpx;
 	}
 
 	.remind-images,
 	.remind-images image,
 	.collect-images,
 	.collect-images image {
-		width: 30rpx;
-		height: 28rpx;
+		width:48rpx;
+		height: 48rpx;
 	}
 
 	.remind-text,
@@ -1011,8 +962,6 @@
 		color: #111111;
 		margin-top: 7rpx;
 	}
-
-
 
 	.hot-sale-remind {
 		font-size: 20rpx;
@@ -1430,7 +1379,7 @@
 		color: #9a9a9a;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		overflow: hidden;
 	}
 
@@ -1633,116 +1582,46 @@
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 	}
-
-	/* 项目价格表 */
-	.item-price,
-	.extra-expense,
-	.service-process,
-	.need-to-know {
+	
+	.table-list{
 		border: 1rpx solid #999999;
+		border-bottom: 0;
+	}
+	
+	.table-title{
+		text-align: center;
 		font-size: 24rpx;
-		margin-bottom: 30rpx;
-		border-bottom: none;
+		padding: 18rpx 0;
+		font-weight: bold;
+		border-bottom: 1rpx solid #999999;
 	}
-
-	.need-to-know {
-		margin-bottom: 0;
-	}
-
-	.item-top {
-		background-color: #f0f0f0;
-		height: 60rpx;
-		line-height: 60rpx;
-		text-align: center;
-		font-weight: bolder;
-	}
-
-	.across {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		text-align: center;
-	}
-
-	.across-item,
-	.extra-across-item,
-	.service-across-item {
-		width: 25%;
-		border: 1rpx solid #999999;
-		color: #999999;
+	
+	.all-table-li{
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		border-right: none;
-	}
-
-	.extra-across-item {
-		width: 33%;
-	}
-
-	.service-across-item {
-		width: 50%;
-	}
-
-	.across-item:first-child,
-	.extra-across-item:first-child,
-	.service-across-item:first-child,
-	.need-to-know-left-item:first-child {
-		border-left: none;
-	}
-
-	.across-item .item-name:last-child,
-	.extra-across-item .item-name:last-child,
-	.service-across-item .item-name:last-child,
-	.need-to-know-left-item .item-name:last-child {
-		border-bottom: none;
-	}
-
-	.item-name {
-		padding: 20rpx 0;
-		width: 100%;
-		border-bottom: 1rpx solid #999999;
-	}
-
-	.prouct-price {
-		color: #fa3475;
-		font-weight: normal;
-		font-style: italic;
-	}
-
-	.vertical-item {
-		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	
+	.table-ul{
+		width: 100%;
 		text-align: center;
-		border-top: 1rpx solid #999999;
-		color: #999999;
+		display: flex;
+		font-size: 24rpx; 
 	}
-
-	.first {
-		border-top: 1rpx solid #999999;
-	}
-
-	.vertical-item:last-child {
+	
+	.table-li{
 		border-bottom: 1rpx solid #999999;
-	}
-
-	.vertical-item-name {
-		padding: 20rpx 0;
-		width: 30%;
-	}
-
-	.vertical-item-explain {
-		flex: 1;
-		padding: 20rpx 0;
 		border-left: 1rpx solid #999999;
 		display: flex;
-		justify-content: center;
 		align-items: center;
+		justify-content: center;
+		padding: 24rpx 0;
+		font-weight: lighter;
 	}
 
-	.vertical-item-explain view {
-		width: 260rpx;
+	.table-li:first-child{
+		border-left: 0;
 	}
 
 	/* 详情 */

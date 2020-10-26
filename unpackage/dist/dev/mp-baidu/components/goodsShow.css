@@ -27,6 +27,9 @@
 	background-color: #FFFFFF;
 	margin-bottom: 10rpx;
 }
+.goods_image.data-v-3712ff48{
+	width: 100%;
+}
 .bottom-content.data-v-3712ff48 {
 	padding: 10rpx 20rpx;
 	background-color: #FFFFFF;
@@ -141,9 +144,7 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
+	/* align-items: center; */
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
@@ -183,7 +184,6 @@
 	display: -webkit-flex;
 	display: flex;
 	width: 100%;
-	height: 100%;
 }
 .productContent.data-v-3712ff48 {
 	width: 220rpx;

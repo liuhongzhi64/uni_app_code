@@ -1,7 +1,6 @@
 <template>
-	<view class="goods_detail">
-		<view class="top-bar"
-		 :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
+	<view class="goods_detail" >
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
 					<image :src="backImage" mode=""></image>
@@ -9,9 +8,9 @@
 				<view class="title"> {{title}} </view>
 			</view>
 		</view>
-		<!-- 主体内容 -->
-		<view class="content">
-			<scroll-view scroll-y :style="[{'padding-top':menuBottom+10+'px','min-height':height-10+'px'}]">
+		<!-- 主体内容 @touchmove.stop.prevent="moveHandle" -->
+		<view class="content" >			
+			<scroll-view scroll-y  :style="[{'padding-top':menuBottom+10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
@@ -123,20 +122,13 @@
 					<template>
 						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
 							<view class="specs-title">
-								{{item.name}} <text class="specs-hint" v-if="!specsCont&&!defaultSpec">请选择{{item.name}}</text>
+								{{item.name}} {{index}} <text class="specs-hint" v-if="!specsCont&&!defaultSpec">请选择{{item.name}}</text>
 							</view>
 							<view class="specs-cont">
-								<!-- <view class="li" v-for="(is,sindex) in item.attr" 
-								 :class="[spec_value[index].attr[sindex]==0?'':(spec_value[index].attr[sindex]==1?'li-hover':'li-gray')]"
-								 :key="sindex" 
-								 :data-index="index" :data-sindex="sindex" 
-								 @tap="spec_value[index].attr[sindex]==0?getSpec(index,sindex):(spec_value[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
-									{{sindex}}{{is}} {{index}}
-								</view> -->
 								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
-								 :class="[specsCont==sindex||sindex==defaultSpec?'li-hover':'li-gray']"
+								 :class="[shouldChangeList[0]==sindex?'li-hover':(shouldChangeList[1]==sindex?'isChange':(shouldChangeList[2]==sindex?'isChange':'li-gray'))]"
 								 :data-index="index" @tap="changeSpecs(sindex)">
-									{{is}} {{sindex}}
+									{{is}} {{sindex}} 
 								</view>
 							</view>
 						</view>
@@ -168,7 +160,6 @@
 					<view class="related-products-item">
 						<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=260 :crosswiseGoods='relevantGoods'>
 						</goodsShow>
-						<!-- <porduct :width=260 :requestUrl='requestUrl' :crosswiseGoods='relevantGoods'></porduct> -->
 					</view>
 				</view>
 				<!-- 相关医生 -->
@@ -295,7 +286,7 @@
 						</goodsShow>
 					</view>
 				</view>
-			</scroll-view>
+			</scroll-view>									
 		</view>
 		<!-- 底部定位 -->
 		<view class="consult-share-cart-addCart-shopNow">
@@ -306,7 +297,6 @@
 				</view>
 				<view class="consult-text"> 咨询 </view>
 			</view>
-
 			<!-- 分享 -->
 			<view class="share">
 				<view class="share-image">
@@ -314,7 +304,6 @@
 				</view>
 				<view class="share-text"> 分享 </view>
 			</view>
-
 			<!-- 购物车 -->
 			<view class="cart" :data-cartNumber='carts' @tap="cart">
 				<view class="cart-number">
@@ -325,13 +314,15 @@
 				</view>
 				<view class="cart-text"> 购物车 </view>
 			</view>
-
 			<!-- 加入购物车 -->
-			<view class="add-cart"> 加入购物车 </view>
-
+			<view class="add-cart" @tap='addCard'> 加入购物车 </view>
 			<!-- 立即购买 -->
-			<view class="shop-now"> 立即购买 </view>
+			<view class="shop-now" @tap='shopNow'> 立即购买 </view>
 		</view>
+		<!-- 弹出的对话框 -->
+		<cover-view class="isShow" v-if="isShow" >
+			这是对话框
+		</cover-view>
 	</view>
 </template>
 
@@ -408,6 +399,8 @@
 				offset: 0 ,//分页起始位置
 				parameter:[],//各种表
 				encrypted_id:'',//加密商品skuid
+				isShow:false,//显示对话框
+				shouldChangeList:[],//可选规格版本
 			}
 		},
 		onReachBottom: function() {
@@ -497,7 +490,6 @@
 					sku_id: id
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
-					console.log(res.data)
 					if (res.data.code == 1000) {
 						let data = res.data.data
 						uni.setStorageSync("goodsDetail", data);
@@ -507,7 +499,7 @@
 						that.pay_type = data.sku.pay_type
 						that.spec_value = data.spec_value
 						that.defaultSpec = that.contentList.sku.spec_attr[1]
-						// console.log(that.defaultSpec,222222)
+						that.changeSpecs(that.defaultSpec)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -524,7 +516,7 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.advertisingList = data
-						console.log(data) //type 0 单行单图 1 轮播 2 平铺 3 铺平+竖铺  4 单行多图
+						// console.log(data) //type 0 单行单图 1 轮播 2 平铺 3 铺平+竖铺  4 单行多图
 					}
 				})
 			},
@@ -620,8 +612,7 @@
 					that.handleClicke(index)
 				}
 				that.lastIndex = index
-				that.lastIndexs += 1;
-				
+				that.lastIndexs += 1;				
 				
 				let specArr = []
 				specArr.push(index)
@@ -632,10 +623,8 @@
 					spec_attr:specArr
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						console.log(data) 
-					}
+					let data = res.data.data
+					that.shouldChangeList = data.user_spec
 				})
 				
 			},
@@ -647,7 +636,8 @@
 					console.log('单次点击')
 				} else {
 					console.log('双次点击2')
-					that.specsCont = ''
+					// that.specsCont = ''
+					that.shouldChangeList = []
 				}
 			},
 
@@ -780,13 +770,28 @@
 
 			// 购物车
 			cart: function(event) {
-				let cartNumber = event.currentTarget.dataset.cartnumber || event.currentTarget.dataset.cartNumber
-				// console.log(event.currentTarget.dataset.cartnumber)
+				// let cartNumber = event.currentTarget.dataset.cartnumber 
 				uni.navigateTo({
 					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
+			},			
+			moveHandle:function(){
+				return
 			},
-
+			moveOk:function(){
+				console.log(1111)
+			},
+			// 购物车
+			addCard:function(){
+				let that = this
+				that.isShow = !that.isShow
+			},
+			
+			// 立即购买
+			shopNow:function(){
+				let that = this
+				that.isShow = !that.isShow
+			}
 		}
 	}
 </script>
@@ -1049,7 +1054,6 @@
 		line-height: 30rpx;
 	}
 
-
 	/* 优惠 */
 	.discounts {
 		margin-top: 20rpx;
@@ -1170,6 +1174,11 @@
 		background: #ffe8f0;
 		color: #fa3475;
 	}
+	.isChange{
+		border: 2rpx solid #181818;
+		background-color: #7B7B7B;
+		color: #FFFFFF;
+	}
 
 	.li-gray {
 		color: #999999;
@@ -1202,13 +1211,12 @@
 		font-size: 28rpx;
 		line-height: 48rpx;
 		color: #111111;
-		/* font-weight: bolder; */
 		display: flex;
 		align-items: center;
 	}
 
 	.related-products-item {
-		white-space: nowrap;
+		/* white-space: nowrap; */
 	}
 
 	.doctor-swiper {
@@ -1228,7 +1236,6 @@
 	}
 
 	.product-item {
-		/* display: inline-block; */
 		margin-right: 20rpx;
 		border-radius: 24rpx;
 		background-color: #ffffff;
@@ -1649,7 +1656,6 @@
 	/* 为你推荐 */
 	.recommend-for-you {
 		padding: 30rpx 20rpx;
-		/* padding: 105rpx; */
 	}
 
 	.recommend-for-you .product-item {
@@ -1664,13 +1670,16 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		padding: 12rpx 30rpx;
+		padding: 0 30rpx;
 		width: 100%;
 		background-color: #333333;
 		color: #FFFFFF;
 		display: flex;
 		justify-content: space-between;
 		font-size: 28rpx;
+		height: 110rpx;
+		align-items: center;
+		z-index: 110;
 	}
 
 	.consult,
@@ -1735,8 +1744,15 @@
 		text-align: center;
 		line-height: 80rpx;
 		margin-right: 60rpx;
-		background-image: linear-gradient(-45deg,
-			#fa3475 0%,
-			#ff6699 100%);
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+	}
+	
+	.isShow{
+		position: fixed;
+		bottom: 110rpx;
+		left: 0;
+		width: 100%;
+		background-color: #FFFFFF;
+		z-index: 100;
 	}
 </style>

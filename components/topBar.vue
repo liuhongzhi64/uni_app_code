@@ -1,5 +1,13 @@
 <template>
 	<view class="allContent">
+		<!-- 选取规格最原始一般 -->
+		<!-- <!-- <view class="li" v-for="(is,sindex) in item.attr" 
+								 :class="[spec_value[index].attr[sindex]==0?'':(spec_value[index].attr[sindex]==1?'li-hover':'li-gray')]"
+								 :key="sindex" 
+								 :data-index="index" :data-sindex="sindex" 
+								 @tap="spec_value[index].attr[sindex]==0?getSpec(index,sindex):(spec_value[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
+									{{sindex}}{{is}} {{index}}
+								</view> --> -->
 		<!-- 带购物车和搜索的导航条 -->
 		<view class="content" v-if="barName ==='mianPage'" :style="[{'backgroundColor':topBackgroundColor,'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 			<view class="tabBar" :style="[{'padding-right':menuWidth+10+'px','padding-left':10+'px','height':menuHeight+'px'}]">

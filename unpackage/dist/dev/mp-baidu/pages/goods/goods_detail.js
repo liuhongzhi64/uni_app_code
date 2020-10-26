@@ -463,15 +463,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -539,7 +530,9 @@ __webpack_require__.r(__webpack_exports__);
       lastIndexs: 1,
       offset: 0, //分页起始位置
       parameter: [], //各种表
-      encrypted_id: '' //加密商品skuid
+      encrypted_id: '', //加密商品skuid
+      isShow: false, //显示对话框
+      shouldChangeList: [] //可选规格版本
     };
   },
   onReachBottom: function onReachBottom() {
@@ -629,7 +622,6 @@ __webpack_require__.r(__webpack_exports__);
         sku_id: id };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
-        console.log(res.data);
         if (res.data.code == 1000) {
           var data = res.data.data;
           uni.setStorageSync("goodsDetail", data);
@@ -639,7 +631,7 @@ __webpack_require__.r(__webpack_exports__);
           that.pay_type = data.sku.pay_type;
           that.spec_value = data.spec_value;
           that.defaultSpec = that.contentList.sku.spec_attr[1];
-          // console.log(that.defaultSpec,222222)
+          that.changeSpecs(that.defaultSpec);
         } else {
           that.request.showToast(res.data.message);
         }
@@ -656,7 +648,7 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.advertisingList = data;
-          console.log(data); //type 0 单行单图 1 轮播 2 平铺 3 铺平+竖铺  4 单行多图
+          // console.log(data) //type 0 单行单图 1 轮播 2 平铺 3 铺平+竖铺  4 单行多图
         }
       });
     },
@@ -754,7 +746,6 @@ __webpack_require__.r(__webpack_exports__);
       that.lastIndex = index;
       that.lastIndexs += 1;
 
-
       var specArr = [];
       specArr.push(index);
 
@@ -764,10 +755,8 @@ __webpack_require__.r(__webpack_exports__);
         spec_attr: specArr };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          console.log(data);
-        }
+        var data = res.data.data;
+        that.shouldChangeList = data.user_spec;
       });
 
     },
@@ -779,7 +768,8 @@ __webpack_require__.r(__webpack_exports__);
         console.log('单次点击');
       } else {
         console.log('双次点击2');
-        that.specsCont = '';
+        // that.specsCont = ''
+        that.shouldChangeList = [];
       }
     },
 
@@ -912,11 +902,27 @@ __webpack_require__.r(__webpack_exports__);
 
     // 购物车
     cart: function cart(event) {
-      var cartNumber = event.currentTarget.dataset.cartnumber || event.currentTarget.dataset.cartNumber;
-      // console.log(event.currentTarget.dataset.cartnumber)
+      // let cartNumber = event.currentTarget.dataset.cartnumber 
       uni.navigateTo({
         url: "/pages/cart/cart?cartNumber=".concat(cartNumber) });
 
+    },
+    moveHandle: function moveHandle() {
+      return;
+    },
+    moveOk: function moveOk() {
+      console.log(1111);
+    },
+    // 购物车
+    addCard: function addCard() {
+      var that = this;
+      that.isShow = !that.isShow;
+    },
+
+    // 立即购买
+    shopNow: function shopNow() {
+      var that = this;
+      that.isShow = !that.isShow;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

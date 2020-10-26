@@ -5,7 +5,7 @@
 			<view class="left-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -33,7 +33,7 @@
 			<view class="right-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix" :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix"  :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -149,6 +149,10 @@
 		background-color: #FFFFFF;
 		margin-bottom: 10rpx;
 	}
+	
+	.goods_image{
+		width: 100%;
+	}
 
 
 	.bottom-content {
@@ -262,7 +266,7 @@
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
-		align-items: center;
+		/* align-items: center; */
 		justify-content: space-between;
 		width: 100%;
 	}
@@ -294,7 +298,6 @@
 	.product-item-content {
 		display: flex;
 		width: 100%;
-		height: 100%;
 	}
 
 	.productContent {

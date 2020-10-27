@@ -1,5 +1,14 @@
 {
   "pages": [
+    "pages/goods/goods_classify",
+    "pages/goods/goods_detail",
+    "pages/goods/goods_detail_comment",
+    "pages/goods/goods_detail_comment_detail",
+    "pages/goods/goods_detail_notice",
+    "pages/goods/goods_detail_problem",
+    "pages/goods/goods_detail_problem_detail",
+    "pages/goods/goods_detail_video",
+    "pages/goods/goods_list",
     "pages/index/index",
     "pages/login/login_phone",
     "pages/login/login",
@@ -25,15 +34,6 @@
     "pages/doctor/doctor_certificate",
     "pages/doctor/doctor_detail",
     "pages/doctor/doctor_photo",
-    "pages/goods/goods_classify",
-    "pages/goods/goods_detail",
-    "pages/goods/goods_detail_comment",
-    "pages/goods/goods_detail_comment_detail",
-    "pages/goods/goods_detail_notice",
-    "pages/goods/goods_detail_problem",
-    "pages/goods/goods_detail_problem_detail",
-    "pages/goods/goods_detail_video",
-    "pages/goods/goods_list",
     "pages/message/message",
     "pages/message/message_detail",
     "pages/my/account_number",
@@ -52,6 +52,7 @@
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
     "pages/my/write_comment",
+    "pages/my/my_set",
     "pages/other/jump",
     "pages/pay_success/pay_success",
     "pages/poster/poster",
@@ -103,5 +104,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap22.json"
+  "sitemapLocation": "sitemap99.json"
 }

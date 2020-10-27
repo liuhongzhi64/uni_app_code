@@ -74,6 +74,7 @@
 }
 .my_card-content.data-v-6e8e8cce {
 	background-color: #F6F6F6;
+	height: 100%;
 }
 .ticket-label.data-v-6e8e8cce {
 	display: -webkit-box;
@@ -110,12 +111,17 @@
 	font-size: 20rpx;
 	line-height: 32rpx;
 	color: #999999;
+	height: 1100rpx;
 }
 .ticket-use-explain.data-v-6e8e8cce {
-	padding: 32rpx 36rpx 0;
+	padding: 32rpx 20rpx 0;
 	font-size: 20rpx;
 	line-height: 32rpx;
 	color: #999999;
+}
+.select-contents.data-v-6e8e8cce{
+	padding-bottom: 32rpx;
+	min-height: 1140rpx;
 }
 .images.data-v-6e8e8cce {
 	padding: 100rpx 0 46rpx;
@@ -302,6 +308,4 @@
 	width: 195rpx;
 	height: 155rpx;
 }
-
-
 

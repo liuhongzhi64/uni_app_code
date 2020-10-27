@@ -8,6 +8,45 @@
 								 @tap="spec_value[index].attr[sindex]==0?getSpec(index,sindex):(spec_value[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
 									{{sindex}}{{is}} {{index}}
 								</view> --> -->
+								
+			<!-- 			changeSpecs: function(index) {
+				let that = this
+				that.defaultSpec = ''
+				if (that.lastIndex != index) {
+					that.lastIndexs = 1
+				} else if (that.lastIndex == index) {
+					that.handleClicke(index)
+				}
+				that.lastIndex = index
+				that.lastIndexs += 1;				
+				
+				let specArr = []
+				specArr.push(index)
+				
+				let dataInfo = {
+					interfaceId:'selectsku',
+					encrypted_id:that.encrypted_id,
+					spec_attr:specArr
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					let data = res.data.data
+					that.shouldChangeList = data.user_spec
+				})
+				
+			},
+			// 点击两次
+			handleClicke: function(index) {
+				let that = this
+				// console.log(that.lastIndexs,index)
+				if (that.lastIndexs % 2 == 1) {
+					console.log('单次点击')
+				} else {
+					console.log('双次点击2')
+					// that.specsCont = ''
+					that.shouldChangeList = []
+				}
+			},
+			 -->
 		<!-- 带购物车和搜索的导航条 -->
 		<view class="content" v-if="barName ==='mianPage'" :style="[{'backgroundColor':topBackgroundColor,'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 			<view class="tabBar" :style="[{'padding-right':menuWidth+10+'px','padding-left':10+'px','height':menuHeight+'px'}]">

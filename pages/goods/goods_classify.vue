@@ -168,9 +168,9 @@
 			}
 			that.request.uniRequest("goods", dataInfo).then(res => {
 				// console.log(res)
-				if (res.statusCode == 200) {
-					// console.log(res.data.data)
+				if (res.statusCode == 200) {					
 					that.leftList = that.leftList.concat(res.data.data)
+					// console.log(that.leftList)
 					// 初始化右边接口数据
 					that.categoryClickMain()
 				}
@@ -252,7 +252,7 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
+						// console.log(data)
 					}
 				})
 			},
@@ -269,7 +269,7 @@
 				this.tabIndex = index;
 				that.thisType = type
 				that.rightswiperHeight = 0
-				console.log(that.thisType,'点击类型')
+				// console.log(that.thisType,'点击类型')
 				if(type==4){
 					let dataInfo = {
 						interfaceId: 'userrecommendedgoodsspulist',

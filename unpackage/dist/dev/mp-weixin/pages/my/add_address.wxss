@@ -1,8 +1,8 @@
 
-.porduct-content.data-v-666261ac{
+.porduct-content.data-v-666261ac {
 	background-color: #F6F6F6;
 }
-.user-all-message.data-v-666261ac{
+.user-all-message.data-v-666261ac {
 	background-color: #FFFFFF;
 	padding: 0 40rpx;
 	font-size: 24rpx;
@@ -26,27 +26,29 @@
 .title text.data-v-666261ac {
 	color: #fa3475;
 }
-.input-content.data-v-666261ac{
+.input-content.data-v-666261ac {
 	width: 45%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
 }
 .area.data-v-666261ac {
 	color: #999999;
 }
-.area-input.data-v-666261ac{
-	min-width: 200rpx;
-	text-align: start;
+.area-input.data-v-666261ac {
+	color: #111111;
 }
-.all-label.data-v-666261ac{
+.all-label.data-v-666261ac {
 	background-color: #FFFFFF;
 	margin-top: 20rpx;
 	padding: 40rpx;
 }
-.label-title.data-v-666261ac{
+.label-title.data-v-666261ac {
 	font-size: 24rpx;
 	color: #111111;
 	font-weight: bolder;
 }
-.label-item.data-v-666261ac{
+.label-item.data-v-666261ac {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -56,16 +58,16 @@
 	margin-top: 32rpx;
 	font-size: 24rpx;
 }
-.label-name.data-v-666261ac{
+.label-name.data-v-666261ac {
 	width: 130rpx;
 	height: 56rpx;
 	line-height: 56rpx;
 	text-align: center;
 	background-color: #f0f0f0;
-	border-radius: 28rpx;	
+	border-radius: 28rpx;
 	margin-right: 36rpx;
 }
-.selectStyle.data-v-666261ac{
+.selectStyle.data-v-666261ac {
 	width: 130rpx;
 	height: 56rpx;
 	line-height: 56rpx;
@@ -73,7 +75,7 @@
 	background-color: #ffe8f0;
 	border: 2rpx solid #FA3475;
 }
-.setDefultAddress.data-v-666261ac{
+.setDefultAddress.data-v-666261ac {
 	margin-top: 40rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -87,35 +89,34 @@
 	font-size: 24rpx;
 	line-height: 34rpx;
 }
-.set-address.data-v-666261ac{
+.set-address.data-v-666261ac {
 	color: #111111;
 }
-.hint.data-v-666261ac{
+.hint.data-v-666261ac {
 	color: #999999;
 }
-.select-address switch.data-v-666261ac{
+.select-address switch.data-v-666261ac {
 	width: 82rpx;
 	height: 50rpx;
 }
-.save-settings.data-v-666261ac{
+.save-settings.data-v-666261ac {
 	font-size: 32rpx;
-	
-	text-align: center;	
+
+	text-align: center;
 	position: fixed;
 	bottom: 56rpx;
 	width: 100%;
 }
-.save.data-v-666261ac{
+.save.data-v-666261ac {
 	padding: 0 40rpx;
 }
-.settings.data-v-666261ac{
+.settings.data-v-666261ac {
 	height: 88rpx;
 	border-radius: 44rpx;
 	line-height: 88rpx;
 	color: #FFFFFF;
 	border: 0;
-	background-image: -webkit-linear-gradient(bottom,  #fa3475 0%,  #ff6699 100%);
-	background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%);
+	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
 }
-
 

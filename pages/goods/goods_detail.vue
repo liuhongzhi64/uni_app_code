@@ -1,5 +1,5 @@
 <template>
-	<view class="goods_detail" >
+	<view class="goods_detail">
 		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
@@ -9,27 +9,31 @@
 			</view>
 		</view>
 		<!-- 主体内容 @touchmove.stop.prevent="moveHandle" -->
-		<view class="content" >			
-			<scroll-view scroll-y  :style="[{'padding-top':menuBottom+10+'px'}]">
+		<view class="content">
+			<scroll-view scroll-y :style="[{'padding-top':menuBottom+10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
 						 :duration="durationTime" circular>
 							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
-								<view class="video">
-									视频
+								<view class="video" @tap='goToVideo(contentList.video_list)'>
+									<video class="video-noPlay" :src="requestUrl+contentList.video_list" show-fullscreen-btn="false">
+										<view class="video-play">
+											<!-- <image src="../../static/images/video.png" mode="widthFix"></image> -->
+										</view>
+									</video>
 								</view>
-								<!-- <video class="video" :src="requestUrl+contentList.video_list"></video> -->
 								<!-- <image :src="requestUrl+contentList.sku.act.banner" mode="widthFix"></image> -->
 							</swiper-item>
 							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
 								<view class="top-swiper-item">
 									<image class="banner-img" :src="requestUrl+i" lazy-load='true' mode="widthFix"></image>
 								</view>
-								<image class="top-banner" :src="requestUrl+'upload/pages/images/202010/23/mBGXkqPtH3wIYbl9pd2oRJr2XuvTO4pmeNYJEsg6.jpeg'"
-								 mode="widthFix"></image>
-								<!-- <image :src="requestUrl+contentList.sku.act.banner" mode="widthFix"></image> -->
+								<!-- 商品头部活动广告图 -->
+								<!-- <image class="top-banner" :src="requestUrl+'upload/pages/images/202010/23/mBGXkqPtH3wIYbl9pd2oRJr2XuvTO4pmeNYJEsg6.jpeg'"
+								 mode="widthFix"></image> -->
+								<image class="top-banner" :src="requestUrl+contentList.sku.spu_icon" mode="widthFix"></image>
 							</swiper-item>
 						</swiper>
 					</view>
@@ -84,7 +88,7 @@
 					<!-- 以前的价格 -->
 					<view class="market-price"> 市场价 <text>￥{{contentList.sku.market_price}}</text> </view>
 					<!-- 热卖提醒 -->
-					<view class="hot-sale-remind" v-if="contentList.sku.act.length>0">
+					<view class="hot-sale-remind" >
 						<view class="hot-sale-content">
 							<view class="hot-sale"> 预热中 </view>
 							<view class="hot-sale-recommend"> 该商品6月18日 9:00:00开始售卖哦~ </view>
@@ -93,6 +97,8 @@
 					</view>
 					<!-- 商品名称 -->
 					<view class="prouct-name">
+						<image class="title_icon"
+						 :src="requestUrl+item" v-for="(item,index) in contentList.sku.act.title_icon"  :key='index'></image>
 						<!-- <text class="label-name"> 618特惠 </text> -->
 						<text class="all-goods_name"> {{contentList.goods_name}}</text>
 					</view>
@@ -105,13 +111,12 @@
 					<view class="get-coupon" v-if="contentList.sku.details_prompt"> {{contentList.sku.details_prompt}} </view>
 				</view>
 				<!-- 优惠活动 -->
-				<view class="discounts" v-if="contentList.sku.act.length>0">
+				<view class="discounts" v-if="contentList.sku.act.discounts">
 					<view class="discounts-title">
 						<view class="discounts-more"> 优惠 </view>
-						<view class="more"> 更多 > </view>
+						<view class="more" @tap='seeMore()'> 更多 > </view>
 					</view>
 					<!-- 优惠政策 -->
-					<!-- <view class="discounts-policy" v-for="(i,k) in discountsList" :key="k"> -->
 					<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
 						<view class="policy-name"> {{item.name}} </view>
 						<view class="policy-content" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
@@ -122,14 +127,19 @@
 					<template>
 						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
 							<view class="specs-title">
-								{{item.name}} {{index}} <text class="specs-hint" v-if="!specsCont&&!defaultSpec">请选择{{item.name}}</text>
+								{{item.name}} <text class="specs-hint" >请选择{{item.name}}</text>
 							</view>
 							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
-								 :class="[shouldChangeList[0]==sindex?'li-hover':(shouldChangeList[1]==sindex?'isChange':(shouldChangeList[2]==sindex?'isChange':'li-gray'))]"
-								 :data-index="index" @tap="changeSpecs(sindex)">
-									{{is}} {{sindex}} 
+								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
+								 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
+								 @tap="changeSpec(index,sindex)">
+									{{is}} 
 								</view>
+								<!-- <view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
+								 :class="[spec[index].attr[sindex]==0?'li-gray':(spec[index].attr[sindex]==1?'li-hover':'isChange')]"
+								 @tap="spec[index].attr[sindex]==0?getSpec:(spec[index].attr[sindex]==1?cancelSpec:'')">
+									{{is}} {{spec[index].attr[sindex]}}
+								</view> -->
 							</view>
 						</view>
 					</template>
@@ -138,12 +148,10 @@
 				<view class="specs">
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" @tap='changePay(0)'
-						 :class="[pay_type==0||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(0)' :class="[pay_type==0||pay_type==2?'li-hover':'']">
 							预约金
 						</view>
-						<view class="li" @tap='changePay(1)'
-						 :class="[pay_type==1||sku.pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(1)' :class="[pay_type==1||sku.pay_type==2?'li-hover':'']">
 							全款付
 						</view>
 					</view>
@@ -203,7 +211,7 @@
 						<view class="related-title">
 							<view class="line"></view> 相关日记
 						</view>
-						<view class="diary-more"> 查看全部 > </view>
+						<view class="diary-more" @tap='seeAll()'> 查看全部 > </view>
 					</view>
 					<view class="all-diary">
 						<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
@@ -250,7 +258,6 @@
 						<view class="effect-picture">
 							<image :src="requestUrl+i" mode="" v-for="(i,k) in item.imgs_list" :key="k"></image>
 						</view>
-						<!-- <view class="trade-name"> {{i.tradename}} </view> -->
 					</view>
 				</view>
 				<!-- 项目价格表 -->
@@ -259,8 +266,7 @@
 						<view class="table-title"> {{item.title}} </view>
 						<view class="all-table-li">
 							<view class="table-ul" v-for="(i,k) in item.data" :key='k'>
-								<view class="table-li" v-for="(is,j) in i" :key='j'
-								 :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':'20%'))}]">
+								<view class="table-li" v-for="(is,j) in i" :key='j' :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':'20%'))}]">
 									{{is.val }}
 								</view>
 							</view>
@@ -286,7 +292,7 @@
 						</goodsShow>
 					</view>
 				</view>
-			</scroll-view>									
+			</scroll-view>
 		</view>
 		<!-- 底部定位 -->
 		<view class="consult-share-cart-addCart-shopNow">
@@ -319,8 +325,12 @@
 			<!-- 立即购买 -->
 			<view class="shop-now" @tap='shopNow'> 立即购买 </view>
 		</view>
+		<!-- 优惠更多 -->
+		<view class="see-more-discount"  :style="[{'height':height+'px','top':height/2+'px'}]">
+			优惠信息
+		</view>
 		<!-- 弹出的对话框 -->
-		<cover-view class="isShow" v-if="isShow" >
+		<cover-view class="isShow" v-if="isShow">
 			这是对话框
 		</cover-view>
 	</view>
@@ -351,7 +361,7 @@
 				title: '商品详情',
 				height: 0,
 				contentList: [],
-				pay_type:1,//支付方式  0预约金 1 全款 2 全选
+				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
 				swiperList: [],
 				intervalTime: 4000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
@@ -393,14 +403,13 @@
 				spu_info: '',
 				relevantGoods: [],
 				requestUrl: '',
-				specsCont: '',
-				lastIndex: '',
-				lastIndexs: 1,
-				offset: 0 ,//分页起始位置
-				parameter:[],//各种表
-				encrypted_id:'',//加密商品skuid
-				isShow:false,//显示对话框
-				shouldChangeList:[],//可选规格版本
+				offset: 0, //分页起始位置
+				parameter: [], //各种表
+				encrypted_id: '', //加密商品skuid
+				isShow: false, //显示对话框
+				isShowDiscount:false,//显示优惠的更多
+				shouldChangeList: [], //可选规格版本
+				spec: []
 			}
 		},
 		onReachBottom: function() {
@@ -418,16 +427,16 @@
 			if (option.sku_id) {
 				sku_id = option.sku_id
 			} else {
-				sku_id = '206'  //206 302
+				sku_id = '206' //206 302
 			}
 			if (option.encrypted_id) {
 				encrypted_id = option.encrypted_id
 				that.encrypted_id = encrypted_id
 			} else {
-				encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09'  //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+				encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
 				that.encrypted_id = encrypted_id
 			}
-			
+
 			that.getGoodsDetail(sku_id, encrypted_id)
 			that.getRelevantGoods(encrypted_id)
 			that.getRelated(encrypted_id)
@@ -481,6 +490,13 @@
 			subscribe: function() {
 				console.log('提醒')
 			},
+			// 点击视频
+			goToVideo: function(url) {
+				// console.log(url,11111)
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail_video?video=${url}`,
+				})
+			},
 			// 商品详情
 			getGoodsDetail: function(id, encrypted_id) {
 				let that = this
@@ -495,11 +511,10 @@
 						uni.setStorageSync("goodsDetail", data);
 						that.contentList = data
 						that.swiperList = data.img
-						// that.spec = that.assembleSpec(data.sku.user_spec, 1)
+						that.spec = that.assembleSpec(data.sku.user_spec, 1)
 						that.pay_type = data.sku.pay_type
 						that.spec_value = data.spec_value
 						that.defaultSpec = that.contentList.sku.spec_attr[1]
-						that.changeSpecs(that.defaultSpec)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -540,7 +555,7 @@
 				})
 			},
 			// 支付方式
-			changePay:function(index){
+			changePay: function(index) {
 				console.log(index)
 				let that = this
 				that.pay_type = index
@@ -561,7 +576,11 @@
 					}
 				})
 			},
-
+			// 优惠的更多
+			seeMore:function(){
+				let that = this
+				that.isShowDiscount = !that.isShowDiscount
+			},
 			// 相关
 			getRelated: function(id) {
 				let that = this
@@ -601,53 +620,24 @@
 					url: `/pages/doctor/doctor_detail?id=${id}&&heading=${heading}`,
 				})
 			},
-			
-			changeSpecs: function(index) {
+			changeSpec:function(index,sindex){
 				let that = this
-				that.specsCont = index
-				that.defaultSpec = ''
-				if (that.lastIndex != index) {
-					that.lastIndexs = 1
-				} else if (that.lastIndex == index) {
-					that.handleClicke(index)
-				}
-				that.lastIndex = index
-				that.lastIndexs += 1;				
-				
-				let specArr = []
-				specArr.push(index)
-				
-				let dataInfo = {
-					interfaceId:'selectsku',
-					encrypted_id:that.encrypted_id,
-					spec_attr:specArr
-				}
-				that.request.uniRequest("goods", dataInfo).then(res => {
-					let data = res.data.data
-					that.shouldChangeList = data.user_spec
-				})
-				
-			},
-			// 点击两次
-			handleClicke: function(index) {
-				let that = this
-				// console.log(that.lastIndexs,index)
-				if (that.lastIndexs % 2 == 1) {
-					console.log('单次点击')
-				} else {
-					console.log('双次点击2')
-					// that.specsCont = ''
-					that.shouldChangeList = []
+				if(that.spec[index].attr[sindex]==0){
+					that.getSpec(index,sindex)
+				}else if(that.spec[index].attr[sindex]==1){
+					that.cancelSpec(index,sindex)
+				}else{
+					return
 				}
 			},
 
 			// userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
 			assembleSpec: function(userSpec, isFirst, nowCheck, isCancel) {
+				let that = this
 				// 新规格数组，与原规格spec_value相对应，用于标记各种状态
 				let specValue = uni.getStorageSync("goodsDetail").spec_value;
 				let spec = uni.getStorageSync("goodsDetail").spec_value;
-				let defaultSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
-				// console.log(defaultSpec,2222222)
+				let defaultUserSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;				
 				// 遍历规格类型
 				for (let i in specValue) {
 					for (let k in specValue[i].attr) {
@@ -655,8 +645,8 @@
 						if (isFirst == 1) {
 							spec[i].attr[k] = 0;
 							// 遍历默认选择规格
-							for (let j in defaultSpec) {
-								if (k == defaultSpec[j]) {
+							for (let j in defaultUserSpec) {
+								if (k == defaultUserSpec[j]) {
 									spec[i].attr[k] = 1;
 								}
 							}
@@ -682,22 +672,15 @@
 						}
 					}
 				}
-				// console.log(spec,33333)
 				return spec;
 			},
 
-			// getSpec: function(e) {
-			getSpec: function(index, sindex, spec) {
-				this.request = this.$request
+			getSpec: function(index,sindex) {
 				const that = this;
-				that.spec = spec
-				// let index = e.currentTarget.dataset.index;
-				// let sindex = e.currentTarget.dataset.sindex;
 				for (let i in that.spec[index].attr) {
 					that.spec[index].attr[i] = 0;
 				}
 				that.spec[index].attr[sindex] = 1;
-
 				// 查找当前选择数据
 				let nowCheck = [];
 				for (let i in that.spec) {
@@ -723,7 +706,7 @@
 				}
 				let dataInfo = {
 					interfaceId: "selectsku",
-					encrypted_id: that.spuId,
+					encrypted_id: that.encrypted_id,
 					spec_attr: specAttr
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
@@ -732,19 +715,18 @@
 					goodsDetail.sku.user_spec = res.data.data.user_spec;
 					uni.setStorageSync("goodsDetail", goodsDetail);
 					that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck)
-
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.contentList.sku = data
+						console.log(data,22222222)
+					}
 				})
 			},
 
 			// 取消选项
-			cancelSpec: function(index, sindex, spec) {
-				// cancelSpec: function(e) {
-				this.request = this.$request
+			cancelSpec: function(index,sindex) {
 				const that = this;
-
-				// let index = e.currentTarget.dataset.index;
-				// let sindex = e.currentTarget.dataset.sindex;
-				// that.spec[index].attr[sindex] = 0;
+				that.spec[index].attr[sindex] = 0;
 				// 查找当前选择数据
 				let nowCheck = [];
 				for (let i in that.spec) {
@@ -756,7 +738,7 @@
 				}
 				let dataInfo = {
 					interfaceId: "selectsku",
-					encrypted_id: that.spuId,
+					encrypted_id: that.encrypted_id,
 					spec_attr: nowCheck
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
@@ -767,28 +749,32 @@
 					that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck, 1)
 				})
 			},
-
+			// 查看全部日记
+			seeAll:function(){
+				uni.switchTab({
+					url: `/pages/diary/diary`,
+				})
+			},
+						
 			// 购物车
 			cart: function(event) {
 				// let cartNumber = event.currentTarget.dataset.cartnumber 
 				uni.navigateTo({
 					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
-			},			
-			moveHandle:function(){
+			},
+			moveHandle: function() {
 				return
 			},
-			moveOk:function(){
-				console.log(1111)
-			},
+			
 			// 购物车
-			addCard:function(){
+			addCard: function() {
 				let that = this
 				that.isShow = !that.isShow
 			},
-			
+
 			// 立即购买
-			shopNow:function(){
+			shopNow: function() {
 				let that = this
 				that.isShow = !that.isShow
 			}
@@ -806,13 +792,13 @@
 		top: 0;
 		left: 0;
 	}
-	
+
 	.back-title {
 		font-size: 38rpx;
 		position: relative;
 		text-align: center;
 	}
-	
+
 	.back {
 		display: flex;
 		align-items: center;
@@ -823,16 +809,17 @@
 		left: 0;
 		top: 0;
 	}
-	
+
 	.back image {
 		width: 36rpx;
 		height: 36rpx;
 	}
-	
+
 	.back-title .title {
 		flex: 1;
 		font-size: 37rpx;
 	}
+
 	.content {
 		background-color: #F6F6F6;
 		height: 100%;
@@ -852,6 +839,27 @@
 		position: relative;
 	}
 
+	.video-noPlay{
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+	.video-play{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		z-index: 100;
+		background-color: #F0F0F0;
+		opacity: 0.5;
+	}
+
+	.all-top-swiper-item .video image {
+		width: 128rpx;
+	}
+
 	.top-banner {
 		position: absolute;
 		width: 300rpx;
@@ -863,11 +871,11 @@
 	.top-swiper-item image {
 		width: 100%;
 	}
-	
-	.activity{
+
+	.activity {
 		height: 100%;
 	}
-	
+
 	.activity image {
 		width: 100%;
 	}
@@ -896,8 +904,8 @@
 	.VIP-price {
 		display: flex;
 	}
-	
-	.depreciate-collect{
+
+	.depreciate-collect {
 		height: 100rpx;
 		align-items: center;
 	}
@@ -957,7 +965,7 @@
 	.remind-images image,
 	.collect-images,
 	.collect-images image {
-		width:48rpx;
+		width: 48rpx;
 		height: 48rpx;
 	}
 
@@ -1017,7 +1025,8 @@
 		font-size: 32rpx;
 		line-height: 48rpx;
 		color: #111111;
-		/* display: flex; */
+		display: flex;
+		align-items: center;
 	}
 
 	.sale-content {
@@ -1032,7 +1041,10 @@
 	.sale-content .red {
 		color: #fa3475;
 	}
-
+	.title_icon{
+		height: 42rpx;
+		width: 90rpx;
+	}
 
 	.label-name {
 		font-size: 18rpx;
@@ -1162,7 +1174,7 @@
 		padding: 0 25rpx;
 		border: 2rpx solid #f0f0f0;
 		background: #f0f0f0;
-		margin: 20rpx 0 0 30rpx;
+		margin: 20rpx 0 0 20rpx;
 	}
 
 	.specs-cont-pay .li {
@@ -1174,14 +1186,15 @@
 		background: #ffe8f0;
 		color: #fa3475;
 	}
-	.isChange{
+
+/* 	.isChange {
 		border: 2rpx solid #181818;
 		background-color: #7B7B7B;
 		color: #FFFFFF;
-	}
+	} */
 
-	.li-gray {
-		color: #999999;
+	.specs-cont .li-gray {
+		color: #111111;
 	}
 
 	/* 相关证书 */
@@ -1193,6 +1206,9 @@
 		margin-bottom: 20rpx;
 		display: flex;
 		align-items: center;
+	}
+	.certificate image{
+		width: 100%;
 	}
 
 	/* 相关商品 */
@@ -1589,35 +1605,35 @@
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 	}
-	
-	.table-list{
+
+	.table-list {
 		border: 1rpx solid #999999;
 		border-bottom: 0;
 	}
-	
-	.table-title{
+
+	.table-title {
 		text-align: center;
 		font-size: 24rpx;
 		padding: 18rpx 0;
 		font-weight: bold;
 		border-bottom: 1rpx solid #999999;
 	}
-	
-	.all-table-li{
+
+	.all-table-li {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
 	}
-	
-	.table-ul{
+
+	.table-ul {
 		width: 100%;
 		text-align: center;
 		display: flex;
-		font-size: 24rpx; 
+		font-size: 24rpx;
 	}
-	
-	.table-li{
+
+	.table-li {
 		border-bottom: 1rpx solid #999999;
 		border-left: 1rpx solid #999999;
 		display: flex;
@@ -1627,7 +1643,7 @@
 		font-weight: lighter;
 	}
 
-	.table-li:first-child{
+	.table-li:first-child {
 		border-left: 0;
 	}
 
@@ -1672,8 +1688,7 @@
 		left: 0;
 		padding: 0 30rpx;
 		width: 100%;
-		background-color: #333333;
-		color: #FFFFFF;
+		background-color: #FFFFFF;
 		display: flex;
 		justify-content: space-between;
 		font-size: 28rpx;
@@ -1732,9 +1747,9 @@
 		border-radius: 40rpx;
 		text-align: center;
 		line-height: 80rpx;
-		background-image: linear-gradient(-45deg,
-			#8834fa 0%,
-			#bc66ff 100%);
+		color: #FFFFFF;
+		font-size: 28rpx;
+		background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
 	}
 
 	.shop-now {
@@ -1743,16 +1758,24 @@
 		border-radius: 40rpx;
 		text-align: center;
 		line-height: 80rpx;
+		color: #FFFFFF;
 		margin-right: 60rpx;
+		font-size: 28rpx;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
-	
-	.isShow{
+
+	.isShow {
 		position: fixed;
 		bottom: 110rpx;
 		left: 0;
 		width: 100%;
 		background-color: #FFFFFF;
 		z-index: 100;
+	}
+	.see-more-discount{
+		width: 100%;
+		position: flex;
+		background-color: #B60114;
+		z-index: 105;
 	}
 </style>

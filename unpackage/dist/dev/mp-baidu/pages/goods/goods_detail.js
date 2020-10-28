@@ -136,7 +136,36 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 466));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 473));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 480));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 468));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 475));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 482));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 489));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 496));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -484,7 +513,8 @@ __webpack_require__.r(__webpack_exports__);
     topBar: topBar,
     porduct: porduct,
     goodsShow: goodsShow,
-    diary: diary },
+    diary: diary,
+    ticket: ticket },
 
   data: function data() {
     return {
@@ -501,36 +531,9 @@ __webpack_require__.r(__webpack_exports__);
       contentList: [],
       pay_type: 1, //支付方式  0预约金 1 全款 2 全选
       swiperList: [],
-      intervalTime: 4000, //自动切换时间间隔
+      intervalTime: 8000, //自动切换时间间隔
       durationTime: 2000, //	滑动动画时长
-      spec_value: {},
-      defaultSpec: '',
       carts: 3, //购物车
-      discountsList: [{
-        name: '限购',
-        content: '该商品购买1件时享受单件￥19800，超出数量不再有效' },
-
-      {
-        name: '积分',
-        content: '购买返积分' },
-
-      {
-        name: '喵豆',
-        content: '购买返喵豆' },
-
-      {
-        name: '会员权益',
-        content: '会员95折，并可与满减、券等优惠叠加使价格更加美丽' },
-
-      {
-        name: '优惠套装',
-        content: '该商品共有1个优惠套装' },
-
-      {
-        name: '收单立减',
-        content: '新人首单立减50元' }],
-
-      //优惠政策
       productLists: [],
       doctorDurationTime: 1000,
       doctorList: [],
@@ -547,7 +550,13 @@ __webpack_require__.r(__webpack_exports__);
       isShow: false, //显示对话框
       isShowDiscount: false, //显示优惠的更多
       shouldChangeList: [], //可选规格版本
-      spec: [] };
+      spec: [],
+      cardsList: [],
+      goodsCardsList: [],
+      day: 0,
+      house: 0,
+      second: 0,
+      minute: 0 };
 
   },
   onReachBottom: function onReachBottom() {
@@ -565,13 +574,13 @@ __webpack_require__.r(__webpack_exports__);
     if (option.sku_id) {
       sku_id = option.sku_id;
     } else {
-      sku_id = '206'; //206 302
+      sku_id = '490'; //206 302
     }
     if (option.encrypted_id) {
       encrypted_id = option.encrypted_id;
       that.encrypted_id = encrypted_id;
     } else {
-      encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09'; //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+      encrypted_id = 'VkRhZGllTGpHbFpWaENRVDdIWVk5QT09'; //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
       that.encrypted_id = encrypted_id;
     }
 
@@ -651,8 +660,22 @@ __webpack_require__.r(__webpack_exports__);
           that.swiperList = data.img;
           that.spec = that.assembleSpec(data.sku.user_spec, 1);
           that.pay_type = data.sku.pay_type;
-          that.spec_value = data.spec_value;
-          that.defaultSpec = that.contentList.sku.spec_attr[1];
+          if (that.contentList.sku.act.rest_time > 0) {
+            that.day = parseInt(that.contentList.sku.act.rest_time / 60 / 60 / 24 % 30);
+            that.house = parseInt(that.contentList.sku.act.rest_time / 60 / 60 % 24);
+            that.second = parseInt(that.contentList.sku.act.rest_time / 60 % 60);
+            that.minute = parseInt(that.contentList.sku.act.rest_time % 60);
+          }
+          // console.log(that.contentList.sku.act.rest_time,that.day,that.house,that.second)
+          if (that.contentList.sku.card_list.length > 0) {
+            for (var i = 0; i < that.contentList.sku.card_list.length; i++) {
+              that.contentList.sku.card_list[i].showTicketDetails = false;
+              that.contentList.sku.card_list[i].arrowImages = '../static/images/arrow-down.png';
+            }
+          }
+          that.cardsList = that.contentList.sku.card_list;
+          that.goodsCardsList = that.contentList.sku.card_list;
+          console.log(that.contentList.spec_value);
         } else {
           that.request.showToast(res.data.message);
         }
@@ -694,7 +717,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 支付方式
     changePay: function changePay(index) {
-      console.log(index);
       var that = this;
       that.pay_type = index;
     },
@@ -718,6 +740,45 @@ __webpack_require__.r(__webpack_exports__);
     seeMore: function seeMore() {
       var that = this;
       that.isShowDiscount = !that.isShowDiscount;
+    },
+    showTicket: function showTicket(cardId) {
+      var that = this;
+      for (var i = 0; i < that.cardsList.length; i++) {
+        if (that.cardsList[i].card_id == cardId) {
+          that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails;
+          that.goodsCardsList = [];
+          if (that.cardsList[i].showTicketDetails) {
+            that.cardsList[i].arrowImages = '../static/images/arrow-top.png';
+          } else {
+            that.cardsList[i].arrowImages = '../static/images/arrow-down.png';
+          }
+        }
+      }
+      that.goodsCardsList = that.cardsList;
+    },
+    // 领取卡券
+    getCards: function getCards(cardId, prompt, index) {
+      var that = this;
+      console.log(cardId, prompt, index);
+      if (prompt == '') {
+        var dataInfo = {
+          interfaceId: 'cardget',
+          card_id: cardId };
+
+        that.request.uniRequest("card", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.request.showToast('领取成功');
+            that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count + 1;
+            that.goodsCardsList = that.cardsList;
+          }
+        });
+      } else {
+        that.request.showToast(prompt);
+      }
+    },
+    // 使用卡券
+    useCard: function useCard(id) {
+      console.log(id);
     },
     // 相关
     getRelated: function getRelated(id) {
@@ -856,7 +917,20 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.contentList.sku = data;
-          console.log(data, 22222222);
+          if (that.contentList.sku.act.rest_time > 0) {
+            that.day = parseInt(that.contentList.sku.act.rest_time / 60 / 60 / 24 % 30);
+            that.house = parseInt(that.contentList.sku.act.rest_time / 60 / 60 % 24);
+            that.second = parseInt(that.contentList.sku.act.rest_time / 60 % 60);
+            that.minute = parseInt(that.contentList.sku.act.rest_time % 60);
+          }
+          // if(that.contentList.sku.card_list.length>0){
+          // 	for (let i = 0; i < that.contentList.sku.card_list.length; i++) {
+          // 		that.contentList.sku.card_list[i].showTicketDetails = false
+          // 		that.contentList.sku.card_list[i].arrowImages = '../static/images/arrow-down.png'
+          // 	}
+          // }
+          // that.goodsCardsList = that.contentList.sku.card_list	
+          // console.log(data,22222222)
         }
       });
     },

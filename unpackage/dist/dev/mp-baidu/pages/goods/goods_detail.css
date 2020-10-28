@@ -1067,8 +1067,41 @@
 }
 .see-more-discount.data-v-098a7e2c{
 		width: 100%;
-		position: flex;
-		background-color: #B60114;
+		position: fixed;
+		background-color: #F0F0F0;
 		z-index: 105;
+		opacity: 0.9;
+		bottom: 110rpx;
+		padding: 20rpx 0;
+}
+.more-discounts-title.data-v-098a7e2c{
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+		font-size: 42rpx;
+}
+.more-discounts-hint.data-v-098a7e2c{
+		font-size: 24rpx;
+		color: #fa3475;
+		width: 100%;
+		text-align: center;
+		padding-top: 15rpx;
+}
+.all-discounts-policy.data-v-098a7e2c{
+		padding: 30rpx 20rpx 0 20rpx;
+}
+.card_list.data-v-098a7e2c{
+		padding: 0 20rpx;
+}
+.delete-see-more-discount.data-v-098a7e2c{
+/* 		width: 64rpx;
+		height: 64rpx; */
+		position: absolute;
+		top: 20rpx;
+		right: 20rpx;
+}
+.delete-see-more-discount image.data-v-098a7e2c{
+		width: 64rpx;
+		height: 64rpx;
 }
 

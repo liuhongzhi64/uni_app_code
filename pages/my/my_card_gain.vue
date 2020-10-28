@@ -59,7 +59,7 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../../static/images/return.png',
+				backImage: '../static/images/return.png',
 				title: '领取卡券',
 				tabBars: [
 					{

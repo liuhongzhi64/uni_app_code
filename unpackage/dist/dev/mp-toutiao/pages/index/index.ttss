@@ -76,6 +76,7 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	color: #333333;
 }
 .certificationimgs image.data-v-57280228 {
 	width: 18rpx;

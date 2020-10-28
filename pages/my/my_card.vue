@@ -96,7 +96,7 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#111111',
 				color: '#FFFFFF',
-				backImage: '../../static/images/return.png',
+				backImage: '../static/images/return.png',
 				barImage: '../static/images/refresh.png',
 				title: '我的卡券',
 				line: true, //是否显示选中线

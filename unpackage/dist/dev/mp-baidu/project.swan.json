@@ -6,7 +6,7 @@
     "host": "baiduboxapp",
     "libVersion": "",
     "preview": {
-        "packageId": 908498
+        "packageId": 912548
     },
     "projectname": "华美",
     "setting": {
@@ -14,8 +14,8 @@
     },
     "swan": {
         "baiduboxapp": {
-            "extensionJsVersion": "1.16.2",
-            "swanJsVersion": "3.200.116"
+            "swanJsVersion": "3.210.115",
+            "extensionJsVersion": "1.16.2"
         }
     }
 }

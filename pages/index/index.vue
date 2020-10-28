@@ -432,7 +432,7 @@
 					let text = '活动结束'
 				} else {
 					// that.setTimes()
-					that.day = parseInt(that.times / 1000 / 60 / 60 / 24)
+					that.day = parseInt(that.times / 1000 / 60 / 60 / 24 % 30)
 					that.house = parseInt(that.times / 1000 / 60 / 60 % 24)
 					that.second = parseInt(that.times / 1000 / 60 % 60)
 					that.minute = parseInt(that.times / 1000 % 60)

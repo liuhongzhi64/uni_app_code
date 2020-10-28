@@ -17,6 +17,9 @@
 		-webkit-box-direction: normal;
 		-webkit-flex-direction: column;
 		        flex-direction: column;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		        justify-content: space-between;
 }
 .subject-content-list.data-v-2f0b53d0{
 		background-color: #FFFFFF;
@@ -30,6 +33,7 @@
 		-webkit-box-direction: normal;
 		-webkit-flex-direction: column;
 		        flex-direction: column;
+		
 		height: auto;
 }
 .image-label.data-v-2f0b53d0{
@@ -97,6 +101,7 @@
 }
 .goods_name.data-v-2f0b53d0{
 		padding: 0 20rpx ;
+		margin-bottom: 10rpx;
 		color: #999999;
 		font-size: 20rpx;
 		overflow: hidden;
@@ -114,7 +119,7 @@
 		-webkit-box-align: center;
 		-webkit-align-items: center;
 		        align-items: center;
-		padding: 24rpx 20rpx;
+		padding: 0 20rpx 24rpx;
 }
 .head_ico-nick_name.data-v-2f0b53d0{
 		display: -webkit-box;

@@ -156,12 +156,12 @@
 	height: 26rpx;
 }
 .exclusive-price.data-v-ab11f3f2 {
-	font-size: 40rpx;
+	font-size: 48rpx;
 	line-height: 40rpx;
-	overflow: hidden;
+	/* overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
+	-webkit-line-clamp: 1; */
 }
 .exclusive-price text.data-v-ab11f3f2 {
 	font-size: 32rpx;

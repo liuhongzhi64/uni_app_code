@@ -59,7 +59,7 @@
 				<view class="products-introduction">
 					<view class="price-depreciate-collect">
 						<!-- 现在价格、会员价 -->
-						<view class="price" v-if="contentList.sku.sale_price">
+						<view class="price" >
 							<view class="new-price">
 								<text>￥</text>{{contentList.sku.sale_price}}
 							</view>
@@ -125,15 +125,15 @@
 				<!-- 版本、规格 -->
 				<view class="specs">
 					<template>
-						<view class="specs-content" v-for="(item,index) in spec_value" :key="index">
+						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :key="index">
 							<view class="specs-title">
-								{{item.name}} <text class="specs-hint" >请选择{{item.name}}</text>
+								{{index}}{{item.name}} <text class="specs-hint" >请选择{{item.name}}</text>
 							</view>
 							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
+								<view class="li" v-for="(is,sindex) in item.attr" :key="item.attr[sindex]" 
 								 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
 								 @tap="changeSpec(index,sindex)">
-									{{is}} 
+									{{is}}  
 								</view>
 								<!-- <view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
 								 :class="[spec[index].attr[sindex]==0?'li-gray':(spec[index].attr[sindex]==1?'li-hover':'isChange')]"
@@ -151,7 +151,7 @@
 						<view class="li" @tap='changePay(0)' :class="[pay_type==0||pay_type==2?'li-hover':'']">
 							预约金
 						</view>
-						<view class="li" @tap='changePay(1)' :class="[pay_type==1||sku.pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(1)' :class="[pay_type==1||pay_type==2?'li-hover':'']">
 							全款付
 						</view>
 					</view>
@@ -325,9 +325,37 @@
 			<!-- 立即购买 -->
 			<view class="shop-now" @tap='shopNow'> 立即购买 </view>
 		</view>
-		<!-- 优惠更多 -->
-		<view class="see-more-discount"  :style="[{'height':height+'px','top':height/2+'px'}]">
-			优惠信息
+		<!-- 优惠更多  -->
+		<view class="see-more-discount" v-if="isShowDiscount" 
+		 :style="[{'height':goodsCardsList.length>0?height+'px':height/4+'px'}]">
+			<view class="more-discounts-title"> 优惠活动 </view>
+			<view class="more-discounts-hint">温馨提示:满减、折扣、卡券均可叠加使用</view>
+			<view class="all-discounts-policy">
+				<view class="discounts-policy">
+					<view class="policy-name"> 限时 </view>
+					<view class="policy-content"> 距离活动结束还剩 
+						<text class="show-time" >{{ day }}</text> 天 
+						<text class="show-time">{{ house }}</text> 时 
+						<text class="show-time">{{ second }}</text> 分 
+						<text class="show-time">{{ minute }}</text> 秒
+					</view>
+				</view>
+				<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
+					<view class="policy-name"> {{item.name}} </view>
+					<view class="policy-content" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
+				</view>
+			</view>
+			<view class="card_list">
+				<ticket
+				 :goodsCardsList='goodsCardsList'
+				 @showTicket='showTicket'
+				 @getCards='getCards'
+				 @useCard = 'useCard'>
+				</ticket>
+			</view>
+			<view class="delete-see-more-discount" @tap='seeMore()'>
+				<image src="../../static/images/delete.png" mode=""></image>
+			</view>
 		</view>
 		<!-- 弹出的对话框 -->
 		<cover-view class="isShow" v-if="isShow">
@@ -341,12 +369,14 @@
 	import porduct from "../../components/porduct.vue";
 	import goodsShow from "../../components/goodsShow.vue";
 	import diary from '../../components/diary.vue';
+	import ticket from "../../components/ticket.vue"
 	export default {
 		components: {
 			topBar,
 			porduct,
 			goodsShow,
-			diary
+			diary,
+			ticket
 		},
 		data() {
 			return {
@@ -363,36 +393,9 @@
 				contentList: [],
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
 				swiperList: [],
-				intervalTime: 4000, //自动切换时间间隔
+				intervalTime: 8000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
-				spec_value: {},
-				defaultSpec: '',
 				carts: 3, //购物车
-				discountsList: [{
-						name: '限购',
-						content: '该商品购买1件时享受单件￥19800，超出数量不再有效'
-					},
-					{
-						name: '积分',
-						content: '购买返积分'
-					},
-					{
-						name: '喵豆',
-						content: '购买返喵豆'
-					},
-					{
-						name: '会员权益',
-						content: '会员95折，并可与满减、券等优惠叠加使价格更加美丽'
-					},
-					{
-						name: '优惠套装',
-						content: '该商品共有1个优惠套装'
-					},
-					{
-						name: '收单立减',
-						content: '新人首单立减50元'
-					},
-				], //优惠政策
 				productLists: [],
 				doctorDurationTime: 1000,
 				doctorList: [],
@@ -409,7 +412,13 @@
 				isShow: false, //显示对话框
 				isShowDiscount:false,//显示优惠的更多
 				shouldChangeList: [], //可选规格版本
-				spec: []
+				spec: [],
+				cardsList:[],
+				goodsCardsList:[],
+				day: 0,
+				house: 0,
+				second: 0,
+				minute: 0,
 			}
 		},
 		onReachBottom: function() {
@@ -427,13 +436,13 @@
 			if (option.sku_id) {
 				sku_id = option.sku_id
 			} else {
-				sku_id = '206' //206 302
+				sku_id = '490' //206 302
 			}
 			if (option.encrypted_id) {
 				encrypted_id = option.encrypted_id
 				that.encrypted_id = encrypted_id
 			} else {
-				encrypted_id = 'bG93ejhSWlgzaURseWZUcG1ZTDQ5QT09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+				encrypted_id = 'VkRhZGllTGpHbFpWaENRVDdIWVk5QT09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
 				that.encrypted_id = encrypted_id
 			}
 
@@ -513,8 +522,22 @@
 						that.swiperList = data.img
 						that.spec = that.assembleSpec(data.sku.user_spec, 1)
 						that.pay_type = data.sku.pay_type
-						that.spec_value = data.spec_value
-						that.defaultSpec = that.contentList.sku.spec_attr[1]
+						if(that.contentList.sku.act.rest_time>0){
+							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
+							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
+							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60) 
+							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
+						}
+						// console.log(that.contentList.sku.act.rest_time,that.day,that.house,that.second)
+						if(that.contentList.sku.card_list.length>0){
+							for (let i = 0; i < that.contentList.sku.card_list.length; i++) {
+								that.contentList.sku.card_list[i].showTicketDetails = false
+								that.contentList.sku.card_list[i].arrowImages = '../static/images/arrow-down.png'
+							}
+						}
+						that.cardsList = that.contentList.sku.card_list
+						that.goodsCardsList = that.contentList.sku.card_list
+						console.log(that.contentList.spec_value)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -556,7 +579,6 @@
 			},
 			// 支付方式
 			changePay: function(index) {
-				console.log(index)
 				let that = this
 				that.pay_type = index
 			},
@@ -580,6 +602,45 @@
 			seeMore:function(){
 				let that = this
 				that.isShowDiscount = !that.isShowDiscount
+			},
+			showTicket: function(cardId) {
+				let that = this
+				for (let i = 0; i < that.cardsList.length; i++) {
+					if (that.cardsList[i].card_id == cardId) {
+						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
+						that.goodsCardsList = []
+						if (that.cardsList[i].showTicketDetails) {
+							that.cardsList[i].arrowImages = '../static/images/arrow-top.png'
+						} else {
+							that.cardsList[i].arrowImages = '../static/images/arrow-down.png'
+						}
+					}
+				}
+				that.goodsCardsList = that.cardsList
+			},
+			// 领取卡券
+			getCards: function(cardId, prompt,index) {
+				let that = this
+				console.log(cardId, prompt,index)
+				if (prompt == '') {
+					let dataInfo = {
+						interfaceId: 'cardget',
+						card_id: cardId
+					}
+					that.request.uniRequest("card", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.request.showToast('领取成功')
+							that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count+1
+							that.goodsCardsList = that.cardsList 
+						}
+					})
+				} else {
+					that.request.showToast(prompt)
+				}
+			},
+			// 使用卡券
+			useCard:function(id){
+				console.log(id)
 			},
 			// 相关
 			getRelated: function(id) {
@@ -718,7 +779,20 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.contentList.sku = data
-						console.log(data,22222222)
+						if(that.contentList.sku.act.rest_time>0){
+							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
+							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
+							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60) 
+							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
+						}
+						// if(that.contentList.sku.card_list.length>0){
+						// 	for (let i = 0; i < that.contentList.sku.card_list.length; i++) {
+						// 		that.contentList.sku.card_list[i].showTicketDetails = false
+						// 		that.contentList.sku.card_list[i].arrowImages = '../static/images/arrow-down.png'
+						// 	}
+						// }
+						// that.goodsCardsList = that.contentList.sku.card_list	
+						// console.log(data,22222222)
 					}
 				})
 			},
@@ -1774,8 +1848,41 @@
 	}
 	.see-more-discount{
 		width: 100%;
-		position: flex;
-		background-color: #B60114;
+		position: fixed;
+		background-color: #F0F0F0;
 		z-index: 105;
+		opacity: 0.9;
+		bottom: 110rpx;
+		padding: 20rpx 0;
+	}
+	.more-discounts-title{
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+		font-size: 42rpx;
+	}
+	.more-discounts-hint{
+		font-size: 24rpx;
+		color: #fa3475;
+		width: 100%;
+		text-align: center;
+		padding-top: 15rpx;
+	}
+	.all-discounts-policy{
+		padding: 30rpx 20rpx 0 20rpx;
+	}
+	.card_list{
+		padding: 0 20rpx;
+	}
+	.delete-see-more-discount{
+/* 		width: 64rpx;
+		height: 64rpx; */
+		position: absolute;
+		top: 20rpx;
+		right: 20rpx;
+	}
+	.delete-see-more-discount image{
+		width: 64rpx;
+		height: 64rpx;
 	}
 </style>

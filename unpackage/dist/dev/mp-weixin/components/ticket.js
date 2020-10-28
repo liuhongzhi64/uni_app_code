@@ -101,11 +101,24 @@ var render = function() {
     }
   })
 
+  var l1 = _vm.__map(_vm.goodsCardsList, function(item, k) {
+    var m7 = parseInt((item.rest_time / 60 / 60) % 24)
+    var m8 = parseInt((item.rest_time / 60) % 60)
+    var m9 = parseInt(item.rest_time % 60)
+    return {
+      $orig: _vm.__get_orig(item),
+      m7: m7,
+      m8: m8,
+      m9: m9
+    }
+  })
+
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        l0: l0
+        l0: l0,
+        l1: l1
       }
     }
   )
@@ -358,10 +371,96 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
-    ticketList: Array,
+    goodsCardsList: Array,
     cardsList: Array,
     marginTop: Number,
     time_now: Number },
@@ -383,6 +482,16 @@ var _default =
     getCard: function getCard(id, store, salecard_user_count, get_limit, index) {
       var prompt = '';
       if (get_limit > salecard_user_count && store > 0) {
+        this.$emit('getCards', id, prompt, index);
+      } else
+      {
+        prompt = '无法领取该卡券';
+        this.$emit('getCards', id, prompt, index);
+      }
+    },
+    getCards: function getCards(id, index, status, get_limit) {
+      var prompt = '';
+      if (get_limit > 0 && status > 0) {
         this.$emit('getCards', id, prompt, index);
       } else
       {

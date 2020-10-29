@@ -10,7 +10,7 @@
 					 v-if="index%2==0">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
 							<view class="image-label">
-								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" ></image></view>
+								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode="heightFix"></image></view>
 								<view class="label">{{item.label}}</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>	
@@ -49,7 +49,7 @@
 					 v-if="index%2==1">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
 							<view class="image-label">
-								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" ></image></view>
+								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode="heightFix"></image></view>
 								<view class="label">{{item.label}}</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>

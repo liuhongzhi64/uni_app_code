@@ -114,7 +114,7 @@
 				<view class="discounts" v-if="contentList.sku.act.discounts">
 					<view class="discounts-title">
 						<view class="discounts-more"> 优惠 </view>
-						<view class="more" @tap='seeMore()'> 更多 > </view>
+						<view class="more" @tap='seeMore(0)'> 更多 > </view>
 					</view>
 					<!-- 优惠政策 -->
 					<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
@@ -125,25 +125,28 @@
 				<!-- 版本、规格 -->
 				<view class="specs">
 					<template>
-						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :key="index">
+						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
 							<view class="specs-title">
-								{{index}}{{item.name}} <text class="specs-hint" >请选择{{item.name}}</text>
+								{{item.name}}
+								<!-- <text class="specs-hint" >请选择{{item.name}}</text> -->
 							</view>
 							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" :key="item.attr[sindex]" 
+								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
 								 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
 								 @tap="changeSpec(index,sindex)">
 									{{is}}  
 								</view>
-								<!-- <view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
-								 :class="[spec[index].attr[sindex]==0?'li-gray':(spec[index].attr[sindex]==1?'li-hover':'isChange')]"
-								 @tap="spec[index].attr[sindex]==0?getSpec:(spec[index].attr[sindex]==1?cancelSpec:'')">
-									{{is}} {{spec[index].attr[sindex]}}
-								</view> -->
 							</view>
 						</view>
 					</template>
 				</view>
+				
+				<!-- <view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
+					 :class="[spec[index].attr[sindex]==0?'li-gray':(spec[index].attr[sindex]==1?'li-hover':'isChange')]"
+					 @tap="spec[index].attr[sindex]==0?getSpec:(spec[index].attr[sindex]==1?cancelSpec:'')">
+						{{is}} {{spec[index].attr[sindex]}}
+				</view> -->
+				
 				<!-- 支付方式 -->
 				<view class="specs">
 					<view class="specs-cont-pay">
@@ -266,7 +269,8 @@
 						<view class="table-title"> {{item.title}} </view>
 						<view class="all-table-li">
 							<view class="table-ul" v-for="(i,k) in item.data" :key='k'>
-								<view class="table-li" v-for="(is,j) in i" :key='j' :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':'20%'))}]">
+								<view class="table-li"
+								 v-for="(is,j) in i" :key='j' :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':'20%'))}]">
 									{{is.val }}
 								</view>
 							</view>
@@ -327,7 +331,7 @@
 		</view>
 		<!-- 优惠更多  -->
 		<view class="see-more-discount" v-if="isShowDiscount" 
-		 :style="[{'height':goodsCardsList.length>0?height+'px':height/4+'px'}]">
+		 :style="[{'height':goodsCardsList.length>0?height/2+'px':height/4+'px'}]">
 			<view class="more-discounts-title"> 优惠活动 </view>
 			<view class="more-discounts-hint">温馨提示:满减、折扣、卡券均可叠加使用</view>
 			<view class="all-discounts-policy">
@@ -353,27 +357,103 @@
 				 @useCard = 'useCard'>
 				</ticket>
 			</view>
-			<view class="delete-see-more-discount" @tap='seeMore()'>
+			<view class="delete-see-more-discount" @tap='seeMore(0)'>
 				<image src="../../static/images/delete.png" mode=""></image>
 			</view>
 		</view>
-		<!-- 弹出的对话框 -->
-		<cover-view class="isShow" v-if="isShow">
-			这是对话框
-		</cover-view>
+		<!-- 弹出的对话框 v-if="isShow" -->
+		<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height/2+'px'}]">
+			<view class="isShow-content">
+				<view class="add-card-top">
+					<view class="left-head_img">
+						<image :src="requestUrl+contentList.sku.head_img" mode="widthFix"></image>
+					</view>
+					<view class="right-goods-info">
+						<view class="goods-discounts" v-if="contentList.sku.act"> 参与优惠 </view>
+						<view class="good-price">
+							<view class="market_price">￥{{contentList.sku.sale_price}}</view>
+							<view class="member_price" v-if="contentList.sku.member.member_title">
+								<text class="member_title" >{{contentList.sku.member.member_title}}</text>￥{{contentList.sku.member.price}}
+							</view>
+						</view>
+						<view class="store-sku_no">
+							<text>库存 {{contentList.sku.store}}件</text> <text class="sku_no">编号: {{contentList.sku.sku_no}}</text>
+						</view>
+					</view>
+				</view>
+				<template>
+					<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
+						<view class="specs-title">
+							{{item.name}}
+							<!-- <text class="specs-hint" >请选择{{item.name}}</text> -->
+						</view>
+						<view class="specs-cont">
+							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
+							 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
+							 @tap="changeSpec(index,sindex)">
+								{{is}}  
+							</view>
+						</view>
+					</view>
+				</template>
+				<view class="specs-cont-pay">
+					<text class="pay-txt">支付方式</text>
+					<view class="li" @tap='changePay(0)' :class="[pay_type==0||pay_type==2?'li-hover':'']">
+						预约金
+					</view>
+					<view class="li" @tap='changePay(1)' :class="[pay_type==1||pay_type==2?'li-hover':'']">
+						全款付
+					</view>
+				</view>
+				<view class="specs-cont-pay">
+					<text class="pay-txt">领取方式</text>
+					<view class="li" @tap='changeClass(0)' :class="[class_type==0?'li-hover':'']">
+						邮寄
+					</view>
+					<view class="li" @tap='changeClass(1)' :class="[class_type==1?'li-hover':'']">
+						到院领取
+					</view>
+				</view>
+				<view class="changeNumber">
+					<view class="pay-txt">数量</view>
+					<view class="number-hint">
+						<text> {{ contentList.sku.min_buy_limit }} 件起购</text>
+						<text>限购 {{ contentList.sku.max_buy_limit }} 件</text>
+					</view>
+					<view class="change-input">
+						<view class="reduce"
+						 @tap="reduce(-1)"
+						 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#F0F0F0':'#999999'}]">-</view>
+						<view class="number-input">
+							<input type="number" v-model="goodsNuber" value=1 @input='changeGoodsNumber' />
+						</view>
+						<view class="add-number"
+						 @tap="reduce(1)"
+						 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#F0F0F0':'#999999'}]">+</view>
+					</view>
+				</view>
+				<view class="keep-order">
+					<view class="button">
+						<button type="primary" class="keep-order-button" plain="true">确定</button>
+					</view>
+				</view>
+				<view class="delete-see-more-discount" @tap='seeMore(1)'>
+					<image src="../../static/images/delete.png" mode=""></image>
+				</view>
+			</view>
+		</scroll-view>
+		
 	</view>
 </template>
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import porduct from "../../components/porduct.vue";
 	import goodsShow from "../../components/goodsShow.vue";
 	import diary from '../../components/diary.vue';
 	import ticket from "../../components/ticket.vue"
 	export default {
 		components: {
 			topBar,
-			porduct,
 			goodsShow,
 			diary,
 			ticket
@@ -392,6 +472,7 @@
 				height: 0,
 				contentList: [],
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
+				class_type:1,//领取方式
 				swiperList: [],
 				intervalTime: 8000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
@@ -419,6 +500,7 @@
 				house: 0,
 				second: 0,
 				minute: 0,
+				goodsNuber:1
 			}
 		},
 		onReachBottom: function() {
@@ -582,6 +664,10 @@
 				let that = this
 				that.pay_type = index
 			},
+			changeClass:function(index){
+				let that = this
+				that.class_type = index
+			},
 			// 获取相关商品
 			getRelevantGoods: function(encrypted_id) {
 				this.request = this.$request
@@ -599,9 +685,13 @@
 				})
 			},
 			// 优惠的更多
-			seeMore:function(){
+			seeMore:function(index){
 				let that = this
-				that.isShowDiscount = !that.isShowDiscount
+				if(index==0){
+					that.isShowDiscount = !that.isShowDiscount
+				}else if(index==1){
+					that.isShow = !that.isShow
+				}				
 			},
 			showTicket: function(cardId) {
 				let that = this
@@ -683,6 +773,7 @@
 			},
 			changeSpec:function(index,sindex){
 				let that = this
+				// console.log(index,sindex)
 				if(that.spec[index].attr[sindex]==0){
 					that.getSpec(index,sindex)
 				}else if(that.spec[index].attr[sindex]==1){
@@ -846,11 +937,33 @@
 				let that = this
 				that.isShow = !that.isShow
 			},
-
 			// 立即购买
 			shopNow: function() {
 				let that = this
 				that.isShow = !that.isShow
+			},
+			reduce:function(index){
+				let that = this
+				that.goodsNuber += index
+				if(that.goodsNuber >= that.contentList.sku.max_buy_limit){
+					let number = parseInt(that.contentList.sku.max_buy_limit)
+					that.goodsNuber = number
+				}else if(that.goodsNuber < that.contentList.sku.min_buy_limit){
+					let number = parseInt(that.contentList.sku.min_buy_limit)
+					that.goodsNuber = number
+				}
+			},
+			changeGoodsNumber:function(event){
+				let that = this
+				let value = event.detail.value
+				that.goodsNuber = value
+				if(that.goodsNuber >= that.contentList.sku.max_buy_limit){
+					let number = parseInt(that.contentList.sku.max_buy_limit)
+					that.goodsNuber = number
+				}else if(that.goodsNuber < that.contentList.sku.min_buy_limit){
+					let number = parseInt(that.contentList.sku.min_buy_limit)
+					that.goodsNuber = number
+				}
 			}
 		}
 	}
@@ -1202,6 +1315,10 @@
 	.specs-content:first-child {
 		margin-top: 0;
 	}
+	.isShow-content .specs-content{
+		padding-left: 20rpx;
+	}
+	.isShow-content 
 
 	.specs-title {
 		font-size: 28rpx;
@@ -1260,12 +1377,6 @@
 		background: #ffe8f0;
 		color: #fa3475;
 	}
-
-/* 	.isChange {
-		border: 2rpx solid #181818;
-		background-color: #7B7B7B;
-		color: #FFFFFF;
-	} */
 
 	.specs-cont .li-gray {
 		color: #111111;
@@ -1768,7 +1879,7 @@
 		font-size: 28rpx;
 		height: 110rpx;
 		align-items: center;
-		z-index: 110;
+		z-index: 99;
 	}
 
 	.consult,
@@ -1840,12 +1951,141 @@
 
 	.isShow {
 		position: fixed;
-		bottom: 110rpx;
+		bottom: 0;
 		left: 0;
 		width: 100%;
 		background-color: #FFFFFF;
-		z-index: 100;
+		z-index: 121;
+		padding: 20rpx ;
 	}
+	.isShow .delete-see-more-discount{
+		position: absolute;
+		top: 20rpx;
+		right: 60rpx;
+	}
+	
+	.add-card-top{
+		display: flex;
+		align-items: center;
+	}
+	.left-head_img image{
+		width: 240rpx;
+	}
+	.right-goods-info{
+		display: flex;
+		flex-direction: column;
+		padding-left: 20rpx;
+		flex: 1;
+	}
+	.goods-discounts{
+		width: 160rpx;
+		font-size: 24rpx;
+		color: #FFFFFF;
+		text-align: center;
+		line-height: 50rpx;
+		border-radius: 25rpx;
+		background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
+	}
+	.good-price{
+		display: flex;
+		margin-top: 30rpx;
+		align-items: center;
+	}
+	.market_price{
+		color: #FF0000;
+		font-size: 36rpx;
+		margin-right: 10rpx;
+		font-weight: bold;
+	}
+	.member_price{
+		font-size: 24rpx;
+		border: 1rpx solid #999999;
+		border-radius: 15rpx;
+		padding: 10rpx 10rpx 10rpx 0;
+	}
+	.member_title{
+		padding: 10rpx 10rpx;
+		background-color: #181818;
+		color: #FFFFFF;
+		border-top-left-radius: 15rpx;
+		border-bottom-left-radius: 15rpx;
+		margin-right: 10rpx;
+	}
+	.store-sku_no{
+		font-size: 24rpx;
+		color: #999999;
+		margin-top: 20rpx;
+	}
+	.sku_no{
+		margin-left: 10rpx;
+	}
+	.isShow .specs-cont-pay{
+		padding: 30rpx 0 0;
+		color: #999999;
+	}
+	.isShow .specs-cont{
+		color: #999999;
+	}
+	.isShow .specs-cont-pay .pay-txt{
+		color: #111111;
+		font-weight: bold;
+	}
+	.changeNumber{
+		display: flex;
+		padding: 20rpx 0;
+		align-items: center;
+	}
+	.changeNumber .pay-txt{
+		padding-left: 0;
+		padding-right: 20rpx;
+		font-weight: bold;
+	}
+	.number-hint{
+		font-size: 24rpx;
+		color:  #fa3475;
+	}
+	.number-hint text{
+		padding-right: 20rpx;
+	}
+	
+	.change-input{
+		align-items: center;
+		font-size: 28rpx;
+		text-align: center;
+		height: 100%;
+		display: flex;
+		border:1rpx solid #999999;
+	}
+	.number-input{
+		height: 70rpx;
+		width: 100rpx;
+		display: flex;
+	}
+	.number-input input{
+		height: 100%;
+		border: 0;
+	}
+	.reduce,.add-number{
+		width: 100rpx;
+		line-height: 70rpx;
+		font-size: 56rpx;
+		color: #FFFFFF;
+	}
+	.keep-order{		
+		width: 100%;
+		
+	}
+	.button{
+		margin-right: 40rpx;
+		padding: 30rpx;
+	}
+	.keep-order-button{
+		border: 0;
+		color: #FFFFFF !important;
+		border-radius: 50rpx;
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+	}
+	
 	.see-more-discount{
 		width: 100%;
 		position: fixed;
@@ -1853,7 +2093,7 @@
 		z-index: 105;
 		opacity: 0.9;
 		bottom: 110rpx;
-		padding: 20rpx 0;
+		padding: 20rpx 0 0;
 	}
 	.more-discounts-title{
 		width: 100%;
@@ -1875,8 +2115,6 @@
 		padding: 0 20rpx;
 	}
 	.delete-see-more-discount{
-/* 		width: 64rpx;
-		height: 64rpx; */
 		position: absolute;
 		top: 20rpx;
 		right: 20rpx;

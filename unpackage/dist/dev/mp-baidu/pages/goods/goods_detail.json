@@ -2,7 +2,6 @@
   "component": true,
   "usingComponents": {
     "top-bar": "/components/topBar",
-    "porduct": "/components/porduct",
     "goods-show": "/components/goodsShow",
     "diary": "/components/diary",
     "ticket": "/components/ticket"

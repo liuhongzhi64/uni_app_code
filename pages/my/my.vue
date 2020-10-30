@@ -114,7 +114,7 @@
 			<view class="serve-and-tool">
 				<view class="serve-and-tool-title"> 服务与工具1 </view>
 				<view class="serve-and-tool-list">
-					<view class="serve-tool-list" v-for="(i,k) in serveToolList2" :key='k'>
+					<view class="serve-tool-list" v-for="(i,k) in serveToolList2" :key='k' @tap='goToPages(i)'>
 						<view class="tool-item">
 							<view class="tool-image">
 								<image :src="i.url" mode=""></image>
@@ -476,6 +476,11 @@
 				}else if(name.toolName == '我的评价'){
 					uni.navigateTo({
 						url: `/pages/my/my_comment`,
+					})
+				}
+				else if(name.toolName == '地址管理'){
+					uni.navigateTo({
+						url: `/pages/my/harves_address`,
 					})
 				}
 					

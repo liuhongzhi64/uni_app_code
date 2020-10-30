@@ -24,9 +24,10 @@
 						<view class="detail-swiper" v-if="swiperList.length>0">
 							<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" :interval='intervalTime' :duration="durationTime"
 							 circular>
-								<swiper-item v-for="(i,index) in swiperList" :key="index">
+								<swiper-item class="doctor-information"
+								 v-for="(i,index) in swiperList" :key="index" :style="{backgroundImage:'url('+requestUrl+i+')'}">
 									<view class="top-swiper-item">
-										<image class="top-swiper-images" :src="requestUrl+i" mode="widthFix"></image>										
+										<!-- <image class="top-swiper-images" :src="requestUrl+i" ></image>										 -->
 										<view class="porduct-message" @tap='goToGoods(goods.id)'>
 											<view class="porduct-images">
 												<image :src="requestUrl+goods.head_img" mode=""></image>
@@ -52,20 +53,16 @@
 								</swiper-item>
 							</swiper>
 						</view>
-
 						<view class="detail_contents">
 							<view class="details-title"> {{diaryTitle}} </view>
 							<view class="user-details-contents">
-								{{content}}
-								
+								{{content}}								
 							</view>
 						</view>
 					</view>
-
 				</template>
 			</scroll-view>
 		</view>
-
 		<view class="bottom-messages">
 			<view class="page-view-collect-transpond">
 				<view class="page-view">浏览量: <text>{{view_num}}</text></view>
@@ -105,7 +102,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#333333',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '日记详情',
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
@@ -136,20 +133,40 @@
 			that.diarydetails(that.id)
 		},
 		onReady() {
-			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			let that = this;		
+			that.height = uni.getSystemInfoSync().screenHeight;
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if(platform=='applet'){
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			}
+			else{
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
 			// 详情
@@ -286,14 +303,21 @@
 	.top-swiper {
 		min-height:1000rpx;
 	}
-	.top-swiper-item .top-swiper-images {
-		/* min-height: 584rpx; */
+	/* .top-swiper-item .top-swiper-images {
+		height: 584rpx;
 		width: 750rpx;
+	} */
+	.doctor-information {
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		position: relative;
 	}
 
 	.top-swiper-item {
-		position: relative;
+		/* position: relative; */
 		display: flex;
+		height:100%;
+		width: 100%;
 		align-items: center;
 		justify-content: center;
 		height: auto;

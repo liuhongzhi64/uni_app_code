@@ -85,7 +85,7 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '核销卡券',
 				requestUrl:'',
 				ticketMessage: [{
@@ -121,7 +121,6 @@
 		},
 		onReady() {
 			let that = this;
-			let pageHeight = 0
 			that.videoContext = uni.createVideoContext('myVideo')
 			// 判定运行平台
 			let platform = ''

@@ -283,7 +283,7 @@
 		},
 		onLoad: function(option) {
 			let that = this
-			console.log(that.cartNumber,option.cartNumber)
+			// console.log(that.cartNumber,option.cartNumber)
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			if(option.cartNumber){
@@ -303,15 +303,12 @@
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
-					// console.log('运行Android上')
 					platform = 'android'
 					break;
 				case 'ios':
-					// console.log('运行iOS上')
 					platform = 'ios'
 					break;
 				default:
-					// console.log('运行在开发者工具上')
 					platform = 'applet'
 					break;
 			}

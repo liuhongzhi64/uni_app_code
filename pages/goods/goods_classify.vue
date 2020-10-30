@@ -5,14 +5,14 @@
 		 :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
 		<view class="content" :style="[{'padding-top':menuBottom+52+'px'}]">
 			<!-- 左边导航条 -->
-			<scroll-view class="left" scroll-y :style="'height:'+height +'rpx'">
+			<scroll-view class="left" scroll-y :style="[{'height':height-menuBottom-55+'px'}]">
 				<view v-if="leftList.length>0" @tap="categoryClickMain(item.id,index)" :class="index==btnnum?'btna':''" v-for="(item,index) in leftList"
 				 :key="index">
 					{{item.name}}
 				</view>
 			</scroll-view>
 			<!-- 右边内容 -->
-			<scroll-view class="rightContent" scroll-y  :style="'height:'+height+'rpx'"
+			<scroll-view class="rightContent" scroll-y  :style="[{'height':height-menuBottom-55+'px'}]"
 			 scroll-with-animation
 			 @scrolltolower='onBottom'>
 				<!-- 热门推荐 -->
@@ -63,7 +63,7 @@
 					<!-- 非空 -->
 					<view class="have-porduct-item" v-else>
 						<view class="item-all" v-for="(item,index) in classfyList" :key='index'>
-							<view class="item-top" @tap='gotoGoodsList(item.name)'>
+							<view class="item-top" @tap='gotoGoodsList(item.name,item.id)'>
 								{{item.name}}
 							</view>
 							<view class="item-porduct">
@@ -99,7 +99,7 @@
 			return {
 				barName: 'mianPage', //页面名称
 				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				BarImgs: '../static/images/0.png',
+				BarImgs: '/static/images/0.png',
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
@@ -159,7 +159,6 @@
 		onLoad: function() {
 			this.request = this.$request
 			let that = this
-			that.height = uni.getSystemInfoSync().windowHeight * 1.6;
 			that.requestUrl = that.request.globalData.requestUrl
 			// 请求左边的导航条数据
 			let dataInfo = {
@@ -179,6 +178,8 @@
 		},
 		onReady() {
 			let that = this;
+			that.height = uni.getSystemInfoSync().windowHeight ;
+			console.log(that.height,uni.getSystemInfoSync())
 			let pageHeight = 0
 			// 判定运行平台
 			let platform = ''
@@ -234,7 +235,7 @@
 						console.log(res.data, id)
 						if (res.data.code == 1000) {
 							that.classfyList = res.data.data
-							// console.log(that.classfyList)
+							console.log(that.classfyList)
 						} else {
 							that.request.showToast()
 						}
@@ -281,7 +282,7 @@
 							let data = res.data.data
 							that.newslist = data
 							// that.newslist = that.newslist.concat(data)
-							that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 800
+							that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 650
 						}
 					})
 				}else{
@@ -294,7 +295,7 @@
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800
+							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 650
 							that.newslist = data
 							// that.newslist = that.newslist.concat(data)
 						}	
@@ -318,9 +319,9 @@
 				// that.offset += 1;
 				// that.tabtap(this.thisType,that.thisType)
 			},
-			gotoGoodsList: function(listName) {
+			gotoGoodsList: function(listName,id) {
 				uni.navigateTo({
-					url: `/pages/goods/goods_list?name=${listName}`,
+					url: `/pages/goods/goods_list?name=${listName}&id=${id}`,
 				})
 			}
 

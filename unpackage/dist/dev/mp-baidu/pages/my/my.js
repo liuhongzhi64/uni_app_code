@@ -609,6 +609,11 @@ __webpack_require__.r(__webpack_exports__);
         uni.navigateTo({
           url: "/pages/my/my_comment" });
 
+      } else
+      if (name.toolName == '地址管理') {
+        uni.navigateTo({
+          url: "/pages/my/harves_address" });
+
       }
 
     } } };exports.default = _default;

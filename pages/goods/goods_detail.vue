@@ -315,7 +315,7 @@
 				<view class="share-text"> 分享 </view>
 			</view>
 			<!-- 购物车 -->
-			<view class="cart" :data-cartNumber='carts' @tap="cart">
+			<view class="cart"  @tap="cart">
 				<view class="cart-number">
 					<view class="cartImg">
 						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_cart.png"></image>
@@ -325,9 +325,9 @@
 				<view class="cart-text"> 购物车 </view>
 			</view>
 			<!-- 加入购物车 -->
-			<view class="add-cart" @tap='addCard'> 加入购物车 </view>
+			<view class="add-cart" @tap='addCart(0)'> 加入购物车 </view>
 			<!-- 立即购买 -->
-			<view class="shop-now" @tap='shopNow'> 立即购买 </view>
+			<view class="shop-now" @tap='shopNow(1)'> 立即购买 </view>
 		</view>
 		<!-- 优惠更多  -->
 		<view class="see-more-discount" v-if="isShowDiscount" 
@@ -369,7 +369,7 @@
 						<image :src="requestUrl+contentList.sku.head_img" mode="widthFix"></image>
 					</view>
 					<view class="right-goods-info">
-						<view class="goods-discounts" v-if="contentList.sku.act"> 参与优惠 </view>
+						<view class="goods-discounts" v-if="contentList.sku.act.length!=0" @tap='seeMore(0)'> 参与优惠 </view>
 						<view class="good-price">
 							<view class="market_price">￥{{contentList.sku.sale_price}}</view>
 							<view class="member_price" v-if="contentList.sku.member.member_title">
@@ -377,7 +377,8 @@
 							</view>
 						</view>
 						<view class="store-sku_no">
-							<text>库存 {{contentList.sku.store}}件</text> <text class="sku_no">编号: {{contentList.sku.sku_no}}</text>
+							<text v-show="contentList.sku.store<=100">库存 {{contentList.sku.store}}件</text>
+							<text class="sku_no">编号: {{contentList.sku.sku_no}}</text>
 						</view>
 					</view>
 				</view>
@@ -434,7 +435,7 @@
 				</view>
 				<view class="keep-order">
 					<view class="button">
-						<button type="primary" class="keep-order-button" plain="true">确定</button>
+						<button type="primary" class="keep-order-button" plain="true" @tap='order(is_card_shop)'>确定</button>
 					</view>
 				</view>
 				<view class="delete-see-more-discount" @tap='seeMore(1)'>
@@ -476,7 +477,7 @@
 				swiperList: [],
 				intervalTime: 8000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
-				carts: 3, //购物车
+				carts: 0, //购物车
 				productLists: [],
 				doctorDurationTime: 1000,
 				doctorList: [],
@@ -500,7 +501,8 @@
 				house: 0,
 				second: 0,
 				minute: 0,
-				goodsNuber:1
+				goodsNuber:1,
+				is_card_shop:0
 			}
 		},
 		onReachBottom: function() {
@@ -512,7 +514,7 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// console.log(option)
+			console.log(option)
 			let sku_id = ''
 			let encrypted_id = ''
 			if (option.sku_id) {
@@ -533,6 +535,7 @@
 			that.getRelated(encrypted_id)
 			that.getLike()
 			that.advertising()
+			that.getCart()
 		},
 		onReady: function() {
 			let that = this;
@@ -614,12 +617,12 @@
 						if(that.contentList.sku.card_list.length>0){
 							for (let i = 0; i < that.contentList.sku.card_list.length; i++) {
 								that.contentList.sku.card_list[i].showTicketDetails = false
-								that.contentList.sku.card_list[i].arrowImages = '../static/images/arrow-down.png'
+								that.contentList.sku.card_list[i].arrowImages = '/static/images/arrow-down.png'
 							}
 						}
 						that.cardsList = that.contentList.sku.card_list
 						that.goodsCardsList = that.contentList.sku.card_list
-						console.log(that.contentList.spec_value)
+						console.log(that.spec)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -659,6 +662,20 @@
 					}
 				})
 			},
+			// 获取购物车的商品数量
+			getCart:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'countcart'
+				}
+				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.carts = data.cart_count
+						// console.log(data,22222222222)
+					}
+				})
+			},
 			// 支付方式
 			changePay: function(index) {
 				let that = this
@@ -695,14 +712,15 @@
 			},
 			showTicket: function(cardId) {
 				let that = this
+				console.log(cardId)
 				for (let i = 0; i < that.cardsList.length; i++) {
 					if (that.cardsList[i].card_id == cardId) {
 						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
 						that.goodsCardsList = []
 						if (that.cardsList[i].showTicketDetails) {
-							that.cardsList[i].arrowImages = '../static/images/arrow-top.png'
+							that.cardsList[i].arrowImages = '/static/images/arrow-top.png'
 						} else {
-							that.cardsList[i].arrowImages = '../static/images/arrow-down.png'
+							that.cardsList[i].arrowImages = '/static/images/arrow-down.png'
 						}
 					}
 				}
@@ -870,6 +888,9 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.contentList.sku = data
+						
+						that.contentList.sku.sale_price = data.sale_price
+						
 						if(that.contentList.sku.act.rest_time>0){
 							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
 							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
@@ -922,8 +943,9 @@
 			},
 						
 			// 购物车
-			cart: function(event) {
-				// let cartNumber = event.currentTarget.dataset.cartnumber 
+			cart: function() {
+				let that = this
+				let cartNumber = that.carts 
 				uni.navigateTo({
 					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
 				})
@@ -932,16 +954,30 @@
 				return
 			},
 			
-			// 购物车
-			addCard: function() {
+			// 加入购物车
+			addCart: function(index) {
 				let that = this
 				that.isShow = !that.isShow
+				that.is_card_shop = index
 			},
 			// 立即购买
-			shopNow: function() {
+			shopNow: function(index) {
 				let that = this
 				that.isShow = !that.isShow
+				that.is_card_shop = index
 			},
+			// 点击确定
+			order:function(index){
+				let that = this
+				if(index==0){
+					console.log('购物车')
+					that.carts +=1
+				}else if(index==1){
+					console.log('立即购买')
+				}
+				that.isShow = !that.isShow
+			},
+			// 点击加减数字
 			reduce:function(index){
 				let that = this
 				that.goodsNuber += index
@@ -953,6 +989,7 @@
 					that.goodsNuber = number
 				}
 			},
+			// 输入想要的数量
 			changeGoodsNumber:function(event){
 				let that = this
 				let value = event.detail.value
@@ -1053,6 +1090,7 @@
 		top: 0;
 		left: 0;
 		z-index: 100;
+		opacity: 0.8;
 	}
 
 	.top-swiper-item image {
@@ -1318,8 +1356,6 @@
 	.isShow-content .specs-content{
 		padding-left: 20rpx;
 	}
-	.isShow-content 
-
 	.specs-title {
 		font-size: 28rpx;
 		font-weight: bold;
@@ -1344,6 +1380,7 @@
 		padding-left: 30rpx;
 		font-size: 28rpx;
 		font-weight: bold;
+		color: #111111;
 	}
 
 	.specs-cont {
@@ -2090,7 +2127,7 @@
 		width: 100%;
 		position: fixed;
 		background-color: #F0F0F0;
-		z-index: 105;
+		z-index: 521;
 		opacity: 0.9;
 		bottom: 110rpx;
 		padding: 20rpx 0 0;

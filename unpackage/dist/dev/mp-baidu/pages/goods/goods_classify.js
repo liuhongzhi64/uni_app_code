@@ -237,7 +237,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       barName: 'mianPage', //页面名称
       topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-      BarImgs: '../static/images/0.png',
+      BarImgs: '/static/images/0.png',
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
@@ -297,7 +297,6 @@ __webpack_require__.r(__webpack_exports__);
   onLoad: function onLoad() {
     this.request = this.$request;
     var that = this;
-    that.height = uni.getSystemInfoSync().windowHeight * 1.6;
     that.requestUrl = that.request.globalData.requestUrl;
     // 请求左边的导航条数据
     var dataInfo = {
@@ -317,6 +316,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
+    that.height = uni.getSystemInfoSync().windowHeight;
+    console.log(that.height, uni.getSystemInfoSync());
     var pageHeight = 0;
     // 判定运行平台
     var platform = '';
@@ -372,7 +373,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(res.data, id);
           if (res.data.code == 1000) {
             that.classfyList = res.data.data;
-            // console.log(that.classfyList)
+            console.log(that.classfyList);
           } else {
             that.request.showToast();
           }
@@ -419,7 +420,7 @@ __webpack_require__.r(__webpack_exports__);
             var data = res.data.data;
             that.newslist = data;
             // that.newslist = that.newslist.concat(data)
-            that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 800;
+            that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 650;
           }
         });
       } else {
@@ -432,7 +433,7 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("goods", _dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
-            that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 800;
+            that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 650;
             that.newslist = data;
             // that.newslist = that.newslist.concat(data)
           }
@@ -456,9 +457,9 @@ __webpack_require__.r(__webpack_exports__);
       // that.offset += 1;
       // that.tabtap(this.thisType,that.thisType)
     },
-    gotoGoodsList: function gotoGoodsList(listName) {
+    gotoGoodsList: function gotoGoodsList(listName, id) {
       uni.navigateTo({
-        url: "/pages/goods/goods_list?name=".concat(listName) });
+        url: "/pages/goods/goods_list?name=".concat(listName, "&id=").concat(id) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

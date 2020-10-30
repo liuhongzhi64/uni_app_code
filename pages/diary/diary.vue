@@ -107,7 +107,6 @@
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
-						console.log(menu)
 					}
 				})
 			}

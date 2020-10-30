@@ -83,6 +83,7 @@
 	top: 0;
 	left: 0;
 	z-index: 100;
+	opacity: 0.8;
 }
 .top-swiper-item image.data-v-098a7e2c {
 	width: 100%;
@@ -364,8 +365,6 @@
 .isShow-content .specs-content.data-v-098a7e2c{
 	padding-left: 20rpx;
 }
-.isShow-content 
-
 .specs-title.data-v-098a7e2c {
 	font-size: 28rpx;
 	font-weight: bold;
@@ -387,6 +386,7 @@
 	padding-left: 30rpx;
 	font-size: 28rpx;
 	font-weight: bold;
+	color: #111111;
 }
 .specs-cont.data-v-098a7e2c {
 	margin-left: -30rpx;
@@ -1220,7 +1220,7 @@
 	width: 100%;
 	position: fixed;
 	background-color: #F0F0F0;
-	z-index: 105;
+	z-index: 521;
 	opacity: 0.9;
 	bottom: 110rpx;
 	padding: 20rpx 0 0;

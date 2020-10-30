@@ -96,8 +96,8 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#111111',
 				color: '#FFFFFF',
-				backImage: '../static/images/return.png',
-				barImage: '../static/images/refresh.png',
+				backImage: '/static/images/return.png',
+				barImage: '/static/images/refresh.png',
 				title: '我的卡券',
 				line: true, //是否显示选中线
 				tabBackgroundColor: '#FFFFFF',
@@ -220,7 +220,7 @@
 							that.time_now = data.time_now
 							for (let i = 0; i < data.cards.length; i++) {
 								data.cards[i].showTicketDetails = false
-								data.cards[i].arrowImages = '../../static/images/arrow-down.png'
+								data.cards[i].arrowImages = '/static/images/arrow-down.png'
 								let startTime = data.cards[i].use_start_time
 								data.cards[i].c_use_start_time = that.setTimer(startTime)
 								let useTime = data.cards[i].use_end_time
@@ -358,9 +358,9 @@
 					if (that.cardsList[i].id == cardId) {
 						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
 						if (that.cardsList[i].showTicketDetails) {
-							that.cardsList[i].arrowImages = '../../static/images/arrow-top.png'
+							that.cardsList[i].arrowImages = '/static/images/arrow-top.png'
 						} else {
-							that.cardsList[i].arrowImages = '../../static/images/arrow-down.png'
+							that.cardsList[i].arrowImages = '/static/images/arrow-down.png'
 						}
 					}
 				}

@@ -114,8 +114,11 @@
 						<view class="exclusive-price" v-else>
 							{{item.condition}}
 						</view>
-						<view class="meet-price-user">
+						<view class="meet-price-user" v-if="item.card_type != 6&&item.card_type != 5" >
 							满{{item.min_affect}}可用
+						</view>
+						<view class="meet-price-user" v-else style="margin-top:10rpx ;">
+							{{item.min_affect}}
 						</view>
 					</view>
 					<view class="all-exclusive-price" v-else>
@@ -154,8 +157,11 @@
 						<view class="exclusive-price" v-else>
 							{{item.c_condition}}
 						</view>
-						<view class="meet-price-user">
+						<view class="meet-price-user" v-if="item.c_card_type!=6&&item.c_card_type != 5">
 							满{{item.c_min_affect}}可用
+						</view>
+						<view class="meet-price-user" v-else style="margin-top:10rpx ;">
+							{{item.c_min_affect}}
 						</view>
 					</view>
 					<view class="all-exclusive-price" v-else>
@@ -320,6 +326,7 @@
 			},
 			showTicket:function(id){
 				this.$emit('showTicket', id)
+				// console.log(id)
 			},
 			// 领取卡券
 			getCard:function(id,store,salecard_user_count,get_limit,index){

@@ -313,7 +313,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '医生个人主页',
       requestUrl: '',
       doctorHeadPortrait: '', //医生的背景图片
@@ -414,19 +414,39 @@ __webpack_require__.r(__webpack_exports__);
 
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else
+    {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
     getDetail: function getDetail(doctorId) {var _this = this;

@@ -217,7 +217,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'particularsPage', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '核销卡券',
       requestUrl: '',
       ticketMessage: [{
@@ -253,7 +253,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
-    var pageHeight = 0;
     that.videoContext = uni.createVideoContext('myVideo');
     // 判定运行平台
     var platform = '';

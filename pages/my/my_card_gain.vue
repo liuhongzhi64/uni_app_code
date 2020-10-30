@@ -59,7 +59,7 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/return.png',
+				backImage: '/static/images/return.png',
 				title: '领取卡券',
 				tabBars: [
 					{
@@ -196,7 +196,7 @@
 							// let userTime = data.cards.use_end_time - data.cards.use_start_time //使用时间的倒计时
 							for (let i = 0; i < data.cards.length; i++) {
 								data.cards[i].showTicketDetails = false
-								data.cards[i].arrowImages = '../../static/images/arrow-down.png'
+								data.cards[i].arrowImages = '/static/images/arrow-down.png'
 							}
 							if (data.cards.length == 0) {
 								that.request.showToast('没有更多了')
@@ -230,9 +230,9 @@
 					if (that.cardsList[i].id == cardId) {
 						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
 						if (that.cardsList[i].showTicketDetails) {
-							that.cardsList[i].arrowImages = '../../static/images/arrow-top.png'
+							that.cardsList[i].arrowImages = '/static/images/arrow-top.png'
 						} else {
-							that.cardsList[i].arrowImages = '../../static/images/arrow-down.png'
+							that.cardsList[i].arrowImages = '/static/images/arrow-down.png'
 						}
 					}
 				}

@@ -215,7 +215,7 @@ __webpack_require__.r(__webpack_exports__);
       title: '新增收货地址',
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/return.png',
+      backImage: '/static/images/return.png',
       userName: '请输入收货人姓名',
       userPhone: '请输入收货人手机号',
       select: '省-市-区/县',
@@ -292,6 +292,7 @@ __webpack_require__.r(__webpack_exports__);
       that.menuHeight = 32;
       that.menuLeft = 278;
       that.menuBottom = 82;
+      that.height = uni.getSystemInfoSync().windowHeight;
     }
   },
   methods: {

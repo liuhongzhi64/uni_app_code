@@ -1,4 +1,42 @@
 <template>
+	<!-- 这是导航条 -->
+	<!-- "tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/index.png",
+				"selectedIconPath": "static/images/idnex1.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/goods/goods_classify",
+				"iconPath": "static/images/classify.png",
+				"selectedIconPath": "static/images/classify1.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/diary/diary",
+				"iconPath": "./static/images/diary.png",
+				"selectedIconPath": "static/images/diary1.png",
+				"text": "日记"
+			},
+			{
+				"pagePath": "pages/doctor/doctor",
+				"iconPath": "static/images/doctor.png",
+				"selectedIconPath": "static/images/doctor1.png",
+				"text": "医生"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/images/my.png",
+				"selectedIconPath": "static/images/my1.png",
+				"text": "我的"
+			}
+		]
+	} -->
 	<view class="allContent">
 		<!-- 选取规格最原始一般 -->
 		<!-- <!-- <view class="li" v-for="(is,sindex) in item.attr" 
@@ -7,7 +45,7 @@
 								 :data-index="index" :data-sindex="sindex" 
 								 @tap="spec_value[index].attr[sindex]==0?getSpec(index,sindex):(spec_value[index].attr[sindex]==1?cancelSpec(index,sindex):'')">
 									{{sindex}}{{is}} {{index}}
-								</view> --> -->
+								</view> --> 
 								
 			<!-- 			changeSpecs: function(index) {
 				let that = this
@@ -113,7 +151,7 @@
 		
 		
 	</view>
-
+	
 </template>
 
 <script>

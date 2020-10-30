@@ -190,7 +190,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'particularsPage', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '退换/售后',
       tabBars: [
       {

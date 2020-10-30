@@ -56,15 +56,23 @@
 .top-swiper.data-v-799f96d2 {
 	min-height:1000rpx;
 }
-.top-swiper-item .top-swiper-images.data-v-799f96d2 {
-	/* min-height: 584rpx; */
+
+/* .top-swiper-item .top-swiper-images {
+	height: 584rpx;
 	width: 750rpx;
+} */
+.doctor-information.data-v-799f96d2 {
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	position: relative;
 }
 .top-swiper-item.data-v-799f96d2 {
-	position: relative;
+	/* position: relative; */
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	height:100%;
+	width: 100%;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;

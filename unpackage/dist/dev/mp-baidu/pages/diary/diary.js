@@ -239,7 +239,6 @@ __webpack_require__.r(__webpack_exports__);
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
-          console.log(menu);
         } });
 
     } else

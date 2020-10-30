@@ -1,6 +1,5 @@
 <template>
 	<view class="account-number">
-
 		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @tap='goBack'>

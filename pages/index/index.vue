@@ -261,7 +261,7 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				BarImgs: '../static/images/0.png', //
+				BarImgs: '/static/images/0.png', //
 				cartNumber: 0, //购物车数量
 				messageNumber: 0, //消息
 				topSearchContent: '', //头部搜索框的推荐内容

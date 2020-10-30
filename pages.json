@@ -3,6 +3,8 @@
 
 		// 测试时的首页
 		
+		
+		
 		// 商品
 		{
 			"path": "pages/goods/goods_classify", //商品分类
@@ -14,7 +16,10 @@
 			"style": {}
 		},
 		
-		
+		{
+			"path": "pages/goods/goods_list", //商品列表
+			"style": {}
+		},
 		
 		{
 			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
@@ -40,10 +45,7 @@
 			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
 			"style": {}
 		},
-		{
-			"path": "pages/goods/goods_list", //商品列表
-			"style": {}
-		},
+		
 		
 		
 		// 首页

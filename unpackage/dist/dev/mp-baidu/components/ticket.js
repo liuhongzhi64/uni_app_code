@@ -457,6 +457,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
@@ -477,6 +483,7 @@ var _default =
     },
     showTicket: function showTicket(id) {
       this.$emit('showTicket', id);
+      // console.log(id)
     },
     // 领取卡券
     getCard: function getCard(id, store, salecard_user_count, get_limit, index) {

@@ -57,7 +57,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '地址管理',
 				list: [],
 				requestUrl: ''
@@ -102,6 +102,7 @@
 				that.menuHeight = 32
 				that.menuLeft = 278
 				that.menuBottom = 82
+				that.height = uni.getSystemInfoSync().windowHeight ;
 			}
 		},
 		methods: {

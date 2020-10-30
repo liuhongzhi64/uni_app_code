@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "top-bar": "/components/topBar"
+    "top-bar": "/components/topBar",
+    "goods-show": "/components/goodsShow",
+    "diary": "/components/diary",
+    "doctor": "/components/doctorShow"
   }
 }

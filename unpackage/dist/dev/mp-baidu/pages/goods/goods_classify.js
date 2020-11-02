@@ -136,7 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 468));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 475));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 482));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 489));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 470));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 477));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 484));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 491));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -317,7 +317,7 @@ __webpack_require__.r(__webpack_exports__);
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().windowHeight;
-    console.log(that.height, uni.getSystemInfoSync());
+    // console.log(that.height,uni.getSystemInfoSync())
     var pageHeight = 0;
     // 判定运行平台
     var platform = '';
@@ -395,12 +395,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    gotoGoods: function gotoGoods(e) {
-      var goods = e.currentTarget.dataset.name;
-      uni.navigateTo({
-        url: "/pages/goods/goods_detail?goods=".concat(goods) });
-
-    },
 
     //接受子组件传过来的值点击切换导航
     tabtap: function tabtap(index) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
@@ -445,7 +439,7 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       this.tabIndex = e.detail.current;
       var type = this.tabIndex;
-      console.log(type, '滑动类型');
+      // console.log(type,'滑动类型')
       if (type == 0) {
         that.tabtap(this.tabIndex, 4);
       } else {

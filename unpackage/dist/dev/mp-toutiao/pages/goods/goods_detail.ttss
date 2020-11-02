@@ -83,6 +83,7 @@
 	top: 0;
 	left: 0;
 	z-index: 100;
+	opacity: 0.8;
 }
 .top-swiper-item image.data-v-098a7e2c {
 	width: 100%;
@@ -1182,14 +1183,16 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	border:1rpx solid #999999;
+	/* border:1rpx solid #999999; */
 }
 .number-input.data-v-098a7e2c{
-	height: 70rpx;
+	height: 74rpx;
 	width: 100rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	border-top: 1rpx solid #999999;
+	border-bottom: 1rpx solid #999999;
 }
 .number-input input.data-v-098a7e2c{
 	height: 100%;
@@ -1197,9 +1200,9 @@
 }
 .reduce.data-v-098a7e2c,.add-number.data-v-098a7e2c{
 	width: 100rpx;
-	line-height: 70rpx;
 	font-size: 56rpx;
 	color: #FFFFFF;
+	border: 1rpx solid #999999;
 }
 .keep-order.data-v-098a7e2c{		
 	width: 100%;
@@ -1209,7 +1212,7 @@
 	padding: 30rpx;
 }
 .keep-order-button.data-v-098a7e2c{
-	border: 0;
+	border: none !important;
 	color: #FFFFFF !important;
 	border-radius: 50rpx;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);

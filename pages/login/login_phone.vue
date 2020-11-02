@@ -422,7 +422,7 @@
 		border-radius: 40rpx;
 		font-size: 28rpx;
 		color: #ffffff;
-		border: 0;
+		border: none !important;
 	}
 
 	.no-have-code-content {

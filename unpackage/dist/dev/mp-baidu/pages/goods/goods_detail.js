@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 468));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 489));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 496));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 503));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 470));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 491));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 498));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 505));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -603,9 +603,11 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '../../static/images/return.png',
       title: '商品详情',
       height: 0,
+      sku_id: '0',
+      goodsNuber: 1,
       contentList: [],
       pay_type: 1, //支付方式  0预约金 1 全款 2 全选
-      class_type: 1, //领取方式
+      class_type: 0, //领取方式 0到院 1邮寄
       swiperList: [],
       intervalTime: 8000, //自动切换时间间隔
       durationTime: 2000, //	滑动动画时长
@@ -633,7 +635,6 @@ __webpack_require__.r(__webpack_exports__);
       house: 0,
       second: 0,
       minute: 0,
-      goodsNuber: 1,
       is_card_shop: 0 };
 
   },
@@ -646,13 +647,15 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    console.log(option);
+    // console.log(option)
     var sku_id = '';
     var encrypted_id = '';
     if (option.sku_id) {
       sku_id = option.sku_id;
+      that.sku_id = sku_id;
     } else {
       sku_id = '490'; //206 302
+      that.sku_id = sku_id;
     }
     if (option.encrypted_id) {
       encrypted_id = option.encrypted_id;
@@ -1079,7 +1082,7 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       var cartNumber = that.carts;
       uni.navigateTo({
-        url: "/pages/cart/cart?cartNumber=".concat(cartNumber) });
+        url: "/pages/cart/cart" });
 
     },
     moveHandle: function moveHandle() {
@@ -1101,10 +1104,35 @@ __webpack_require__.r(__webpack_exports__);
     // 点击确定
     order: function order(index) {
       var that = this;
-      if (index == 0) {
-        console.log('购物车');
-        that.carts += 1;
-      } else if (index == 1) {
+      var buy_type = 1; //支付方式
+      if (that.pay_type == 2) {
+        buy_type = 1;
+      } else {
+        buy_type = that.pay_type;
+      }
+      if (index == 0) {//购物车
+        var dataInfo = {
+          interfaceId: 'addcart',
+          sku_id: that.sku_id,
+          num: that.goodsNuber,
+          max_limit: that.contentList.sku.max_buy_limit,
+          price: that.contentList.sku.sale_price,
+          is_post: that.class_type, //is_post 0 到院 1邮寄
+          buy_type: buy_type //支付类型
+          // f_unique_id:0, //订单分享人的id
+          // archives_id:1//订单渠道
+        };
+
+        that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.request.showToast('已加入购物车');
+          } else if (res.data.code == 2101) {
+            that.request.showToast('商品已下架');
+          }
+          that.getCart();
+        });
+
+      } else if (index == 1) {//立即购买
         console.log('立即购买');
       }
       that.isShow = !that.isShow;

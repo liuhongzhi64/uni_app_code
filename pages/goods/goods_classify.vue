@@ -179,7 +179,7 @@
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().windowHeight ;
-			console.log(that.height,uni.getSystemInfoSync())
+			// console.log(that.height,uni.getSystemInfoSync())
 			let pageHeight = 0
 			// 判定运行平台
 			let platform = ''
@@ -257,12 +257,6 @@
 					}
 				})
 			},
-			gotoGoods: function(e) {
-				let goods = e.currentTarget.dataset.name
-				uni.navigateTo({
-					url: `/pages/goods/goods_detail?goods=${goods}`,
-				})
-			},
 
 			//接受子组件传过来的值点击切换导航
 			tabtap: function(index,type=4) {
@@ -307,7 +301,7 @@
 				let that = this
 				this.tabIndex = e.detail.current;
 				let type = this.tabIndex
-				console.log(type,'滑动类型')
+				// console.log(type,'滑动类型')
 				if(type==0){
 					that.tabtap(this.tabIndex,4)
 				}else{

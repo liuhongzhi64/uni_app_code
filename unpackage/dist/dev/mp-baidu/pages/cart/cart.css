@@ -297,9 +297,6 @@
 	border-radius: 15rpx;
 	color: #fa3475;
 }
-.see-discounts.data-v-0f00adf4{
-	font-size: 24rpx;
-}
 .specific-activity.data-v-0f00adf4{
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -326,11 +323,44 @@
 	color: #FFFFFF;
 	margin-left: 5rpx;
 }
+.product-item-content-all.data-v-0f00adf4{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	position: relative;
+}
+.show_goods_state.data-v-0f00adf4{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #F0F0F0;
+	opacity: 0.8;
+	height: 100%;
+}
 .product-item-content.data-v-0f00adf4{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;	
 	padding-top: 20rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.checkbox-item.data-v-0f00adf4{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.goods-info.data-v-0f00adf4{
+	border-bottom: 1px solid #F0F0F0;
+	padding-bottom: 20rpx;
 }
 .product-item-show.data-v-0f00adf4{
 	display: -webkit-box;
@@ -340,7 +370,6 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
-	/* align-items: center; */
 	font-size: 24rpx;
 }
 .porduct-item-images image.data-v-0f00adf4{
@@ -362,6 +391,24 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
+}
+.show_spec_name.data-v-0f00adf4{
+	position: relative;
+}
+.show_spec_name .show_spec_name_items.data-v-0f00adf4{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 360rpx;
+	height: auto;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding: 0 16rpx;
+	font-size: 20rpx;
 }
 .porduct-item-price-purchaseLimitationNumber-checkedNumber.data-v-0f00adf4{
 	display: -webkit-box;
@@ -406,16 +453,36 @@
 	font-size: 20rpx;
 	margin-top: 10rpx;
 }
+.offline_pay-online_pay-checkedNumber.data-v-0f00adf4{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	margin-top: 20rpx;
+}
+.offline_pay-online_pay.data-v-0f00adf4{
+	font-size: 24rpx;
+}
+.online_pay.data-v-0f00adf4{
+	color: #fa3475;
+	margin-right: 32rpx;
+}
 .checkedNumber.data-v-0f00adf4{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	width: 160rpx;
-	height: 40rpx;
-	line-height: 40rpx;
+	width: 180rpx;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
 	border: solid 1px #f0f0f0;
 }
 .checkedNumber image.data-v-0f00adf4{
@@ -426,26 +493,18 @@
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
-	height: 40rpx;
-	line-height: 40rpx;
+	
 	text-align: center;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
 	font-size: 30rpx;
 	background-color: #f0f0f0;
 }
-.input input.data-v-0f00adf4{
-	width: 50%;
+.input .cart_num.data-v-0f00adf4{
+	margin: 0 auto;
+	width: 40rpx;
+	padding-bottom: 5rpx;
 }
 .subtract.data-v-0f00adf4,.add.data-v-0f00adf4{
-	width: 42rpx;
+	width: 50rpx;
 	height: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -475,19 +534,24 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	padding: 0 16rpx;
 }
 .versions-name.data-v-0f00adf4{
-	width: 280rpx;
+	/* width: 280rpx; */
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
 	height: 40rpx;
 	line-height: 40rpx;
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
+	text-align: left;
 }
 .unfold.data-v-0f00adf4{
 	width: 30rpx;
-	height: 20rpx;
+	height: 40rpx;
 	margin-left: 10rpx;
 }
 

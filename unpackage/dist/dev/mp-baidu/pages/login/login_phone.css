@@ -133,7 +133,7 @@
 	border-radius: 40rpx;
 	font-size: 28rpx;
 	color: #ffffff;
-	border: 0;
+	border: none !important;
 }
 .no-have-code-content.data-v-0a73af49 {
 	display: -webkit-box;

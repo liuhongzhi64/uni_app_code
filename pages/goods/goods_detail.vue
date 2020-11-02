@@ -39,14 +39,14 @@
 					</view>
 				</view>
 				<!-- 活动节日 -->
-				<view class="activity" v-if='advertisingList.type==2'>
+				<view class="activity" v-if='advertisingList.type==2||advertisingList.type==1'>
 					<image :src="requestUrl+item.img" mode="widthFix" v-for="(item,index) in advertisingList.content" :key='index'></image>
 					<!-- <image src="https://xcx.hmzixin.com/upload/images/3.0/4.jpg" mode="widthFix"></image> -->
 				</view>
-				<!-- <view class="particulars-image"  v-if='advertisingList.type==0' >
+				<!-- <view class="particulars-image"  v-else-if='advertisingList.type==0' >
 					<image :src="requestUrl+item.img" mode="" v-for="(item,index) in advertisingList.content" :key='index'></image>
 				</view>
-				<view class="adverting-swpier" v-if="advertisingList.type==1">
+				<view class="adverting-swpier" v-else-if="advertisingList.type==1">
 					<swiper class="top-swiper" indicator-dots  autoplay  circular>
 						<swiper-item v-for="(i,k) in advertisingList.content" :key="k">
 							<view class="top-swiper-item">
@@ -338,7 +338,7 @@
 				<view class="discounts-policy">
 					<view class="policy-name"> 限时 </view>
 					<view class="policy-content"> 距离活动结束还剩 
-						<text class="show-time" >{{ day }}</text> 天 
+						<text class="show-time" v-show="contentList.sku.act.countdwon_format==1">{{ day }}</text> 天 
 						<text class="show-time">{{ house }}</text> 时 
 						<text class="show-time">{{ second }}</text> 分 
 						<text class="show-time">{{ minute }}</text> 秒
@@ -409,10 +409,10 @@
 				<view class="specs-cont-pay">
 					<text class="pay-txt">领取方式</text>
 					<view class="li" @tap='changeClass(0)' :class="[class_type==0?'li-hover':'']">
-						邮寄
+						到院领取
 					</view>
 					<view class="li" @tap='changeClass(1)' :class="[class_type==1?'li-hover':'']">
-						到院领取
+						邮寄
 					</view>
 				</view>
 				<view class="changeNumber">
@@ -424,13 +424,13 @@
 					<view class="change-input">
 						<view class="reduce"
 						 @tap="reduce(-1)"
-						 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#F0F0F0':'#999999'}]">-</view>
+						 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
 						<view class="number-input">
 							<input type="number" v-model="goodsNuber" value=1 @input='changeGoodsNumber' />
 						</view>
 						<view class="add-number"
 						 @tap="reduce(1)"
-						 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#F0F0F0':'#999999'}]">+</view>
+						 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
 					</view>
 				</view>
 				<view class="keep-order">
@@ -471,9 +471,11 @@
 				backImage: '../../static/images/return.png',
 				title: '商品详情',
 				height: 0,
+				sku_id:'0',
+				goodsNuber:1,
 				contentList: [],
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
-				class_type:1,//领取方式
+				class_type:0,//领取方式 0到院 1邮寄
 				swiperList: [],
 				intervalTime: 8000, //自动切换时间间隔
 				durationTime: 2000, //	滑动动画时长
@@ -501,7 +503,6 @@
 				house: 0,
 				second: 0,
 				minute: 0,
-				goodsNuber:1,
 				is_card_shop:0
 			}
 		},
@@ -514,13 +515,15 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			console.log(option)
+			// console.log(option)
 			let sku_id = ''
 			let encrypted_id = ''
 			if (option.sku_id) {
 				sku_id = option.sku_id
+				that.sku_id = sku_id
 			} else {
 				sku_id = '490' //206 302
+				that.sku_id = sku_id
 			}
 			if (option.encrypted_id) {
 				encrypted_id = option.encrypted_id
@@ -947,7 +950,7 @@
 				let that = this
 				let cartNumber = that.carts 
 				uni.navigateTo({
-					url: `/pages/cart/cart?cartNumber=${cartNumber}`,
+					url: `/pages/cart/cart`,
 				})
 			},
 			moveHandle: function() {
@@ -969,10 +972,35 @@
 			// 点击确定
 			order:function(index){
 				let that = this
-				if(index==0){
-					console.log('购物车')
-					that.carts +=1
-				}else if(index==1){
+				let buy_type = 1 //支付方式
+				if(that.pay_type ==2 ){
+					buy_type = 1
+				}else{
+					buy_type = that.pay_type
+				}
+				if(index==0){ //购物车
+					let dataInfo = {
+						interfaceId:'addcart',
+						sku_id:that.sku_id,
+						num:that.goodsNuber,
+						max_limit:that.contentList.sku.max_buy_limit,
+						price:that.contentList.sku.sale_price,
+						is_post: that.class_type,//is_post 0 到院 1邮寄
+						buy_type:buy_type ,//支付类型
+						// f_unique_id:0, //订单分享人的id
+						// archives_id:1//订单渠道
+					}
+					
+					that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.request.showToast('已加入购物车')
+						}else if(res.data.code == 2101){
+							that.request.showToast('商品已下架')
+						}
+						that.getCart()
+					})
+					
+				}else if(index==1){//立即购买
 					console.log('立即购买')
 				}
 				that.isShow = !that.isShow
@@ -2091,22 +2119,24 @@
 		text-align: center;
 		height: 100%;
 		display: flex;
-		border:1rpx solid #999999;
+		/* border:1rpx solid #999999; */
 	}
 	.number-input{
-		height: 70rpx;
+		height: 74rpx;
 		width: 100rpx;
 		display: flex;
+		border-top: 1rpx solid #999999;
+		border-bottom: 1rpx solid #999999;
 	}
 	.number-input input{
 		height: 100%;
-		border: 0;
+		border: 0;		
 	}
 	.reduce,.add-number{
 		width: 100rpx;
-		line-height: 70rpx;
 		font-size: 56rpx;
 		color: #FFFFFF;
+		border: 1rpx solid #999999;
 	}
 	.keep-order{		
 		width: 100%;
@@ -2117,7 +2147,7 @@
 		padding: 30rpx;
 	}
 	.keep-order-button{
-		border: 0;
+		border: none !important;
 		color: #FFFFFF !important;
 		border-radius: 50rpx;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);

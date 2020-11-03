@@ -890,10 +890,8 @@
 					that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck)
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.contentList.sku = data
-						
-						that.contentList.sku.sale_price = data.sale_price
-						
+						that.contentList.sku = data						
+						that.contentList.sku.sale_price = data.sale_price						
 						if(that.contentList.sku.act.rest_time>0){
 							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
 							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
@@ -981,7 +979,7 @@
 				if(index==0){ //购物车
 					let dataInfo = {
 						interfaceId:'addcart',
-						sku_id:that.sku_id,
+						sku_id:that.contentList.sku.id,
 						num:that.goodsNuber,
 						max_limit:that.contentList.sku.max_buy_limit,
 						price:that.contentList.sku.sale_price,
@@ -990,7 +988,7 @@
 						// f_unique_id:0, //订单分享人的id
 						// archives_id:1//订单渠道
 					}
-					
+					console.log(dataInfo)
 					that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('已加入购物车')
@@ -2025,8 +2023,8 @@
 	}
 	.isShow .delete-see-more-discount{
 		position: absolute;
-		top: 20rpx;
-		right: 60rpx;
+		top: 0;
+		right: 40rpx;
 	}
 	
 	.add-card-top{
@@ -2099,10 +2097,11 @@
 		display: flex;
 		padding: 20rpx 0;
 		align-items: center;
+		justify-content: space-between;
 	}
 	.changeNumber .pay-txt{
 		padding-left: 0;
-		padding-right: 20rpx;
+		padding-right: 40rpx;
 		font-weight: bold;
 	}
 	.number-hint{
@@ -2114,15 +2113,15 @@
 	}
 	
 	.change-input{
-		align-items: center;
 		font-size: 28rpx;
 		text-align: center;
 		height: 100%;
 		display: flex;
-		/* border:1rpx solid #999999; */
+		justify-content: center;
+		margin-right: 40rpx;
 	}
 	.number-input{
-		height: 74rpx;
+		height: 84rpx;
 		width: 100rpx;
 		display: flex;
 		border-top: 1rpx solid #999999;

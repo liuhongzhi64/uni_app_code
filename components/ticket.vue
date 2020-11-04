@@ -443,7 +443,6 @@
 	.can-receive {
 		font-size: 24rpx;
 		color: #fa3475;
-		/* margin-top: 40rpx; */
 	}
 
 	.receive-time {

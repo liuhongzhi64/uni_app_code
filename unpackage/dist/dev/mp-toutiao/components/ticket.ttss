@@ -82,7 +82,6 @@
 .can-receive.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	color: #fa3475;
-	/* margin-top: 40rpx; */
 }
 .receive-time.data-v-ab11f3f2 {
 	font-size: 24rpx;

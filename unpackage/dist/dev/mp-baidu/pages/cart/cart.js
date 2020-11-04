@@ -105,16 +105,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = __webpack_require__(/*! ../../static/images/18.png */ 16)
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        m0: m0
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -147,7 +137,160 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 470));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 470));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 505));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -341,7 +484,8 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    goodsShow: goodsShow },
+    goodsShow: goodsShow,
+    ticket: ticket },
 
   data: function data() {
     return {
@@ -350,26 +494,12 @@ __webpack_require__.r(__webpack_exports__);
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
-      menuPaddingRight: 0,
-      specialList: [{
-        id: 1,
-        name: '化妆品',
-        content: '全场商品满2000减200sadas阿萨大师',
-        url: '../../static/images/18.png' },
-
-      {
-        id: 3,
-        name: '化妆品',
-        content: '全场商品满2000减200',
-        url: '../../static/images/18.png' },
-
-      {
-        id: 4,
-        name: '化妆品',
-        content: '全场商品满2000减200',
-        url: '../../static/images/18.png' }],
-
-
+      barName: 'back', //导航条名称
+      topBackgroundColor: '#222222',
+      color: '#FFFFFF',
+      backImage: '/static/images/return.png',
+      title: '购物车',
+      height: 0,
       productLists: [],
       productNameList: [{
         name: '全部',
@@ -391,10 +521,13 @@ __webpack_require__.r(__webpack_exports__);
       btnnum: 0,
       contentList: {},
       allchecked: false,
+      isShowDiscount: false, //显示优惠或卡券
       requestUrl: '',
       offset: 0,
       sku_list: [],
-      get_count: 0 //可领取卡券数量
+      specialList: {}, //广告
+      get_count: 0, //可领取卡券数量
+      cardList: [] //卡券列表
     };
   },
   onReachBottom: function onReachBottom() {
@@ -413,6 +546,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
+    that.height = uni.getSystemInfoSync().screenHeight;
     // 判定运行平台
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
@@ -436,7 +570,6 @@ __webpack_require__.r(__webpack_exports__);
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
-          that.menuPaddingRight = res.windowWidth - menu.right;
         } });
 
     } else {
@@ -445,7 +578,6 @@ __webpack_require__.r(__webpack_exports__);
       that.menuHeight = 32;
       that.menuLeft = 278;
       that.menuBottom = 82;
-      that.menuPaddingRight = 10;
     }
   },
   methods: {
@@ -464,11 +596,23 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
+          var day = 0;
+          var house = 0;
+          var second = 0;
+          var minute = 0;
           for (var i = 0; i < data.sku_list.length; i++) {
             for (var j = 0; j < data.sku_list[i].goods_list.length; j++) {
               data.sku_list[i].goods_list[j].is_show_state = false; //显示订单操作
               data.sku_list[i].goods_list[j].checked = false; //是否选择
               data.sku_list[i].goods_list[j].show_spec_name = false;
+              if (data.sku_list[i].act_info) {
+                // console.log(data.sku_list[i].act_info.rest_time)
+                data.sku_list[i].day = parseInt(data.sku_list[i].act_info.rest_time / 60 / 60 / 24 % 30);
+                data.sku_list[i].house = parseInt(data.sku_list[i].act_info.rest_time / 60 / 60 % 24);
+                data.sku_list[i].second = parseInt(data.sku_list[i].act_info.rest_time / 60 % 60);
+                data.sku_list[i].minute = parseInt(data.sku_list[i].act_info.rest_time % 60);
+                console.log(data.sku_list[i]);
+              }
             }
           }
           that.contentList = data;
@@ -476,6 +620,7 @@ __webpack_require__.r(__webpack_exports__);
           for (var _i = 0; _i < that.productNameList.length; _i++) {
             that.productNameList[_i].number = data.type_count[_i];
           }
+
         } else {
           that.sku_list = [];
         }
@@ -519,7 +664,58 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    // 点击优惠或者卡券
+    changeActivity: function changeActivity(index, list) {
+      var that = this;
+      if (index == 0) {//卡券
+        var dataInfo = {
+          interfaceId: 'ids_get_card',
+          card_id: list,
+          limit: 6,
+          offset: 0 };
 
+        that.request.uniRequest("card", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            var data = res.data.data;
+            that.isShowDiscount = !that.isShowDiscount;
+            if (that.isShowDiscount) {
+              for (var i = 0; i < data.cards.length; i++) {
+                data.cards[i].showTicketDetails = false;
+                data.cards[i].arrowImages = '/static/images/arrow-down.png';
+              }
+              that.cardList = data;
+            } else
+            {
+              that.cardList = [];
+            }
+          }
+        });
+      } else if (index == 1) {//优惠
+        console.log(list);
+      } else if (index == 2) {
+        that.isShowDiscount = !that.isShowDiscount;
+        if (!that.isShowDiscount) {
+          that.cardList = [];
+        }
+      }
+    },
+    // 使用卡券
+    useCard: function useCard(id) {
+      console.log('使用的卡券id:', id);
+    },
+    showTicket: function showTicket(cardId) {
+      var that = this;
+      for (var i = 0; i < that.cardList.cards.length; i++) {
+        if (that.cardList.cards[i].id == cardId) {
+          that.cardList.cards[i].showTicketDetails = !that.cardList.cards[i].showTicketDetails;
+          if (that.cardList.cards[i].showTicketDetails) {
+            that.cardList.cards[i].arrowImages = '/static/images/arrow-top.png';
+          } else {
+            that.cardList.cards[i].arrowImages = '/static/images/arrow-down.png';
+          }
+        }
+      }
+    },
     // 获取广告
     advertising: function advertising() {
       var that = this;
@@ -530,6 +726,8 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("home", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
+          that.specialList = data;
+          // console.log(that.specialList)
         }
       });
     },
@@ -619,10 +817,26 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/goods/goods_list?name=".concat(listName, "&id=").concat(id) });
 
     },
-
-    setNumber: function setNumber(index, number, k, is) {
+    // 修改商品数量
+    setGoodsNumber: function setGoodsNumber(id, cart_num) {
       var that = this;
-      // console.log(index,number,k,is,that.contentList.sku_list[k].goods_list[is])
+      var cart_id = [];
+      cart_id.push(id);
+      var dataInfo = {
+        interfaceId: 'changcart',
+        type: 0,
+        cart_id: cart_id,
+        num: cart_num };
+
+      that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.getUserCart();
+        }
+      });
+      console.log(dataInfo);
+    },
+    setNumber: function setNumber(id, number, k, is) {
+      var that = this;
       that.contentList.sku_list[k].goods_list[is].cart_num += number;
       if (that.contentList.sku_list[k].goods_list[is].cart_num >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
         var _number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit);
@@ -631,6 +845,7 @@ __webpack_require__.r(__webpack_exports__);
         var _number2 = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit);
         that.contentList.sku_list[k].goods_list[is].cart_num = _number2;
       }
+      that.setGoodsNumber(id, that.contentList.sku_list[k].goods_list[is].cart_num);
     },
 
     setPorductNumber: function setPorductNumber(event) {
@@ -638,7 +853,13 @@ __webpack_require__.r(__webpack_exports__);
       var value = event.target.value;
       var k = event.currentTarget.dataset.k;
       var is = event.currentTarget.dataset.is;
-      that.contentList.sku_list[k].goods_list[is].cart_num = parseInt(value);
+      var id = event.currentTarget.dataset.id;
+      if (value == '') {
+        value = 1;
+        that.contentList.sku_list[k].goods_list[is].cart_num = 1;
+      } else {
+        that.contentList.sku_list[k].goods_list[is].cart_num = parseInt(value);
+      }
       if (that.contentList.sku_list[k].goods_list[is].cart_num >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
         var number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit);
         that.contentList.sku_list[k].goods_list[is].cart_num = number;
@@ -646,7 +867,7 @@ __webpack_require__.r(__webpack_exports__);
         var _number3 = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit);
         that.contentList.sku_list[k].goods_list[is].cart_num = _number3;
       }
-      // console.log(event.currentTarget.dataset,that.contentList.sku_list[k].goods_list[is].cart_num)				
+      that.setGoodsNumber(id, that.contentList.sku_list[k].goods_list[is].cart_num);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

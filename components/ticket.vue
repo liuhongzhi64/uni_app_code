@@ -207,7 +207,7 @@
 				<image src="../static/images/upper-limit.png" mode=""></image>
 			</view>			
 			<!-- 已失效 -->
-			<view class="ticket-label-images invalid" v-else-if="item.use_end_time-time_now<0">
+			<view class="ticket-label-images invalid" v-else-if="item.use_end_time-time_now<0 && item.get_end_time-time_now<0">
 				<image src="../static/images/state1.png" mode=""></image>
 			</view>
 			<!-- 已使用 -->

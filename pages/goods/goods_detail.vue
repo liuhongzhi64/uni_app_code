@@ -330,8 +330,8 @@
 			<view class="shop-now" @tap='shopNow(1)'> 立即购买 </view>
 		</view>
 		<!-- 优惠更多  -->
-		<view class="see-more-discount" v-if="isShowDiscount" 
-		 :style="[{'height':goodsCardsList.length>0?height/2+'px':height/4+'px'}]">
+		<scroll-view class="see-more-discount" scroll-y="true"  v-if="isShowDiscount" 
+		 :style="[{'height':goodsCardsList.cards?height/2+'px':height/4+'px'}]">
 			<view class="more-discounts-title"> 优惠活动 </view>
 			<view class="more-discounts-hint">温馨提示:满减、折扣、卡券均可叠加使用</view>
 			<view class="all-discounts-policy">
@@ -351,7 +351,8 @@
 			</view>
 			<view class="card_list">
 				<ticket
-				 :goodsCardsList='goodsCardsList'
+				 :cardsList='goodsCardsList.cards'
+				 :time_now='goodsCardsList.time_now' 
 				 @showTicket='showTicket'
 				 @getCards='getCards'
 				 @useCard = 'useCard'>
@@ -360,7 +361,7 @@
 			<view class="delete-see-more-discount" @tap='seeMore(0)'>
 				<image src="../../static/images/delete.png" mode=""></image>
 			</view>
-		</view>
+		</scroll-view>
 		<!-- 弹出的对话框 v-if="isShow" -->
 		<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height/2+'px'}]">
 			<view class="isShow-content">
@@ -616,16 +617,8 @@
 							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60) 
 							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
 						}
-						// console.log(that.contentList.sku.act.rest_time,that.day,that.house,that.second)
-						if(that.contentList.sku.card_list.length>0){
-							for (let i = 0; i < that.contentList.sku.card_list.length; i++) {
-								that.contentList.sku.card_list[i].showTicketDetails = false
-								that.contentList.sku.card_list[i].arrowImages = '/static/images/arrow-down.png'
-							}
-						}
 						that.cardsList = that.contentList.sku.card_list
-						that.goodsCardsList = that.contentList.sku.card_list
-						console.log(that.spec)
+						// console.log(that.cardsList,111111)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -708,26 +701,50 @@
 			seeMore:function(index){
 				let that = this
 				if(index==0){
-					that.isShowDiscount = !that.isShowDiscount
+					if(that.cardsList.length>0){
+						let dataInfo = {
+							interfaceId:'ids_get_card',
+							card_id:that.cardsList,
+							limit:6,
+							offset:0
+						}
+						that.request.uniRequest("card", dataInfo).then(res => {
+							if (res.data.code == 1000 && res.data.status == 'ok') {
+								let data = res.data.data
+								that.isShowDiscount = !that.isShowDiscount
+								if(that.isShowDiscount){
+									for (let i = 0; i < data.cards.length; i++) {
+										data.cards[i].showTicketDetails = false
+										data.cards[i].arrowImages = '/static/images/arrow-down.png'
+									}
+									that.goodsCardsList = data
+								}
+								else{
+									that.goodsCardsList = []
+								}
+							}
+						})
+					}else{
+						that.isShowDiscount = !that.isShowDiscount
+					}
 				}else if(index==1){
 					that.isShow = !that.isShow
 				}				
 			},
 			showTicket: function(cardId) {
 				let that = this
-				console.log(cardId)
-				for (let i = 0; i < that.cardsList.length; i++) {
-					if (that.cardsList[i].card_id == cardId) {
-						that.cardsList[i].showTicketDetails = !that.cardsList[i].showTicketDetails
-						that.goodsCardsList = []
-						if (that.cardsList[i].showTicketDetails) {
-							that.cardsList[i].arrowImages = '/static/images/arrow-top.png'
+				for (let i = 0; i < that.goodsCardsList.cards.length; i++) {
+					// console.log(that.goodsCardsList.cards[i])
+					if (that.goodsCardsList.cards[i].id == cardId) {
+						
+						that.goodsCardsList.cards[i].showTicketDetails = !that.goodsCardsList.cards[i].showTicketDetails
+						if (that.goodsCardsList.cards[i].showTicketDetails) {
+							that.goodsCardsList.cards[i].arrowImages = '/static/images/arrow-top.png'
 						} else {
-							that.cardsList[i].arrowImages = '/static/images/arrow-down.png'
+							that.goodsCardsList.cards[i].arrowImages = '/static/images/arrow-down.png'
 						}
 					}
 				}
-				that.goodsCardsList = that.cardsList
 			},
 			// 领取卡券
 			getCards: function(cardId, prompt,index) {
@@ -741,8 +758,7 @@
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('领取成功')
-							that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count+1
-							that.goodsCardsList = that.cardsList 
+							that.goodsCardsList[index].salecard_user_count = that.goodsCardsList[index].salecard_user_count+1
 						}
 					})
 				} else {
@@ -946,7 +962,6 @@
 			// 购物车
 			cart: function() {
 				let that = this
-				let cartNumber = that.carts 
 				uni.navigateTo({
 					url: `/pages/cart/cart`,
 				})

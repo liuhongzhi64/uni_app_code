@@ -543,6 +543,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     goodsShow: goodsShow,
@@ -581,7 +582,7 @@ __webpack_require__.r(__webpack_exports__);
 
       btnnum: 0,
       contentList: {},
-      allchecked: false, //分类全选
+      allchecked: false, //全选
       isShowDiscount: false, //显示优惠或卡券
       requestUrl: '',
       offset: 0,
@@ -599,8 +600,11 @@ __webpack_require__.r(__webpack_exports__);
       setNewGoodsNumber: 1, //修改新的商品数量
       encrypted_id: '',
       sku_id: 0,
-      cart_id: 160 };
-
+      cart_id: 160,
+      order_info: {
+        sale_info: [] }
+      //订单的信息
+    };
   },
   onReachBottom: function onReachBottom() {
     var that = this;
@@ -675,6 +679,7 @@ __webpack_require__.r(__webpack_exports__);
           for (var i = 0; i < data.sku_list.length; i++) {
             for (var j = 0; j < data.sku_list[i].goods_list.length; j++) {
               data.sku_list[i].goods_list[j].is_show_state = false; //显示订单操作
+              data.sku_list[i].all_checked = false; //是否全选当前分类
               data.sku_list[i].goods_list[j].checked = false; //是否选择
               if (data.sku_list[i].act_info) {
                 data.sku_list[i].day = parseInt(data.sku_list[i].act_info.rest_time / 60 / 60 / 24 % 30);
@@ -701,11 +706,156 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       that.contentList.sku_list[k].goods_list[is].is_show_state = !that.contentList.sku_list[k].goods_list[is].is_show_state;
     },
+    // 全选当前分类
+    checked_class_all: function checked_class_all(k) {
+      var that = this;
+      var act_id = '';
+      var change_card_id = [];
+      var cart = {};
+      var arr = [];
+      that.contentList.sku_list[k].all_checked = !that.contentList.sku_list[k].all_checked;
+      if (that.contentList.sku_list[k].all_checked) {//全选
+        for (var i = 0; i < that.contentList.sku_list[k].goods_list.length; i++) {
+          that.contentList.sku_list[k].goods_list[i].checked = true;
+        }
+      } else {//点击清空全选
+        for (var _i2 = 0; _i2 < that.contentList.sku_list[k].goods_list.length; _i2++) {
+          that.contentList.sku_list[k].goods_list[_i2].checked = false;
+        }
+      }
+      for (var _i3 = 0; _i3 < that.contentList.sku_list.length; _i3++) {
+        arr.push(that.contentList.sku_list[_i3].all_checked);
+      }
+      var flag = arr.every(function (item, index, arr) {
+        return item === true;
+      });
+      if (flag) {
+        that.allchecked = !that.allchecked;
+      } else {
+        that.allchecked = false;
+
+      }
+      that.get_user_cart();
+    },
     // 选择
     changeCheck: function changeCheck(k, is) {
       var that = this;
+      var arr = [];
+      var all_arr = [];
       that.contentList.sku_list[k].goods_list[is].checked = !that.contentList.sku_list[k].goods_list[is].checked;
-      // console.log(that.contentList.sku_list[k].goods_list[is].checked)
+      for (var i = 0; i < that.contentList.sku_list[k].goods_list.length; i++) {
+        arr.push(that.contentList.sku_list[k].goods_list[i].checked);
+      }
+      var flag = arr.every(function (item, index, arr) {
+        return item === true;
+      });
+      // 如果当分类下面的订单都选择了,则当前分类的全选为true
+      if (flag) {
+        that.contentList.sku_list[k].all_checked = !that.contentList.sku_list[k].all_checked;
+        if (that.contentList.sku_list[k].all_checked) {//当前订单为选择时判定所有的订单是否已经全选
+          for (var _i4 = 0; _i4 < that.contentList.sku_list.length; _i4++) {
+            all_arr.push(that.contentList.sku_list[_i4].all_checked);
+          }
+          var flags = all_arr.every(function (item, index, all_arr) {
+            return item === true;
+          });
+          that.allchecked = flags;
+        }
+      } else {
+        that.contentList.sku_list[k].all_checked = false;
+        that.allchecked = false;
+      }
+      that.get_user_cart();
+    },
+    // 结算的全选
+    change_all_cart: function change_all_cart() {
+      var that = this;
+      that.allchecked = !that.allchecked;
+      if (that.allchecked) {
+        for (var i = 0; i < that.contentList.sku_list.length; i++) {
+          that.contentList.sku_list[i].all_checked = true;
+          for (var j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
+            that.contentList.sku_list[i].goods_list[j].checked = true;
+          }
+        }
+        that.get_user_cart();
+      } else
+      {
+        for (var _i5 = 0; _i5 < that.contentList.sku_list.length; _i5++) {
+          that.contentList.sku_list[_i5].all_checked = false;
+          for (var _j = 0; _j < that.contentList.sku_list[_i5].goods_list.length; _j++) {
+            that.contentList.sku_list[_i5].goods_list[_j].checked = false;
+          }
+        }
+        that.order_info = {
+          sale_info: [] };
+        //订单的信息
+      }
+
+    },
+    // 获取购物车价格
+    get_user_cart: function get_user_cart() {
+      var that = this;
+      var change_cart = [];
+      if (that.contentList.sku_list.length > 0) {
+        for (var i = 0; i < that.contentList.sku_list.length; i++) {
+          if (that.contentList.sku_list[i].all_checked) {//先判断是否有全选了的订单
+            var act_id = '';
+            var cart_id = [];
+            if (that.contentList.sku_list[i].act_id) {
+              act_id = that.contentList.sku_list[i].act_id;
+            }
+            var cart = {
+              act_id: act_id,
+              cart_id_list: that.contentList.sku_list[i].cart_id_list };
+
+            change_cart.push(cart);
+          } else {
+            for (var j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
+              if (that.contentList.sku_list[i].goods_list[j].checked) {//判定选择了的订单
+                var _act_id = '';
+                var _cart_id = [];
+                if (that.contentList.sku_list[i].act_id) {
+                  _act_id = that.contentList.sku_list[i].act_id;
+                }
+                _cart_id.push(that.contentList.sku_list[i].goods_list[j].cart_id);
+                var _cart = {
+                  act_id: _act_id,
+                  cart_id_list: _cart_id };
+
+                change_cart.push(_cart);
+              }
+            }
+          }
+        }
+      }
+      var dataInfo = {
+        interfaceId: 'calculate',
+        cart: change_cart };
+
+      that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // console.log(data)
+          // total_price:0,//总价
+          // sale_price:0,//总计优惠
+          // hd_discount: 0,//活动优惠2020.11.04
+          // online_pay: 0,//在线支付
+          // offline_pay: 0,//线下支付
+          // off_sale: 0,//去掉优惠后应付2020.11.02
+          // sale_info: []//优惠信息
+          that.order_info = data;
+        } else {
+          that.order_info = {
+            sale_info: [] };
+          //订单的信息
+        }
+      });
+      // console.log(change_cart)
+    },
+    // 去结算
+    goToSettlement: function goToSettlement() {
+      console.log('去结算');
     },
     // 修改商品规格
     showSetSpec: function showSetSpec(sku_id, encrypted_id, number, cart_id) {
@@ -831,7 +981,6 @@ __webpack_require__.r(__webpack_exports__);
         that.this_show_goods_spec = !that.this_show_goods_spec;
       }
     },
-
     // userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
     assembleSpec: function assembleSpec(userSpec, isFirst, nowCheck, isCancel) {
       var that = this;
@@ -853,8 +1002,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           } else {
             // 用户可选规格与整个规格进行匹配，匹配成功状态改为可选状态
-            for (var _j in userSpec) {
-              if (k == userSpec[_j]) {
+            for (var _j2 in userSpec) {
+              if (k == userSpec[_j2]) {
                 spec[i].attr[k] = 0;
               }
             }
@@ -875,7 +1024,7 @@ __webpack_require__.r(__webpack_exports__);
       }
       return spec;
     },
-
+    // 选择规格
     getSpec: function getSpec(index, sindex) {
       var that = this;
       for (var i in that.spec[index].attr) {
@@ -884,9 +1033,9 @@ __webpack_require__.r(__webpack_exports__);
       that.spec[index].attr[sindex] = 1;
       // 查找当前选择数据
       var nowCheck = [];
-      for (var _i2 in that.spec) {
-        for (var k in that.spec[_i2].attr) {
-          if (that.spec[_i2].attr[k] == 1) {
+      for (var _i6 in that.spec) {
+        for (var k in that.spec[_i6].attr) {
+          if (that.spec[_i6].attr[k] == 1) {
             nowCheck.push(k);
           }
         }
@@ -924,7 +1073,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-
     // 取消选项
     cancelSpec: function cancelSpec(index, sindex) {
       var that = this;
@@ -1086,6 +1234,10 @@ __webpack_require__.r(__webpack_exports__);
       that.btnnum = index;
       that.contentList = {};
       that.getUserCart();
+      that.allchecked = false;
+      that.order_info = {
+        sale_info: [] };
+      //订单的信息
     },
     goToGoodsClassfiy: function goToGoodsClassfiy() {
       uni.switchTab({

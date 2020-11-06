@@ -49,7 +49,7 @@
 							<!-- 全选 -->
 							<view class="change-check-see-more">
 								<view class="change-check">
-									<checkbox  color='#007AFF' :checked="allchecked" />
+									<checkbox  color='#007AFF' :checked="items.all_checked" @tap='checked_class_all(k)' />
 									<text @tap='goodsClassfiy(items.category_id,items.category_title)'> {{items.category_title}} > </text>
 								</view>
 								<view class="add-on-item" v-if="items.cards.length>0" @tap="changeActivity(0,items.cards,items.act_info)"> 领券 </view>
@@ -304,16 +304,17 @@
 			<!-- 全选和结算 -->
 			<view class="settlement">
 				<view class="settlement-info">
-					<view class="change-all-goods">
-						<checkbox  color='#007AFF'  />  <text > 全选 </text>
+					<view class="change-all-goods" @tap='change_all_cart' >
+						<checkbox  color='#007AFF' :checked="allchecked" />  <text > 全选 </text>
 					</view>
 					<view class="total-discount">
-						<view class="total">合计 : ￥ <text>18880</text> </view>
-						<view class="use-discount">
-							优惠减: ￥10800 <text class="use-discount-detailed">优惠明细</text>
+						<view class="total">合计 : ￥ <text>{{ order_info.off_sale || 0 }}</text> </view>
+						<view class="use-discount" v-if="order_info.sale_info.length>0">
+							优惠减: ￥{{ order_info.sale_price ||0 }} 
+							<text class="use-discount-detailed" >优惠明细</text>
 						</view>
 					</view>
-					<view class="goSettlement">去结算</view>
+					<view class="goSettlement" @tap='goToSettlement()'>去结算</view>
 				</view>
 			</view>
 		</view>
@@ -443,7 +444,7 @@
 				],
 				btnnum: 0,
 				contentList: {},
-				allchecked: false,//分类全选
+				allchecked: false,//全选
 				isShowDiscount:false,//显示优惠或卡券
 				requestUrl: '',
 				offset: 0,
@@ -461,7 +462,10 @@
 				setNewGoodsNumber:1,//修改新的商品数量
 				encrypted_id:'',
 				sku_id:0,
-				cart_id:160
+				cart_id:160,
+				order_info:{
+					sale_info:[]
+				},//订单的信息
 			}
 		},
 		onReachBottom: function() {
@@ -537,6 +541,7 @@
 						for (let i = 0; i < data.sku_list.length; i++) {
 							for (let j = 0; j < data.sku_list[i].goods_list.length; j++) {
 								data.sku_list[i].goods_list[j].is_show_state = false //显示订单操作
+								data.sku_list[i].all_checked = false //是否全选当前分类
 								data.sku_list[i].goods_list[j].checked = false //是否选择
 								if(data.sku_list[i].act_info){
 									data.sku_list[i].day = parseInt((data.sku_list[i].act_info.rest_time) / 60 / 60 / 24 % 30)
@@ -563,11 +568,156 @@
 				let that = this
 				that.contentList.sku_list[k].goods_list[is].is_show_state = !that.contentList.sku_list[k].goods_list[is].is_show_state
 			},
+			// 全选当前分类
+			checked_class_all:function(k){
+				let that = this
+				let act_id = ''
+				let change_card_id = []
+				let cart = {}
+				let arr = []
+				that.contentList.sku_list[k].all_checked = !that.contentList.sku_list[k].all_checked
+				if(that.contentList.sku_list[k].all_checked){//全选
+					for(let i=0;i<that.contentList.sku_list[k].goods_list.length;i++){
+						that.contentList.sku_list[k].goods_list[i].checked = true
+					}					
+				}else{ //点击清空全选
+					for(let i=0;i<that.contentList.sku_list[k].goods_list.length;i++){
+						that.contentList.sku_list[k].goods_list[i].checked = false
+					}
+				}	
+				for(let i=0;i<that.contentList.sku_list.length;i++){
+					arr.push(that.contentList.sku_list[i].all_checked)
+				}				
+				let flag = arr.every((item,index,arr) =>{
+					return item === true
+				})
+				if(flag){
+					that.allchecked = !that.allchecked
+				}else{
+					that.allchecked = false
+					
+				}
+				that.get_user_cart()
+			},
 			// 选择
 			changeCheck: function(k, is) {
 				let that = this
-				that.contentList.sku_list[k].goods_list[is].checked = !that.contentList.sku_list[k].goods_list[is].checked
-				// console.log(that.contentList.sku_list[k].goods_list[is].checked)
+				let arr = []
+				let all_arr = []
+				that.contentList.sku_list[k].goods_list[is].checked = !that.contentList.sku_list[k].goods_list[is].checked				
+				for(let i=0;i<that.contentList.sku_list[k].goods_list.length;i++){
+					arr.push(that.contentList.sku_list[k].goods_list[i].checked)
+				}				
+				let flag = arr.every((item,index,arr) =>{
+					return item === true
+				})
+				// 如果当分类下面的订单都选择了,则当前分类的全选为true
+				if(flag){			
+					that.contentList.sku_list[k].all_checked = !that.contentList.sku_list[k].all_checked
+					if(that.contentList.sku_list[k].all_checked){//当前订单为选择时判定所有的订单是否已经全选
+						for(let i=0;i<that.contentList.sku_list.length;i++){
+								all_arr.push(that.contentList.sku_list[i].all_checked)
+							}	
+							let flags = all_arr.every((item,index,all_arr) =>{
+								return item === true
+							})
+							that.allchecked = flags
+						}
+				}else{
+					that.contentList.sku_list[k].all_checked = false
+					that.allchecked = false
+				}
+				that.get_user_cart()
+			},	
+			// 结算的全选
+			change_all_cart:function(){
+				let that = this
+				that.allchecked = !that.allchecked
+				if(that.allchecked){
+					for(let i=0;i<that.contentList.sku_list.length;i++){
+						that.contentList.sku_list[i].all_checked = true
+						for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++){
+							that.contentList.sku_list[i].goods_list[j].checked = true
+						}
+					}
+					that.get_user_cart()
+				}
+				else{
+					for(let i=0;i<that.contentList.sku_list.length;i++){
+						that.contentList.sku_list[i].all_checked = false
+						for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++){
+							that.contentList.sku_list[i].goods_list[j].checked = false
+						}
+					}
+					that.order_info = {
+						sale_info:[]
+					}//订单的信息
+				}
+				
+			},
+			// 获取购物车价格
+			get_user_cart:function(){
+				let that = this
+				let change_cart = []
+				if(that.contentList.sku_list.length>0){
+					for(let i=0;i<that.contentList.sku_list.length;i++){
+						if(that.contentList.sku_list[i].all_checked){ //先判断是否有全选了的订单
+							let act_id = ''
+							let cart_id = []
+							if(that.contentList.sku_list[i].act_id){
+								act_id = that.contentList.sku_list[i].act_id
+							}
+							let cart = {
+								act_id:act_id,
+								cart_id_list:that.contentList.sku_list[i].cart_id_list
+							}
+							change_cart.push(cart)
+						} else{
+							for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++){
+								if(that.contentList.sku_list[i].goods_list[j].checked){ //判定选择了的订单
+									let act_id = ''
+									let cart_id = []
+									if(that.contentList.sku_list[i].act_id){
+										act_id = that.contentList.sku_list[i].act_id
+									}
+									cart_id.push(that.contentList.sku_list[i].goods_list[j].cart_id)
+									let cart = {
+										act_id:act_id,
+										cart_id_list:cart_id
+									}
+									change_cart.push(cart)
+								}
+							}
+						}						
+					}
+				}
+				let dataInfo = {
+					interfaceId:'calculate',
+					cart:change_cart
+				}
+				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						// console.log(data)
+						// total_price:0,//总价
+						// sale_price:0,//总计优惠
+						// hd_discount: 0,//活动优惠2020.11.04
+						// online_pay: 0,//在线支付
+						// offline_pay: 0,//线下支付
+						// off_sale: 0,//去掉优惠后应付2020.11.02
+						// sale_info: []//优惠信息
+						that.order_info = data
+					}else{
+						that.order_info = {
+							sale_info:[]
+						}//订单的信息
+					}
+				})
+				// console.log(change_cart)
+			},
+			// 去结算
+			goToSettlement:function(){
+				console.log('去结算')	
 			},
 			// 修改商品规格
 			showSetSpec: function(sku_id,encrypted_id,number,cart_id) {
@@ -692,8 +842,7 @@
 				}else if(index==1){
 					that.this_show_goods_spec = !that.this_show_goods_spec
 				}				
-			},
-			
+			},			
 			// userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
 			assembleSpec: function(userSpec, isFirst, nowCheck, isCancel) {
 				let that = this
@@ -737,7 +886,7 @@
 				}
 				return spec;
 			},
-			
+			// 选择规格
 			getSpec: function(index,sindex) {
 				const that = this;
 				for (let i in that.spec[index].attr) {
@@ -785,8 +934,7 @@
 						that.goodsContentList.sku.sale_price = data.sale_price
 					}
 				})
-			},
-			
+			},			
 			// 取消选项
 			cancelSpec: function(index,sindex) {
 				const that = this;
@@ -948,6 +1096,10 @@
 				that.btnnum = index
 				that.contentList = {}
 				that.getUserCart()
+				that.allchecked = false
+				that.order_info = {
+					sale_info:[]
+				}//订单的信息
 			},
 			goToGoodsClassfiy: function() {
 				uni.switchTab({
@@ -1660,7 +1812,10 @@
 		align-items: center;
 		padding: 20rpx 30rpx;
 	}
-	
+	.total-discount{
+		flex: 1;
+		text-align: center;
+	}
 	.total-discount .total{
 		font-size: 28rpx;
 		font-weight: 700rpx;
@@ -1669,6 +1824,7 @@
 		font-size: 24rpx;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 	}
 	.use-discount-detailed{
 		display: inline-block;

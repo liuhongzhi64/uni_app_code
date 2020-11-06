@@ -674,6 +674,12 @@
 	        align-items: center;
 	padding: 20rpx 30rpx;
 }
+.total-discount.data-v-0f00adf4{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	text-align: center;
+}
 .total-discount .total.data-v-0f00adf4{
 	font-size: 28rpx;
 	font-weight: 700rpx;
@@ -686,6 +692,9 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 }
 .use-discount-detailed.data-v-0f00adf4{
 	display: inline-block;

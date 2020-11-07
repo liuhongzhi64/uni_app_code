@@ -311,7 +311,7 @@
 						<view class="total">合计 : ￥ <text>{{ order_info.off_sale || 0 }}</text> </view>
 						<view class="use-discount" v-if="order_info.sale_info.length>0">
 							优惠减: ￥{{ order_info.sale_price ||0 }} 
-							<text class="use-discount-detailed" >优惠明细</text>
+							<text class="use-discount-detailed" @tap='user_discount'>优惠明细</text>
 						</view>
 					</view>
 					<view class="goSettlement" @tap='goToSettlement()'>去结算</view>
@@ -400,6 +400,30 @@
 				</view>
 			</view>
 		</scroll-view>
+		<!-- 优惠明细 -->
+		<scroll-view scroll-y="true" v-if="show_discount" :style="[{'height':height/4+'px'}]">
+			<view class="this_show_discount">
+				<view class="show_discount_title">优惠明细</view>
+				<view class="show_discount_content">
+					<view class="discount_sale_info">
+						<view class="dicount_price">
+							<view class="sale_info_title">商品总额</view>
+							<view class="sale_info_discount_price">{{order_info.total_price}}</view>
+						</view>
+						<view class="dicount_price" v-for="(item,index) in order_info.sale_info" :key='index'>
+							<view class="sale_info_title">{{item.category}} {{item.rule_name}} </view>
+							<view class="sale_info_discount_price"> -￥{{item.sale_price}} </view>
+						</view>
+						<view class="all_discount">
+							<view class="sale_info_title"> 优惠合计 </view>
+							<view class="sale_info_discount_price"> ￥{{order_info.sale_price}} </view>
+						</view>
+						<view class="discount-hint">以上优惠不包含积分、喵豆、余额等用户资产抵扣，资产抵扣请在结算页面查看</view>
+					</view>
+					<button class="i_know" type="default" size="mini" @tap='IKnow'> 我知道了 </button>
+				</view>
+			</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -466,6 +490,7 @@
 				order_info:{
 					sale_info:[]
 				},//订单的信息
+				show_discount:false,//显示优惠的弹窗
 			}
 		},
 		onReachBottom: function() {
@@ -538,6 +563,11 @@
 						let house = 0
 						let second = 0
 						let minute = 0
+						let former_sku_list = uni.getStorageSync("contentList").sku_list;
+						console.log(former_sku_list) //为了判定数据是否有选中的状态
+						// if(former_sku_list){
+							
+						// }
 						for (let i = 0; i < data.sku_list.length; i++) {
 							for (let j = 0; j < data.sku_list[i].goods_list.length; j++) {
 								data.sku_list[i].goods_list[j].is_show_state = false //显示订单操作
@@ -760,7 +790,11 @@
 				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.this_show_goods_spec = !that.this_show_goods_spec
+						that.allchecked = false
 						that.getUserCart()
+						that.order_info = {
+							sale_info:[]
+						}//订单的信息
 					}
 				})
 			},
@@ -1147,6 +1181,10 @@
 										},500)
 										setTimeout(function(){
 											that.getUserCart()
+											that.allchecked = false
+											that.order_info = {
+												sale_info:[]
+											}//订单的信息
 										},800)
 									}
 								})
@@ -1165,6 +1203,8 @@
 			setGoodsNumber:function(id,cart_num){
 				let that = this
 				let cart_id = []
+				// console.log(that.contentList) //想法是在修改数量的时候先把购物车的数据存储，为了判定那些数据是选中了,然后计算价格
+				uni.setStorageSync("contentList", that.contentList);
 				cart_id.push(id)
 				let dataInfo = {
 					interfaceId:'changcart',
@@ -1175,6 +1215,10 @@
 				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.getUserCart()
+						that.allchecked = false
+						that.order_info = {
+							sale_info:[]
+						}//订单的信息
 					}
 				})
 			},
@@ -1221,6 +1265,15 @@
 				that.setNewGoodsNumber = goodsNumber
 				that.setGoodsNumber(id,goodsNumber)
 			},
+			// 显示优惠明细
+			user_discount:function(){
+				let that = this
+				that.show_discount = !that.show_discount
+			},
+			IKnow:function(){
+				let that = this
+				that.show_discount = !that.show_discount
+			}
 		}
 	}
 </script>
@@ -2055,4 +2108,56 @@
 		width: 32rpx;
 		height: 32rpx;
 	}
+	
+	.this_show_discount{
+		position: fixed;
+		width: 100%;
+		background-color: #FFFFFF;
+		display: flex;
+		z-index: 9;
+		flex-direction: column;
+		align-items: center;
+		padding: 20rpx 0;
+		left: 0;
+		bottom: 80rpx;
+	}
+	.show_discount_title{
+		font-size: 32rpx;
+		font-weight: bold;
+		text-align: center;
+	}
+	.show_discount_content{
+		font-size: 24rpx;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+	}
+	.discount_sale_info{
+		padding: 10rpx 150rpx 20rpx;
+	}
+	.dicount_price{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 20rpx 0;
+	}
+	.all_discount{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 30rpx 0 20rpx;
+	}
+	.all_discount .sale_info_discount_price{
+		color: #fa3475;
+	}
+	.discount-hint{
+		font-size: 20rpx;
+		color: #999999;
+	} 
+	.i_know{
+		margin-top: 20rpx;
+		margin-bottom: 40rpx;
+	}
+	
 </style>

@@ -1003,7 +1003,6 @@
 						// f_unique_id:0, //订单分享人的id
 						// archives_id:1//订单渠道
 					}
-					console.log(dataInfo)
 					that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('已加入购物车')
@@ -1011,6 +1010,7 @@
 							that.request.showToast('商品已下架')
 						}
 						that.getCart()
+						uni.removeStorageSync('contentList')
 					})
 					
 				}else if(index==1){//立即购买

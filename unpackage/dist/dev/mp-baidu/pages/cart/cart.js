@@ -544,6 +544,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     goodsShow: goodsShow,
@@ -602,8 +626,9 @@ __webpack_require__.r(__webpack_exports__);
       sku_id: 0,
       cart_id: 160,
       order_info: {
-        sale_info: [] }
+        sale_info: [] },
       //订单的信息
+      show_discount: false //显示优惠的弹窗
     };
   },
   onReachBottom: function onReachBottom() {
@@ -676,6 +701,11 @@ __webpack_require__.r(__webpack_exports__);
           var house = 0;
           var second = 0;
           var minute = 0;
+          var former_sku_list = uni.getStorageSync("contentList").sku_list;
+          console.log(former_sku_list); //为了判定数据是否有选中的状态
+          // if(former_sku_list){
+
+          // }
           for (var i = 0; i < data.sku_list.length; i++) {
             for (var j = 0; j < data.sku_list[i].goods_list.length; j++) {
               data.sku_list[i].goods_list[j].is_show_state = false; //显示订单操作
@@ -898,7 +928,11 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           that.this_show_goods_spec = !that.this_show_goods_spec;
+          that.allchecked = false;
           that.getUserCart();
+          that.order_info = {
+            sale_info: [] };
+          //订单的信息
         }
       });
     },
@@ -1285,6 +1319,10 @@ __webpack_require__.r(__webpack_exports__);
                   }, 500);
                   setTimeout(function () {
                     that.getUserCart();
+                    that.allchecked = false;
+                    that.order_info = {
+                      sale_info: [] };
+                    //订单的信息
                   }, 800);
                 }
               });
@@ -1303,6 +1341,8 @@ __webpack_require__.r(__webpack_exports__);
     setGoodsNumber: function setGoodsNumber(id, cart_num) {
       var that = this;
       var cart_id = [];
+      // console.log(that.contentList) //想法是在修改数量的时候先把购物车的数据存储，为了判定那些数据是选中了,然后计算价格
+      uni.setStorageSync("contentList", that.contentList);
       cart_id.push(id);
       var dataInfo = {
         interfaceId: 'changcart',
@@ -1313,6 +1353,10 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           that.getUserCart();
+          that.allchecked = false;
+          that.order_info = {
+            sale_info: [] };
+          //订单的信息
         }
       });
     },
@@ -1358,6 +1402,15 @@ __webpack_require__.r(__webpack_exports__);
       }
       that.setNewGoodsNumber = goodsNumber;
       that.setGoodsNumber(id, goodsNumber);
+    },
+    // 显示优惠明细
+    user_discount: function user_discount() {
+      var that = this;
+      that.show_discount = !that.show_discount;
+    },
+    IKnow: function IKnow() {
+      var that = this;
+      that.show_discount = !that.show_discount;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

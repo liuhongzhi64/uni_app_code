@@ -307,6 +307,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -320,24 +339,28 @@ __webpack_require__.r(__webpack_exports__);
       menuBottom: 0,
       height: 0,
       barName: 'back', //导航条名称
-      title: '确认订单',
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '/static/images/return.png',
+      title: '确认订单',
       modeList: ['邮寄', '到院领取'],
       btnnum: 0,
-      porductImagesList: [{
+      porductImagesList: [
+      {
         id: 1,
         url: '../../static/images/23.png' },
+
       {
         id: 2,
         url: '../../static/images/20.png' },
       {
         id: 1,
         url: '../../static/images/23.png' },
+
       {
         id: 1,
         url: '../../static/images/19.png' }],
+
 
       complimentaryList: ['HB面膜(2片装)一盒', '华桑葆骊科玮防晒霜SPF30（2支）', '20元无门槛卡券', '2000元满减券'],
       ticketList: [{
@@ -359,80 +382,53 @@ __webpack_require__.r(__webpack_exports__);
         more: false }],
 
 
-      deductionList: [{
+      deductionList: [
+      {
         name: '积分',
-        content: '共100000，可用5000,',
-        price: 800,
-        checked: true },
+        content: '共0，可用0,',
+        price: 0,
+        checked: false },
 
       {
         name: '喵豆',
-        content: '共4000，可用4000,',
-        price: 4000,
+        content: '共0，可用0,',
+        price: 0,
         checked: false },
 
       {
         name: '余额',
-        content: '共400，可用40,',
-        price: 80,
+        content: '共0，可用0,',
+        price: 0,
         checked: false }],
 
 
-      priceList: [{
-        name: '商品总价',
-        price: 56800 },
-
-      {
-        name: '优惠合计',
-        price: 6800,
-        minus: true,
-        color: true,
-        ask: true },
-
-      {
-        name: '邮寄运费',
-        price: 0 },
-
-      {
-        name: '实际应付',
-        price: 50000 },
-
-      {
-        name: '在线支付',
-        price: 1000,
-        color: true,
-        colors: true },
-
-      {
-        name: '到院再付',
-        price: 49000 }],
-
-
       playWayList: [{
-        url: '../../static/images/weixin_3f.png',
+        url: '/static/images/weixin_3f.png',
         name: '微信',
         value: 'weixin' },
 
       {
-        url: '../../static/images/zhifubao.png',
+        url: '/static/images/zhifubao.png',
         name: '支付宝',
         value: 'zhifubao' },
 
       {
-        url: '../../static/images/yinlian.png',
+        url: '/static/images/yinlian.png',
         name: '银联支付',
         value: 'yinlian' }],
 
 
-      palyPrice: [
-      {
-        allPrice: 50000,
-        newPlay: 1000,
-        hospitalPlay: 49000 }] };
-
-
-
-
+      requestUrl: '',
+      contentList: {} //订单详情
+    };
+  },
+  onLoad: function onLoad(option) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    var cart_id_list = uni.getStorageSync("cart_id_list");
+    // 获取订单的详情
+    that.get_order_detail(cart_id_list);
   },
   onReady: function onReady() {
     var that = this;
@@ -471,9 +467,35 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    // 返回
+    goBack: function goBack() {
+      uni.navigateBack({
+        delta: 1 });
+
+    },
+
     chooseLabel: function chooseLabel(k) {
       this.btnnum = k;
     },
+
+    // 获取订单的详情
+    get_order_detail: function get_order_detail(cart_id_list) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'confirmcart',
+        cart: cart_id_list };
+
+      that.request.uniRequest("order", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.contentList = data;
+          console.log(data);
+        } else {
+          console.log('没有数据');
+        }
+      });
+    },
+
     switchChange: function switchChange(e) {
       console.log(e.target.value);
       console.log(e.currentTarget.dataset);

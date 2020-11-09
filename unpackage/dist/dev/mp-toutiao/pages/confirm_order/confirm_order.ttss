@@ -391,6 +391,10 @@
 .porduct-price-item.data-v-51e0fab4:last-child {
 	margin-bottom: 0;
 }
+.on_card_list.data-v-51e0fab4{
+	font-size: 24rpx;
+	color: #fa3475;
+}
 .item-name.data-v-51e0fab4 {
 	font-size: 24rpx;
 	display: -webkit-box;

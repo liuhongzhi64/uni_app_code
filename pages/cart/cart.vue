@@ -308,7 +308,7 @@
 						<checkbox  color='#007AFF' :checked="allchecked" />  <text > 全选 </text>
 					</view>
 					<view class="total-discount">
-						<view class="total">合计 : ￥ <text>{{ order_info.off_sale || 0 }}</text> </view>
+						<view class="total">合计 : <text> ￥{{ order_info.off_sale || 0 }} </text> </view>
 						<view class="use-discount" v-if="order_info.sale_info.length>0">
 							优惠减: ￥{{ order_info.sale_price ||0 }} 
 							<text class="use-discount-detailed" @tap='user_discount'>优惠明细</text>
@@ -412,7 +412,8 @@
 						</view>
 						<view class="dicount_price" v-for="(item,index) in order_info.sale_info" :key='index'>
 							<view class="sale_info_title">{{item.category}} {{item.rule_name}} </view>
-							<view class="sale_info_discount_price"> -￥{{item.sale_price}} </view>
+							<view class="sale_info_discount_price" v-if="item.tools_id=='giving'"> ￥{{item.sale_price}} </view>
+							<view class="sale_info_discount_price" v-else> -￥{{item.sale_price}} </view>
 						</view>
 						<view class="all_discount">
 							<view class="sale_info_title"> 优惠合计 </view>
@@ -563,11 +564,8 @@
 						let house = 0
 						let second = 0
 						let minute = 0
-						let former_sku_list = uni.getStorageSync("contentList").sku_list;
-						console.log(former_sku_list) //为了判定数据是否有选中的状态
-						// if(former_sku_list){
-							
-						// }
+						// let former_sku_list = uni.getStorageSync("contentList").sku_list;
+						// console.log(former_sku_list) //为了判定数据是否有选中的状态
 						for (let i = 0; i < data.sku_list.length; i++) {
 							for (let j = 0; j < data.sku_list[i].goods_list.length; j++) {
 								data.sku_list[i].goods_list[j].is_show_state = false //显示订单操作
@@ -747,7 +745,71 @@
 			},
 			// 去结算
 			goToSettlement:function(){
-				console.log('去结算')	
+				let that = this
+				let sku_list = that.contentList.sku_list
+				let cart_info = {} //单条购物车的选中的数据
+				let act_id = '' //活动id 
+				let cart_id_list = [] //订单id列表
+				if(that.allchecked){ //判定购物车是否全选了，全选直接存储对应的购物车活动id和购物车id
+					for(let i=0;i<sku_list.length;i++){
+						if(sku_list[i].act_id){
+							act_id = sku_list[i].act_id
+						}
+						cart_info = {
+							act_id:act_id,
+							cart_id_list:sku_list[i].cart_id_list
+						}
+						cart_id_list.push(cart_info)
+					}
+				}
+				else{ //如果是没有全选，就循环判定购物车的分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
+					for(let i=0;i<sku_list.length;i++){
+						if(sku_list[i].all_checked){//分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
+							if(sku_list[i].act_id){
+								act_id = sku_list[i].act_id
+							}
+							cart_info = {
+								act_id:act_id,
+								cart_id_list:sku_list[i].cart_id_list
+							}
+							cart_id_list.push(cart_info)
+						}else{ //循环内部的商品是否选中
+							let cart_list = []
+							for(let j=0;j<sku_list[i].goods_list.length;j++){
+								if(sku_list[i].act_id){
+									act_id = sku_list[i].act_id
+								}
+								if(sku_list[i].goods_list[j].checked){
+									cart_list.push(sku_list[i].goods_list[j].cart_id)
+								}
+							}
+							if(cart_list.length>0){
+								cart_info = {
+									act_id:act_id,
+									cart_id_list:cart_list
+								}
+								cart_id_list.push(cart_info)
+							}
+							
+						}
+					}
+				}
+				// console.log(cart_id_list)
+				uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
+				// 清除本地存的购物车数据
+				// uni.removeStorageSync('contentList');
+				if(cart_id_list.length>0){
+					// 确认订单
+					uni.navigateTo({
+						url: `/pages/confirm_order/confirm_order`,
+					})
+				}else{
+					uni.showToast({
+						title:'请选择商品',
+						icon:'none'
+					})
+				}
+				
 			},
 			// 修改商品规格
 			showSetSpec: function(sku_id,encrypted_id,number,cart_id) {
@@ -1131,6 +1193,7 @@
 				that.contentList = {}
 				that.getUserCart()
 				that.allchecked = false
+				uni.removeStorageSync('contentList');
 				that.order_info = {
 					sale_info:[]
 				}//订单的信息
@@ -1204,7 +1267,7 @@
 				let that = this
 				let cart_id = []
 				// console.log(that.contentList) //想法是在修改数量的时候先把购物车的数据存储，为了判定那些数据是选中了,然后计算价格
-				uni.setStorageSync("contentList", that.contentList);
+				// uni.setStorageSync("contentList", that.contentList);
 				cart_id.push(id)
 				let dataInfo = {
 					interfaceId:'changcart',
@@ -1214,11 +1277,12 @@
 				}
 				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						that.getUserCart()
-						that.allchecked = false
-						that.order_info = {
-							sale_info:[]
-						}//订单的信息
+						that.get_user_cart()
+						// that.getUserCart()
+						// that.allchecked = false
+						// that.order_info = {
+						// 	sale_info:[]
+						// }//订单的信息
 					}
 				})
 			},
@@ -1236,6 +1300,7 @@
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit)
 					goodsNumber = number
 				}
+				that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
 				that.setNewGoodsNumber = goodsNumber
 				that.setGoodsNumber(id,goodsNumber)
 			},
@@ -1263,6 +1328,7 @@
 					goodsNumber = number
 				}	
 				that.setNewGoodsNumber = goodsNumber
+				that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
 				that.setGoodsNumber(id,goodsNumber)
 			},
 			// 显示优惠明细
@@ -1312,7 +1378,6 @@
 	}
 	
 	.back-title .title {
-		flex: 1;
 		font-size: 37rpx;
 	}
 	.cart-content {
@@ -1864,6 +1929,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 20rpx 30rpx;
+		height: 100rpx;
 	}
 	.total-discount{
 		flex: 1;
@@ -1872,6 +1938,11 @@
 	.total-discount .total{
 		font-size: 28rpx;
 		font-weight: 700rpx;
+	}
+	.total-discount .total text{
+		font-size: 36rpx;
+		margin-left: 10rpx;
+		color: #fa3475;
 	}
 	.use-discount{
 		font-size: 24rpx;

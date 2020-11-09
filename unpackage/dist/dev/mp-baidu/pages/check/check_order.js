@@ -335,10 +335,11 @@ __webpack_require__.r(__webpack_exports__);
       copeWith: '39600.00',
       onLinePay: '39599.55',
       hospitalPay: '0.45',
-      orderNumber: '2354777654' };
-
+      orderNumber: '2354777654',
+      requestUrl: '' };
 
   },
+
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
@@ -376,6 +377,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+
     copySerialNumber: function copySerialNumber(e) {
       // console.log(e.currentTarget.dataset.copy)
       var copy = e.currentTarget.dataset.copy;

@@ -673,6 +673,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	padding: 20rpx 30rpx;
+	height: 100rpx;
 }
 .total-discount.data-v-0f00adf4{
 	-webkit-box-flex: 1;
@@ -683,6 +684,11 @@
 .total-discount .total.data-v-0f00adf4{
 	font-size: 28rpx;
 	font-weight: 700rpx;
+}
+.total-discount .total text.data-v-0f00adf4{
+	font-size: 36rpx;
+	margin-left: 10rpx;
+	color: #fa3475;
 }
 .use-discount.data-v-0f00adf4{
 	font-size: 24rpx;

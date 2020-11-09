@@ -204,9 +204,10 @@
 				onLinePay: '39599.55',
 				hospitalPay: '0.45',
 				orderNumber:'2354777654',
-
+				requestUrl:''
 			}
 		},
+		
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
@@ -244,6 +245,7 @@
 			}
 		},
 		methods: {
+			
 			copySerialNumber: function(e) {
 				// console.log(e.currentTarget.dataset.copy)
 				let copy = e.currentTarget.dataset.copy

@@ -568,6 +568,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     goodsShow: goodsShow,
@@ -701,11 +702,8 @@ __webpack_require__.r(__webpack_exports__);
           var house = 0;
           var second = 0;
           var minute = 0;
-          var former_sku_list = uni.getStorageSync("contentList").sku_list;
-          console.log(former_sku_list); //为了判定数据是否有选中的状态
-          // if(former_sku_list){
-
-          // }
+          // let former_sku_list = uni.getStorageSync("contentList").sku_list;
+          // console.log(former_sku_list) //为了判定数据是否有选中的状态
           for (var i = 0; i < data.sku_list.length; i++) {
             for (var j = 0; j < data.sku_list[i].goods_list.length; j++) {
               data.sku_list[i].goods_list[j].is_show_state = false; //显示订单操作
@@ -885,7 +883,71 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 去结算
     goToSettlement: function goToSettlement() {
-      console.log('去结算');
+      var that = this;
+      var sku_list = that.contentList.sku_list;
+      var cart_info = {}; //单条购物车的选中的数据
+      var act_id = ''; //活动id 
+      var cart_id_list = []; //订单id列表
+      if (that.allchecked) {//判定购物车是否全选了，全选直接存储对应的购物车活动id和购物车id
+        for (var i = 0; i < sku_list.length; i++) {
+          if (sku_list[i].act_id) {
+            act_id = sku_list[i].act_id;
+          }
+          cart_info = {
+            act_id: act_id,
+            cart_id_list: sku_list[i].cart_id_list };
+
+          cart_id_list.push(cart_info);
+        }
+      } else
+      {//如果是没有全选，就循环判定购物车的分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
+        for (var _i6 = 0; _i6 < sku_list.length; _i6++) {
+          if (sku_list[_i6].all_checked) {//分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
+            if (sku_list[_i6].act_id) {
+              act_id = sku_list[_i6].act_id;
+            }
+            cart_info = {
+              act_id: act_id,
+              cart_id_list: sku_list[_i6].cart_id_list };
+
+            cart_id_list.push(cart_info);
+          } else {//循环内部的商品是否选中
+            var cart_list = [];
+            for (var j = 0; j < sku_list[_i6].goods_list.length; j++) {
+              if (sku_list[_i6].act_id) {
+                act_id = sku_list[_i6].act_id;
+              }
+              if (sku_list[_i6].goods_list[j].checked) {
+                cart_list.push(sku_list[_i6].goods_list[j].cart_id);
+              }
+            }
+            if (cart_list.length > 0) {
+              cart_info = {
+                act_id: act_id,
+                cart_id_list: cart_list };
+
+              cart_id_list.push(cart_info);
+            }
+
+          }
+        }
+      }
+      // console.log(cart_id_list)
+      uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
+      // 清除本地存的购物车数据
+      // uni.removeStorageSync('contentList');
+      if (cart_id_list.length > 0) {
+        // 确认订单
+        uni.navigateTo({
+          url: "/pages/confirm_order/confirm_order" });
+
+      } else {
+        uni.showToast({
+          title: '请选择商品',
+          icon: 'none' });
+
+      }
+
     },
     // 修改商品规格
     showSetSpec: function showSetSpec(sku_id, encrypted_id, number, cart_id) {
@@ -1067,9 +1129,9 @@ __webpack_require__.r(__webpack_exports__);
       that.spec[index].attr[sindex] = 1;
       // 查找当前选择数据
       var nowCheck = [];
-      for (var _i6 in that.spec) {
-        for (var k in that.spec[_i6].attr) {
-          if (that.spec[_i6].attr[k] == 1) {
+      for (var _i7 in that.spec) {
+        for (var k in that.spec[_i7].attr) {
+          if (that.spec[_i7].attr[k] == 1) {
             nowCheck.push(k);
           }
         }
@@ -1269,6 +1331,7 @@ __webpack_require__.r(__webpack_exports__);
       that.contentList = {};
       that.getUserCart();
       that.allchecked = false;
+      uni.removeStorageSync('contentList');
       that.order_info = {
         sale_info: [] };
       //订单的信息
@@ -1342,7 +1405,7 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       var cart_id = [];
       // console.log(that.contentList) //想法是在修改数量的时候先把购物车的数据存储，为了判定那些数据是选中了,然后计算价格
-      uni.setStorageSync("contentList", that.contentList);
+      // uni.setStorageSync("contentList", that.contentList);
       cart_id.push(id);
       var dataInfo = {
         interfaceId: 'changcart',
@@ -1352,11 +1415,12 @@ __webpack_require__.r(__webpack_exports__);
 
       that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          that.getUserCart();
-          that.allchecked = false;
-          that.order_info = {
-            sale_info: [] };
-          //订单的信息
+          that.get_user_cart();
+          // that.getUserCart()
+          // that.allchecked = false
+          // that.order_info = {
+          // 	sale_info:[]
+          // }//订单的信息
         }
       });
     },
@@ -1374,6 +1438,7 @@ __webpack_require__.r(__webpack_exports__);
         var _number4 = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit);
         goodsNumber = _number4;
       }
+      that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber;
       that.setNewGoodsNumber = goodsNumber;
       that.setGoodsNumber(id, goodsNumber);
     },
@@ -1401,6 +1466,7 @@ __webpack_require__.r(__webpack_exports__);
         goodsNumber = _number5;
       }
       that.setNewGoodsNumber = goodsNumber;
+      that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber;
       that.setGoodsNumber(id, goodsNumber);
     },
     // 显示优惠明细

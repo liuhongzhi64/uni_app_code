@@ -1,11 +1,10 @@
 {
-	"setting": {
-		"urlCheck": false,
-		"es6": false,
-		"postcss": false,
-		"minified": false,
-		"newFeature": true
-	},
-	"appid": "tt778d0130e8a73b88",
-	"projectname": "华美"
+  "setting": {
+    "es6": true,
+    "urlCheck": false,
+    "postcss": true,
+    "minified": true
+  },
+  "appid": "tt778d0130e8a73b88",
+  "projectname": "华美"
 }

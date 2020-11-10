@@ -217,8 +217,8 @@
 						uni.setStorageSync("token", data.token)
 						uni.setStorageSync("userInfo", data)
 						this.request.showToast("登录成功")
-						uni.switchTab({
-							url: `/pages/index/index`
+						uni.navigateBack({
+							delta: 1
 						});
 					}
 				})

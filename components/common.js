@@ -102,7 +102,7 @@ export default {
 										uni.navigateTo({
 											url: '/pages/login/login_phone'
 										})
-									},2000)
+									},1000)
 								}
 							} 
 						}
@@ -118,11 +118,11 @@ export default {
 									that.showToast("没有更多相关卡券了")
 								}else if(res.data.message=='登录失败[1007]'){
 									that.showToast(res.data.message)
-									setTimeout(function(){
-										uni.navigateTo({
-											url: '/pages/login/login_phone'
-										})
-									},1000)
+									// setTimeout(function(){
+									// 	uni.navigateTo({
+									// 		url: '/pages/login/login_phone'
+									// 	})
+									// },1000)
 								}else{
 									// that.showModal(res.data.message)
 								}

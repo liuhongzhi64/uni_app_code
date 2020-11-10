@@ -462,9 +462,6 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.related-products-item.data-v-098a7e2c {
-	/* white-space: nowrap; */
-}
 .doctor-swiper.data-v-098a7e2c {
 	height: 650rpx;
 }

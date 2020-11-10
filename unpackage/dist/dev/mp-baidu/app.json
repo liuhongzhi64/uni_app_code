@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/cart/cart",
+    "pages/confirm_order/confirm_order",
     "pages/goods/goods_classify",
     "pages/goods/goods_detail",
     "pages/goods/goods_list",
@@ -18,7 +19,6 @@
     "pages/agreement/agreement",
     "pages/check/check_card",
     "pages/check/check_order",
-    "pages/confirm_order/confirm_order",
     "pages/confirm_order/no_refund",
     "pages/consultation/consultation",
     "pages/diary/diary",

@@ -1494,10 +1494,6 @@
 		align-items: center;
 	}
 
-	.related-products-item {
-		/* white-space: nowrap; */
-	}
-
 	.doctor-swiper {
 		height: 650rpx;
 	}

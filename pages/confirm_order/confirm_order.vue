@@ -16,56 +16,184 @@
 					<view class="confirm_order_content">
 						<view class="selector-mode">
 							<!-- 订单信息、商品类型、方式、用户名、电话、收货地址 -->
-							<view class="porduct-label-mode">
-								<view class="porduct-label">护肤品</view>
-								<view class="all-mode">
-									<view class="mode-label" @tap='chooseLabel(k)' v-for="(i,k) in modeList" :key='k'>
-										<view class="mode-btn">
-											<view class="end-cont" :class="{dis:btnnum == k}"> </view>
-										</view>
-										<view class="mode-name">{{i}}</view>
-									</view>
-								</view>
-							</view>
-							<view class="choose-pickup-method"> *请选择护肤品的领取方式 </view>
 							<view class="user-message">
-								<view class="user-name"> 张亮 </view>
-								<view class="user-phone">188****4357</view>
-								<view class="defult-site">默认</view>
-								<view class="user-home">家</view>
+								<view class="user-name" v-if="contentList.user_info.real_name"> {{ contentList.user_info.real_name }} </view>
+								<view class="no-user-name" v-else> 请添加联系人 </view>
+								<view class="user-phone">{{ contentList.user_info.tel }}</view>
+								<image class="edit_img" src="/static/images/edit.png" mode=""></image>
 							</view>
-							<view class="shipping-address">
-								<view class="shipping-address-title">收货地址</view>
+							<view class="shipping-address" v-if="is_post_list.length>0">
 								<view class="address">四川省成都市武侯区华美紫馨医学美容医院地址太多最多两行，最多两行</view>
-								<image src="../../static/images/back1.png" mode=""></image>
+								<image src="/static/images/unfold.png" mode=""></image>
 							</view>
 						</view>
 						<!-- 商品信息 -->
 						<view class="porduct-introduce">
 							<view class="porduct-introduce-top">
 								<view class="this-title">商品信息 </view>
-								<view class="hint-set-details">
+								<view class="hint-set-details" v-if="refundable_list.length>0">
 									<view class="hint">有商品属于不支持退款操作</view>
 									<view class="set-details"> 查看详情 > </view>
 								</view>
 							</view>
-							<!-- 商品图片、总计 -->
+							<!-- 商品 -->
 							<view class="porduct-images-all-set">
-								<view class="porduct-images-item">
-									<scroll-view class="porduct-images-items" scroll-x="true">
-										<view class="images-item">
-											<view class="porduct-images-list" v-for="(i,k) in porductImagesList" :key='k'>
-												<image :src="i.url" mode=""></image>
+								<view class="order_goods_item" v-if="contentList.goods_list.length>1">
+								<!-- 收费室 -->
+									<view class="order_goods_item_content" v-if="scan_one_list.length>0&&scan_one_list.length>1">
+										<view class="related-title">
+											<view class="line"></view> 
+											<text > 收费室使用 </text>
+										</view>
+										<view class="goods_list">
+											<view class="porduct-images-item" >
+												<scroll-view class="porduct-images-items" scroll-x="true">
+													<view class="images-item">
+														<view class="porduct-images-list" v-for="(item,k) in scan_one_list" :key='k'>
+															<image :src="requestUrl+item.head_img" mode="" ></image>
+														</view>
+													</view>
+												</scroll-view>
+											</view>
+											<view class="all-see" >
+												<view class="all-porduct"> 共计{{ scan_one_list.length }}件 </view>
+												<view class="see"> 查看 > </view>
 											</view>
 										</view>
-									</scroll-view>
+									</view>
+									<view class="order_goods_item_content" v-else-if='scan_one_list.length==1'>
+										<view class="related-title">
+											<view class="line"></view> 
+											<text > 收费室使用 </text>
+										</view>
+										<view class="goods_info" v-for="(item,k) in scan_one_list" :key='k'>
+											<image class="goods_img" :src="requestUrl+item.head_img" mode="" ></image>
+											<view class="goods_detail">
+												<view class="goods_title">{{item.goods_name}}</view>
+												<view class="spec_name_item">
+													<view class="spec_name_item_content">
+														<text class="spec_name" v-for="(m,z) in item.spec_name" :key='z'> {{z}} : {{m}} </text>
+													</view>
+													<image class="unfold" src="../../static/images/unfold.png" mode=""></image>
+												</view>
+												<view class="goods_price"> ￥ <text>{{item.pay_price}}</text> </view>
+											</view>
+										</view>
+									</view>
+								<!-- 会员中心 -->
+									<view class="order_goods_item_content" v-if="scan_two_list.length>0&&scan_two_list.length>1">
+										<view class="related-title">
+											<view class="line"></view> 
+											<text> 会员中心使用 </text>
+										</view>
+										<view class="goods_list">
+											<view class="porduct-images-item" >
+												<scroll-view class="porduct-images-items" scroll-x="true">
+													<view class="images-item">
+														<view class="porduct-images-list" v-for="(item,k) in scan_two_list" :key='k'>
+															<image :src="requestUrl+item.head_img" mode="" ></image>
+														</view>
+													</view>
+												</scroll-view>
+											</view>
+											<view class="all-see" >
+												<view class="all-porduct"> 共计{{ scan_two_list.length }}件 </view>
+												<view class="see"> 查看 > </view>
+											</view>
+										</view>
+									</view>
+									<view class="order_goods_item_content" v-else-if='scan_two_list.length==1'>
+										<view class="related-title">
+											<view class="line"></view> 
+											<text> 会员中心使用 </text>
+										</view>
+										<view class="goods_info" v-for="(item,k) in scan_two_list" :key='k'>
+											<image class="goods_img" :src="requestUrl+item.head_img" mode="" ></image>
+											<view class="goods_detail">
+												<view class="goods_title">{{item.goods_name}}</view>
+												<view class="spec_name_item">
+													<view class="spec_name_item_content">
+														<text class="spec_name" v-for="(m,z) in item.spec_name" :key='z'> {{z}} : {{m}} </text>
+													</view>
+													<image class="unfold" src="../../static/images/unfold.png" mode=""></image>
+												</view>
+												<view class="goods_price"> ￥ <text>{{item.pay_price}}</text> </view>
+											</view>
+										</view>
+									</view>
+								<!-- 邮寄 -->
+									<view class="order_goods_item_content" v-if="is_post_list.length>0&&is_post_list.length>1">
+										<view class="related-title">
+											<view class="line"></view> 
+											<text > 邮寄商品 </text>
+										</view>
+										<view class="goods_list">
+											<view class="porduct-images-item" >
+												<scroll-view class="porduct-images-items" scroll-x="true">
+													<view class="images-item">
+														<view class="porduct-images-list" v-for="(item,k) in is_post_list" :key='k'>
+															<image :src="requestUrl+item.head_img" mode="" ></image>
+														</view>
+													</view>
+												</scroll-view>
+											</view>
+											<view class="all-see" >
+												<view class="all-porduct"> 共计{{ is_post_list.length }}件 </view>
+												<view class="see"> 查看 > </view>
+											</view>
+										</view>
+									</view>
+									<view class="order_goods_item_content" v-else-if='is_post_list.length==1'>
+										<view class="related-title">
+											<view class="line"></view> 
+											<text > 邮寄商品 </text>
+										</view>
+										<view class="goods_info" v-for="(item,k) in is_post_list" :key='k'>
+											<image class="goods_img" :src="requestUrl+item.head_img" mode="" ></image>
+											<view class="goods_detail">
+												<view class="goods_title">{{item.goods_name}}</view>
+												<view class="spec_name_item">
+													<view class="spec_name_item_content">
+														<text class="spec_name" v-for="(m,z) in item.spec_name" :key='z'> {{z}} : {{m}} </text>
+													</view>
+													<image class="unfold" src="../../static/images/unfold.png" mode=""></image>
+												</view>
+												<view class="goods_price"> ￥ <text>{{item.pay_price}}</text> </view>
+											</view>
+										</view>
+									</view>
+									
 								</view>
-								<view class="all-see">
-									<view class="all-porduct"> 共计4件 </view>
-									<view class="see"> 查看 > </view>
+								<!-- 只有单商品 -->
+								<view class="goods_list" v-else>
+									<view class="goods_list-item">
+										<view class="goods_item" v-for="(item,k) in contentList.goods_list" :key='k'>
+											<view class="goods_info_content" >
+												<view class="related-title">
+													<view class="line"></view> 
+													<text v-if="item.is_post==1"> 邮寄商品 </text>
+													<text v-else-if="item.scan_department==0"> 财务室使用 </text>
+													<text v-else-if="item.scan_department==1"> 会员中心使用 </text>
+												</view>
+												<view class="goods_info">
+													<image class="goods_img" :src="requestUrl+item.head_img" mode="" ></image>
+													<view class="goods_detail">
+														<view class="goods_title">{{item.goods_name}}</view>
+														<view class="spec_name_item">
+															<view class="spec_name_item_content">
+																<text class="spec_name" v-for="(m,z) in item.spec_name" :key='z'> {{z}} : {{m}} </text>
+															</view>
+															<image class="unfold" src="../../static/images/unfold.png" mode=""></image>
+														</view>
+														<view class="goods_price"> ￥ <text>{{item.pay_price}}</text> </view>
+													</view>
+												</view>
+											</view>
+										</view>
+									</view>
 								</view>
 							</view>
-							<!-- 赠品 -->
+							<!-- 优惠活动 -->
 							<view class="complimentary-list" v-if="contentList.sale_info.length>0">
 								<view class="complimentary-items">
 									<view class="complimentary-item" v-for="(i,k) in contentList.sale_info" :key='k'>
@@ -136,11 +264,11 @@
 								</view>
 								<view class="price-content" >  ￥ {{ contentList.off_sale }}</view>
 							</view>
-							<view class="porduct-price-item" >
+							<view class="porduct-price-item color" >
 								<view class="item-name" >
 									<text> 在线支付 </text>
 								</view>
-								<view class="price-content color" > ￥ {{ contentList.online_pay }}</view>
+								<view class="price-content" > ￥ {{ contentList.online_pay }}</view>
 							</view>
 							<view class="porduct-price-item" >
 								<view class="item-name" >
@@ -213,43 +341,6 @@
 				title: '确认订单',
 				modeList: ['邮寄', '到院领取'],
 				btnnum: 0,
-				porductImagesList: [
-					{
-						id: 1,
-						url: '../../static/images/23.png',
-					}, 
-					{
-						id: 2,
-						url: '../../static/images/20.png',
-					}, {
-						id: 1,
-						url: '../../static/images/23.png',
-					}, 
-					{
-						id: 1,
-						url: '../../static/images/19.png',
-					}, 
-				],
-				complimentaryList: ['HB面膜(2片装)一盒', '华桑葆骊科玮防晒霜SPF30（2支）', '20元无门槛卡券', '2000元满减券'],
-				ticketList: [{
-						name: '卡券',
-						content: '满5000减500',
-						price: 500,
-						more: true
-					},
-					{
-						name: '满减',
-						content: '满5000减500',
-						price: 500,
-						more: false
-					},
-					{
-						name: '折扣',
-						content: '满2件减500',
-						price: 500,
-						more: false
-					},
-				],
 				deductionList: [
 					{
 						name: '积分',
@@ -288,6 +379,10 @@
 				],		
 				requestUrl:'',
 				contentList:{} ,//订单详情
+				is_post_list:[],//邮寄商品
+				scan_one_list:[] ,//收费室使用商品
+				scan_two_list:[] ,//会员中心使用商品
+				refundable_list:[],//不可线上退款的商品的skuid列表
 			}
 		},
 		onLoad: function(option) {
@@ -356,7 +451,31 @@
 				that.request.uniRequest("order", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						let goods_list_obj = data.goods_list
+						let goods_list_arr = []
+						for(let key in goods_list_obj){
+							if(!goods_list_obj.hasOwnProperty(key)){
+								continue
+							}
+							let item = {}
+							item = goods_list_obj[key]
+							goods_list_arr.push(item)
+						}
+						data.goods_list = goods_list_arr
 						that.contentList = data
+						for(let i=0;i<goods_list_arr.length;i++){
+							if(goods_list_arr[i].is_post==1){
+								that.is_post_list.push(goods_list_arr[i])
+							}else if(goods_list_arr[i].scan_department==0){
+								that.scan_one_list.push(goods_list_arr[i])
+							}else if(goods_list_arr[i].scan_department==1){
+								that.scan_two_list.push(goods_list_arr[i])
+							}
+							if(goods_list_arr[i].refundable==0){ //是否允许退款，1：允许，0：不允许
+								that.refundable_list.push(goods_list_arr[i].sku_id)
+								console.log(that.refundable_list)
+							}
+						}
 						console.log(data)
 					} else {
 						console.log('没有数据')
@@ -436,83 +555,22 @@
 		border-bottom-right-radius: 24rpx;
 	}
 
-	.porduct-label-mode {
-		display: flex;
-		align-items: center;
-	}
-
-	.all-mode {
-		display: flex;
-		align-items: center;
-		margin-left: 20rpx;
-		font-size: 32rpx;
-		color: #111111;
-	}
-
-	.mode-label {
-		display: flex;
-		align-items: center;
-	}
-
-	.mode-btn {
-		width: 24rpx;
-		height: 24rpx;
-		background-color: #f8f8f8;
-		border: 1rpx solid #dcdcdc;
-		border-radius: 12rpx;
-		margin-right: 16rpx;
-		margin-left: 38rpx;
-	}
-
-	.end-cont {
-		display: none;
-	}
-
-	.dis {
-		display: block;
-		width: 24rpx;
-		height: 24rpx;
-		border-radius: 12rpx;
-		background-image: linear-gradient(0deg, #fa3475 0%, #ff5f93 100%);
-	}
-
-	.choose-pickup-method {
-		font-size: 24rpx;
-		color: #fb4983;
-		margin-top: 24rpx;
-	}
-
 	.user-message {
 		display: flex;
 		align-items: center;
 		font-size: 32rpx;
 		color: #000000;
-		margin-top: 40rpx;
+	}
+	.no-user-name{
+		color: #999999;
 	}
 
 	.user-phone {
-		margin: 0 50rpx 0 32rpx;
+		margin: 0 32rpx 0 24rpx;
 	}
-
-	.defult-site {
-		font-size: 20rpx;
-		width: 66rpx;
-		height: 32rpx;
-		background-image: linear-gradient(90deg, #fa3475 0%, #ff6699 100%);
-		border-radius: 16rpx;
-		margin-right: 20rpx;
-		text-align: center;
-		color: #FFFFFF;
-	}
-
-	.user-home {
-		font-size: 20rpx;
-		width: 66rpx;
-		height: 32rpx;
-		border-radius: 16rpx;
-		text-align: center;
-		color: #FFFFFF;
-		background-image: linear-gradient(90deg, #8834fa 0%, #bc66ff 100%);
+	.edit_img{
+		width: 42rpx;
+		height: 42rpx;
 	}
 
 	.shipping-address {
@@ -521,10 +579,7 @@
 		color: #343434;
 		line-height: 40rpx;
 		width: 100%;
-	}
-
-	.shipping-address-title {
-		margin-right: 20rpx;
+		align-items: center;
 	}
 
 	.address {
@@ -536,9 +591,9 @@
 	}
 
 	.shipping-address image {
-		width: 20rpx;
+		width: 32rpx;
 		height: 32rpx;
-		transform: rotate(180deg);
+		transform: rotate(270deg);
 		margin-left: 30rpx;
 	}
 
@@ -557,6 +612,8 @@
 		align-items: center;
 		line-height: 30rpx;
 		justify-content: space-between;
+		padding-bottom: 20rpx;
+		border-bottom: 1rpx solid #F0F0F0;
 	}
 
 	.this-title {
@@ -581,15 +638,21 @@
 		margin-left: 20rpx;
 	}
 
-
 	.porduct-images-all-set {
 		display: flex;
 		align-items: center;
-		margin-top: 30rpx;
+	}
+	.order_goods_item_content{
+		padding-top: 30rpx;
+	}
+	
+	.goods_list{
+		display: flex;
+		align-items: center;
 	}
 
 	.porduct-images-item {
-		width: 522rpx;
+		width: 520rpx;
 		height: 200rpx;
 	}
 
@@ -598,27 +661,97 @@
 		display: flex;
 	}
 
-	.porduct-images-items {}
-
 	.porduct-images-list {
 		width: 200rpx;
 		height: 200rpx;
 		margin-right: 30rpx;
 	}
 
-	.porduct-images-list image {
+	.porduct-images-list image ,.goods_info .goods_img {
 		width: 200rpx;
 		height: 200rpx;
 	}
 
 	.all-see {
-		width: 200rpx;
+		width: 180rpx;
 		text-align: center;
 		font-size: 24rpx;
 	}
 
 	.see {
 		color: #fa3475;
+	}
+	.goods_info_content{
+		padding-top: 20rpx;
+	}
+
+	.related-title {
+		font-size: 24rpx;
+		font-weight: bold;
+		color: #111111;
+		display: flex;
+		align-items: center;
+		padding-bottom: 22rpx;
+	}
+	.line {
+		width: 6rpx;
+		height: 24rpx;
+		background-color: #fa3576;
+		margin-right: 20rpx;
+	}
+	.goods_info{
+		display: flex;
+		align-items: center;
+	}
+	.goods_detail{
+		margin-left: 28rpx;
+		flex: 1;
+	}
+	.goods_title{
+		font-size: 24rpx;
+		color: #999999;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		margin-bottom: 20rpx;
+	}
+	.spec_name_item{
+		width: 360rpx;
+		line-height: 40rpx;
+		background-color: #f0f0f0;
+		border-radius: 20rpx;
+		padding: 0 16rpx;
+		color: #999999;
+		font-size: 20rpx;
+		display: flex;
+	}
+	.spec_name_item_content{
+		display: flex;
+		width: 320rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+	}
+	.spec_name{
+		margin-left: 10rpx;
+	}
+	.spec_name:first-child{
+		margin-left: 0;
+	}
+	.unfold {
+		width: 30rpx;
+		height: 40rpx;
+		margin-left: 10rpx;
+	}
+	.goods_price{
+		color: #fa3475;
+		font-size: 24rpx;
+		margin-top: 30rpx;
+	}
+	.goods_price text{
+		font-size: 40rpx;
 	}
 
 	.complimentary-item {

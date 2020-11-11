@@ -123,6 +123,9 @@
 	border: solid 2rpx #fa3475;
 	text-align: center;
 }
+.show_count_down.data-v-0a73af49{
+	font-size: 20rpx;
+}
 .go-login.data-v-0a73af49 {
 	height: 80rpx;
 	line-height: 80rpx;

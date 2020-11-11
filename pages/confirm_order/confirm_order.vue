@@ -9,21 +9,20 @@
 				<view class="title"> {{title}} </view>
 			</view>
 		</view>
-
 		<view class="content">
 			<scroll-view class="porduct-content" scroll-y :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
 				<template>
 					<view class="confirm_order_content">
 						<view class="selector-mode">
 							<!-- 订单信息、商品类型、方式、用户名、电话、收货地址 -->
-							<view class="user-message">
-								<view class="user-name" v-if="contentList.user_info.real_name"> {{ contentList.user_info.real_name }} </view>
-								<view class="no-user-name" v-else> 请添加联系人 </view>
+							<view class="user-message" @tap="set_user_info">
+								<view class="real_name" v-if="contentList.user_info.real_name"> {{ contentList.user_info.real_name }} </view>
+								<view class="no-user-name" v-else> —— </view>
 								<view class="user-phone">{{ contentList.user_info.tel }}</view>
 								<image class="edit_img" src="/static/images/edit.png" mode=""></image>
 							</view>
-							<view class="shipping-address" v-if="is_post_list.length>0">
-								<view class="address">四川省成都市武侯区华美紫馨医学美容医院地址太多最多两行，最多两行</view>
+							<view class="shipping-address" v-if="is_post_list.length>0" @tap='go_to_harves_address'>
+								<view class="address">{{ contentList.user_info.address }}</view>
 								<image src="/static/images/unfold.png" mode=""></image>
 							</view>
 						</view>
@@ -219,7 +218,7 @@
 								</view>
 								<view class="price-content" > ￥ {{ contentList.total_price }}</view>
 							</view>
-							<!-- 暂时不显示邮寄 -->
+							<!-- 邮寄 -->
 							<view class="porduct-price-item" >
 								<view class="item-name" >
 									<text> 邮寄运费 </text>
@@ -239,7 +238,7 @@
 									<text> 卡券 </text>
 								</view>
 								<view class="card_list" v-for="(item,index) in contentList.card_list" :key='index'>
-									<view class="preferential-price on_card_list" v-if="index=='1'"> 										
+									<view class="preferential-price on_card_list" v-if="index=='1'" @tap='show_user_card'> 									
 										<text v-for="(i,k) in item" :key='k'> 
 											{{i.have}}张卡券可用 >
 										</text>
@@ -317,15 +316,68 @@
 				</template>
 			</scroll-view >
 		</view>
+		<!-- 用户联系方式 -->
+		<view class="user_info_content" v-if="show_set_user_info" :style="[{'top':height/2-90+'px'}]">
+			<input class="user-name" type="text"
+			 placeholder-style="color:#999999" @input="set_user_name"
+			 :placeholder="contentList.user_info.real_name?contentList.user_info.real_name:'联系人'" />
+			<input class="phone-input" type="number"
+			 placeholder-style="color:#999999" @input="set_user_tel"
+			 :placeholder="contentList.user_info.tel?contentList.user_info.tel:'联系电话'" maxlength="11" />
+			<view class="set_info">
+				<button class="set_info_btn" type="default" @tap="keep_user_info">确定</button>
+			</view>
+			
+		</view>
+		<!-- 卡券 -->
+		<scroll-view class="card-content" v-if="show_card" :style="[{'height':height/2+'px'}]">
+			<view class="card-content-title">优惠券</view>
+			<image class="delete-card" src="../../static/images/delete.png" mode=""></image>
+			<view class="content-all">
+				<view class="card_tab" >
+					<view class="can_use"
+					  v-for="(item,index) in contentList.card_list" :key='index'
+					 :class="{change_use:btnnum == 0}" 
+					 @tap="changeUse(0)"
+					 v-if="index=='1'">
+						<text v-for="(i,k) in item" :key='k'>可使用卡券({{ i.have }})</text>						
+						<view class="card_line end-cont" :class="{dis:btnnum == 0}"></view>
+					</view>
+					<view class="can_use" 
+					 v-for="(item,index) in contentList.card_list" :key='index'
+					 :class="{change_use:btnnum == 1}" 
+					 @tap="changeUse(1)"
+					 v-if="index=='0'">
+					 <text v-for="(i,k) in item" :key='k'>不可使用卡券({{ i.have }})</text>	
+						<view class="card_line end-cont" :class="{dis:btnnum == 1}"></view>
+					</view>
+				</view>
+				<view class="can_use_card end-cont" :class="{dis:btnnum == 0}">
+					<label class="can_use_card_list" v-for="(item,index) in can_use_card" :key='index'>
+						<view class="left-card_content" 
+						 :style="[{'background-image':  `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`}]">
+							<view class="card_note"> {{ item.note }} </view>
+							<view class="card_condition"> {{ item.condition }} </view>
+							<view class="card_min_affect"> {{ item.min_affect }} </view>
+						</view>
+						<view class="right_card_content">
+							
+						</view>
+						<view class="change_checkbox">
+							<checkbox color="#ff6699"  :checked="item.checked" />
+						</view>
+					</label>
+				</view>
+				<view class="can_use_card end-cont" :class="{dis:btnnum == 1}">
+					不可使用卡券
+				</view>
+			</view>
+		</scroll-view>
 	</view>
 </template>
 
 <script>
-	import topBar from "../../components/topBar.vue";
 	export default {
-		components: {
-			topBar,
-		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -339,7 +391,6 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/return.png',
 				title: '确认订单',
-				modeList: ['邮寄', '到院领取'],
 				btnnum: 0,
 				deductionList: [
 					{
@@ -365,16 +416,19 @@
 						url: '/static/images/weixin_3f.png',
 						name: '微信',
 						value: 'weixin',
+						checked:true
 					},
 					{
 						url: '/static/images/zhifubao.png',
 						name: '支付宝',
 						value: 'zhifubao',
+						checked:false
 					},
 					{
 						url: '/static/images/yinlian.png',
 						name: '银联支付',
 						value: 'yinlian',
+						checked:false
 					},
 				],		
 				requestUrl:'',
@@ -383,6 +437,19 @@
 				scan_one_list:[] ,//收费室使用商品
 				scan_two_list:[] ,//会员中心使用商品
 				refundable_list:[],//不可线上退款的商品的skuid列表
+				can_use_card:[],
+				no_use_card:[],
+				show_set_user_info:false,//显示用户的联系方式
+				user_name:'',
+				user_tel:'',
+				show_card:true,//显示卡券
+			}
+		},
+		onShow:function(){
+			let that = this
+			let userInfo = uni.getStorageSync('newuserInfo')
+			if(userInfo){
+				that.contentList.user_info = userInfo
 			}
 		},
 		onLoad: function(option) {
@@ -428,6 +495,7 @@
 				that.menuLeft = 278
 				that.menuBottom = 82
 			}
+		
 		},
 		methods: {
 			// 返回
@@ -436,11 +504,69 @@
 					delta: 1
 				});
 			},
-			
-			chooseLabel: function(k) {
-				this.btnnum = k
+			set_user_info:function(){
+				let that = this
+				that.show_set_user_info = !that.show_set_user_info
+			},	
+			set_user_name:function(event){
+				let that = this
+				let value = event.detail.value
+				that.user_name = value
 			},
-			
+			set_user_tel:function(event){
+				let that = this
+				let value = event.detail.value
+				that.user_tel = value
+			},
+			// 更改用户信息
+			keep_user_info:function(){
+				let that = this
+				console.log(that.user_name,that.user_tel)
+				if(that.contentList.user_info.real_name&&that.contentList.user_info.tel){
+					that.show_set_user_info = !that.show_set_user_info
+				}
+				else if(that.user_name&&that.user_tel){
+					that.contentList.user_info.real_name = that.user_name
+					that.contentList.user_info.tel = that.user_tel
+					let dataInfo = {
+						interfaceId:'update_info',
+						tel:that.contentList.user_info.tel,
+						name:that.contentList.user_info.real_name
+					}
+					that.request.uniRequest("login", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok'){
+							let data = res.data.data
+							that.contentList.user_info = data
+							that.show_set_user_info = !that.show_set_user_info
+						}
+					})
+				}
+				else if(that.user_name){
+					that.contentList.user_info.real_name = that.user_name
+					let dataInfo = {
+						interfaceId:'update_info',
+						tel:that.contentList.user_info.tel,
+						name:that.contentList.user_info.real_name
+					}
+					that.request.uniRequest("login", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok'){
+							let data = res.data.data
+							that.contentList.user_info = data
+							that.show_set_user_info = !that.show_set_user_info
+						}
+					})
+				}else{
+					uni.showToast({
+						title:'请输入联系方式',
+						icon:'none'
+					})
+				}
+			},
+			go_to_harves_address:function(){
+				uni.navigateTo({
+					url: `/pages/my/harves_address`,
+				})
+			},
 			// 获取订单的详情
 			get_order_detail:function(cart_id_list){
 				let that = this
@@ -463,6 +589,11 @@
 						}
 						data.goods_list = goods_list_arr
 						that.contentList = data
+						// 用户信息
+						let userInfo = uni.getStorageSync('newuserInfo')
+						if(userInfo){
+							that.contentList.user_info = userInfo
+						}
 						for(let i=0;i<goods_list_arr.length;i++){
 							if(goods_list_arr[i].is_post==1){
 								that.is_post_list.push(goods_list_arr[i])
@@ -475,18 +606,51 @@
 								that.refundable_list.push(goods_list_arr[i].sku_id)
 								console.log(that.refundable_list)
 							}
-						}
-						console.log(data)
+						}												
+						// console.log(data)
+						that.show_user_card()
 					} else {
 						console.log('没有数据')
 					}
 				})
 			},
+			// 显示卡券
+			show_user_card:function(){
+				let that = this
+				// 卡券列表
+				let card_list  = that.contentList.card_list
+				let list = []
+				for(let key in card_list){
+					if(key==1){
+						let card_obj = card_list[key]
+						for(let key in card_obj){
+							if(!card_obj.hasOwnProperty(key)){
+								continue
+							}
+							let item = {}
+							item = card_obj[key]
+							item.checked = false
+							list.push(item)
+						}
+						that.can_use_card = list
+					}else{
+						that.no_use_card = card_list[key]
+					}
+				}
+				console.log(that.can_use_card.length)
+				// that.show_card = !that.show_card
+			},
+			changeUse:function(index){
+				let that = this
+				that.btnnum = index
+			},
 			
+			// 选择抵用
 			switchChange: function(e) {
 				console.log(e.target.value)
 				console.log(e.currentTarget.dataset)
 			},
+			// 付款方式
 			playChange: function(e) {
 				var items = this.playWayList,
 					values = e.detail.value;
@@ -499,7 +663,7 @@
 						this.$set(item, 'checked', false)
 					}
 				}
-			}
+			}, 
 		}
 	}
 </script>
@@ -1006,10 +1170,141 @@
 		color: #FFFFFF;
 		line-height: 80rpx;
 		text-align: center;
-		background-image: linear-gradient(-45deg, 
-			#fa3475 0%, 
-			#ff6699 100%);
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
 		border-radius: 40rpx;	
+	}
+	
+	/* 联系方式 */
+	.user_info_content{
+		position: fixed;
+		left: 215rpx;
+		width: 320rpx;
+		height: 180px;
+		background-color: #F0F0F0;
+		border-radius: 24rpx;
+		z-index: 52;
+		padding: 40rpx 20rpx;
+	}
+	.user-name,.phone-input{
+		border: 1rpx solid #fa3475;
+		margin-bottom: 30rpx;
+		border-radius: 12rpx;
+		padding:10rpx 15rpx;
+	}
+	.set_info{
+		margin-top: 60rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.set_info_btn{
+		width: 240rpx;
+		line-height: 80rpx;
+		color: #FFFFFF;
+		border-radius: 40rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+	}
+	.set_info_btn::after{
+		border: none;
+	}
+	
+	.end-cont {
+		display: none;
+	}
+	
+	.dis {
+		display: block;
+	}
+	
+	.card-content{
+		position: fixed;
+		width: 100%;
+		background-color: #f6f6f6;
+		left: 0;
+		bottom: 0;
+		border-radius: 24rpx;
+		padding: 20rpx 0;
+		z-index: 52;
+	}
+	.card-content-title{
+		text-align: center;
+		font-size: 40rpx;
+	}
+	.delete-card{
+		width: 32rpx;
+		height: 32rpx;
+		position: absolute;
+		top: 10rpx;
+		right: 20rpx;
+	}
+	.card_tab{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		width: 100%;
+		padding: 20rpx 0;
+		font-size: 24rpx;
+	}
+	
+	.can_use{
+		width: 50%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		position: relative;
+	}
+	.change_use{
+		color: #fa3475;
+		font-weight: bold;
+	}
+	.card_line{
+		width: 140rpx;
+		height: 4rpx;
+		background-color: #fa3475;
+		position: relative;
+		left: 0;
+		bottom: -5rpx;
+	}
+	.can_use_card{
+		padding: 20rpx;
+	}
+	.can_use_card_list{
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-top-right-radius: 16rpx;
+	}
+	.left-card_content{
+		width: 248rpx;
+		height: 240rpx;
+		border-top-left-radius: 16rpx;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+	}
+	.card_note{
+		position: absolute;
+		top: -5rpx;
+		left: 60rpx;
+		width: 128rpx;
+		height: 36rpx;
+		text-align: center;
+		background-color: #070606;
+		border-radius: 0rpx 0rpx 16rpx 16rpx;
+		font-size: 20rpx;
+		line-height: 36rpx;
+		color: #FFFFFF;
+	}
+	.right_card_content{
+		flex: 1;
+	}
+	.change_checkbox{
+		width: 88rpx;
 	}
 	
 </style>

@@ -25,7 +25,8 @@
 					<view class="phone-hint" v-if="!imageCodeValueState">图形码错误</view>
 					<view class="verification-code">
 						<input class="phone-input" @blur="verificationInput" placeholder="请输入验证码" maxlength="6" />
-						<button class="verification" type="default" plain="true" @tap='getPhoneCode'>发送请求</button>
+						<button class="verification" type="default" plain="true" @tap='getPhoneCode' v-show="!show_count_down">发送请求</button>
+						<view class="verification show_count_down" v-show="show_count_down"> {{ count_down }} 秒后重新获取 </view>
 					</view>
 					<view class="phone-hint" v-if="!phoneCodeValueState">请输入验证码 / 验证码错误</view>
 
@@ -60,11 +61,18 @@
 				imageCodeValueState: true, // 图形码验证状态
 				phoneCodeValue: "", // 短信验证码输入值
 				phoneCodeValueState: true, // 短信验证码验证状态
-				thisPlatform:'' //运行环境
+				thisPlatform:'' ,//运行环境
+				count_down:60, //倒计时
+				show_count_down:false,//显示倒计时
+				timer:null
 			}
 		},
 		onShow: function() {
 			this.getImageCode();
+		},
+		onUnload:function(){
+			clearInterval(this.timer)
+			this.timer = null
 		},
 		onReady() {
 			let that = this;
@@ -141,7 +149,7 @@
 				this.imageCodeValue = event.target.value
 			},
 
-			// 获取短信验证码
+			// 获取短信验证码 点击发送请求
 			getPhoneCode: function() {
 				this.request = this.$request
 				const that = this;
@@ -154,13 +162,24 @@
 					captcha_key: that.imageCodeKey
 				}
 				this.request.uniRequest("login", dataInfo).then(res => {
-					that.getImageCode();
+					that.show_count_down = !that.show_count_down
+					// that.getImageCode();//重新获取图形码
 					if (res.data.code === 1000) {
 						this.request.showToast("发送成功");
 					}
+					if(that.count_down>0){
+						this.timer = setInterval(() => {
+							that.count_down = that.setTime(that.count_down)
+							if(that.count_down == 0){
+								clearInterval(this.timer)
+								this.timer = null
+								that.show_count_down = !that.show_count_down
+							}
+						},1000)
+					}
 				})
 			},
-
+			
 			verificationInput: function(event) {
 				this.phoneCodeValue = event.target.value
 			},
@@ -196,6 +215,11 @@
 					return true;
 				}
 			},
+			// 计时器
+			setTime:function(time){
+				time = time -1
+				return time
+			},
 			// 登录
 			submit: function(e) {
 				this.request = this.$request
@@ -210,16 +234,19 @@
 					f_unique_id:''					
 				}
 				this.request.uniRequest("login", dataInfo).then(res => {
-					that.getImageCode();
+					// that.getImageCode();
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
+						// console.log(data)
 						uni.setStorageSync("token", data.token)
 						uni.setStorageSync("userInfo", data)
 						this.request.showToast("登录成功")
+						// 后期判定是否是从其他页面跳转到登录页面的,如果是就返回上一级，不是就直接返回首页
 						uni.navigateBack({
 							delta: 1
 						});
+					}else{
+						that.phoneCodeValueState = true
 					}
 				})
 								
@@ -284,7 +311,7 @@
 								code_session: res.code
 							}						
 							that.request.uniRequest("login", data).then(res => {
-								console.log(res,111999999)
+								// console.log(res,111999999)
 								if (res.data.code === 1000) {
 									console.log(res.data)
 									// uni.setStorageSync("sessionKey", res.data.data.session_key);
@@ -411,6 +438,9 @@
 		color: #fa3475;
 		border: solid 2rpx #fa3475;
 		text-align: center;
+	}	
+	.show_count_down{
+		font-size: 20rpx;
 	}
 
 	.go-login {

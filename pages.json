@@ -2,17 +2,21 @@
 	"pages": [
 
 		// 测试时的首页
+		
 		// 确认订单
+		{
+			"path": "pages/confirm_order/confirm_order", //确认订单
+			"style": {}
+		},
 		
 		// 购物车
 		{
 			"path": "pages/cart/cart", //购物车
 			"style": {}
 		},
-		{
-			"path": "pages/confirm_order/confirm_order", //确认订单
-			"style": {}
-		},
+		
+		
+		
 		// 商品
 		{
 			"path": "pages/goods/goods_classify", //商品分类

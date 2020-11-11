@@ -173,7 +173,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     topBar: topBar },
@@ -255,6 +254,18 @@ __webpack_require__.r(__webpack_exports__);
     bindViewTap: function bindViewTap() {
       uni.navigateTo({
         url: "/pages/my/add_address?add=1" });
+
+    },
+    set_address: function set_address(name, tel, address) {
+      var that = this;
+
+      var userInfo = {};
+      userInfo.real_name = name;
+      userInfo.tel = tel;
+      userInfo.address = address;
+      uni.setStorageSync("newuserInfo", userInfo);
+      uni.navigateBack({
+        delta: 1 });
 
     },
     // 编辑

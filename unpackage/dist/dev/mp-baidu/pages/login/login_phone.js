@@ -174,6 +174,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -192,11 +193,18 @@ var _default =
       imageCodeValueState: true, // 图形码验证状态
       phoneCodeValue: "", // 短信验证码输入值
       phoneCodeValueState: true, // 短信验证码验证状态
-      thisPlatform: '' //运行环境
-    };
+      thisPlatform: '', //运行环境
+      count_down: 60, //倒计时
+      show_count_down: false, //显示倒计时
+      timer: null };
+
   },
   onShow: function onShow() {
     this.getImageCode();
+  },
+  onUnload: function onUnload() {
+    clearInterval(this.timer);
+    this.timer = null;
   },
   onReady: function onReady() {
     var that = this;
@@ -273,7 +281,7 @@ var _default =
       this.imageCodeValue = event.target.value;
     },
 
-    // 获取短信验证码
+    // 获取短信验证码 点击发送请求
     getPhoneCode: function getPhoneCode() {var _this2 = this;
       this.request = this.$request;
       var that = this;
@@ -286,9 +294,20 @@ var _default =
         captcha_key: that.imageCodeKey };
 
       this.request.uniRequest("login", dataInfo).then(function (res) {
-        that.getImageCode();
+        that.show_count_down = !that.show_count_down;
+        // that.getImageCode();//重新获取图形码
         if (res.data.code === 1000) {
           _this2.request.showToast("发送成功");
+        }
+        if (that.count_down > 0) {
+          _this2.timer = setInterval(function () {
+            that.count_down = that.setTime(that.count_down);
+            if (that.count_down == 0) {
+              clearInterval(_this2.timer);
+              _this2.timer = null;
+              that.show_count_down = !that.show_count_down;
+            }
+          }, 1000);
         }
       });
     },
@@ -328,6 +347,11 @@ var _default =
           return true;
         }
     },
+    // 计时器
+    setTime: function setTime(time) {
+      time = time - 1;
+      return time;
+    },
     // 登录
     submit: function submit(e) {var _this3 = this;
       this.request = this.$request;
@@ -342,16 +366,19 @@ var _default =
         f_unique_id: '' };
 
       this.request.uniRequest("login", dataInfo).then(function (res) {
-        that.getImageCode();
+        // that.getImageCode();
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data);
+          // console.log(data)
           uni.setStorageSync("token", data.token);
           uni.setStorageSync("userInfo", data);
           _this3.request.showToast("登录成功");
+          // 后期判定是否是从其他页面跳转到登录页面的,如果是就返回上一级，不是就直接返回首页
           uni.navigateBack({
             delta: 1 });
 
+        } else {
+          that.phoneCodeValueState = true;
         }
       });
 
@@ -416,7 +443,7 @@ var _default =
               code_session: res.code };
 
             that.request.uniRequest("login", data).then(function (res) {
-              console.log(res, 111999999);
+              // console.log(res,111999999)
               if (res.data.code === 1000) {
                 console.log(res.data);
                 // uni.setStorageSync("sessionKey", res.data.data.session_key);

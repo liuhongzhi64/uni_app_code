@@ -12,7 +12,7 @@
 			<view class="usermotto" v-else>
 				<block v-for="(item,index) in list" :key="index">
 					<view class="addressbox">
-						<view class="addressLine">
+						<view class="addressLine" @tap="set_address(item.accept_name,item.telphone,item.province_cn+item.city_cn+item.area_cn+item.address)">
 							<view class='name'>{{item.accept_name}}</view>
 							<text class='phone'>{{item.telphone}}</text>
 							<view class='label'>{{item.tag}}</view>
@@ -27,7 +27,6 @@
 							<view @tap="edit(item.id,item)" class="edit">编辑</view>
 							<view class="delete" @tap="deleteArea(item.id)">删除</view>
 						</view>
-
 					</view>
 				</block>
 			</view>
@@ -60,7 +59,7 @@
 				backImage: '/static/images/back2.png',
 				title: '地址管理',
 				list: [],
-				requestUrl: ''
+				requestUrl: '',
 			}
 		},
 		onLoad(options) {
@@ -124,6 +123,18 @@
 				uni.navigateTo({
 					url: `/pages/my/add_address?add=1`,
 				})
+			},
+			set_address:function(name,tel,address){
+				let that = this
+				
+				let userInfo = {}
+				userInfo.real_name = name
+				userInfo.tel = tel
+				userInfo.address = address
+				uni.setStorageSync("newuserInfo", userInfo)
+				uni.navigateBack({
+					delta: 1
+				});
 			},
 			// 编辑
 			edit: function(id,item) {

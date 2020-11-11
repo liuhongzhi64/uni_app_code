@@ -2005,7 +2005,7 @@ function normalizeComponent (
             } else {
               if (res.data.code !== 1000) {
                 that.showModal(res.data.message);
-                if (res.data.message == '登录失败[1007]') {
+                if (res.data.message == '登录失败[1007]' || res.data.message == '登录失败[1016]' || res.data.message == '登录失败[1004]') {
                   // that.getToken().then(res=>{
                   // 	console.log(res)
                   // })

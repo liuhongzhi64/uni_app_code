@@ -136,386 +136,388 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
+  components: {
+    ticket: ticket },
+
   data: function data() {
     return {
       menuWidth: 0,
@@ -530,8 +532,7 @@ var _default =
       backImage: '/static/images/return.png',
       title: '确认订单',
       btnnum: 0,
-      deductionList: [
-      {
+      deductionList: [{
         name: '积分',
         content: '共0，可用0,',
         price: 0,
@@ -576,7 +577,9 @@ var _default =
       scan_two_list: [], //会员中心使用商品
       refundable_list: [], //不可线上退款的商品的skuid列表
       can_use_card: [],
+      can_use_card_length: 0,
       no_use_card: [],
+      no_use_card_length: 0,
       show_set_user_info: false, //显示用户的联系方式
       user_name: '',
       user_tel: '',
@@ -626,8 +629,7 @@ var _default =
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    {
+    } else {
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
@@ -662,8 +664,7 @@ var _default =
       console.log(that.user_name, that.user_tel);
       if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
         that.show_set_user_info = !that.show_set_user_info;
-      } else
-      if (that.user_name && that.user_tel) {
+      } else if (that.user_name && that.user_tel) {
         that.contentList.user_info.real_name = that.user_name;
         that.contentList.user_info.tel = that.user_tel;
         var dataInfo = {
@@ -678,8 +679,7 @@ var _default =
             that.show_set_user_info = !that.show_set_user_info;
           }
         });
-      } else
-      if (that.user_name) {
+      } else if (that.user_name) {
         that.contentList.user_info.real_name = that.user_name;
         var _dataInfo = {
           interfaceId: 'update_info',
@@ -746,20 +746,24 @@ var _default =
             }
           }
           // console.log(data)
-          that.show_user_card();
+
+          that.show_user_card(data.card_list);
         } else {
           console.log('没有数据');
         }
       });
     },
     // 显示卡券
-    show_user_card: function show_user_card() {
+    is_show_card: function is_show_card() {
       var that = this;
-      // 卡券列表
-      var card_list = that.contentList.card_list;
-      var list = [];
+      that.show_card = !that.show_card;
+    },
+    show_user_card: function show_user_card(card_list) {
+      var that = this;
       for (var key in card_list) {
         if (key == 1) {
+          var list = [];
+          var card_number = 0;
           var card_obj = card_list[key];
           for (var _key in card_obj) {
             if (!card_obj.hasOwnProperty(_key)) {
@@ -768,21 +772,154 @@ var _default =
             var item = {};
             item = card_obj[_key];
             item.checked = false;
-            list.push(item);
+            item.showTicketDetails = false;
+            item.arrowImages = '/static/images/arrow-down.png';
+            var startTime = item.use_start_time;
+            item.c_use_start_time = that.setTimer(startTime);
+            var useTime = item.use_end_time;
+            item.c_use_end_time = that.setTimer(useTime);
+            item.is_use = true;
+            card_number += item.have;
+            // 在此处应该让用户有的卡券有几张就循环建几张
+            for (var i = 0; i < item.have; i++) {
+              list.push(item);
+            }
           }
           that.can_use_card = list;
+
+          that.can_use_card_length = card_number;
         } else {
-          that.no_use_card = card_list[key];
+          var _list = [];
+          var _card_number = 0;
+          var _card_obj = card_list[key];
+          for (var _key2 in _card_obj) {
+            if (!_card_obj.hasOwnProperty(_key2)) {
+              continue;
+            }
+            var _item = {};
+            _item = _card_obj[_key2];
+            _item.checked = false;
+            _item.showTicketDetails = false;
+            _item.arrowImages = '/static/images/arrow-down.png';
+            var _startTime = _item.use_start_time;
+            _item.c_use_start_time = that.setTimer(_startTime);
+            var _useTime = _item.use_end_time;
+            _item.c_use_end_time = that.setTimer(_useTime);
+            _item.is_use = false;
+            _card_number += _item.have;
+            _list.push(_item);
+          }
+          that.no_use_card = _list;
+          that.no_use_card_length = _card_number;
         }
       }
-      console.log(that.can_use_card.length);
-      // that.show_card = !that.show_card
+    },
+    setTimer: function setTimer(date) {
+      date = new Date(date * 1000);
+      var month = date.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      var day = date.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      var time = date.getFullYear() + '-' + month + '-' + day;
+      // console.log(time)
+      return time;
     },
     changeUse: function changeUse(index) {
       var that = this;
       that.btnnum = index;
     },
+    showTicket: function showTicket(order_card, can_use) {
+      var that = this;
+      if (can_use == 0) {
+        that.can_use_card = order_card;
+        // that.can_use_card[index].showTicketDetails = !that.can_use_card[index].showTicketDetails
+        // if (that.can_use_card[index].showTicketDetails) {
+        // 	that.can_use_card[index].arrowImages = '/static/images/arrow-top.png'
+        // } else {
+        // 	that.can_use_card[index].arrowImages = '/static/images/arrow-down.png'
+        // }
+        // 因数据改变后页面没有渲染，只有强制刷新一次页面
+        // this.$forceUpdate() 
+        return;
+      } else
+      {
+        that.no_use_card = order_card;
+      }
 
+    },
+    checkboxChange: function checkboxChange(index) {
+      var that = this;
+      that.can_use_card[index].checked = !that.can_use_card[index].checked;
+      if (that.can_use_card[index].checked) {
+        var cards_list = [];
+        var cart_id_list = [];
+        // is_post_list: [], //邮寄商品
+        // scan_one_list: [], //收费室使用商品
+        // scan_two_list: [], //会员中心使用商品
+        if (that.is_post_list.length > 0) {
+          var list = {};
+          for (var i = 0; i < that.is_post_list.length; i++) {
+            list = {
+              sku_id: that.is_post_list[i].sku_id,
+              buy_type: that.is_post_list[i].buy_type,
+              is_post: that.is_post_list[i].is_post,
+              num: that.is_post_list[i].buy_num };
+
+          }
+          cart_id_list.push(list);
+        }
+        if (that.scan_one_list.length > 0) {
+          var _list2 = {};
+          for (var _i = 0; _i < that.scan_one_list.length; _i++) {
+            _list2 = {
+              sku_id: that.scan_one_list[_i].sku_id,
+              buy_type: that.scan_one_list[_i].buy_type,
+              is_post: that.scan_one_list[_i].is_post,
+              num: that.scan_one_list[_i].buy_num };
+
+          }
+          cart_id_list.push(_list2);
+        }
+        if (that.scan_two_list.length > 0) {
+          var _list3 = {};
+          for (var _i2 = 0; _i2 < that.scan_two_list.length; _i2++) {
+            _list3 = {
+              sku_id: that.scan_two_list[_i2].sku_id,
+              buy_type: that.scan_two_list[_i2].buy_type,
+              is_post: that.scan_two_list[_i2].is_post,
+              num: that.scan_two_list[_i2].buy_num };
+
+          }
+          cart_id_list.push(_list3);
+        }
+        for (var _i3 = 0; _i3 < that.can_use_card.length; _i3++) {
+          if (that.can_use_card[_i3].checked) {
+            cards_list.push(that.can_use_card[_i3].id);
+          }
+        }
+        var dataInfo = {
+          interfaceId: 'superposition',
+          sku_list: cart_id_list,
+          cards_list: cards_list };
+
+        console.log(cart_id_list);
+        // that.request.uniRequest("order", dataInfo).then(res => {
+        // 	if (res.data.code == 1000 && res.data.status == 'ok') {
+        // 		let data = res.data.data
+        // 		console.log(data)
+
+        // 	}
+        // })
+      }
+    },
+    use_ticket: function use_ticket() {
+      var that = this;
+      that.show_card = !that.show_card;
+    },
     // 选择抵用
     switchChange: function switchChange(e) {
       console.log(e.target.value);

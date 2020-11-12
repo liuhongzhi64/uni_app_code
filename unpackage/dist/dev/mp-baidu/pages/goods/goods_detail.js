@@ -881,7 +881,7 @@ __webpack_require__.r(__webpack_exports__);
     // 领取卡券
     getCards: function getCards(cardId, prompt, index) {
       var that = this;
-      console.log(cardId, prompt, index);
+      // console.log(cardId, prompt,index)
       if (prompt == '') {
         var dataInfo = {
           interfaceId: 'cardget',
@@ -890,7 +890,7 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("card", dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             that.request.showToast('领取成功');
-            that.goodsCardsList[index].salecard_user_count = that.goodsCardsList[index].salecard_user_count + 1;
+            that.goodsCardsList.cards[index].salecard_user_count = that.goodsCardsList.cards[index].salecard_user_count + 1;
           }
         });
       } else {

@@ -78,6 +78,15 @@
 .ticket-state.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	margin-top: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.user_have.data-v-ab11f3f2{
+	margin-right: 20rpx;
 }
 .can-receive.data-v-ab11f3f2 {
 	font-size: 24rpx;
@@ -222,4 +231,78 @@
 	width: 195rpx;
 	height: 155rpx;
 }
+
+/* 确认订单 */
+.order-content.data-v-ab11f3f2{
+}
+.can_use_card_list.data-v-ab11f3f2 {
+	background-color: #FFFFFF;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	border-top-right-radius: 16rpx;
+	border-bottom: 1rpx dashed #999999;
+}
+.left-card_content.data-v-ab11f3f2 {
+	width: 248rpx;
+	height: 240rpx;
+	border-top-left-radius: 16rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	position: relative;
+}
+.card_note.data-v-ab11f3f2 {
+	position: absolute;
+	top: -5rpx;
+	left: 60rpx;
+	width: 128rpx;
+	height: 36rpx;
+	text-align: center;
+	background-color: #070606;
+	border-radius: 0rpx 0rpx 16rpx 16rpx;
+	font-size: 20rpx;
+	line-height: 36rpx;
+	color: #FFFFFF;
+}
+.card_condition.data-v-ab11f3f2 {
+	color: #FFFFFF;
+	font-size: 56rpx;
+	margin-bottom: 20rpx;
+}
+.card_condition text.data-v-ab11f3f2 {
+	font-size: 32rpx;
+}
+.card_min_affect.data-v-ab11f3f2 {
+	color: #FFFFFF;
+	font-size: 24rpx;
+}
+.right_card_content.data-v-ab11f3f2 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	margin-left: 20rpx;
+}
+.change_checkbox.data-v-ab11f3f2 {
+	width: 68rpx;
+	height: 100%;
+	margin-left: 20rpx;
+}
+
 

@@ -463,13 +463,81 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
     goodsCardsList: Array,
+    order_card: Array,
     cardsList: Array,
     marginTop: Number,
-    time_now: Number },
+    time_now: Number,
+    can_use: Number },
 
   data: function data() {
     return {
@@ -484,6 +552,20 @@ var _default =
     showTicket: function showTicket(id) {
       this.$emit('showTicket', id);
       // console.log(id)
+    },
+    show_order_ticket: function show_order_ticket(index, can_use) {
+      var that = this;
+      that.order_card[index].showTicketDetails = !that.order_card[index].showTicketDetails;
+      if (that.order_card[index].showTicketDetails) {
+        that.order_card[index].arrowImages = '/static/images/arrow-top.png';
+      } else {
+        that.order_card[index].arrowImages = '/static/images/arrow-down.png';
+      }
+      this.$emit('showTicket', that.order_card, can_use);
+      // console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
+    },
+    checkboxChange: function checkboxChange(index, id) {
+      this.$emit('checkboxChange', index, id);
     },
     // 领取卡券
     getCard: function getCard(id, store, salecard_user_count, get_limit, index) {

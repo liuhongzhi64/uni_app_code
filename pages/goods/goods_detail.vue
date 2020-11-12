@@ -749,7 +749,7 @@
 			// 领取卡券
 			getCards: function(cardId, prompt,index) {
 				let that = this
-				console.log(cardId, prompt,index)
+				// console.log(cardId, prompt,index)
 				if (prompt == '') {
 					let dataInfo = {
 						interfaceId: 'cardget',
@@ -758,7 +758,7 @@
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('领取成功')
-							that.goodsCardsList[index].salecard_user_count = that.goodsCardsList[index].salecard_user_count+1
+							that.goodsCardsList.cards[index].salecard_user_count = that.goodsCardsList.cards[index].salecard_user_count+1
 						}
 					})
 				} else {

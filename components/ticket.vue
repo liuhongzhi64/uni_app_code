@@ -24,41 +24,41 @@
 						<text class="ticket-labels" 
 						 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0 && item.store-item.take_store >0 ? `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" 
 						 v-if="item.card_type==1||item.card_type == 2">
-							满减券1
+							满减券
 						</text>
 						<text class="ticket-labels"
 						 :style="[{'background-image': item.c_status==0 && item.state != 3 && item.state!=4 ? `linear-gradient(-90deg, ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" 
 						 v-else-if="item.c_card_type==1||item.c_card_type==2">
-							满减券2
+							满减券
 						</text>
 						<text class="ticket-labels"
 						 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0 && item.store-item.take_store >0 ? `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" 
 						 v-else-if="item.card_type==3||item.card_type==4">
-							折扣券1
+							折扣券
 						 </text>
 						<text class="ticket-labels" 
 						   :style="[{'background-image': item.c_status==0 ? `linear-gradient(-90deg, ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" 
 						  v-else-if="item.c_card_type==3||item.c_card_type==4">
-						 	折扣券2
+						 	折扣券
 						  </text>
 						<text class="ticket-labels"
 						 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0 ? `linear-gradient(-90deg,${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" 
 						 v-else-if="item.card_type == 5 ">
-							礼品券1
+							礼品券
 						</text>
 						<text class="ticket-labels"
 						 :style="[{'background-image': item.c_status==0 ? `linear-gradient(-90deg,${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" 
 						 v-else-if="item.c_card_type==5">
-							礼品券2
+							礼品券
 						</text>
 						<text class="ticket-labels"
 						 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0 && item.store-item.take_store >0 ? `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]"
 						  v-else-if="item.card_type == 6">
-							体验券1
+							体验券
 						</text>
 						<text class="ticket-labels"
 						 :style="[{'background-image': item.c_status==0 ? `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]" v-else-if="item.c_card_type == 6">
-							体验券2
+							体验券
 						</text>
 						<!-- 卡券介绍 -->
 						<text class="ticket-writer"> 
@@ -302,6 +302,72 @@
 				</view>
 			</view>
 		</view>
+	
+		<!-- 确认订单卡券 -->
+		<view class="order-content" v-for="(item,index) in order_card" :key='index'>
+			<label class="can_use_card_list" @tap="checkboxChange(index,item.id)">
+				<view class="left-card_content"
+				 :style="[{'background-image': item.is_use ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
+					<view class="card_note"> {{ item.note }} </view>
+					<view class="card_condition"> <text>￥</text> {{ item.condition }} </view>
+					<view class="card_min_affect"> {{ item.min_affect }} </view>
+				</view>
+				<view class="right_card_content">
+					<view class="ticket-label-writer">
+						<text class="ticket-labels"
+						 :style="[{'background-image': item.is_use ?  `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]"
+						 v-if="item.card_type==1||item.card_type == 2">
+							满减券
+						</text>
+						<text class="ticket-labels"
+						 :style="[{'background-image': item.is_use ?  `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]"
+						 v-else-if="item.card_type==3||item.card_type==4">
+							折扣券
+						</text>
+						<text class="ticket-labels"
+						 :style="[{'background-image': item.is_use ?  `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]"
+						 v-else-if="item.card_type == 5 ">
+							礼品券
+						</text>
+						<text class="ticket-labels"
+						 :style="[{'background-image': item.is_use ?  `linear-gradient(-90deg, ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]"
+						 v-else-if="item.card_type == 6">
+							体验券
+						</text>
+						<!-- 卡券介绍 -->
+						<text class="ticket-writer">
+							{{ item.show_name }}
+						</text>
+					</view>
+					<!-- 当前状态 -->
+					<view class="ticket-state" :style="[{'color':item.use_end_time-item.use_start_time>0 && item.is_use ?'#fa3475':'#999999'}]">
+						<text class="all-state" >
+							当前状态:
+							<text v-if='item.use_end_time-item.use_start_time>0'>可使用</text>
+							<text v-else>已失效</text>
+						</text>
+					</view>
+					<view class="user-time" v-if="item.use_end_time-item.use_start_time>0">
+						使用时间:
+						<text>
+							{{item.c_use_start_time}} 至 {{item.c_use_end_time}}
+						</text>
+					</view>
+					<view class="receive-times" v-else> 已结束 </view>
+				</view>
+				<view class="change_checkbox">
+					<checkbox color="#ff6699" :checked="item.checked" />
+				</view>
+			</label>			
+			<view class="ticketDetails"  @tap='show_order_ticket(index,can_use)'>
+				<view class="details-title"> <text>卡券详情</text>
+					<image :src="item.arrowImages" mode=""></image>
+				</view>
+				<view class="details-content" v-show="item.showTicketDetails">
+					<view class="item-details">{{ item.intro }}</view>
+				</view>
+			</view>
+		</view>
 	</view>
 
 </template>
@@ -310,9 +376,11 @@
 	export default {
 		props: {
 			goodsCardsList: Array,
+			order_card:Array,
 			cardsList: Array,
 			marginTop: Number,
-			time_now:Number
+			time_now:Number,
+			can_use:Number
 		},
 		data() {
 			return {
@@ -327,6 +395,20 @@
 			showTicket:function(id){
 				this.$emit('showTicket', id)
 				// console.log(id)
+			},
+			show_order_ticket:function(index,can_use){
+				let that = this
+				that.order_card[index].showTicketDetails = !that.order_card[index].showTicketDetails
+				if (that.order_card[index].showTicketDetails) {
+					that.order_card[index].arrowImages = '/static/images/arrow-top.png'
+				} else {
+					that.order_card[index].arrowImages = '/static/images/arrow-down.png'
+				}
+				this.$emit('showTicket',that.order_card,can_use)
+				// console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
+			},
+			checkboxChange:function(index,id){
+				this.$emit('checkboxChange',index,id)
 			},
 			// 领取卡券
 			getCard:function(id,store,salecard_user_count,get_limit,index){
@@ -438,8 +520,12 @@
 	.ticket-state {
 		font-size: 24rpx;
 		margin-top: 20rpx;
+		display: flex;
+		justify-content: space-between;
 	}
-
+	.user_have{
+		margin-right: 20rpx;
+	}
 	.can-receive {
 		font-size: 24rpx;
 		color: #fa3475;
@@ -585,4 +671,66 @@
 		width: 195rpx;
 		height: 155rpx;
 	}
+	
+	/* 确认订单 */
+	.order-content{
+		
+	}
+	.can_use_card_list {
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-top-right-radius: 16rpx;
+		border-bottom: 1rpx dashed #999999;
+	}
+	.left-card_content {
+		width: 248rpx;
+		height: 240rpx;
+		border-top-left-radius: 16rpx;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+	}
+	
+	.card_note {
+		position: absolute;
+		top: -5rpx;
+		left: 60rpx;
+		width: 128rpx;
+		height: 36rpx;
+		text-align: center;
+		background-color: #070606;
+		border-radius: 0rpx 0rpx 16rpx 16rpx;
+		font-size: 20rpx;
+		line-height: 36rpx;
+		color: #FFFFFF;
+	}
+	
+	.card_condition {
+		color: #FFFFFF;
+		font-size: 56rpx;
+		margin-bottom: 20rpx;
+	}
+	
+	.card_condition text {
+		font-size: 32rpx;
+	}
+	
+	.card_min_affect {
+		color: #FFFFFF;
+		font-size: 24rpx;
+	}
+	.right_card_content {
+		flex: 1;
+		margin-left: 20rpx;
+	}
+	.change_checkbox {
+		width: 68rpx;
+		height: 100%;
+		margin-left: 20rpx;
+	}
+	
 </style>

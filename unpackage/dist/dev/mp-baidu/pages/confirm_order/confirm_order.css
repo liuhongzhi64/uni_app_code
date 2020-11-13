@@ -677,7 +677,7 @@
 .can_use_card.data-v-51e0fab4 {
 	padding: 20rpx;
 }
-.keep_ticket.data-v-51e0fab4{
+.keep_ticket.data-v-51e0fab4 {
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -694,17 +694,16 @@
 	width: 100%;
 	background-color: #FFFFFF;
 }
-.ticket_btn.data-v-51e0fab4{
+.ticket_btn.data-v-51e0fab4 {
 	width: 100%;
 	line-height: 80rpx;
 	padding: 0 20rpx;
 }
-.btn_keep.data-v-51e0fab4{
+.btn_keep.data-v-51e0fab4 {
 	width: 100%;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
 	border-radius: 40rpx;
 }
-
 

@@ -1,7 +1,6 @@
 <template>
 	<view class="cart">
-		<view class="top-bar"
-		 :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
 					<image :src="backImage" mode=""></image>
@@ -19,7 +18,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="cart-content" :style="[{'padding-top':menuBottom+58+'px'}]">			
+		<view class="cart-content" :style="[{'padding-top':menuBottom+58+'px'}]">
 			<!-- 购物车为空 -->
 			<view class="empty-cart" v-if="sku_list.length==0">
 				<view class="empty-cart-image">
@@ -49,10 +48,11 @@
 							<!-- 全选 -->
 							<view class="change-check-see-more">
 								<view class="change-check">
-									<checkbox  color='#007AFF' :checked="items.all_checked" @tap='checked_class_all(k)' />
+									<checkbox color='#007AFF' :checked="items.all_checked" @tap='checked_class_all(k)' />
 									<text @tap='goodsClassfiy(items.category_id,items.category_title)'> {{items.category_title}} > </text>
 								</view>
-								<view class="add-on-item" v-if="items.cards.length>0" @tap="changeActivity(0,items.cards,items.act_info)"> 领券 </view>
+								<view class="add-on-item" v-if="items.cards.length>0" @tap="changeActivity(0,items.cards,items.act_info)"> 领券
+								</view>
 								<view class="add-on-item" v-else-if="items.act_info" @tap="changeActivity(1,items.act_info)"> 看优惠 </view>
 							</view>
 							<!-- 优惠活动 -->
@@ -72,13 +72,12 @@
 											</view>
 										</view>
 									</view>
-									<view class="full-reduction-activity-see-discounts" 
-									 v-for="(content,type) in items.act_info.act_rule" :key='type'>
+									<view class="full-reduction-activity-see-discounts" v-for="(content,type) in items.act_info.act_rule" :key='type'>
 										<view class="full-reduction-specific-activity">
 											<view class="full-reduction"> {{content.category}} </view>
 											<view class="specific-activity"> {{content.rule_name}} </view>
 										</view>
-									</view>		
+									</view>
 								</view>
 							</view>
 							<!-- 商品展示 -->
@@ -94,12 +93,12 @@
 											</view>
 											<view class="name-price-purchaseLimitationNumber-checkedNumber">
 												<view class="porduct-item-name"> {{i.goods_name}} </view>
-												<view class="versions"  @tap='showSetSpec(i.Sku_id,i.encrypted_id,i.cart_num,i.cart_id)'>
+												<view class="versions" @tap='showSetSpec(i.Sku_id,i.encrypted_id,i.cart_num,i.cart_id)'>
 													<view class="versions-name">
 														<text class="versions-name-item" v-for="(is,z) in i.spec_name" :key='z'>
 															{{z}}:{{is}}
 														</text>
-													</view>													
+													</view>
 													<image class="unfold" src="../../static/images/unfold.png" mode=""></image>
 												</view>
 												<view class="porduct-item-price-purchaseLimitationNumber-checkedNumber">
@@ -108,9 +107,9 @@
 															￥<text class="price">{{i.sale_price}}</text>
 															<text class="member-price" v-if="i.member">会员价</text>
 														</view>
-														<view class="purchaseLimitationNumber"> 
-															* {{ i.min_buy_limit }} 件起购,
-															限购{{i.max_buy_limit}}件 
+														<view class="purchaseLimitationNumber">
+															* {{ i.min_buy_limit }} 件起购
+															<text v-show="i.max_buy_limit>0&&i.max_buy_limit!=999999"> , 限购{{i.max_buy_limit}}件 </text>
 															<text v-if="i.cut_price<0"> 比加购时降价￥{{i.cut_price}} </text>
 															<text v-else-if="i.cut_price>0"> 比加购时涨价￥{{i.cut_price}} </text>
 														</view>
@@ -128,9 +127,8 @@
 													<image src="../../static/images/subtract.png" mode=""></image>
 												</view>
 												<view class="input">
-													<input type="number" class="cart_num" 
-													:data-k='k' :data-is='is' :data-id='i.cart_id' v-model="i.cart_num" @input='setPorductNumber'
-													 maxlength="2" />
+													<input type="number" class="cart_num" :data-k='k' :data-is='is' :data-id='i.cart_id' v-model="i.cart_num"
+													 @input='setPorductNumber' maxlength="2" />
 												</view>
 												<view class="add" @tap="setNumber(i.cart_id,1,k,is)">
 													<image src="../../static/images/add.png" mode=""></image>
@@ -141,20 +139,18 @@
 								</view>
 								<view class="show_goods_state" v-show="i.is_show_state" @tap='setgoodsState(k,is)'>
 									<view class="this_is_goods_state">
-										<view class="collection set_state" v-if="items.category_status==1"
-										 @tap='setState(0,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'> 
-											<text>移入</text> <text>收藏</text> 
+										<view class="collection set_state" v-if="items.category_status==1" @tap='setState(0,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+											<text>移入</text> <text>收藏</text>
 										</view>
-										<view class="similar set_state" 
-										 @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'> 看相似 </view>
-										<view class="delete set_state" 
-										 @tap='setState(2,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'> 删除 </view>
+										<view class="similar set_state" @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+											看相似 </view>
+										<view class="delete set_state" @tap='setState(2,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+											删除 </view>
 									</view>
 								</view>
-							</view>						
+							</view>
 							<!-- 弹窗优惠或者卡券 -->
-							<scroll-view class="mantled" v-if="isShowDiscount" scroll-y="true"
-							 :style="[{'height':cardList.cards?height/2+'px':height/4+'px'}]">
+							<scroll-view class="mantled" v-if="isShowDiscount" scroll-y="true" :style="[{'height':cardList.cards?height/2+'px':height/4+'px'}]">
 								<view class="discounts-title"> 促销优惠 </view>
 								<view class="discounts-hint">*温馨提示:满减、折扣、卡券均可叠加使用</view>
 								<view class="special-offer" v-if="act_info">
@@ -173,13 +169,12 @@
 												</view>
 											</view>
 										</view>
-										<view class="full-reduction-activity-see-discounts" 
-										 v-for="(content,type) in act_info.act_rule" :key='type'>
+										<view class="full-reduction-activity-see-discounts" v-for="(content,type) in act_info.act_rule" :key='type'>
 											<view class="full-reduction-specific-activity">
 												<view class="full-reduction"> {{content.category}} </view>
 												<view class="specific-activity"> {{content.rule_name}} </view>
 											</view>
-										</view>		
+										</view>
 									</view>
 								</view>
 								<view class="card_list" v-if="cardList.cards">
@@ -189,12 +184,8 @@
 										</view>
 										<view class="more-card" @tap='goToGain'> 更多优惠券 > </view>
 									</view>
-									<ticket
-									 :cardsList='cardList.cards'
-									 :time_now='cardList.time_now' 
-									 @showTicket='showTicket'
-									 @getCards='getCards'
-									 @useCard = 'useCard'>
+									<ticket :cardsList='cardList.cards' :time_now='cardList.time_now' @showTicket='showTicket' @getCards='getCards'
+									 @useCard='useCard'>
 									</ticket>
 								</view>
 								<view class="delete-discount" @tap='changeActivity(2)'>
@@ -208,7 +199,7 @@
 						<view class="cart-shopping-show" v-for="(items,k) in contentList.sku_list" :key='k' v-show="items.category_status==0">
 							<view class="change-check-see-more">
 								<view class="change-check">
-									<text> 失效的商品  </text>
+									<text> 失效的商品 </text>
 								</view>
 								<view class="delete-goods" @tap='deleteInvalid(k,is)'> 清空失效商品 </view>
 							</view>
@@ -216,30 +207,32 @@
 								<view class="product-item-content" @longpress='setgoodsState(k,is)'>
 									<view class="goods-info">
 										<view class="product-item-show">
-											<view class="porduct-item-images" >
+											<view class="porduct-item-images">
 												<image :src="requestUrl+i.head_img" mode=""></image>
-												<view class="invalid-goods"><view class="delete-invalid-goods">已失效</view></view>
+												<view class="invalid-goods">
+													<view class="delete-invalid-goods">已失效</view>
+												</view>
 											</view>
 											<view class="name-price-purchaseLimitationNumber-checkedNumber">
 												<view class="porduct-item-name"> {{i.goods_name}} </view>
-												<view class="versions" >
+												<view class="versions">
 													<view class="versions-name">
 														<text class="versions-name-item" v-for="(is,z) in i.spec_name" :key='z'>
 															{{z}}:{{is}}
 														</text>
-													</view>													
+													</view>
 													<image class="unfold" src="../../static/images/unfold.png" mode=""></image>
 												</view>
-												
+
 												<view class="porduct-item-price-purchaseLimitationNumber-checkedNumber">
 													<view class="porduct-item-price-purchaseLimitationNumber">
 														<view class="porduct-item-price">
 															￥<text class="price">{{i.sale_price}}</text>
 															<text class="member-price" v-if="i.member">会员价</text>
 														</view>
-														<view class="purchaseLimitationNumber"> 
-															* {{ i.min_buy_limit }} 件起购,
-															限购{{i.max_buy_limit}}件 
+														<view class="purchaseLimitationNumber">
+															* {{ i.min_buy_limit }} 件起购
+															<text v-show="i.max_buy_limit>0&&i.max_buy_limit!=999999"> , 限购{{i.max_buy_limit}}件 </text>
 															<text v-if="i.cut_price<0"> 比加购时降价￥{{i.cut_price}} </text>
 															<text v-else-if="i.cut_price>0"> 比加购时涨价￥{{i.cut_price}} </text>
 														</view>
@@ -253,15 +246,14 @@
 												<text class="offline_pay">到院再付￥{{ i.offline_pay*i.cart_num }}</text>
 											</view>
 											<view class="checkedNumber">
-												<view class="subtract" >
+												<view class="subtract">
 													<image src="../../static/images/subtract.png" mode=""></image>
 												</view>
 												<view class="input">
-													<input type="number" class="cart_num" 
-													:data-k='k' :data-is='is' v-model="i.cart_num" @input='setPorductNumber'
+													<input type="number" class="cart_num" :data-k='k' :data-is='is' v-model="i.cart_num" @input='setPorductNumber'
 													 maxlength="2" />
 												</view>
-												<view class="add" >
+												<view class="add">
 													<image src="../../static/images/add.png" mode=""></image>
 												</view>
 											</view>
@@ -270,10 +262,10 @@
 								</view>
 								<view class="show_goods_state" v-show="i.is_show_state" @tap='setgoodsState(k,is)'>
 									<view class="this_is_goods_state">
-										<view class="similar set_state" 
-										 @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'> 看相似 </view>
-										<view class="delete set_state" 
-										 @tap='setState(2,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'> 删除 </view>
+										<view class="similar set_state" @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+											看相似 </view>
+										<view class="delete set_state" @tap='setState(2,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+											删除 </view>
 									</view>
 								</view>
 							</view>
@@ -285,7 +277,7 @@
 				<view class="specialList" v-if="specialList.type==1">
 					<swiper indicator-dots indicator-active-color="#ff6699" autoplay interval='5000' duration='3000' circular>
 						<swiper-item class="swiper-item" v-for="(item,index) in specialList.content" :key="index">
-							<image :src="requestUrl+item.img" mode="widthFix" ></image>
+							<image :src="requestUrl+item.img" mode="widthFix"></image>
 						</swiper-item>
 					</swiper>
 				</view>
@@ -296,21 +288,20 @@
 					<view>为你推荐</view>
 				</view>
 				<view class="subject-content">
-					<goodsShow :borderRadius=24 
-					 :requestUrl='requestUrl' :width=350 :porductList='productLists'>
+					<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='productLists'>
 					</goodsShow>
 				</view>
 			</view>
 			<!-- 全选和结算 -->
 			<view class="settlement">
 				<view class="settlement-info">
-					<view class="change-all-goods" @tap='change_all_cart' >
-						<checkbox  color='#007AFF' :checked="allchecked" />  <text > 全选 </text>
+					<view class="change-all-goods" @tap='change_all_cart'>
+						<checkbox color='#007AFF' :checked="allchecked" /> <text> 全选 </text>
 					</view>
 					<view class="total-discount">
 						<view class="total">合计 : <text> ￥{{ order_info.off_sale || 0 }} </text> </view>
 						<view class="use-discount" v-if="order_info.sale_info.length>0">
-							优惠减: ￥{{ order_info.sale_price ||0 }} 
+							优惠减: ￥{{ order_info.sale_price ||0 }}
 							<text class="use-discount-detailed" @tap='user_discount'>优惠明细</text>
 						</view>
 					</view>
@@ -330,7 +321,7 @@
 						<view class="good-price">
 							<view class="market_price">￥{{goodsContentList.sku.sale_price}}</view>
 							<view class="member_price" v-if="goodsContentList.sku.member.member_title">
-								<text class="member_title" >{{goodsContentList.sku.member.member_title}}</text>￥{{goodsContentList.sku.member.price}}
+								<text class="member_title">{{goodsContentList.sku.member.member_title}}</text>￥{{goodsContentList.sku.member.price}}
 							</view>
 						</view>
 						<view class="store-sku_no">
@@ -339,17 +330,16 @@
 						</view>
 					</view>
 				</view>
-				<template >
+				<template>
 					<view class="specs-content" v-for="(item,index) in goodsContentList.spec_value" :data-index='index' :key="index">
 						<view class="specs-title">
 							{{item.name}}
 							<!-- <text class="specs-hint" >请选择{{item.name}}</text> -->
 						</view>
 						<view class="specs-cont">
-							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
-							 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
+							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
 							 @tap="changeSpec(index,sindex)">
-								{{is}}  
+								{{is}}
 							</view>
 						</view>
 					</view>
@@ -379,15 +369,11 @@
 						<text>限购 {{ goodsContentList.sku.max_buy_limit }} 件</text>
 					</view>
 					<view class="change-input">
-						<view class="reduce"
-						 @tap="reduce(-1)"
-						 :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
+						<view class="reduce" @tap="reduce(-1)" :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
 						<view class="number-input">
 							<input type="number" v-model="setNewGoodsNumber" value=1 @input='changeGoodsNumber' />
 						</view>
-						<view class="add-number"
-						 @tap="reduce(1)"
-						 :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
+						<view class="add-number" @tap="reduce(1)" :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
 					</view>
 				</view>
 				<view class="keep-order">
@@ -433,7 +419,7 @@
 	import ticket from "../../components/ticket.vue";
 	export default {
 		components: {
-			goodsShow ,
+			goodsShow,
 			ticket
 		},
 		data() {
@@ -469,29 +455,29 @@
 				],
 				btnnum: 0,
 				contentList: {},
-				allchecked: false,//全选
-				isShowDiscount:false,//显示优惠或卡券
+				allchecked: false, //全选
+				isShowDiscount: false, //显示优惠或卡券
 				requestUrl: '',
 				offset: 0,
-				sku_list:[],
-				specialList:{},//广告
-				get_count:0,//可领取卡券数量
-				cardList:[],//卡券列表
-				act_info:{},
-				uses_cardList:[],
-				this_show_goods_spec:false,//显示修改商品规格
+				sku_list: [],
+				specialList: {}, //广告
+				get_count: 0, //可领取卡券数量
+				cardList: [], //卡券列表
+				act_info: {},
+				uses_cardList: [],
+				this_show_goods_spec: false, //显示修改商品规格
 				goodsContentList: [],
-				spec:[],
+				spec: [],
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
-				class_type:0,//领取方式 0到院 1邮寄
-				setNewGoodsNumber:1,//修改新的商品数量
-				encrypted_id:'',
-				sku_id:0,
-				cart_id:160,
-				order_info:{
-					sale_info:[]
-				},//订单的信息
-				show_discount:false,//显示优惠的弹窗
+				class_type: 0, //领取方式 0到院 1邮寄
+				setNewGoodsNumber: 1, //修改新的商品数量
+				encrypted_id: '',
+				sku_id: 0,
+				cart_id: 160,
+				order_info: {
+					sale_info: []
+				}, //订单的信息
+				show_discount: false, //显示优惠的弹窗
 			}
 		},
 		onReachBottom: function() {
@@ -571,7 +557,7 @@
 								data.sku_list[i].goods_list[j].is_show_state = false //显示订单操作
 								data.sku_list[i].all_checked = false //是否全选当前分类
 								data.sku_list[i].goods_list[j].checked = false //是否选择
-								if(data.sku_list[i].act_info){
+								if (data.sku_list[i].act_info) {
 									data.sku_list[i].day = parseInt((data.sku_list[i].act_info.rest_time) / 60 / 60 / 24 % 30)
 									data.sku_list[i].house = parseInt((data.sku_list[i].act_info.rest_time) / 60 / 60 % 24)
 									data.sku_list[i].second = parseInt((data.sku_list[i].act_info.rest_time) / 60 % 60)
@@ -585,8 +571,8 @@
 						for (let i = 0; i < that.productNameList.length; i++) {
 							that.productNameList[i].number = data.type_count[i]
 						}
-						
-					}else{
+
+					} else {
 						that.sku_list = []
 					}
 				})
@@ -597,33 +583,38 @@
 				that.contentList.sku_list[k].goods_list[is].is_show_state = !that.contentList.sku_list[k].goods_list[is].is_show_state
 			},
 			// 全选当前分类
-			checked_class_all:function(k){
+			checked_class_all: function(k) {
 				let that = this
 				let act_id = ''
 				let change_card_id = []
 				let cart = {}
 				let arr = []
 				that.contentList.sku_list[k].all_checked = !that.contentList.sku_list[k].all_checked
-				if(that.contentList.sku_list[k].all_checked){//全选
-					for(let i=0;i<that.contentList.sku_list[k].goods_list.length;i++){
+				
+				if (that.contentList.sku_list[k].all_checked) { //全选
+					for (let i = 0; i < that.contentList.sku_list[k].goods_list.length; i++) {
 						that.contentList.sku_list[k].goods_list[i].checked = true
-					}					
-				}else{ //点击清空全选
-					for(let i=0;i<that.contentList.sku_list[k].goods_list.length;i++){
+					}
+					
+				} else { //点击清空全选
+					for (let i = 0; i < that.contentList.sku_list[k].goods_list.length; i++) {
 						that.contentList.sku_list[k].goods_list[i].checked = false
 					}
-				}	
-				for(let i=0;i<that.contentList.sku_list.length;i++){
+					that.order_info = {
+						sale_info: []
+					} //订单的信息
+				}
+				for (let i = 0; i < that.contentList.sku_list.length; i++) {
 					arr.push(that.contentList.sku_list[i].all_checked)
-				}				
-				let flag = arr.every((item,index,arr) =>{
+				}
+				let flag = arr.every((item, index, arr) => {
 					return item === true
 				})
-				if(flag){
+				if (flag) {
 					that.allchecked = !that.allchecked
-				}else{
+				} else {
 					that.allchecked = false
-					
+
 				}
 				that.get_user_cart()
 			},
@@ -632,165 +623,191 @@
 				let that = this
 				let arr = []
 				let all_arr = []
-				that.contentList.sku_list[k].goods_list[is].checked = !that.contentList.sku_list[k].goods_list[is].checked				
-				for(let i=0;i<that.contentList.sku_list[k].goods_list.length;i++){
+				that.contentList.sku_list[k].goods_list[is].checked = !that.contentList.sku_list[k].goods_list[is].checked
+				for (let i = 0; i < that.contentList.sku_list[k].goods_list.length; i++) {
 					arr.push(that.contentList.sku_list[k].goods_list[i].checked)
-				}				
-				let flag = arr.every((item,index,arr) =>{
+				}
+				
+				let flag = arr.every((item, index, arr) => {
 					return item === true
 				})
 				// 如果当分类下面的订单都选择了,则当前分类的全选为true
-				if(flag){			
+				if (flag) {
 					that.contentList.sku_list[k].all_checked = !that.contentList.sku_list[k].all_checked
-					if(that.contentList.sku_list[k].all_checked){//当前订单为选择时判定所有的订单是否已经全选
-						for(let i=0;i<that.contentList.sku_list.length;i++){
-								all_arr.push(that.contentList.sku_list[i].all_checked)
-							}	
-							let flags = all_arr.every((item,index,all_arr) =>{
-								return item === true
-							})
-							that.allchecked = flags
+					if (that.contentList.sku_list[k].all_checked) { //当前订单为选择时判定所有的订单是否已经全选
+						for (let i = 0; i < that.contentList.sku_list.length; i++) {
+							all_arr.push(that.contentList.sku_list[i].all_checked)
 						}
-				}else{
+						let flags = all_arr.every((item, index, all_arr) => {
+							return item === true
+						})
+						that.allchecked = flags
+					}
+				} else {
 					that.contentList.sku_list[k].all_checked = false
 					that.allchecked = false
 				}
-				that.get_user_cart()
-			},	
+				if(that.contentList.sku_list[k].goods_list[is].checked){
+					that.get_user_cart()
+				}
+				else{
+					let new_arr = []
+					for(let i=0;i<that.contentList.sku_list.length;i++){
+						for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++)
+						new_arr.push(that.contentList.sku_list[i].goods_list[j].checked)
+						// if(!that.contentList.sku_list[i].goods_list[j].checked){
+						// 	
+						// }
+					}
+					let flag = new_arr.every((item, index, new_arr) => {
+						// console.log(item,index)
+						return item === false
+					})
+					// console.log(flag)
+					if(flag){
+						that.order_info = {
+							sale_info: []
+						} //订单的信息
+					}else{
+						that.get_user_cart()
+					}
+				}
+			},
 			// 结算的全选
-			change_all_cart:function(){
+			change_all_cart: function() {
 				let that = this
 				that.allchecked = !that.allchecked
-				if(that.allchecked){
-					for(let i=0;i<that.contentList.sku_list.length;i++){
+				if (that.allchecked) {
+					for (let i = 0; i < that.contentList.sku_list.length; i++) {
 						that.contentList.sku_list[i].all_checked = true
-						for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++){
+						for (let j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
 							that.contentList.sku_list[i].goods_list[j].checked = true
 						}
 					}
 					that.get_user_cart()
-				}
-				else{
-					for(let i=0;i<that.contentList.sku_list.length;i++){
+				} else {
+					for (let i = 0; i < that.contentList.sku_list.length; i++) {
 						that.contentList.sku_list[i].all_checked = false
-						for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++){
+						for (let j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
 							that.contentList.sku_list[i].goods_list[j].checked = false
 						}
 					}
 					that.order_info = {
-						sale_info:[]
-					}//订单的信息
+						sale_info: []
+					} //订单的信息
 				}
-				
+
 			},
 			// 获取购物车价格
-			get_user_cart:function(){
+			get_user_cart: function() {
 				let that = this
 				let change_cart = []
-				if(that.contentList.sku_list.length>0){
-					for(let i=0;i<that.contentList.sku_list.length;i++){
-						if(that.contentList.sku_list[i].all_checked){ //先判断是否有全选了的订单
+				if (that.contentList.sku_list.length > 0) {
+					for (let i = 0; i < that.contentList.sku_list.length; i++) {
+						if (that.contentList.sku_list[i].all_checked) { //先判断是否有全选了的订单
 							let act_id = ''
 							let cart_id = []
-							if(that.contentList.sku_list[i].act_id){
+							if (that.contentList.sku_list[i].act_id) {
 								act_id = that.contentList.sku_list[i].act_id
 							}
 							let cart = {
-								act_id:act_id,
-								cart_id_list:that.contentList.sku_list[i].cart_id_list
+								act_id: act_id,
+								cart_id_list: that.contentList.sku_list[i].cart_id_list
 							}
 							change_cart.push(cart)
-						} else{
-							for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++){
-								if(that.contentList.sku_list[i].goods_list[j].checked){ //判定选择了的订单
+						} else {
+							for (let j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
+								if (that.contentList.sku_list[i].goods_list[j].checked) { //判定选择了的订单
 									let act_id = ''
 									let cart_id = []
-									if(that.contentList.sku_list[i].act_id){
+									if (that.contentList.sku_list[i].act_id) {
 										act_id = that.contentList.sku_list[i].act_id
 									}
 									cart_id.push(that.contentList.sku_list[i].goods_list[j].cart_id)
 									let cart = {
-										act_id:act_id,
-										cart_id_list:cart_id
+										act_id: act_id,
+										cart_id_list: cart_id
 									}
 									change_cart.push(cart)
 								}
 							}
-						}						
+						}
 					}
 				}
 				let dataInfo = {
-					interfaceId:'calculate',
-					cart:change_cart
+					interfaceId: 'calculate',
+					cart: change_cart
 				}
-				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						// console.log(data)
-						// total_price:0,//总价
-						// sale_price:0,//总计优惠
-						// hd_discount: 0,//活动优惠2020.11.04
-						// online_pay: 0,//在线支付
-						// offline_pay: 0,//线下支付
-						// off_sale: 0,//去掉优惠后应付2020.11.02
-						// sale_info: []//优惠信息
-						that.order_info = data
-					}else{
-						that.order_info = {
-							sale_info:[]
-						}//订单的信息
-					}
-				})
+				if (change_cart.length > 0) {
+					that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							// console.log(data)
+							// total_price:0,//总价
+							// sale_price:0,//总计优惠
+							// hd_discount: 0,//活动优惠2020.11.04
+							// online_pay: 0,//在线支付
+							// offline_pay: 0,//线下支付
+							// off_sale: 0,//去掉优惠后应付2020.11.02
+							// sale_info: []//优惠信息
+							that.order_info = data
+						} else {
+							that.order_info = {
+								sale_info: []
+							} //订单的信息
+						}
+					})
+				}
+
 				// console.log(change_cart)
 			},
 			// 去结算
-			goToSettlement:function(){
+			goToSettlement: function() {
 				let that = this
 				let sku_list = that.contentList.sku_list
 				let cart_info = {} //单条购物车的选中的数据
 				let act_id = '' //活动id 
 				let cart_id_list = [] //订单id列表
-				if(that.allchecked){ //判定购物车是否全选了，全选直接存储对应的购物车活动id和购物车id
-					for(let i=0;i<sku_list.length;i++){
-						if(sku_list[i].act_id){
+				if (that.allchecked) { //判定购物车是否全选了，全选直接存储对应的购物车活动id和购物车id
+					for (let i = 0; i < sku_list.length; i++) {
+						if (sku_list[i].act_id) {
 							act_id = sku_list[i].act_id
 						}
 						cart_info = {
-							act_id:act_id,
-							cart_id_list:sku_list[i].cart_id_list
+							act_id: act_id,
+							cart_id_list: sku_list[i].cart_id_list
 						}
 						cart_id_list.push(cart_info)
 					}
-				}
-				else{ //如果是没有全选，就循环判定购物车的分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
-					for(let i=0;i<sku_list.length;i++){
-						if(sku_list[i].all_checked){//分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
-							if(sku_list[i].act_id){
+				} else { //如果是没有全选，就循环判定购物车的分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
+					for (let i = 0; i < sku_list.length; i++) {
+						if (sku_list[i].all_checked) { //分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
+							if (sku_list[i].act_id) {
 								act_id = sku_list[i].act_id
 							}
 							cart_info = {
-								act_id:act_id,
-								cart_id_list:sku_list[i].cart_id_list
+								act_id: act_id,
+								cart_id_list: sku_list[i].cart_id_list
 							}
 							cart_id_list.push(cart_info)
-						}else{ //循环内部的商品是否选中
+						} else { //循环内部的商品是否选中
 							let cart_list = []
-							for(let j=0;j<sku_list[i].goods_list.length;j++){
-								if(sku_list[i].act_id){
+							for (let j = 0; j < sku_list[i].goods_list.length; j++) {
+								if (sku_list[i].act_id) {
 									act_id = sku_list[i].act_id
 								}
-								if(sku_list[i].goods_list[j].checked){
+								if (sku_list[i].goods_list[j].checked) {
 									cart_list.push(sku_list[i].goods_list[j].cart_id)
 								}
 							}
-							if(cart_list.length>0){
+							if (cart_list.length > 0) {
 								cart_info = {
-									act_id:act_id,
-									cart_id_list:cart_list
+									act_id: act_id,
+									cart_id_list: cart_list
 								}
 								cart_id_list.push(cart_info)
 							}
-							
+
 						}
 					}
 				}
@@ -798,21 +815,21 @@
 				uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
 				// 清除本地存的购物车数据
 				// uni.removeStorageSync('contentList');
-				if(cart_id_list.length>0){
+				if (cart_id_list.length > 0) {
 					// 确认订单
 					uni.navigateTo({
 						url: `/pages/confirm_order/confirm_order`,
 					})
-				}else{
+				} else {
 					uni.showToast({
-						title:'请选择商品',
-						icon:'none'
+						title: '请选择商品',
+						icon: 'none'
 					})
 				}
-				
+
 			},
 			// 修改商品规格
-			showSetSpec: function(sku_id,encrypted_id,number,cart_id) {
+			showSetSpec: function(sku_id, encrypted_id, number, cart_id) {
 				let that = this
 				that.encrypted_id = encrypted_id
 				that.sku_id = sku_id
@@ -838,16 +855,16 @@
 				})
 			},
 			// 点击确定修改规格
-			orderSet:function(){
+			orderSet: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'changcart',
-					type:1,
-					cart_id:that.cart_id,
-					num:that.setNewGoodsNumber,
-					sku_id:that.sku_id,
-					is_post:that.class_type,
-					buy_type:that.pay_type
+					interfaceId: 'changcart',
+					type: 1,
+					cart_id: that.cart_id,
+					num: that.setNewGoodsNumber,
+					sku_id: that.sku_id,
+					is_post: that.class_type,
+					buy_type: that.pay_type
 				}
 				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -855,32 +872,32 @@
 						that.allchecked = false
 						that.getUserCart()
 						that.order_info = {
-							sale_info:[]
-						}//订单的信息
+							sale_info: []
+						} //订单的信息
 					}
 				})
 			},
 			// 点击加减数字
-			reduce:function(index){
+			reduce: function(index) {
 				let that = this
 				that.setNewGoodsNumber += index
-				if(that.setNewGoodsNumber >= that.goodsContentList.sku.max_buy_limit){
+				if (that.setNewGoodsNumber >= that.goodsContentList.sku.max_buy_limit) {
 					let number = parseInt(that.goodsContentList.sku.max_buy_limit)
 					that.setNewGoodsNumber = number
-				}else if(that.setNewGoodsNumber < that.goodsContentList.sku.min_buy_limit){
+				} else if (that.setNewGoodsNumber < that.goodsContentList.sku.min_buy_limit) {
 					let number = parseInt(that.goodsContentList.sku.min_buy_limit)
 					that.setNewGoodsNumber = number
 				}
 			},
 			// 输入想要的数量
-			changeGoodsNumber:function(event){
+			changeGoodsNumber: function(event) {
 				let that = this
 				let value = event.detail.value
 				that.setNewGoodsNumber = value
-				if(that.setNewGoodsNumber >= that.contentList.sku.max_buy_limit){
+				if (that.setNewGoodsNumber >= that.contentList.sku.max_buy_limit) {
 					let number = parseInt(that.contentList.sku.max_buy_limit)
 					that.setNewGoodsNumber = number
-				}else if(that.setNewGoodsNumber < that.contentList.sku.min_buy_limit){
+				} else if (that.setNewGoodsNumber < that.contentList.sku.min_buy_limit) {
 					let number = parseInt(that.contentList.sku.min_buy_limit)
 					that.setNewGoodsNumber = number
 				}
@@ -890,62 +907,61 @@
 				let that = this
 				that.pay_type = index
 			},
-			changeClass:function(index){
+			changeClass: function(index) {
 				let that = this
 				that.class_type = index
 			},
-			changeSpec:function(index,sindex){
+			changeSpec: function(index, sindex) {
 				let that = this
 				// console.log(index,sindex)
-				if(that.spec[index].attr[sindex]==0){
-					that.getSpec(index,sindex)
-				}else if(that.spec[index].attr[sindex]==1){
-					that.cancelSpec(index,sindex)
-				}else{
+				if (that.spec[index].attr[sindex] == 0) {
+					that.getSpec(index, sindex)
+				} else if (that.spec[index].attr[sindex] == 1) {
+					that.cancelSpec(index, sindex)
+				} else {
 					return
 				}
 			},
 			// 修改规格的优惠信息
-			seeMore:function(index){
+			seeMore: function(index) {
 				let that = this
-				if(index==0){
-					if(that.uses_cardList.length>0){
+				if (index == 0) {
+					if (that.uses_cardList.length > 0) {
 						let dataInfo = {
-							interfaceId:'ids_get_card',
-							card_id:that.uses_cardList,
-							limit:6,
-							offset:0
+							interfaceId: 'ids_get_card',
+							card_id: that.uses_cardList,
+							limit: 6,
+							offset: 0
 						}
 						that.request.uniRequest("card", dataInfo).then(res => {
 							if (res.data.code == 1000 && res.data.status == 'ok') {
 								let data = res.data.data
 								that.isShowDiscount = !that.isShowDiscount
-								if(that.isShowDiscount){
+								if (that.isShowDiscount) {
 									for (let i = 0; i < data.cards.length; i++) {
 										data.cards[i].showTicketDetails = false
 										data.cards[i].arrowImages = '/static/images/arrow-down.png'
 									}
 									that.cardList = data
-								}
-								else{
+								} else {
 									that.cardList = []
 								}
 							}
 						})
-					}else{
+					} else {
 						that.isShowDiscount = !that.isShowDiscount
 					}
-				}else if(index==1){
+				} else if (index == 1) {
 					that.this_show_goods_spec = !that.this_show_goods_spec
-				}				
-			},			
+				}
+			},
 			// userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
 			assembleSpec: function(userSpec, isFirst, nowCheck, isCancel) {
 				let that = this
 				// 新规格数组，与原规格spec_value相对应，用于标记各种状态
 				let specValue = uni.getStorageSync("goodsDetail").spec_value;
 				let spec = uni.getStorageSync("goodsDetail").spec_value;
-				let defaultUserSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;				
+				let defaultUserSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
 				// 遍历规格类型
 				for (let i in specValue) {
 					for (let k in specValue[i].attr) {
@@ -983,7 +999,7 @@
 				return spec;
 			},
 			// 选择规格
-			getSpec: function(index,sindex) {
+			getSpec: function(index, sindex) {
 				const that = this;
 				for (let i in that.spec[index].attr) {
 					that.spec[index].attr[i] = 0;
@@ -1030,9 +1046,9 @@
 						that.goodsContentList.sku.sale_price = data.sale_price
 					}
 				})
-			},			
+			},
 			// 取消选项
-			cancelSpec: function(index,sindex) {
+			cancelSpec: function(index, sindex) {
 				const that = this;
 				that.spec[index].attr[sindex] = 0;
 				// 查找当前选择数据
@@ -1081,44 +1097,43 @@
 				})
 			},
 			// 点击优惠或者卡券
-			changeActivity:function(index,list,info){
+			changeActivity: function(index, list, info) {
 				let that = this
-				if(index==0){ //卡券
+				if (index == 0) { //卡券
 					let dataInfo = {
-						interfaceId:'ids_get_card',
-						card_id:list,
-						limit:6,
-						offset:0
+						interfaceId: 'ids_get_card',
+						card_id: list,
+						limit: 6,
+						offset: 0
 					}
 					that.act_info = info
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
 							that.isShowDiscount = !that.isShowDiscount
-							if(that.isShowDiscount){
+							if (that.isShowDiscount) {
 								for (let i = 0; i < data.cards.length; i++) {
 									data.cards[i].showTicketDetails = false
 									data.cards[i].arrowImages = '/static/images/arrow-down.png'
 								}
 								that.cardList = data
-							}
-							else{
+							} else {
 								that.cardList = []
 							}
 						}
 					})
-				}else if(index==1){//优惠
+				} else if (index == 1) { //优惠
 					that.act_info = list
 					that.isShowDiscount = !that.isShowDiscount
-				}else if(index==2){
+				} else if (index == 2) {
 					that.isShowDiscount = !that.isShowDiscount
-					if(!that.isShowDiscount){
+					if (!that.isShowDiscount) {
 						that.cardList = []
 					}
 				}
 			},
 			// 领取卡券
-			getCards: function(cardId, prompt,index) {
+			getCards: function(cardId, prompt, index) {
 				let that = this
 				if (prompt == '') {
 					let dataInfo = {
@@ -1128,7 +1143,7 @@
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('领取成功')
-							that.cardList.cards[index].salecard_user_count = that.cardList.cards[index].salecard_user_count+1
+							that.cardList.cards[index].salecard_user_count = that.cardList.cards[index].salecard_user_count + 1
 						}
 					})
 				} else {
@@ -1136,8 +1151,8 @@
 				}
 			},
 			// 使用卡券
-			useCard:function(id){
-				console.log('使用的卡券id:',id)
+			useCard: function(id) {
+				console.log('使用的卡券id:', id)
 			},
 			showTicket: function(cardId) {
 				let that = this
@@ -1168,10 +1183,10 @@
 				})
 			},
 			// 获取可领取卡券
-			getCard:function(){
+			getCard: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:"may_receive"
+					interfaceId: "may_receive"
 				}
 				that.request.uniRequest("card", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -1195,8 +1210,8 @@
 				that.allchecked = false
 				uni.removeStorageSync('contentList');
 				that.order_info = {
-					sale_info:[]
-				}//订单的信息
+					sale_info: []
+				} //订单的信息
 			},
 			goToGoodsClassfiy: function() {
 				uni.switchTab({
@@ -1204,51 +1219,51 @@
 				})
 			},
 			// 收藏、相似、删除
-			setState:function(index,id,num,category_id,listName,encrypted_id){
+			setState: function(index, id, num, category_id, listName, encrypted_id) {
 				// console.log(index,cart_id,sku_id,num)
 				let that = this
 				// index 0 收藏 1 相似 2 删除
-				if(index==0){//收藏
+				if (index == 0) { //收藏
 					let dataInfo = {
-						interfaceId:'collectgoodsspu',
-						encrypted_id:encrypted_id
+						interfaceId: 'collectgoodsspu',
+						encrypted_id: encrypted_id
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('已收藏')
-						}else if(res.data.code == 1020){
+						} else if (res.data.code == 1020) {
 							that.request.showToast('该商品已收藏')
 						}
 					})
-				}else if(index==1){//相似
+				} else if (index == 1) { //相似
 					uni.navigateTo({
 						url: `/pages/goods/goods_list?name=${listName}&id=${category_id}`,
 					})
-				}else if(index==2){//删除
+				} else if (index == 2) { //删除
 					let cart_id = []
 					cart_id.push(id)
 					let dataInfo = {
-						interfaceId:'changcart',
-						type:2,
-						cart_id:cart_id,
+						interfaceId: 'changcart',
+						type: 2,
+						cart_id: cart_id,
 					}
 					uni.showModal({
-						title:'提示',
-						content:'确定要删除此订单吗?',
-						success:function(res){
+						title: '提示',
+						content: '确定要删除此订单吗?',
+						success: function(res) {
 							if (res.confirm) {
 								that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 									if (res.data.code == 1000 && res.data.status == 'ok') {
-										setTimeout(function(){
+										setTimeout(function() {
 											that.request.showToast(res.data.message)
-										},500)
-										setTimeout(function(){
+										}, 500)
+										setTimeout(function() {
 											that.getUserCart()
 											that.allchecked = false
 											that.order_info = {
-												sale_info:[]
-											}//订单的信息
-										},800)
+												sale_info: []
+											} //订单的信息
+										}, 800)
 									}
 								})
 							}
@@ -1263,21 +1278,31 @@
 				})
 			},
 			// 修改商品数量
-			setGoodsNumber:function(id,cart_num){
+			setGoodsNumber: function(id, cart_num) {
 				let that = this
 				let cart_id = []
 				// console.log(that.contentList) //想法是在修改数量的时候先把购物车的数据存储，为了判定那些数据是选中了,然后计算价格
 				// uni.setStorageSync("contentList", that.contentList);
 				cart_id.push(id)
 				let dataInfo = {
-					interfaceId:'changcart',
-					type:0,
-					cart_id:cart_id,
-					num:cart_num,
+					interfaceId: 'changcart',
+					type: 0,
+					cart_id: cart_id,
+					num: cart_num,
 				}
 				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						that.get_user_cart()
+						for (let i = 0; i < that.contentList.sku_list.length; i++) {
+							for (let j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
+								console.log()
+								if (that.contentList.sku_list[i].goods_list[j].cart_id == cart_id) { //判定选择了的订单
+									if (that.contentList.sku_list[i].goods_list[j].checked) {
+										that.get_user_cart()
+									}
+								}
+							}
+						}
+						// 
 						// that.getUserCart()
 						// that.allchecked = false
 						// that.order_info = {
@@ -1293,6 +1318,9 @@
 				let cart_num = that.contentList.sku_list[k].goods_list[is].cart_num
 				cart_num += number
 				goodsNumber = cart_num
+				if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
+					that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999
+				}
 				if (goodsNumber >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit)
 					goodsNumber = number
@@ -1302,7 +1330,7 @@
 				}
 				that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
 				that.setNewGoodsNumber = goodsNumber
-				that.setGoodsNumber(id,goodsNumber)
+				that.setGoodsNumber(id, goodsNumber)
 			},
 			// 输入数量
 			setPorductNumber: function(event) {
@@ -1311,32 +1339,35 @@
 				let k = event.currentTarget.dataset.k
 				let is = event.currentTarget.dataset.is
 				let id = event.currentTarget.dataset.id
-				if(value==''){
+				if (value == '') {
 					value = 1
 					that.contentList.sku_list[k].goods_list[is].cart_num = 1
-				}else{
+				} else {
 					that.contentList.sku_list[k].goods_list[is].cart_num = parseInt(value)
 				}
 				let goodsNumber = 0
 				let cart_num = that.contentList.sku_list[k].goods_list[is].cart_num
 				goodsNumber = cart_num
+				if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
+					that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999
+				}
 				if (goodsNumber >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit)
 					goodsNumber = number
 				} else if (goodsNumber < that.contentList.sku_list[k].goods_list[is].min_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit)
 					goodsNumber = number
-				}	
+				}
 				that.setNewGoodsNumber = goodsNumber
 				that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
-				that.setGoodsNumber(id,goodsNumber)
+				that.setGoodsNumber(id, goodsNumber)
 			},
 			// 显示优惠明细
-			user_discount:function(){
+			user_discount: function() {
 				let that = this
 				that.show_discount = !that.show_discount
 			},
-			IKnow:function(){
+			IKnow: function() {
 				let that = this
 				that.show_discount = !that.show_discount
 			}
@@ -1344,7 +1375,7 @@
 	}
 </script>
 
-<style scoped>	
+<style scoped>
 	.top-bar {
 		text-align: center;
 		font-size: 40rpx;
@@ -1354,13 +1385,13 @@
 		top: 0;
 		left: 0;
 	}
-	
+
 	.back-title {
 		font-size: 38rpx;
 		position: relative;
 		text-align: center;
 	}
-	
+
 	.back {
 		display: flex;
 		align-items: center;
@@ -1371,15 +1402,16 @@
 		left: 0;
 		top: 0;
 	}
-	
+
 	.back image {
 		width: 36rpx;
 		height: 36rpx;
 	}
-	
+
 	.back-title .title {
 		font-size: 37rpx;
 	}
+
 	.cart-content {
 		background-color: #F6F6F6;
 	}
@@ -1418,10 +1450,12 @@
 		padding: 40rpx 20rpx;
 		display: flex;
 	}
-	.specialList{
+
+	.specialList {
 		width: 100%;
 	}
-	.specialList image{
+
+	.specialList image {
 		width: 100%;
 	}
 
@@ -1435,10 +1469,11 @@
 		background-color: #fa3576;
 		margin-right: 20rpx;
 	}
+
 	.checkedLine {
-			padding: 0 20rpx;
-		}
-	
+		padding: 0 20rpx;
+	}
+
 	.checkedLine view {
 		height: 4rpx;
 		background-color: #fa3475;
@@ -1487,6 +1522,7 @@
 	.dis {
 		display: block;
 	}
+
 	.card-top {
 		height: 80rpx;
 		line-height: 80rpx;
@@ -1498,11 +1534,11 @@
 		width: 100%;
 		margin-top: 5rpx;
 	}
-	
+
 	.tabBarList {
 		width: 100%;
 	}
-	
+
 	.can-receive {
 		padding-left: 21rpx;
 		display: flex;
@@ -1510,18 +1546,19 @@
 		text-align: center;
 		line-height: 80rpx;
 	}
-	
+
 	.can-receive .text {
 		font-weight: bolder;
 	}
-	
+
 	.texts {
 		line-height: 79rpx;
 	}
-	.go-receive {	
+
+	.go-receive {
 		display: flex;
 	}
-	
+
 	.go-receive .triangle-line {
 		display: block;
 		width: 0;
@@ -1532,6 +1569,7 @@
 		transform: rotate(360deg);
 		margin-left: -56rpx;
 	}
+
 	.character {
 		text-align: center;
 		background-color: #5be3d5;
@@ -1557,7 +1595,8 @@
 		font-weight: bolder;
 		margin-left: 20rpx;
 	}
-	.delete-goods{
+
+	.delete-goods {
 		color: #fa3475;
 		font-size: 24rpx;
 	}
@@ -1643,14 +1682,16 @@
 		opacity: 0.8;
 		height: 100%;
 	}
-	.this_is_goods_state{
+
+	.this_is_goods_state {
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
 		height: 100%;
 	}
-	.set_state{
+
+	.set_state {
 		width: 84rpx;
 		height: 130rpx;
 		padding: 0 28rpx;
@@ -1662,16 +1703,20 @@
 		justify-content: center;
 		text-align: center;
 	}
-	.collection{
+
+	.collection {
 		background-image: linear-gradient(-45deg, #F9BB00 0%, #F9BB00 100%);
 	}
-	.similar{
+
+	.similar {
 		background-image: linear-gradient(-45deg, #FF9966 0%, #FF9966 100%);
 	}
-	.this_is_goods_state .delete{
+
+	.this_is_goods_state .delete {
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
-	.set_state text{
+
+	.set_state text {
 		display: inline-block;
 		width: 100%;
 		text-align: center;
@@ -1707,10 +1752,12 @@
 		height: 200rpx;
 		margin-right: 20rpx;
 	}
-	.porduct-item-images{
+
+	.porduct-item-images {
 		position: relative;
 	}
-	.porduct-item-images .invalid-goods{
+
+	.porduct-item-images .invalid-goods {
 		width: 200rpx;
 		height: 200rpx;
 		margin-right: 20rpx;
@@ -1724,7 +1771,8 @@
 		justify-content: center;
 		opacity: 0.8;
 	}
-	.delete-invalid-goods{
+
+	.delete-invalid-goods {
 		width: 150rpx;
 		line-height: 150rpx;
 		border-radius: 75rpx;
@@ -1769,9 +1817,11 @@
 		font-size: 20rpx;
 		margin-top: 10rpx;
 	}
-	.purchaseLimitationNumber text{
+
+	.purchaseLimitationNumber text {
 		margin-left: 20rpx;
 	}
+
 	.offline_pay-online_pay-checkedNumber {
 		width: 100%;
 		display: flex;
@@ -1853,10 +1903,12 @@
 		-webkit-line-clamp: 1;
 		text-align: left;
 	}
-	.versions-name-item{
+
+	.versions-name-item {
 		margin-left: 10rpx;
 	}
-	.versions-name-item:first-child{
+
+	.versions-name-item:first-child {
 		margin-left: 0;
 	}
 
@@ -1865,14 +1917,15 @@
 		height: 40rpx;
 		margin-left: 10rpx;
 	}
+
 	.name-price-purchaseLimitationNumber-checkedNumber {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 	}
-	
-	.mantled{
+
+	.mantled {
 		position: fixed;
 		left: 0;
 		bottom: 0;
@@ -1881,42 +1934,50 @@
 		width: 100%;
 		border-radius: 24rpx;
 	}
-	.discounts-title{		
+
+	.discounts-title {
 		font-size: 40rpx;
 		font-weight: 700;
 		padding-top: 25rpx;
 		text-align: center;
 	}
-	.discounts-hint{
+
+	.discounts-hint {
 		color: #999999;
 		font-size: 20rpx;
 		margin-top: 15rpx;
 		margin-bottom: 35rpx;
 		text-align: center;
 	}
-	.card_list{
+
+	.card_list {
 		padding: 20rpx;
 	}
-	.card-title-all-card{
+
+	.card-title-all-card {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding-bottom: 20rpx;
 	}
-	.more-card{
+
+	.more-card {
 		color: #fa3475;
 		font-size: 24rpx;
 	}
-	.delete-discount{
+
+	.delete-discount {
 		position: absolute;
 		top: 25rpx;
 		right: 20rpx;
 	}
-	.delete-discount image{
+
+	.delete-discount image {
 		width: 32rpx;
 		height: 32rpx;
 	}
-	.settlement{
+
+	.settlement {
 		position: fixed;
 		left: 0;
 		bottom: 0;
@@ -1924,33 +1985,39 @@
 		z-index: 10;
 		width: 100%;
 	}
-	.settlement-info{
+
+	.settlement-info {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 20rpx 30rpx;
 		height: 100rpx;
 	}
-	.total-discount{
+
+	.total-discount {
 		flex: 1;
 		text-align: center;
 	}
-	.total-discount .total{
+
+	.total-discount .total {
 		font-size: 28rpx;
 		font-weight: 700rpx;
 	}
-	.total-discount .total text{
+
+	.total-discount .total text {
 		font-size: 36rpx;
 		margin-left: 10rpx;
 		color: #fa3475;
 	}
-	.use-discount{
+
+	.use-discount {
 		font-size: 24rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
-	.use-discount-detailed{
+
+	.use-discount-detailed {
 		display: inline-block;
 		margin-left: 10rpx;
 		font-size: 20rpx;
@@ -1960,7 +2027,8 @@
 		background-color: #999999;
 		color: #FFFFFF;
 	}
-	.goSettlement{
+
+	.goSettlement {
 		width: 180rpx;
 		line-height: 70rpx;
 		border-radius: 35rpx;
@@ -1970,7 +2038,7 @@
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
 
-	.set_goods_spec_content{
+	.set_goods_spec_content {
 		position: fixed;
 		z-index: 52;
 		background-color: #FFFFFF;
@@ -1978,22 +2046,24 @@
 		left: 0;
 		bottom: 0;
 	}
+
 	.isShow-content {
 		padding: 30rpx 20rpx;
 	}
+
 	.specs-title {
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #111111;
 		padding-top: 20rpx;
 	}
-	
+
 	.specs-hint {
 		color: #fa3475;
 		font-size: 22rpx;
 		margin-left: 20rpx;
 	}
-	
+
 	.specs {
 		padding: 30rpx 30rpx;
 		background: #FFFFFF;
@@ -2001,20 +2071,20 @@
 		border-radius: 24rpx;
 		color: #999999;
 	}
-	
+
 	.pay-txt {
 		padding-left: 30rpx;
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #111111;
 	}
-	
+
 	.specs-cont {
 		margin-left: -30rpx;
 		font-size: 24rpx;
 		color: #999999;
 	}
-	
+
 	.specs-cont-pay {
 		margin-left: -30rpx;
 		font-size: 24rpx;
@@ -2022,7 +2092,7 @@
 		align-items: center;
 		padding-top: 20rpx;
 	}
-	
+
 	.li {
 		display: inline-block;
 		line-height: 52rpx;
@@ -2032,34 +2102,38 @@
 		background: #f0f0f0;
 		margin: 20rpx 0 0 20rpx;
 	}
-	
+
 	.specs-cont-pay .li {
 		margin: 0 0 0 30rpx;
 	}
-	
+
 	.li-hover {
 		border: 2rpx solid #fa3475;
 		background: #ffe8f0;
 		color: #fa3475;
 	}
-	
+
 	.specs-cont .li-gray {
 		color: #111111;
 	}
-	.add-card-top{
+
+	.add-card-top {
 		display: flex;
 		align-items: center;
 	}
-	.left-head_img image{
+
+	.left-head_img image {
 		width: 240rpx;
 	}
-	.right-goods-info{
+
+	.right-goods-info {
 		display: flex;
 		flex-direction: column;
 		padding-left: 20rpx;
 		flex: 1;
 	}
-	.goods-discounts{
+
+	.goods-discounts {
 		width: 160rpx;
 		font-size: 24rpx;
 		color: #FFFFFF;
@@ -2068,24 +2142,28 @@
 		border-radius: 25rpx;
 		background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
 	}
-	.good-price{
+
+	.good-price {
 		display: flex;
 		margin-top: 30rpx;
 		align-items: center;
 	}
-	.market_price{
+
+	.market_price {
 		color: #FF0000;
 		font-size: 36rpx;
 		margin-right: 10rpx;
 		font-weight: bold;
 	}
-	.member_price{
+
+	.member_price {
 		font-size: 24rpx;
 		border: 1rpx solid #999999;
 		border-radius: 15rpx;
 		padding: 10rpx 10rpx 10rpx 0;
 	}
-	.member_title{
+
+	.member_title {
 		padding: 10rpx 10rpx;
 		background-color: #181818;
 		color: #FFFFFF;
@@ -2093,45 +2171,54 @@
 		border-bottom-left-radius: 15rpx;
 		margin-right: 10rpx;
 	}
-	.store-sku_no{
+
+	.store-sku_no {
 		font-size: 24rpx;
 		color: #999999;
 		margin-top: 20rpx;
 	}
-	.sku_no{
+
+	.sku_no {
 		margin-left: 10rpx;
 	}
-	.isShow .specs-cont-pay{
+
+	.isShow .specs-cont-pay {
 		padding: 30rpx 0 0;
 		color: #999999;
 	}
-	.isShow .specs-cont{
+
+	.isShow .specs-cont {
 		color: #999999;
 	}
-	.isShow .specs-cont-pay .pay-txt{
+
+	.isShow .specs-cont-pay .pay-txt {
 		color: #111111;
 		font-weight: bold;
 	}
-	.changeNumber{
+
+	.changeNumber {
 		display: flex;
 		padding: 20rpx 0;
 		align-items: center;
 		justify-content: space-between;
 	}
-	.changeNumber .pay-txt{
+
+	.changeNumber .pay-txt {
 		padding-left: 0;
 		padding-right: 40rpx;
 		font-weight: bold;
 	}
-	.number-hint{
+
+	.number-hint {
 		font-size: 24rpx;
-		color:  #fa3475;
+		color: #fa3475;
 	}
-	.number-hint text{
+
+	.number-hint text {
 		padding-right: 20rpx;
 	}
-	
-	.change-input{
+
+	.change-input {
 		font-size: 28rpx;
 		text-align: center;
 		height: 100%;
@@ -2139,48 +2226,57 @@
 		justify-content: center;
 		margin-right: 40rpx;
 	}
-	.number-input{
+
+	.number-input {
 		height: 84rpx;
 		width: 100rpx;
 		display: flex;
 		border-top: 1rpx solid #999999;
 		border-bottom: 1rpx solid #999999;
 	}
-	.number-input input{
+
+	.number-input input {
 		height: 100%;
-		border: 0;		
+		border: 0;
 	}
-	.reduce,.add-number{
+
+	.reduce,
+	.add-number {
 		width: 100rpx;
 		font-size: 56rpx;
 		color: #FFFFFF;
 		border: 1rpx solid #999999;
 	}
-	.keep-order{		
+
+	.keep-order {
 		width: 100%;
-		
+
 	}
-	.button{
+
+	.button {
 		margin-right: 40rpx;
 		padding: 30rpx;
 	}
-	.keep-order-button{
+
+	.keep-order-button {
 		border: none !important;
 		color: #FFFFFF !important;
 		border-radius: 50rpx;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
-	.delete-see-more-discount{
+
+	.delete-see-more-discount {
 		position: absolute;
 		top: 20rpx;
 		right: 20rpx;
 	}
-	.delete-see-more-discount image{
+
+	.delete-see-more-discount image {
 		width: 32rpx;
 		height: 32rpx;
 	}
-	
-	.this_show_discount{
+
+	.this_show_discount {
 		position: fixed;
 		width: 100%;
 		background-color: #FFFFFF;
@@ -2192,43 +2288,50 @@
 		left: 0;
 		bottom: 80rpx;
 	}
-	.show_discount_title{
+
+	.show_discount_title {
 		font-size: 32rpx;
 		font-weight: bold;
 		text-align: center;
 	}
-	.show_discount_content{
+
+	.show_discount_content {
 		font-size: 24rpx;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
 		flex-direction: column;
 	}
-	.discount_sale_info{
+
+	.discount_sale_info {
 		padding: 10rpx 150rpx 20rpx;
 	}
-	.dicount_price{
+
+	.dicount_price {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 20rpx 0;
 	}
-	.all_discount{
+
+	.all_discount {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 30rpx 0 20rpx;
 	}
-	.all_discount .sale_info_discount_price{
+
+	.all_discount .sale_info_discount_price {
 		color: #fa3475;
 	}
-	.discount-hint{
+
+	.discount-hint {
 		font-size: 20rpx;
 		color: #999999;
-	} 
-	.i_know{
+	}
+
+	.i_know {
 		margin-top: 20rpx;
 		margin-bottom: 40rpx;
 	}
-	
 </style>

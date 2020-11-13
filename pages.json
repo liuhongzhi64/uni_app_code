@@ -3,11 +3,7 @@
 
 		// 测试时的首页
 		
-		// 确认订单
-		{
-			"path": "pages/confirm_order/confirm_order", //确认订单
-			"style": {}
-		},
+		
 		
 		// 购物车
 		{
@@ -15,7 +11,11 @@
 			"style": {}
 		},
 		
-		
+		// 确认订单
+		{
+			"path": "pages/confirm_order/confirm_order", //确认订单
+			"style": {}
+		},
 		
 		// 商品
 		{

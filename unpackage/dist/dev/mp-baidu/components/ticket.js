@@ -155,7 +155,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
 //
 //
 //
@@ -537,7 +539,8 @@ var _default =
     cardsList: Array,
     marginTop: Number,
     time_now: Number,
-    can_use: Number },
+    can_use: Number,
+    card_checked: Boolean },
 
   data: function data() {
     return {
@@ -564,8 +567,25 @@ var _default =
       this.$emit('showTicket', that.order_card, can_use);
       // console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
     },
-    checkboxChange: function checkboxChange(index, id) {
-      this.$emit('checkboxChange', index, id);
+    checkboxChange: function checkboxChange(index, id, can_use) {
+      var that = this;
+      // this.$emit('checkboxChange',index,id)
+
+      if (can_use == 0) {
+        that.order_card[index].checked = !that.order_card[index].checked;
+        // console.log(that.order_card[index].checked)
+        if (that.order_card[index].checked) {
+          this.$emit('checkboxChange', that.order_card, id, index, 1);
+        } else {
+          this.$emit('checkboxChange', that.order_card, id, index, 0);
+        }
+      } else
+      {
+        uni.showToast({
+          title: "卡券不可使用" });
+
+      }
+      // console.log(index,id,that.order_card[index].checked,that.order_card[index+1].checked)
     },
     // 领取卡券
     getCard: function getCard(id, store, salecard_user_count, get_limit, index) {
@@ -601,6 +621,7 @@ var _default =
     deleteCard: function deleteCard(id) {
       this.$emit('deleteCard', id);
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

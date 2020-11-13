@@ -236,7 +236,7 @@
 								<view class="item-name">
 									<text> 卡券 </text>
 								</view>
-								<view class="card_list" >
+								<view class="card_list">
 									<view class="preferential-price on_card_list" v-if="can_use_card_length>0" @tap='is_show_card'>
 										<text>
 											{{ can_use_card_length }}张卡券可用 >
@@ -316,7 +316,7 @@
 			</scroll-view>
 		</view>
 		<!-- 用户联系方式 -->
-		<view class="user_info_content" v-if="show_set_user_info" :style="[{'top':height/2-90+'px'}]">
+		<view class="user_info_content" v-show="show_set_user_info" :style="[{'top':height/2-90+'px'}]">
 			<input class="user-name" type="text" placeholder-style="color:#999999" @input="set_user_name" :placeholder="contentList.user_info.real_name?contentList.user_info.real_name:'联系人'" />
 			<input class="phone-input" type="number" placeholder-style="color:#999999" @input="set_user_tel" :placeholder="contentList.user_info.tel?contentList.user_info.tel:'联系电话'"
 			 maxlength="11" />
@@ -326,44 +326,33 @@
 
 		</view>
 		<!-- 卡券 -->
-		
+
 		<scroll-view class="card-content" scroll-y="true" v-show="show_card" :style="[{'height':height/2+'px'}]">
 			<view class="card-content-title">优惠券</view>
 			<image class="delete-card" src="../../static/images/delete.png" mode="" @tap="is_show_card"></image>
 			<view class="content-all">
 				<view class="card_tab">
-					<view class="can_use" 
-					 :class="{change_use:btnnum == 0}"
-					 @tap="changeUse(0)"
-					  v-if="can_use_card_length>0">
+					<view class="can_use" :class="{change_use:btnnum == 0}" @tap="changeUse(0)" v-show="can_use_card_length>0">
 						<text>可使用卡券({{ can_use_card_length }})</text>
 						<view class="card_line end-cont" :class="{dis:btnnum == 0}"></view>
 					</view>
-					<view class="can_use" 
-					 :class="{change_use:btnnum == 1}"
-					 @tap="changeUse(1)"
-					 v-if="no_use_card_length>0">
-						<text >不可使用卡券({{ no_use_card_length }})</text>
+					<view class="can_use" :class="{change_use:btnnum == 1}" @tap="changeUse(1)" v-show="no_use_card_length>0">
+						<text>不可使用卡券({{ no_use_card_length }})</text>
 						<view class="card_line end-cont" :class="{dis:btnnum == 1}"></view>
 					</view>
 				</view>
-				<view class="can_use_card end-cont" :class="{dis:btnnum == 0}">
-					<ticket
-					 :order_card='can_use_card'
-					 :can_use='btnnum'
-					 @checkboxChange='checkboxChange'
+				<view class="can_use_card" v-show="btnnum == 0">
+					<ticket :order_card='can_use_card' :card_checked='card_checked' :can_use='btnnum' @checkboxChange='checkboxChange'
 					 @showTicket='showTicket'>
 					</ticket>
+
 				</view>
-				<view class="can_use_card end-cont" :class="{dis:btnnum == 1}">
-					<ticket
-					 :order_card='no_use_card'
-					 :can_use='btnnum'
-					 @checkboxChange='checkboxChange'
-					 @showTicket='showTicket'>
+				<view class="can_use_card" v-show="btnnum == 1">
+					<ticket :order_card='no_use_card' :can_use='btnnum' @checkboxChange='checkboxChange' @showTicket='showTicket'>
 					</ticket>
+
 				</view>
-				
+
 			</view>
 			<view class="keep_ticket">
 				<view class="ticket_btn" @tap='use_ticket'>
@@ -379,7 +368,7 @@
 	export default {
 		components: {
 			ticket
-		},		
+		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -433,19 +422,29 @@
 					},
 				],
 				requestUrl: '',
-				contentList: {}, //订单详情
+				contentList: {
+					user_info: {
+						real_name: '',
+						tel: ''
+					},
+					goods_list: [],
+					sale_info: []
+				}, //订单详情
 				is_post_list: [], //邮寄商品
 				scan_one_list: [], //收费室使用商品
 				scan_two_list: [], //会员中心使用商品
 				refundable_list: [], //不可线上退款的商品的skuid列表
 				can_use_card: [],
-				can_use_card_length:0,
+				can_use_card_length: 0,
 				no_use_card: [],
-				no_use_card_length:0,
+				no_use_card_length: 0,
 				show_set_user_info: false, //显示用户的联系方式
 				user_name: '',
 				user_tel: '',
-				show_card: true, //显示卡券
+				show_card: false, //显示卡券
+				this_card_id: '',
+				cards_list: [],
+				card_checked: true,
 			}
 		},
 		onShow: function() {
@@ -523,7 +522,7 @@
 			// 更改用户信息
 			keep_user_info: function() {
 				let that = this
-				console.log(that.user_name, that.user_tel)
+				// console.log(that.user_name, that.user_tel)
 				if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
 					that.show_set_user_info = !that.show_set_user_info
 				} else if (that.user_name && that.user_tel) {
@@ -607,8 +606,8 @@
 								console.log(that.refundable_list)
 							}
 						}
-						// console.log(data)
-						
+						console.log(data)
+
 						that.show_user_card(data.card_list)
 					} else {
 						console.log('没有数据')
@@ -616,12 +615,12 @@
 				})
 			},
 			// 显示卡券
-			is_show_card:function(){
+			is_show_card: function() {
 				let that = this
 				that.show_card = !that.show_card
 			},
 			show_user_card: function(card_list) {
-				let that = this	
+				let that = this
 				for (let key in card_list) {
 					if (key == 1) {
 						let list = []
@@ -641,14 +640,14 @@
 							let useTime = item.use_end_time
 							item.c_use_end_time = that.setTimer(useTime)
 							item.is_use = true
-							card_number += item.have
+							card_number += parseInt(item.have)
 							// 在此处应该让用户有的卡券有几张就循环建几张
-							for(let i=0;i<item.have;i++){
+							for (let i = 0; i < item.have; i++) {
 								list.push(item)
 							}
-						}						
-						that.can_use_card = list 
-						
+						}
+						that.can_use_card = list
+						// console.log(card_number)
 						that.can_use_card_length = card_number
 					} else {
 						let list = []
@@ -668,7 +667,7 @@
 							let useTime = item.use_end_time
 							item.c_use_end_time = that.setTimer(useTime)
 							item.is_use = false
-							card_number += item.have
+							card_number += parseInt(item.have)
 							list.push(item)
 						}
 						that.no_use_card = list
@@ -694,9 +693,9 @@
 				let that = this
 				that.btnnum = index
 			},
-			showTicket: function(order_card,can_use) {
-				let that = this	
-				if(can_use==0){
+			showTicket: function(order_card, can_use) {
+				let that = this
+				if (can_use == 0) {
 					that.can_use_card = order_card
 					// that.can_use_card[index].showTicketDetails = !that.can_use_card[index].showTicketDetails
 					// if (that.can_use_card[index].showTicketDetails) {
@@ -707,78 +706,155 @@
 					// 因数据改变后页面没有渲染，只有强制刷新一次页面
 					// this.$forceUpdate() 
 					return
-				}
-				else{
+				} else {
 					that.no_use_card = order_card
 				}
-				
+
 			},
-			checkboxChange:function(index){
+			checkboxChange: function(order_card, id, index, flag) {
 				let that = this
-				that.can_use_card[index].checked = !that.can_use_card[index].checked
-				if(that.can_use_card[index].checked){
-					let cards_list = []
-					let cart_id_list = []
-					// is_post_list: [], //邮寄商品
-					// scan_one_list: [], //收费室使用商品
-					// scan_two_list: [], //会员中心使用商品
-					if(that.is_post_list.length>0){
-						let list = {}
-						for(let i=0;i<that.is_post_list.length;i++){
-							list = {
-								sku_id:that.is_post_list[i].sku_id,
-								buy_type:that.is_post_list[i].buy_type,
-								is_post:that.is_post_list[i].is_post,
-								num:that.is_post_list[i].buy_num
+				let list = order_card
+				if (flag == 1) {
+					let obj = {}
+					if (that.this_card_id == id) {
+						for (let i = 0; i < that.cards_list.length; i++) {
+							if (that.cards_list[i].card_id == id) {
+								that.cards_list[i].num += 1
 							}
 						}
-						cart_id_list.push(list)
+					} else {
+						that.this_card_id = id
+						obj = {
+							card_id: id,
+							num: 1
+						}
+						that.cards_list.push(obj)
 					}
-					if(that.scan_one_list.length>0){
-						let list = {}
-						for(let i=0;i<that.scan_one_list.length;i++){
-							list = {
-								sku_id:that.scan_one_list[i].sku_id,
-								buy_type:that.scan_one_list[i].buy_type,
-								is_post:that.scan_one_list[i].is_post,
-								num:that.scan_one_list[i].buy_num
+					that.can_use_card = list
+					that.get_order_info(id, order_card, index)
+				} else { //取消时
+					for (let key in that.cards_list) {
+						if (that.cards_list[key].card_id == id) {
+							if (that.cards_list[key].num > 1) {
+								that.cards_list[key].num -= 1
+							} else {
+								that.cards_list.splice(key, 1)
+								that.this_card_id = ''
 							}
 						}
-						cart_id_list.push(list)
 					}
-					if(that.scan_two_list.length>0){
-						let list = {}
-						for(let i=0;i<that.scan_two_list.length;i++){
-							list = {
-								sku_id:that.scan_two_list[i].sku_id,
-								buy_type:that.scan_two_list[i].buy_type,
-								is_post:that.scan_two_list[i].is_post,
-								num:that.scan_two_list[i].buy_num
-							}
-						}
-						cart_id_list.push(list)
-					}
-					for(let i=0;i<that.can_use_card.length;i++){
-						if(that.can_use_card[i].checked){
-							cards_list.push(that.can_use_card[i].id)
-						}
-					}
-					let dataInfo = {
-						interfaceId:'superposition',
-						sku_list:cart_id_list,
-						cards_list:cards_list
-					}
-					console.log(cart_id_list)
-					// that.request.uniRequest("order", dataInfo).then(res => {
-					// 	if (res.data.code == 1000 && res.data.status == 'ok') {
-					// 		let data = res.data.data
-					// 		console.log(data)
-							
-					// 	}
-					// })
 				}
 			},
-			use_ticket:function(){
+			// 重新获取订单价格
+			get_order_info: function(id, order_card, index) {
+				let that = this
+				let sku_list = that.get_goods_info()
+				console.log(that.cards_list)
+				if (that.cards_list.length > 2) {
+					that.setArr(that.cards_list)
+				}
+				let dataInfo = {
+					interfaceId: 'superposition',
+					sku_list: sku_list,
+					cards_list: that.cards_list
+				}
+				that.request.uniRequest("order", dataInfo).then(res => {
+					let data = res.data.data
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						console.log(data)
+					} else {
+						let list = order_card
+						list[index].checked = false
+						that.can_use_card = list
+						for (let key in that.cards_list) {
+							if (that.cards_list[key].card_id == id) {
+								if (that.cards_list[key].num > 1) {
+									that.cards_list[key].num -= 1
+								} else {
+									that.cards_list.splice(key, 1)
+									that.this_card_id = ''
+								}
+							}
+						}
+					}
+
+				})
+			},
+			// 获取商品的id
+			get_goods_info: function() {
+				let that = this
+				let cart_id_list = []
+				// is_post_list: [], //邮寄商品
+				// scan_one_list: [], //收费室使用商品
+				// scan_two_list: [], //会员中心使用商品
+				if (that.is_post_list.length > 0) {
+					let list = {}
+					for (let i = 0; i < that.is_post_list.length; i++) {
+						list = {
+							sku_id: that.is_post_list[i].sku_id,
+							buy_type: that.is_post_list[i].buy_type,
+							is_post: that.is_post_list[i].is_post,
+							num: that.is_post_list[i].buy_num
+						}
+					}
+					cart_id_list.push(list)
+				}
+				if (that.scan_one_list.length > 0) {
+					let list = {}
+					for (let i = 0; i < that.scan_one_list.length; i++) {
+						list = {
+							sku_id: that.scan_one_list[i].sku_id,
+							buy_type: that.scan_one_list[i].buy_type,
+							is_post: that.scan_one_list[i].is_post,
+							num: that.scan_one_list[i].buy_num
+						}
+					}
+					cart_id_list.push(list)
+				}
+				if (that.scan_two_list.length > 0) {
+					let list = {}
+					for (let i = 0; i < that.scan_two_list.length; i++) {
+						list = {
+							sku_id: that.scan_two_list[i].sku_id,
+							buy_type: that.scan_two_list[i].buy_type,
+							is_post: that.scan_two_list[i].is_post,
+							num: that.scan_two_list[i].buy_num
+						}
+					}
+					cart_id_list.push(list)
+				}
+				return cart_id_list
+			},
+			// 数组去重
+			setArr: function(arr) {
+				let list = []
+				let str = ''
+				for (let i = 0; i < arr.length; i++) {
+					let hasRead = false;
+					for (let k = 0; k < list.length; k++) {
+						if (list[k] == arr[i]) {
+							hasRead = true;
+						}
+					}
+					if (!hasRead) {
+						let _index = i,
+							haveSame = false;
+						for (let j = i + 1; j < arr.length; j++) {
+							if (arr[i] == arr[j]) {
+								_index += "," + j;
+								haveSame = true;
+							}
+						}
+						if (haveSame) {
+							list.push(arr[i]);
+							str += "数组下标为" + _index + "，相同值为" + arr[i] + "\n";
+						}
+					}
+				}
+				console.log(str)
+				return str
+			},
+			use_ticket: function() {
 				let that = this
 				that.show_card = !that.show_card
 			},
@@ -1444,7 +1520,8 @@
 	.can_use_card {
 		padding: 20rpx;
 	}
-	.keep_ticket{
+
+	.keep_ticket {
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -1457,16 +1534,17 @@
 		width: 100%;
 		background-color: #FFFFFF;
 	}
-	.ticket_btn{
+
+	.ticket_btn {
 		width: 100%;
 		line-height: 80rpx;
 		padding: 0 20rpx;
 	}
-	.btn_keep{
+
+	.btn_keep {
 		width: 100%;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 		box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
 		border-radius: 40rpx;
 	}
-	
 </style>

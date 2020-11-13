@@ -585,6 +585,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar,
@@ -961,21 +962,21 @@ __webpack_require__.r(__webpack_exports__);
       var defaultUserSpec = isCancel == 1 ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
       // 遍历规格类型
       for (var i in specValue) {
-        for (var k in specValue[i].attr) {
+        for (var _k in specValue[i].attr) {
           // 第一次进入全部可选，0=可选，1=选中
           if (isFirst == 1) {
-            spec[i].attr[k] = 0;
+            spec[i].attr[_k] = 0;
             // 遍历默认选择规格
             for (var j in defaultUserSpec) {
-              if (k == defaultUserSpec[j]) {
-                spec[i].attr[k] = 1;
+              if (_k == defaultUserSpec[j]) {
+                spec[i].attr[_k] = 1;
               }
             }
           } else {
             // 用户可选规格与整个规格进行匹配，匹配成功状态改为可选状态
             for (var _j in userSpec) {
-              if (k == userSpec[_j]) {
-                spec[i].attr[k] = 0;
+              if (_k == userSpec[_j]) {
+                spec[i].attr[_k] = 0;
               }
             }
             // 判断当前选择项中是否有不存在用户可选规格，如有进行删除
@@ -986,8 +987,8 @@ __webpack_require__.r(__webpack_exports__);
             }
             // 显示当前选中规格
             for (var m in nowCheck) {
-              if (k == nowCheck[m]) {
-                spec[i].attr[k] = 1;
+              if (_k == nowCheck[m]) {
+                spec[i].attr[_k] = 1;
               }
             }
           }
@@ -1005,9 +1006,9 @@ __webpack_require__.r(__webpack_exports__);
       // 查找当前选择数据
       var nowCheck = [];
       for (var _i in that.spec) {
-        for (var k in that.spec[_i].attr) {
-          if (that.spec[_i].attr[k] == 1) {
-            nowCheck.push(k);
+        for (var _k2 in that.spec[_i].attr) {
+          if (that.spec[_i].attr[_k2] == 1) {
+            nowCheck.push(_k2);
           }
         }
       }
@@ -1015,7 +1016,7 @@ __webpack_require__.r(__webpack_exports__);
       var userSpec = uni.getStorageSync("goodsDetail").sku.user_spec;
       var specAttr = "";
       if (userSpec) {
-        for (var _k in userSpec) {
+        for (var _k3 in userSpec) {
           if (userSpec.indexOf(parseInt(sindex)) == -1) {
             specAttr = [sindex];
           } else {
@@ -1065,9 +1066,9 @@ __webpack_require__.r(__webpack_exports__);
       // 查找当前选择数据
       var nowCheck = [];
       for (var i in that.spec) {
-        for (var k in that.spec[i].attr) {
-          if (that.spec[i].attr[k] == 1) {
-            nowCheck.push(k);
+        for (var _k4 in that.spec[i].attr) {
+          if (that.spec[i].attr[_k4] == 1) {
+            nowCheck.push(_k4);
           }
         }
       }
@@ -1154,6 +1155,9 @@ __webpack_require__.r(__webpack_exports__);
     reduce: function reduce(index) {
       var that = this;
       that.goodsNuber += index;
+      if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
+        that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999;
+      }
       if (that.goodsNuber >= that.contentList.sku.max_buy_limit) {
         var number = parseInt(that.contentList.sku.max_buy_limit);
         that.goodsNuber = number;

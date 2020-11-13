@@ -420,7 +420,8 @@
 					<view class="pay-txt">数量</view>
 					<view class="number-hint">
 						<text> {{ contentList.sku.min_buy_limit }} 件起购</text>
-						<text>限购 {{ contentList.sku.max_buy_limit }} 件</text>
+						<text v-show="i.max_buy_limit>0&&i.max_buy_limit!=999999"> , 限购{{i.max_buy_limit}}件 </text>
+						<!-- <text>限购 {{ contentList.sku.max_buy_limit }} 件</text> -->
 					</view>
 					<view class="change-input">
 						<view class="reduce"
@@ -1022,6 +1023,9 @@
 			reduce:function(index){
 				let that = this
 				that.goodsNuber += index
+				if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
+					that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999
+				}
 				if(that.goodsNuber >= that.contentList.sku.max_buy_limit){
 					let number = parseInt(that.contentList.sku.max_buy_limit)
 					that.goodsNuber = number

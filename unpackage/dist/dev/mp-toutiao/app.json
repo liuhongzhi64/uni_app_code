@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/confirm_order/confirm_order",
     "pages/cart/cart",
+    "pages/confirm_order/confirm_order",
     "pages/goods/goods_classify",
     "pages/goods/goods_detail",
     "pages/goods/goods_list",

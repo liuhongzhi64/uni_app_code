@@ -305,12 +305,14 @@
 	
 		<!-- 确认订单卡券 -->
 		<view class="order-content" v-for="(item,index) in order_card" :key='index'>
-			<label class="can_use_card_list" @tap="checkboxChange(index,item.id)">
+			<label class="can_use_card_list" @tap="checkboxChange(index,item.id,can_use)">
 				<view class="left-card_content"
 				 :style="[{'background-image': item.is_use ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="card_note"> {{ item.note }} </view>
-					<view class="card_condition"> <text>￥</text> {{ item.condition }} </view>
-					<view class="card_min_affect"> {{ item.min_affect }} </view>
+					<view class="card_condition" v-if="item.card_type != 6&&item.card_type != 5" > <text>￥</text> {{ item.condition }} </view>
+					<view class="card_condition" v-else > {{ item.condition }} </view>
+					<view class="card_min_affect" v-if="item.card_type != 6&&item.card_type != 5"> 满{{ item.min_affect }}可用 </view>
+					<view class="card_min_affect" v-else> {{ item.min_affect }} </view>
 				</view>
 				<view class="right_card_content">
 					<view class="ticket-label-writer">
@@ -356,7 +358,7 @@
 					<view class="receive-times" v-else> 已结束 </view>
 				</view>
 				<view class="change_checkbox">
-					<checkbox color="#ff6699" :checked="item.checked" />
+					<checkbox color="#ff6699" :checked="item.checked" :disabled='can_use==1' />
 				</view>
 			</label>			
 			<view class="ticketDetails"  @tap='show_order_ticket(index,can_use)'>
@@ -380,7 +382,8 @@
 			cardsList: Array,
 			marginTop: Number,
 			time_now:Number,
-			can_use:Number
+			can_use:Number,
+			card_checked:Boolean
 		},
 		data() {
 			return {
@@ -407,8 +410,25 @@
 				this.$emit('showTicket',that.order_card,can_use)
 				// console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
 			},
-			checkboxChange:function(index,id){
-				this.$emit('checkboxChange',index,id)
+			checkboxChange:function(index,id,can_use){
+				let that = this
+				// this.$emit('checkboxChange',index,id)
+				
+				if(can_use==0){
+					that.order_card[index].checked = !that.order_card[index].checked
+					// console.log(that.order_card[index].checked)
+					if(that.order_card[index].checked){
+						this.$emit('checkboxChange',that.order_card,id,index,1)
+					}else{
+						this.$emit('checkboxChange',that.order_card,id,index,0)
+					}
+				}
+				else{
+					uni.showToast({
+						title: "卡券不可使用"
+					})
+				}
+				// console.log(index,id,that.order_card[index].checked,that.order_card[index+1].checked)
 			},
 			// 领取卡券
 			getCard:function(id,store,salecard_user_count,get_limit,index){

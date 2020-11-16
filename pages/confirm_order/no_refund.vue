@@ -7,43 +7,33 @@
 				<template>
 					<view class="porduct-list" v-for="(i,k) in porductList" :key='k'>
 						<view class="porduct-items">
-						
 							<view class="porduct-item-images">
-								<image :src="i.url" mode=""></image>
+								<image :src="requestUrl+i.head_img" mode=""></image>
 							</view>
-						
 							<view class="porduct-introduce">
-						
-								<view class="product-title"> {{i.title}} </view>
-						
-								<view class="label" v-if="i.label.length>0">
-									<view class="label-name" v-for="(i,k) in i.label" :key='k'> {{i}}  </view>
+								<view class="product-title"> {{i.goods_name}} </view>
+								<view class="label" v-if="i.label.list.length>0&&i.label.type==0">
+									<view class="label-name" v-for="(i,k) in i.label.list" :key='k'> {{i}}  </view>
 								</view>
-						
-								<view class="activity" v-if="i.activity.length>0">
-									<view class="activity-name" v-for="(i,k) in i.activity" :key='k'> {{i}} </view>
+								<view class="activity" v-if="i.label.list.length>0&&i.label.type==1">
+									<view class="activity-name" v-for="(i,k) in i.label.list" :key='k'> {{i}} </view>
 								</view>
-						
 								<view class="porduct-price">
-									<view class="porduct-original-cost"> <text>￥</text>{{i.originalCost}} </view>
-									<view class="porduct-vip-price" v-if="i.vipPrice>0">
-										<view class="vip">钻卡</view> <view class="vip-price">￥{{i.vipPrice}}</view>
+									<view class="porduct-original-cost"> <text>￥</text>{{i.sale_price}} </view>
+									<view class="porduct-vip-price" v-if="i.member.member_title">
+										<view class="vip"> {{ i.member.member_title }} </view> <view class="vip-price">￥{{i.member.price}}</view>
 									</view>
 								</view>
-								
 								<view class="subscribe-goodReputation">
 									<!-- 预约 -->
-									<view class="subscribe"> {{i.subscribe}}预约 </view>
+									<view class="subscribe"> {{ i.sales }}预约 </view>
 									<!-- 好评 -->
-									<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
+									<view class="goodReputation"> {{ i.rate }}%好评 </view>
 								</view>
-								
-								
-							</view>
-											
+							</view>			
 						</view>
-						
-						<view class="prompt-message"> 此商品购买后不支持线上退款 </view>
+						<view class="prompt-message" v-show='i.refundable==1'> 此商品购买后支持线上退款 </view>
+						<view class="prompt-message" v-show='i.refundable==0'> 此商品购买后不支持线上退款 </view>
 					</view>
 
 					
@@ -73,49 +63,32 @@
 				color:'#FFFFFF',
 				backImage:'/static/images/return.png',
 				title:'不可线上退款商品',
+				requestUrl:'',
 				porductList:[
 					{
-						url:'../../static/images/19.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:['眼部美容','眼部'],
-						activity:[],
-						originalCost:68800,
-						vipPrice:58800,
-						subscribe:477,
-						goodReputation:98,
-					},
-					{
-						url:'../../static/images/23.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:['眼部美容','眼部'],
-						activity:[],
-						originalCost:18800,
-						vipPrice:12800,
-						subscribe:422,
-						goodReputation:98,
-					},
-					{
-						url:'../../static/images/19.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:[],
-						activity:['首单必减','折扣'],
-						originalCost:18800,
-						vipPrice:0,
-						subscribe:477,
-						goodReputation:98,
-					},
-					{
-						url:'../../static/images/23.png',
-						title:'我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-						label:[],
-						activity:['首单必减','折扣'],
-						originalCost:18800,
-						vipPrice:12800,
-						subscribe:422,
-						goodReputation:98,
-					},
+						head_img:'',
+						goods_name:'商品名称',
+						label:{
+							type:0,
+							list:['类名1','类名2']
+						},
+						sale_price:0,
+						member: {
+							price:0,
+							member_title:''
+						},
+						sales:0,
+						rate:100,
+					}
 				]
 			}
+		},
+		onLoad: function(option) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			let  info = JSON.parse(option.info)
+			that.get_info(info)
 		},
 		onReady() {
 			let that = this;
@@ -154,7 +127,21 @@
 			}
 		},
 		methods: {
-
+			// 获取信息
+			get_info:function(info){
+				let that = this
+				let dataInfo = {
+					interfaceId:'skulist',
+					sku_id:info
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						// console.log(data)
+						that.porductList = data
+					}
+				})
+			}
 		}
 	}
 </script>

@@ -29,7 +29,7 @@
 						<view class="porduct-introduce">
 							<view class="porduct-introduce-top">
 								<view class="this-title">商品信息 </view>
-								<view class="hint-set-details" v-if="refundable_list.length>0">
+								<view class="hint-set-details" v-if="refundable_list.length>0" @tap="go_to_no_refund(0,refundable_list)">
 									<view class="hint">有商品属于不支持退款操作</view>
 									<view class="set-details"> 查看详情 > </view>
 								</view>
@@ -53,7 +53,7 @@
 													</view>
 												</scroll-view>
 											</view>
-											<view class="all-see">
+											<view class="all-see"  @tap="go_to_no_refund(0,scan_one_list)">
 												<view class="all-porduct"> 共计{{ scan_one_list.length }}件 </view>
 												<view class="see"> 查看 > </view>
 											</view>
@@ -64,7 +64,7 @@
 											<view class="line"></view>
 											<text> 收费室使用 </text>
 										</view>
-										<view class="goods_info" v-for="(item,k) in scan_one_list" :key='k'>
+										<view class="goods_info" v-for="(item,k) in scan_one_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
 											<image class="goods_img" :src="requestUrl+item.head_img" mode=""></image>
 											<view class="goods_detail">
 												<view class="goods_title">{{item.goods_name}}</view>
@@ -94,7 +94,7 @@
 													</view>
 												</scroll-view>
 											</view>
-											<view class="all-see">
+											<view class="all-see"  @tap="go_to_no_refund(0,scan_two_list)">
 												<view class="all-porduct"> 共计{{ scan_two_list.length }}件 </view>
 												<view class="see"> 查看 > </view>
 											</view>
@@ -105,7 +105,7 @@
 											<view class="line"></view>
 											<text> 会员中心使用 </text>
 										</view>
-										<view class="goods_info" v-for="(item,k) in scan_two_list" :key='k'>
+										<view class="goods_info" v-for="(item,k) in scan_two_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
 											<image class="goods_img" :src="requestUrl+item.head_img" mode=""></image>
 											<view class="goods_detail">
 												<view class="goods_title">{{item.goods_name}}</view>
@@ -135,7 +135,7 @@
 													</view>
 												</scroll-view>
 											</view>
-											<view class="all-see">
+											<view class="all-see"  @tap="go_to_no_refund(0,is_post_list)">
 												<view class="all-porduct"> 共计{{ is_post_list.length }}件 </view>
 												<view class="see"> 查看 > </view>
 											</view>
@@ -146,7 +146,7 @@
 											<view class="line"></view>
 											<text> 邮寄商品 </text>
 										</view>
-										<view class="goods_info" v-for="(item,k) in is_post_list" :key='k'>
+										<view class="goods_info" v-for="(item,k) in is_post_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
 											<image class="goods_img" :src="requestUrl+item.head_img" mode=""></image>
 											<view class="goods_detail">
 												<view class="goods_title">{{item.goods_name}}</view>
@@ -165,7 +165,7 @@
 								<!-- 只有单商品 -->
 								<view class="goods_list" v-else>
 									<view class="goods_list-item">
-										<view class="goods_item" v-for="(item,k) in contentList.goods_list" :key='k'>
+										<view class="goods_item" v-for="(item,k) in contentList.goods_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
 											<view class="goods_info_content">
 												<view class="related-title">
 													<view class="line"></view>
@@ -606,7 +606,7 @@
 								console.log(that.refundable_list)
 							}
 						}
-						console.log(data)
+						// console.log(data)
 
 						that.show_user_card(data.card_list)
 					} else {
@@ -877,6 +877,26 @@
 					}
 				}
 			},
+			// 不可线上退款商品或者订单详情商品
+			go_to_no_refund:function(type,info){
+				let that = this
+				// type 0表示数组类型 1表示单商品
+				let info_list = []
+				if(type==0){
+					let list = info
+					for(let key in list){
+						info_list.push(list[key].sku_id)
+					}
+				}else{
+					let sku_id = info
+					info_list.push(sku_id)
+				}
+				info_list = JSON.stringify(info_list)
+				console.log(info_list)
+				uni.navigateTo({
+					url: `/pages/confirm_order/no_refund?info=${info_list}`,
+				})
+			}
 		}
 	}
 </script>

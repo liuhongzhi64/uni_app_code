@@ -629,7 +629,7 @@ __webpack_require__.r(__webpack_exports__);
       encrypted_id: '', //加密商品skuid
       isShow: false, //显示对话框
       isShowDiscount: false, //显示优惠的更多
-      shouldChangeList: [], //可选规格版本
+      verification_specAttr: [], //验证选规格版本
       spec: [],
       cardsList: [],
       goodsCardsList: [],
@@ -666,13 +666,14 @@ __webpack_require__.r(__webpack_exports__);
       encrypted_id = 'VkRhZGllTGpHbFpWaENRVDdIWVk5QT09'; //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
       that.encrypted_id = encrypted_id;
     }
-
     that.getGoodsDetail(sku_id, encrypted_id);
     that.getRelevantGoods(encrypted_id);
     that.getRelated(encrypted_id);
     that.getLike();
     that.advertising();
     that.getCart();
+    // 清除本地的商品详情储存
+    uni.removeStorageSync('goodsDetail');
   },
   onReady: function onReady() {
     var that = this;
@@ -751,7 +752,6 @@ __webpack_require__.r(__webpack_exports__);
             that.minute = parseInt(that.contentList.sku.act.rest_time % 60);
           }
           that.cardsList = that.contentList.sku.card_list;
-          // console.log(that.cardsList,111111)
         } else {
           that.request.showToast(res.data.message);
         }
@@ -956,7 +956,7 @@ __webpack_require__.r(__webpack_exports__);
     // userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
     assembleSpec: function assembleSpec(userSpec, isFirst, nowCheck, isCancel) {
       var that = this;
-      // 新规格数组，与原规格spec_value相对应，用于标记各种状态
+      // 新规格数组，与原规格spec_value相对应，用于标记各种状态 console.log(uni.getStorageSync("goodsDetail").sku.user_spec)
       var specValue = uni.getStorageSync("goodsDetail").spec_value;
       var spec = uni.getStorageSync("goodsDetail").spec_value;
       var defaultUserSpec = isCancel == 1 ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
@@ -1012,20 +1012,26 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+
       // 判断当前点击规格是否在用户允许选择范围，在就直接提交，不在就提交当前规格
       var userSpec = uni.getStorageSync("goodsDetail").sku.user_spec;
+      // console.log(nowCheck,userSpec)
       var specAttr = "";
       if (userSpec) {
         for (var _k3 in userSpec) {
+          // console.log(userSpec)
           if (userSpec.indexOf(parseInt(sindex)) == -1) {
             specAttr = [sindex];
           } else {
             specAttr = nowCheck;
           }
         }
-      } else {
+      } else
+      {
         specAttr = nowCheck;
       }
+      that.verification_specAttr = specAttr; //用于验证是否是合理的规格选取
+      // console.log(specAttr)
       var dataInfo = {
         interfaceId: "selectsku",
         encrypted_id: that.encrypted_id,
@@ -1125,31 +1131,47 @@ __webpack_require__.r(__webpack_exports__);
         buy_type = that.pay_type;
       }
       if (index == 0) {//购物车
+        var specAttr = that.verification_specAttr;
         var dataInfo = {
-          interfaceId: 'addcart',
-          sku_id: that.contentList.sku.id,
-          num: that.goodsNuber,
-          max_limit: that.contentList.sku.max_buy_limit,
-          price: that.contentList.sku.sale_price,
-          is_post: that.class_type, //is_post 0 到院 1邮寄
-          buy_type: buy_type //支付类型
-          // f_unique_id:0, //订单分享人的id
-          // archives_id:1//订单渠道
-        };
-        that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
-          if (res.data.code == 1000 && res.data.status == 'ok') {
-            that.request.showToast('已加入购物车');
-          } else if (res.data.code == 2101) {
-            that.request.showToast('商品已下架');
-          }
-          that.getCart();
-          uni.removeStorageSync('contentList');
-        });
+          interfaceId: "selectsku",
+          encrypted_id: that.encrypted_id,
+          spec_attr: specAttr };
 
+        that.request.uniRequest("goods", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            var _dataInfo = {
+              interfaceId: 'addcart',
+              sku_id: that.contentList.sku.id,
+              num: that.goodsNuber,
+              max_limit: that.contentList.sku.max_buy_limit,
+              price: that.contentList.sku.sale_price,
+              is_post: that.class_type, //is_post 0 到院 1邮寄
+              buy_type: buy_type //支付类型
+              // f_unique_id:0, //订单分享人的id
+              // archives_id:1//订单渠道
+            };
+            that.request.uniRequest("shoppingCart", _dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                that.request.showToast('已加入购物车');
+              } else if (res.data.code == 2101) {
+                that.request.showToast('商品已下架');
+              }
+              that.getCart();
+              uni.removeStorageSync('contentList');
+              that.isShow = !that.isShow;
+            });
+          } else {
+            uni.showToast({
+              title: '请选择正确规格',
+              icon: 'none' });
+
+          }
+        });
       } else if (index == 1) {//立即购买
         console.log('立即购买');
+        that.isShow = !that.isShow;
       }
-      that.isShow = !that.isShow;
+
     },
     // 点击加减数字
     reduce: function reduce(index) {

@@ -178,16 +178,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar },
@@ -205,49 +195,32 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '/static/images/return.png',
       title: '不可线上退款商品',
+      requestUrl: '',
       porductList: [
       {
-        url: '../../static/images/19.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: ['眼部美容', '眼部'],
-        activity: [],
-        originalCost: 68800,
-        vipPrice: 58800,
-        subscribe: 477,
-        goodReputation: 98 },
+        head_img: '',
+        goods_name: '商品名称',
+        label: {
+          type: 0,
+          list: ['类名1', '类名2'] },
 
-      {
-        url: '../../static/images/23.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: ['眼部美容', '眼部'],
-        activity: [],
-        originalCost: 18800,
-        vipPrice: 12800,
-        subscribe: 422,
-        goodReputation: 98 },
+        sale_price: 0,
+        member: {
+          price: 0,
+          member_title: '' },
 
-      {
-        url: '../../static/images/19.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: [],
-        activity: ['首单必减', '折扣'],
-        originalCost: 18800,
-        vipPrice: 0,
-        subscribe: 477,
-        goodReputation: 98 },
-
-      {
-        url: '../../static/images/23.png',
-        title: '我是秒杀商品名称名称,我是秒杀商品名称我是秒杀商品,名称我是秒杀商品名称名称我是秒杀商品名称...',
-        label: [],
-        activity: ['首单必减', '折扣'],
-        originalCost: 18800,
-        vipPrice: 12800,
-        subscribe: 422,
-        goodReputation: 98 }] };
+        sales: 0,
+        rate: 100 }] };
 
 
 
+  },
+  onLoad: function onLoad(option) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    var info = JSON.parse(option.info);
+    that.get_info(info);
   },
   onReady: function onReady() {
     var that = this;
@@ -285,7 +258,22 @@ __webpack_require__.r(__webpack_exports__);
       that.menuBottom = 82;
     }
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    // 获取信息
+    get_info: function get_info(info) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'skulist',
+        sku_id: info };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // console.log(data)
+          that.porductList = data;
+        }
+      });
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

@@ -555,6 +555,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     goodsShow: goodsShow,
@@ -615,7 +627,8 @@ __webpack_require__.r(__webpack_exports__);
       order_info: {
         sale_info: [] },
       //订单的信息
-      show_discount: false //显示优惠的弹窗
+      show_discount: false, //显示优惠的弹窗
+      verification_specAttr: [] //验证选规格版本
     };
   },
   onReachBottom: function onReachBottom() {
@@ -995,30 +1008,51 @@ __webpack_require__.r(__webpack_exports__);
     // 点击确定修改规格
     orderSet: function orderSet() {
       var that = this;
-      var dataInfo = {
-        interfaceId: 'changcart',
-        type: 1,
-        cart_id: that.cart_id,
-        num: that.setNewGoodsNumber,
-        sku_id: that.sku_id,
-        is_post: that.class_type,
-        buy_type: that.pay_type };
+      var specAttr = that.verification_specAttr;
+      var dataInfos = {
+        interfaceId: "selectsku",
+        encrypted_id: that.encrypted_id,
+        spec_attr: specAttr };
 
-      that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+
+      that.request.uniRequest("goods", dataInfos).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          that.this_show_goods_spec = !that.this_show_goods_spec;
-          that.allchecked = false;
-          that.getUserCart();
-          that.order_info = {
-            sale_info: [] };
-          //订单的信息
+          var dataInfo = {
+            interfaceId: 'changcart',
+            type: 1,
+            cart_id: that.cart_id,
+            num: that.setNewGoodsNumber,
+            sku_id: that.sku_id,
+            is_post: that.class_type,
+            buy_type: that.pay_type };
+
+          that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+            if (res.data.code == 1000 && res.data.status == 'ok') {
+              that.this_show_goods_spec = !that.this_show_goods_spec;
+              that.allchecked = false;
+              that.getUserCart();
+              that.order_info = {
+                sale_info: [] };
+              //订单的信息
+            }
+          });
+        } else
+        {
+          uni.showToast({
+            title: '请选择正确规格',
+            icon: 'none' });
+
         }
       });
+
     },
     // 点击加减数字
     reduce: function reduce(index) {
       var that = this;
       that.setNewGoodsNumber += index;
+      if (that.goodsContentList.sku.max_buy_limit == 0) {
+        that.goodsContentList.sku.max_buy_limit = 999999;
+      }
       if (that.setNewGoodsNumber >= that.goodsContentList.sku.max_buy_limit) {
         var number = parseInt(that.goodsContentList.sku.max_buy_limit);
         that.setNewGoodsNumber = number;
@@ -1032,11 +1066,14 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       var value = event.detail.value;
       that.setNewGoodsNumber = value;
-      if (that.setNewGoodsNumber >= that.contentList.sku.max_buy_limit) {
-        var number = parseInt(that.contentList.sku.max_buy_limit);
+      if (that.goodsContentList.sku.max_buy_limit == 0) {
+        that.goodsContentList.sku.max_buy_limit = 999999;
+      }
+      if (that.setNewGoodsNumber >= that.goodsContentList.sku.max_buy_limi) {
+        var number = parseInt(that.goodsContentList.sku.max_buy_limi);
         that.setNewGoodsNumber = number;
-      } else if (that.setNewGoodsNumber < that.contentList.sku.min_buy_limit) {
-        var _number2 = parseInt(that.contentList.sku.min_buy_limit);
+      } else if (that.setNewGoodsNumber < that.goodsContentList.sku.min_buy_limit) {
+        var _number2 = parseInt(that.goodsContentList.sku.min_buy_limit);
         that.setNewGoodsNumber = _number2;
       }
     },
@@ -1152,6 +1189,7 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+
       // 判断当前点击规格是否在用户允许选择范围，在就直接提交，不在就提交当前规格
       var userSpec = uni.getStorageSync("goodsDetail").sku.user_spec;
       var specAttr = "";
@@ -1171,6 +1209,7 @@ __webpack_require__.r(__webpack_exports__);
         encrypted_id: that.encrypted_id,
         spec_attr: specAttr };
 
+      that.verification_specAttr = specAttr; //用于验证是否是合理的规格选取
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         // 重新储存新用户可以选项
         var goodsDetail = uni.getStorageSync("goodsDetail");

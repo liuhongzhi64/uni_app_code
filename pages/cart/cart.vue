@@ -139,7 +139,9 @@
 								</view>
 								<view class="show_goods_state" v-show="i.is_show_state" @tap='setgoodsState(k,is)'>
 									<view class="this_is_goods_state">
-										<view class="collection set_state" v-if="items.category_status==1" @tap='setState(0,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+										<view class="collection set_state"
+										 v-if="items.category_status==1" 
+										 @tap='setState(0,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
 											<text>移入</text> <text>收藏</text>
 										</view>
 										<view class="similar set_state" @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
@@ -150,7 +152,8 @@
 								</view>
 							</view>
 							<!-- 弹窗优惠或者卡券 -->
-							<scroll-view class="mantled" v-if="isShowDiscount" scroll-y="true" :style="[{'height':cardList.cards?height/2+'px':height/4+'px'}]">
+							<scroll-view class="mantled" v-if="isShowDiscount" scroll-y="true"
+							 :style="[{'height':cardList.cards?height/2+'px':height/4+'px'}]">
 								<view class="discounts-title"> 促销优惠 </view>
 								<view class="discounts-hint">*温馨提示:满减、折扣、卡券均可叠加使用</view>
 								<view class="special-offer" v-if="act_info">
@@ -250,7 +253,8 @@
 													<image src="../../static/images/subtract.png" mode=""></image>
 												</view>
 												<view class="input">
-													<input type="number" class="cart_num" :data-k='k' :data-is='is' v-model="i.cart_num" @input='setPorductNumber'
+													<input type="number" class="cart_num" :data-k='k'
+													 :data-is='is' v-model="i.cart_num" @input='setPorductNumber'
 													 maxlength="2" />
 												</view>
 												<view class="add">
@@ -262,9 +266,11 @@
 								</view>
 								<view class="show_goods_state" v-show="i.is_show_state" @tap='setgoodsState(k,is)'>
 									<view class="this_is_goods_state">
-										<view class="similar set_state" @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+										<view class="similar set_state"
+										 @tap='setState(1,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
 											看相似 </view>
-										<view class="delete set_state" @tap='setState(2,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
+										<view class="delete set_state"
+										 @tap='setState(2,i.cart_id,i.cart_num,items.category_id,items.category_title,i.encrypted_id)'>
 											删除 </view>
 									</view>
 								</view>
@@ -337,7 +343,8 @@
 							<!-- <text class="specs-hint" >请选择{{item.name}}</text> -->
 						</view>
 						<view class="specs-cont">
-							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
+							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
+							 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
 							 @tap="changeSpec(index,sindex)">
 								{{is}}
 							</view>
@@ -365,15 +372,20 @@
 				<view class="changeNumber">
 					<view class="pay-txt">数量</view>
 					<view class="number-hint">
-						<text> {{ goodsContentList.sku.min_buy_limit }} 件起购</text>
-						<text>限购 {{ goodsContentList.sku.max_buy_limit }} 件</text>
+						<text > {{ goodsContentList.sku.min_buy_limit }} 件起购</text>
+						<text 
+						 v-show="goodsContentList.sku.max_buy_limit>0&&goodsContentList.sku.max_buy_limit!=999999">
+							限购 {{ goodsContentList.sku.max_buy_limit }} 件
+						</text>
 					</view>
 					<view class="change-input">
-						<view class="reduce" @tap="reduce(-1)" :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
+						<view class="reduce" @tap="reduce(-1)"
+						 :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
 						<view class="number-input">
 							<input type="number" v-model="setNewGoodsNumber" value=1 @input='changeGoodsNumber' />
 						</view>
-						<view class="add-number" @tap="reduce(1)" :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
+						<view class="add-number" @tap="reduce(1)"
+						 :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
 					</view>
 				</view>
 				<view class="keep-order">
@@ -478,6 +490,7 @@
 					sale_info: []
 				}, //订单的信息
 				show_discount: false, //显示优惠的弹窗
+				verification_specAttr: [], //验证选规格版本
 			}
 		},
 		onReachBottom: function() {
@@ -857,30 +870,51 @@
 			// 点击确定修改规格
 			orderSet: function() {
 				let that = this
-				let dataInfo = {
-					interfaceId: 'changcart',
-					type: 1,
-					cart_id: that.cart_id,
-					num: that.setNewGoodsNumber,
-					sku_id: that.sku_id,
-					is_post: that.class_type,
-					buy_type: that.pay_type
+				let specAttr = that.verification_specAttr
+				let dataInfos = {
+					interfaceId: "selectsku",
+					encrypted_id: that.encrypted_id,
+					spec_attr: specAttr
 				}
-				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+				
+				that.request.uniRequest("goods", dataInfos).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						that.this_show_goods_spec = !that.this_show_goods_spec
-						that.allchecked = false
-						that.getUserCart()
-						that.order_info = {
-							sale_info: []
-						} //订单的信息
+						let dataInfo = {
+							interfaceId: 'changcart',
+							type: 1,
+							cart_id: that.cart_id,
+							num: that.setNewGoodsNumber,
+							sku_id: that.sku_id,
+							is_post: that.class_type,
+							buy_type: that.pay_type
+						}
+						that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+							if (res.data.code == 1000 && res.data.status == 'ok') {
+								that.this_show_goods_spec = !that.this_show_goods_spec
+								that.allchecked = false
+								that.getUserCart()
+								that.order_info = {
+									sale_info: []
+								} //订单的信息
+							}
+						})
+					}
+					else{
+						uni.showToast({
+							title:'请选择正确规格',
+							icon:'none'
+						})
 					}
 				})
+				
 			},
 			// 点击加减数字
 			reduce: function(index) {
 				let that = this
 				that.setNewGoodsNumber += index
+				if (that.goodsContentList.sku.max_buy_limit == 0) {
+					that.goodsContentList.sku.max_buy_limit = 999999
+				}
 				if (that.setNewGoodsNumber >= that.goodsContentList.sku.max_buy_limit) {
 					let number = parseInt(that.goodsContentList.sku.max_buy_limit)
 					that.setNewGoodsNumber = number
@@ -894,11 +928,14 @@
 				let that = this
 				let value = event.detail.value
 				that.setNewGoodsNumber = value
-				if (that.setNewGoodsNumber >= that.contentList.sku.max_buy_limit) {
-					let number = parseInt(that.contentList.sku.max_buy_limit)
+				if (that.goodsContentList.sku.max_buy_limit == 0) {
+					that.goodsContentList.sku.max_buy_limit = 999999
+				}
+				if (that.setNewGoodsNumber >= that.goodsContentList.sku.max_buy_limi) {
+					let number = parseInt(that.goodsContentList.sku.max_buy_limi)
 					that.setNewGoodsNumber = number
-				} else if (that.setNewGoodsNumber < that.contentList.sku.min_buy_limit) {
-					let number = parseInt(that.contentList.sku.min_buy_limit)
+				} else if (that.setNewGoodsNumber < that.goodsContentList.sku.min_buy_limit) {
+					let number = parseInt(that.goodsContentList.sku.min_buy_limit)
 					that.setNewGoodsNumber = number
 				}
 			},
@@ -1014,6 +1051,7 @@
 						}
 					}
 				}
+				
 				// 判断当前点击规格是否在用户允许选择范围，在就直接提交，不在就提交当前规格
 				let userSpec = uni.getStorageSync("goodsDetail").sku.user_spec;
 				let specAttr = "";
@@ -1033,6 +1071,7 @@
 					encrypted_id: that.encrypted_id,
 					spec_attr: specAttr
 				}
+				that.verification_specAttr = specAttr //用于验证是否是合理的规格选取
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					// 重新储存新用户可以选项
 					let goodsDetail = uni.getStorageSync("goodsDetail");

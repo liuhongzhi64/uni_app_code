@@ -128,7 +128,7 @@
 						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
 							<view class="specs-title">
 								{{item.name}}
-								<!-- <text class="specs-hint" >请选择{{item.name}}</text> -->
+								<text class="specs-hint" >请选择{{item.name}}</text>
 							</view>
 							<view class="specs-cont">
 								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
@@ -387,7 +387,7 @@
 					<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
 						<view class="specs-title">
 							{{item.name}}
-							<!-- <text class="specs-hint" >请选择{{item.name}}</text> -->
+							<text class="specs-hint" >请选择{{item.name}}</text>
 						</view>
 						<view class="specs-cont">
 							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
@@ -497,7 +497,7 @@
 				encrypted_id: '', //加密商品skuid
 				isShow: false, //显示对话框
 				isShowDiscount:false,//显示优惠的更多
-				shouldChangeList: [], //可选规格版本
+				verification_specAttr: [], //验证选规格版本
 				spec: [],
 				cardsList:[],
 				goodsCardsList:[],
@@ -534,13 +534,14 @@
 				encrypted_id = 'VkRhZGllTGpHbFpWaENRVDdIWVk5QT09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
 				that.encrypted_id = encrypted_id
 			}
-
 			that.getGoodsDetail(sku_id, encrypted_id)
 			that.getRelevantGoods(encrypted_id)
 			that.getRelated(encrypted_id)
 			that.getLike()
 			that.advertising()
 			that.getCart()
+			// 清除本地的商品详情储存
+			uni.removeStorageSync('goodsDetail');
 		},
 		onReady: function() {
 			let that = this;
@@ -619,7 +620,6 @@
 							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
 						}
 						that.cardsList = that.contentList.sku.card_list
-						// console.log(that.cardsList,111111)
 					} else {
 						that.request.showToast(res.data.message)
 					}
@@ -824,7 +824,7 @@
 			// userSpec=用户可选规格，isFirst=是否首次进入，nowCheck=当前选项，isCancel=是否点击取消进入
 			assembleSpec: function(userSpec, isFirst, nowCheck, isCancel) {
 				let that = this
-				// 新规格数组，与原规格spec_value相对应，用于标记各种状态
+				// 新规格数组，与原规格spec_value相对应，用于标记各种状态 console.log(uni.getStorageSync("goodsDetail").sku.user_spec)
 				let specValue = uni.getStorageSync("goodsDetail").spec_value;
 				let spec = uni.getStorageSync("goodsDetail").spec_value;
 				let defaultUserSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;				
@@ -880,20 +880,26 @@
 						}
 					}
 				}
+				
 				// 判断当前点击规格是否在用户允许选择范围，在就直接提交，不在就提交当前规格
 				let userSpec = uni.getStorageSync("goodsDetail").sku.user_spec;
+				// console.log(nowCheck,userSpec)
 				let specAttr = "";
 				if (userSpec) {
 					for (let k in userSpec) {
+						// console.log(userSpec)
 						if (userSpec.indexOf(parseInt(sindex)) == -1) {
 							specAttr = [sindex];
 						} else {
 							specAttr = nowCheck;
 						}
 					}
-				} else {
+				} 
+				else {
 					specAttr = nowCheck;
 				}
+				that.verification_specAttr = specAttr //用于验证是否是合理的规格选取
+				// console.log(specAttr)
 				let dataInfo = {
 					interfaceId: "selectsku",
 					encrypted_id: that.encrypted_id,
@@ -993,31 +999,47 @@
 					buy_type = that.pay_type
 				}
 				if(index==0){ //购物车
+					let specAttr = that.verification_specAttr
 					let dataInfo = {
-						interfaceId:'addcart',
-						sku_id:that.contentList.sku.id,
-						num:that.goodsNuber,
-						max_limit:that.contentList.sku.max_buy_limit,
-						price:that.contentList.sku.sale_price,
-						is_post: that.class_type,//is_post 0 到院 1邮寄
-						buy_type:buy_type ,//支付类型
-						// f_unique_id:0, //订单分享人的id
-						// archives_id:1//订单渠道
+						interfaceId: "selectsku",
+						encrypted_id: that.encrypted_id,
+						spec_attr: specAttr
 					}
-					that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
-							that.request.showToast('已加入购物车')
-						}else if(res.data.code == 2101){
-							that.request.showToast('商品已下架')
+							let dataInfo = {
+								interfaceId:'addcart',
+								sku_id:that.contentList.sku.id,
+								num:that.goodsNuber,
+								max_limit:that.contentList.sku.max_buy_limit,
+								price:that.contentList.sku.sale_price,
+								is_post: that.class_type,//is_post 0 到院 1邮寄
+								buy_type:buy_type ,//支付类型
+								// f_unique_id:0, //订单分享人的id
+								// archives_id:1//订单渠道
+							}
+							that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									that.request.showToast('已加入购物车')
+								}else if(res.data.code == 2101){
+									that.request.showToast('商品已下架')
+								}
+								that.getCart()
+								uni.removeStorageSync('contentList')
+								that.isShow = !that.isShow
+							})
+						}else{
+							uni.showToast({
+								title:'请选择正确规格',
+								icon:'none'
+							})
 						}
-						that.getCart()
-						uni.removeStorageSync('contentList')
 					})
-					
 				}else if(index==1){//立即购买
 					console.log('立即购买')
+					that.isShow = !that.isShow
 				}
-				that.isShow = !that.isShow
+				
 			},
 			// 点击加减数字
 			reduce:function(index){

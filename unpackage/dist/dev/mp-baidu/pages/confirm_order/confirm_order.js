@@ -738,7 +738,7 @@ __webpack_require__.r(__webpack_exports__);
               console.log(that.refundable_list);
             }
           }
-          console.log(data);
+          // console.log(data)
 
           that.show_user_card(data.card_list);
         } else {
@@ -1008,6 +1008,26 @@ __webpack_require__.r(__webpack_exports__);
           this.$set(item, 'checked', false);
         }
       }
+    },
+    // 不可线上退款商品或者订单详情商品
+    go_to_no_refund: function go_to_no_refund(type, info) {
+      var that = this;
+      // type 0表示数组类型 1表示单商品
+      var info_list = [];
+      if (type == 0) {
+        var list = info;
+        for (var key in list) {
+          info_list.push(list[key].sku_id);
+        }
+      } else {
+        var sku_id = info;
+        info_list.push(sku_id);
+      }
+      info_list = JSON.stringify(info_list);
+      console.log(info_list);
+      uni.navigateTo({
+        url: "/pages/confirm_order/no_refund?info=".concat(info_list) });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

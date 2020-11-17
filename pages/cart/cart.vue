@@ -127,10 +127,12 @@
 													<image src="../../static/images/subtract.png" mode=""></image>
 												</view>
 												<view class="input">
-													<input type="number" class="cart_num" :data-k='k' :data-is='is' :data-id='i.cart_id' v-model="i.cart_num"
+													<input type="number" class="cart_num"
+													 :data-k='k' :data-is='is' :data-take_store='i.take_store' :data-store='i.store'
+													 :data-id='i.cart_id' v-model="i.cart_num"
 													 @input='setPorductNumber' maxlength="2" />
 												</view>
-												<view class="add" @tap="setNumber(i.cart_id,1,k,is)">
+												<view class="add" @tap="setNumber(i.cart_id,1,k,is,i.store,i.take_store)">
 													<image src="../../static/images/add.png" mode=""></image>
 												</view>
 											</view>
@@ -152,7 +154,7 @@
 								</view>
 							</view>
 							<!-- 弹窗优惠或者卡券 -->
-							<scroll-view class="mantled" v-if="isShowDiscount" scroll-y="true"
+							<scroll-view class="mantled" v-show="isShowDiscount" scroll-y="true"
 							 :style="[{'height':cardList.cards?height/2+'px':height/4+'px'}]">
 								<view class="discounts-title"> 促销优惠 </view>
 								<view class="discounts-hint">*温馨提示:满减、折扣、卡券均可叠加使用</view>
@@ -399,7 +401,7 @@
 			</view>
 		</scroll-view>
 		<!-- 优惠明细 -->
-		<scroll-view scroll-y="true" v-if="show_discount" :style="[{'height':height/4+'px'}]">
+		<scroll-view scroll-y="true" v-show="show_discount" :style="[{'height':height/4+'px'}]">
 			<view class="this_show_discount">
 				<view class="show_discount_title">优惠明细</view>
 				<view class="show_discount_content">
@@ -785,10 +787,15 @@
 					for (let i = 0; i < sku_list.length; i++) {
 						if (sku_list[i].act_id) {
 							act_id = sku_list[i].act_id
-						}
-						cart_info = {
-							act_id: act_id,
-							cart_id_list: sku_list[i].cart_id_list
+							cart_info = {
+								act_id: act_id,
+								cart_id_list: sku_list[i].cart_id_list
+							}
+						}else{
+							cart_info = {
+								act_id: '',
+								cart_id_list: sku_list[i].cart_id_list
+							}
 						}
 						cart_id_list.push(cart_info)
 					}
@@ -797,10 +804,15 @@
 						if (sku_list[i].all_checked) { //分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
 							if (sku_list[i].act_id) {
 								act_id = sku_list[i].act_id
-							}
-							cart_info = {
-								act_id: act_id,
-								cart_id_list: sku_list[i].cart_id_list
+								cart_info = {
+									act_id: act_id,
+									cart_id_list: sku_list[i].cart_id_list
+								}
+							}else{
+								cart_info = {
+									act_id: '',
+									cart_id_list: sku_list[i].cart_id_list
+								}
 							}
 							cart_id_list.push(cart_info)
 						} else { //循环内部的商品是否选中
@@ -824,14 +836,15 @@
 						}
 					}
 				}
-				// console.log(cart_id_list)
-				uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
+				// console.log(cart_id_list,33333333)
+				// uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
 				// 清除本地存的购物车数据
 				// uni.removeStorageSync('contentList');
 				if (cart_id_list.length > 0) {
+					cart_id_list = JSON.stringify(cart_id_list)
 					// 确认订单
 					uni.navigateTo({
-						url: `/pages/confirm_order/confirm_order`,
+						url: `/pages/confirm_order/confirm_order?cart_id_list=${cart_id_list}`,
 					})
 				} else {
 					uni.showToast({
@@ -1333,7 +1346,6 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						for (let i = 0; i < that.contentList.sku_list.length; i++) {
 							for (let j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
-								console.log()
 								if (that.contentList.sku_list[i].goods_list[j].cart_id == cart_id) { //判定选择了的订单
 									if (that.contentList.sku_list[i].goods_list[j].checked) {
 										that.get_user_cart()
@@ -1351,7 +1363,7 @@
 				})
 			},
 			// 加减数量
-			setNumber: function(id, number, k, is) {
+			setNumber: function(id, number, k, is,store,take_store) {
 				let that = this
 				let goodsNumber = 0
 				let cart_num = that.contentList.sku_list[k].goods_list[is].cart_num
@@ -1363,10 +1375,23 @@
 				if (goodsNumber >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit)
 					goodsNumber = number
+					uni.showToast({
+						title: `限购${that.contentList.sku_list[k].goods_list[is].max_buy_limit}件`,
+						icon: 'none'
+					})
 				} else if (goodsNumber < that.contentList.sku_list[k].goods_list[is].min_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit)
 					goodsNumber = number
 				}
+				// 如果加减的数量加上销量小于库存就可以正常设置，如果大于就只能设置最大的数量加上销量等于库存量
+				if(goodsNumber+take_store>store){
+					goodsNumber = store - take_store
+					uni.showToast({
+						title: `库存量仅剩${store - take_store}`,
+						icon: 'none'
+					})
+				}
+				
 				that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
 				that.setNewGoodsNumber = goodsNumber
 				that.setGoodsNumber(id, goodsNumber)
@@ -1378,25 +1403,44 @@
 				let k = event.currentTarget.dataset.k
 				let is = event.currentTarget.dataset.is
 				let id = event.currentTarget.dataset.id
-				if (value == '') {
-					value = 1
-					that.contentList.sku_list[k].goods_list[is].cart_num = 1
-				} else {
-					that.contentList.sku_list[k].goods_list[is].cart_num = parseInt(value)
-				}
+				let take_store = event.currentTarget.dataset.take_store
+				let store = event.currentTarget.dataset.store
 				let goodsNumber = 0
-				let cart_num = that.contentList.sku_list[k].goods_list[is].cart_num
+				let cart_num = parseInt(value)
 				goodsNumber = cart_num
 				if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
 					that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999
 				}
+				// 输入数量加上销量小于库存就可以正常设置，如果大于就只能设置最大的数量加上销量等于库存量
+				let num = parseInt(goodsNumber)
+				take_store = parseInt(take_store)
+				if(num+take_store>store){
+					num = parseInt(store)- parseInt(take_store)
+					that.setNewGoodsNumber = num
+					that.contentList.sku_list[k].goods_list[is].cart_num = num
+					goodsNumber = num
+					uni.showToast({
+						title: `库存量仅剩${store - take_store}`,
+						icon: 'none'
+					})
+				}
 				if (goodsNumber >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit)
-					goodsNumber = number
+					goodsNumber = number					
+					uni.showToast({
+						title: `限购${that.contentList.sku_list[k].goods_list[is].max_buy_limit}件`,
+						icon: 'none'
+					})
 				} else if (goodsNumber < that.contentList.sku_list[k].goods_list[is].min_buy_limit) {
 					let number = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit)
 					goodsNumber = number
 				}
+				if (value == '') {
+					value = 1
+					that.contentList.sku_list[k].goods_list[is].cart_num = 1
+				} else {
+					that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
+				}				
 				that.setNewGoodsNumber = goodsNumber
 				that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber
 				that.setGoodsNumber(id, goodsNumber)

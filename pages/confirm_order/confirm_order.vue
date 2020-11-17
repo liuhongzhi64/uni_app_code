@@ -296,7 +296,7 @@
 						</view>
 						<!-- 底部立即支付 -->
 						<view class="footer-navigation-bars">
-							<view class="footer-hint">有商品于2020.06.26过期，请尽快到院核销使用</view>
+							<view class="footer-hint" v-show="expiration_time>0||expiration_time">有商品于{{ expiration_time }}过期，请尽快到院核销使用</view>
 							<view class="price-play">
 								<view class="price-item-content">
 									<view class="all-price">
@@ -326,7 +326,6 @@
 
 		</view>
 		<!-- 卡券 -->
-
 		<scroll-view class="card-content" scroll-y="true" v-show="show_card" :style="[{'height':height/2+'px'}]">
 			<view class="card-content-title">优惠券</view>
 			<image class="delete-card" src="../../static/images/delete.png" mode="" @tap="is_show_card"></image>
@@ -345,14 +344,13 @@
 					<ticket :order_card='can_use_card' :card_checked='card_checked' :can_use='btnnum' @checkboxChange='checkboxChange'
 					 @showTicket='showTicket'>
 					</ticket>
-
+					<!-- <ticket :cardsList='can_use_card'  @showTicket='showTicket' >
+					</ticket> -->
 				</view>
 				<view class="can_use_card" v-show="btnnum == 1">
 					<ticket :order_card='no_use_card' :can_use='btnnum' @checkboxChange='checkboxChange' @showTicket='showTicket'>
 					</ticket>
-
 				</view>
-
 			</view>
 			<view class="keep_ticket">
 				<view class="ticket_btn" @tap='use_ticket'>
@@ -445,6 +443,7 @@
 				this_card_id: '',
 				cards_list: [],
 				card_checked: true,
+				expiration_time:0//过期时间
 			}
 		},
 		onShow: function() {
@@ -458,7 +457,8 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			let cart_id_list = uni.getStorageSync("cart_id_list")
+			// let cart_id_list = uni.getStorageSync("cart_id_list")
+			let  cart_id_list = JSON.parse(option.cart_id_list)
 			// 获取订单的详情
 			that.get_order_detail(cart_id_list)
 		},
@@ -512,20 +512,27 @@
 			set_user_name: function(event) {
 				let that = this
 				let value = event.detail.value
-				that.user_name = value
+				if(value){
+					that.user_name = value
+				}else{
+					that.user_name = that.contentList.user_info.real_name
+				}
+				
 			},
 			set_user_tel: function(event) {
 				let that = this
 				let value = event.detail.value
-				that.user_tel = value
+				if(value){
+					that.user_tel = value
+				}else{
+					that.user_tel = that.contentList.user_info.tel
+				}
 			},
 			// 更改用户信息
 			keep_user_info: function() {
 				let that = this
-				// console.log(that.user_name, that.user_tel)
-				if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
-					that.show_set_user_info = !that.show_set_user_info
-				} else if (that.user_name && that.user_tel) {
+				// console.log(that.user_name, that.user_tel,11111111,that.contentList.user_info.tel,that.contentList.user_info.real_name)
+				if (that.user_name && that.user_tel) {
 					that.contentList.user_info.real_name = that.user_name
 					that.contentList.user_info.tel = that.user_tel
 					let dataInfo = {
@@ -538,6 +545,10 @@
 							let data = res.data.data
 							that.contentList.user_info = data
 							that.show_set_user_info = !that.show_set_user_info
+							uni.showToast({
+								title: '修改成功',
+								icon: 'none'
+							})
 						}
 					})
 				} else if (that.user_name) {
@@ -552,9 +563,21 @@
 							let data = res.data.data
 							that.contentList.user_info = data
 							that.show_set_user_info = !that.show_set_user_info
+							uni.showToast({
+								title: '修改成功',
+								icon: 'none'
+							})
 						}
 					})
-				} else {
+				} 
+				else if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
+					that.show_set_user_info = !that.show_set_user_info
+					uni.showToast({
+						title: '修改成功',
+						icon: 'none'
+					})
+				} 
+				else {
 					uni.showToast({
 						title: '请输入联系方式',
 						icon: 'none'
@@ -603,11 +626,17 @@
 							}
 							if (goods_list_arr[i].refundable == 0) { //是否允许退款，1：允许，0：不允许
 								that.refundable_list.push(goods_list_arr[i].sku_id)
-								console.log(that.refundable_list)
+								// console.log(that.refundable_list)
+							}
+							// 最近的过期时间
+							if(goods_list_arr[i].overdue_time){
+								if(goods_list_arr[i].overdue_time>that.expiration_time){
+									that.expiration_time = goods_list_arr[i].overdue_time
+								}
 							}
 						}
 						// console.log(data)
-
+						that.expiration_time = that.setTimer(that.expiration_time)
 						that.show_user_card(data.card_list)
 					} else {
 						console.log('没有数据')
@@ -675,6 +704,7 @@
 					}
 				}
 			},
+			// 转换时间格式
 			setTimer: function(date) {
 				date = new Date(date * 1000)
 				let month = date.getMonth() + 1
@@ -695,6 +725,7 @@
 			},
 			showTicket: function(order_card, can_use) {
 				let that = this
+				console.log(can_use,order_card)
 				if (can_use == 0) {
 					that.can_use_card = order_card
 					// that.can_use_card[index].showTicketDetails = !that.can_use_card[index].showTicketDetails
@@ -712,6 +743,7 @@
 
 			},
 			checkboxChange: function(order_card, id, index, flag) {
+				// console.log(flag)
 				let that = this
 				let list = order_card
 				if (flag == 1) {
@@ -749,7 +781,7 @@
 			get_order_info: function(id, order_card, index) {
 				let that = this
 				let sku_list = that.get_goods_info()
-				console.log(that.cards_list)
+				// console.log(that.cards_list)
 				if (that.cards_list.length > 2) {
 					that.setArr(that.cards_list)
 				}
@@ -763,9 +795,12 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						console.log(data)
 					} else {
+						console.log(22222)
 						let list = order_card
 						list[index].checked = false
 						that.can_use_card = list
+						console.log(that.can_use_card )
+						this.$forceUpdate() 
 						for (let key in that.cards_list) {
 							if (that.cards_list[key].card_id == id) {
 								if (that.cards_list[key].num > 1) {
@@ -892,7 +927,7 @@
 					info_list.push(sku_id)
 				}
 				info_list = JSON.stringify(info_list)
-				console.log(info_list)
+				// console.log(info_list)
 				uni.navigateTo({
 					url: `/pages/confirm_order/no_refund?info=${info_list}`,
 				})

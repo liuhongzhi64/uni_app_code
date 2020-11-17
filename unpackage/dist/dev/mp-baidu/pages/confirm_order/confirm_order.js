@@ -495,8 +495,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   components: {
     ticket: ticket },
@@ -576,8 +574,9 @@ __webpack_require__.r(__webpack_exports__);
       show_card: false, //显示卡券
       this_card_id: '',
       cards_list: [],
-      card_checked: true };
-
+      card_checked: true,
+      expiration_time: 0 //过期时间
+    };
   },
   onShow: function onShow() {
     var that = this;
@@ -590,7 +589,8 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    var cart_id_list = uni.getStorageSync("cart_id_list");
+    // let cart_id_list = uni.getStorageSync("cart_id_list")
+    var cart_id_list = JSON.parse(option.cart_id_list);
     // 获取订单的详情
     that.get_order_detail(cart_id_list);
   },
@@ -644,20 +644,27 @@ __webpack_require__.r(__webpack_exports__);
     set_user_name: function set_user_name(event) {
       var that = this;
       var value = event.detail.value;
-      that.user_name = value;
+      if (value) {
+        that.user_name = value;
+      } else {
+        that.user_name = that.contentList.user_info.real_name;
+      }
+
     },
     set_user_tel: function set_user_tel(event) {
       var that = this;
       var value = event.detail.value;
-      that.user_tel = value;
+      if (value) {
+        that.user_tel = value;
+      } else {
+        that.user_tel = that.contentList.user_info.tel;
+      }
     },
     // 更改用户信息
     keep_user_info: function keep_user_info() {
       var that = this;
-      // console.log(that.user_name, that.user_tel)
-      if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
-        that.show_set_user_info = !that.show_set_user_info;
-      } else if (that.user_name && that.user_tel) {
+      // console.log(that.user_name, that.user_tel,11111111,that.contentList.user_info.tel,that.contentList.user_info.real_name)
+      if (that.user_name && that.user_tel) {
         that.contentList.user_info.real_name = that.user_name;
         that.contentList.user_info.tel = that.user_tel;
         var dataInfo = {
@@ -670,6 +677,10 @@ __webpack_require__.r(__webpack_exports__);
             var data = res.data.data;
             that.contentList.user_info = data;
             that.show_set_user_info = !that.show_set_user_info;
+            uni.showToast({
+              title: '修改成功',
+              icon: 'none' });
+
           }
         });
       } else if (that.user_name) {
@@ -684,9 +695,21 @@ __webpack_require__.r(__webpack_exports__);
             var data = res.data.data;
             that.contentList.user_info = data;
             that.show_set_user_info = !that.show_set_user_info;
+            uni.showToast({
+              title: '修改成功',
+              icon: 'none' });
+
           }
         });
-      } else {
+      } else
+      if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
+        that.show_set_user_info = !that.show_set_user_info;
+        uni.showToast({
+          title: '修改成功',
+          icon: 'none' });
+
+      } else
+      {
         uni.showToast({
           title: '请输入联系方式',
           icon: 'none' });
@@ -735,11 +758,17 @@ __webpack_require__.r(__webpack_exports__);
             }
             if (goods_list_arr[i].refundable == 0) {//是否允许退款，1：允许，0：不允许
               that.refundable_list.push(goods_list_arr[i].sku_id);
-              console.log(that.refundable_list);
+              // console.log(that.refundable_list)
+            }
+            // 最近的过期时间
+            if (goods_list_arr[i].overdue_time) {
+              if (goods_list_arr[i].overdue_time > that.expiration_time) {
+                that.expiration_time = goods_list_arr[i].overdue_time;
+              }
             }
           }
           // console.log(data)
-
+          that.expiration_time = that.setTimer(that.expiration_time);
           that.show_user_card(data.card_list);
         } else {
           console.log('没有数据');
@@ -807,6 +836,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
+    // 转换时间格式
     setTimer: function setTimer(date) {
       date = new Date(date * 1000);
       var month = date.getMonth() + 1;
@@ -827,6 +857,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     showTicket: function showTicket(order_card, can_use) {
       var that = this;
+      console.log(can_use, order_card);
       if (can_use == 0) {
         that.can_use_card = order_card;
         // that.can_use_card[index].showTicketDetails = !that.can_use_card[index].showTicketDetails
@@ -844,6 +875,7 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     checkboxChange: function checkboxChange(order_card, id, index, flag) {
+      // console.log(flag)
       var that = this;
       var list = order_card;
       if (flag == 1) {
@@ -878,10 +910,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // 重新获取订单价格
-    get_order_info: function get_order_info(id, order_card, index) {
+    get_order_info: function get_order_info(id, order_card, index) {var _this = this;
       var that = this;
       var sku_list = that.get_goods_info();
-      console.log(that.cards_list);
+      // console.log(that.cards_list)
       if (that.cards_list.length > 2) {
         that.setArr(that.cards_list);
       }
@@ -895,9 +927,12 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           console.log(data);
         } else {
+          console.log(22222);
           var list = order_card;
           list[index].checked = false;
           that.can_use_card = list;
+          console.log(that.can_use_card);
+          _this.$forceUpdate();
           for (var key in that.cards_list) {
             if (that.cards_list[key].card_id == id) {
               if (that.cards_list[key].num > 1) {
@@ -1024,7 +1059,7 @@ __webpack_require__.r(__webpack_exports__);
         info_list.push(sku_id);
       }
       info_list = JSON.stringify(info_list);
-      console.log(info_list);
+      // console.log(info_list)
       uni.navigateTo({
         url: "/pages/confirm_order/no_refund?info=".concat(info_list) });
 

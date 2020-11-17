@@ -567,6 +567,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: {
     goodsShow: goodsShow,
@@ -923,11 +925,16 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < sku_list.length; i++) {
           if (sku_list[i].act_id) {
             act_id = sku_list[i].act_id;
-          }
-          cart_info = {
-            act_id: act_id,
-            cart_id_list: sku_list[i].cart_id_list };
+            cart_info = {
+              act_id: act_id,
+              cart_id_list: sku_list[i].cart_id_list };
 
+          } else {
+            cart_info = {
+              act_id: '',
+              cart_id_list: sku_list[i].cart_id_list };
+
+          }
           cart_id_list.push(cart_info);
         }
       } else {//如果是没有全选，就循环判定购物车的分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
@@ -935,11 +942,16 @@ __webpack_require__.r(__webpack_exports__);
           if (sku_list[_i7].all_checked) {//分类列表是否有全选的，有，先导入，没有再循环内部的商品是否选中
             if (sku_list[_i7].act_id) {
               act_id = sku_list[_i7].act_id;
-            }
-            cart_info = {
-              act_id: act_id,
-              cart_id_list: sku_list[_i7].cart_id_list };
+              cart_info = {
+                act_id: act_id,
+                cart_id_list: sku_list[_i7].cart_id_list };
 
+            } else {
+              cart_info = {
+                act_id: '',
+                cart_id_list: sku_list[_i7].cart_id_list };
+
+            }
             cart_id_list.push(cart_info);
           } else {//循环内部的商品是否选中
             var cart_list = [];
@@ -962,14 +974,15 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
-      // console.log(cart_id_list)
-      uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
+      // console.log(cart_id_list,33333333)
+      // uni.setStorageSync("cart_id_list", cart_id_list); //将数据存储，方便在确认订单时使用
       // 清除本地存的购物车数据
       // uni.removeStorageSync('contentList');
       if (cart_id_list.length > 0) {
+        cart_id_list = JSON.stringify(cart_id_list);
         // 确认订单
         uni.navigateTo({
-          url: "/pages/confirm_order/confirm_order" });
+          url: "/pages/confirm_order/confirm_order?cart_id_list=".concat(cart_id_list) });
 
       } else {
         uni.showToast({
@@ -1471,7 +1484,6 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           for (var i = 0; i < that.contentList.sku_list.length; i++) {
             for (var j = 0; j < that.contentList.sku_list[i].goods_list.length; j++) {
-              console.log();
               if (that.contentList.sku_list[i].goods_list[j].cart_id == cart_id) {//判定选择了的订单
                 if (that.contentList.sku_list[i].goods_list[j].checked) {
                   that.get_user_cart();
@@ -1489,7 +1501,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     // 加减数量
-    setNumber: function setNumber(id, number, k, is) {
+    setNumber: function setNumber(id, number, k, is, store, take_store) {
       var that = this;
       var goodsNumber = 0;
       var cart_num = that.contentList.sku_list[k].goods_list[is].cart_num;
@@ -1501,10 +1513,23 @@ __webpack_require__.r(__webpack_exports__);
       if (goodsNumber >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
         var _number3 = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit);
         goodsNumber = _number3;
+        uni.showToast({
+          title: "\u9650\u8D2D".concat(that.contentList.sku_list[k].goods_list[is].max_buy_limit, "\u4EF6"),
+          icon: 'none' });
+
       } else if (goodsNumber < that.contentList.sku_list[k].goods_list[is].min_buy_limit) {
         var _number4 = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit);
         goodsNumber = _number4;
       }
+      // 如果加减的数量加上销量小于库存就可以正常设置，如果大于就只能设置最大的数量加上销量等于库存量
+      if (goodsNumber + take_store > store) {
+        goodsNumber = store - take_store;
+        uni.showToast({
+          title: "\u5E93\u5B58\u91CF\u4EC5\u5269".concat(store - take_store),
+          icon: 'none' });
+
+      }
+
       that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber;
       that.setNewGoodsNumber = goodsNumber;
       that.setGoodsNumber(id, goodsNumber);
@@ -1516,24 +1541,43 @@ __webpack_require__.r(__webpack_exports__);
       var k = event.currentTarget.dataset.k;
       var is = event.currentTarget.dataset.is;
       var id = event.currentTarget.dataset.id;
-      if (value == '') {
-        value = 1;
-        that.contentList.sku_list[k].goods_list[is].cart_num = 1;
-      } else {
-        that.contentList.sku_list[k].goods_list[is].cart_num = parseInt(value);
-      }
+      var take_store = event.currentTarget.dataset.take_store;
+      var store = event.currentTarget.dataset.store;
       var goodsNumber = 0;
-      var cart_num = that.contentList.sku_list[k].goods_list[is].cart_num;
+      var cart_num = parseInt(value);
       goodsNumber = cart_num;
       if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
         that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999;
       }
+      // 输入数量加上销量小于库存就可以正常设置，如果大于就只能设置最大的数量加上销量等于库存量
+      var num = parseInt(goodsNumber);
+      take_store = parseInt(take_store);
+      if (num + take_store > store) {
+        num = parseInt(store) - parseInt(take_store);
+        that.setNewGoodsNumber = num;
+        that.contentList.sku_list[k].goods_list[is].cart_num = num;
+        goodsNumber = num;
+        uni.showToast({
+          title: "\u5E93\u5B58\u91CF\u4EC5\u5269".concat(store - take_store),
+          icon: 'none' });
+
+      }
       if (goodsNumber >= that.contentList.sku_list[k].goods_list[is].max_buy_limit) {
         var number = parseInt(that.contentList.sku_list[k].goods_list[is].max_buy_limit);
         goodsNumber = number;
+        uni.showToast({
+          title: "\u9650\u8D2D".concat(that.contentList.sku_list[k].goods_list[is].max_buy_limit, "\u4EF6"),
+          icon: 'none' });
+
       } else if (goodsNumber < that.contentList.sku_list[k].goods_list[is].min_buy_limit) {
         var _number5 = parseInt(that.contentList.sku_list[k].goods_list[is].min_buy_limit);
         goodsNumber = _number5;
+      }
+      if (value == '') {
+        value = 1;
+        that.contentList.sku_list[k].goods_list[is].cart_num = 1;
+      } else {
+        that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber;
       }
       that.setNewGoodsNumber = goodsNumber;
       that.contentList.sku_list[k].goods_list[is].cart_num = goodsNumber;

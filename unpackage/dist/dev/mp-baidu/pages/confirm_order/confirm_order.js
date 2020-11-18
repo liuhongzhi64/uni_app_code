@@ -495,6 +495,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
 {
   components: {
     ticket: ticket },
@@ -575,8 +584,9 @@ __webpack_require__.r(__webpack_exports__);
       this_card_id: '',
       cards_list: [],
       card_checked: true,
-      expiration_time: 0 //过期时间
-    };
+      expiration_time: 0, //过期时间
+      platform: '' };
+
   },
   onShow: function onShow() {
     var that = this;
@@ -610,6 +620,7 @@ __webpack_require__.r(__webpack_exports__);
         platform = 'applet';
         break;}
 
+    that.platform = platform;
     if (platform == 'applet') {
       // 获取屏幕高度
       uni.getSystemInfo({
@@ -804,11 +815,28 @@ __webpack_require__.r(__webpack_exports__);
             card_number += parseInt(item.have);
             // 在此处应该让用户有的卡券有几张就循环建几张
             for (var i = 0; i < item.have; i++) {
+              item.is_id = i;
               list.push(item);
             }
           }
+          var is_list = [];
+          var obj = {};
+          var arr = list;
+          for (var _i = 0; _i < list.length; _i++) {
+            // console.log(i)
+            var is_id = list[_i].id + _i;
+            is_list.push(is_id);
+          }
+          // for(let i=0;i<arr.length;i++){
+          // 	for(let key in arr[i]){
+          // 		console.log(arr[i][key])
+          // 		// if(arr[i][key]==arr[i][key]+1){
+          // 		// 	console.log(key)
+          // 		// }
+          // 	}
+          // }
           that.can_use_card = list;
-          // console.log(card_number)
+          // console.log(list)
           that.can_use_card_length = card_number;
         } else {
           var _list = [];
@@ -836,6 +864,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
+    // set_id:function(item,num){
+    // 	for(let i=0;i<num.length;i++){
+    // 		item.is_id = i
+    // 	}
+    // },
     // 转换时间格式
     setTimer: function setTimer(date) {
       date = new Date(date * 1000);
@@ -915,7 +948,7 @@ __webpack_require__.r(__webpack_exports__);
       var sku_list = that.get_goods_info();
       // console.log(that.cards_list)
       if (that.cards_list.length > 2) {
-        that.setArr(that.cards_list);
+        that.cards_list = that.setArr(that.cards_list);
       }
       var dataInfo = {
         interfaceId: 'superposition',
@@ -925,13 +958,13 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("order", dataInfo).then(function (res) {
         var data = res.data.data;
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          console.log(data);
+          // console.log(data)
         } else {
-          console.log(22222);
+          // console.log(22222)
           var list = order_card;
           list[index].checked = false;
           that.can_use_card = list;
-          console.log(that.can_use_card);
+          // console.log(that.can_use_card )
           _this.$forceUpdate();
           for (var key in that.cards_list) {
             if (that.cards_list[key].card_id == id) {
@@ -968,24 +1001,24 @@ __webpack_require__.r(__webpack_exports__);
       }
       if (that.scan_one_list.length > 0) {
         var _list2 = {};
-        for (var _i = 0; _i < that.scan_one_list.length; _i++) {
+        for (var _i2 = 0; _i2 < that.scan_one_list.length; _i2++) {
           _list2 = {
-            sku_id: that.scan_one_list[_i].sku_id,
-            buy_type: that.scan_one_list[_i].buy_type,
-            is_post: that.scan_one_list[_i].is_post,
-            num: that.scan_one_list[_i].buy_num };
+            sku_id: that.scan_one_list[_i2].sku_id,
+            buy_type: that.scan_one_list[_i2].buy_type,
+            is_post: that.scan_one_list[_i2].is_post,
+            num: that.scan_one_list[_i2].buy_num };
 
         }
         cart_id_list.push(_list2);
       }
       if (that.scan_two_list.length > 0) {
         var _list3 = {};
-        for (var _i2 = 0; _i2 < that.scan_two_list.length; _i2++) {
+        for (var _i3 = 0; _i3 < that.scan_two_list.length; _i3++) {
           _list3 = {
-            sku_id: that.scan_two_list[_i2].sku_id,
-            buy_type: that.scan_two_list[_i2].buy_type,
-            is_post: that.scan_two_list[_i2].is_post,
-            num: that.scan_two_list[_i2].buy_num };
+            sku_id: that.scan_two_list[_i3].sku_id,
+            buy_type: that.scan_two_list[_i3].buy_type,
+            is_post: that.scan_two_list[_i3].is_post,
+            num: that.scan_two_list[_i3].buy_num };
 
         }
         cart_id_list.push(_list3);
@@ -995,35 +1028,72 @@ __webpack_require__.r(__webpack_exports__);
     // 数组去重
     setArr: function setArr(arr) {
       var list = [];
-      var str = '';
+      var flag = false;
+      // console.log(arr)
       for (var i = 0; i < arr.length; i++) {
         var hasRead = false;
         for (var k = 0; k < list.length; k++) {
-          if (list[k] == arr[i]) {
+          if (JSON.stringify(list[k]) == JSON.stringify(arr[i])) {
             hasRead = true;
           }
         }
         if (!hasRead) {
-          var _index = i,
-          haveSame = false;
+          var index = i;
+          var haveSame = false;
           for (var j = i + 1; j < arr.length; j++) {
-            if (arr[i] == arr[j]) {
-              _index += "," + j;
+            if (j == parseInt(i) + parseInt(1)) {
+              index++;
+            }
+            if (JSON.stringify(arr[i]) == JSON.stringify(arr[j])) {
+              index = parseInt(j);
               haveSame = true;
             }
           }
           if (haveSame) {
             list.push(arr[i]);
-            str += "数组下标为" + _index + "，相同值为" + arr[i] + "\n";
+            // console.log(index)
+            arr.splice(index, 1);
+            arr[i].num += 1;
+            flag = true;
           }
         }
       }
-      console.log(str);
-      return str;
+      // flag为true表示有相同的 false为不同
+
+      // 去重后的数组
+      return arr;
     },
+    // 确定使用卡券
     use_ticket: function use_ticket() {
       var that = this;
-      that.show_card = !that.show_card;
+      // console.log(that.cards_list)
+      if (that.cards_list.length > 0) {
+        var sku_list = that.get_goods_info();
+        var dataInfo = {
+          interfaceId: 'superposition',
+          sku_list: sku_list,
+          cards_list: that.cards_list };
+
+        that.request.uniRequest("order", dataInfo).then(function (res) {
+          var data = res.data.data;
+          console.log(data);
+          that.contentList.sale_price = data.sale_price;
+          that.contentList.card_discount = data.card_discount;
+          that.contentList.hd_discount = data.hd_discount;
+          that.contentList.off_sale = data.off_sale;
+          that.contentList.offline_pay = data.offline_pay;
+          that.contentList.online_pay = data.online_pay;
+          that.show_card = !that.show_card;
+        });
+      } else {
+        uni.showToast({
+          title: '没有选择卡券哦',
+          icon: 'none' });
+
+        that.show_card = !that.show_card;
+      }
+
+
     },
     // 选择抵用
     switchChange: function switchChange(e) {

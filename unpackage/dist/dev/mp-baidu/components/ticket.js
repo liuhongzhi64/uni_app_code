@@ -531,6 +531,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var _default =
 {
   props: {
@@ -540,13 +543,15 @@ var _default =
     marginTop: Number,
     time_now: Number,
     can_use: Number,
-    card_checked: Boolean },
+    card_checked: Boolean,
+    platform: String },
 
   data: function data() {
     return {
       show: false };
 
   },
+
   methods: {
     // 显示卡券详情
     showDetails: function showDetails(number) {
@@ -567,25 +572,54 @@ var _default =
       this.$emit('showTicket', that.order_card, can_use);
       // console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
     },
-    checkboxChange: function checkboxChange(index, id, can_use) {
+    checkboxChange: function checkboxChange(index, id, can_use, platform) {
       var that = this;
-      // this.$emit('checkboxChange',index,id)
+      // console.log(platform)
+      if (platform == 'applet') {
+        if (can_use == 0) {
+          that.order_card[index].checked = !that.order_card[index].checked;
+          // console.log(that.order_card[index].checked,that.order_card[index+1].checked)
+          if (that.order_card[index].checked) {
+            this.$emit('checkboxChange', that.order_card, id, index, 1);
+          } else {
+            this.$emit('checkboxChange', that.order_card, id, index, 0);
+          }
+        } else
+        {
+          uni.showToast({
+            title: "卡券不可使用",
+            icon: 'none' });
 
-      if (can_use == 0) {
-        that.order_card[index].checked = !that.order_card[index].checked;
-        // console.log(that.order_card[index].checked)
-        if (that.order_card[index].checked) {
-          this.$emit('checkboxChange', that.order_card, id, index, 1);
-        } else {
-          this.$emit('checkboxChange', that.order_card, id, index, 0);
         }
-      } else
-      {
-        uni.showToast({
-          title: "卡券不可使用" });
+      } else {
+        if (can_use == 0) {
+          // 目前App端选择卡券出现未判定的现象，选择index的值，会造成下一个相同id的值产生通化，也就是改变一个的值，另一个相同id的值也随之改变，而且做得判定不生效
+          // that.order_card[index].checked = !that.order_card[index].checked
+          // console.log(that.order_card[index].checked,that.order_card[index+1].checked)
+          for (var key in that.order_card) {
+            if (key == index && id == that.order_card[key].id) {
+              that.order_card[key].checked = !that.order_card[key].checked;
+              console.log(index, key);
+              // console.log(that.order_card[index].checked,that.order_card[index+1].checked)
+              // let obj = that.order_card[key]
+              // this.$set(that.order_card,index,obj)
+              if (that.order_card[index].checked) {
+                this.$emit('checkboxChange', that.order_card, id, index, 1);
+              } else {
+                this.$emit('checkboxChange', that.order_card, id, index, 0);
+              }
+              return;
+            }
+          }
+        } else
+        {
+          uni.showToast({
+            title: "卡券不可使用",
+            icon: 'none' });
 
+        }
       }
-      // console.log(index,id,that.order_card[index].checked,that.order_card[index+1].checked)
+
     },
     // 领取卡券
     getCard: function getCard(id, store, salecard_user_count, get_limit, index) {
@@ -620,6 +654,10 @@ var _default =
     // 删除卡券
     deleteCard: function deleteCard(id) {
       this.$emit('deleteCard', id);
+    },
+
+    show_order_applet: function show_order_applet(index, id) {
+      var that = this;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

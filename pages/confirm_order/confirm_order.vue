@@ -236,12 +236,21 @@
 								<view class="item-name">
 									<text> 卡券 </text>
 								</view>
+								
 								<view class="card_list">
-									<view class="preferential-price on_card_list" v-if="can_use_card_length>0" @tap='is_show_card'>
+									<view class="preferential-price on_card_list"
+									 v-if="contentList.card_discount>0" @tap='is_show_card'>
+										<text>
+											-￥ {{ contentList.card_discount }} >
+										</text>
+									</view>
+									<view class="preferential-price on_card_list"
+									 v-else-if="can_use_card_length>0" @tap='is_show_card'>
 										<text>
 											{{ can_use_card_length }}张卡券可用 >
 										</text>
 									</view>
+									
 									<view class="on_card_list" v-else> 暂无可使用卡券 > </view>
 								</view>
 							</view>
@@ -341,14 +350,14 @@
 					</view>
 				</view>
 				<view class="can_use_card" v-show="btnnum == 0">
-					<ticket :order_card='can_use_card' :card_checked='card_checked' :can_use='btnnum' @checkboxChange='checkboxChange'
+					<!-- v-if="platform=='applet'"  -->
+					<ticket :order_card='can_use_card'   :platform='platform'
+					 :card_checked='card_checked' :can_use='btnnum' @checkboxChange='checkboxChange'
 					 @showTicket='showTicket'>
 					</ticket>
-					<!-- <ticket :cardsList='can_use_card'  @showTicket='showTicket' >
-					</ticket> -->
 				</view>
 				<view class="can_use_card" v-show="btnnum == 1">
-					<ticket :order_card='no_use_card' :can_use='btnnum' @checkboxChange='checkboxChange' @showTicket='showTicket'>
+					<ticket :order_card='no_use_card' :can_use='btnnum' @checkboxChange='checkboxChange' @showTicket='showTicket' :platform='platform'>
 					</ticket>
 				</view>
 			</view>
@@ -443,7 +452,8 @@
 				this_card_id: '',
 				cards_list: [],
 				card_checked: true,
-				expiration_time:0//过期时间
+				expiration_time:0,//过期时间
+				platform:''
 			}
 		},
 		onShow: function() {
@@ -478,6 +488,7 @@
 					platform = 'applet'
 					break;
 			}
+			that.platform = platform
 			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
@@ -672,11 +683,28 @@
 							card_number += parseInt(item.have)
 							// 在此处应该让用户有的卡券有几张就循环建几张
 							for (let i = 0; i < item.have; i++) {
+								item.is_id = i
 								list.push(item)
 							}
 						}
+						let is_list = []
+						let obj = {}
+						let arr = list
+						for(let i=0;i<list.length;i++){
+							// console.log(i)
+							let is_id = list[i].id+i
+							is_list.push(is_id)
+						}
+						// for(let i=0;i<arr.length;i++){
+						// 	for(let key in arr[i]){
+						// 		console.log(arr[i][key])
+						// 		// if(arr[i][key]==arr[i][key]+1){
+						// 		// 	console.log(key)
+						// 		// }
+						// 	}
+						// }
 						that.can_use_card = list
-						// console.log(card_number)
+						// console.log(list)
 						that.can_use_card_length = card_number
 					} else {
 						let list = []
@@ -704,6 +732,11 @@
 					}
 				}
 			},
+			// set_id:function(item,num){
+			// 	for(let i=0;i<num.length;i++){
+			// 		item.is_id = i
+			// 	}
+			// },
 			// 转换时间格式
 			setTimer: function(date) {
 				date = new Date(date * 1000)
@@ -783,7 +816,7 @@
 				let sku_list = that.get_goods_info()
 				// console.log(that.cards_list)
 				if (that.cards_list.length > 2) {
-					that.setArr(that.cards_list)
+					that.cards_list = that.setArr(that.cards_list)
 				}
 				let dataInfo = {
 					interfaceId: 'superposition',
@@ -793,13 +826,13 @@
 				that.request.uniRequest("order", dataInfo).then(res => {
 					let data = res.data.data
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						console.log(data)
+						// console.log(data)
 					} else {
-						console.log(22222)
+						// console.log(22222)
 						let list = order_card
 						list[index].checked = false
 						that.can_use_card = list
-						console.log(that.can_use_card )
+						// console.log(that.can_use_card )
 						this.$forceUpdate() 
 						for (let key in that.cards_list) {
 							if (that.cards_list[key].card_id == id) {
@@ -863,35 +896,72 @@
 			// 数组去重
 			setArr: function(arr) {
 				let list = []
-				let str = ''
-				for (let i = 0; i < arr.length; i++) {
-					let hasRead = false;
-					for (let k = 0; k < list.length; k++) {
-						if (list[k] == arr[i]) {
-							hasRead = true;
+				let flag = false
+				// console.log(arr)
+				for(let i=0;i<arr.length;i++){
+					let hasRead = false
+					for(let k=0;k<list.length;k++){
+						if(JSON.stringify(list[k]) == JSON.stringify(arr[i])){
+							hasRead = true
 						}
 					}
-					if (!hasRead) {
-						let _index = i,
-							haveSame = false;
-						for (let j = i + 1; j < arr.length; j++) {
-							if (arr[i] == arr[j]) {
-								_index += "," + j;
-								haveSame = true;
+					if(!hasRead){
+						let index = i
+						let haveSame = false
+						for(let j=i+1;j<arr.length;j++){
+							if(j==parseInt(i)+parseInt(1)){
+								index++
+							}
+							if(JSON.stringify(arr[i]) == JSON.stringify(arr[j])){
+								index =  parseInt(j)
+								haveSame = true
 							}
 						}
-						if (haveSame) {
-							list.push(arr[i]);
-							str += "数组下标为" + _index + "，相同值为" + arr[i] + "\n";
+						if(haveSame){
+							list.push(arr[i])
+							// console.log(index)
+							arr.splice(index,1)
+							arr[i].num+=1
+							flag = true
 						}
 					}
 				}
-				console.log(str)
-				return str
+				// flag为true表示有相同的 false为不同
+				
+				// 去重后的数组
+				return arr 
 			},
+			// 确定使用卡券
 			use_ticket: function() {
 				let that = this
-				that.show_card = !that.show_card
+				// console.log(that.cards_list)
+				if(that.cards_list.length>0){
+					let sku_list = that.get_goods_info()
+					let dataInfo = {
+						interfaceId: 'superposition',
+						sku_list: sku_list,
+						cards_list: that.cards_list
+					}
+					that.request.uniRequest("order", dataInfo).then(res => {
+						let data = res.data.data
+						console.log(data)
+						that.contentList.sale_price = data.sale_price
+						that.contentList.card_discount = data.card_discount
+						that.contentList.hd_discount = data.hd_discount
+						that.contentList.off_sale = data.off_sale
+						that.contentList.offline_pay = data.offline_pay
+						that.contentList.online_pay = data.online_pay
+						that.show_card = !that.show_card
+					})
+				}else{
+					uni.showToast({
+						title:'没有选择卡券哦',
+						icon:'none'
+					})
+					that.show_card = !that.show_card
+				}
+				
+				
 			},
 			// 选择抵用
 			switchChange: function(e) {
@@ -931,8 +1001,11 @@
 				uni.navigateTo({
 					url: `/pages/confirm_order/no_refund?info=${info_list}`,
 				})
-			}
-		}
+			},
+			
+			
+		},
+		
 	}
 </script>
 
@@ -1602,4 +1675,6 @@
 		box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
 		border-radius: 40rpx;
 	}
+	
+	
 </style>

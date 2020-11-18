@@ -305,7 +305,7 @@
 	
 		<!-- 确认订单卡券 -->
 		<view class="order-content" v-for="(item,index) in order_card" :key='index'>
-			<label class="can_use_card_list" @tap="checkboxChange(index,item.id,can_use)">
+			<label class="can_use_card_list" @tap="checkboxChange(index,item.id,can_use,platform)">
 				<view class="left-card_content"
 				 :style="[{'background-image': item.is_use ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="card_note"> {{ item.note }} </view>
@@ -358,10 +358,12 @@
 					<view class="receive-times" v-else> 已结束 </view>
 				</view>
 				<view class="change_checkbox">
-					<checkbox color="#ff6699" :checked="item.checked" :disabled='can_use==1' />
+					<checkbox color="#ff6699"  :checked="item.checked" :disabled='can_use==1'  />
+					<!-- <view class="check_box" v-show="platform!='applet'&&!item.checked"></view>
+					<icon type="success" color="#ff6699" v-show="platform!='applet'&&item.checked" size="26"/> -->
 				</view>
 			</label>			
-			<view class="ticketDetails"  @tap='show_order_ticket(index,can_use)'>
+			<view class="ticketDetails"  @tap="show_order_ticket(index,can_use,platform)">
 				<view class="details-title"> <text>卡券详情</text>
 					<image :src="item.arrowImages" mode=""></image>
 				</view>
@@ -370,6 +372,7 @@
 				</view>
 			</view>
 		</view>
+		
 	</view>
 
 </template>
@@ -383,13 +386,15 @@
 			marginTop: Number,
 			time_now:Number,
 			can_use:Number,
-			card_checked:Boolean
+			card_checked:Boolean,
+			platform:String
 		},
 		data() {
 			return {
 				show:false
 			}
 		},
+		
 		methods: {
 			// 显示卡券详情
 			showDetails: function(number) {
@@ -410,25 +415,54 @@
 				this.$emit('showTicket',that.order_card,can_use)
 				// console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
 			},
-			checkboxChange:function(index,id,can_use){
+			checkboxChange:function(index,id,can_use,platform){
 				let that = this
-				// this.$emit('checkboxChange',index,id)
-				
-				if(can_use==0){
-					that.order_card[index].checked = !that.order_card[index].checked
-					// console.log(that.order_card[index].checked)
-					if(that.order_card[index].checked){
-						this.$emit('checkboxChange',that.order_card,id,index,1)
-					}else{
-						this.$emit('checkboxChange',that.order_card,id,index,0)
+				// console.log(platform)
+				if(platform=='applet'){
+					if(can_use==0){
+						that.order_card[index].checked = !that.order_card[index].checked
+						// console.log(that.order_card[index].checked,that.order_card[index+1].checked)
+						if(that.order_card[index].checked){
+							this.$emit('checkboxChange',that.order_card,id,index,1)
+						}else{
+							this.$emit('checkboxChange',that.order_card,id,index,0)
+						}
+					}
+					else{
+						uni.showToast({
+							title: "卡券不可使用",
+							icon:'none'
+						})
+					}
+				}else{
+					if(can_use==0){
+						// 目前App端选择卡券出现未判定的现象，选择index的值，会造成下一个相同id的值产生通化，也就是改变一个的值，另一个相同id的值也随之改变，而且做得判定不生效
+						// that.order_card[index].checked = !that.order_card[index].checked
+						// console.log(that.order_card[index].checked,that.order_card[index+1].checked)
+						for(let key in that.order_card){
+							if(key==index&&id==that.order_card[key].id){
+								that.order_card[key].checked = !that.order_card[key].checked
+								console.log(index,key)
+								// console.log(that.order_card[index].checked,that.order_card[index+1].checked)
+								// let obj = that.order_card[key]
+								// this.$set(that.order_card,index,obj)
+								if(that.order_card[index].checked){
+									this.$emit('checkboxChange',that.order_card,id,index,1)
+								}else{
+									this.$emit('checkboxChange',that.order_card,id,index,0)
+								}
+								return
+							}
+						}
+					}
+					else{
+						uni.showToast({
+							title: "卡券不可使用",
+							icon:'none'
+						})
 					}
 				}
-				else{
-					uni.showToast({
-						title: "卡券不可使用"
-					})
-				}
-				// console.log(index,id,that.order_card[index].checked,that.order_card[index+1].checked)
+				
 			},
 			// 领取卡券
 			getCard:function(id,store,salecard_user_count,get_limit,index){
@@ -463,6 +497,10 @@
 			// 删除卡券
 			deleteCard:function(id){
 				this.$emit('deleteCard',id)
+			},
+			
+			show_order_applet:function(index,id,){
+				let that = this
 			}
 		}
 	}
@@ -502,7 +540,12 @@
 		display: flex;
 		justify-content: center;
 		border-bottom: 1rpx dashed #999999;
-		/* margin-top: 20rpx; */
+	}
+	.ticket-items-content-applet{
+		display: flex;
+		justify-content: center;
+		border-bottom: 1rpx dashed #999999;
+		align-items: center;
 	}
 
 	.ticket-label-writer-state-userTime {
@@ -751,6 +794,14 @@
 		width: 68rpx;
 		height: 100%;
 		margin-left: 20rpx;
+	}
+	
+	.check_box{
+		width: 44rpx;
+		height: 44rpx;
+		border-radius: 22rpx;
+		border: 1rpx solid #ff6699;
+		background-color: #FFFFFF;
 	}
 	
 </style>

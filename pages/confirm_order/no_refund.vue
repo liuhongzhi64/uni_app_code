@@ -1,7 +1,6 @@
 <template>
 	<view class="no_refund">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName' :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-
 		<view class="porduct-content">
 			<scroll-view class="porduct-content" scroll-y :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
 				<template>
@@ -34,12 +33,9 @@
 						</view>
 						<view class="prompt-message" v-show='i.refundable==1'> 此商品购买后支持线上退款 </view>
 						<view class="prompt-message" v-show='i.refundable==0'> 此商品购买后不支持线上退款 </view>
-					</view>
-
-					
+					</view>					
 				</template>
 			</scroll-view >
-
 		</view>
 	</view>
 </template>
@@ -88,6 +84,11 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			let  info = JSON.parse(option.info)
+			if(option.title){
+				that.title = option.title
+			}else{
+				that.title = '不可线上退款商品'
+			}
 			that.get_info(info)
 		},
 		onReady() {
@@ -137,7 +138,6 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						// console.log(data)
 						that.porductList = data
 					}
 				})

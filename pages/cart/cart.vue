@@ -110,8 +110,8 @@
 														<view class="purchaseLimitationNumber">
 															* {{ i.min_buy_limit }} 件起购
 															<text v-show="i.max_buy_limit>0&&i.max_buy_limit!=999999"> , 限购{{i.max_buy_limit}}件 </text>
-															<text v-if="i.cut_price<0"> 比加购时降价￥{{i.cut_price}} </text>
-															<text v-else-if="i.cut_price>0"> 比加购时涨价￥{{i.cut_price}} </text>
+															<text v-if="i.cut_price>0"> 比加购时降价￥{{i.cut_price}} </text>
+															<!-- <text v-else-if="i.cut_price<0"> 比加购时涨价￥{{i.cut_price}} </text> -->
 														</view>
 													</view>
 												</view>
@@ -120,7 +120,7 @@
 										<view class="offline_pay-online_pay-checkedNumber">
 											<view class="offline_pay-online_pay">
 												<text class="online_pay">在线支付￥{{ i.online_pay*i.cart_num }}</text>
-												<text class="offline_pay">到院再付￥{{ i.offline_pay*i.cart_num }}</text>
+												<text class="offline_pay" v-show="i.offline_pay*i.cart_num>0">到院再付￥{{ i.offline_pay*i.cart_num }}</text>
 											</view>
 											<view class="checkedNumber">
 												<view class="subtract" @tap="setNumber(i.cart_id,-1,k,is)">
@@ -248,7 +248,7 @@
 										<view class="offline_pay-online_pay-checkedNumber">
 											<view class="offline_pay-online_pay">
 												<text class="online_pay">在线支付￥{{ i.online_pay*i.cart_num }}</text>
-												<text class="offline_pay">到院再付￥{{ i.offline_pay*i.cart_num }}</text>
+												<text class="offline_pay" v-show="i.offline_pay*i.cart_num>0">到院再付￥{{ i.offline_pay*i.cart_num }}</text>
 											</view>
 											<view class="checkedNumber">
 												<view class="subtract">
@@ -883,42 +883,50 @@
 			// 点击确定修改规格
 			orderSet: function() {
 				let that = this
-				let specAttr = that.verification_specAttr
-				let dataInfos = {
-					interfaceId: "selectsku",
-					encrypted_id: that.encrypted_id,
-					spec_attr: specAttr
-				}
 				
-				that.request.uniRequest("goods", dataInfos).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let dataInfo = {
-							interfaceId: 'changcart',
-							type: 1,
-							cart_id: that.cart_id,
-							num: that.setNewGoodsNumber,
-							sku_id: that.sku_id,
-							is_post: that.class_type,
-							buy_type: that.pay_type
-						}
-						that.request.uniRequest("shoppingCart", dataInfo).then(res => {
-							if (res.data.code == 1000 && res.data.status == 'ok') {
-								that.this_show_goods_spec = !that.this_show_goods_spec
-								that.allchecked = false
-								that.getUserCart()
-								that.order_info = {
-									sale_info: []
-								} //订单的信息
+				if(that.pay_type==2){
+					uni.showToast({
+						title:'请选择一种付款方式',
+						icon:"none"
+					})
+				}else{
+					let specAttr = that.verification_specAttr
+					let dataInfos = {
+						interfaceId: "selectsku",
+						encrypted_id: that.encrypted_id,
+						spec_attr: specAttr
+					}
+					
+					that.request.uniRequest("goods", dataInfos).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let dataInfo = {
+								interfaceId: 'changcart',
+								type: 1,
+								cart_id: that.cart_id,
+								num: that.setNewGoodsNumber,
+								sku_id: that.sku_id,
+								is_post: that.class_type,
+								buy_type: that.pay_type
 							}
-						})
-					}
-					else{
-						uni.showToast({
-							title:'请选择正确规格',
-							icon:'none'
-						})
-					}
-				})
+							that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									that.this_show_goods_spec = !that.this_show_goods_spec
+									that.allchecked = false
+									that.getUserCart()
+									that.order_info = {
+										sale_info: []
+									} //订单的信息
+								}
+							})
+						}
+						else{
+							uni.showToast({
+								title:'请选择正确规格',
+								icon:'none'
+							})
+						}
+					})
+				}
 				
 			},
 			// 点击加减数字

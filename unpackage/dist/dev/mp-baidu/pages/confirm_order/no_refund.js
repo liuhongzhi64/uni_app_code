@@ -174,10 +174,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 {
   components: {
     topBar: topBar },
@@ -220,6 +216,11 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
     var info = JSON.parse(option.info);
+    if (option.title) {
+      that.title = option.title;
+    } else {
+      that.title = '不可线上退款商品';
+    }
     that.get_info(info);
   },
   onReady: function onReady() {
@@ -269,7 +270,6 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          // console.log(data)
           that.porductList = data;
         }
       });

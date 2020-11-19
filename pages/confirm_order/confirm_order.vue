@@ -14,22 +14,39 @@
 					<view class="confirm_order_content">
 						<view class="selector-mode">
 							<!-- 订单信息、商品类型、方式、用户名、电话、收货地址 -->
-							<view class="user-message" @tap="set_user_info">
+							<view class="user-message" @tap="set_user_info" v-if="is_post_list.length==0">
 								<view class="real_name" v-if="contentList.user_info.real_name"> {{ contentList.user_info.real_name }} </view>
 								<view class="no-user-name" v-else> —— </view>
 								<view class="user-phone">{{ contentList.user_info.tel }}</view>
 								<image class="edit_img" src="/static/images/edit.png" mode=""></image>
 							</view>
-							<view class="shipping-address" v-if="is_post_list.length>0" @tap='go_to_harves_address'>
-								<view class="address">{{ contentList.user_info.address }}</view>
-								<image src="/static/images/unfold.png" mode=""></image>
+							<view class="have_shipping-address" v-else-if="is_post_list.length>0 && contentList.user_info.address" @tap='go_to_harves_address'>
+								<view class="user-message">
+									<view class="real_name" v-if="contentList.user_info.real_name"> {{ contentList.user_info.real_name }} </view>
+									<view class="no-user-name" v-else> —— </view>
+									<view class="user-phone">{{ contentList.user_info.tel }}</view>
+								</view>
+								<view class="shipping-address">
+									<view class="address">{{ contentList.user_info.address }}</view>
+									<image src="/static/images/unfold.png" mode=""></image>
+								</view>
+								
+							</view>
+							
+							<view class="no_address" v-else-if="is_post_list.length>0 && !contentList.user_info.address" @tap='go_to_harves_address'>
+								<image class="hint-img" src="https://img-blog.csdnimg.cn/20200720152049639.png"></image>
+								<view class="address_hint">
+									<view class="hint-title">暂无收货地址</view>
+									<view class="hint-content">点击填写您的收货地址</view>
+								</view>
+								<image class="go_add_address" src="../../static/images/unfold.png" mode=""></image>
 							</view>
 						</view>
 						<!-- 商品信息 -->
 						<view class="porduct-introduce">
 							<view class="porduct-introduce-top">
 								<view class="this-title">商品信息 </view>
-								<view class="hint-set-details" v-if="refundable_list.length>0" @tap="go_to_no_refund(0,refundable_list)">
+								<view class="hint-set-details" v-if="refundable_list.length>0" @tap="go_to_no_refund(0,refundable_list,'不可线上退款商品')">
 									<view class="hint">有商品属于不支持退款操作</view>
 									<view class="set-details"> 查看详情 > </view>
 								</view>
@@ -53,7 +70,7 @@
 													</view>
 												</scroll-view>
 											</view>
-											<view class="all-see"  @tap="go_to_no_refund(0,scan_one_list)">
+											<view class="all-see"  @tap="go_to_no_refund(0,scan_one_list,'收费室使用商品')">
 												<view class="all-porduct"> 共计{{ scan_one_list.length }}件 </view>
 												<view class="see"> 查看 > </view>
 											</view>
@@ -64,7 +81,8 @@
 											<view class="line"></view>
 											<text> 收费室使用 </text>
 										</view>
-										<view class="goods_info" v-for="(item,k) in scan_one_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
+										<view class="goods_info" v-for="(item,k) in scan_one_list" :key='k'
+										 @tap="go_to_no_refund(1,item.sku_id,'收费室使用商品')">
 											<image class="goods_img" :src="requestUrl+item.head_img" mode=""></image>
 											<view class="goods_detail">
 												<view class="goods_title">{{item.goods_name}}</view>
@@ -94,7 +112,7 @@
 													</view>
 												</scroll-view>
 											</view>
-											<view class="all-see"  @tap="go_to_no_refund(0,scan_two_list)">
+											<view class="all-see"  @tap="go_to_no_refund(0,scan_two_list,'会员中心使用商品')">
 												<view class="all-porduct"> 共计{{ scan_two_list.length }}件 </view>
 												<view class="see"> 查看 > </view>
 											</view>
@@ -105,7 +123,8 @@
 											<view class="line"></view>
 											<text> 会员中心使用 </text>
 										</view>
-										<view class="goods_info" v-for="(item,k) in scan_two_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
+										<view class="goods_info" v-for="(item,k) in scan_two_list" :key='k'
+										 @tap="go_to_no_refund(1,item.sku_id,'会员中心使用商品')">
 											<image class="goods_img" :src="requestUrl+item.head_img" mode=""></image>
 											<view class="goods_detail">
 												<view class="goods_title">{{item.goods_name}}</view>
@@ -135,7 +154,7 @@
 													</view>
 												</scroll-view>
 											</view>
-											<view class="all-see"  @tap="go_to_no_refund(0,is_post_list)">
+											<view class="all-see"  @tap="go_to_no_refund(0,is_post_list,'邮寄商品')">
 												<view class="all-porduct"> 共计{{ is_post_list.length }}件 </view>
 												<view class="see"> 查看 > </view>
 											</view>
@@ -146,7 +165,7 @@
 											<view class="line"></view>
 											<text> 邮寄商品 </text>
 										</view>
-										<view class="goods_info" v-for="(item,k) in is_post_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
+										<view class="goods_info" v-for="(item,k) in is_post_list" :key='k' @tap="go_to_no_refund(1,item.sku_id,'邮寄商品')">
 											<image class="goods_img" :src="requestUrl+item.head_img" mode=""></image>
 											<view class="goods_detail">
 												<view class="goods_title">{{item.goods_name}}</view>
@@ -165,7 +184,8 @@
 								<!-- 只有单商品 -->
 								<view class="goods_list" v-else>
 									<view class="goods_list-item">
-										<view class="goods_item" v-for="(item,k) in contentList.goods_list" :key='k' @tap="go_to_no_refund(1,item.sku_id)">
+										<view class="goods_item" v-for="(item,k) in contentList.goods_list" :key='k'
+										 @tap="go_to_no_refund(1,item.sku_id,'',item.is_post,item.scan_department)">
 											<view class="goods_info_content">
 												<view class="related-title">
 													<view class="line"></view>
@@ -205,9 +225,8 @@
 						<!-- 留言 -->
 						<view class="leave-a-message">
 							<view class="message-text"> 留言 </view>
-							<view class="message-input">
-								建议留言前先与咨询沟通
-							</view>
+							<input class="message-input" @blur="leave_a_message" :value="leaveMessage"
+							 placeholder-style="color:#999999" placeholder="建议留言前先与咨询沟通" />
 						</view>
 						<!-- 商品价格和各种优惠 -->
 						<view class="porduct-price">
@@ -229,7 +248,7 @@
 									<text> 活动优惠 </text>
 									<image src="../../static/images/ask1.png" mode=""></image>
 								</view>
-								<view class="price-content color" v-if="contentList.sale_price>0"> <text>-</text> ￥ {{ contentList.sale_price }}</view>
+								<view class="price-content color" v-if="contentList.hd_discount>0"> <text>-</text> ￥ {{ contentList.hd_discount }}</view>
 								<view class="price-content color" v-else> ￥0 </view>
 							</view>
 							<view class="porduct-price-item">
@@ -251,7 +270,7 @@
 										</text>
 									</view>
 									
-									<view class="on_card_list" v-else> 暂无可使用卡券 > </view>
+									<view class="on_card_list" v-else> 暂无可使用卡券  </view>
 								</view>
 							</view>
 							<!-- 积分、喵豆、余额 -->
@@ -317,7 +336,7 @@
 									</view>
 									<view class="item-price">在线支付:￥{{ contentList.online_pay || 0 }}, 到院再付:￥{{ contentList.offline_pay  || 0 }}</view>
 								</view>
-								<view class="promptly-play">立即支付</view>
+								<view class="promptly-play" @tap="pay_now">立即支付</view>
 							</view>
 						</view>
 					</view>
@@ -326,9 +345,14 @@
 		</view>
 		<!-- 用户联系方式 -->
 		<view class="user_info_content" v-show="show_set_user_info" :style="[{'top':height/2-90+'px'}]">
-			<input class="user-name" type="text" placeholder-style="color:#999999" @input="set_user_name" :placeholder="contentList.user_info.real_name?contentList.user_info.real_name:'联系人'" />
-			<input class="phone-input" type="number" placeholder-style="color:#999999" @input="set_user_tel" :placeholder="contentList.user_info.tel?contentList.user_info.tel:'联系电话'"
+			<input class="user-name" type="text"
+			 placeholder-style="color:#999999" @input="set_user_name" 
+			 :placeholder="contentList.user_info.real_name?contentList.user_info.real_name:'联系人'" />
+			<input class="phone-input" type="number"
+			 placeholder-style="color:#999999"  @input='verifyTel'
+			 :placeholder="contentList.user_info.tel?contentList.user_info.tel:'联系电话'" 
 			 maxlength="11" />
+			 <text v-show="phoneValueState" class="tel_hint">请输入正确的电话号码</text>
 			<view class="set_info">
 				<button class="set_info_btn" type="default" @tap="keep_user_info">确定</button>
 			</view>
@@ -366,7 +390,7 @@
 					<view class="btn_keep">确认使用</view>
 				</view>
 			</view>
-		</scroll-view>
+		</scroll-view>			
 	</view>
 </template>
 
@@ -453,7 +477,10 @@
 				cards_list: [],
 				card_checked: true,
 				expiration_time:0,//过期时间
-				platform:''
+				platform:'',
+				phoneValueState:false,
+				leaveMessage:'',
+				cart_id_list:[],
 			}
 		},
 		onShow: function() {
@@ -469,6 +496,7 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			// let cart_id_list = uni.getStorageSync("cart_id_list")
 			let  cart_id_list = JSON.parse(option.cart_id_list)
+			that.cart_id_list = cart_id_list
 			// 获取订单的详情
 			that.get_order_detail(cart_id_list)
 		},
@@ -530,7 +558,8 @@
 				}
 				
 			},
-			set_user_tel: function(event) {
+			// 输入电话后失去焦点验证电话
+			verifyTel:function(event){
 				let that = this
 				let value = event.detail.value
 				if(value){
@@ -538,66 +567,82 @@
 				}else{
 					that.user_tel = that.contentList.user_info.tel
 				}
+				if ((/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.user_tel))) {
+					that.phoneValueState = false
+				}
+				else{
+					that.phoneValueState = true
+				}
 			},
 			// 更改用户信息
 			keep_user_info: function() {
 				let that = this
-				// console.log(that.user_name, that.user_tel,11111111,that.contentList.user_info.tel,that.contentList.user_info.real_name)
-				if (that.user_name && that.user_tel) {
-					that.contentList.user_info.real_name = that.user_name
-					that.contentList.user_info.tel = that.user_tel
-					let dataInfo = {
-						interfaceId: 'update_info',
-						tel: that.contentList.user_info.tel,
-						name: that.contentList.user_info.real_name
-					}
-					that.request.uniRequest("login", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							that.contentList.user_info = data
-							that.show_set_user_info = !that.show_set_user_info
-							uni.showToast({
-								title: '修改成功',
-								icon: 'none'
-							})
+				if ((/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.user_tel))) {
+					that.phoneValueState = false
+					if (that.user_name && that.user_tel) {
+						that.contentList.user_info.real_name = that.user_name
+						that.contentList.user_info.tel = that.user_tel
+						let dataInfo = {
+							interfaceId: 'update_info',
+							tel: that.contentList.user_info.tel,
+							name: that.contentList.user_info.real_name
 						}
-					})
-				} else if (that.user_name) {
-					that.contentList.user_info.real_name = that.user_name
-					let dataInfo = {
-						interfaceId: 'update_info',
-						tel: that.contentList.user_info.tel,
-						name: that.contentList.user_info.real_name
-					}
-					that.request.uniRequest("login", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							that.contentList.user_info = data
-							that.show_set_user_info = !that.show_set_user_info
-							uni.showToast({
-								title: '修改成功',
-								icon: 'none'
-							})
+						that.request.uniRequest("login", dataInfo).then(res => {
+							if (res.data.code == 1000 && res.data.status == 'ok') {
+								let data = res.data.data
+								that.contentList.user_info = data
+								that.show_set_user_info = !that.show_set_user_info
+								uni.showToast({
+									title: '修改成功',
+									icon: 'none'
+								})
+							}
+						})
+					} else if (that.user_name) {
+						that.contentList.user_info.real_name = that.user_name
+						let dataInfo = {
+							interfaceId: 'update_info',
+							tel: that.contentList.user_info.tel,
+							name: that.contentList.user_info.real_name
 						}
-					})
-				} 
-				else if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
-					that.show_set_user_info = !that.show_set_user_info
+						that.request.uniRequest("login", dataInfo).then(res => {
+							if (res.data.code == 1000 && res.data.status == 'ok') {
+								let data = res.data.data
+								that.contentList.user_info = data
+								that.show_set_user_info = !that.show_set_user_info
+								uni.showToast({
+									title: '修改成功',
+									icon: 'none'
+								})
+							}
+						})
+					} 
+					else if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
+						that.show_set_user_info = !that.show_set_user_info
+						uni.showToast({
+							title: '修改成功',
+							icon: 'none'
+						})
+					} 
+					else {
+						uni.showToast({
+							title: '请输入联系方式',
+							icon: 'none'
+						})
+					}
+				}else{
+					that.phoneValueState = true
 					uni.showToast({
-						title: '修改成功',
-						icon: 'none'
-					})
-				} 
-				else {
-					uni.showToast({
-						title: '请输入联系方式',
+						title: '请输入正确的联系电话',
 						icon: 'none'
 					})
 				}
+				
 			},
 			go_to_harves_address: function() {
+				let page = 'order'
 				uni.navigateTo({
-					url: `/pages/my/harves_address`,
+					url: `/pages/my/harves_address?page=${page}`,
 				})
 			},
 			// 获取订单的详情
@@ -647,7 +692,10 @@
 							}
 						}
 						// console.log(data)
-						that.expiration_time = that.setTimer(that.expiration_time)
+						if(that.expiration_time>0){
+							that.expiration_time = that.setTimer(that.expiration_time)
+						}
+						
 						that.show_user_card(data.card_list)
 					} else {
 						console.log('没有数据')
@@ -732,11 +780,6 @@
 					}
 				}
 			},
-			// set_id:function(item,num){
-			// 	for(let i=0;i<num.length;i++){
-			// 		item.is_id = i
-			// 	}
-			// },
 			// 转换时间格式
 			setTimer: function(date) {
 				date = new Date(date * 1000)
@@ -944,7 +987,6 @@
 					}
 					that.request.uniRequest("order", dataInfo).then(res => {
 						let data = res.data.data
-						console.log(data)
 						that.contentList.sale_price = data.sale_price
 						that.contentList.card_discount = data.card_discount
 						that.contentList.hd_discount = data.hd_discount
@@ -954,9 +996,29 @@
 						that.show_card = !that.show_card
 					})
 				}else{
-					uni.showToast({
-						title:'没有选择卡券哦',
-						icon:'none'
+					// that.is_post_list = []
+					// that.scan_one_list = []
+					// that.scan_two_list = []
+					// that.refundable_list = []
+					// that.get_order_detail(that.cart_id_list)
+					let dataInfo = {
+						interfaceId: 'confirmcart',
+						cart: that.cart_id_list
+					}
+					that.request.uniRequest("order", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.contentList.sale_price = data.sale_price
+							that.contentList.card_discount = data.card_discount
+							that.contentList.hd_discount = data.hd_discount
+							that.contentList.off_sale = data.off_sale
+							that.contentList.offline_pay = data.offline_pay
+							that.contentList.online_pay = data.online_pay
+							uni.showToast({
+								title:'没有选择卡券哦',
+								icon:'none'
+							})
+						}
 					})
 					that.show_card = !that.show_card
 				}
@@ -983,7 +1045,7 @@
 				}
 			},
 			// 不可线上退款商品或者订单详情商品
-			go_to_no_refund:function(type,info){
+			go_to_no_refund:function(type,info,title,is_post,scan_department){
 				let that = this
 				// type 0表示数组类型 1表示单商品
 				let info_list = []
@@ -997,13 +1059,91 @@
 					info_list.push(sku_id)
 				}
 				info_list = JSON.stringify(info_list)
-				// console.log(info_list)
+				if(!title){
+					if(is_post==1){
+						title = '邮寄商品'
+					}else{
+						if(scan_department==0){
+							title = '财务室使用商品'
+						}else if(scan_department==1){
+							title = '会员中心使用商品'
+						}
+					}
+				}
 				uni.navigateTo({
-					url: `/pages/confirm_order/no_refund?info=${info_list}`,
+					url: `/pages/confirm_order/no_refund?info=${info_list}&title=${title}`,
 				})
 			},
-			
-			
+			// 留言
+			leave_a_message:function(event){
+				let that = this
+				let value = event.detail.value
+				that.leaveMessage = value
+			},
+			// 立即支付
+			pay_now:function(){
+				let that = this
+				let sku_list = that.get_goods_info()
+				let address_id = 0
+				let sale_arr = []				
+				for(let i=0;i<that.cart_id_list.length;i++){
+					if(that.cart_id_list[i].act_id){
+						sale_arr.push(that.cart_id_list[i].act_id)
+					}
+				}
+				if(uni.getStorageSync('newuserInfo').address_id){
+					address_id = uni.getStorageSync('newuserInfo').address_id
+				}
+				let dataInfo = {
+					interfaceId:'add_order',
+					type:1 ,//0是普通商品结算 1购物车结算
+					address_id:address_id, //个人邮寄地址id（到院默认为0）
+					f_unique_id:0, //最近分享的父级分享人unique_id
+					archives_id:0, //最近分享的渠道id 默认为0
+					sku_list:sku_list,//订单包含的sku数据
+					// cards_list:cards_list, //使用的卡券数据 没有就不传
+					// postscript:postscript ,//用户留言
+					sale_arr:sale_arr //活动优惠id数组(备注：有就传没有传空数组)
+				}
+				if(that.cards_list.length>0){
+					dataInfo.cards_list = that.cards_list
+				}
+				if(that.leaveMessage){
+					dataInfo.postscript = that.leaveMessage
+				}
+				// console.log(dataInfo)
+				that.request.uniRequest("order", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let id = res.data.data
+						let data_info = {
+							interfaceId:'wechatwap',
+							order_id:id,
+							// return_url:'' //支付完成跳转地址
+						}
+						that.request.uniRequest("pay", data_info).then(res => {
+							if (res.data.code == 1000 && res.data.status == 'ok') {
+								let data = res.data.data
+								console.log(data)
+								uni.showModal({
+									title:'提示',
+									content:'订单生成成功,是否立即支付',
+									confirmText:'立即支付',
+									confirmColor:'#fa3475',
+									cancelColor:'#F0F0F0',
+									cancelText:'取消支付',
+									success:function(res){
+										if(res.confirm){
+											console.log('用户点击立即支付');
+										}else if(res.cancel){
+											console.log('用户点击取消支付');
+										}
+									}
+								})
+							}
+						})
+					}
+				})
+			},
 		},
 		
 	}
@@ -1089,6 +1229,28 @@
 		width: 100%;
 		align-items: center;
 	}
+	.hint-img{
+		width: 32rpx;
+		height: 32rpx;
+	}
+	.address_hint{
+		padding-left: 20rpx;
+		flex: 1;
+		
+	}
+	.hint-title{
+		font-size: 38rpx;
+	}
+	.hint-content{
+		font-size: 24rpx;
+		margin-top: 10rpx;
+		color: #999999;
+	}
+	.go_add_address{
+		width: 48rpx;
+		height: 48rpx;
+		transform:rotate(270deg);
+	}
 
 	.address {
 		flex: 1;
@@ -1103,6 +1265,12 @@
 		height: 32rpx;
 		transform: rotate(270deg);
 		margin-left: 30rpx;
+	}
+	
+	.no_address{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	/* 商品信息 */
@@ -1560,6 +1728,11 @@
 		border-radius: 12rpx;
 		padding: 10rpx 15rpx;
 	}
+	.tel_hint{
+		font-size: 20rpx;
+		color: #fa3475;
+		margin-top: 10rpx;
+	}
 
 	.set_info {
 		margin-top: 60rpx;
@@ -1675,6 +1848,5 @@
 		box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
 		border-radius: 40rpx;
 	}
-	
 	
 </style>

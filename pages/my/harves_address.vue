@@ -12,7 +12,8 @@
 			<view class="usermotto" v-else>
 				<block v-for="(item,index) in list" :key="index">
 					<view class="addressbox">
-						<view class="addressLine" @tap="set_address(item.accept_name,item.telphone,item.province_cn+item.city_cn+item.area_cn+item.address)">
+						<view class="addressLine" 
+						 @tap="set_address(item)">
 							<view class='name'>{{item.accept_name}}</view>
 							<text class='phone'>{{item.telphone}}</text>
 							<view class='label'>{{item.tag}}</view>
@@ -60,12 +61,17 @@
 				title: '地址管理',
 				list: [],
 				requestUrl: '',
+				page:'',//进来的路径
 			}
 		},
 		onLoad(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
+			if(options.page){
+				that.page = options.page
+			}
+			console.log(that.page)
 			that.getDetails()
 		},
 		onReady() {
@@ -124,17 +130,20 @@
 					url: `/pages/my/add_address?add=1`,
 				})
 			},
-			set_address:function(name,tel,address){
+			set_address:function(info){
 				let that = this
+				if(that.page=='order'){
+					let userInfo = {}
+					userInfo.real_name = info.accept_name
+					userInfo.tel = info.telphone
+					userInfo.address = info.province_cn + info.city_cn + info.area_cn + info.address
+					userInfo.address_id = info.id
+					uni.setStorageSync("newuserInfo", userInfo)
+					uni.navigateBack({
+						delta: 1
+					});
+				}
 				
-				let userInfo = {}
-				userInfo.real_name = name
-				userInfo.tel = tel
-				userInfo.address = address
-				uni.setStorageSync("newuserInfo", userInfo)
-				uni.navigateBack({
-					delta: 1
-				});
 			},
 			// 编辑
 			edit: function(id,item) {

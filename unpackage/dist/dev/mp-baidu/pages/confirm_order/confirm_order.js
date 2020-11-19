@@ -504,6 +504,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     ticket: ticket },
@@ -585,7 +609,10 @@ __webpack_require__.r(__webpack_exports__);
       cards_list: [],
       card_checked: true,
       expiration_time: 0, //过期时间
-      platform: '' };
+      platform: '',
+      phoneValueState: false,
+      leaveMessage: '',
+      cart_id_list: [] };
 
   },
   onShow: function onShow() {
@@ -601,6 +628,7 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     // let cart_id_list = uni.getStorageSync("cart_id_list")
     var cart_id_list = JSON.parse(option.cart_id_list);
+    that.cart_id_list = cart_id_list;
     // 获取订单的详情
     that.get_order_detail(cart_id_list);
   },
@@ -662,7 +690,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
     },
-    set_user_tel: function set_user_tel(event) {
+    // 输入电话后失去焦点验证电话
+    verifyTel: function verifyTel(event) {
       var that = this;
       var value = event.detail.value;
       if (value) {
@@ -670,66 +699,82 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         that.user_tel = that.contentList.user_info.tel;
       }
+      if (/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.user_tel)) {
+        that.phoneValueState = false;
+      } else
+      {
+        that.phoneValueState = true;
+      }
     },
     // 更改用户信息
     keep_user_info: function keep_user_info() {
       var that = this;
-      // console.log(that.user_name, that.user_tel,11111111,that.contentList.user_info.tel,that.contentList.user_info.real_name)
-      if (that.user_name && that.user_tel) {
-        that.contentList.user_info.real_name = that.user_name;
-        that.contentList.user_info.tel = that.user_tel;
-        var dataInfo = {
-          interfaceId: 'update_info',
-          tel: that.contentList.user_info.tel,
-          name: that.contentList.user_info.real_name };
+      if (/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.user_tel)) {
+        that.phoneValueState = false;
+        if (that.user_name && that.user_tel) {
+          that.contentList.user_info.real_name = that.user_name;
+          that.contentList.user_info.tel = that.user_tel;
+          var dataInfo = {
+            interfaceId: 'update_info',
+            tel: that.contentList.user_info.tel,
+            name: that.contentList.user_info.real_name };
 
-        that.request.uniRequest("login", dataInfo).then(function (res) {
-          if (res.data.code == 1000 && res.data.status == 'ok') {
-            var data = res.data.data;
-            that.contentList.user_info = data;
-            that.show_set_user_info = !that.show_set_user_info;
-            uni.showToast({
-              title: '修改成功',
-              icon: 'none' });
+          that.request.uniRequest("login", dataInfo).then(function (res) {
+            if (res.data.code == 1000 && res.data.status == 'ok') {
+              var data = res.data.data;
+              that.contentList.user_info = data;
+              that.show_set_user_info = !that.show_set_user_info;
+              uni.showToast({
+                title: '修改成功',
+                icon: 'none' });
 
-          }
-        });
-      } else if (that.user_name) {
-        that.contentList.user_info.real_name = that.user_name;
-        var _dataInfo = {
-          interfaceId: 'update_info',
-          tel: that.contentList.user_info.tel,
-          name: that.contentList.user_info.real_name };
+            }
+          });
+        } else if (that.user_name) {
+          that.contentList.user_info.real_name = that.user_name;
+          var _dataInfo = {
+            interfaceId: 'update_info',
+            tel: that.contentList.user_info.tel,
+            name: that.contentList.user_info.real_name };
 
-        that.request.uniRequest("login", _dataInfo).then(function (res) {
-          if (res.data.code == 1000 && res.data.status == 'ok') {
-            var data = res.data.data;
-            that.contentList.user_info = data;
-            that.show_set_user_info = !that.show_set_user_info;
-            uni.showToast({
-              title: '修改成功',
-              icon: 'none' });
+          that.request.uniRequest("login", _dataInfo).then(function (res) {
+            if (res.data.code == 1000 && res.data.status == 'ok') {
+              var data = res.data.data;
+              that.contentList.user_info = data;
+              that.show_set_user_info = !that.show_set_user_info;
+              uni.showToast({
+                title: '修改成功',
+                icon: 'none' });
 
-          }
-        });
-      } else
-      if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
-        that.show_set_user_info = !that.show_set_user_info;
+            }
+          });
+        } else
+        if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
+          that.show_set_user_info = !that.show_set_user_info;
+          uni.showToast({
+            title: '修改成功',
+            icon: 'none' });
+
+        } else
+        {
+          uni.showToast({
+            title: '请输入联系方式',
+            icon: 'none' });
+
+        }
+      } else {
+        that.phoneValueState = true;
         uni.showToast({
-          title: '修改成功',
-          icon: 'none' });
-
-      } else
-      {
-        uni.showToast({
-          title: '请输入联系方式',
+          title: '请输入正确的联系电话',
           icon: 'none' });
 
       }
+
     },
     go_to_harves_address: function go_to_harves_address() {
+      var page = 'order';
       uni.navigateTo({
-        url: "/pages/my/harves_address" });
+        url: "/pages/my/harves_address?page=".concat(page) });
 
     },
     // 获取订单的详情
@@ -779,7 +824,10 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
           // console.log(data)
-          that.expiration_time = that.setTimer(that.expiration_time);
+          if (that.expiration_time > 0) {
+            that.expiration_time = that.setTimer(that.expiration_time);
+          }
+
           that.show_user_card(data.card_list);
         } else {
           console.log('没有数据');
@@ -864,11 +912,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    // set_id:function(item,num){
-    // 	for(let i=0;i<num.length;i++){
-    // 		item.is_id = i
-    // 	}
-    // },
     // 转换时间格式
     setTimer: function setTimer(date) {
       date = new Date(date * 1000);
@@ -1076,7 +1119,6 @@ __webpack_require__.r(__webpack_exports__);
 
         that.request.uniRequest("order", dataInfo).then(function (res) {
           var data = res.data.data;
-          console.log(data);
           that.contentList.sale_price = data.sale_price;
           that.contentList.card_discount = data.card_discount;
           that.contentList.hd_discount = data.hd_discount;
@@ -1086,10 +1128,30 @@ __webpack_require__.r(__webpack_exports__);
           that.show_card = !that.show_card;
         });
       } else {
-        uni.showToast({
-          title: '没有选择卡券哦',
-          icon: 'none' });
+        // that.is_post_list = []
+        // that.scan_one_list = []
+        // that.scan_two_list = []
+        // that.refundable_list = []
+        // that.get_order_detail(that.cart_id_list)
+        var _dataInfo2 = {
+          interfaceId: 'confirmcart',
+          cart: that.cart_id_list };
 
+        that.request.uniRequest("order", _dataInfo2).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            var data = res.data.data;
+            that.contentList.sale_price = data.sale_price;
+            that.contentList.card_discount = data.card_discount;
+            that.contentList.hd_discount = data.hd_discount;
+            that.contentList.off_sale = data.off_sale;
+            that.contentList.offline_pay = data.offline_pay;
+            that.contentList.online_pay = data.online_pay;
+            uni.showToast({
+              title: '没有选择卡券哦',
+              icon: 'none' });
+
+          }
+        });
         that.show_card = !that.show_card;
       }
 
@@ -1115,7 +1177,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // 不可线上退款商品或者订单详情商品
-    go_to_no_refund: function go_to_no_refund(type, info) {
+    go_to_no_refund: function go_to_no_refund(type, info, title, is_post, scan_department) {
       var that = this;
       // type 0表示数组类型 1表示单商品
       var info_list = [];
@@ -1129,10 +1191,90 @@ __webpack_require__.r(__webpack_exports__);
         info_list.push(sku_id);
       }
       info_list = JSON.stringify(info_list);
-      // console.log(info_list)
+      if (!title) {
+        if (is_post == 1) {
+          title = '邮寄商品';
+        } else {
+          if (scan_department == 0) {
+            title = '财务室使用商品';
+          } else if (scan_department == 1) {
+            title = '会员中心使用商品';
+          }
+        }
+      }
       uni.navigateTo({
-        url: "/pages/confirm_order/no_refund?info=".concat(info_list) });
+        url: "/pages/confirm_order/no_refund?info=".concat(info_list, "&title=").concat(title) });
 
+    },
+    // 留言
+    leave_a_message: function leave_a_message(event) {
+      var that = this;
+      var value = event.detail.value;
+      that.leaveMessage = value;
+    },
+    // 立即支付
+    pay_now: function pay_now() {
+      var that = this;
+      var sku_list = that.get_goods_info();
+      var address_id = 0;
+      var sale_arr = [];
+      for (var i = 0; i < that.cart_id_list.length; i++) {
+        if (that.cart_id_list[i].act_id) {
+          sale_arr.push(that.cart_id_list[i].act_id);
+        }
+      }
+      if (uni.getStorageSync('newuserInfo').address_id) {
+        address_id = uni.getStorageSync('newuserInfo').address_id;
+      }
+      var dataInfo = {
+        interfaceId: 'add_order',
+        type: 1, //0是普通商品结算 1购物车结算
+        address_id: address_id, //个人邮寄地址id（到院默认为0）
+        f_unique_id: 0, //最近分享的父级分享人unique_id
+        archives_id: 0, //最近分享的渠道id 默认为0
+        sku_list: sku_list, //订单包含的sku数据
+        // cards_list:cards_list, //使用的卡券数据 没有就不传
+        // postscript:postscript ,//用户留言
+        sale_arr: sale_arr //活动优惠id数组(备注：有就传没有传空数组)
+      };
+      if (that.cards_list.length > 0) {
+        dataInfo.cards_list = that.cards_list;
+      }
+      if (that.leaveMessage) {
+        dataInfo.postscript = that.leaveMessage;
+      }
+      // console.log(dataInfo)
+      that.request.uniRequest("order", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var id = res.data.data;
+          var data_info = {
+            interfaceId: 'wechatwap',
+            order_id: id
+            // return_url:'' //支付完成跳转地址
+          };
+          that.request.uniRequest("pay", data_info).then(function (res) {
+            if (res.data.code == 1000 && res.data.status == 'ok') {
+              var data = res.data.data;
+              console.log(data);
+              uni.showModal({
+                title: '提示',
+                content: '订单生成成功,是否立即支付',
+                confirmText: '立即支付',
+                confirmColor: '#fa3475',
+                cancelColor: '#F0F0F0',
+                cancelText: '取消支付',
+                success: function success(res) {
+                  if (res.confirm) {
+                    console.log('用户点击立即支付');
+                  } else if (res.cancel) {
+                    console.log('用户点击取消支付');
+                  }
+                } });
+
+            }
+          });
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

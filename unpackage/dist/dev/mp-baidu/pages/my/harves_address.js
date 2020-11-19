@@ -173,6 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar },
@@ -191,13 +192,18 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '/static/images/back2.png',
       title: '地址管理',
       list: [],
-      requestUrl: '' };
-
+      requestUrl: '',
+      page: '' //进来的路径
+    };
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
+    if (options.page) {
+      that.page = options.page;
+    }
+    console.log(that.page);
     that.getDetails();
   },
   onReady: function onReady() {
@@ -256,16 +262,19 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/my/add_address?add=1" });
 
     },
-    set_address: function set_address(name, tel, address) {
+    set_address: function set_address(info) {
       var that = this;
+      if (that.page == 'order') {
+        var userInfo = {};
+        userInfo.real_name = info.accept_name;
+        userInfo.tel = info.telphone;
+        userInfo.address = info.province_cn + info.city_cn + info.area_cn + info.address;
+        userInfo.address_id = info.id;
+        uni.setStorageSync("newuserInfo", userInfo);
+        uni.navigateBack({
+          delta: 1 });
 
-      var userInfo = {};
-      userInfo.real_name = name;
-      userInfo.tel = tel;
-      userInfo.address = address;
-      uni.setStorageSync("newuserInfo", userInfo);
-      uni.navigateBack({
-        delta: 1 });
+      }
 
     },
     // 编辑

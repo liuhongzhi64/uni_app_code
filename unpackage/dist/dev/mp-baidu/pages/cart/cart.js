@@ -1021,42 +1021,50 @@ __webpack_require__.r(__webpack_exports__);
     // 点击确定修改规格
     orderSet: function orderSet() {
       var that = this;
-      var specAttr = that.verification_specAttr;
-      var dataInfos = {
-        interfaceId: "selectsku",
-        encrypted_id: that.encrypted_id,
-        spec_attr: specAttr };
+
+      if (that.pay_type == 2) {
+        uni.showToast({
+          title: '请选择一种付款方式',
+          icon: "none" });
+
+      } else {
+        var specAttr = that.verification_specAttr;
+        var dataInfos = {
+          interfaceId: "selectsku",
+          encrypted_id: that.encrypted_id,
+          spec_attr: specAttr };
 
 
-      that.request.uniRequest("goods", dataInfos).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var dataInfo = {
-            interfaceId: 'changcart',
-            type: 1,
-            cart_id: that.cart_id,
-            num: that.setNewGoodsNumber,
-            sku_id: that.sku_id,
-            is_post: that.class_type,
-            buy_type: that.pay_type };
+        that.request.uniRequest("goods", dataInfos).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            var dataInfo = {
+              interfaceId: 'changcart',
+              type: 1,
+              cart_id: that.cart_id,
+              num: that.setNewGoodsNumber,
+              sku_id: that.sku_id,
+              is_post: that.class_type,
+              buy_type: that.pay_type };
 
-          that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
-            if (res.data.code == 1000 && res.data.status == 'ok') {
-              that.this_show_goods_spec = !that.this_show_goods_spec;
-              that.allchecked = false;
-              that.getUserCart();
-              that.order_info = {
-                sale_info: [] };
-              //订单的信息
-            }
-          });
-        } else
-        {
-          uni.showToast({
-            title: '请选择正确规格',
-            icon: 'none' });
+            that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                that.this_show_goods_spec = !that.this_show_goods_spec;
+                that.allchecked = false;
+                that.getUserCart();
+                that.order_info = {
+                  sale_info: [] };
+                //订单的信息
+              }
+            });
+          } else
+          {
+            uni.showToast({
+              title: '请选择正确规格',
+              icon: 'none' });
 
-        }
-      });
+          }
+        });
+      }
 
     },
     // 点击加减数字

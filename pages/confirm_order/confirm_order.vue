@@ -390,7 +390,11 @@
 					<view class="btn_keep">确认使用</view>
 				</view>
 			</view>
-		</scroll-view>			
+		</scroll-view>	
+		
+		<view class="pay_now" v-if="pay_show" :style="[{'height':height+'px'}]">
+			 <web-view  :src="pay_url" >确认支付</web-view>
+		</view>
 	</view>
 </template>
 
@@ -481,6 +485,9 @@
 				phoneValueState:false,
 				leaveMessage:'',
 				cart_id_list:[],
+				pay_url:'',//
+				pay_show:false,
+				provider:'',//运行的环境 alipay 支付宝;wxpay 微信; baidu百度; appleiap 苹果
 			}
 		},
 		onShow: function() {
@@ -489,6 +496,14 @@
 			if (userInfo) {
 				that.contentList.user_info = userInfo
 			}
+			// 查看运行的平台
+			uni.getProvider({
+				service:'payment',
+				success:function(res){
+					that.provider = res.provider[0]  
+					console.log(that.provider)
+				}
+			})
 		},
 		onLoad: function(option) {
 			let that = this
@@ -499,6 +514,11 @@
 			that.cart_id_list = cart_id_list
 			// 获取订单的详情
 			that.get_order_detail(cart_id_list)
+		},
+		onBackPress:function(event){
+			let currentWebview = this.$scope.$getAppWebview().children()[0]
+			console.log(currentWebview)
+			console.log(event.from )
 		},
 		onReady() {
 			let that = this;
@@ -655,6 +675,7 @@
 				that.request.uniRequest("order", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						// console.log(data)
 						let goods_list_obj = data.goods_list
 						let goods_list_arr = []
 						for (let key in goods_list_obj) {
@@ -1123,22 +1144,29 @@
 						that.request.uniRequest("pay", data_info).then(res => {
 							if (res.data.code == 1000 && res.data.status == 'ok') {
 								let data = res.data.data
-								console.log(data)
-								uni.showModal({
-									title:'提示',
-									content:'订单生成成功,是否立即支付',
-									confirmText:'立即支付',
-									confirmColor:'#fa3475',
-									cancelColor:'#F0F0F0',
-									cancelText:'取消支付',
-									success:function(res){
-										if(res.confirm){
-											console.log('用户点击立即支付');
-										}else if(res.cancel){
-											console.log('用户点击取消支付');
-										}
-									}
-								})
+								console.log(data.mweb_url)
+								that.pay_url = data.mweb_url
+								// that.pay_show = !that.pay_show
+								let url = data.mweb_url
+								const webview = plus.webview.create("","custom-webview")
+								webview.loadURL(that.pay_url,{"Referer":"https://mytest.hmzixin.com/"})
+								
+								// uni.showModal({
+								// 	title:'提示',
+								// 	content:'订单生成成功,请立即支付',
+								// 	confirmText:'立即支付',
+								// 	confirmColor:'#fa3475',
+								// 	cancelColor:'#333333',
+								// 	cancelText:'取消支付',
+								// 	success:function(res){
+								// 		if(res.confirm){
+								// 			// console.log('用户点击立即支付');
+											
+								// 		}else if(res.cancel){
+								// 			console.log('用户点击取消支付');
+								// 		}
+								// 	}
+								// })
 							}
 						})
 					}
@@ -1847,6 +1875,16 @@
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 		box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
 		border-radius: 40rpx;
+	}
+	
+	
+	.pay_now{
+		position: fixed;
+		z-index: 100;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	
 </style>

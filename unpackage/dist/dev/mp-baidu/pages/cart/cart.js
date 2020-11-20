@@ -612,7 +612,9 @@ __webpack_require__.r(__webpack_exports__);
       requestUrl: '',
       offset: 0,
       sku_list: [],
-      specialList: {}, //广告
+      specialList: {
+        content: [] },
+      //广告
       get_count: 0, //可领取卡券数量
       cardList: [], //卡券列表
       act_info: {},

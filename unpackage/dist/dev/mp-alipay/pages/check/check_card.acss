@@ -1,0 +1,81 @@
+
+.check-content.data-v-3f865e72 {
+	background-color: #F6F6F6;
+	padding: 40rpx 0 28rpx;
+}
+.line.data-v-3f865e72 {
+	width: 4rpx;
+	height: 16rpx;
+	background-color: #fa3576;
+	margin-right: 16rpx;
+}
+.related-title.data-v-3f865e72 {
+	padding: 0 20rpx 30rpx;
+	font-size: 28rpx;
+	line-height: 48rpx;
+	color: #111111;
+	font-weight: bolder;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.user-message.data-v-3f865e72,.check-site-state-staff-time.data-v-3f865e72{
+	background-color: #FFFFFF;
+	padding-left: 40rpx;
+	border-radius: 24rpx;
+	font-size: 24rpx;
+	color: #666666;
+}
+.user-name.data-v-3f865e72,.check-site.data-v-3f865e72,.check-state.data-v-3f865e72,.check-staff.data-v-3f865e72{
+	border-bottom: 1rpx solid #F0F0F0;
+	padding: 35rpx 0 37rpx;
+}
+.user-name text.data-v-3f865e72,
+.user-phone text.data-v-3f865e72,
+.check-site text.data-v-3f865e72,
+.check-state text.data-v-3f865e72,
+.check-staff text.data-v-3f865e72,
+.check-time text.data-v-3f865e72{
+	margin-left: 40rpx;
+	color: #111111;
+}
+.check-state text.data-v-3f865e72{
+	color: #fa3475;
+}
+.user-phone.data-v-3f865e72,.check-time.data-v-3f865e72{
+	padding: 35rpx 0 37rpx;
+}
+.ticket-message.data-v-3f865e72 {
+	margin-top: 40rpx;
+}
+.ticket-content.data-v-3f865e72{
+	padding: 0 20rpx;
+}
+.check-message.data-v-3f865e72{
+	margin-top: -14rpx;
+}
+.affirm-cancel.data-v-3f865e72 {
+	/* position: fixed; */
+	/* bottom: 68rpx; */
+	left: 0;/* 
+	z-index: 9; */
+	width: 100%;
+	margin-bottom: 68rpx;
+	margin-top: 64rpx;
+}
+.affirm-cancel-btn.data-v-3f865e72 {
+	padding: 0 40rpx;
+	height: 88rpx;
+}
+.affirm-cancel-btn .button.data-v-3f865e72 {
+	background-image: -webkit-linear-gradient(right, #999999 0%, #999999 100%);
+	background-image: linear-gradient(-90deg, #999999 0%, #999999 100%);
+	font-size: 32rpx;
+	border-radius: 44rpx;
+	color: #ffffff;
+	border: 0;
+}
+

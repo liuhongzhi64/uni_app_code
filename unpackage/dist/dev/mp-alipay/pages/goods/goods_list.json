@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "top-bar": "/components/topBar",
+    "goods-show": "/components/goodsShow",
+    "diary": "/components/diary"
+  }
 }

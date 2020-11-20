@@ -1,0 +1,107 @@
+
+.diary_write-content.data-v-ac761524 {
+	background-color: #F0F0F0;
+}
+.content-item.data-v-ac761524 {
+	padding: 20rpx 10rpx 20rpx 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.change-video.data-v-ac761524 {
+	height: 170rpx;
+	width: 170rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	background-color: #FFFFFF;
+	margin-bottom: 5rpx;
+	margin-right: 10rpx;
+}
+.change-radio.data-v-ac761524 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.list-content.data-v-ac761524 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.video-list.data-v-ac761524 {
+	margin-right: 10rpx;
+	position: relative;
+}
+.changes.data-v-ac761524 {
+	height: 170rpx;
+	width: 170rpx;
+	margin-bottom: 2rpx;
+	background-color: #FFFFFF;
+}
+.change-type.data-v-ac761524 {
+	position: absolute;
+	top: 8rpx;
+	right: 5rpx;
+	width: 38rpx;
+	height: 38rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.footer.data-v-ac761524 {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 9;
+	width: 100%;
+}
+.footer-content.data-v-ac761524 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	background-color: #FFFFFF;
+	font-size: 28rpx;
+	color: #111111;
+	width: 100%;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding: 12rpx 40rpx;
+}
+.next-step.data-v-ac761524 {
+	padding-right: 80rpx;
+}
+.next-botton.data-v-ac761524 {
+	width: 220rpx;
+	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+	box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
+	border-radius: 40rpx;
+	color: #FFFFFF;
+	font-size: 28rpx;
+	border: none;
+	text-align: center;
+	line-height: 80rpx;
+}
+

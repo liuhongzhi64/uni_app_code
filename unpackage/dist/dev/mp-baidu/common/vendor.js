@@ -1912,7 +1912,7 @@ function normalizeComponent (
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
   globalData: {
-    appid: "wxd8c2d232303432c2",
+    appid: "wx8068a8a4b6c8a39f", //wxd8c2d232303432c2
     requestUrl: "https://mytest.hmzixin.com/" },
 
   // 模态对话框

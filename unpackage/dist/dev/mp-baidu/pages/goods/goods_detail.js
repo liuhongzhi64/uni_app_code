@@ -586,6 +586,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: {
     topBar: topBar,
@@ -607,7 +609,14 @@ __webpack_require__.r(__webpack_exports__);
       height: 0,
       sku_id: '0',
       goodsNuber: 1,
-      contentList: [],
+      contentList: {
+        sku: {
+          sale_price: 0,
+          act: {
+            title_icon: '' } } },
+
+
+
       pay_type: 1, //支付方式  0预约金 1 全款 2 全选
       class_type: 0, //领取方式 0到院 1邮寄
       swiperList: [],

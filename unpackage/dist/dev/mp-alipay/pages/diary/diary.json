@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "top-bar": "/components/topBar"
+    "diary": "/components/diary"
   }
 }

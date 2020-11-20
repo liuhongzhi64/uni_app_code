@@ -154,7 +154,7 @@
 								</view>
 							</view>
 							<!-- 弹窗优惠或者卡券 -->
-							<scroll-view class="mantled" v-show="isShowDiscount" scroll-y="true"
+							<scroll-view class="mantled" v-if="isShowDiscount" scroll-y="true"
 							 :style="[{'height':cardList.cards?height/2+'px':height/4+'px'}]">
 								<view class="discounts-title"> 促销优惠 </view>
 								<view class="discounts-hint">*温馨提示:满减、折扣、卡券均可叠加使用</view>
@@ -401,7 +401,7 @@
 			</view>
 		</scroll-view>
 		<!-- 优惠明细 -->
-		<scroll-view scroll-y="true" v-show="show_discount" :style="[{'height':height/4+'px'}]">
+		<scroll-view scroll-y="true" v-if="show_discount" :style="[{'height':height/4+'px'}]">
 			<view class="this_show_discount">
 				<view class="show_discount_title">优惠明细</view>
 				<view class="show_discount_content">
@@ -474,7 +474,9 @@
 				requestUrl: '',
 				offset: 0,
 				sku_list: [],
-				specialList: {}, //广告
+				specialList: {
+					content:[]
+				}, //广告
 				get_count: 0, //可领取卡券数量
 				cardList: [], //卡券列表
 				act_info: {},

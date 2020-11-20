@@ -61,7 +61,7 @@
 						<!-- 现在价格、会员价 -->
 						<view class="price" >
 							<view class="new-price">
-								<text>￥</text>{{contentList.sku.sale_price}}
+								<text>￥</text>{{ contentList.sku.sale_price || 0}}
 							</view>
 							<!-- <view class="VIP-price">
 								<view class="VIP-name"> 钻卡 </view>
@@ -420,7 +420,9 @@
 					<view class="pay-txt">数量</view>
 					<view class="number-hint">
 						<text> {{ contentList.sku.min_buy_limit }} 件起购</text>
-						<text v-show="i.max_buy_limit>0&&i.max_buy_limit!=999999"> , 限购{{i.max_buy_limit}}件 </text>
+						<text v-show="contentList.sku.max_buy_limit>0&&contentList.sku.max_buy_limit!=999999">
+						 , 限购{{ contentList.sku.max_buy_limit }}件 
+						</text>
 						<!-- <text>限购 {{ contentList.sku.max_buy_limit }} 件</text> -->
 					</view>
 					<view class="change-input">
@@ -475,7 +477,14 @@
 				height: 0,
 				sku_id:'0',
 				goodsNuber:1,
-				contentList: [],
+				contentList:{
+					sku:{
+						sale_price:0,
+						act:{
+							title_icon:''
+						}
+					}
+				},
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
 				class_type:0,//领取方式 0到院 1邮寄
 				swiperList: [],

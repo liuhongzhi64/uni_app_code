@@ -1,8 +1,11 @@
 {
   "pullRefresh": true,
   "usingComponents": {
-    "swiper-tab-head": "/components/swiper-tab",
     "swiper-dot": "/components/swperDot",
-    "top-bar": "/components/topBar"
+    "top-bar": "/components/topBar",
+    "porduct": "/components/porduct",
+    "goods-show": "/components/goodsShow",
+    "diary": "/components/diary",
+    "doctor": "/components/doctorShow"
   }
 }

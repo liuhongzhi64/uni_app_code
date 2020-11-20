@@ -760,7 +760,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1799,7 +1799,7 @@ function normalizeComponent (
             } else {
               if (res.data.code !== 1000) {
                 that.showModal(res.data.message);
-                if (res.data.message == '登录失败[1007]') {
+                if (res.data.message == '登录失败[1007]' || res.data.message == '登录失败[1016]' || res.data.message == '登录失败[1004]') {
                   // that.getToken().then(res=>{
                   // 	console.log(res)
                   // })
@@ -1808,7 +1808,7 @@ function normalizeComponent (
                     uni.navigateTo({
                       url: '/pages/login/login_phone' });
 
-                  }, 2000);
+                  }, 1000);
                 }
               }
             }
@@ -1824,14 +1824,14 @@ function normalizeComponent (
                   that.showToast("没有更多相关卡券了");
                 } else if (res.data.message == '登录失败[1007]') {
                   that.showToast(res.data.message);
-                  setTimeout(function () {
-                    uni.navigateTo({
-                      url: '/pages/login/login_phone' });
-
-                  }, 2000);
+                  // setTimeout(function(){
+                  // 	uni.navigateTo({
+                  // 		url: '/pages/login/login_phone'
+                  // 	})
+                  // },1000)
                 } else {
-                  that.showModal(res.data.message);
-                }
+                    // that.showModal(res.data.message)
+                  }
               }
             }
           }
@@ -7404,7 +7404,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7425,14 +7425,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7508,7 +7508,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -7903,18 +7903,18 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 237:
+/***/ 236:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 238);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 237);
 
 /***/ }),
 
-/***/ 238:
+/***/ 237:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -7945,7 +7945,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 239);
+module.exports = __webpack_require__(/*! ./runtime */ 238);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -7962,7 +7962,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 239:
+/***/ 238:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -8733,17 +8733,6 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 
-
-/***/ }),
-
-/***/ 592:
-/*!************************************************!*\
-  !*** D:/Code/code/uniapp/static/images/18.png ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/images/18.png";
 
 /***/ })
 

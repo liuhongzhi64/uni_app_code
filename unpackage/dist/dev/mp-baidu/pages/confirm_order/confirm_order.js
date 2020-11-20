@@ -528,6 +528,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     ticket: ticket },
@@ -612,8 +616,11 @@ __webpack_require__.r(__webpack_exports__);
       platform: '',
       phoneValueState: false,
       leaveMessage: '',
-      cart_id_list: [] };
-
+      cart_id_list: [],
+      pay_url: '', //
+      pay_show: false,
+      provider: '' //运行的环境 alipay 支付宝;wxpay 微信; baidu百度; appleiap 苹果
+    };
   },
   onShow: function onShow() {
     var that = this;
@@ -621,6 +628,14 @@ __webpack_require__.r(__webpack_exports__);
     if (userInfo) {
       that.contentList.user_info = userInfo;
     }
+    // 查看运行的平台
+    uni.getProvider({
+      service: 'payment',
+      success: function success(res) {
+        that.provider = res.provider[0];
+        console.log(that.provider);
+      } });
+
   },
   onLoad: function onLoad(option) {
     var that = this;
@@ -631,6 +646,11 @@ __webpack_require__.r(__webpack_exports__);
     that.cart_id_list = cart_id_list;
     // 获取订单的详情
     that.get_order_detail(cart_id_list);
+  },
+  onBackPress: function onBackPress(event) {
+    var currentWebview = this.$scope.$getAppWebview().children()[0];
+    console.log(currentWebview);
+    console.log(event.from);
   },
   onReady: function onReady() {
     var that = this;
@@ -787,6 +807,7 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("order", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
+          // console.log(data)
           var goods_list_obj = data.goods_list;
           var goods_list_arr = [];
           for (var key in goods_list_obj) {
@@ -1255,22 +1276,29 @@ __webpack_require__.r(__webpack_exports__);
           that.request.uniRequest("pay", data_info).then(function (res) {
             if (res.data.code == 1000 && res.data.status == 'ok') {
               var data = res.data.data;
-              console.log(data);
-              uni.showModal({
-                title: '提示',
-                content: '订单生成成功,是否立即支付',
-                confirmText: '立即支付',
-                confirmColor: '#fa3475',
-                cancelColor: '#F0F0F0',
-                cancelText: '取消支付',
-                success: function success(res) {
-                  if (res.confirm) {
-                    console.log('用户点击立即支付');
-                  } else if (res.cancel) {
-                    console.log('用户点击取消支付');
-                  }
-                } });
+              console.log(data.mweb_url);
+              that.pay_url = data.mweb_url;
+              // that.pay_show = !that.pay_show
+              var url = data.mweb_url;
+              var webview = plus.webview.create("", "custom-webview");
+              webview.loadURL(that.pay_url, { "Referer": "https://mytest.hmzixin.com/" });
 
+              // uni.showModal({
+              // 	title:'提示',
+              // 	content:'订单生成成功,请立即支付',
+              // 	confirmText:'立即支付',
+              // 	confirmColor:'#fa3475',
+              // 	cancelColor:'#333333',
+              // 	cancelText:'取消支付',
+              // 	success:function(res){
+              // 		if(res.confirm){
+              // 			// console.log('用户点击立即支付');
+
+              // 		}else if(res.cancel){
+              // 			console.log('用户点击取消支付');
+              // 		}
+              // 	}
+              // })
             }
           });
         }

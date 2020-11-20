@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "top-bar": "/components/topBar",
+    "raffle": "/components/raffle",
+    "porduct": "/components/porduct"
+  }
 }

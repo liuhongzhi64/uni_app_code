@@ -1,0 +1,111 @@
+
+.top-bar.data-v-59a5bd44 {
+	text-align: center;
+	font-size: 40rpx;
+	position: fixed;
+	z-index: 100;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+.back-title.data-v-59a5bd44 {
+	font-size: 38rpx;
+	position: relative;
+	text-align: center;
+}
+.back.data-v-59a5bd44 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	margin-left: 20rpx;
+	width: 60rpx;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.back image.data-v-59a5bd44 {
+	width: 36rpx;
+	height: 36rpx;
+}
+.back-title .title.data-v-59a5bd44 {
+	text-align: center;
+	font-size: 37rpx;
+}
+.confirm_payment_content.data-v-59a5bd44{
+	background-color: #F0F0F0;
+}
+.content_all.data-v-59a5bd44{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding-top: 40rpx;
+	padding-bottom: 40rpx;
+}
+.content_img.data-v-59a5bd44{
+	width: 350rpx;
+}
+.go_buttom.data-v-59a5bd44{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	padding-top: 40rpx;
+}
+.go_goods_classfiy.data-v-59a5bd44{
+	color: #FFFFFF;
+	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
+	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+}
+.go_goods_classfiy.data-v-59a5bd44,.my_order.data-v-59a5bd44 {
+	width: 220rpx;
+	height: 80rpx;
+	font-size: 28rpx;
+	color: #FFFFFF;
+	line-height: 80rpx;
+	text-align: center;
+	border-radius: 40rpx;
+}
+.my_order.data-v-59a5bd44{
+	background-image: -webkit-linear-gradient(135deg, #1AAB00 0%, #1AAB94 100%);
+	background-image: linear-gradient(-45deg, #1AAB00 0%, #1AAB94 100%);
+	margin-right: 30rpx;
+}
+.recommend-to-you.data-v-59a5bd44 {
+	padding: 20rpx;
+}
+.line.data-v-59a5bd44 {
+	width: 6rpx;
+	height: 24rpx;
+	background-color: #fa3576;
+	margin-right: 20rpx;
+}
+.related-title.data-v-59a5bd44 {
+	font-size: 28rpx;
+	line-height: 48rpx;
+	color: #111111;
+	font-weight: bolder;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.subject-content.data-v-59a5bd44 {
+	background-color: #F6F6F6;
+}
+
+

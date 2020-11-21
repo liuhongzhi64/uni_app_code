@@ -107,7 +107,7 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/return.png',
+				backImage: '/static/images/return.png',
 				title: '我的卡券',
 				barImage: '../static/images/refresh.png',
 				changeBtn:0,

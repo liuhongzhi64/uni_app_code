@@ -1206,9 +1206,13 @@
 }
 .keep-order.data-v-098a7e2c{		
 	width: 100%;
+	position: fixed;
+	z-index: 99;
+	left: 0;
+	bottom: 0;
 }
 .button.data-v-098a7e2c{
-	margin-right: 40rpx;
+	/* margin-right: 40rpx; */
 	padding: 30rpx;
 }
 .keep-order-button.data-v-098a7e2c{
@@ -1252,7 +1256,7 @@
 	right: 20rpx;
 }
 .delete-see-more-discount image.data-v-098a7e2c{
-	width: 64rpx;
-	height: 64rpx;
+	width: 48rpx;
+	height: 48rpx;
 }
 

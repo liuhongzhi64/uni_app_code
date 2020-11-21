@@ -48,6 +48,22 @@
 			}
 		},
 		methods: {
+			// uni.showModal({
+			// 	title:'提示',
+			// 	content:'订单生成成功,请立即支付',
+			// 	confirmText:'立即支付',
+			// 	confirmColor:'#fa3475',
+			// 	cancelColor:'#333333',
+			// 	cancelText:'取消支付',
+			// 	success:function(res){
+			// 		if(res.confirm){
+			// 			// console.log('用户点击立即支付');
+						
+			// 		}else if(res.cancel){
+			// 			console.log('用户点击取消支付');
+			// 		}
+			// 	}
+			// })
 			// 支付
 			//支付地址 https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?
 			//prepay_id=wx201533539114693757369db06e08930000&package=896493193

@@ -2004,8 +2004,8 @@ function normalizeComponent (
               that.showModal("系统错误：" + res.data.code);
             } else {
               if (res.data.code !== 1000) {
-                that.showModal(res.data.message);
                 if (res.data.message == '登录失败[1007]' || res.data.message == '登录失败[1016]' || res.data.message == '登录失败[1004]') {
+                  that.showToast(res.data.message);
                   // that.getToken().then(res=>{
                   // 	console.log(res)
                   // })
@@ -2015,6 +2015,9 @@ function normalizeComponent (
                       url: '/pages/login/login_phone' });
 
                   }, 1000);
+                } else
+                {
+                  that.showModal(res.data.message);
                 }
               }
             }
@@ -8109,18 +8112,18 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 236:
+/***/ 244:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 237);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 245);
 
 /***/ }),
 
-/***/ 237:
+/***/ 245:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8151,7 +8154,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 238);
+module.exports = __webpack_require__(/*! ./runtime */ 246);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8168,7 +8171,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 238:
+/***/ 246:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

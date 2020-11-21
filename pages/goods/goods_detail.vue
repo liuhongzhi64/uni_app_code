@@ -363,7 +363,7 @@
 			</view>
 		</scroll-view>
 		<!-- 弹出的对话框 v-if="isShow" -->
-		<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height/2+'px'}]">
+		<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height-height/4+'px'}]">
 			<view class="isShow-content">
 				<view class="add-card-top">
 					<view class="left-head_img">
@@ -660,11 +660,19 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						// that.productLists = data
-						// if(data.length>0){
-						// 	that.productList = that.productList.concat(data)
-						// }
-						that.productLists = that.productLists.concat(data)
+						if(data.length>0){
+							that.productLists = that.productLists.concat(data)
+						}else{
+							uni.showToast({
+								title:'没有更多了',
+								icon:'none'
+							})
+						}
+					} else {
+						uni.showToast({
+							title:'没有更多了',
+							icon:'none'
+						})
 					}
 				})
 			},
@@ -1042,11 +1050,37 @@
 								title:'请选择正确规格',
 								icon:'none'
 							})
+							that.isShow = !that.isShow
 						}
 					})
 				}else if(index==1){//立即购买
-					console.log('立即购买')
-					that.isShow = !that.isShow
+					let specAttr = that.verification_specAttr
+					let dataInfo = {
+						interfaceId: "selectsku",
+						encrypted_id: that.encrypted_id,
+						spec_attr: specAttr
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let one_goods = {
+								interfaceId:'confirmsingle',
+								sku_id:that.contentList.sku.id,
+								num:that.goodsNuber,
+								is_post: that.class_type,//is_post 0 到院 1邮寄
+								buy_type:buy_type ,//支付类型
+							}
+							one_goods = JSON.stringify(one_goods)
+							uni.navigateTo({
+								url: `/pages/confirm_order/confirm_order?one_goods=${one_goods}`,
+							})
+						}else{
+							uni.showToast({
+								title:'请选择正确规格',
+								icon:'none'
+							})
+							// that.isShow = !that.isShow
+						}
+					})
 				}
 				
 			},
@@ -1078,6 +1112,8 @@
 					that.goodsNuber = number
 				}
 			}
+		
+			
 		}
 	}
 </script>
@@ -2185,10 +2221,13 @@
 	}
 	.keep-order{		
 		width: 100%;
-		
+		position: fixed;
+		z-index: 99;
+		left: 0;
+		bottom: 0;
 	}
 	.button{
-		margin-right: 40rpx;
+		/* margin-right: 40rpx; */
 		padding: 30rpx;
 	}
 	.keep-order-button{
@@ -2232,7 +2271,7 @@
 		right: 20rpx;
 	}
 	.delete-see-more-discount image{
-		width: 64rpx;
-		height: 64rpx;
+		width: 48rpx;
+		height: 48rpx;
 	}
 </style>

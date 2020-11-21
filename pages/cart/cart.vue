@@ -290,7 +290,7 @@
 					</swiper>
 				</view>
 			</view>
-			<view class="recommend-to-you" v-if="productLists">
+			<view class="recommend-to-you" v-if="productLists.length>0">
 				<view class="related-title">
 					<view class="line"></view>
 					<view>为你推荐</view>
@@ -1280,6 +1280,7 @@
 					url: `/pages/goods/goods_classify`,
 				})
 			},
+				
 			// 收藏、相似、删除
 			setState: function(index, id, num, category_id, listName, encrypted_id) {
 				// console.log(index,cart_id,sku_id,num)

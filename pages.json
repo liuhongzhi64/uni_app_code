@@ -3,61 +3,11 @@
 
 		// 测试时的首页
 		
-		// 购物车
-		{
-			"path": "pages/cart/cart", //购物车
-			"style": {}
-		},				
-		
-		
-		// 确认订单
-		{
-			"path": "pages/confirm_order/confirm_order", //确认订单
-			"style": {}
-		},
-		
-		
-		// 商品
-		{
-			"path": "pages/goods/goods_classify", //商品分类
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail", //商品详情
-			"style": {}
-		},
-		
 		
 		{
-			"path": "pages/goods/goods_list", //商品列表
+			"path": "pages/my/my_order", //我的订单
 			"style": {}
-		},
-		
-		{
-			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_comment_detail", //商品详情（评价详情）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
-			"style": {}
-		},
-		{
-			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
-			"style": {}
-		},
-		
+		},	
 		
 		
 		// 首页
@@ -94,7 +44,11 @@
 			"style": {}
 		},
 
-		
+		// 购物车
+		{
+			"path": "pages/cart/cart", //购物车
+			"style": {}
+		},	
 
 		// 核销
 		{
@@ -106,6 +60,11 @@
 			"style": {}
 		},
 		
+		// 确认订单
+		{
+			"path": "pages/confirm_order/confirm_order", //确认订单
+			"style": {}
+		},
 		{
 			"path": "pages/confirm_order/no_refund", //不可线上退款
 			"style": {}
@@ -115,7 +74,7 @@
 		{
 			"path": "pages/consultation/consultation", //咨询
 			"style": {}
-		},
+		},				
 
 		// 日记
 		{
@@ -173,7 +132,46 @@
 			"style": {}
 		},
 
+		// 商品
+		{
+			"path": "pages/goods/goods_classify", //商品分类
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail", //商品详情
+			"style": {}
+		},
 		
+		
+		{
+			"path": "pages/goods/goods_list", //商品列表
+			"style": {}
+		},
+		
+		{
+			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_comment_detail", //商品详情（评价详情）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_notice", //商品详情（降价通知）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_problem", //商品详情（问答列表）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_problem_detail", //商品详情（相关问答详情）
+			"style": {}
+		},
+		{
+			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
+			"style": {}
+		},
 
 		// 消息
 		{
@@ -226,10 +224,7 @@
 			"path": "pages/my/my_comment", //我的评价-评价列表
 			"style": {}
 		},
-		{
-			"path": "pages/my/my_order", //我的订单
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/my_order_detail", //订单详情
 			"style": {}

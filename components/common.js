@@ -103,6 +103,8 @@ export default {
 											url: '/pages/login/login_phone'
 										})
 									},1000)
+								} else if(res.data.code==2201){
+									that.showToast(res.data.message)
 								}
 								else{
 									that.showModal(res.data.message)

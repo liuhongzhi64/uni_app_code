@@ -24,7 +24,7 @@
 				title: '设置',
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/return.png',
+				backImage: '/static/images/return.png',
 			}
 		},
 		onReady() {

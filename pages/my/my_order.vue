@@ -6,222 +6,158 @@
 			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
 			 @tabtap="tabtap"></swiperTabHead>
 		</view>
-
 		<view class="my_order-content" :style="[{'padding-top':menuBottom+50+'px'}]">
 			<view class="my_order-items">
-				<swiper :style="[{'height':height-menuBottom-50+'px'}]" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(i,index) in contentList" :key="index">
-						<scroll-view scroll-y :style="[{'height':height-menuBottom-50+'px'}]">
+				<swiper :style="[{'height':height-menuBottom-50+'px'}]" :current="tabIndex" >
+					<swiper-item v-for="(i,index) in tabBars" :key="index">
+						<scroll-view scroll-y :style="[{'height':height-menuBottom-50+'px'}]" @scrolltolower='get_more_order()'>
 							<template>
 								<block>
 									<view class="my_order-items-content">
 										<view class="order-advertising-images">
 											<image src="../../static/images/22.png" mode=""></image>
 										</view>
-
 										<view class="order-all-message">
-											<view class="order-message" v-for="(item,index) in allOrderList" :key='index'>
+											<view class="order-message" v-for="(item,index) in contentList" :key='index'>
 												<!-- 顶部作废时间和订单类型 -->
 												<view class="order-message-top">
 													<view class="order-invalid-time-order-label">
-														<view class="order-invalid-time" v-if="item.state!='已完成'">
-															订单作废：{{item.orderInvalidTime}}
+														<view class="order-invalid-time" v-if="item.status==0">
+															订单作废: {{ day }} : {{ house }} : {{ second }} : {{ minute }}
 														</view>
-
-														<view class="order-label" v-if="item.state!='已完成'">{{item.state}}</view>
-														
-														<view class="order-invalid-time" v-if="item.state=='已完成'">
-															下单时间: {{item.orderInvalidTime}}
+														<view class="order-label"
+														 v-for="(is,sindex) in status_list" :key='sindex' v-show="item.status==is.type">
+															{{ is.name }}
 														</view>
-														<view class="order-state" v-if="item.state=='已完成'">
-															<image src="../../static/images/complete.png" mode=""></image>
+														<view class="order-invalid-time" v-show="item.status!=0">
+															下单时间: {{item.create_time}}
 														</view>
-														<view class="order-state" v-if="item.state=='已作废'">
-															<image src="../../static/images/cancellation.png" mode=""></image>
+														<!-- 完成 -->
+														<view class="order-state" v-if="item.status==5">
+															<image src="../../static/images/complete.png" mode="widthFix"></image>
+														</view>
+														<!-- 作废 -->
+														<view class="order-state" v-if="item.status==7">
+															<image src="../../static/images/cancellation.png" mode="widthFix"></image>
 														</view>
 													</view>
 												</view>
 
-												<view class="service-conditions-order-porduct" v-for="(i,index) in item.orderPorduct" :key='index'>
-													<!-- 使用条件 -->
-													<view class="service-conditions">
-														<view class="line-service-name">
-															<view class="line"></view>
-															<view class="service-name">{{i.name}}</view>
-														</view>
-														<view class="appointment" v-if="item.state == '已付款'&&i.name=='收费室使用'">
-															预约挂号
-														</view>
-														<view class="remind" v-if="item.state == '已付款'&&i.name=='邮寄商品'">
-															提醒发货
-														</view>
-														
-													</view>
-
-													<!-- 商品展示 -->
-													<view class="order-porduct">
-														<view class="porduct-images-all-set">
-															<view class="porduct-images-item" 
-															 :style="{width:i.porductImagesList.length>=2?'522rpx':'auto'}">
-																<scroll-view class="porduct-images-items" scroll-x="true">
-																	<view class="images-item" :style="{width:i.porductImagesList.length>=2?'522rpx':'auto'}">
-																		<view class="porduct-images-list" v-for="(i,k) in i.porductImagesList" :key='k'>
-																			<image :src="i.url" mode=""></image>
-																		</view> 
-																	</view>
-																</scroll-view>
+												<view class="service-conditions-order-porduct" v-for="(i,k) in item.sku_list" :key='k'>
+													<view class="order-content_goods_list" v-for="(is,sindex) in i" :key='sindex'>
+														<!-- 使用条件 -->
+														<view class="service-conditions">
+															<view class="line-service-name">
+																<view class="line"></view>
+																<view class="service-name" v-if="is.distribution==1">邮寄商品</view>
+																<view class="service-name" v-else-if="is.scan_department==0">收费室使用</view>
+																<view class="service-name" v-else-if="is.scan_department==1">会员中心使用</view>
 															</view>
-
-															<view class="all-see" v-if="i.porductImagesList.length>=2">
-																<view class="trilateral" v-if="i.porductImagesList.length>2"></view>
-																<view class="all-porduct-see">
-																	<view class="all-porduct"> 共计{{i.poructNumber}}件 </view>
-																	<view class="see"> 查看 > </view>
+															<view class="remind" v-if="is.distribution==1&&item.status==2">
+																提醒发货
+															</view>
+															<view class="appointment" v-else-if="is.scan_department==0&&item.status==2">
+																预约挂号
+															</view>
+														</view>
+														<!-- 商品展示 -->
+														<view class="order-porduct" v-if="i.length>1">
+															<view class="porduct-images-all-set">
+																<view class="porduct-images-item"
+																 :style="{width:i.length>=2?'522rpx':'auto'}">
+																	<scroll-view class="porduct-images-items" scroll-x="true">
+																		<view class="images-item"
+																		 :style="{width:i.length>=2?'522rpx':'auto'}">
+																			<view class="porduct-images-list" >
+																				<image :src="requestUrl+is.img" mode=""></image>
+																			</view>
+																		</view>
+																	</scroll-view>
+																</view>
+																<view class="all-see" v-if="i.length>=2">
+																	<view class="trilateral" v-if="i.length>2"></view>
+																	<view class="all-porduct-see">
+																		<view class="all-porduct"> 共计{{ i.length }}件 </view>
+																		<view class="see"> 查看 > </view>
+																	</view>
+																</view>
+															</view>	
+														</view>	
+														<view class="order_goods-content" v-else-if="i.length==1">
+															<image :src="requestUrl+is.img" ></image>
+															<view class="goods_right_content">
+																<view class="goods-title"> {{is.spu_name}} </view>
+																<view class="content_all_items"
+																 @tap='this_show_sku_spec(index,k,sindex)'>
+																	<view class="item_content" >
+																		<text class="content_items" v-for="(z,j) in is.sku_spec" :key='j'>
+																			<text class="versions"> {{ z }} : {{ j }} ; </text> 
+																		</text>
+																	</view>
+																	<image src="../../static/images/arrow-down.png" mode=""></image>
+																</view>
+																<view class="show_item_content"
+																 @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec" >
+																	<view class="show_all_items" >
+																		<view class="content-items" v-for="(z,j) in is.sku_spec" :key='j'>
+																			<text class="versions"> {{ z }} : {{ j }} ; </text>
+																		</view>
+																	</view>
+																	<image src="../../static/images/arrow-down.png" mode=""></image>
+																</view>																
+																<view class="goods_rel_price_sku_nums">
+																	<view class="rel_price"> ￥ <text> {{ is.rel_price }} </text> </view>
+																	<view class="sku_nums"> x{{ is.sku_nums }} </view>
 																</view>
 															</view>
-																														
-															<view class="porduct-content" 
-															 v-if="item.state=='已付款'&& i.name=='邮寄商品'" >
-																
-																<view class="porduct-content-item" 
-																 v-for="(i,k) in i.porductImagesList" :key='k' 
-																 >
-																	<view class="porduct-name">{{i.porductName}}</view>																	
-																	<view class="content-item" @tap='openPorductContent' v-if="!i.showPorduct">
-																		<view class="porduct-content-items">{{i.content}}</view>
-																		<image :src="i.arrowImages" mode=""></image>
-																	</view>																	
-																	<view class="show-porduct-content" 
-																	 v-if="i.showPorduct" @tap='openPorductContent'>
-																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
-																			<view class="versions">版本: {{i.versions}} </view>
-																			<view class="specification">规格: {{i.specification}} </view>
-																			<view class="part">部位: {{i.part}} </view>
-																			<view class="doctor">医生: {{i.doctor}} </view>
-																		</view>
-																		<image :src="i.topImages" mode=""></image>
-																	</view>																	
-																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
-																</view>			
-															</view>
-															<view class="porduct-content"
-															 v-if="item.state=='已完成'&& i.name=='邮寄商品'" >
-																
-																<view class="porduct-content-item" 
-																 v-for="(i,k) in i.porductImagesList" :key='k' 
-																 >
-																	<view class="porduct-name">{{i.porductName}}</view>																	
-																	<view class="content-item" @tap='openAccomplishPorductContent' v-if="!i.showPorduct">
-																		<view class="porduct-content-items">{{i.content}}</view>
-																		<image :src="i.arrowImages" mode=""></image>
-																	</view>																	
-																	<view class="show-porduct-content" 
-																	 v-if="i.showPorduct" @tap='openAccomplishPorductContent'>
-																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
-																			<view class="versions">版本: {{i.versions}} </view>
-																			<view class="specification">规格: {{i.specification}} </view>
-																			<view class="part">部位: {{i.part}} </view>
-																			<view class="doctor">医生: {{i.doctor}} </view>
-																		</view>
-																		<image :src="i.topImages" mode=""></image>
-																	</view>																	
-																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
-																</view>			
-															</view>
-															<view class="porduct-content"
-															 v-if="item.state=='已作废'&& i.name=='邮寄商品'" >
-																
-																<view class="porduct-content-item" 
-																 v-for="(i,k) in i.porductImagesList" :key='k' 
-																 >
-																	<view class="porduct-name">{{i.porductName}}</view>																	
-																	<view class="content-item" @tap='openCancellationPorductContent' v-if="!i.showPorduct">
-																		<view class="porduct-content-items">{{i.content}}</view>
-																		<image :src="i.arrowImages" mode=""></image>
-																	</view>																	
-																	<view class="show-porduct-content" 
-																	 v-if="i.showPorduct" @tap='openCancellationPorductContent'>
-																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
-																			<view class="versions">版本: {{i.versions}} </view>
-																			<view class="specification">规格: {{i.specification}} </view>
-																			<view class="part">部位: {{i.part}} </view>
-																			<view class="doctor">医生: {{i.doctor}} </view>
-																		</view>
-																		<image :src="i.topImages" mode=""></image>
-																	</view>																	
-																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
-																</view>			
-															</view>
-															<view class="porduct-content"
-															 v-if="item.state=='待付款'&& i.name=='收费室使用'&&i.porductImagesList.length==1" >
-																
-																<view class="porduct-content-item" 
-																 v-for="(i,k) in i.porductImagesList" :key='k' 
-																 >
-																	<view class="porduct-name">{{i.porductName}}</view>																	
-																	<view class="content-item" @tap='openPorduct' v-if="!i.showPorduct">
-																		<view class="porduct-content-items">{{i.content}}</view>
-																		<image :src="i.arrowImages" mode=""></image>
-																	</view>																	
-																	<view class="show-porduct-content" 
-																	 v-if="i.showPorduct" @tap='openPorduct'>
-																		<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
-																			<view class="versions">版本: {{i.versions}} </view>
-																			<view class="specification">规格: {{i.specification}} </view>
-																			<view class="part">部位: {{i.part}} </view>
-																			<view class="doctor">医生: {{i.doctor}} </view>
-																		</view>
-																		<image :src="i.topImages" mode=""></image>
-																	</view>																	
-																	<view class="porduct-price"><text>￥</text>{{i.price}}</view>																
-																</view>			
-															</view>
 														</view>
-														
-														
-													</view>
+													</view>									
 												</view>
-
-
 												<!-- 总价、优惠、应付、到院再发、在线支付 -->
 												<view class="pay-for-the-order ">
 													<view class="pay-order-content">
 														<view class=" total-price-on-line-pay">
-															<view class="total-price">总价 <text>￥{{item.allPrice}}</text> </view>
-															<view class="on-line-pay">在线支付 <text>￥{{item.onLinePay}}</text> </view>
+															<view class="total-price">总价 <text>￥{{item.payable_amount}}</text> </view>
+															<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
 														</view>
 														<view class="discounts-hospital-pay">
-															<view class="discounts">优惠 <text>￥{{item.discounts}}</text>
+															<view class="discounts" v-if="item.total_discount">
+																优惠 <text>￥{{item.total_discount}}</text>
 																<image src="../../static/images/ask1.png" mode=""></image>
 															</view>
-															<view class="hospital-pay">到院再付 <text>￥{{item.hospitalPay}}</text> </view>
+															<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
 														</view>
-														<view class="cope-with">应付 <text>￥{{item.copeWith}}</text> </view>
+														<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
 													</view>
 												</view>
 
 												<!-- 订单详情等按钮  -->
 												<view class="particulars-bottom-list">
-													<view class="buttom" v-for="(i,k) in item.bottomList">
-														<button 
-														 class="button" 
-														 type="default" 
-														 plain="true" 
-														 v-if="i.name != '立即支付'&&i.name != '核销使用'&&i.name != '写评价'"
-														 @tap='gotoPages(i.name)'>
-															{{i.name}}
-														
+													<view class="all_button">
+														<button class="button " type="default"
+														 plain="true" v-show="item.status==4||item.status==6||item.status==7||item.status==8">
+															退款明细
 														</button>
-														<button 
-														 class="immediate-payment" 
-														  type="default" 
-														  plain="true" 
-														  v-if="i.name == '立即支付'||i.name == '核销使用'||i.name == '写评价'">
-															{{i.name}}
+														<button class="button"
+														 type="default" plain="true"> 订单详情 </button>
+														<button class="button button_now" type="default"
+														 plain="true" v-show="item.status==5">
+															再次购买 
+														</button>
+														<button class="immediate-payment" type="default"
+														 plain="true" v-show="item.status==0"> 
+															立即支付  
+														</button>
+														<button class="immediate-payment" type="default"
+														 plain="true" v-show="item.status==2"> 
+															核销使用
+														</button>
+														<button class="immediate-payment" type="default"
+														 plain="true" v-show="item.status==5"> 
+															写评价
 														</button>
 													</view>
-												</view>
-
+												</view> 
 											</view>
 										</view>
 									</view>
@@ -257,7 +193,8 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '我的订单',
-				tabBars: [{
+				tabBars: [
+					{
 						name: '全部',
 						id: 'all',
 						type: 0
@@ -286,17 +223,41 @@
 				line: true, //是否显示选中线
 				tabBackgroundColor: '#FFFFFF',
 				size: 24,
-				tabIndex: 0, // 选中的顶部的导航，全部。线上下，礼品券的索引
-				listType: 0, //券的类型
-				contentList: [
-					{ name: '全部', },
-					{ name: '待付款', },
-					{ name: '已付款', },
-					{ name: '已完成', },
-					{ name: '已退款', },
+				tabIndex: 0, // 选中的顶部的导航，0全部 1待付款 2已付款 3已完成 4已退款 
+				listType: 0, //订单的类型
+				requestUrl:'',
+				contentList: [],
+				allOrderList: [], //所有订单信息
+				bottomList: [
+					{
+						name: '订单详情',
+						type: 1
+					}, 
+					{
+						name: '取消订单',
+						type: 2
+					}, 
+					{
+						name: '立即支付',
+						type: 3
+					}, 
 				],
-
-				allOrderList:[],//所有订单信息
+				status_list:[
+					{type:0,name:'待支付'},
+					{type:1,name:'取消订单'},
+					{type:2,name:'已支付'},
+					{type:3,name:'已支付部分完成'},
+					{type:4,name:'已支付部分退款'},
+					{type:5,name:'整单已完成'},
+					{type:6,name:'完成部分退款'},
+					{type:7,name:'整单退款'},
+					{type:8,name:'已支付部分完成部分退款'},
+				],
+				day: 0,
+				house: 0,
+				second: 0,
+				minute: 0,
+				offset: 0, //分页起始位置
 			}
 		},
 		onReady() {
@@ -315,7 +276,6 @@
 					platform = 'applet'
 					break;
 			}
-			that.platform = platform
 			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
@@ -335,384 +295,98 @@
 				that.menuBottom = 82
 			}
 		},
-		onLoad:function(option){
-			this.tabtap()
+		onLoad: function(option) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			// that.tabtap()
+			that.get_my_order()
 		},
 		methods: {
-			tabtap: function(index = 0, type = 0) {
-				this.tabIndex = index;
-				this.listType = type //订单的类型
-				if(type == 0){
-					let allOrderList=[
-						{
-							orderInvalidTime:'0天14时59分59秒',
-							state:'待付款',
-							allPrice:19600,
-							onLinePay:500,
-							discounts:600,
-							hospitalPay:18500,
-							copeWith:19000,
-							orderPorduct: [
-								{
-									name: '收费室使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '会员中心使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '邮寄商品',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, ],
-									poructNumber: 2
-								},
-							],
-							bottomList: [
-								{
-									name: '订单详情',
-									type: 1
-								}, {
-									name: '取消订单',
-									type: 2
-								}, {
-									name: '立即支付',
-									type: 3
-								}, 
-							],
-						},
-						{
-							orderInvalidTime:'0天14时59分59秒',
-							state:'已付款',
-							allPrice:19600,
-							onLinePay:500,
-							discounts:600,
-							hospitalPay:18500,
-							copeWith:19000,
-							orderPorduct: [
-								{
-									name: '收费室使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '会员中心使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '邮寄商品',
-									porductImagesList: [
-										{
-											id: 1,
-											url: '../../static/images/20.png',
-											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
-											contentList:[
-												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
-												part :'腋下切口+内窥镜(进口)+双平面',
-												doctor:'艾剑英/邱伟'},
-											],
-											price:608000,
-											arrowImages: '../../static/images/arrow-down.png',
-											topImages:'../../static/images/arrow-top.png',
-											showPorduct:false,
-										},  
-									],
-									poructNumber: 1
-								},
-							],
-							bottomList: [
-								{
-									name: '申请退款',
-									type: 1
-								}, {
-									name: '订单详情',
-									type: 2
-								}, {
-									name: '核销使用',
-									type: 3
-								}, 
-							],
-						},
-						{
-							orderInvalidTime:'2020-06-28',
-							state:'已完成',
-							allPrice:19600,
-							onLinePay:500,
-							discounts:600,
-							hospitalPay:18500,
-							copeWith:19000,
-							orderPorduct: [
-								{
-									name: '收费室使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '会员中心使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '邮寄商品',
-									porductImagesList: [
-										{
-											id: 1,
-											url: '../../static/images/20.png',
-											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
-											contentList:[
-												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
-												part :'腋下切口+内窥镜(进口)+双平面',
-												doctor:'艾剑英/邱伟'},
-											],
-											price:608000,
-											arrowImages: '../../static/images/arrow-down.png',
-											topImages:'../../static/images/arrow-top.png',
-											showPorduct:false,
-										},  
-									],
-									poructNumber: 1
-								},
-							],
-							bottomList: [
-								{
-									name: '订单详情',
-									type: 1
-								}, {
-									name: '再次购买',
-									type: 2
-								}, {
-									name: '写评价',
-									type: 3
-								}, 
-							],
-						}, 
-						{
-							orderInvalidTime:'2020-06-28',
-							state:'已作废',
-							allPrice:19600,
-							onLinePay:500,
-							discounts:600,
-							hospitalPay:18500,
-							copeWith:19000,
-							orderPorduct: [
-								{
-									name: '收费室使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '会员中心使用',
-									porductImagesList: [{
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 2,
-										url: '../../static/images/20.png',
-									}, {
-										id: 1,
-										url: '../../static/images/23.png',
-									}, {
-										id: 1,
-										url: '../../static/images/19.png',
-									}, ],
-									poructNumber: 4
-								},
-								{
-									name: '邮寄商品',
-									porductImagesList: [
-										{
-											id: 1,
-											url: '../../static/images/20.png',
-											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
-											contentList:[
-												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
-												part :'腋下切口+内窥镜(进口)+双平面',
-												doctor:'艾剑英/邱伟'},
-											],
-											price:608000,
-											arrowImages: '../../static/images/arrow-down.png',
-											topImages:'../../static/images/arrow-top.png',
-											showPorduct:false,
-										},  
-									],
-									poructNumber: 1
-								},
-							],
-							bottomList: [
-								{
-									name: '订单详情',
-									type: 1,
-									
-								},  
-							],
-						}, 
-						{
-							orderInvalidTime:'2020-06-28',
-							state:'待付款',
-							allPrice:19600,
-							onLinePay:500,
-							discounts:600,
-							hospitalPay:18500,
-							copeWith:19000,
-							orderPorduct: [
-								{
-									name: '收费室使用',
-									porductImagesList: [
-										{
-											id: 1,
-											url: '../../static/images/20.png',
-											porductName:'商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-											content:'版本：尊享版； 规格：傲若拉商品名称.... ',
-											contentList:[
-												{versions:'尊享版',specification:'傲诺拉-星熠光面圆盘',
-												part :'腋下切口+内窥镜(进口)+双平面',
-												doctor:'艾剑英/邱伟'},
-											],
-											price:608000,
-											arrowImages: '../../static/images/arrow-down.png',
-											topImages:'../../static/images/arrow-top.png',
-											showPorduct:false,
-										},  
-									],
-								},
-								
-							],
-							bottomList: [
-								{
-									name: '订单详情',
-									type: 1
-								}, {
-									name: '取消订单',
-									type: 2
-								}, {
-									name: '立即支付',
-									type: 3
-								}, 
-							],
-						},
-					]
-					this.allOrderList = allOrderList
+			// 获取我的订单
+			get_my_order: function() {
+				let that = this
+				let dataInfo = {
+					interfaceId: 'get_order_list',
+					type: that.listType, //type：0、全部；1、待付款；2、已付款；3、已完成；4、已退款
+					offset: that.offset,
+					limit: 4
 				}
+				that.request.uniRequest("order", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						if(data.length>0){
+							for(let i=0;i<data.length; i++){
+								let time = data[i].create_time + data[i].cancel_time - data[i].time_now
+								console.log(time)
+								data[i].create_time = that.setTimer(data[i].create_time)
+								
+								
+								that.day = parseInt((time) / 60 / 60 / 24 % 30)
+								that.house = parseInt((time) / 60 / 60 % 24)
+								that.second = parseInt((time) / 60 % 60)
+								that.minute = parseInt((time) % 60)
+								for(let key in data[i].sku_list){
+									for(let j=0;j<data[i].sku_list[key].length;j++){
+										data[i].sku_list[key][j].show_sku_spec = false
+									}
+								}
+							}
+							that.contentList = that.contentList.concat(data)
+						}else{
+							uni.showToast({
+								title:'没有更多了',
+								icon:'none'
+							})
+						}
+						// console.log(data)
+					}
+				})
+			},
+			// 转换时间格式
+			setTimer: function(date) {
+				date = new Date(date * 1000)
+				let month = date.getMonth() + 1
+				if (month < 10) {
+					month = "0" + month
+				}
+				let day = date.getDate()
+				if (day < 10) {
+					day = "0" + day
+				}
+				let time = date.getFullYear() + '-' + month + '-' + day
+				// console.log(time)
+				return time
+			},
+			tabtap: function(index = 0, type = 0) {
+				let that = this
+				that.tabIndex = index;
+				that.offset = 0
+				that.listType = type //订单的类型
+				that.contentList = []
+				that.get_my_order()
 			},
 			tabChange: function(e) {
-				this.tabIndex = e.detail.current;
-				let index = e.detail.current;
+				let that = this
+				that.tabIndex = e.detail.current;
 				let type = e.detail.current
+				that.offset = 0
+				that.listType = type //订单的类型
+				that.contentList = []
+				that.get_my_order()
 			},
-			openPorductContent:function(){
-				let  showPorduct = this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct
-				console.log(this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct)
-				this.allOrderList[1].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct
+			get_more_order:function(){
+				let that = this;
+				that.offset += 1;
+				that.get_my_order()
 			},
-			openAccomplishPorductContent:function(){
-				let  showPorduct = this.allOrderList[2].orderPorduct[2].porductImagesList[0].showPorduct
-				this.allOrderList[2].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct
+			this_show_sku_spec:function(index,k,sindex){
+				let that = this
+				that.contentList[index].sku_list[k][sindex].show_sku_spec = !that.contentList[index].sku_list[k][sindex].show_sku_spec
 			},
-			openCancellationPorductContent:function(){
-				let  showPorduct = this.allOrderList[3].orderPorduct[2].porductImagesList[0].showPorduct
-				this.allOrderList[3].orderPorduct[2].porductImagesList[0].showPorduct = !showPorduct
-			},
-			openPorduct:function(){
-				let  showPorduct = this.allOrderList[4].orderPorduct[0].porductImagesList[0].showPorduct
-				this.allOrderList[4].orderPorduct[0].porductImagesList[0].showPorduct = !showPorduct
-			},
-			gotoPages:function(name){
-				if(name=='订单详情'){
+			
+			gotoPages: function(name) {
+				if (name == '订单详情') {
 					uni.navigateTo({
 						url: `/pages/my/my_order_detail`,
 					})
@@ -751,6 +425,7 @@
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-bottom: 40rpx;
+		position: relative;
 	}
 
 	.order-message-top {
@@ -764,19 +439,19 @@
 		border-bottom: 2rpx solid #f0f0f0;
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
-		position: relative;
+		align-items: center;		
 	}
-	.order-state{
+
+	.order-state {
 		position: absolute;
-		top: 0;
+		top:20rpx;
 		right: 0;
-		width: 166rpx;
-		height: 130rpx;
+		z-index: 9;
+		opacity: 0.8;
 	}
-	.order-state image{
+
+	.order-state image {
 		width: 166rpx;
-		height: 130rpx;
 	}
 
 	.order-invalid-time {
@@ -799,7 +474,8 @@
 		padding-bottom: 22rpx;
 		padding-right: 20rpx;
 	}
-	.line-service-name{
+
+	.line-service-name {
 		display: flex;
 		align-items: center;
 	}
@@ -815,9 +491,10 @@
 		color: #111111;
 		margin-left: 28rpx;
 	}
-	.appointment{
+
+	.appointment {
 		width: 120rpx;
-		height: 40rpx;	
+		height: 40rpx;
 		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#e0619d, #e0619d);
 		border-radius: 20rpx;
 		border: 0;
@@ -826,7 +503,8 @@
 		color: #FFFFFF;
 		font-size: 20rpx;
 	}
-	.remind{
+
+	.remind {
 		width: 120rpx;
 		height: 40rpx;
 		text-align: center;
@@ -844,99 +522,6 @@
 
 	.porduct-images-all-set {
 		display: flex;
-	}
-	.porduct-content-item {
-		padding-top:12rpx ;
-		padding-bottom: 12rpx;
-		position: relative;
-	}
-	.porduct-content-item .porduct-name{
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		font-size: 24rpx;
-		color: #111111;
-		font-weight: lighter;	
-		margin-bottom: 20rpx;
-	}
-	.porduct-content-item .content-item{
-		width: 360rpx;
-		height: 40rpx;
-		line-height: 40rpx;
-		background-color: #f0f0f0;
-		border-radius: 20rpx;
-		font-size: 20rpx;
-		color: #333333;
-		font-weight: lighter;
-		padding: 0 14rpx 0 16rpx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.porduct-content-item .show-porduct-content{
-		font-size: 20rpx;
-		background-color: #f0f0f0;
-		border-radius: 20rpx;
-		padding: 10rpx 16rpx ;
-		position: absolute;
-		width: 360rpx;
-		min-height: 140rpx;
-		display: flex;
-		color: #333333;
-		font-weight: lighter;
-		justify-content: space-between;
-		line-height: 30rpx;
-	}
-	.show-porduct-content .content-items{
-		width: 290rpx;
-	}
-	.show-porduct-content image{
-		width: 32rpx;
-		height: 32rpx;
-	}
-	.porduct-content-items{
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
-		width: 280rpx;
-	}
-	.porduct-content-item .content-item image{
-		width: 32rpx;
-		height: 32rpx;
-		/* margin-left: 30rpx; */
-	}
-	.porduct-content-item .porduct-price{
-		color: #fa3475;
-		font-size: 40rpx;
-		margin-top: 15rpx;
-	}
-	.porduct-content-item .porduct-price text{
-		font-size: 24rpx;
-	}
-
-	.porduct-images-item {
-		width: 522rpx;
-		height: 200rpx;
-	}
-
-	.images-item {
-		width: 522rpx;
-		display: flex;
-	}
-
-	.porduct-images-items {}
-
-	.porduct-images-list {
-		width: 200rpx;
-		height: 200rpx;
-		margin-right: 30rpx;
-	}
-
-	.porduct-images-list image {
-		width: 200rpx;
-		height: 200rpx;
 	}
 
 	.all-see {
@@ -960,7 +545,6 @@
 		border-color: transparent #000000 transparent transparent;
 		transform: rotate(180deg);
 		opacity: 0.1;
-		/* z-index: -5; */
 	}
 
 	.all-porduct-see {
@@ -1004,7 +588,9 @@
 	.discounts {
 		color: #fa3475;
 	}
-	.on-line-pay,.hospital-pay{
+
+	.on-line-pay,
+	.hospital-pay {
 		width: 40%;
 	}
 
@@ -1023,14 +609,14 @@
 	.particulars-bottom-list {
 		padding: 32rpx 0;
 		display: flex;
-		justify-content: space-around;
+		flex-direction:row-reverse;
 	}
 
-	.buttom {
-		border-image-source: linear-gradient(0deg, #999999 0%, #999999 100%);
+	.all_button{
+		display: flex;
+		padding-right: 30rpx;
 	}
-
-	.buttom .button {
+	.button {
 		width: 170rpx;
 		height: 50rpx;
 		line-height: 50rpx;
@@ -1039,6 +625,10 @@
 		border-radius: 25rpx;
 		font-size: 24rpx;
 		color: #999999;
+		margin-right: 20rpx;
+	}
+	.button_now{
+		margin-right: 0;
 	}
 
 	.immediate-payment {
@@ -1052,4 +642,101 @@
 		border-radius: 25rpx;
 		border: 0;
 	}
+	.immediate-payment::after{
+		border: none;
+	}
+	
+	/* 新写的样式 */
+	.order_goods-content{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.order_goods-content image{
+		width: 200rpx;
+		height: 200rpx;
+	}
+	.goods_right_content{
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 0 20rpx;
+		height: 200rpx;
+		position: relative;
+	}
+	.goods-title{
+		font-size: 24rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-height: 32rpx;
+	}
+	.content_all_items{
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		position: absolute;
+		left: 20rpx;
+		top: 76rpx;
+		width: 74%;
+		padding: 0 16rpx;
+		background-color: #f0f0f0;
+		color: #333333;
+		font-size: 20rpx;
+		line-height: 40rpx;
+		border-radius: 20rpx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.item_content{
+		flex: 1;
+	}
+	.content_items{
+		margin-left: 15rpx;
+	}
+	.content_items:first-child{
+		margin-left: 0;
+	}
+	.content_all_items image,.show_item_content image{
+		width: 32rpx;
+		height: 32rpx;
+	}
+	.show_item_content image{
+		transform: rotate(180deg);
+	}
+	
+	.show_item_content{
+		position: absolute;
+		left: 20rpx;
+		top: 76rpx;
+		width: 74%;
+		padding: 5rpx 16rpx;
+		background-color: #f0f0f0;
+		color: #333333;
+		font-size: 20rpx;
+		border-radius: 20rpx;
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.goods_rel_price_sku_nums{
+		display: flex;
+		color: #fa3475;
+		font-size: 24rpx;
+		align-items: center;
+	}
+	
+	.sku_nums{
+		margin-left: 40rpx;
+		font-size: 30rpx;
+	}
+	
+	.rel_price text{
+		font-size: 40rpx;
+	}
+	
 </style>

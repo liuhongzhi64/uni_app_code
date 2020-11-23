@@ -1152,9 +1152,19 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.productLists = that.productLists.concat(data)
+						if(data.length>0){
+							that.productLists = that.productLists.concat(data)
+						}else{
+							uni.showToast({
+								title:'没有更多了',
+								icon:'none'
+							})
+						}
 					} else {
-						console.log('没有数据')
+						uni.showToast({
+							title:'没有更多了',
+							icon:'none'
+						})
 					}
 				})
 			},
@@ -1508,6 +1518,7 @@
 
 	.cart-content {
 		background-color: #F6F6F6;
+		padding-bottom: 120rpx;
 	}
 
 	.empty-cart {

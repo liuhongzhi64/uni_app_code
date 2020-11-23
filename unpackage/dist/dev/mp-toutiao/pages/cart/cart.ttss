@@ -36,6 +36,7 @@
 }
 .cart-content.data-v-0f00adf4 {
 	background-color: #F6F6F6;
+	padding-bottom: 120rpx;
 }
 .empty-cart.data-v-0f00adf4 {
 	text-align: center;

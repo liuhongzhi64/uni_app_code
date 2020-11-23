@@ -398,8 +398,19 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						// that.productList = data
-						that.productList = that.productList.concat(data)
+						if(data.length>0){
+							that.productList = that.productList.concat(data)
+						}else{
+							uni.showToast({
+								title:'没有更多了',
+								icon:'none'
+							})
+						}
+					} else {
+						uni.showToast({
+							title:'没有更多了',
+							icon:'none'
+						})
 					}
 				})				
 			},			

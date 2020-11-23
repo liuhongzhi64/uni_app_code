@@ -270,7 +270,8 @@
 						<view class="all-table-li">
 							<view class="table-ul" v-for="(i,k) in item.data" :key='k'>
 								<view class="table-li"
-								 v-for="(is,j) in i" :key='j' :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':'20%'))}]">
+								 v-for="(is,j) in i" :key='j'
+								 :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':(i.length==1?'100%':'20%')))}]">
 									{{is.val }}
 								</view>
 							</view>

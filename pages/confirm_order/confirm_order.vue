@@ -751,6 +751,7 @@
 								}
 							}
 						}
+					
 						// console.log(data)
 						if(that.expiration_time>0){
 							that.expiration_time = that.setTimer(that.expiration_time)
@@ -1020,8 +1021,8 @@
 							is_post: that.is_post_list[i].is_post,
 							num: that.is_post_list[i].buy_num
 						}
+						cart_id_list.push(list)
 					}
-					cart_id_list.push(list)
 				}
 				if (that.scan_one_list.length > 0) {
 					let list = {}
@@ -1032,8 +1033,8 @@
 							is_post: that.scan_one_list[i].is_post,
 							num: that.scan_one_list[i].buy_num
 						}
+						cart_id_list.push(list)
 					}
-					cart_id_list.push(list)
 				}
 				if (that.scan_two_list.length > 0) {
 					let list = {}
@@ -1044,9 +1045,10 @@
 							is_post: that.scan_two_list[i].is_post,
 							num: that.scan_two_list[i].buy_num
 						}
+						cart_id_list.push(list)
 					}
-					cart_id_list.push(list)
 				}
+				// console.log(cart_id_list)
 				return cart_id_list
 			},
 			// 数组去重
@@ -1134,8 +1136,7 @@
 					}
 					
 				}
-				
-				
+								
 			},
 			// 选择抵用
 			switchChange: function(e) {
@@ -1196,6 +1197,7 @@
 			pay_now:function(){
 				let that = this
 				let sku_list = that.get_goods_info()
+				console.log(sku_list)
 				let address_id = 0
 				let sale_arr = []				
 				for(let i=0;i<that.cart_id_list.length;i++){

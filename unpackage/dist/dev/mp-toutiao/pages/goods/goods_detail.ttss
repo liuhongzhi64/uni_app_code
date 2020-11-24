@@ -613,7 +613,7 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 	line-height: 30rpx;
-	height: 150rpx;
+	/* height: 150rpx; */
 }
 .doctor-head-portrait.data-v-098a7e2c {
 	width: 150rpx;
@@ -640,7 +640,10 @@
 	margin-right: 5rpx;
 }
 .doctor-recommends.data-v-098a7e2c {
-	width: 360rpx;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	/* width: 360rpx; */
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
@@ -652,6 +655,7 @@
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
 	overflow: hidden;
+	line-height: 32rpx;
 }
 .doctor-label-list.data-v-098a7e2c {
 	width: 380rpx;
@@ -671,6 +675,7 @@
 	border: solid 1px #fa3475;
 	padding: 10rpx 20rpx;
 	margin-right: 20rpx;
+	margin-top:20rpx ;
 }
 .doctor-bottom.data-v-098a7e2c {
 	background-color: #f0f0f0;

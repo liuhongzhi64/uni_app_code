@@ -799,7 +799,7 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.doctorList = data.doctor_list
-						that.doctorList = that.group(that.doctorList, 3)
+						that.doctorList = that.group(that.doctorList, 2)
 						that.diaryList = data.diary_list
 						that.questionsAnswersList = data.goods_qa_list
 						that.evaluateList = data.comment_list
@@ -1694,7 +1694,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		line-height: 30rpx;
-		height: 150rpx;
+		/* height: 150rpx; */
 	}
 
 	.doctor-head-portrait {
@@ -1719,10 +1719,12 @@
 	.doctor-name {
 		font-size: 32rpx;
 		margin-right: 5rpx;
+		
 	}
 
 	.doctor-recommends {
-		width: 360rpx;
+		flex: 1;
+		/* width: 360rpx; */
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
@@ -1735,6 +1737,7 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
+		line-height: 32rpx;
 	}
 
 	.doctor-label-list {
@@ -1751,6 +1754,7 @@
 		border: solid 1px #fa3475;
 		padding: 10rpx 20rpx;
 		margin-right: 20rpx;
+		margin-top:20rpx ;
 	}
 
 	.doctor-bottom {

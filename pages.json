@@ -3,12 +3,28 @@
 
 		// 测试时的首页
 		
-		
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
 		},	
 		
+			
+		// 购物车
+		{
+			"path": "pages/cart/cart", //购物车
+			"style": {}
+		},
+		
+		
+		// 确认订单
+		{
+			"path": "pages/confirm_order/confirm_order", //确认订单
+			"style": {}
+		},
+		{
+			"path": "pages/confirm_order/no_refund", //不可线上退款
+			"style": {}
+		},
 		
 		// 首页
 		{
@@ -44,11 +60,7 @@
 			"style": {}
 		},
 
-		// 购物车
-		{
-			"path": "pages/cart/cart", //购物车
-			"style": {}
-		},	
+		
 
 		// 核销
 		{
@@ -60,15 +72,7 @@
 			"style": {}
 		},
 		
-		// 确认订单
-		{
-			"path": "pages/confirm_order/confirm_order", //确认订单
-			"style": {}
-		},
-		{
-			"path": "pages/confirm_order/no_refund", //不可线上退款
-			"style": {}
-		},
+		
 
 		//咨询 
 		{

@@ -130,7 +130,105 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 490));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -451,7 +549,7 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    porduct: porduct },
+    goodsShow: goodsShow },
 
   data: function data() {
     return {
@@ -462,367 +560,205 @@ __webpack_require__.r(__webpack_exports__);
       menuBottom: 0,
       height: 0,
       barName: 'particularsPage', //导航条名称
-      topBackgroundColor: '#fa3474',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '订单详情',
       state: '已付款', //是否付款
-      orderPorduct: [{
-        name: '收费室使用',
-        porductImagesList: [{
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '已退款' },
-
-        {
-          id: 2,
-          url: '../../static/images/20.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 1 },
-        {
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '已使用' },
-        {
-          id: 1,
-          url: '../../static/images/19.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '待使用' }] },
-
-
-
-      {
-        name: '会员中心使用',
-        porductImagesList: [{
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2 },
-
-        {
-          id: 2,
-          url: '../../static/images/20.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 1 },
-        {
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 1 },
-        {
-          id: 1,
-          url: '../../static/images/19.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2 }],
-
-
-        poructNumber: 4 },
-
-      {
-        name: '邮寄商品',
-        porductImagesList: [{
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2 },
-
-        {
-          id: 2,
-          url: '../../static/images/20.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 1 }] }],
-
-
-
-      complimentaryList: [
-      'HB面膜(2片装)一盒',
-      '华桑葆骊科玮防晒霜SPF30（2支）',
-      '20元无门槛卡券',
-      '2000元满减券'],
-
-      priceList: [
-      { name: '商品总价', price: 56800 },
-      { name: '优惠合计', price: 6800 },
-      { name: '邮寄运费', price: 0 },
-      { name: '实际应付', price: 50000 },
-      { name: '在线支付', price: 1000 },
-      { name: '到院再付', price: 49000 }],
-
-      serialNumber: 2354777654, //订单编号
+      requestUrl: '',
+      order_info: {},
+      is_post_list: [], //邮寄商品
+      scan_one_list: [], //收费室使用商品
+      scan_two_list: [], //会员中心使用商品	
       showTop: false,
-      productList: [
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/test.jpg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-      {
-        url: '../../static/images/19.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/23.png', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: '../../static/images/20.png',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: '../../static/images/test.jpg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] }] };
-
-
-
-
+      offset: 0,
+      over_time: '',
+      productLists: [],
+      expiration_time: 0 //过期时间
+    };
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.getLike();
+  },
+  onLoad: function onLoad(option) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    if (option.info) {
+      that.get_order_derail(option.info);
+    } else {
+      that.get_order_derail(23149); //23170
+    }
+    that.getLike();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
+    // 获取订单详情
+    get_order_derail: function get_order_derail(id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'get_order_info',
+        id: id };
+
+      that.request.uniRequest("order", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // 订单商品信息
+          for (var i = 0; i < data.order_goods.length; i++) {
+            // 显示的规格
+            data.order_goods[i].show_sku_spec = false;
+            if (data.order_info.distribution == 1) {
+              that.is_post_list.push(data.order_goods[i]);
+            } else if (data.order_goods[i].scan_department == 0) {
+              that.scan_one_list.push(data.order_goods[i]);
+            } else if (data.order_goods[i].scan_department == 1) {
+              that.scan_two_list.push(data.order_goods[i]);
+            }
+            // 最近的过期时间
+            if (data.order_goods[i].overdue_time) {
+              if (data.order_goods[i].overdue_time > that.expiration_time) {
+                that.expiration_time = data.order_goods[i].overdue_time;
+              }
+            }
+          }
+          // 时间
+          that.over_time = that.setTimer(data.order_info.create_time + data.order_info.cancel_time);
+          data.order_info.create_time = that.setTimer(data.order_info.create_time);
+          // console.log(data)
+          if (that.expiration_time > 0) {
+            that.expiration_time = that.setTimer(that.expiration_time);
+          }
+          // 订单的信息
+          that.order_info = data.order_info;
+        }
+      });
+    },
+    // 转换时间格式
+    setTimer: function setTimer(date) {
+      var house = 0;
+      var second = 0;
+      var minute = 0;
+      house = parseInt(date / 1000 / 60 / 60 % 24);
+      second = parseInt(date / 60 % 60);
+      minute = parseInt(date % 60);
+      date = new Date(date * 1000);
+      var month = date.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      var day = date.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      if (house < 10) {
+        house = "0" + house;
+      }
+      if (second < 10) {
+        second = "0" + second;
+      }
+      if (minute < 10) {
+        minute = "0" + minute;
+      }
+
+      var time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute;
+      // console.log(time)
+      return time;
+    },
+    // 为你推荐
+    getLike: function getLike() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'userrecommendedgoodsspulist',
+        type: '3',
+        offset: that.offset };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          if (data.length > 0) {
+            that.productLists = that.productLists.concat(data);
+          } else {
+            uni.showToast({
+              title: '没有更多了',
+              icon: 'none' });
+
+          }
+        } else {
+          uni.showToast({
+            title: '没有更多了',
+            icon: 'none' });
+
+        }
+      });
+    },
     // 返回上一级
     goBack: function goBack() {
-      console.log('back');
       uni.navigateBack({
         delta: 1 });
 
     },
-    openPorductContent: function openPorductContent(index, k) {
-      var showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct;
-      this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct;
-    },
-    copySerialNumber: function copySerialNumber() {
+
+    // 复制单号
+    copy_order_no: function copy_order_no(info) {
       uni.setClipboardData({
-        data: this.serialNumber,
+        data: info,
         success: function success() {
-          console.log('复制成功');
+          uni.showToast({
+            title: '复制成功' });
+
         } });
 
     },
+    // 返回顶部
     ToTop: function ToTop() {
       uni.pageScrollTo({
         scrollTop: 0,
         duration: 600 });
 
     },
+    // 申请退款
     goToRefund: function goToRefund() {
       uni.navigateTo({
         url: "/pages/my/my_order_refund" });
 
     } },
 
+  // 显示回到顶部按钮
   onPageScroll: function onPageScroll(e) {
     if (e.scrollTop > 0) {
       this.showTop = true;

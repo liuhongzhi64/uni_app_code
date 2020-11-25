@@ -359,6 +359,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -403,6 +412,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 4 }],
 
 
+      showTop: false,
 
       tabIndex: 0, // 选中的顶部的导航，0全部 1待付款 2已付款 3已完成 4已退款 
       listType: 0, //订单的类型
@@ -507,6 +517,11 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.get_my_order();
   },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.get_my_order();
+  },
   methods: {
     // 获取我的订单
     get_my_order: function get_my_order() {
@@ -514,8 +529,8 @@ __webpack_require__.r(__webpack_exports__);
       var dataInfo = {
         interfaceId: 'get_order_list',
         type: that.listType, //type：0、全部；1、待付款；2、已付款；3、已完成；4、已退款
-        offset: that.offset * 4,
-        limit: 4 };
+        offset: that.offset * 2,
+        limit: 2 };
 
       that.request.uniRequest("order", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -641,12 +656,7 @@ __webpack_require__.r(__webpack_exports__);
       that.contentList = [];
       that.get_my_order();
     },
-    // 触底函数
-    get_more_order: function get_more_order() {
-      var that = this;
-      that.offset += 1;
-      that.get_my_order();
-    },
+
     // 显示规格
     this_show_sku_spec: function this_show_sku_spec(index, k, sindex) {
       var that = this;
@@ -657,7 +667,24 @@ __webpack_require__.r(__webpack_exports__);
       uni.navigateTo({
         url: "/pages/my/my_order_detail?info=".concat(info) });
 
-    } } };exports.default = _default;
+    },
+    // 返回顶部
+    ToTop: function ToTop() {
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 600 });
+
+    } },
+
+  // 显示回到顶部按钮
+  onPageScroll: function onPageScroll(e) {
+    if (e.scrollTop > 0) {
+      this.showTop = true;
+    } else
+    if (e.scrollTop == 0) {
+      this.showTop = false;
+    }
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

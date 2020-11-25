@@ -1,6 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "porduct": "/components/porduct"
+    "goods-show": "/components/goodsShow"
   }
 }

@@ -130,7 +130,12 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 497));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 504));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 518));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 504));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 483));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
 
 
 
@@ -647,8 +652,9 @@ __webpack_require__.r(__webpack_exports__);
       house: 0,
       second: 0,
       minute: 0,
-      is_card_shop: 0 };
-
+      is_card_shop: 0,
+      more_card_list: [] //更多的卡券列表
+    };
   },
   onReachBottom: function onReachBottom() {
     var that = this;
@@ -666,14 +672,14 @@ __webpack_require__.r(__webpack_exports__);
       sku_id = option.sku_id;
       that.sku_id = sku_id;
     } else {
-      sku_id = '490'; //206 302
+      sku_id = '429'; //206 302
       that.sku_id = sku_id;
     }
     if (option.encrypted_id) {
       encrypted_id = option.encrypted_id;
       that.encrypted_id = encrypted_id;
     } else {
-      encrypted_id = 'VkRhZGllTGpHbFpWaENRVDdIWVk5QT09'; //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+      encrypted_id = 'MDlqdXJZTzQyODErcm1kYVBPYzBiZz09'; //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
       that.encrypted_id = encrypted_id;
     }
     that.getGoodsDetail(sku_id, encrypted_id);
@@ -761,7 +767,22 @@ __webpack_require__.r(__webpack_exports__);
             that.second = parseInt(that.contentList.sku.act.rest_time / 60 % 60);
             that.minute = parseInt(that.contentList.sku.act.rest_time % 60);
           }
-          that.cardsList = that.contentList.sku.card_list;
+          if (that.contentList.sku.card_list.length > 0) {
+            that.cardsList = that.contentList.sku.card_list;
+            var _dataInfo = {
+              interfaceId: 'ids_get_card',
+              card_id: that.cardsList,
+              limit: 6,
+              offset: 0 };
+
+            that.request.uniRequest("card", _dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                var _data = res.data.data.cards;
+                that.more_card_list = _data;
+              }
+            });
+          }
+
         } else {
           that.request.showToast(res.data.message);
         }
@@ -1157,7 +1178,7 @@ __webpack_require__.r(__webpack_exports__);
 
         that.request.uniRequest("goods", dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
-            var _dataInfo = {
+            var _dataInfo2 = {
               interfaceId: 'addcart',
               sku_id: that.contentList.sku.id,
               num: that.goodsNuber,
@@ -1168,7 +1189,7 @@ __webpack_require__.r(__webpack_exports__);
               // f_unique_id:0, //订单分享人的id
               // archives_id:1//订单渠道
             };
-            that.request.uniRequest("shoppingCart", _dataInfo).then(function (res) {
+            that.request.uniRequest("shoppingCart", _dataInfo2).then(function (res) {
               if (res.data.code == 1000 && res.data.status == 'ok') {
                 that.request.showToast('已加入购物车');
               } else if (res.data.code == 2101) {
@@ -1188,12 +1209,12 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (index == 1) {//立即购买
         var _specAttr = that.verification_specAttr;
-        var _dataInfo2 = {
+        var _dataInfo3 = {
           interfaceId: "selectsku",
           encrypted_id: that.encrypted_id,
           spec_attr: _specAttr };
 
-        that.request.uniRequest("goods", _dataInfo2).then(function (res) {
+        that.request.uniRequest("goods", _dataInfo3).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var one_goods = {
               interfaceId: 'confirmsingle',

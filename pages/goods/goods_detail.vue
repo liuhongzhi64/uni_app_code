@@ -88,13 +88,13 @@
 					<!-- 以前的价格 -->
 					<view class="market-price"> 市场价 <text>￥{{contentList.sku.market_price}}</text> </view>
 					<!-- 热卖提醒 -->
-					<view class="hot-sale-remind" >
+					<!-- <view class="hot-sale-remind" >
 						<view class="hot-sale-content">
 							<view class="hot-sale"> 预热中 </view>
 							<view class="hot-sale-recommend"> 该商品6月18日 9:00:00开始售卖哦~ </view>
 						</view>
 						<view class="remind-me" @tap='subscribe'> 提醒我 </view>
-					</view>
+					</view> -->
 					<!-- 商品名称 -->
 					<view class="prouct-name">
 						<image class="title_icon"
@@ -110,11 +110,16 @@
 					<!-- 活动文案 -->
 					<view class="get-coupon" v-if="contentList.sku.details_prompt"> {{contentList.sku.details_prompt}} </view>
 				</view>
-				<!-- 优惠活动 -->
-				<view class="discounts" v-if="contentList.sku.act.discounts">
+				<!-- 优惠活动 v-if="contentList.sku.act.discounts" -->
+				<view class="discounts" v-if="contentList.sku.act.discounts||more_card_list.length>0" >
 					<view class="discounts-title">
 						<view class="discounts-more"> 优惠 </view>
 						<view class="more" @tap='seeMore(0)'> 更多 > </view>
+					</view>
+					<!-- 领券 -->
+					<view class="discounts-policy" v-for="(item,k) in more_card_list" :key="k">
+						<view class="policy-name"> 领券 </view>
+						<view class="policy-content"> 满 {{ item.condition }} 减 {{ item.min_affect }} </view>
 					</view>
 					<!-- 优惠政策 -->
 					<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
@@ -515,7 +520,8 @@
 				house: 0,
 				second: 0,
 				minute: 0,
-				is_card_shop:0
+				is_card_shop:0,
+				more_card_list:[],//更多的卡券列表
 			}
 		},
 		onReachBottom: function() {
@@ -534,14 +540,14 @@
 				sku_id = option.sku_id
 				that.sku_id = sku_id
 			} else {
-				sku_id = '490' //206 302
+				sku_id = '429' //206 302
 				that.sku_id = sku_id
 			}
 			if (option.encrypted_id) {
 				encrypted_id = option.encrypted_id
 				that.encrypted_id = encrypted_id
 			} else {
-				encrypted_id = 'VkRhZGllTGpHbFpWaENRVDdIWVk5QT09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+				encrypted_id = 'MDlqdXJZTzQyODErcm1kYVBPYzBiZz09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
 				that.encrypted_id = encrypted_id
 			}
 			that.getGoodsDetail(sku_id, encrypted_id)
@@ -629,7 +635,22 @@
 							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60) 
 							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
 						}
-						that.cardsList = that.contentList.sku.card_list
+						if(that.contentList.sku.card_list.length>0){
+							that.cardsList = that.contentList.sku.card_list
+							let dataInfo = {
+								interfaceId:'ids_get_card',
+								card_id:that.cardsList,
+								limit:6,
+								offset:0
+							}
+							that.request.uniRequest("card", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									let data = res.data.data.cards
+									that.more_card_list = data
+								}
+							})
+						}
+						
 					} else {
 						that.request.showToast(res.data.message)
 					}

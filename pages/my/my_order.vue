@@ -14,7 +14,7 @@
 		</view>
 		<view class="my_order-content" :style="[{'padding-top':menuBottom+50+'px'}]">
 			<view class="end-cont my_order-items" :class="{dis:tabIndex == zindex}" v-for="(item,zindex) in tabBars" :key="zindex">
-				<scroll-view scroll-y :style="[{'height':height-menuBottom-50+'px'}]" @scrolltolower='get_more_order()'>
+				<scroll-view scroll-y >
 					<view class="my_order-items-content">
 						<view class="order-advertising-images">
 							<image src="../../static/images/22.png" mode=""></image>
@@ -111,9 +111,12 @@
 														</view>
 													</scroll-view>
 												</view>
+												<view class="right_number_show" @tap="gotoPages(item.id)">>
+													<view> 共计 {{ item.is_post_list.length }} 件 </view>
+													<view class="see_order"> 查看 > </view>
+												</view>
 											</view>
 										</view>
-
 										<!-- 收费室 -->
 										<view class="order_goods-items" v-show="item.scan_one_list.length>0">
 											<view class="service-conditions">
@@ -135,7 +138,7 @@
 														</view>
 													</scroll-view>
 												</view>
-												<view class="right_number_show">
+												<view class="right_number_show" @tap="gotoPages(item.id)">
 													<view> 共计 {{ item.scan_one_list.length }} 件 </view>
 													<view class="see_order"> 查看 > </view>
 												</view>
@@ -163,9 +166,12 @@
 														</view>
 													</scroll-view>
 												</view>
+												<view class="right_number_show" @tap="gotoPages(item.id)">>
+													<view> 共计 {{ item.scan_two_list.length }} 件 </view>
+													<view class="see_order"> 查看 > </view>
+												</view>
 											</view>
 										</view>
-
 									</view>
 								</view>
 								<!-- 总价、优惠、应付、到院再发、在线支付 -->
@@ -193,7 +199,7 @@
 										 v-show="item.status==4||item.status==6||item.status==7||item.status==8">
 											退款明细
 										</button>
-										<button class="button" type="default" plain="true" @tap="gotoPages"> 
+										<button class="button" type="default" plain="true" @tap="gotoPages(item.id)"> 
 											订单详情 
 										</button>
 										<button class="button button_now" type="default" plain="true" v-show="item.status==5">
@@ -215,6 +221,9 @@
 					</view>
 				</scroll-view>
 			</view>
+		</view>
+		<view class="top-button" @click="ToTop" v-if="showTop">
+			TOP
 		</view>
 	</view>
 </template>
@@ -265,7 +274,8 @@
 						type: 4
 					},
 				],
-
+				showTop:false,
+				
 				tabIndex: 0, // 选中的顶部的导航，0全部 1待付款 2已付款 3已完成 4已退款 
 				listType: 0, //订单的类型
 				requestUrl: '',
@@ -369,6 +379,11 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.get_my_order()
 		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.get_my_order()
+		},
 		methods: {
 			// 获取我的订单
 			get_my_order: function() {
@@ -376,8 +391,8 @@
 				let dataInfo = {
 					interfaceId: 'get_order_list',
 					type: that.listType, //type：0、全部；1、待付款；2、已付款；3、已完成；4、已退款
-					offset: that.offset*4,
-					limit: 4
+					offset: that.offset*2,
+					limit: 2
 				}
 				that.request.uniRequest("order", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -425,7 +440,7 @@
 				})
 			},
 			// 开启倒计时
-			set_dount_down(time, i) {
+			set_dount_down:function(time, i) {
 				let that = this
 				// let minuteTime = time;// 秒
 				let secondTime = 0; // 分
@@ -503,12 +518,7 @@
 				that.contentList = []
 				that.get_my_order()
 			},
-			// 触底函数
-			get_more_order: function() {
-				let that = this;
-				that.offset += 1;
-				that.get_my_order()
-			},
+			
 			// 显示规格
 			this_show_sku_spec: function(index, k, sindex) {
 				let that = this
@@ -519,8 +529,25 @@
 				uni.navigateTo({
 					url: `/pages/my/my_order_detail?info=${info}`,
 				})
+			},
+			// 返回顶部
+			ToTop:function() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 600
+				})
+			},
+		},
+		// 显示回到顶部按钮
+		onPageScroll:function(e){
+			if(e.scrollTop > 0 ){
+				this.showTop = true
+			}
+			else if(e.scrollTop == 0){
+				this.showTop = false
 			}
 		}
+		
 	}
 </script>
 
@@ -809,7 +836,6 @@
 	}
 
 	.content_all_items {
-
 		position: absolute;
 		left: 20rpx;
 		top: 76rpx;
@@ -909,5 +935,20 @@
 
 	.see_order {
 		color: #fa3475;
+	}
+	.top-button {
+		width: 64rpx;
+		height: 65rpx;
+		line-height: 65rpx;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		box-shadow: 0rpx 8rpx 16rpx 0rpx  rgba(250, 53, 118, 0.32);
+		border-radius: 50%;
+		position: fixed;
+		right: 40rpx;
+		bottom: 130px;
+		z-index: 9999;
+		font-size: 27rpx;
+		color: #FFFFFF;
+		text-align: center;
 	}
 </style>

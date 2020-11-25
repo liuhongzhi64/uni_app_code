@@ -3,11 +3,17 @@
 
 		// 测试时的首页
 		
+		
+		
+		{
+			"path": "pages/my/my_order_detail", //订单详情
+			"style": {}
+		},
+			
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
-		},	
-		
+		},
 			
 		// 购物车
 		{
@@ -141,11 +147,11 @@
 			"path": "pages/goods/goods_classify", //商品分类
 			"style": {}
 		},
+		
 		{
 			"path": "pages/goods/goods_detail", //商品详情
 			"style": {}
 		},
-		
 		
 		{
 			"path": "pages/goods/goods_list", //商品列表
@@ -229,10 +235,7 @@
 			"style": {}
 		},
 		
-		{
-			"path": "pages/my/my_order_detail", //订单详情
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/my_order_refund", //申请退款
 			"style": {}

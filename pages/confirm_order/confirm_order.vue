@@ -1249,6 +1249,7 @@
 								// 	url: `/pages/confirm_order/confirm_payment?url=${url}`,
 								// })
 								const webview = plus.webview.create("","custom-webview")
+								// that.requestUrl = https://mytest.hmzixin.com/ 后面换为that.requestUrl 因为that.requestUrl会统一改变
 								webview.loadURL(that.pay_url,{"Referer":"https://mytest.hmzixin.com/"})
 							}
 						})

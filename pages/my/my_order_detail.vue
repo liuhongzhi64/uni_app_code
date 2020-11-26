@@ -9,23 +9,30 @@
 					<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> {{title}} </view>
 				</view>
 			</view>
-			<view class="top-message"  v-if="order_info.status!=1">
-				<view class="user-message" >
-					<view class="user-images">
-						<image src="../../static/images/23.png" mode=""></image>
-					</view>
+			<view class="top-message" v-if="order_info.status!=1">
+				<view class="user-message">
+					<!-- 等待付款 v-if="order_info.status==0" -->
 					<view class="user-useing-time-price" v-if="order_info.status==0">
 						<view class="wait-pay">等待付款</view>
-						<view class="residue-time">剩余支付时间：<text>0</text>天<text>0</text>时<text>3</text>分<text>59</text>秒</view>
+						<!-- 倒计时 -->
+						<view class="residue-time">剩余支付时间:
+							<text>0</text>天<text>0</text>时<text>3</text>分<text>59</text>秒
+						</view>
 						<view class="user-pay-price">
 							在线支付￥<text>{{ order_info.online_pay }}</text>,到院再付￥<text>{{ order_info.offline_pay }}</text>
 						</view>
+						<button class="now_pay" type="default" size="mini" @tap="please_pay(order_info.id)">立即支付</button>
 					</view>
-					<!-- v-if="order_info.status==2" -->
-					<view class="user-useing-time-price" >
+					<!-- 已付款 v-else-if="order_info.status==2" -->
+					<view class="user-useing-time-price" v-else-if="order_info.status==2">
 						<view class="wait-pay">已付款</view>
 						<view class="residue-time">有商品于 {{ expiration_time }} 作废</view>
 						<view class="user-pay-prices"> 请尽快到院使用 </view>
+					</view>
+					<!-- 已退款 order_info.status==7 -->
+					<view class="refunded" v-else-if="order_info.status==7">
+						<image src="../../static/images/delete.png" mode=""></image>
+						<view class="refunded_hint">已退款</view>
 					</view>
 				</view>
 			</view>
@@ -35,7 +42,7 @@
 				<view class="cancel_hint">已作废</view>
 			</view>
 		</view>
-
+		<!-- 收货地址和联系方式 -->
 		<view class="user-all-message">
 			<view class="user-message-content" v-if="order_info.distribution==1">
 				<view class="user-message-left">
@@ -49,11 +56,9 @@
 					</view>
 					<view class="shipping-address">
 						<view class="address-name">收货地址</view>
-						<view class="address-content"> {{ order_info.province_cn + order_info.city_cn + order_info.area_cn + order_info.address }} </view>
+						<view class="address-content"> {{ order_info.province_cn + order_info.city_cn + order_info.area_cn + order_info.address }}
+						</view>
 					</view>
-				</view>
-				<view class="user-message-right">
-					<image src="../../static/images/back1.png" mode=""></image>
 				</view>
 			</view>
 			<view class="user_info" v-else-if="order_info.distribution==0">
@@ -63,10 +68,10 @@
 		</view>
 
 		<view class="order-particulars">
-			<scroll-view class="order-particulars" >
-				<template>					
+			<scroll-view class="order-particulars">
+				<template>
 					<view class="all-order-message">
-						<!-- 已付款的核销码 -->
+						<!-- 已付款的核销码 order_info.status==2 -->
 						<view class="account-paid-code" v-if="order_info.status==2">
 							<view class="account-paid-code-content">
 								<view class="account-paid-code-number">订单核销码 - {{ order_info.hx_code }} </view>
@@ -76,7 +81,8 @@
 									<image :src="requestUrl+order_info.qrcodes" mode=""></image>
 								</view>
 							</view>
-						</view>											
+						</view>
+						<!-- 订单商品信息 -->
 						<view class="order-content">
 							<!-- 邮寄商品 -->
 							<view class="order-items" v-if="is_post_list.length>0">
@@ -85,10 +91,12 @@
 										<view class="line"></view>
 										<view class="service-name"> 邮寄商品 </view>
 									</view>
-									<view class="appointment" v-show="order_info.status==0" > 失效的商品将自动退款，请及时到院使用 </view>
+									<view class="appointment" v-show="order_info.status==0"> 失效的商品将自动退款，请及时到院使用 </view>
 								</view>
 								<view class="order-porduct-content" v-for="(i,k) in is_post_list" :key='k'>
-									<view class="order-porduct-line"><view class="porduct-line"></view></view>
+									<view class="order-porduct-line">
+										<view class="porduct-line"></view>
+									</view>
 									<view class="failure-time">
 										<view class="time-hint">商品失效时间: {{ over_time }} </view>
 										<view class="hint-image" v-if="order_info.status==7">
@@ -98,24 +106,24 @@
 											<image src="../../static/images/state2.png" mode=""></image>
 										</view>
 										<view class="hint-text" v-if="order_info.status==2">待使用</view>
-									</view>							
+									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
 											<image :src="requestUrl+i.img" mode=""></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
-											<view class="sku_spec_content" >
+											<view class="sku_spec_content"  @tap='this_show_sku_spec(i,k)'>
 												<view class="item_content">
 													<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</text>
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
-											</view>																
-											<view class="show_item_content" @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec">
+											</view>
+											<view class="show_item_content" @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
 												<view class="show_all_items">
-													<view class="content-items" v-for="(z,j) in is.sku_spec" :key='j'>
+													<view class="content-items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</view>
 												</view>
@@ -124,9 +132,9 @@
 											<view class="porduct-price-number">
 												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
 												<view class="porduct-number">x{{i.sku_nums}}</view>
-											</view>		
+											</view>
 										</view>
-									</view>									
+									</view>
 									<view class="pay-for-the-order ">
 										<view class="pay-order-content">
 											<view class=" total-price-on-line-pay">
@@ -142,7 +150,7 @@
 											<view class="cope-with">应付 <text>￥ {{i.rel_price}} </text> </view>
 										</view>
 									</view>
-								</view>																					
+								</view>
 							</view>
 							<!-- 收费室使用商品 -->
 							<view class="order-items" v-else-if="scan_one_list.length>0">
@@ -151,10 +159,12 @@
 										<view class="line"></view>
 										<view class="service-name"> 收费室使用商品 </view>
 									</view>
-									<view class="appointment" v-show="order_info.status==0" > 失效的商品将自动退款，请及时到院使用 </view>
+									<view class="appointment" v-show="order_info.status==0"> 失效的商品将自动退款，请及时到院使用 </view>
 								</view>
 								<view class="order-porduct-content" v-for="(i,k) in scan_one_list" :key='k'>
-									<view class="order-porduct-line"><view class="porduct-line"></view></view>
+									<view class="order-porduct-line">
+										<view class="porduct-line"></view>
+									</view>
 									<view class="failure-time">
 										<view class="time-hint">商品失效时间: {{ over_time }} </view>
 										<view class="hint-image" v-if="order_info.status==7">
@@ -164,24 +174,24 @@
 											<image src="../../static/images/state2.png" mode=""></image>
 										</view>
 										<view class="hint-text" v-if="order_info.status==2">待使用</view>
-									</view>							
+									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
 											<image :src="requestUrl+i.img" mode=""></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
-											<view class="sku_spec_content" >
+											<view class="sku_spec_content" @tap='this_show_sku_spec(i,k)'>
 												<view class="item_content">
 													<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</text>
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
-											</view>																
-											<view class="show_item_content" @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec">
+											</view>
+											<view class="show_item_content" @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
 												<view class="show_all_items">
-													<view class="content-items" v-for="(z,j) in is.sku_spec" :key='j'>
+													<view class="content-items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</view>
 												</view>
@@ -190,9 +200,9 @@
 											<view class="porduct-price-number">
 												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
 												<view class="porduct-number">x{{i.sku_nums}}</view>
-											</view>		
+											</view>
 										</view>
-									</view>									
+									</view>
 									<view class="pay-for-the-order ">
 										<view class="pay-order-content">
 											<view class=" total-price-on-line-pay">
@@ -208,8 +218,8 @@
 											<view class="cope-with">应付 <text>￥ {{i.rel_price}} </text> </view>
 										</view>
 									</view>
-								</view>																					
-							</view>	
+								</view>
+							</view>
 							<!-- 会中心员使用商品 -->
 							<view class="order-items" v-else-if="scan_two_list.length>0">
 								<view class="service-conditions">
@@ -217,10 +227,12 @@
 										<view class="line"></view>
 										<view class="service-name"> 会中心员使用商品 </view>
 									</view>
-									<view class="appointment" v-show="order_info.status==0" > 失效的商品将自动退款，请及时到院使用 </view>
+									<view class="appointment" v-show="order_info.status==0"> 失效的商品将自动退款，请及时到院使用 </view>
 								</view>
 								<view class="order-porduct-content" v-for="(i,k) in scan_two_list" :key='k'>
-									<view class="order-porduct-line"><view class="porduct-line"></view></view>
+									<view class="order-porduct-line">
+										<view class="porduct-line"></view>
+									</view>
 									<view class="failure-time">
 										<view class="time-hint">商品失效时间: {{ over_time }} </view>
 										<view class="hint-image" v-if="order_info.status==7">
@@ -230,24 +242,24 @@
 											<image src="../../static/images/state2.png" mode=""></image>
 										</view>
 										<view class="hint-text" v-if="order_info.status==2">待使用</view>
-									</view>							
+									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
 											<image :src="requestUrl+i.img" mode=""></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
-											<view class="sku_spec_content" >
+											<view class="sku_spec_content"  @tap='this_show_sku_spec(i,k)'>
 												<view class="item_content">
 													<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</text>
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
-											</view>																
-											<view class="show_item_content" @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec">
+											</view>
+											<view class="show_item_content"  @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
 												<view class="show_all_items">
-													<view class="content-items" v-for="(z,j) in is.sku_spec" :key='j'>
+													<view class="content-items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</view>
 												</view>
@@ -256,9 +268,9 @@
 											<view class="porduct-price-number">
 												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
 												<view class="porduct-number">x{{i.sku_nums}}</view>
-											</view>		
+											</view>
 										</view>
-									</view>									
+									</view>
 									<view class="pay-for-the-order ">
 										<view class="pay-order-content">
 											<view class=" total-price-on-line-pay">
@@ -274,27 +286,27 @@
 											<view class="cope-with">应付 <text>￥ {{i.rel_price}} </text> </view>
 										</view>
 									</view>
-								</view>																					
-							</view>	
-						</view>			
+								</view>
+							</view>
+						</view>
 						<!-- 赠品 -->
-						<view class="complimentary" v-if="order_info.giving_info.length>0">
+						<view class="complimentary">
 							<view class="complimentary-top">
 								<view class="top-name">赠送信息</view>
-								<view class="my-complimentary">我的赠品 > </view>
+								<view class="my-complimentary" @tap="my_card()">我的赠品 > </view>
 							</view>
 							<view class="complimentary-hint">
 								温馨提示：所有赠品将以卡券的形式发放到账户中。若发生整单退款，或是部分退款，
 								我院有权收回相关赠品，并根据退款/退单后的情况重新计算赠品信息
 							</view>
-							<view class="all-complimentary">
+							<view class="all-complimentary" v-if="order_info.giving_info.length>0">
 								<view class="complimentary-item" v-for="(item,k) in order_info.giving_info" :key='k'>
 									<view class="complimentary-name"> {{ item.category }} </view>
 									<view class="complimentary-content"> {{ item.rule_name }} </view>
 								</view>
-							</view>						
-						</view>		
-						<!-- 优惠信息 -->				
+							</view>
+						</view>
+						<!-- 优惠信息 -->
 						<view class="ticket-discount-full-reduction" v-if="order_info.discount_description.length>0">
 							<view class="ticket-content" v-for="(item,index) in order_info.discount_description" :key='index'>
 								<view class="ticket-name-message">
@@ -312,33 +324,33 @@
 						<!-- 商品价格信息 -->
 						<view class="all-price-message">
 							<view class="price-name-message">
-								<view class="price-name" > 商品总价 </view>
-								<view class="price-message"> ￥ {{ order_info.payable_amount }} </view>
+								<view class="price-name"> 商品总价 </view>
+								<view class="price-message"> ￥ {{ order_info.payable_amount || 0 }} </view>
 							</view>
 							<view class="price-name-message">
-								<view class="price-name" > 优惠合计 
-									<image v-show="order_info.total_discount>0" src="../../static/images/ask1.png" ></image> 
-								</view> 
+								<view class="price-name"> 优惠合计
+									<image v-show="order_info.total_discount>0" src="../../static/images/ask1.png"></image>
+								</view>
 								<view class="price-message"> ￥ {{ order_info.total_discount || 0 }} </view>
 							</view>
 							<view class="price-name-message">
-								<view class="price-name" > 邮寄运费 </view>
+								<view class="price-name"> 邮寄运费 </view>
 								<view class="price-message"> ￥ {{ order_info.real_freight || 0 }} </view>
 							</view>
 							<view class="price-name-message">
-								<view class="price-name" > 实际应付 </view>
-								<view class="price-message"> ￥ {{ order_info.rel_price }} </view>
+								<view class="price-name"> 实际应付 </view>
+								<view class="price-message"> ￥ {{ order_info.rel_price || 0 }} </view>
 							</view>
 							<view class="price-name-message ">
-								<view class="price-name color" > 在线支付 </view>
-								<view class="price-message color"> ￥ {{ order_info.online_pay }} </view>
+								<view class="price-name color"> 在线支付 </view>
+								<view class="price-message color"> ￥ {{ order_info.online_pay || 0 }} </view>
 							</view>
 							<view class="price-name-message">
-								<view class="price-name color" > 到院再付 </view>
-								<view class="price-message color"> ￥ {{ order_info.offline_pay }} </view>
+								<view class="price-name color"> 到院再付 </view>
+								<view class="price-message color"> ￥ {{ order_info.offline_pay || 0 }} </view>
 							</view>
 						</view>
-						<!-- 喵豆 -->						
+						<!-- 喵豆 -->
 						<!-- <view class="return-mew-bean">
 							<view class="mew-bean-images-message">
 								<view class="mew-bean-images"><image src="../../static/images/cartBg.png" mode=""></image></view>
@@ -368,13 +380,13 @@
 								<view class="title-name">支付方式:</view>
 								<view class="pay-way-content" v-if="order_info.pay_driver=='wechat'">微信支付</view>
 								<view class="pay-way-content" v-else>支付宝支付</view>
-							</view>							
+							</view>
 						</view>
 						<!-- 猜你喜欢 -->
 						<view class="guess-what-you-like">
 							<view class="related-title">
 								<view class="line"></view> 猜你喜欢
-							</view>	
+							</view>
 							<view class="subject-content">
 								<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='productLists'>
 								</goodsShow>
@@ -383,33 +395,29 @@
 						<view class="bottom-images">
 							<image src="../../static/images/cartBg.png" mode=""></image>
 							<view class="bottom-hint">本喵也是有底线的~</view>
-						</view>		
-					</view>				
+						</view>
+					</view>
 				</template>
 			</scroll-view>
 		</view>
-		
+
 		<!-- 底部按钮 -->
 		<view class="immobilization-button">
 			<view class="button_all">
-				<button class="" type="default" v-if="order_info.status==0||order_info.status==2" size="mini" plain="true">取消订单</button>
-				<button class="" type="default" v-if="order_info.status==0||order_info.status==2" size="mini" plain="true">联系客服</button> 
-				<button class="" type="default" v-if="order_info.status==0" size="mini" plain="true">立即支付</button>
+				<button class="" type="default" v-if="order_info.status==0||order_info.status==2" size="mini">取消订单</button>
+				<button class="" type="default" size="mini" >联系客服</button>
+				<button class="" type="default" v-if="order_info.status==0" size="mini">立即支付</button>
 				<button class="" type="default" v-if="order_info.status==4||order_info.status==6||order_info.status==7||order_info.status==8"
-				 size="mini" plain="true">
+				 size="mini" >
 					退款明细
-				</button> 
-				<button class="" type="default" v-if="order_info.status==2" size="mini" plain="true">申请退款</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini" plain="true">立即预约</button> 
-				<button class="" type="default" v-if="order_info.status==2" size="mini" plain="true">核销使用</button>
+				</button>
+				<button class="" type="default" v-if="order_info.status==2" size="mini">申请退款</button>
+				<button class="" type="default" v-if="order_info.status==2" size="mini" >立即预约</button>
+				<button class="" type="default" v-if="order_info.status==2" size="mini" >核销使用</button>
 			</view>
 		</view>
-		
-		<!-- 回到顶部 -->		
-		<view class="top-button" @click="ToTop" v-if="showTop">
-			TOP
-		</view>
-		
+		<!-- 回到顶部 -->
+		<view class="top-button" @click="ToTop" v-if="showTop"> TOP </view>
 	</view>
 </template>
 
@@ -431,17 +439,17 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '订单详情',
-				state:'已付款',//是否付款
-				requestUrl:'',
-				order_info:{},
+				state: '已付款', //是否付款
+				requestUrl: '',
+				order_info: {},
 				is_post_list: [], //邮寄商品
 				scan_one_list: [], //收费室使用商品
 				scan_two_list: [], //会员中心使用商品	
-				showTop:false,
+				showTop: false,
 				offset: 0,
-				over_time:'',
+				over_time: '',
 				productLists: [],
-				expiration_time:0,//过期时间
+				expiration_time: 0, //过期时间
 			}
 		},
 		onReachBottom: function() {
@@ -453,9 +461,9 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			if(option.info){
+			if (option.info) {
 				that.get_order_derail(option.info)
-			}else{
+			} else {
 				that.get_order_derail(23149) //23170
 			}
 			that.getLike()
@@ -497,11 +505,11 @@
 		},
 		methods: {
 			// 获取订单详情
-			get_order_derail:function(id){
+			get_order_derail: function(id) {
 				let that = this
 				let dataInfo = {
-					interfaceId:'get_order_info',
-					id:id
+					interfaceId: 'get_order_info',
+					id: id
 				}
 				that.request.uniRequest("order", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -518,17 +526,17 @@
 								that.scan_two_list.push(data.order_goods[i])
 							}
 							// 最近的过期时间
-							if(data.order_goods[i].overdue_time){
-								if(data.order_goods[i].overdue_time>that.expiration_time){
+							if (data.order_goods[i].overdue_time) {
+								if (data.order_goods[i].overdue_time > that.expiration_time) {
 									that.expiration_time = data.order_goods[i].overdue_time
 								}
 							}
 						}
 						// 时间
-						that.over_time = that.setTimer(data.order_info.create_time+data.order_info.cancel_time)
+						that.over_time = that.setTimer(data.order_info.create_time + data.order_info.cancel_time)
 						data.order_info.create_time = that.setTimer(data.order_info.create_time)
 						// console.log(data)
-						if(that.expiration_time>0){
+						if (that.expiration_time > 0) {
 							that.expiration_time = that.setTimer(that.expiration_time)
 						}
 						// 订单的信息
@@ -536,12 +544,56 @@
 					}
 				})
 			},
+			// 立即支付
+			please_pay:function(id){
+				let that = this
+				let data_info = {
+					interfaceId:'wechatwap',
+					order_id:id
+				}
+				that.request.uniRequest("pay", data_info).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data.mweb_url)
+						let url = data.mweb_url
+						uni.showLoading({
+						    title: '支付中...'
+						});
+						// app支付
+						// const webview = plus.webview.create("","custom-webview")
+						// webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
+					}
+				})
+			},
+			// 显示规格
+			this_show_sku_spec:function(item,index){
+				let that = this
+				if(that.is_post_list.length>0){
+					for(let key in that.is_post_list){
+						if(that.is_post_list[key].id==item.id){
+							that.is_post_list[key].show_sku_spec = !that.is_post_list[key].show_sku_spec 
+						}
+					}
+				}else if(that.scan_one_list.length>0){
+					for(let key in that.scan_one_list){
+						if(that.scan_one_list[key].id==item.id){
+							that.scan_one_list[key].show_sku_spec = !that.scan_one_list[key].show_sku_spec 
+						}
+					}
+				}else{
+					for(let key in that.scan_two_list){
+						if(that.scan_two_list[key].id==item.id){
+							that.scan_two_list[key].show_sku_spec = !that.scan_two_list[key].show_sku_spec 
+						}
+					}
+				}
+			},
 			// 转换时间格式
 			setTimer: function(date) {
 				let house = 0
 				let second = 0
 				let minute = 0
-				house = parseInt((date) /1000 / 60 / 60 % 24)
+				house = parseInt((date) / 1000 / 60 / 60 % 24)
 				second = parseInt((date) / 60 % 60)
 				minute = parseInt((date) % 60)
 				date = new Date(date * 1000)
@@ -553,16 +605,16 @@
 				if (day < 10) {
 					day = "0" + day
 				}
-				if(house<10){
+				if (house < 10) {
 					house = "0" + house
 				}
-				if(second<10){
+				if (second < 10) {
 					second = "0" + second
 				}
-				if(minute<10){
+				if (minute < 10) {
 					minute = "0" + minute
 				}
-				
+
 				let time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute
 				// console.log(time)
 				return time
@@ -578,18 +630,18 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						if(data.length>0){
+						if (data.length > 0) {
 							that.productLists = that.productLists.concat(data)
-						}else{
+						} else {
 							uni.showToast({
-								title:'没有更多了',
-								icon:'none'
+								title: '没有更多了',
+								icon: 'none'
 							})
 						}
 					} else {
 						uni.showToast({
-							title:'没有更多了',
-							icon:'none'
+							title: '没有更多了',
+							icon: 'none'
 						})
 					}
 				})
@@ -600,38 +652,42 @@
 					delta: 1
 				});
 			},
-			
+			// 我的赠品
+			my_card: function() {
+				uni.navigateTo({
+					url: `/pages/my/my_card`,
+				})
+			},
 			// 复制单号
-			copy_order_no:function(info){
+			copy_order_no: function(info) {
 				uni.setClipboardData({
-				    data: info,
-				    success: function () {
-				        uni.showToast({
-				        	title:'复制成功'
-				        })
-				    }
+					data: info,
+					success: function() {
+						uni.showToast({
+							title: '已复制到剪切板'
+						})
+					}
 				});
 			},
 			// 返回顶部
-			ToTop:function() {
+			ToTop: function() {
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 600
 				})
 			},
 			// 申请退款
-			goToRefund:function(){
+			goToRefund: function() {
 				uni.navigateTo({
 					url: `/pages/my/my_order_refund`,
 				})
 			}
 		},
 		// 显示回到顶部按钮
-		onPageScroll:function(e){
-			if(e.scrollTop > 0 ){
+		onPageScroll: function(e) {
+			if (e.scrollTop > 0) {
 				this.showTop = true
-			}
-			else if(e.scrollTop == 0){
+			} else if (e.scrollTop == 0) {
 				this.showTop = false
 			}
 		}
@@ -691,7 +747,6 @@
 	}
 
 	.top-message {
-		/* padding-left: 50rpx; */
 		display: flex;
 		justify-content: center;
 		padding-top: 210rpx;
@@ -703,30 +758,32 @@
 		color: #FFFFFF;
 		font-size: 24rpx;
 		align-items: center;
-	}
-
-	.user-images,
-	.user-images image {
-		width: 108rpx;
-		height: 108rpx;
-		border-radius: 59rpx;
-	}
-
-	.user-images {
-		margin-right: 30rpx;
+		text-align: center;
 	}
 
 	.wait-pay {
 		font-size: 40rpx;
 	}
-	.user-pay-prices{
+
+	.user-pay-prices {
 		font-size: 32rpx;
+	}
+
+	.now_pay {
+		margin-top: 20rpx;
+		width: 240rpx;
+		border-radius: 50rpx;
+		color: #fa3475;
+		border: none;
+	}
+
+	.now_pay::after {
+		border: none;
 	}
 
 	.residue-time {
 		opacity: 0.7;
-		margin-top: 20rpx;
-		margin-bottom: 22rpx;
+		padding: 20rpx 0;
 	}
 
 	.user-all-message {
@@ -786,13 +843,6 @@
 		border-radius: 16rpx;
 	}
 
-	.user-message-right {
-		width: 40rpx;
-		display: flex;
-		align-items: center;
-		transform: rotate(180deg);
-	}
-
 	.shipping-address {
 		font-size: 24rpx;
 		color: #343434;
@@ -810,18 +860,15 @@
 		width: 76%;
 	}
 
-	.user-message-right image {
-		width: 32rpx;
-		height: 32rpx;
-	}
-	.all-order-message{
+	.all-order-message {
 		padding-bottom: 170rpx;
 	}
-	
-	.account-paid-code{
+
+	.account-paid-code {
 		padding: 40rpx 20rpx 0;
 	}
-	.account-paid-code-content{
+
+	.account-paid-code-content {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		padding: 40rpx 0 30rpx;
@@ -829,80 +876,91 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	.account-paid-code-number{
+
+	.account-paid-code-number {
 		font-size: 32rpx;
 		color: #000000;
 		margin-bottom: 24rpx;
 	}
-	.account-paid-code-hint{
+
+	.account-paid-code-hint {
 		font-size: 24rpx;
 		color: #999999;
 		line-height: 32rpx;
 	}
-	.account-paid-code-image image{
+
+	.account-paid-code-image image {
 		width: 320rpx;
 		height: 320rpx;
 		margin-top: 25rpx;
 	}
-	
-	.order-content{
+
+	.order-content {
 		padding: 40rpx 20rpx 0;
 	}
-	
-	.order-items{
+
+	.order-items {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-bottom: 40rpx;
-		padding: 40rpx 0 ;
+		padding: 40rpx 0;
 	}
+
 	.service-conditions {
 		display: flex;
 		justify-content: space-between;
 		padding-bottom: 22rpx;
 		padding-right: 30rpx;
 	}
-	.line-service-name{
+
+	.line-service-name {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.line {
 		width: 6rpx;
 		height: 24rpx;
 		margin-right: 28rpx;
 		background-color: #fa3475;
 	}
-	
+
 	.service-name {
 		font-size: 24rpx;
 		color: #111111;
 	}
-	.appointment{
+
+	.appointment {
 		font-size: 24rpx;
 		color: #999999;
 	}
-	.order-porduct-content{
+
+	.order-porduct-content {
 		padding: 0 30rpx;
 	}
-	.order-porduct-line{
+
+	.order-porduct-line {
 		padding: 0 0 32rpx;
 	}
-	.porduct-line{
+
+	.porduct-line {
 		background-color: #F0F0F0;
 		height: 2rpx;
 	}
-	
-	.failure-time{
+
+	.failure-time {
 		position: relative;
 		margin-bottom: 25rpx;
 		display: flex;
 		justify-content: space-between;
 	}
-	.time-hint{
+
+	.time-hint {
 		font-size: 24rpx;
 		color: #999999;
 	}
-	.hint-image{
+
+	.hint-image {
 		width: 165rpx;
 		height: 130rpx;
 		position: absolute;
@@ -910,16 +968,18 @@
 		right: 0;
 		opacity: 0.5;
 	}
-	.hint-image image{
+
+	.hint-image image {
 		width: 165rpx;
 		height: 130rpx;
 	}
-	.hint-text{
+
+	.hint-text {
 		font-size: 24rpx;
 		color: #fa3475;
-	}	
-	
-	.order-porduct-images-name{
+	}
+
+	.order-porduct-images-name {
 		border-bottom: 2rpx solid #F0F0F0;
 		padding-bottom: 30rpx;
 		display: flex;
@@ -927,15 +987,18 @@
 		/* align-items: center; */
 		position: relative;
 	}
-	.porduct-images{
+
+	.porduct-images {
 		width: 200rpx;
 		height: 200rpx;
 	}
-	.porduct-images image{
+
+	.porduct-images image {
 		width: 200rpx;
 		height: 200rpx;
 	}
-	.porduct-right{
+
+	.porduct-right {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -943,7 +1006,8 @@
 		padding: 10rpx 0 10rpx 20rpx;
 		flex: 1;
 	}
-	.porduct-name{
+
+	.porduct-name {
 		font-size: 24rpx;
 		line-height: 32rpx;
 		color: #111111;
@@ -953,7 +1017,8 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
-	.sku_spec_content{
+
+	.sku_spec_content {
 		height: 40rpx;
 		line-height: 40rpx;
 		background-color: #f0f0f0;
@@ -970,62 +1035,71 @@
 		left: 20rpx;
 		top: 76rpx;
 	}
-	.item_content{
+
+	.item_content {
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		flex: 1;
 	}
-	.sku_spec_content image ,.show_item_content image{
+
+	.sku_spec_content image,
+	.show_item_content image {
 		width: 32rpx;
 		height: 32rpx;
 	}
+
 	.show_item_content {
 		position: absolute;
 		left: 20rpx;
 		top: 76rpx;
-		width: 74%;
-		padding: 5rpx 16rpx;
+		width: 76%;
+		/* line-height: 40rpx; */
+		padding: 6rpx 16rpx 0;
 		background-color: #f0f0f0;
 		color: #333333;
 		font-size: 20rpx;
 		border-radius: 20rpx;
 		display: flex;
 		justify-content: space-between;
+		font-weight: lighter;
 	}
+
 	.show_item_content image {
 		transform: rotate(180deg);
 	}
-	
-	.porduct-price-number{
+
+	.porduct-price-number {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		color: #fa3475;
 	}
-	
-	.porduct-price{
+
+	.porduct-price {
 		font-size: 40rpx;
 	}
-	.porduct-price text{
+
+	.porduct-price text {
 		font-size: 24rpx;
 	}
-	.porduct-number{
+
+	.porduct-number {
 		font-size: 24rpx;
 	}
-		
+
 	.pay-order-content {
 		border-top: 2rpx solid #F0F0F0;
 		border-bottom: 2rpx solid #F0F0F0;
 		color: #111111;
 		padding-bottom: 20rpx;
 	}
-	
+
 	.pay-order-content text {
 		margin-left: 20rpx;
 	}
-	
+
 	.total-price-on-line-pay,
 	.discounts-hospital-pay {
 		display: flex;
@@ -1034,72 +1108,81 @@
 		margin-top: 20rpx;
 		font-size: 24rpx;
 	}
-	
+
 	.discounts {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.on-line-pay,
 	.discounts {
 		color: #fa3475;
 	}
-	.on-line-pay,.hospital-pay{
+
+	.on-line-pay,
+	.hospital-pay {
 		min-width: 42%;
 	}
-	
+
 	.discounts image {
 		width: 26rpx;
 		height: 26rpx;
 		margin-left: 20rpx;
 	}
-	
+
 	.cope-with {
 		align-items: center;
 		margin-top: 20rpx;
 		font-size: 24rpx;
 	}
-		
-	.complimentary{
+
+	.complimentary {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		padding: 40rpx;
 	}
-	.complimentary-top{
+
+	.complimentary-top {
 		display: flex;
 		justify-content: space-between;
-		align-items:baseline;
+		align-items: baseline;
 	}
-	.top-name{
+
+	.top-name {
 		font-size: 28rpx;
 		color: #000000;
 		font-weight: bold;
 	}
-	.my-complimentary{
+
+	.my-complimentary {
 		color: #fa3475;
 		font-size: 24rpx;
 	}
-	
-	.complimentary-hint{
+
+	.complimentary-hint {
 		font-size: 24rpx;
 		color: #999999;
 		line-height: 32rpx;
 		padding: 15rpx 0 32rpx;
 		border-bottom: 2rpx solid #f0f0f0;
 	}
-	.all-complimentary{
-		padding-top:  40rpx;
+
+	.all-complimentary {
+		padding-top: 40rpx;
 	}
-	.complimentary-item{
+
+	.complimentary-item {
 		display: flex;
 		align-items: center;
 		line-height: 30rpx;
 		margin-bottom: 20rpx;
 	}
-	.complimentary-item:last-child{
+
+	.complimentary-item:last-child {
 		margin-bottom: 0;
 	}
-	.complimentary-name{
+
+	.complimentary-name {
 		width: 80rpx;
 		height: 30rpx;
 		background-color: #ffe8f0;
@@ -1109,28 +1192,33 @@
 		color: #fa3475;
 		margin-right: 18rpx;
 	}
-	.complimentary-content{
+
+	.complimentary-content {
 		font-size: 24rpx;
 		color: #000000;
-		
-	}	
-	.ticket-discount-full-reduction{
+
+	}
+
+	.ticket-discount-full-reduction {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		padding: 40rpx;
 		margin-top: 20rpx;
 	}
-	.ticket-content{
+
+	.ticket-content {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 35rpx;
 	}
-	.ticket-name-message{
+
+	.ticket-name-message {
 		display: flex;
 		line-height: 30rpx;
 	}
-	.ticket-name{
+
+	.ticket-name {
 		width: 80rpx;
 		height: 30rpx;
 		background-color: #ffe8f0;
@@ -1140,124 +1228,144 @@
 		color: #fa3475;
 		margin-right: 16rpx;
 	}
-	.ticket-message{
+
+	.ticket-message {
 		color: #000000;
 		font-size: 24rpx;
 	}
-	.ticket-price{
+
+	.ticket-price {
 		color: #999999;
 		font-size: 32rpx;
 	}
-	
-	.total-discounts{
+
+	.total-discounts {
 		border-top: 2rpx solid #f0f0f0;
 		padding-top: 30rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
-	.total-discounts-name{
+
+	.total-discounts-name {
 		font-size: 24rpx;
 		color: #000000;
 	}
-	.all-total-discounts{
+
+	.all-total-discounts {
 		color: #fa3475;
 		font-size: 32rpx;
 	}
-	
-	.all-price-message{
+
+	.all-price-message {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-top: 24rpx;
 		padding: 40rpx;
 	}
-	
-	.price-name-message{
+
+	.price-name-message {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 40rpx;
 		color: #fa3475;
 	}
-	.price-name-message:last-child{
+
+	.price-name-message:last-child {
 		margin-bottom: 0;
 	}
-	.price-name{
+
+	.price-name {
 		color: #000000;
 		font-size: 24rpx;
 		display: flex;
 		align-items: center;
 	}
-	.price-name image{
+
+	.price-name image {
 		width: 32rpx;
 		height: 32rpx;
 		margin-left: 12rpx;
 	}
-	.price-message{
+
+	.price-message {
 		font-size: 32rpx;
 		color: #111111;
 	}
-	
-	.return-mew-bean{
+
+	.return-mew-bean {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
-		padding: 33rpx 40rpx ;
+		padding: 33rpx 40rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
-	.mew-bean-images-message{
+
+	.mew-bean-images-message {
 		display: flex;
 		font-size: 24rpx;
 	}
-	.mew-bean-message{
+
+	.mew-bean-message {
 		margin-left: 40rpx;
 	}
-	.mew-bean-images image{
+
+	.mew-bean-images image {
 		width: 90rpx;
 		height: 70rpx;
 	}
-	.return-number{
+
+	.return-number {
 		color: #000000;
 	}
-	.return-hint{	
+
+	.return-hint {
 		color: #999999;
 		margin-top: 15rpx;
 	}
-	.my-mew-nean{
+
+	.my-mew-nean {
 		color: #fa3475;
 	}
-	
-	.order-information{
+
+	.order-information {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		padding: 40rpx;
 		font-size: 24rpx;
 		margin-top: 20rpx;
 	}
-	
-	.order-serial-number,.order-time,.pay-label,.pay-way{
+
+	.order-serial-number,
+	.order-time,
+	.pay-label,
+	.pay-way {
 		display: flex;
 		align-items: center;
 		margin-bottom: 24rpx;
 	}
-	.pay-way{
+
+	.pay-way {
 		margin-bottom: 0;
 	}
-	.title-name{
+
+	.title-name {
 		color: #999999;
 		margin-right: 32rpx;
 	}
-	.copy{
+
+	.copy {
 		color: #fa3475;
-		 margin-left: 24rpx;
+		margin-left: 24rpx;
 	}
-	
+
 	/* 猜你喜欢 */
 	.guess-what-you-like {
 		padding: 40rpx 20rpx;
 	}
-	
+
 	.related-title {
 		font-size: 28rpx;
 		line-height: 48rpx;
@@ -1265,73 +1373,104 @@
 		display: flex;
 		align-items: center;
 	}
-	
-	.bottom-images{
+
+	.bottom-images {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		margin-top: 70rpx;
 	}
-	.bottom-images image{
+
+	.bottom-images image {
 		width: 366rpx;
 		height: 260rpx;
 	}
-	.bottom-hint{
+
+	.bottom-hint {
 		font-size: 24rpx;
 		color: #111111;
 		margin-top: 48rpx;
 	}
-	
-	.immobilization-button{
+
+	.immobilization-button {
 		height: 64rpx;
 		padding: 20rpx 0;
 		width: 100%;
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		background-color: red;
-		/* background-color: #FFFFFF;	 */
+		background-color: #DADADA;
 		z-index: 9;
 	}
-	.button_all{
+
+	.button_all {
 		width: 100%;
 		display: flex;
-		/* justify-content: flex-end; */
 	}
-	
+	.button_all button{
+		line-height: 60rpx;
+		border-radius: 30rpx;
+	}
+	.bg_btn{
+		color: #FFFFFF;
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+	}
+	.button_all button::after{
+		border: none;
+	}
+
 	.top-button {
 		width: 64rpx;
-		height: 65rpx;
 		line-height: 65rpx;
-		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-		box-shadow: 0rpx 8rpx 16rpx 0rpx  rgba(250, 53, 118, 0.32);
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+		box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
 		border-radius: 50%;
 		position: fixed;
 		right: 40rpx;
 		bottom: 130px;
 		z-index: 9999;
-		font-size: 27rpx;
+		font-size: 26rpx;
 		color: #FFFFFF;
 		text-align: center;
 	}
-	
+
 	/* 新写的样式 */
-	.cancel-order_top{
+	.refunded {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.refunded image {
+		width: 64rpx;
+		height: 64rpx;
+		margin-right: 20rpx;
+	}
+
+	.refunded_hint {
+		font-size: 32rpx;
+		color: #FFFFFF;
+	}
+
+	.cancel-order_top {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding-bottom: 210rpx;
 		padding-top: 40rpx;
 	}
-	.cancel-order_top image{
+
+	.cancel-order_top image {
 		width: 64rpx;
 		height: 64rpx;
 		margin-right: 20rpx;
 	}
-	.cancel_hint{
+
+	.cancel_hint {
 		color: #FFFFFF;
 	}
-	.user_info{
+
+	.user_info {
 		display: flex;
 		justify-content: center;
 		background-color: #FFFFFF;
@@ -1339,9 +1478,8 @@
 		color: #fa3475;
 		padding: 34rpx 0;
 	}
-	.color{
+
+	.color {
 		color: #fa3475;
 	}
-	
-	
 </style>

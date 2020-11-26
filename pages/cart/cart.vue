@@ -318,7 +318,7 @@
 			</view>
 		</view>
 		<!-- 修改商品规格 -->
-		<scroll-view class="set_goods_spec_content" scroll-y="true" v-if="this_show_goods_spec" :style="[{'height':height/2+'px'}]">
+		<scroll-view class="set_goods_spec_content" scroll-y="true" v-if="this_show_goods_spec" :style="[{'height':height-height/3+'px'}]">
 			<view class="isShow-content">
 				<view class="add-card-top">
 					<view class="left-head_img">

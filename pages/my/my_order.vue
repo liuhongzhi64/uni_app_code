@@ -19,8 +19,8 @@
 						<view class="order-advertising-images">
 							<image src="../../static/images/22.png" mode=""></image>
 						</view>
-						<view class="order-all-message">
-							<view class="order-message" v-for="(item,index) in contentList" :key='index'>
+						<view class="order-all-message" :style="[{'min-height':height-menuBottom-210+'px'}]">
+							<view class="order-message" v-for="(item,index) in contentList" :key='index' v-show="tabIndex<2">
 								<!-- 顶部作废时间和订单类型 -->
 								<view class="order-message-top">
 									<view class="order-invalid-time-order-label">
@@ -63,7 +63,7 @@
 											</view>
 										</view>
 										<view class="order_goods-content">
-											<image :src="requestUrl+is.img"></image>
+											<image :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)"></image>
 											<view class="goods_right_content">
 												<view class="goods-title"> {{is.spu_name}} </view>
 												<view class="content_all_items" @tap='this_show_sku_spec(index,k,sindex)'>
@@ -82,7 +82,8 @@
 													</view>
 													<image src="../../static/images/arrow-down.png" mode=""></image>
 												</view>
-												<view class="goods_rel_price_sku_nums">
+												<view class="goods_rel_price_sku_nums"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
 													<view class="rel_price"> ￥ <text> {{ is.rel_price }} </text> </view>
 													<view class="sku_nums"> x{{ is.sku_nums }} </view>
 												</view>
@@ -106,7 +107,7 @@
 													<scroll-view class="order_goods-image" scroll-x="true">
 														<view class="images_list">
 															<view class="image_items" v-for="(is,sindex) in item.is_post_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img" mode=""></image>
+																<image class="images-item" :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)"></image>
 															</view>
 														</view>
 													</scroll-view>
@@ -133,7 +134,7 @@
 													<scroll-view class="order_goods-image" scroll-x="true">
 														<view class="images_list">
 															<view class="image_items" v-for="(is,sindex) in item.scan_one_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img" mode=""></image>
+																<image class="images-item" :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)"></image>
 															</view>
 														</view>
 													</scroll-view>
@@ -144,7 +145,6 @@
 												</view>
 											</view>
 										</view>
-
 										<!-- 会员中心 -->
 										<view class="order_goods-items" v-show="item.scan_two_list.length>0">
 											<view class="service-conditions">
@@ -161,7 +161,7 @@
 													<scroll-view class="order_goods-image" scroll-x="true">
 														<view class="images_list">
 															<view class="image_items" v-for="(is,sindex) in item.scan_two_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img" mode=""></image>
+																<image class="images-item" :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)" ></image>
 															</view>
 														</view>
 													</scroll-view>
@@ -182,36 +182,140 @@
 											<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
 										</view>
 										<view class="discounts-hospital-pay">
-											<view class="discounts" v-if="item.total_discount">
-												优惠 <text>￥{{item.total_discount}}</text>
-												<image src="../../static/images/ask1.png" mode=""></image>
+											<view class="discounts"
+											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+												优惠 <text>￥{{item.total_discount||0}}</text>
+												<image src="../../static/images/ask1.png"
+												 @tap="this_discount(item.discount_description,item.card_sale_info,item.total_discount)"></image>
 											</view>
 											<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
 										</view>
 										<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
 									</view>
 								</view>
-
 								<!-- 订单详情等按钮  -->
 								<view class="particulars-bottom-list">
 									<view class="all_button">
-										<button class="button " type="default" plain="true"
+										<button class="button" type="default" plain="true" v-show="item.status==0" @tap="cancel_order(item.id)">
+											取消订单 
+										</button>
+										<button class="button" type="default" plain="true" >
+											联系客服
+										</button>
+										<button class="button " type="default" plain="true" @tap="cancel_detail(item.id)"
 										 v-show="item.status==4||item.status==6||item.status==7||item.status==8">
 											退款明细
 										</button>
 										<button class="button" type="default" plain="true" @tap="gotoPages(item.id)"> 
 											订单详情 
 										</button>
-										<button class="button button_now" type="default" plain="true" v-show="item.status==5">
-											再次购买
-										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="item.status==0">
+										<button class="immediate-payment" type="default" plain="true" v-show="item.status==0" @tap="please_pay(item.id)">
 											立即支付
 										</button>
 										<button class="immediate-payment" type="default" plain="true" v-show="item.status==2">
 											核销使用
 										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="item.status==5">
+										<button class="immediate-payment" type="default" plain="true" v-show="item.status==5" @tap="write_content()">
+											写评价
+										</button>
+									</view>
+								</view>
+							</view>
+							<!-- 已付款 已完成 已退款 -->
+							<view class="order-message" v-for="(item,index) in contentList" :key='index' v-show="tabIndex>=2">
+								<!-- 顶部作废时间和订单类型 -->
+								<view class="order-message-top">
+									<view class="order-invalid-time-order-label">
+										<view class="order-invalid-time" v-if="item.overdue_time">
+											退款时间: {{item.overdue_time}}
+										</view>
+										<view class="order-invalid-time" v-else-if="item.scan_time">
+											退款时间: {{item.scan_time}}
+										</view>
+										<view class="order-invalid-time" v-else-if="item.refund_time">
+											退款时间: {{item.refund_time}}
+										</view>
+										<view class="order-label" v-if="tabIndex==2"> 已付款 </view>
+										<view class="order-label" v-else-if="tabIndex==3"> 已完成 </view>
+										<view class="order-label" v-else-if="tabIndex==4"> 已退款 </view>
+									</view>
+								</view>
+								<!-- 使用条件 -->
+								<view class="service-conditions">
+									<view class="line-service-name">
+										<view class="line"></view>
+										<view class="service-name" v-if="item.distribution==1">邮寄商品</view>
+										<view class="service-name" v-else-if="item.scan_department==0">收费室使用</view>
+										<view class="service-name" v-else-if="item.scan_department==1">会员中心使用</view>
+									</view>
+									<view class="remind" v-if="is.distribution==1&&item.status==2">
+										提醒发货
+									</view>
+									<view class="appointment" v-else-if="is.scan_department==0&&item.status==2">
+										预约挂号
+									</view>
+								</view>
+								<view class="order_goods-content">
+									<image :src="requestUrl+item.img" @tap="goods_detail(item.sku_id)"></image>
+									<view class="goods_right_content">
+										<view class="goods-title"> {{item.spu_name}} </view>
+										<view class="content_all_items" @tap='this_show_sku_spec(index)'>
+											<view class="item_content">
+												<text class="content_items" v-for="(z,j) in item.sku_spec" :key='j'>
+													<text class="versions"> {{ z }} : {{ j }} ; </text>
+												</text>
+											</view>
+											<image src="../../static/images/arrow-down.png" mode=""></image>
+										</view>
+										<view class="show_item_content" @tap='this_show_sku_spec(index)' v-if="item.show_sku_spec">
+											<view class="show_all_items">
+												<view class="content-items" v-for="(z,j) in item.sku_spec" :key='j'>
+													<text class="versions"> {{ z }} : {{ j }} ; </text>
+												</view>
+											</view>
+											<image src="../../static/images/arrow-down.png" mode=""></image>
+										</view>
+										<view class="goods_rel_price_sku_nums">
+											<view class="rel_price"> ￥ <text> {{ item.rel_price }} </text> </view>
+											<view class="sku_nums"> x{{ item.sku_nums }} </view>
+										</view>
+									</view>
+								</view>								
+								<!-- 总价、优惠、应付、到院再发、在线支付 -->
+								<view class="pay-for-the-order ">
+									<view class="pay-order-content">
+										<view class=" total-price-on-line-pay">
+											<view class="total-price">总价 <text>￥{{item.sku_price*item.sku_nums}}</text> </view>
+											<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
+										</view>
+										<view class="discounts-hospital-pay">
+											<view class="discounts"
+											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+												优惠 <text>￥{{item.discount||0}}</text>
+												<image src="../../static/images/ask1.png"
+												 @tap="this_discount(item.hd_sale_info,item.card_sale_info,item.discount)"></image>
+											</view>
+											<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
+										</view>
+										<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
+									</view>
+								</view>
+								<!-- 订单详情等按钮  -->
+								<view class="particulars-bottom-list">
+									<view class="all_button">
+										<button class="button" type="default" plain="true" >
+											联系客服
+										</button>
+										<button class="button " type="default" plain="true" @tap="cancel_detail(item.order_id)" v-show="tabIndex==4">
+											退款明细
+										</button>
+										<button class="button" type="default" plain="true" @tap="gotoPages(item.order_id)"> 
+											订单详情 
+										</button>
+										<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==2">
+											核销使用
+										</button>
+										<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==3" @tap="write_content()">
 											写评价
 										</button>
 									</view>
@@ -224,6 +328,28 @@
 		</view>
 		<view class="top-button" @click="ToTop" v-if="showTop">
 			TOP
+		</view>
+		<!-- 优惠信息 -->
+		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">
+			<view class="discount-hint">
+				<view class="discounts_list">
+					<view class="list_item" v-for="(item,index) in discounts_list" :key="index">
+						<view class="item_name"> <view class="category"> {{item.category}} </view> <view> {{ item.rule_name }} </view> </view>
+						<view class="discounts_sale_price"> - ￥ {{ item.sale_price }} </view>
+					</view>
+					<view class="list_item" v-for="(item,index) in card_sale_list" :key="index">
+						<view class="item_name"> <view class="category"> {{item.category}} </view> <view> {{ item.rule_name }} </view> </view>
+						<view class="discounts_sale_price"> - ￥ {{ item.sale_price }} </view>
+					</view>
+				</view>
+				<view class="all_discounts"> 
+					<text class="all_discounts_name"> 合计优惠 </text> 
+					<text class="discounts_sale_price"> - ￥ {{ all_discount }} </text>
+				</view>
+				<button class="i_know" type="default" >
+					我知道了
+				</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -274,8 +400,7 @@
 						type: 4
 					},
 				],
-				showTop:false,
-				
+				showTop:false,				
 				tabIndex: 0, // 选中的顶部的导航，0全部 1待付款 2已付款 3已完成 4已退款 
 				listType: 0, //订单的类型
 				requestUrl: '',
@@ -336,6 +461,26 @@
 				second: 0,
 				minute: 0,
 				offset: 0, //分页起始位置
+				timers:0,
+				this_show_discount:false,//显示优惠信息
+				discounts_list:[
+					{
+                        id: 16,
+                        tools_id: "discount",
+                        category: "折扣",
+                        rule_name: "满2000元打0.88折",
+                        sale_price: "705",
+                        act_id: 4
+                    }
+				],
+				card_sale_list:[
+					{
+						category: "卡券",
+						rule_name: "满2000元打0.88折",
+						sale_price: "705",
+					}
+				],
+				all_discount:0
 			}
 		},
 		onReady() {
@@ -379,10 +524,18 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.get_my_order()
 		},
+		onShow:function(){
+			let that = this
+			that.timers = 0
+		},
 		onReachBottom: function() {
 			let that = this;
 			that.offset += 1;
 			that.get_my_order()
+		},
+		onHide:function(){
+			let that = this
+			that.timers +=1
 		},
 		methods: {
 			// 获取我的订单
@@ -395,47 +548,81 @@
 					limit: 2
 				}
 				that.request.uniRequest("order", dataInfo).then(res => {
+					uni.showLoading({
+						title: '加载中...'
+					});
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						if (data.length > 0) {
-							for (let i = 0; i < data.length; i++) {
-								let time = data[i].create_time + data[i].cancel_time - data[i].time_now
-								if (time > 0) {
-									that.set_dount_down(time, i)
-								}
-								data[i].create_time = that.setTimer(data[i].create_time)
-								for (let key in data[i].sku_list) {
-									if (data[i].sku_list[key].length > 1) {
-										let is_post_list = [] //邮寄商品
-										let scan_one_list = [] //收费室使用商品
-										let scan_two_list = [] //会员中心使用商品
-										for (let index in data[i].sku_list[key]) {
-											if (data[i].sku_list[key][index].distribution == 1) {
-												is_post_list.push(data[i].sku_list[key][index])
-											} else if (data[i].sku_list[key][index].scan_department == 0) {
-												scan_one_list.push(data[i].sku_list[key][index])
-											} else if (data[i].sku_list[key][index].scan_department == 1) {
-												scan_two_list.push(data[i].sku_list[key][index])
+						uni.hideLoading()
+						if(that.listType<2){
+							if (data.length > 0) {
+								for (let i = 0; i < data.length; i++) {
+									let time = data[i].create_time + data[i].cancel_time - data[i].time_now
+									if (time > 0 && data[i].status==0) {
+										that.set_dount_down(time, i)
+									}
+									data[i].create_time = that.setTimer(data[i].create_time)
+									for (let key in data[i].sku_list) {
+										if (data[i].sku_list[key].length > 1) {
+											let is_post_list = [] //邮寄商品
+											let scan_one_list = [] //收费室使用商品
+											let scan_two_list = [] //会员中心使用商品
+											for (let index in data[i].sku_list[key]) {
+												if (data[i].sku_list[key][index].distribution == 1) {
+													is_post_list.push(data[i].sku_list[key][index])
+												} else if (data[i].sku_list[key][index].scan_department == 0) {
+													scan_one_list.push(data[i].sku_list[key][index])
+												} else if (data[i].sku_list[key][index].scan_department == 1) {
+													scan_two_list.push(data[i].sku_list[key][index])
+												}
 											}
+											data[i].is_post_list = is_post_list
+											data[i].scan_one_list = scan_one_list
+											data[i].scan_two_list = scan_two_list
+											// console.log(is_post_list, scan_one_list, scan_two_list)
 										}
-										data[i].is_post_list = is_post_list
-										data[i].scan_one_list = scan_one_list
-										data[i].scan_two_list = scan_two_list
-										// console.log(is_post_list, scan_one_list, scan_two_list)
-									}
-									for (let j = 0; j < data[i].sku_list[key].length; j++) {
-										data[i].sku_list[key][j].show_sku_spec = false
+										for (let j = 0; j < data[i].sku_list[key].length; j++) {
+											data[i].sku_list[key][j].show_sku_spec = false
+										}
 									}
 								}
+								that.contentList = that.contentList.concat(data)
+								// console.log(data)
+							} else {
+								uni.showToast({
+									title: '没有更多了',
+									icon: 'none'
+								})
 							}
-							that.contentList = that.contentList.concat(data)
-						} else {
-							uni.showToast({
-								title: '没有更多了',
-								icon: 'none'
-							})
+						}
+						else{
+							if (data.length > 0) {
+								for (let i = 0; i < data.length; i++) {
+									if(data[i].scan_time){
+										data[i].scan_time = that.setTimer(data[i].scan_time)
+									}else if(data[i].overdue_time){
+										data[i].overdue_time = that.setTimer(data[i].overdue_time)
+									} else if(data[i].refund_time){
+										data[i].refund_time = that.setTimer(data[i].refund_time)
+									}
+									
+									data[i].show_sku_spec = false
+								}
+								that.contentList = that.contentList.concat(data)
+							} else {
+								uni.showToast({
+									title: '没有更多了',
+									icon: 'none'
+								})
+							}
 						}
 						// console.log(data)
+					}else{
+						uni.hideLoading()
+						uni.showToast({
+							title:'暂无数据',
+							icon:'none'
+						})
 					}
 				})
 			},
@@ -446,7 +633,6 @@
 				let secondTime = 0; // 分
 				let hourTime = 0; // 小时
 				let day = 0; //天
-
 				let timers = setInterval(function() {
 					time -= 1
 					let minuteTime = time; // 秒
@@ -474,9 +660,12 @@
 						clearInterval(timers)
 						that.contentList[i].status = 1
 					}
-					console.log(that.day, that.house, that.second, that.minute)
+					if(that.timers>0){
+						clearInterval(timers)
+					}
+					// console.log(that.day, that.house, that.second, that.minute)
 				}, 1000)
-
+				
 			},
 			// 转换时间格式
 			setTimer: function(date) {
@@ -518,16 +707,103 @@
 				that.contentList = []
 				that.get_my_order()
 			},
-			
+			// 商品详情
+			goods_detail:function(id){
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?sku_id=${id}`,
+				})
+			},
 			// 显示规格
 			this_show_sku_spec: function(index, k, sindex) {
 				let that = this
-				that.contentList[index].sku_list[k][sindex].show_sku_spec = !that.contentList[index].sku_list[k][sindex].show_sku_spec
+				if(that.listType<2){
+					that.contentList[index].sku_list[k][sindex].show_sku_spec = !that.contentList[index].sku_list[k][sindex].show_sku_spec
+				}
+				else{
+					that.contentList[index].show_sku_spec = !that.contentList[index].show_sku_spec
+				}
+			},
+			// 显示优惠信息
+			this_discount:function(info,card_sale_info,discount){
+				let that = this
+				if(info.length>0){
+					that.discounts_list = info
+					that.this_show_discount = !that.this_show_discount
+					that.all_discount = discount
+				}else if(card_sale_info&&card_sale_info.length>0){
+					that.card_sale_list = card_sale_info
+					that.this_show_discount = !that.this_show_discount
+				}else{
+					uni.showToast({
+						title:'暂无优惠信息',
+						icon:'none'
+					})
+				}
+			},
+			hide_discount:function(){
+				let that = this
+				that.this_show_discount = !that.this_show_discount
 			},
 			// 订单详情
 			gotoPages: function(info) {
 				uni.navigateTo({
 					url: `/pages/my/my_order_detail?info=${info}`,
+				})
+			},
+			// 取消订单
+			cancel_order: function(id) {
+				let that = this
+				uni.showModal({
+					title: "提示",
+					content: '您正在取消订单,确认取消订单吗？',
+					success: function(res) {
+						if (res.confirm) {
+							let dataInfo = {
+								interfaceId:'cancel',
+								id:id
+							}
+							that.request.uniRequest("order", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									uni.showToast({
+										title:'取消订单成功!'
+									})
+								}
+							})
+						}
+					}
+				})
+			},
+			// 立即支付
+			please_pay: function(id) {
+				let that = this
+				let data_info = {
+					interfaceId: 'wechatwap',
+					order_id: id
+				}
+				that.request.uniRequest("pay", data_info).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						let url = data.mweb_url
+						uni.showLoading({
+							title: '支付中...'
+						});
+						// app支付
+						const webview = plus.webview.create("","custom-webview")
+						webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
+					}
+				})
+			},
+			// 退款详情
+			cancel_detail: function(id) {
+				uni.navigateTo({
+					url: `/pages/my/my_order_refund_progress?id=${id}`,
+				})
+			},
+			// 写日记和评价
+			write_content: function(info) {
+				// 写评价
+				uni.navigateTo({
+					url: `/pages/my/write_comment`,
 				})
 			},
 			// 返回顶部
@@ -552,9 +828,12 @@
 </script>
 
 <style scoped>
+	.show_color{
+		color: #fa3475;
+	}
 	.top-swiper-tab {
 		position: fixed;
-		z-index: 9;
+		z-index: 999;
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
@@ -740,11 +1019,6 @@
 	}
 
 	.on-line-pay,
-	.discounts {
-		color: #fa3475;
-	}
-
-	.on-line-pay,
 	.hospital-pay {
 		width: 50%;
 	}
@@ -782,10 +1056,6 @@
 		font-size: 24rpx;
 		color: #999999;
 		margin-right: 20rpx;
-	}
-
-	.button_now {
-		margin-right: 0;
 	}
 
 	.immediate-payment {
@@ -843,6 +1113,7 @@
 		padding: 0 16rpx;
 		background-color: #f0f0f0;
 		color: #333333;
+		font-weight: lighter;
 		font-size: 20rpx;
 		line-height: 40rpx;
 		border-radius: 20rpx;
@@ -882,20 +1153,21 @@
 		left: 20rpx;
 		top: 76rpx;
 		width: 74%;
-		padding: 5rpx 16rpx;
+		padding: 6rpx 16rpx;
 		background-color: #f0f0f0;
 		color: #333333;
 		font-size: 20rpx;
 		border-radius: 20rpx;
 		display: flex;
 		justify-content: space-between;
+		font-weight: lighter;
 	}
 
 	.goods_rel_price_sku_nums {
 		display: flex;
-		color: #fa3475;
 		font-size: 24rpx;
 		align-items: center;
+		color: #808080;
 	}
 
 	.sku_nums {
@@ -946,9 +1218,73 @@
 		position: fixed;
 		right: 40rpx;
 		bottom: 130px;
-		z-index: 9999;
+		z-index: 99;
 		font-size: 27rpx;
 		color: #FFFFFF;
 		text-align: center;
+	}
+	/* 优惠信息 */
+	.discount_content{
+		width: 100%;
+		position: fixed;
+		z-index: 999;
+		left: 0;
+		background-color: #eeeeee;
+		opacity: 0.6;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.discount-hint{
+		background-color: #FFFFFF;
+		padding: 40rpx 20rpx 10rpx;
+		border-radius: 20rpx;
+		width: 60%;
+	}
+	.discounts_list{
+		border-bottom: 1rpx solid #808080;
+	}
+	.list_item{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 24rpx;
+		width: 100%;
+		padding-bottom: 20rpx;
+	}
+	.item_name{
+		display: flex;
+		align-items: center;
+		flex: 1;
+	}
+	.category{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		padding: 0 20rpx;
+		line-height: 32rpx;
+		border-radius: 16rpx;
+		margin-right: 10rpx;
+		color: #FFFFFF;
+	}
+	.discounts_sale_price{
+		color: #fa3475;
+	}
+	.all_discounts{
+		font-size: 24rpx;
+		display: flex;
+		justify-content: space-between;
+		padding: 30rpx 0;
+		border-bottom: 1rpx solid #808080;
+		margin-bottom: 30rpx;
+	}
+	.all_discounts_name{
+		font-weight: bold;
+	}
+	.i_know{
+		/* background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%); */
+		color: #fa3475;
+		background-color: #FFFFFF
+	}
+	.i_know::after{
+		border: none;
 	}
 </style>

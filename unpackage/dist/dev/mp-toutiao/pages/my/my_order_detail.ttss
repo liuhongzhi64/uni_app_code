@@ -1,4 +1,7 @@
 
+.show_color.data-v-08de1eeb{
+	color: #fa3475;
+}
 .my_order_detail.data-v-08de1eeb {
 	background-color: #F6F6F6;
 }
@@ -304,7 +307,6 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
-	/* align-items: center; */
 	position: relative;
 }
 .porduct-images.data-v-08de1eeb {
@@ -384,7 +386,6 @@
 	left: 20rpx;
 	top: 76rpx;
 	width: 76%;
-	/* line-height: 40rpx; */
 	padding: 6rpx 16rpx 0;
 	background-color: #f0f0f0;
 	color: #333333;
@@ -412,7 +413,7 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	color: #fa3475;
+	color: #808080;
 }
 .porduct-price.data-v-08de1eeb {
 	font-size: 40rpx;
@@ -453,10 +454,6 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-}
-.on-line-pay.data-v-08de1eeb,
-.discounts.data-v-08de1eeb {
-	color: #fa3475;
 }
 .on-line-pay.data-v-08de1eeb,
 .hospital-pay.data-v-08de1eeb {
@@ -707,7 +704,6 @@
 	color: #fa3475;
 	margin-left: 24rpx;
 }
-
 /* 猜你喜欢 */
 .guess-what-you-like.data-v-08de1eeb {
 	padding: 40rpx 20rpx;
@@ -761,16 +757,17 @@
 	display: -webkit-flex;
 	display: flex;
 }
-.button_all button.data-v-08de1eeb{
+.button_all button.data-v-08de1eeb {
 	line-height: 60rpx;
 	border-radius: 30rpx;
+	font-size: 24rpx;
 }
-.bg_btn.data-v-08de1eeb{
+.bg_btn.data-v-08de1eeb {
 	color: #FFFFFF;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 }
-.button_all button.data-v-08de1eeb::after{
+.button_all button.data-v-08de1eeb::after {
 	border: none;
 }
 .top-button.data-v-08de1eeb {
@@ -788,7 +785,6 @@
 	color: #FFFFFF;
 	text-align: center;
 }
-
 /* 新写的样式 */
 .refunded.data-v-08de1eeb {
 	display: -webkit-box;

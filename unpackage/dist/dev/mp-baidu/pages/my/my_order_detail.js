@@ -561,6 +561,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     goodsShow: goodsShow },
@@ -692,14 +714,14 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("pay", data_info).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data.mweb_url);
+          // console.log(data.mweb_url)
           var url = data.mweb_url;
           uni.showLoading({
             title: '支付中...' });
 
           // app支付
-          // const webview = plus.webview.create("","custom-webview")
-          // webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
+          var webview = plus.webview.create("", "custom-webview");
+          webview.loadURL(that.pay_url, { "Referer": that.requestUrl });
         }
       });
     },
@@ -819,6 +841,55 @@ __webpack_require__.r(__webpack_exports__);
       uni.navigateTo({
         url: "/pages/my/my_order_refund" });
 
+    },
+    // 退款详情
+    cancel_detail: function cancel_detail(id) {
+      uni.navigateTo({
+        url: "/pages/my/my_order_refund_progress?id=".concat(id) });
+
+    },
+    cancel_order: function cancel_order(id) {
+      var that = this;
+      uni.showModal({
+        title: "提示",
+        content: '您正在取消订单,确认取消订单吗？',
+        success: function success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定');
+            var dataInfo = {
+              interfaceId: 'cancel',
+              id: id };
+
+            that.request.uniRequest("order", dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                uni.showToast({
+                  title: '取消订单成功!' });
+
+              }
+            });
+          }
+        } });
+
+    },
+    // 联系客服
+    contact: function contact() {
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
+    },
+    // 写日记和评价
+    write_content: function write_content(info) {
+      // 写日记
+      if (info == 'diary') {
+        uni.navigateTo({
+          url: "/pages/diary/diary_write" });
+
+      } else if (info == 'comment') {
+        // 写评价
+        uni.navigateTo({
+          url: "/pages/my/write_comment" });
+
+      }
     } },
 
   // 显示回到顶部按钮

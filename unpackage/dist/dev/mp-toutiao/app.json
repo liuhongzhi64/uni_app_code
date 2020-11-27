@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/my/my_order_detail",
     "pages/my/my_order",
+    "pages/my/my_order_detail",
     "pages/cart/cart",
     "pages/confirm_order/confirm_order",
     "pages/confirm_order/no_refund",
@@ -51,8 +51,8 @@
     "pages/my/my_order_refund",
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
-    "pages/my/write_comment",
     "pages/my/my_set",
+    "pages/my/write_comment",
     "pages/other/jump",
     "pages/pay_success/pay_success",
     "pages/poster/poster",

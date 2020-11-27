@@ -113,7 +113,7 @@
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
-											<view class="sku_spec_content"  @tap='this_show_sku_spec(i,k)'>
+											<view class="sku_spec_content" @tap='this_show_sku_spec(i,k)'>
 												<view class="item_content">
 													<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
@@ -129,9 +129,10 @@
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
 											</view>
-											<view class="porduct-price-number">
-												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
-												<view class="porduct-number">x{{i.sku_nums}}</view>
+											<view class="porduct-price-number" 
+											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+												<view class="porduct-price" ><text>￥</text>{{i.sku_price}}</view>
+												<view class="porduct-number" >x{{i.sku_nums}}</view>
 											</view>
 										</view>
 									</view>
@@ -139,10 +140,15 @@
 										<view class="pay-order-content">
 											<view class=" total-price-on-line-pay">
 												<view class="total-price">总价 <text>￥ {{i.payable_amount}} </text> </view>
-												<view class="on-line-pay">在线支付 <text>￥ {{i.online_pay}} </text> </view>
+												<view class="on-line-pay"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													在线支付 <text>￥ {{i.online_pay}} </text> 
+												</view>
 											</view>
 											<view class="discounts-hospital-pay">
-												<view class="discounts">优惠 <text>￥ {{ i.total_discount || 0}} </text>
+												<view class="discounts"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													优惠 <text>￥ {{ i.total_discount || 0}} </text>
 													<image v-show="i.total_discount>0" src="../../static/images/ask1.png" mode=""></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
@@ -197,9 +203,10 @@
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
 											</view>
-											<view class="porduct-price-number">
+											<view class="porduct-price-number" 
+											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
 												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
-												<view class="porduct-number">x{{i.sku_nums}}</view>
+												<view class="porduct-number"> x {{i.sku_nums}} </view>
 											</view>
 										</view>
 									</view>
@@ -207,10 +214,15 @@
 										<view class="pay-order-content">
 											<view class=" total-price-on-line-pay">
 												<view class="total-price">总价 <text>￥ {{i.payable_amount}} </text> </view>
-												<view class="on-line-pay">在线支付 <text>￥ {{i.online_pay}} </text> </view>
+												<view class="on-line-pay"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													在线支付 <text>￥ {{i.online_pay}} </text> 
+												</view>
 											</view>
 											<view class="discounts-hospital-pay">
-												<view class="discounts">优惠 <text>￥ {{ i.total_discount || 0}} </text>
+												<view class="discounts"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													优惠 <text>￥ {{ i.total_discount || 0}} </text>
 													<image v-show="i.total_discount>0" src="../../static/images/ask1.png" mode=""></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
@@ -249,7 +261,7 @@
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
-											<view class="sku_spec_content"  @tap='this_show_sku_spec(i,k)'>
+											<view class="sku_spec_content" @tap='this_show_sku_spec(i,k)'>
 												<view class="item_content">
 													<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
@@ -257,7 +269,7 @@
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
 											</view>
-											<view class="show_item_content"  @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
+											<view class="show_item_content" @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
 												<view class="show_all_items">
 													<view class="content-items" v-for="(z,j) in i.sku_spec" :key='j'>
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
@@ -265,7 +277,8 @@
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
 											</view>
-											<view class="porduct-price-number">
+											<view class="porduct-price-number"
+											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
 												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
 												<view class="porduct-number">x{{i.sku_nums}}</view>
 											</view>
@@ -275,10 +288,15 @@
 										<view class="pay-order-content">
 											<view class=" total-price-on-line-pay">
 												<view class="total-price">总价 <text>￥ {{i.payable_amount}} </text> </view>
-												<view class="on-line-pay">在线支付 <text>￥ {{i.online_pay}} </text> </view>
+												<view class="on-line-pay"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													在线支付 <text>￥ {{i.online_pay}} </text> 
+												</view>
 											</view>
 											<view class="discounts-hospital-pay">
-												<view class="discounts">优惠 <text>￥ {{ i.total_discount || 0}} </text>
+												<view class="discounts"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													优惠 <text>￥ {{ i.total_discount || 0}} </text>
 													<image v-show="i.total_discount>0" src="../../static/images/ask1.png" mode=""></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
@@ -404,16 +422,20 @@
 		<!-- 底部按钮 -->
 		<view class="immobilization-button">
 			<view class="button_all">
-				<button class="" type="default" v-if="order_info.status==0||order_info.status==2" size="mini">取消订单</button>
-				<button class="" type="default" size="mini" >联系客服</button>
+				<button class="" type="default" v-if="order_info.status==0||order_info.status==2" size="mini" @tap="cancel_order(order_info.id)">
+					取消订单
+				</button>
+				<button class="" type="default" size="mini" @tap="contact()">联系客服</button>
 				<button class="" type="default" v-if="order_info.status==0" size="mini">立即支付</button>
 				<button class="" type="default" v-if="order_info.status==4||order_info.status==6||order_info.status==7||order_info.status==8"
-				 size="mini" >
+				 size="mini" @tap="cancel_detail(order_info.id)">
 					退款明细
 				</button>
 				<button class="" type="default" v-if="order_info.status==2" size="mini">申请退款</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini" >立即预约</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini" >核销使用</button>
+				<button class="" type="default" v-if="order_info.status==2" size="mini">立即预约</button>
+				<button class="" type="default" v-if="order_info.status==2" size="mini">核销使用</button>
+				<button class="" type="default" size="mini" @tap="write_content('diary')">写日记</button>
+				<button class="" type="default" size="mini" @tap="write_content('comment')">写评价</button>
 			</view>
 		</view>
 		<!-- 回到顶部 -->
@@ -545,45 +567,45 @@
 				})
 			},
 			// 立即支付
-			please_pay:function(id){
+			please_pay: function(id) {
 				let that = this
 				let data_info = {
-					interfaceId:'wechatwap',
-					order_id:id
+					interfaceId: 'wechatwap',
+					order_id: id
 				}
 				that.request.uniRequest("pay", data_info).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data.mweb_url)
+						// console.log(data.mweb_url)
 						let url = data.mweb_url
 						uni.showLoading({
-						    title: '支付中...'
+							title: '支付中...'
 						});
 						// app支付
-						// const webview = plus.webview.create("","custom-webview")
-						// webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
+						const webview = plus.webview.create("","custom-webview")
+						webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
 					}
 				})
 			},
 			// 显示规格
-			this_show_sku_spec:function(item,index){
+			this_show_sku_spec: function(item, index) {
 				let that = this
-				if(that.is_post_list.length>0){
-					for(let key in that.is_post_list){
-						if(that.is_post_list[key].id==item.id){
-							that.is_post_list[key].show_sku_spec = !that.is_post_list[key].show_sku_spec 
+				if (that.is_post_list.length > 0) {
+					for (let key in that.is_post_list) {
+						if (that.is_post_list[key].id == item.id) {
+							that.is_post_list[key].show_sku_spec = !that.is_post_list[key].show_sku_spec
 						}
 					}
-				}else if(that.scan_one_list.length>0){
-					for(let key in that.scan_one_list){
-						if(that.scan_one_list[key].id==item.id){
-							that.scan_one_list[key].show_sku_spec = !that.scan_one_list[key].show_sku_spec 
+				} else if (that.scan_one_list.length > 0) {
+					for (let key in that.scan_one_list) {
+						if (that.scan_one_list[key].id == item.id) {
+							that.scan_one_list[key].show_sku_spec = !that.scan_one_list[key].show_sku_spec
 						}
 					}
-				}else{
-					for(let key in that.scan_two_list){
-						if(that.scan_two_list[key].id==item.id){
-							that.scan_two_list[key].show_sku_spec = !that.scan_two_list[key].show_sku_spec 
+				} else {
+					for (let key in that.scan_two_list) {
+						if (that.scan_two_list[key].id == item.id) {
+							that.scan_two_list[key].show_sku_spec = !that.scan_two_list[key].show_sku_spec
 						}
 					}
 				}
@@ -681,7 +703,56 @@
 				uni.navigateTo({
 					url: `/pages/my/my_order_refund`,
 				})
-			}
+			},
+			// 退款详情
+			cancel_detail: function(id) {
+				uni.navigateTo({
+					url: `/pages/my/my_order_refund_progress?id=${id}`,
+				})
+			},
+			cancel_order: function(id) {
+				let that = this
+				uni.showModal({
+					title: "提示",
+					content: '您正在取消订单,确认取消订单吗？',
+					success: function(res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+							let dataInfo = {
+								interfaceId:'cancel',
+								id:id
+							}
+							that.request.uniRequest("order", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									uni.showToast({
+										title:'取消订单成功!'
+									})
+								}
+							})
+						}
+					}
+				})
+			},
+			// 联系客服
+			contact: function() {
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
+			},
+			// 写日记和评价
+			write_content: function(info) {
+				// 写日记
+				if (info == 'diary') {
+					uni.navigateTo({
+						url: `/pages/diary/diary_write`,
+					})
+				} else if (info == 'comment') {
+					// 写评价
+					uni.navigateTo({
+						url: `/pages/my/write_comment`,
+					})
+				}
+			},
 		},
 		// 显示回到顶部按钮
 		onPageScroll: function(e) {
@@ -695,6 +766,9 @@
 </script>
 
 <style scoped>
+	.show_color{
+		color: #fa3475;
+	}
 	.my_order_detail {
 		background-color: #F6F6F6;
 	}
@@ -984,7 +1058,6 @@
 		padding-bottom: 30rpx;
 		display: flex;
 		justify-content: space-between;
-		/* align-items: center; */
 		position: relative;
 	}
 
@@ -1055,7 +1128,6 @@
 		left: 20rpx;
 		top: 76rpx;
 		width: 76%;
-		/* line-height: 40rpx; */
 		padding: 6rpx 16rpx 0;
 		background-color: #f0f0f0;
 		color: #333333;
@@ -1074,8 +1146,9 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: #fa3475;
+		color: #808080;
 	}
+	
 
 	.porduct-price {
 		font-size: 40rpx;
@@ -1112,11 +1185,6 @@
 	.discounts {
 		display: flex;
 		align-items: center;
-	}
-
-	.on-line-pay,
-	.discounts {
-		color: #fa3475;
 	}
 
 	.on-line-pay,
@@ -1407,15 +1475,19 @@
 		width: 100%;
 		display: flex;
 	}
-	.button_all button{
+
+	.button_all button {
 		line-height: 60rpx;
 		border-radius: 30rpx;
+		font-size: 24rpx;
 	}
-	.bg_btn{
+
+	.bg_btn {
 		color: #FFFFFF;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
-	.button_all button::after{
+
+	.button_all button::after {
 		border: none;
 	}
 

@@ -362,6 +362,132 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -407,7 +533,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
       showTop: false,
-
       tabIndex: 0, // 选中的顶部的导航，0全部 1待付款 2已付款 3已完成 4已退款 
       listType: 0, //订单的类型
       requestUrl: '',
@@ -467,8 +592,28 @@ __webpack_require__.r(__webpack_exports__);
       house: 0,
       second: 0,
       minute: 0,
-      offset: 0 //分页起始位置
-    };
+      offset: 0, //分页起始位置
+      timers: 0,
+      this_show_discount: false, //显示优惠信息
+      discounts_list: [
+      {
+        id: 16,
+        tools_id: "discount",
+        category: "折扣",
+        rule_name: "满2000元打0.88折",
+        sale_price: "705",
+        act_id: 4 }],
+
+
+      card_sale_list: [
+      {
+        category: "卡券",
+        rule_name: "满2000元打0.88折",
+        sale_price: "705" }],
+
+
+      all_discount: 0 };
+
   },
   onReady: function onReady() {
     var that = this;
@@ -511,10 +656,18 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.get_my_order();
   },
+  onShow: function onShow() {
+    var that = this;
+    that.timers = 0;
+  },
   onReachBottom: function onReachBottom() {
     var that = this;
     that.offset += 1;
     that.get_my_order();
+  },
+  onHide: function onHide() {
+    var that = this;
+    that.timers += 1;
   },
   methods: {
     // 获取我的订单
@@ -527,47 +680,81 @@ __webpack_require__.r(__webpack_exports__);
         limit: 2 };
 
       that.request.uniRequest("order", dataInfo).then(function (res) {
+        uni.showLoading({
+          title: '加载中...' });
+
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          if (data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-              var time = data[i].create_time + data[i].cancel_time - data[i].time_now;
-              if (time > 0) {
-                that.set_dount_down(time, i);
-              }
-              data[i].create_time = that.setTimer(data[i].create_time);
-              for (var key in data[i].sku_list) {
-                if (data[i].sku_list[key].length > 1) {
-                  var is_post_list = []; //邮寄商品
-                  var scan_one_list = []; //收费室使用商品
-                  var scan_two_list = []; //会员中心使用商品
-                  for (var index in data[i].sku_list[key]) {
-                    if (data[i].sku_list[key][index].distribution == 1) {
-                      is_post_list.push(data[i].sku_list[key][index]);
-                    } else if (data[i].sku_list[key][index].scan_department == 0) {
-                      scan_one_list.push(data[i].sku_list[key][index]);
-                    } else if (data[i].sku_list[key][index].scan_department == 1) {
-                      scan_two_list.push(data[i].sku_list[key][index]);
+          uni.hideLoading();
+          if (that.listType < 2) {
+            if (data.length > 0) {
+              for (var i = 0; i < data.length; i++) {
+                var time = data[i].create_time + data[i].cancel_time - data[i].time_now;
+                if (time > 0 && data[i].status == 0) {
+                  that.set_dount_down(time, i);
+                }
+                data[i].create_time = that.setTimer(data[i].create_time);
+                for (var key in data[i].sku_list) {
+                  if (data[i].sku_list[key].length > 1) {
+                    var is_post_list = []; //邮寄商品
+                    var scan_one_list = []; //收费室使用商品
+                    var scan_two_list = []; //会员中心使用商品
+                    for (var index in data[i].sku_list[key]) {
+                      if (data[i].sku_list[key][index].distribution == 1) {
+                        is_post_list.push(data[i].sku_list[key][index]);
+                      } else if (data[i].sku_list[key][index].scan_department == 0) {
+                        scan_one_list.push(data[i].sku_list[key][index]);
+                      } else if (data[i].sku_list[key][index].scan_department == 1) {
+                        scan_two_list.push(data[i].sku_list[key][index]);
+                      }
                     }
+                    data[i].is_post_list = is_post_list;
+                    data[i].scan_one_list = scan_one_list;
+                    data[i].scan_two_list = scan_two_list;
+                    // console.log(is_post_list, scan_one_list, scan_two_list)
                   }
-                  data[i].is_post_list = is_post_list;
-                  data[i].scan_one_list = scan_one_list;
-                  data[i].scan_two_list = scan_two_list;
-                  // console.log(is_post_list, scan_one_list, scan_two_list)
-                }
-                for (var j = 0; j < data[i].sku_list[key].length; j++) {
-                  data[i].sku_list[key][j].show_sku_spec = false;
+                  for (var j = 0; j < data[i].sku_list[key].length; j++) {
+                    data[i].sku_list[key][j].show_sku_spec = false;
+                  }
                 }
               }
-            }
-            that.contentList = that.contentList.concat(data);
-          } else {
-            uni.showToast({
-              title: '没有更多了',
-              icon: 'none' });
+              that.contentList = that.contentList.concat(data);
+              // console.log(data)
+            } else {
+              uni.showToast({
+                title: '没有更多了',
+                icon: 'none' });
 
+            }
+          } else
+          {
+            if (data.length > 0) {
+              for (var _i = 0; _i < data.length; _i++) {
+                if (data[_i].scan_time) {
+                  data[_i].scan_time = that.setTimer(data[_i].scan_time);
+                } else if (data[_i].overdue_time) {
+                  data[_i].overdue_time = that.setTimer(data[_i].overdue_time);
+                } else if (data[_i].refund_time) {
+                  data[_i].refund_time = that.setTimer(data[_i].refund_time);
+                }
+
+                data[_i].show_sku_spec = false;
+              }
+              that.contentList = that.contentList.concat(data);
+            } else {
+              uni.showToast({
+                title: '没有更多了',
+                icon: 'none' });
+
+            }
           }
           // console.log(data)
+        } else {
+          uni.hideLoading();
+          uni.showToast({
+            title: '暂无数据',
+            icon: 'none' });
+
         }
       });
     },
@@ -578,7 +765,6 @@ __webpack_require__.r(__webpack_exports__);
       var secondTime = 0; // 分
       var hourTime = 0; // 小时
       var day = 0; //天
-
       var timers = setInterval(function () {
         time -= 1;
         var minuteTime = time; // 秒
@@ -606,7 +792,10 @@ __webpack_require__.r(__webpack_exports__);
           clearInterval(timers);
           that.contentList[i].status = 1;
         }
-        console.log(that.day, that.house, that.second, that.minute);
+        if (that.timers > 0) {
+          clearInterval(timers);
+        }
+        // console.log(that.day, that.house, that.second, that.minute)
       }, 1000);
 
     },
@@ -650,16 +839,103 @@ __webpack_require__.r(__webpack_exports__);
       that.contentList = [];
       that.get_my_order();
     },
+    // 商品详情
+    goods_detail: function goods_detail(id) {
+      uni.navigateTo({
+        url: "/pages/goods/goods_detail?sku_id=".concat(id) });
 
+    },
     // 显示规格
     this_show_sku_spec: function this_show_sku_spec(index, k, sindex) {
       var that = this;
-      that.contentList[index].sku_list[k][sindex].show_sku_spec = !that.contentList[index].sku_list[k][sindex].show_sku_spec;
+      if (that.listType < 2) {
+        that.contentList[index].sku_list[k][sindex].show_sku_spec = !that.contentList[index].sku_list[k][sindex].show_sku_spec;
+      } else
+      {
+        that.contentList[index].show_sku_spec = !that.contentList[index].show_sku_spec;
+      }
+    },
+    // 显示优惠信息
+    this_discount: function this_discount(info, card_sale_info, discount) {
+      var that = this;
+      if (info.length > 0) {
+        that.discounts_list = info;
+        that.this_show_discount = !that.this_show_discount;
+        that.all_discount = discount;
+      } else if (card_sale_info && card_sale_info.length > 0) {
+        that.card_sale_list = card_sale_info;
+        that.this_show_discount = !that.this_show_discount;
+      } else {
+        uni.showToast({
+          title: '暂无优惠信息',
+          icon: 'none' });
+
+      }
+    },
+    hide_discount: function hide_discount() {
+      var that = this;
+      that.this_show_discount = !that.this_show_discount;
     },
     // 订单详情
     gotoPages: function gotoPages(info) {
       uni.navigateTo({
         url: "/pages/my/my_order_detail?info=".concat(info) });
+
+    },
+    // 取消订单
+    cancel_order: function cancel_order(id) {
+      var that = this;
+      uni.showModal({
+        title: "提示",
+        content: '您正在取消订单,确认取消订单吗？',
+        success: function success(res) {
+          if (res.confirm) {
+            var dataInfo = {
+              interfaceId: 'cancel',
+              id: id };
+
+            that.request.uniRequest("order", dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                uni.showToast({
+                  title: '取消订单成功!' });
+
+              }
+            });
+          }
+        } });
+
+    },
+    // 立即支付
+    please_pay: function please_pay(id) {
+      var that = this;
+      var data_info = {
+        interfaceId: 'wechatwap',
+        order_id: id };
+
+      that.request.uniRequest("pay", data_info).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          var url = data.mweb_url;
+          uni.showLoading({
+            title: '支付中...' });
+
+          // app支付
+          var webview = plus.webview.create("", "custom-webview");
+          webview.loadURL(that.pay_url, { "Referer": that.requestUrl });
+        }
+      });
+    },
+    // 退款详情
+    cancel_detail: function cancel_detail(id) {
+      uni.navigateTo({
+        url: "/pages/my/my_order_refund_progress?id=".concat(id) });
+
+    },
+    // 写日记和评价
+    write_content: function write_content(info) {
+      // 写评价
+      uni.navigateTo({
+        url: "/pages/my/write_comment" });
 
     },
     // 返回顶部

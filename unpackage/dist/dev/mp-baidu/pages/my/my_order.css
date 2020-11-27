@@ -1,7 +1,10 @@
 
+.show_color.data-v-4842cd15{
+	color: #fa3475;
+}
 .top-swiper-tab.data-v-4842cd15 {
 	position: fixed;
-	z-index: 9;
+	z-index: 999;
 	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -182,10 +185,6 @@
 	        align-items: center;
 }
 .on-line-pay.data-v-4842cd15,
-.discounts.data-v-4842cd15 {
-	color: #fa3475;
-}
-.on-line-pay.data-v-4842cd15,
 .hospital-pay.data-v-4842cd15 {
 	width: 50%;
 }
@@ -228,9 +227,6 @@
 	color: #999999;
 	margin-right: 20rpx;
 }
-.button_now.data-v-4842cd15 {
-	margin-right: 0;
-}
 .immediate-payment.data-v-4842cd15 {
 	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%), -webkit-linear-gradient(#e0619d, #e0619d);
 	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#e0619d, #e0619d);
@@ -246,7 +242,6 @@
 .immediate-payment.data-v-4842cd15::after {
 	border: none;
 }
-
 /* 新写的样式 */
 .order_goods-content.data-v-4842cd15 {
 	display: -webkit-box;
@@ -297,6 +292,7 @@
 	padding: 0 16rpx;
 	background-color: #f0f0f0;
 	color: #333333;
+	font-weight: lighter;
 	font-size: 20rpx;
 	line-height: 40rpx;
 	border-radius: 20rpx;
@@ -339,7 +335,7 @@
 	left: 20rpx;
 	top: 76rpx;
 	width: 74%;
-	padding: 5rpx 16rpx;
+	padding: 6rpx 16rpx;
 	background-color: #f0f0f0;
 	color: #333333;
 	font-size: 20rpx;
@@ -350,16 +346,17 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
+	font-weight: lighter;
 }
 .goods_rel_price_sku_nums.data-v-4842cd15 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	color: #fa3475;
 	font-size: 24rpx;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	color: #808080;
 }
 .sku_nums.data-v-4842cd15 {
 	margin-left: 40rpx;
@@ -409,9 +406,96 @@
 	position: fixed;
 	right: 40rpx;
 	bottom: 130px;
-	z-index: 9999;
+	z-index: 99;
 	font-size: 27rpx;
 	color: #FFFFFF;
 	text-align: center;
+}
+/* 优惠信息 */
+.discount_content.data-v-4842cd15{
+	width: 100%;
+	position: fixed;
+	z-index: 999;
+	left: 0;
+	background-color: #eeeeee;
+	opacity: 0.6;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.discount-hint.data-v-4842cd15{
+	background-color: #FFFFFF;
+	padding: 40rpx 20rpx 10rpx;
+	border-radius: 20rpx;
+	width: 60%;
+}
+.discounts_list.data-v-4842cd15{
+	border-bottom: 1px solid #808080;
+}
+.list_item.data-v-4842cd15{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	font-size: 24rpx;
+	width: 100%;
+	padding-bottom: 20rpx;
+}
+.item_name.data-v-4842cd15{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.category.data-v-4842cd15{
+	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%,  #ff6699 100%);
+	background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+	padding: 0 20rpx;
+	line-height: 32rpx;
+	border-radius: 16rpx;
+	margin-right: 10rpx;
+	color: #FFFFFF;
+}
+.discounts_sale_price.data-v-4842cd15{
+	color: #fa3475;
+}
+.all_discounts.data-v-4842cd15{
+	font-size: 24rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding: 30rpx 0;
+	border-bottom: 1px solid #808080;
+	margin-bottom: 30rpx;
+}
+.all_discounts_name.data-v-4842cd15{
+	font-weight: bold;
+}
+.i_know.data-v-4842cd15{
+	/* background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%); */
+	color: #fa3475;
+	background-color: #FFFFFF
+}
+.i_know.data-v-4842cd15::after{
+	border: none;
 }
 

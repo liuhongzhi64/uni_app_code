@@ -247,15 +247,31 @@
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						that.title = data.name
 						// that.productLists = data.list
 						if(type==2){
-							that.doctorList = that.productLists.concat(data.list)
+							if(data.list.length>0){
+								that.doctorList = that.productLists.concat(data.list)
+							}
+							else{
+								uni.showToast({
+									title:'没有更多了!',
+									icon:'none'
+								})
+							}
 						}else{
-							that.productLists = that.productLists.concat(data.list)
+							if(data.list.length>0){
+								that.productLists = that.productLists.concat(data.list)
+							}
+							else{
+								uni.showToast({
+									title:'没有更多了!',
+									icon:'none'
+								})
+							}
 						}
 						
-						// console.log(data)
-						console.log(that.productLists)
+						// console.log(that.productLists)
 					}
 				})
 			},

@@ -109,7 +109,7 @@
 									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
-											<image :src="requestUrl+i.img" mode=""></image>
+											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
@@ -183,7 +183,7 @@
 									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
-											<image :src="requestUrl+i.img" mode=""></image>
+											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)">></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
@@ -257,7 +257,7 @@
 									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
-											<image :src="requestUrl+i.img" mode=""></image>
+											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)">></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
@@ -422,7 +422,7 @@
 		<!-- 底部按钮 -->
 		<view class="immobilization-button">
 			<view class="button_all">
-				<button class="" type="default" v-if="order_info.status==0||order_info.status==2" size="mini" @tap="cancel_order(order_info.id)">
+				<button class="" type="default" v-if="order_info.status==0" size="mini" @tap="cancel_order(order_info.id)">
 					取消订单
 				</button>
 				<button class="" type="default" size="mini" @tap="contact()">联系客服</button>
@@ -434,8 +434,8 @@
 				<button class="" type="default" v-if="order_info.status==2" size="mini">申请退款</button>
 				<button class="" type="default" v-if="order_info.status==2" size="mini">立即预约</button>
 				<button class="" type="default" v-if="order_info.status==2" size="mini">核销使用</button>
-				<button class="" type="default" size="mini" @tap="write_content('diary')">写日记</button>
-				<button class="" type="default" size="mini" @tap="write_content('comment')">写评价</button>
+				<button class="" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('diary')" >写日记</button>
+				<button class="" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('comment')">写评价</button>
 			</view>
 		</view>
 		<!-- 回到顶部 -->
@@ -615,7 +615,7 @@
 				let house = 0
 				let second = 0
 				let minute = 0
-				house = parseInt((date) / 1000 / 60 / 60 % 24)
+				// house = parseInt((date) / 1000 / 60 / 60 % 24)
 				second = parseInt((date) / 60 % 60)
 				minute = parseInt((date) % 60)
 				date = new Date(date * 1000)
@@ -627,6 +627,7 @@
 				if (day < 10) {
 					day = "0" + day
 				}
+				house = date.getHours()
 				if (house < 10) {
 					house = "0" + house
 				}
@@ -646,7 +647,7 @@
 				let that = this
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
-					type: '3',
+					type: '5',
 					offset: that.offset
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
@@ -673,6 +674,12 @@
 				uni.navigateBack({
 					delta: 1
 				});
+			},
+			// 商品详情
+			goods_detail:function(id,encrypted_id){
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
+				})
 			},
 			// 我的赠品
 			my_card: function() {

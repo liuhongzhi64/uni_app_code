@@ -17,16 +17,16 @@
 			 @scrolltolower='onBottom'>
 				<!-- 热门推荐 -->
 				<view class="rightContentItem" v-if="rightGoodsId == 0">
-					<view class="right-swiper" v-if="swiperList">
-						<swiper indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime' :duration="durationTime"
-						 circular :style="[{height:swiperHeight+'rpx',borderRadius:'24rpx'}]">
-							<swiper-item class="swiper-item" v-for="(i,index) in swiperList" :key="index">
-								<!-- 顶部广告图 -->
-								<view class="advertisingImg">
-									<image :src="i.url" mode="widthFix" style="width: 100%;"></image>
-								</view>
-							</swiper-item>
-						</swiper>
+					<view class="right-swiper" v-if="advertising_img.content.length>0">
+						<view class="specialList" v-if="advertising_img.type==1">
+							<swiper autoplay interval='5000' duration='3000' circular>
+								<swiper-item class="swiper-item" v-for="(item,index) in advertising_img.content" :key="index">
+									<navigator :url="'/pages'+item.page+'?id='+item.page_id" >
+										<image :src="requestUrl+item.img" mode="heightFix"></image>
+									</navigator>
+								</swiper-item>
+							</swiper>
+						</view>
 					</view>
 					<!-- 主体内容 -->
 					<view class="detailed-goods-list">
@@ -152,6 +152,9 @@
 					},
 				],
 				requestUrl: '',
+				advertising_img:{
+					content:[]
+				},
 				offset:0,
 				thisType:0,
 			}
@@ -174,7 +177,7 @@
 					that.categoryClickMain()
 				}
 			})
-			// that.advertising()
+			that.advertising()
 		},
 		onReady() {
 			let that = this;
@@ -253,6 +256,7 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						that.advertising_img = data
 						// console.log(data)
 					}
 				})
@@ -369,6 +373,9 @@
 
 	.rightContentItem {
 		padding-top: 13rpx;
+	}
+	.right-swiper,.right-swiper image{
+		height: 180rpx;
 	}
 
 	.no-have-porduct {

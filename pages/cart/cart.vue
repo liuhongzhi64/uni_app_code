@@ -285,7 +285,9 @@
 				<view class="specialList" v-if="specialList.type==1">
 					<swiper indicator-dots indicator-active-color="#ff6699" autoplay interval='5000' duration='3000' circular>
 						<swiper-item class="swiper-item" v-for="(item,index) in specialList.content" :key="index">
-							<image :src="requestUrl+item.img" mode="widthFix"></image>
+							<navigator :url="'/pages'+item.page+'?id='+item.page_id" >
+								<image :src="requestUrl+item.img" mode="widthFix"></image>
+							</navigator>
 						</swiper-item>
 					</swiper>
 				</view>
@@ -1250,7 +1252,6 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.specialList = data
-						// console.log(that.specialList)
 					}
 				})
 			},

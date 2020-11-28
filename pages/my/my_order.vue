@@ -16,309 +16,335 @@
 			<view class="end-cont my_order-items" :class="{dis:tabIndex == zindex}" v-for="(item,zindex) in tabBars" :key="zindex">
 				<scroll-view scroll-y >
 					<view class="my_order-items-content">
-						<view class="order-advertising-images">
-							<image src="../../static/images/22.png" mode=""></image>
+						<!-- 广告 -->
+						<view class="order-advertising-images" v-if="advertising_img.content.length>0">
+							<view class="specialList" v-if="advertising_img.type==1">
+								<swiper autoplay interval='5000' duration='3000' circular>
+									<swiper-item class="swiper-item" v-for="(item,index) in advertising_img.content" :key="index">
+										<navigator :url="'/pages'+item.page+'?id='+item.page_id" >
+											<image :src="requestUrl+item.img" mode="heightFix"></image>
+										</navigator>
+									</swiper-item>
+								</swiper>
+							</view>
 						</view>
+						<!-- 订单主体内容 -->
 						<view class="order-all-message" :style="[{'min-height':height-menuBottom-210+'px'}]">
-							<view class="order-message" v-for="(item,index) in contentList" :key='index' v-show="tabIndex<2">
-								<!-- 顶部作废时间和订单类型 -->
-								<view class="order-message-top">
-									<view class="order-invalid-time-order-label">
-										<view class="order-invalid-time" v-if="item.status==0">
-											订单作废: {{ day }} 天 {{ house }} 时 {{ second }} 分 {{ minute }} 秒
-										</view>
-										<view class="order-label" v-for="(is,sindex) in status_list" :key='sindex'
-										 v-show="item.status==is.type&&item.status!=5&&item.status!=1">
-											{{ is.name }}
-										</view>
-										<view class="order-invalid-time" v-show="item.status!=0">
-											下单时间: {{item.create_time}}
-										</view>
-										<!-- 完成 -->
-										<view class="order-state" v-if="item.status==5">
-											<image src="../../static/images/complete.png" mode="widthFix"></image>
-										</view>
-										<!-- 作废 -->
-										<view class="order-state" v-if="item.status==1">
-											<image src="../../static/images/cancellation.png" mode="widthFix"></image>
-										</view>
-									</view>
-								</view>
-
-								<view class="service-conditions-order-porduct" v-for="(i,k) in item.sku_list" :key='k'>
-									<view class="order-content_goods_list" v-for="(is,sindex) in i" :key='sindex' v-show="i.length==1">
-										<!-- 使用条件 -->
-										<view class="service-conditions">
-											<view class="line-service-name">
-												<view class="line"></view>
-												<view class="service-name" v-if="is.distribution==1">邮寄商品</view>
-												<view class="service-name" v-else-if="is.scan_department==0">收费室使用</view>
-												<view class="service-name" v-else-if="is.scan_department==1">会员中心使用</view>
+							<view class="have_order" v-if="contentList.length>0">
+								<view class="order-message" v-for="(item,index) in contentList" :key='index' v-show="tabIndex<2">
+									<!-- 顶部作废时间和订单类型 -->
+									<view class="order-message-top">
+										<view class="order-invalid-time-order-label">
+											<view class="order-invalid-time" v-if="item.status==0">
+												订单作废: {{ day }} 天 {{ house }} 时 {{ second }} 分 {{ minute }} 秒
 											</view>
-											<view class="remind" v-if="is.distribution==1&&item.status==2">
-												提醒发货
+											<view class="order-invalid-time" v-if="item.status!=0">
+												下单时间: {{item.create_time}}
 											</view>
-											<view class="appointment" v-else-if="is.scan_department==0&&item.status==2">
-												预约挂号
+											<view class="order-label" v-for="(is,sindex) in status_list" :key='sindex'
+											 v-show="item.status==is.type&&item.status!=5&&item.status!=1">
+												{{ is.name }}
+											</view>
+											<!-- 完成 -->
+											<view class="order-state" v-if="item.status==5">
+												<image src="../../static/images/complete.png" mode="widthFix"></image>
+											</view>
+											<!-- 作废 -->
+											<view class="order-state" v-if="item.status==1">
+												<image src="../../static/images/cancellation.png" mode="widthFix"></image>
 											</view>
 										</view>
-										<view class="order_goods-content">
-											<image :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)"></image>
-											<view class="goods_right_content">
-												<view class="goods-title"> {{is.spu_name}} </view>
-												<view class="content_all_items" @tap='this_show_sku_spec(index,k,sindex)'>
-													<view class="item_content">
-														<text class="content_items" v-for="(z,j) in is.sku_spec" :key='j'>
-															<text class="versions"> {{ z }} : {{ j }} ; </text>
-														</text>
-													</view>
-													<image src="../../static/images/arrow-down.png" mode=""></image>
-												</view>
-												<view class="show_item_content" @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec">
-													<view class="show_all_items">
-														<view class="content-items" v-for="(z,j) in is.sku_spec" :key='j'>
-															<text class="versions"> {{ z }} : {{ j }} ; </text>
-														</view>
-													</view>
-													<image src="../../static/images/arrow-down.png" mode=""></image>
-												</view>
-												<view class="goods_rel_price_sku_nums"
-												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-													<view class="rel_price"> ￥ <text> {{ is.rel_price }} </text> </view>
-													<view class="sku_nums"> x{{ is.sku_nums }} </view>
-												</view>
-											</view>
-										</view>
-									</view>
-									<view class="order_goods_list" v-show="i.length>1">
-										<!-- 邮寄 -->
-										<view class="order_goods-items" v-show="item.is_post_list.length>0">
+									</view>								
+									<view class="service-conditions-order-porduct" v-for="(i,k) in item.sku_list" :key='k'>
+										<view class="order-content_goods_list" v-for="(is,sindex) in i" :key='sindex' v-show="i.length==1">
+											<!-- 使用条件 -->
 											<view class="service-conditions">
 												<view class="line-service-name">
 													<view class="line"></view>
-													<view class="service-name">邮寄商品</view>
+													<view class="service-name" v-if="is.distribution==1">邮寄商品</view>
+													<view class="service-name" v-else-if="is.scan_department==0">收费室使用</view>
+													<view class="service-name" v-else-if="is.scan_department==1">会员中心使用</view>
 												</view>
-												<view class="remind" v-if="item.status==2">
+												<view class="remind" v-if="is.distribution==1&&item.status==2">
 													提醒发货
 												</view>
-											</view>
-											<view class="goods_show">
-												<view class="goods_image_item">
-													<scroll-view class="order_goods-image" scroll-x="true">
-														<view class="images_list">
-															<view class="image_items" v-for="(is,sindex) in item.is_post_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)"></image>
-															</view>
-														</view>
-													</scroll-view>
-												</view>
-												<view class="right_number_show" @tap="gotoPages(item.id)">>
-													<view> 共计 {{ item.is_post_list.length }} 件 </view>
-													<view class="see_order"> 查看 > </view>
-												</view>
-											</view>
-										</view>
-										<!-- 收费室 -->
-										<view class="order_goods-items" v-show="item.scan_one_list.length>0">
-											<view class="service-conditions">
-												<view class="line-service-name">
-													<view class="line"></view>
-													<view class="service-name">收费室使用</view>
-												</view>
-												<view class="appointment" v-if="item.status==2">
+												<view class="appointment" v-else-if="is.scan_department==0&&item.status==2">
 													预约挂号
 												</view>
 											</view>
-											<view class="goods_show">
-												<view class="goods_image_item">
-													<scroll-view class="order_goods-image" scroll-x="true">
-														<view class="images_list">
-															<view class="image_items" v-for="(is,sindex) in item.scan_one_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)"></image>
+											<view class="order_goods-content">
+												<image :src="requestUrl+is.img" @tap="goods_detail(is.sku_id,is.encrypted_id)"></image>
+												<view class="goods_right_content">
+													<view class="goods-title"> {{is.spu_name}} </view>
+													<view class="content_all_items" @tap='this_show_sku_spec(index,k,sindex)'>
+														<view class="item_content">
+															<text class="content_items" v-for="(z,j) in is.sku_spec" :key='j'>
+																<text class="versions"> {{ z }} : {{ j }} ; </text>
+															</text>
+														</view>
+														<image src="../../static/images/arrow-down.png" mode=""></image>
+													</view>
+													<view class="show_item_content" @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec">
+														<view class="show_all_items">
+															<view class="content-items" v-for="(z,j) in is.sku_spec" :key='j'>
+																<text class="versions"> {{ z }} : {{ j }} ; </text>
 															</view>
 														</view>
-													</scroll-view>
-												</view>
-												<view class="right_number_show" @tap="gotoPages(item.id)">
-													<view> 共计 {{ item.scan_one_list.length }} 件 </view>
-													<view class="see_order"> 查看 > </view>
+														<image src="../../static/images/arrow-down.png" mode=""></image>
+													</view>
+													<view class="goods_rel_price_sku_nums"
+													 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+														<view class="rel_price"> ￥ <text> {{ is.rel_price }} </text> </view>
+														<view class="sku_nums"> x{{ is.sku_nums }} </view>
+													</view>
 												</view>
 											</view>
 										</view>
-										<!-- 会员中心 -->
-										<view class="order_goods-items" v-show="item.scan_two_list.length>0">
-											<view class="service-conditions">
-												<view class="line-service-name">
-													<view class="line"></view>
-													<view class="service-name">会员中心使用</view>
+										<view class="order_goods_list" v-show="i.length>1">
+											<!-- 邮寄 -->
+											<view class="order_goods-items" v-show="item.is_post_list.length>0">
+												<view class="service-conditions">
+													<view class="line-service-name">
+														<view class="line"></view>
+														<view class="service-name">邮寄商品</view>
+													</view>
+													<view class="remind" v-if="item.status==2">
+														提醒发货
+													</view>
 												</view>
-												<view class="appointment" v-if="item.status==2">
-													预约挂号
+												<view class="goods_show">
+													<view class="goods_image_item">
+														<scroll-view class="order_goods-image" scroll-x="true">
+															<view class="images_list">
+																<view class="image_items" v-for="(is,sindex) in item.is_post_list" :key='sindex'>
+																	<image class="images-item" :src="requestUrl+is.img"
+																	 @tap="goods_detail(is.sku_id,is.encrypted_id)"></image>
+																</view>
+															</view>
+														</scroll-view>
+													</view>
+													<view class="right_number_show" @tap="gotoPages(item.id)">>
+														<view> 共计 {{ item.is_post_list.length }} 件 </view>
+														<view class="see_order"> 查看 > </view>
+													</view>
 												</view>
 											</view>
-											<view class="goods_show">
-												<view class="goods_image_item">
-													<scroll-view class="order_goods-image" scroll-x="true">
-														<view class="images_list">
-															<view class="image_items" v-for="(is,sindex) in item.scan_two_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img" @tap="goods_detail(is.sku_id)" ></image>
-															</view>
-														</view>
-													</scroll-view>
+											<!-- 收费室 -->
+											<view class="order_goods-items" v-show="item.scan_one_list.length>0">
+												<view class="service-conditions">
+													<view class="line-service-name">
+														<view class="line"></view>
+														<view class="service-name">收费室使用</view>
+													</view>
+													<view class="appointment" v-if="item.status==2">
+														预约挂号
+													</view>
 												</view>
-												<view class="right_number_show" @tap="gotoPages(item.id)">>
-													<view> 共计 {{ item.scan_two_list.length }} 件 </view>
-													<view class="see_order"> 查看 > </view>
+												<view class="goods_show">
+													<view class="goods_image_item">
+														<scroll-view class="order_goods-image" scroll-x="true">
+															<view class="images_list">
+																<view class="image_items" v-for="(is,sindex) in item.scan_one_list" :key='sindex'>
+																	<image class="images-item" :src="requestUrl+is.img"
+																	 @tap="goods_detail(is.sku_id,is.encrypted_id)"></image>
+																</view>
+															</view>
+														</scroll-view>
+													</view>
+													<view class="right_number_show" @tap="gotoPages(item.id)">
+														<view> 共计 {{ item.scan_one_list.length }} 件 </view>
+														<view class="see_order"> 查看 > </view>
+													</view>
+												</view>
+											</view>
+											<!-- 会员中心 -->
+											<view class="order_goods-items" v-show="item.scan_two_list.length>0">
+												<view class="service-conditions">
+													<view class="line-service-name">
+														<view class="line"></view>
+														<view class="service-name">会员中心使用</view>
+													</view>
+													<view class="appointment" v-if="item.status==2">
+														预约挂号
+													</view>
+												</view>
+												<view class="goods_show">
+													<view class="goods_image_item">
+														<scroll-view class="order_goods-image" scroll-x="true">
+															<view class="images_list">
+																<view class="image_items" v-for="(is,sindex) in item.scan_two_list" :key='sindex'>
+																	<image class="images-item" :src="requestUrl+is.img"
+																	 @tap="goods_detail(is.sku_id,is.encrypted_id)" ></image>
+																</view>
+															</view>
+														</scroll-view>
+													</view>
+													<view class="right_number_show" @tap="gotoPages(item.id)">>
+														<view> 共计 {{ item.scan_two_list.length }} 件 </view>
+														<view class="see_order"> 查看 > </view>
+													</view>
 												</view>
 											</view>
 										</view>
 									</view>
-								</view>
-								<!-- 总价、优惠、应付、到院再发、在线支付 -->
-								<view class="pay-for-the-order ">
-									<view class="pay-order-content">
-										<view class=" total-price-on-line-pay">
-											<view class="total-price">总价 <text>￥{{item.payable_amount}}</text> </view>
-											<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
-										</view>
-										<view class="discounts-hospital-pay">
-											<view class="discounts"
-											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-												优惠 <text>￥{{item.total_discount||0}}</text>
-												<image src="../../static/images/ask1.png"
-												 @tap="this_discount(item.discount_description,item.card_sale_info,item.total_discount)"></image>
+									<!-- 总价、优惠、应付、到院再发、在线支付 -->
+									<view class="pay-for-the-order ">
+										<view class="pay-order-content">
+											<view class=" total-price-on-line-pay">
+												<view class="total-price">总价 <text>￥{{item.payable_amount}}</text> </view>
+												<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
 											</view>
-											<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
+											<view class="discounts-hospital-pay">
+												<view class="discounts"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													优惠 <text>￥{{item.total_discount||0}}</text>
+													<image src="../../static/images/ask1.png"
+													 @tap="this_discount(item.discount_description,item.card_sale_info,item.total_discount)"></image>
+												</view>
+												<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
+											</view>
+											<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
 										</view>
-										<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
+									</view>
+									<!-- 订单详情等按钮  -->
+									<view class="particulars-bottom-list">
+										<view class="all_button">
+											<button class="button" type="default" plain="true" v-show="item.status==0" @tap="cancel_order(item.id)">
+												取消订单 
+											</button>
+											<button class="button" type="default" plain="true" >
+												联系客服
+											</button>
+											<button class="button " type="default" plain="true" @tap="cancel_detail(item.id)"
+											 v-show="item.status==4||item.status==6||item.status==7||item.status==8">
+												退款明细
+											</button>
+											<button class="button" type="default" plain="true" @tap="gotoPages(item.id)"> 
+												订单详情 
+											</button>
+											<button class="immediate-payment" type="default" plain="true" v-show="item.status==0" @tap="please_pay(item.id)">
+												立即支付
+											</button>
+											<button class="immediate-payment" type="default" plain="true" v-show="item.status==2">
+												核销使用
+											</button>
+											<button class="immediate-payment" type="default" plain="true" v-show="item.status==5" @tap="write_content()">
+												写评价
+											</button>
+										</view>
 									</view>
 								</view>
-								<!-- 订单详情等按钮  -->
-								<view class="particulars-bottom-list">
-									<view class="all_button">
-										<button class="button" type="default" plain="true" v-show="item.status==0" @tap="cancel_order(item.id)">
-											取消订单 
-										</button>
-										<button class="button" type="default" plain="true" >
-											联系客服
-										</button>
-										<button class="button " type="default" plain="true" @tap="cancel_detail(item.id)"
-										 v-show="item.status==4||item.status==6||item.status==7||item.status==8">
-											退款明细
-										</button>
-										<button class="button" type="default" plain="true" @tap="gotoPages(item.id)"> 
-											订单详情 
-										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="item.status==0" @tap="please_pay(item.id)">
-											立即支付
-										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="item.status==2">
-											核销使用
-										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="item.status==5" @tap="write_content()">
-											写评价
-										</button>
+								<!-- 已付款 已完成 已退款 -->
+								<view class="order-message" v-for="(item,index) in contentList" :key='index' v-show="tabIndex>=2">
+									<!-- 顶部作废时间和订单类型 -->
+									<view class="order-message-top">
+										<view class="order-invalid-time-order-label">
+											<view class="order-invalid-time" v-if="item.overdue_time">
+												退款时间: {{item.overdue_time}}
+											</view>
+											<view class="order-invalid-time" v-else-if="item.scan_time">
+												退款时间: {{item.scan_time}}
+											</view>
+											<view class="order-invalid-time" v-else-if="item.refund_time">
+												退款时间: {{item.refund_time}}
+											</view>
+											<view class="order-label" v-if="tabIndex==2"> 已付款 </view>
+											<view class="order-label" v-else-if="tabIndex==3"> 已完成 </view>
+											<view class="order-label" v-else-if="tabIndex==4"> 已退款 </view>
+										</view>
+									</view>
+									<!-- 使用条件 -->
+									<view class="service-conditions">
+										<view class="line-service-name">
+											<view class="line"></view>
+											<view class="service-name" v-if="item.distribution==1">邮寄商品</view>
+											<view class="service-name" v-else-if="item.scan_department==0">收费室使用</view>
+											<view class="service-name" v-else-if="item.scan_department==1">会员中心使用</view>
+										</view>
+										<view class="remind" v-if="is.distribution==1&&item.status==2">
+											提醒发货
+										</view>
+										<view class="appointment" v-else-if="is.scan_department==0&&item.status==2">
+											预约挂号
+										</view>
+									</view>
+									<view class="order_goods-content">
+										<image :src="requestUrl+item.img" @tap="goods_detail(item.sku_id,item.encrypted_id)"></image>
+										<view class="goods_right_content">
+											<view class="goods-title"> {{item.spu_name}} </view>
+											<view class="content_all_items" @tap='this_show_sku_spec(index)'>
+												<view class="item_content">
+													<text class="content_items" v-for="(z,j) in item.sku_spec" :key='j'>
+														<text class="versions"> {{ z }} : {{ j }} ; </text>
+													</text>
+												</view>
+												<image src="../../static/images/arrow-down.png" mode=""></image>
+											</view>
+											<view class="show_item_content" @tap='this_show_sku_spec(index)' v-if="item.show_sku_spec">
+												<view class="show_all_items">
+													<view class="content-items" v-for="(z,j) in item.sku_spec" :key='j'>
+														<text class="versions"> {{ z }} : {{ j }} ; </text>
+													</view>
+												</view>
+												<image src="../../static/images/arrow-down.png" mode=""></image>
+											</view>
+											<view class="goods_rel_price_sku_nums">
+												<view class="rel_price"> ￥ <text> {{ item.rel_price }} </text> </view>
+												<view class="sku_nums"> x{{ item.sku_nums }} </view>
+											</view>
+										</view>
+									</view>								
+									<!-- 总价、优惠、应付、到院再发、在线支付 -->
+									<view class="pay-for-the-order ">
+										<view class="pay-order-content">
+											<view class=" total-price-on-line-pay">
+												<view class="total-price">总价 <text>￥{{item.sku_price*item.sku_nums}}</text> </view>
+												<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
+											</view>
+											<view class="discounts-hospital-pay">
+												<view class="discounts"
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+													优惠 <text>￥{{item.discount||0}}</text>
+													<image src="../../static/images/ask1.png"
+													 @tap="this_discount(item.hd_sale_info,item.card_sale_info,item.discount)"></image>
+												</view>
+												<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
+											</view>
+											<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
+										</view>
+									</view>
+									<!-- 订单详情等按钮  -->
+									<view class="particulars-bottom-list">
+										<view class="all_button">
+											<button class="button" type="default" plain="true" @tap="contact()">
+												联系客服
+											</button>
+											<button class="button " type="default" plain="true" @tap="cancel_detail(item.order_id)" v-show="tabIndex==4">
+												退款明细
+											</button>
+											<button class="button" type="default" plain="true" @tap="gotoPages(item.order_id)"> 
+												订单详情 
+											</button>
+											<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==2">
+												核销使用
+											</button>
+											<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==3" @tap="write_content()">
+												写评价
+											</button>
+										</view>
 									</view>
 								</view>
 							</view>
-							<!-- 已付款 已完成 已退款 -->
-							<view class="order-message" v-for="(item,index) in contentList" :key='index' v-show="tabIndex>=2">
-								<!-- 顶部作废时间和订单类型 -->
-								<view class="order-message-top">
-									<view class="order-invalid-time-order-label">
-										<view class="order-invalid-time" v-if="item.overdue_time">
-											退款时间: {{item.overdue_time}}
-										</view>
-										<view class="order-invalid-time" v-else-if="item.scan_time">
-											退款时间: {{item.scan_time}}
-										</view>
-										<view class="order-invalid-time" v-else-if="item.refund_time">
-											退款时间: {{item.refund_time}}
-										</view>
-										<view class="order-label" v-if="tabIndex==2"> 已付款 </view>
-										<view class="order-label" v-else-if="tabIndex==3"> 已完成 </view>
-										<view class="order-label" v-else-if="tabIndex==4"> 已退款 </view>
-									</view>
-								</view>
-								<!-- 使用条件 -->
-								<view class="service-conditions">
-									<view class="line-service-name">
-										<view class="line"></view>
-										<view class="service-name" v-if="item.distribution==1">邮寄商品</view>
-										<view class="service-name" v-else-if="item.scan_department==0">收费室使用</view>
-										<view class="service-name" v-else-if="item.scan_department==1">会员中心使用</view>
-									</view>
-									<view class="remind" v-if="is.distribution==1&&item.status==2">
-										提醒发货
-									</view>
-									<view class="appointment" v-else-if="is.scan_department==0&&item.status==2">
-										预约挂号
-									</view>
-								</view>
-								<view class="order_goods-content">
-									<image :src="requestUrl+item.img" @tap="goods_detail(item.sku_id)"></image>
-									<view class="goods_right_content">
-										<view class="goods-title"> {{item.spu_name}} </view>
-										<view class="content_all_items" @tap='this_show_sku_spec(index)'>
-											<view class="item_content">
-												<text class="content_items" v-for="(z,j) in item.sku_spec" :key='j'>
-													<text class="versions"> {{ z }} : {{ j }} ; </text>
-												</text>
-											</view>
-											<image src="../../static/images/arrow-down.png" mode=""></image>
-										</view>
-										<view class="show_item_content" @tap='this_show_sku_spec(index)' v-if="item.show_sku_spec">
-											<view class="show_all_items">
-												<view class="content-items" v-for="(z,j) in item.sku_spec" :key='j'>
-													<text class="versions"> {{ z }} : {{ j }} ; </text>
-												</view>
-											</view>
-											<image src="../../static/images/arrow-down.png" mode=""></image>
-										</view>
-										<view class="goods_rel_price_sku_nums">
-											<view class="rel_price"> ￥ <text> {{ item.rel_price }} </text> </view>
-											<view class="sku_nums"> x{{ item.sku_nums }} </view>
-										</view>
-									</view>
-								</view>								
-								<!-- 总价、优惠、应付、到院再发、在线支付 -->
-								<view class="pay-for-the-order ">
-									<view class="pay-order-content">
-										<view class=" total-price-on-line-pay">
-											<view class="total-price">总价 <text>￥{{item.sku_price*item.sku_nums}}</text> </view>
-											<view class="on-line-pay">在线支付 <text>￥{{item.online_pay}}</text> </view>
-										</view>
-										<view class="discounts-hospital-pay">
-											<view class="discounts"
-											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-												优惠 <text>￥{{item.discount||0}}</text>
-												<image src="../../static/images/ask1.png"
-												 @tap="this_discount(item.hd_sale_info,item.card_sale_info,item.discount)"></image>
-											</view>
-											<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
-										</view>
-										<view class="cope-with">应付 <text>￥{{item.rel_price}}</text> </view>
-									</view>
-								</view>
-								<!-- 订单详情等按钮  -->
-								<view class="particulars-bottom-list">
-									<view class="all_button">
-										<button class="button" type="default" plain="true" >
-											联系客服
-										</button>
-										<button class="button " type="default" plain="true" @tap="cancel_detail(item.order_id)" v-show="tabIndex==4">
-											退款明细
-										</button>
-										<button class="button" type="default" plain="true" @tap="gotoPages(item.order_id)"> 
-											订单详情 
-										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==2">
-											核销使用
-										</button>
-										<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==3" @tap="write_content()">
-											写评价
-										</button>
-									</view>
+							<!-- 没有订单 -->
+							<view class="no_have_order" v-else :style="[{'min-height':height-menuBottom-320+'px'}]">
+								<image src="../../static/images/cartBg.png" mode="heightFix"></image>
+								<view class="go_to_see_button">
+									<button class="go_my" type="default" size="mini" @tap="go_to_page('index')">
+										去首页
+									</button>
+									<button class="go_see" type="default" size="mini" @tap="go_to_page('classfiy')">
+										去逛逛
+									</button>
 								</view>
 							</view>
 						</view>
@@ -326,9 +352,7 @@
 				</scroll-view>
 			</view>
 		</view>
-		<view class="top-button" @click="ToTop" v-if="showTop">
-			TOP
-		</view>
+		<view class="top-button" @click="ToTop" v-if="showTop"> TOP </view>
 		<!-- 优惠信息 -->
 		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">
 			<view class="discount-hint">
@@ -404,6 +428,9 @@
 				tabIndex: 0, // 选中的顶部的导航，0全部 1待付款 2已付款 3已完成 4已退款 
 				listType: 0, //订单的类型
 				requestUrl: '',
+				advertising_img:{
+					content:[]
+				},
 				contentList: [],
 				bottomList: [
 					{
@@ -433,27 +460,27 @@
 					},
 					{
 						type: 3,
-						name: '已支付部分完成'
+						name: '已支付,部分完成'
 					},
 					{
 						type: 4,
-						name: '已支付部分退款'
+						name: '已支付,部分退款'
 					},
 					{
 						type: 5,
-						name: '整单已完成'
+						name: '已完成'
 					},
 					{
 						type: 6,
-						name: '完成部分退款'
+						name: '部分退款'
 					},
 					{
 						type: 7,
-						name: '整单退款'
+						name: '已退款'
 					},
 					{
 						type: 8,
-						name: '已支付部分完成部分退款'
+						name: '已支付,部分完成,部分退款'
 					},
 				],
 				day: 0,
@@ -463,23 +490,8 @@
 				offset: 0, //分页起始位置
 				timers:0,
 				this_show_discount:false,//显示优惠信息
-				discounts_list:[
-					{
-                        id: 16,
-                        tools_id: "discount",
-                        category: "折扣",
-                        rule_name: "满2000元打0.88折",
-                        sale_price: "705",
-                        act_id: 4
-                    }
-				],
-				card_sale_list:[
-					{
-						category: "卡券",
-						rule_name: "满2000元打0.88折",
-						sale_price: "705",
-					}
-				],
+				discounts_list:[],
+				card_sale_list:[],
 				all_discount:0
 			}
 		},
@@ -523,6 +535,8 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.get_my_order()
+			// 广告
+			that.advertising()
 		},
 		onShow:function(){
 			let that = this
@@ -561,6 +575,8 @@
 									if (time > 0 && data[i].status==0) {
 										that.set_dount_down(time, i)
 									}
+									// 作废时间
+									// data[i].over_time = that.setTimer(data[i].create_time+data[i].cancel_time) 
 									data[i].create_time = that.setTimer(data[i].create_time)
 									for (let key in data[i].sku_list) {
 										if (data[i].sku_list[key].length > 1) {
@@ -626,6 +642,20 @@
 					}
 				})
 			},
+			// 获取广告
+			advertising:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'getadvertising',
+					location:4
+				}
+				that.request.uniRequest("home", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.advertising_img = data
+					}
+				})
+			},
 			// 开启倒计时
 			set_dount_down:function(time, i) {
 				let that = this
@@ -672,7 +702,11 @@
 				let house = 0
 				let second = 0
 				let minute = 0
-				house = parseInt((date) /1000 / 60 / 60 % 24)
+				// house = parseInt((date) /1000 / 60 / 60 % 24)
+				// hour = dateTime.getHours();
+				// minute = dateTime.getMinutes();
+				// second = dateTime.getSeconds();
+
 				second = parseInt((date) / 60 % 60)
 				minute = parseInt((date) % 60)
 				date = new Date(date * 1000)
@@ -684,6 +718,7 @@
 				if (day < 10) {
 					day = "0" + day
 				}
+				house = date.getHours()
 				if(house<10){
 					house = "0" + house
 				}
@@ -695,7 +730,7 @@
 				}
 				
 				let time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute
-				// console.log(time)
+				console.log(time)
 				return time
 			},
 			// 点击头部tab
@@ -708,9 +743,9 @@
 				that.get_my_order()
 			},
 			// 商品详情
-			goods_detail:function(id){
+			goods_detail:function(id,encrypted_id){
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?sku_id=${id}`,
+					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
 				})
 			},
 			// 显示规格
@@ -743,6 +778,12 @@
 			hide_discount:function(){
 				let that = this
 				that.this_show_discount = !that.this_show_discount
+			},
+			// 联系客服
+			contact: function() {
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
 			},
 			// 订单详情
 			gotoPages: function(info) {
@@ -813,6 +854,18 @@
 					duration: 600
 				})
 			},
+			// 去首页和分类
+			go_to_page:function(info){
+				if(info=='index'){
+					uni.reLaunch({
+					    url: '/pages/index/index'
+					})
+				}else if(info=='classfiy'){
+					uni.reLaunch({
+					    url: '/pages/goods/goods_classify'
+					})
+				}
+			}
 		},
 		// 显示回到顶部按钮
 		onPageScroll:function(e){
@@ -1043,7 +1096,9 @@
 
 	.all_button {
 		display: flex;
-		padding-right: 30rpx;
+		width: 100%;
+		justify-content: space-around;
+		/* padding-right: 30rpx; */
 	}
 
 	.button {
@@ -1055,7 +1110,7 @@
 		border-radius: 25rpx;
 		font-size: 24rpx;
 		color: #999999;
-		margin-right: 20rpx;
+		/* margin-right: 20rpx; */
 	}
 
 	.immediate-payment {
@@ -1230,7 +1285,7 @@
 		z-index: 999;
 		left: 0;
 		background-color: #eeeeee;
-		opacity: 0.6;
+		opacity: 0.8;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -1286,5 +1341,36 @@
 	}
 	.i_know::after{
 		border: none;
+	}
+	.no_have_order{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.no_have_order image{
+		height: 260rpx;
+	}
+	.go_to_see_button{
+		padding-top: 60rpx;
+	}
+	.go_to_see_button button::after{
+		border: none;
+	}
+	.go_my{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		width: 200rpx;
+		line-height: 60rpx;
+		margin-right: 20rpx;
+		color: #FFFFFF;
+		border-radius: 30rpx;
+	}
+	.go_see{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		width: 200rpx;
+		line-height: 60rpx;
+		margin-left: 20rpx;
+		color: #FFFFFF;
+		border-radius: 30rpx;
 	}
 </style>

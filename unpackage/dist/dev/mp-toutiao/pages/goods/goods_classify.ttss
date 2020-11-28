@@ -48,6 +48,9 @@
 .rightContentItem.data-v-12fbebc2 {
 	padding-top: 13rpx;
 }
+.right-swiper.data-v-12fbebc2,.right-swiper image.data-v-12fbebc2{
+	height: 180rpx;
+}
 .no-have-porduct.data-v-12fbebc2 {
 	display: -webkit-box;
 	display: -webkit-flex;

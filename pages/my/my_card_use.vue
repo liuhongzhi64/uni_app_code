@@ -44,7 +44,7 @@
 						<!-- 使用说明 -->
 						<view class="card-use-hint"> 卡券说明: {{card_intro}} </view>						
 						<view class="user-card-porduct">
-							<view class="porduct-list" v-for="(item,index) in porductList" :key='index' @tap='gotoGoods(item.sku_id)'>
+							<view class="porduct-list" v-for="(item,index) in porductList" :key='index' @tap='gotoGoods(item.sku_id,item.encrypted_id)'>
 								<view class="porduct-items">		
 									<!-- 商品图 -->
 									<view class="porduct-item-images"> <image :src="requestUrl+item.head_img" mode=""></image> </view>															
@@ -306,10 +306,10 @@
 				that.itemBtn = !that.itemBtn
 				that.lastIndex = ''
 			},
-			gotoGoods: function(id) {
+			gotoGoods: function(id,encrypted_id) {
 				let goodsId = id
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?id=${goodsId}`,
+					url: `/pages/goods/goods_detail?sku_id=${goodsId}&encrypted_id=${encrypted_id}`,
 				})
 			},
 		}

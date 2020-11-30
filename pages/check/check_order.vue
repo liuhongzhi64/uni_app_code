@@ -17,7 +17,10 @@
 						</view>
 
 						<view class="check-porduct">
-							<porduct :changePorduct='changePorduct' :porductWidth="porductWidth"  @checkboxChange='checkboxChange' @openPorductContent='openPorductContent' />
+							<porduct :changePorduct='changePorduct'
+							 :porductWidth="porductWidth"  
+							 @checkboxChange='checkboxChange' 
+							 @openPorductContent='openPorductContent' />
 						</view>
 
 						<view class="price-list">

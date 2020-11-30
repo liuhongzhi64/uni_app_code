@@ -518,6 +518,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar },
@@ -738,6 +739,7 @@ __webpack_require__.r(__webpack_exports__);
                   for (var j = 0; j < data[i].sku_list[key].length; j++) {
                     data[i].sku_list[key][j].show_sku_spec = false;
                   }
+                  that.sku_list_length = data[i].sku_list[key].length;
                 }
               }
               that.contentList = that.contentList.concat(data);
@@ -868,7 +870,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute;
-      console.log(time);
+      // console.log(time)
       return time;
     },
     // 点击头部tab
@@ -972,6 +974,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+
     // 退款详情
     cancel_detail: function cancel_detail(id) {
       uni.navigateTo({

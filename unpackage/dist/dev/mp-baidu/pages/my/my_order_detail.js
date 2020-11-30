@@ -577,6 +577,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     goodsShow: goodsShow },
@@ -595,7 +625,10 @@ __webpack_require__.r(__webpack_exports__);
       title: '订单详情',
       state: '已付款', //是否付款
       requestUrl: '',
-      order_info: {},
+      order_info: {
+        giving_info: [],
+        discount_description: [] },
+
       is_post_list: [], //邮寄商品
       scan_one_list: [], //收费室使用商品
       scan_two_list: [], //会员中心使用商品	
@@ -603,8 +636,16 @@ __webpack_require__.r(__webpack_exports__);
       offset: 0,
       over_time: '',
       productLists: [],
-      expiration_time: 0 //过期时间
-    };
+      expiration_time: 0, //过期时间
+      this_show_discount: false,
+      discounts_list: [],
+      card_sale_list: [],
+      all_discount: 0,
+      day: 0,
+      house: 0,
+      second: 0,
+      minute: 0 };
+
   },
   onReachBottom: function onReachBottom() {
     var that = this;
@@ -652,6 +693,7 @@ __webpack_require__.r(__webpack_exports__);
 
     } else {
       that.menuTop = 50;
+      that.menuWidth = 90;
       that.menuHeight = 32;
       that.menuLeft = 278;
       that.menuBottom = 82;
@@ -668,21 +710,25 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("order", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
+          var time = data.order_info.create_time + data.order_info.cancel_time - data.order_info.time_now;
+          if (time > 0 && data.order_info.status == 0) {
+            that.set_dount_down(time, i);
+          }
           // 订单商品信息
-          for (var i = 0; i < data.order_goods.length; i++) {
+          for (var _i = 0; _i < data.order_goods.length; _i++) {
             // 显示的规格
-            data.order_goods[i].show_sku_spec = false;
+            data.order_goods[_i].show_sku_spec = false;
             if (data.order_info.distribution == 1) {
-              that.is_post_list.push(data.order_goods[i]);
-            } else if (data.order_goods[i].scan_department == 0) {
-              that.scan_one_list.push(data.order_goods[i]);
-            } else if (data.order_goods[i].scan_department == 1) {
-              that.scan_two_list.push(data.order_goods[i]);
+              that.is_post_list.push(data.order_goods[_i]);
+            } else if (data.order_goods[_i].scan_department == 0) {
+              that.scan_one_list.push(data.order_goods[_i]);
+            } else if (data.order_goods[_i].scan_department == 1) {
+              that.scan_two_list.push(data.order_goods[_i]);
             }
             // 最近的过期时间
-            if (data.order_goods[i].overdue_time) {
-              if (data.order_goods[i].overdue_time > that.expiration_time) {
-                that.expiration_time = data.order_goods[i].overdue_time;
+            if (data.order_goods[_i].overdue_time) {
+              if (data.order_goods[_i].overdue_time > that.expiration_time) {
+                that.expiration_time = data.order_goods[_i].overdue_time;
               }
             }
           }
@@ -774,6 +820,47 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(time)
       return time;
     },
+    // 开启倒计时
+    set_dount_down: function set_dount_down(time) {
+      var that = this;
+      // let minuteTime = time;// 秒
+      var secondTime = 0; // 分
+      var hourTime = 0; // 小时
+      var day = 0; //天
+      var timers = setInterval(function () {
+        time -= 1;
+        var minuteTime = time; // 秒
+        if (minuteTime > 60) {
+          secondTime = parseInt(minuteTime / 60);
+          minuteTime = parseInt(minuteTime % 60);
+          if (secondTime > 60) {
+            hourTime = parseInt(secondTime / 60);
+            secondTime = parseInt(secondTime % 60);
+            if (hourTime > 24) {
+              day = parseInt(hourTime / 24);
+              hourTime = parseInt(hourTime % 60);
+            }
+          }
+        } else {
+          secondTime = 0;
+          hourTime = 0;
+          day = 0;
+        }
+        that.day = day;
+        that.house = hourTime;
+        that.second = secondTime;
+        that.minute = minuteTime;
+        if (time <= 0) {
+          clearInterval(timers);
+          that.order_info.status = 1;
+        }
+        if (that.timers > 0) {
+          clearInterval(timers);
+        }
+        // console.log(that.day, that.house, that.second, that.minute)
+      }, 1000);
+
+    },
     // 为你推荐
     getLike: function getLike() {
       var that = this;
@@ -829,6 +916,55 @@ __webpack_require__.r(__webpack_exports__);
 
         } });
 
+    },
+    // 显示优惠信息
+    this_discount: function this_discount(info, card_sale_info, discount) {
+      var that = this;
+      if (info.length > 0) {
+        that.discounts_list = [];
+        that.discounts_list = info;
+        that.this_show_discount = !that.this_show_discount;
+        that.all_discount = discount;
+      } else if (card_sale_info && card_sale_info.length > 0) {
+        that.card_sale_list = [];
+        that.card_sale_list = card_sale_info;
+        that.this_show_discount = !that.this_show_discount;
+        that.all_discount = discount;
+      } else {
+        uni.showToast({
+          title: '暂无优惠信息',
+          icon: 'none' });
+
+      }
+    },
+    // 优惠合计
+    this_all_discount: function this_all_discount(info) {
+      var that = this;
+      if (info.length == 0) {
+        uni.showToast({
+          title: '暂无优惠信息',
+          icon: 'none' });
+
+      } else {
+        for (var key in info) {
+          that.discounts_list = [];
+          that.card_sale_list = [];
+          that.all_discount = 0;
+          // console.log(info[key])
+          if (info[key].tools_id == 'discount') {
+            that.discounts_list.push(info[key]);
+          } else if (info[key].tools_id == 'sale_card_user') {
+            that.card_sale_list.push(info[key]);
+          }
+          that.all_discount += info[key].sale_price;
+        }
+        that.this_show_discount = !that.this_show_discount;
+      }
+      // console.log(that.discounts_list,that.card_sale_list)
+    },
+    hide_discount: function hide_discount() {
+      var that = this;
+      that.this_show_discount = !that.this_show_discount;
     },
     // 返回顶部
     ToTop: function ToTop() {

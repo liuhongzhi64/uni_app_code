@@ -243,20 +243,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -276,6 +262,11 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '/static/images/back2.png',
       title: '申请退款', //退款进度
       requestUrl: '',
+      order_info: {
+        giving_info: [],
+        discount_description: [] },
+
+      order_goods: [],
       orderPorduct: [{
         name: '退款商品',
         porductImagesList: [
@@ -385,11 +376,11 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    // if (option.info) {
-    // 	that.get_order_derail(option.info)
-    // } else {
-    // 	that.get_order_derail(23149) //23170
-    // }
+    if (option.info) {
+      that.get_order_derail(option.info);
+    } else {
+      that.get_order_derail(23149); //23170
+    }
   },
   onReady: function onReady() {
     var that = this;
@@ -426,8 +417,58 @@ __webpack_require__.r(__webpack_exports__);
       that.menuBottom = 82;
     }
   },
-
   methods: {
+    // 获取订单详情
+    get_order_derail: function get_order_derail(id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'get_order_info',
+        id: id };
+
+      that.request.uniRequest("order", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // 订单商品信息
+          for (var i = 0; i < data.order_goods.length; i++) {
+            // 显示的规格
+            data.order_goods[i].show_sku_spec = false;
+          }
+          that.over_time = that.setTimer(data.order_info.create_time + data.order_info.cancel_time);
+          // 订单的信息
+          that.order_info = data.order_info;
+          that.order_goods = data.order_goods;
+        }
+      });
+    },
+    // 转换时间格式
+    setTimer: function setTimer(date) {
+      var house = 0;
+      var second = 0;
+      var minute = 0;
+      second = parseInt(date / 60 % 60);
+      minute = parseInt(date % 60);
+      date = new Date(date * 1000);
+      var month = date.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      var day = date.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      house = date.getHours();
+      if (house < 10) {
+        house = "0" + house;
+      }
+      if (second < 10) {
+        second = "0" + second;
+      }
+      if (minute < 10) {
+        minute = "0" + minute;
+      }
+      var time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute;
+      return time;
+    },
     openPorductContent: function openPorductContent(index, k) {
       var showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct;
       this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct;

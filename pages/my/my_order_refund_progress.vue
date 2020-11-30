@@ -1,14 +1,16 @@
 <template>
 	<view class="my_order_refund_progress">
-		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor'
+		 :color='color' :backImage='backImage' :barName='barName'
+		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' 
+		 :menuHeight='menuHeight' :menuLeft='menuLeft' 
+		 :menuBottom='menuBottom'></topBar>
 		<view class="my_order_refund_progress_content" :style="[{'padding-top':menuBottom+10+'px',height:height-menuBottom-10+'px'}]">
 			<scroll-view class="my_order_refund_progress_contents">
 				<template>
 					<view class="refund_progress_content">
 						<view class="top-message">
-							<view class="order-number">订单编号:<text>23143546789</text></view>
+							<view class="order-number">订单编号:<text> {{ order_info.order_no }} </text></view>
 							<view class="schedules">取消/退款进度：<text>已退款</text></view>
 						</view>
 
@@ -22,28 +24,23 @@
 										</view>
 										<view class="appointment"> 失效的商品将自动退款，请及时到院使用 </view>
 									</view>
-
 									<view class="order-porduct-content" v-for="(i,k) in item.porductImagesList" :key='k'>
 										<view class="order-porduct-line">
 											<view class="porduct-line"></view>
 										</view>
-
 										<view class="failure-time">
 											<view class="time-hint">商品失效：2020-04-28 22:25:27</view>
 										</view>
-
 										<view class="order-porduct-images-name">
 											<view class="porduct-images">
 												<image :src="i.url" mode=""></image>
 											</view>
 											<view class="porduct-right">
 												<view class="porduct-name">{{i.porductName}}</view>
-
 												<view class="content-item" @tap='openPorductContent(index,k)' v-if="!i.showPorduct">
 													<view class="porduct-content-items">{{i.content}}</view>
 													<image :src="i.arrowImages" mode=""></image>
 												</view>
-
 												<view class="show-porduct-content" v-if="i.showPorduct" @tap='openPorductContent(index,k)'>
 													<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
 														<view class="versions">版本: {{i.versions}} </view>
@@ -53,16 +50,12 @@
 													</view>
 													<image :src="i.topImages" mode=""></image>
 												</view>
-
 												<view class="porduct-price-number">
 													<view class="porduct-price"><text>￥</text>{{i.price}}</view>
 													<view class="porduct-number">x{{i.porductNumber}}</view>
 												</view>
-
-
 											</view>
 										</view>
-
 										<view class="pay-for-the-order ">
 											<view class="pay-order-content">
 												<view class=" total-price-on-line-pay">
@@ -79,19 +72,16 @@
 											</view>
 										</view>
 									</view>
-
 								</view>
 							</view>
-						</view>
-						
+						</view>						
 						<view class="all-refund">
 							<view class="all-refund-title">退款合计</view>
 							<view class="arrival-notice" v-for="(i,k) in refundList" :key='k'>
 								<view class="refund-name">{{i.name}}:</view>
 								<view class="refund-content">{{i.content}} <text>({{i.time}}已到账)</text></view>
 							</view>
-						</view>
-						
+						</view>						
 						<view class="porduct-refund-schedule">
 							<view class="refund-time-content">
 								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
@@ -105,20 +95,16 @@
 								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
 								<view class="refund-schedule-content">您的取消申请已通过，退款金额将在1-3个工作日原路退回</view>
 							</view>
-						</view>
-						
+						</view>						
 						<view class="contact-service">
 							<view class="contact-service-bottom">
-								<button class="bottom" type="default" plain="true" @tap='whetherCheck'>立即核销</button>
+								<button class="bottom" type="default" plain="true" >立即核销</button>
 							</view>
 						</view>
-						
-
 					</view>
 				</template>
 			</scroll-view>
 		</view>
-
 	</view>
 </template>
 
@@ -144,6 +130,11 @@
 				backImage: '/static/images/back2.png',
 				title: '申请退款', //退款进度
 				requestUrl:'',
+				order_info: {
+					giving_info:[],
+					discount_description:[]
+				},
+				order_goods:[],
 				orderPorduct: [{
 						name: '退款商品',
 						porductImagesList: [
@@ -253,11 +244,11 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			// if (option.info) {
-			// 	that.get_order_derail(option.info)
-			// } else {
-			// 	that.get_order_derail(23149) //23170
-			// }
+			if (option.info) {
+				that.get_order_derail(option.info)
+			} else {
+				that.get_order_derail(23149) //23170
+			}
 		},
 		onReady() {
 			let that = this;
@@ -294,8 +285,58 @@
 				that.menuBottom = 82
 			}
 		},
-
 		methods: {
+			// 获取订单详情
+			get_order_derail: function(id) {
+				let that = this
+				let dataInfo = {
+					interfaceId: 'get_order_info',
+					id: id
+				}
+				that.request.uniRequest("order", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						// 订单商品信息
+						for (let i = 0; i < data.order_goods.length; i++) {
+							// 显示的规格
+							data.order_goods[i].show_sku_spec = false
+						}
+						that.over_time = that.setTimer(data.order_info.create_time + data.order_info.cancel_time)
+						// 订单的信息
+						that.order_info = data.order_info
+						that.order_goods = data.order_goods
+					}
+				})
+			},
+			// 转换时间格式
+			setTimer: function(date) {
+				let house = 0
+				let second = 0
+				let minute = 0
+				second = parseInt((date) / 60 % 60)
+				minute = parseInt((date) % 60)
+				date = new Date(date * 1000)
+				let month = date.getMonth() + 1
+				if (month < 10) {
+					month = "0" + month
+				}
+				let day = date.getDate()
+				if (day < 10) {
+					day = "0" + day
+				}
+				house = date.getHours()
+				if (house < 10) {
+					house = "0" + house
+				}
+				if (second < 10) {
+					second = "0" + second
+				}
+				if (minute < 10) {
+					minute = "0" + minute
+				}
+				let time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute
+				return time
+			},
 			openPorductContent:function(index,k){
 				let showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct
 				this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct

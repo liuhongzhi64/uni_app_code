@@ -9,7 +9,7 @@
 					<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> {{title}} </view>
 				</view>
 			</view>
-			<view class="top-message" v-if="order_info.status!=1">
+			<view class="top-message" v-if="order_info.status!=1" :style="[{'padding-top':menuHeight+90+'px'}]">
 				<view class="user-message">
 					<!-- 等待付款 v-if="order_info.status==0" -->
 					<view class="user-useing-time-price" v-if="order_info.status==0">
@@ -148,8 +148,9 @@
 											<view class="discounts-hospital-pay">
 												<view class="discounts"
 												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-													优惠 <text>￥ {{ i.total_discount || 0}} </text>
-													<image v-show="i.total_discount>0" src="../../static/images/ask1.png" mode=""></image>
+													优惠 <text>￥ {{ i.discount || 0}} </text>
+													<image src="../../static/images/ask1.png"
+													 @tap="this_discount(i.hd_sale_info,i.card_sale_info,i.discount)"></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
 											</view>
@@ -183,7 +184,7 @@
 									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
-											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)">></image>
+											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
@@ -210,10 +211,10 @@
 											</view>
 										</view>
 									</view>
-									<view class="pay-for-the-order ">
+									<view class="pay-for-the-order">
 										<view class="pay-order-content">
-											<view class=" total-price-on-line-pay">
-												<view class="total-price">总价 <text>￥ {{i.payable_amount}} </text> </view>
+											<view class="total-price-on-line-pay">
+												<view class="total-price"> 总价 <text>￥ {{i.payable_amount}} </text> </view>
 												<view class="on-line-pay"
 												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
 													在线支付 <text>￥ {{i.online_pay}} </text> 
@@ -222,8 +223,9 @@
 											<view class="discounts-hospital-pay">
 												<view class="discounts"
 												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-													优惠 <text>￥ {{ i.total_discount || 0}} </text>
-													<image v-show="i.total_discount>0" src="../../static/images/ask1.png" mode=""></image>
+													优惠 <text>￥ {{ i.discount || 0}} </text>
+													<image src="../../static/images/ask1.png" 
+													 @tap="this_discount(i.hd_sale_info,i.card_sale_info,i.discount)"></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
 											</view>
@@ -257,7 +259,7 @@
 									</view>
 									<view class="order-porduct-images-name">
 										<view class="porduct-images">
-											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)">></image>
+											<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
 										</view>
 										<view class="porduct-right">
 											<view class="porduct-name">{{i.spu_name}}</view>
@@ -296,8 +298,9 @@
 											<view class="discounts-hospital-pay">
 												<view class="discounts"
 												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-													优惠 <text>￥ {{ i.total_discount || 0}} </text>
-													<image v-show="i.total_discount>0" src="../../static/images/ask1.png" mode=""></image>
+													优惠 <text>￥ {{ i.discount || 0}} </text>
+													<image src="../../static/images/ask1.png" 
+													 @tap="this_discount(i.hd_sale_info,i.card_sale_info,i.discount)"></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
 											</view>
@@ -347,7 +350,8 @@
 							</view>
 							<view class="price-name-message">
 								<view class="price-name"> 优惠合计
-									<image v-show="order_info.total_discount>0" src="../../static/images/ask1.png"></image>
+									<image @tap="this_all_discount(order_info.discount_description)"
+									 src="../../static/images/ask1.png"></image>
 								</view>
 								<view class="price-message"> ￥ {{ order_info.total_discount || 0 }} </view>
 							</view>
@@ -418,7 +422,6 @@
 				</template>
 			</scroll-view>
 		</view>
-
 		<!-- 底部按钮 -->
 		<view class="immobilization-button">
 			<view class="button_all">
@@ -426,20 +429,47 @@
 					取消订单
 				</button>
 				<button class="" type="default" size="mini" @tap="contact()">联系客服</button>
-				<button class="" type="default" v-if="order_info.status==0" size="mini">立即支付</button>
+				<button class="" type="default" v-if="order_info.status==0" size="mini" @tap="please_pay(order_info.id)">
+					立即支付
+				</button>
 				<button class="" type="default" v-if="order_info.status==4||order_info.status==6||order_info.status==7||order_info.status==8"
 				 size="mini" @tap="cancel_detail(order_info.id)">
 					退款明细
 				</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini">申请退款</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini">立即预约</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini">核销使用</button>
+				<button class="" type="default" v-if="order_info.status==2" size="mini">
+					申请退款
+				</button>
+				<!-- <button class="" type="default" v-if="order_info.status==2" size="mini">
+					立即预约
+				</button> -->
 				<button class="" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('diary')" >写日记</button>
 				<button class="" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('comment')">写评价</button>
 			</view>
 		</view>
 		<!-- 回到顶部 -->
 		<view class="top-button" @click="ToTop" v-if="showTop"> TOP </view>
+		<!-- 优惠信息 -->
+		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">
+			<view class="discount-hint">
+				<view class="discounts_list">
+					<view class="list_item" v-for="(item,index) in discounts_list" :key="index">
+						<view class="item_name"> <view class="category"> {{item.category}} </view> <view> {{ item.rule_name }} </view> </view>
+						<view class="discounts_sale_price"> - ￥ {{ item.sale_price || 0 }} </view>
+					</view>
+					<view class="list_item" v-for="(item,index) in card_sale_list" :key="index">
+						<view class="item_name"> <view class="category"> {{item.category}} </view> <view> {{ item.rule_name }} </view> </view>
+						<view class="discounts_sale_price"> - ￥ {{ item.sale_price || 0 }} </view>
+					</view>
+				</view>
+				<view class="all_discounts"> 
+					<text class="all_discounts_name"> 合计优惠 </text> 
+					<text class="discounts_sale_price"> - ￥ {{ all_discount || 0 }} </text>
+				</view>
+				<button class="i_know" type="default" >
+					我知道了
+				</button>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -463,7 +493,10 @@
 				title: '订单详情',
 				state: '已付款', //是否付款
 				requestUrl: '',
-				order_info: {},
+				order_info: {
+					giving_info:[],
+					discount_description:[]
+				},
 				is_post_list: [], //邮寄商品
 				scan_one_list: [], //收费室使用商品
 				scan_two_list: [], //会员中心使用商品	
@@ -472,6 +505,14 @@
 				over_time: '',
 				productLists: [],
 				expiration_time: 0, //过期时间
+				this_show_discount:false,
+				discounts_list:[],
+				card_sale_list:[],
+				all_discount:0,
+				day: 0,
+				house: 0,
+				second: 0,
+				minute: 0,
 			}
 		},
 		onReachBottom: function() {
@@ -520,6 +561,7 @@
 				})
 			} else {
 				that.menuTop = 50
+				that.menuWidth = 90
 				that.menuHeight = 32
 				that.menuLeft = 278
 				that.menuBottom = 82
@@ -536,6 +578,10 @@
 				that.request.uniRequest("order", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						let time = data.order_info.create_time + data.order_info.cancel_time - data.order_info.time_now
+						if (time > 0 && data.order_info.status==0) {
+							that.set_dount_down(time, i)
+						}
 						// 订单商品信息
 						for (let i = 0; i < data.order_goods.length; i++) {
 							// 显示的规格
@@ -642,6 +688,47 @@
 				// console.log(time)
 				return time
 			},
+			// 开启倒计时
+			set_dount_down:function(time) {
+				let that = this
+				// let minuteTime = time;// 秒
+				let secondTime = 0; // 分
+				let hourTime = 0; // 小时
+				let day = 0; //天
+				let timers = setInterval(function() {
+					time -= 1
+					let minuteTime = time; // 秒
+					if (minuteTime > 60) {
+						secondTime = parseInt(minuteTime / 60)
+						minuteTime = parseInt(minuteTime % 60)
+						if (secondTime > 60) {
+							hourTime = parseInt(secondTime / 60)
+							secondTime = parseInt(secondTime % 60)
+							if (hourTime > 24) {
+								day = parseInt(hourTime / 24)
+								hourTime = parseInt(hourTime % 60)
+							}
+						}
+					} else {
+						secondTime = 0
+						hourTime = 0
+						day = 0
+					}
+					that.day = day
+					that.house = hourTime
+					that.second = secondTime
+					that.minute = minuteTime
+					if (time <= 0) {
+						clearInterval(timers)
+						that.order_info.status = 1
+					}
+					if(that.timers>0){
+						clearInterval(timers)
+					}
+					// console.log(that.day, that.house, that.second, that.minute)
+				}, 1000)
+				
+			},
 			// 为你推荐
 			getLike: function() {
 				let that = this
@@ -697,6 +784,55 @@
 						})
 					}
 				});
+			},
+			// 显示优惠信息
+			this_discount:function(info,card_sale_info,discount){
+				let that = this
+				if(info.length>0){
+					that.discounts_list = []
+					that.discounts_list = info
+					that.this_show_discount = !that.this_show_discount
+					that.all_discount = discount
+				}else if(card_sale_info&&card_sale_info.length>0){
+					that.card_sale_list = []
+					that.card_sale_list = card_sale_info
+					that.this_show_discount = !that.this_show_discount
+					that.all_discount = discount
+				}else{
+					uni.showToast({
+						title:'暂无优惠信息',
+						icon:'none'
+					})
+				}
+			},
+			// 优惠合计
+			this_all_discount:function(info){
+				let that = this
+				if(info.length==0){
+					uni.showToast({
+						title:'暂无优惠信息',
+						icon:'none'
+					})
+				}else{
+					for(let key in info){
+						that.discounts_list = []
+						that.card_sale_list = []
+						that.all_discount = 0
+						// console.log(info[key])
+						if(info[key].tools_id=='discount'){
+							that.discounts_list.push(info[key])
+						}else if(info[key].tools_id=='sale_card_user'){
+							that.card_sale_list.push(info[key])
+						}
+						that.all_discount += info[key].sale_price
+					}
+					that.this_show_discount = !that.this_show_discount
+				}
+				// console.log(that.discounts_list,that.card_sale_list)
+			},
+			hide_discount:function(){
+				let that = this
+				that.this_show_discount = !that.this_show_discount
 			},
 			// 返回顶部
 			ToTop: function() {
@@ -830,7 +966,7 @@
 	.top-message {
 		display: flex;
 		justify-content: center;
-		padding-top: 210rpx;
+		/* padding-top: 210rpx; */
 		padding-bottom: 210rpx;
 	}
 
@@ -869,7 +1005,7 @@
 
 	.user-all-message {
 		padding: 0 20rpx;
-		margin-top: -150rpx;
+		margin-top: -130rpx;
 	}
 
 	.user-message-content {
@@ -1555,10 +1691,105 @@
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		color: #fa3475;
-		padding: 34rpx 0;
+		/* padding: 34rpx 0; */
+		padding: 80rpx 0;
 	}
 
 	.color {
 		color: #fa3475;
+	}
+	/* 优惠信息 */
+	.discount_content{
+		width: 100%;
+		position: fixed;
+		z-index: 999;
+		left: 0;
+		background-color: #eeeeee;
+		opacity: 0.8;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.discount-hint{
+		background-color: #FFFFFF;
+		padding: 40rpx 20rpx 10rpx;
+		border-radius: 20rpx;
+		width: 60%;
+	}
+	.discounts_list{
+		border-bottom: 1rpx solid #808080;
+	}
+	.list_item{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 24rpx;
+		width: 100%;
+		padding-bottom: 20rpx;
+	}
+	.item_name{
+		display: flex;
+		align-items: center;
+		flex: 1;
+	}
+	.category{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		padding: 0 20rpx;
+		line-height: 32rpx;
+		border-radius: 16rpx;
+		margin-right: 10rpx;
+		color: #FFFFFF;
+	}
+	.discounts_sale_price{
+		color: #fa3475;
+	}
+	.all_discounts{
+		font-size: 24rpx;
+		display: flex;
+		justify-content: space-between;
+		padding: 30rpx 0;
+		border-bottom: 1rpx solid #808080;
+		margin-bottom: 30rpx;
+	}
+	.all_discounts_name{
+		font-weight: bold;
+	}
+	.i_know{
+		color: #fa3475;
+		background-color: #FFFFFF
+	}
+	.i_know::after{
+		border: none;
+	}
+	.no_have_order{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.no_have_order image{
+		height: 260rpx;
+	}
+	.go_to_see_button{
+		padding-top: 60rpx;
+	}
+	.go_to_see_button button::after{
+		border: none;
+	}
+	.go_my{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		width: 200rpx;
+		line-height: 60rpx;
+		margin-right: 20rpx;
+		color: #FFFFFF;
+		border-radius: 30rpx;
+	}
+	.go_see{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		width: 200rpx;
+		line-height: 60rpx;
+		margin-left: 20rpx;
+		color: #FFFFFF;
+		border-radius: 30rpx;
 	}
 </style>

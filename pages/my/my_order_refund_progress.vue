@@ -10,65 +10,77 @@
 				<template>
 					<view class="refund_progress_content">
 						<view class="top-message">
-							<view class="order-number">订单编号:<text> {{ order_info.order_no }} </text></view>
-							<view class="schedules">取消/退款进度：<text>已退款</text></view>
+							<view class="order-number">订单编号 : <text> {{ order_info.order_no }} </text></view>
+							<view class="schedules">取消/退款进度 :
+								<text>已退款</text>
+							</view>
 						</view>
 
 						<view class="refund-porduct">
 							<view class="refund-porducts">
-								<view class="order-items" v-for="(item,index) in orderPorduct" :key='index'>
+								<view class="order-items" >
 									<view class="service-conditions">
 										<view class="line-service-name">
 											<view class="line"></view>
-											<view class="service-name">{{item.name}}</view>
+											<view class="service-name"> 退款商品 </view>
 										</view>
-										<view class="appointment"> 失效的商品将自动退款，请及时到院使用 </view>
+										<view class="appointment"> 
+											<!-- 失效的商品将自动退款，请及时到院使用 -->
+											退款金额将在1-3个工作日原路退还,请耐心等候
+										</view>
 									</view>
-									<view class="order-porduct-content" v-for="(i,k) in item.porductImagesList" :key='k'>
+									<view class="order-porduct-content" v-for="(i,k) in order_goods" :key='k'>
 										<view class="order-porduct-line">
 											<view class="porduct-line"></view>
 										</view>
 										<view class="failure-time">
-											<view class="time-hint">商品失效：2020-04-28 22:25:27</view>
+											<view class="time-hint">商品失效时间 : {{ over_time }} </view>
 										</view>
 										<view class="order-porduct-images-name">
 											<view class="porduct-images">
-												<image :src="i.url" mode=""></image>
+												<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
 											</view>
 											<view class="porduct-right">
-												<view class="porduct-name">{{i.porductName}}</view>
-												<view class="content-item" @tap='openPorductContent(index,k)' v-if="!i.showPorduct">
-													<view class="porduct-content-items">{{i.content}}</view>
-													<image :src="i.arrowImages" mode=""></image>
-												</view>
-												<view class="show-porduct-content" v-if="i.showPorduct" @tap='openPorductContent(index,k)'>
-													<view class="content-items" v-for="(i,k) in i.contentList" :key='k'>
-														<view class="versions">版本: {{i.versions}} </view>
-														<view class="specification">规格: {{i.specification}} </view>
-														<view class="part">部位: {{i.part}} </view>
-														<view class="doctor">医生: {{i.doctor}} </view>
+												<view class="porduct-name">{{i.spu_name}}</view>
+												<view class="sku_spec_content" @tap='this_show_sku_spec(i,k)'>
+													<view class="item_content">
+														<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
+															<text class="versions"> {{ z }} : {{ j }} ; </text>
+														</text>
 													</view>
-													<image :src="i.topImages" mode=""></image>
+													<image src="../../static/images/arrow-down.png" mode=""></image>
 												</view>
-												<view class="porduct-price-number">
-													<view class="porduct-price"><text>￥</text>{{i.price}}</view>
-													<view class="porduct-number">x{{i.porductNumber}}</view>
+												<view class="show_item_content" @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
+													<view class="show_all_items">
+														<view class="content-items" v-for="(z,j) in i.sku_spec" :key='j'>
+															<text class="versions"> {{ z }} : {{ j }} ; </text>
+														</view>
+													</view>
+													<image src="../../static/images/arrow-down.png" mode=""></image>
+												</view>
+												<view class="porduct-price-number" >
+													<view class="porduct-price" ><text>￥</text>{{i.sku_price}}</view>
+													<view class="porduct-number" >x{{i.sku_nums}}</view>
 												</view>
 											</view>
 										</view>
 										<view class="pay-for-the-order ">
 											<view class="pay-order-content">
 												<view class=" total-price-on-line-pay">
-													<view class="total-price">总价 <text>￥{{i.allPrice}}</text> </view>
-													<view class="on-line-pay">在线支付 <text>￥{{i.onLinePay}}</text> </view>
+													<view class="total-price">总价 <text>￥ {{i.payable_amount}} </text> </view>
+													<view class="on-line-pay" >
+														在线支付 <text>￥ {{i.online_pay}} </text> 
+													</view>
 												</view>
 												<view class="discounts-hospital-pay">
-													<view class="discounts">优惠 <text>￥{{i.discounts}}</text>
-														<image src="../../static/images/ask1.png" mode=""></image>
+													<view class="discounts" >
+														优惠 <text>￥ {{ i.discount || 0}} </text>
+														<image src="../../static/images/ask1.png"
+														 @tap="this_discount(i.hd_sale_info,i.card_sale_info,i.discount)"></image>
 													</view>
-													<view class="hospital-pay">到院再付 <text>￥{{i.hospitalPay}}</text> </view>
+													<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
 												</view>
-												<view class="cope-with">应付 <text>￥{{i.copeWith}}</text> </view>
+												<view class="cope-with">应付 <text>￥ {{i.rel_price}} </text> </view>
 											</view>
 										</view>
 									</view>
@@ -110,11 +122,9 @@
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import porduct from '../../components/porduct.vue'
 	export default {
 		components: {
-			topBar,
-			porduct
+			topBar
 		},
 		data() {
 			return {
@@ -124,113 +134,18 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
-				title: '申请退款', //退款进度
+				title: '退款结果', //退款进度
 				requestUrl:'',
 				order_info: {
 					giving_info:[],
 					discount_description:[]
 				},
+				over_time:'',
 				order_goods:[],
-				orderPorduct: [{
-						name: '退款商品',
-						porductImagesList: [
-							{
-								id: 1,
-								url: '../../static/images/23.png',
-								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-								contentList: [{
-									versions: '尊享版',
-									specification: '傲诺拉-星熠光面圆盘',
-									part: '腋下切口+内窥镜(进口)+双平面',
-									doctor: '艾剑英/邱伟'
-								}, ],
-								price: 608000,
-								arrowImages: '../../static/images/arrow-down.png',
-								topImages: '../../static/images/arrow-top.png',
-								showPorduct: false,
-								allPrice: 19600,
-								onLinePay: 500,
-								discounts: 600,
-								hospitalPay: 18500,
-								copeWith: 19000,
-								porductNumber: 2,
-								state: '已退款',
-							},
-							{
-								id: 2,
-								url: '../../static/images/20.png',
-								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-								contentList: [{
-									versions: '尊享版',
-									specification: '傲诺拉-星熠光面圆盘',
-									part: '腋下切口+内窥镜(进口)+双平面',
-									doctor: '艾剑英/邱伟'
-								}, ],
-								price: 608000,
-								arrowImages: '../../static/images/arrow-down.png',
-								topImages: '../../static/images/arrow-top.png',
-								showPorduct: false,
-								allPrice: 19600,
-								onLinePay: 500,
-								discounts: 600,
-								hospitalPay: 18500,
-								copeWith: 19000,
-								porductNumber: 1
-							}, {
-								id: 1,
-								url: '../../static/images/23.png',
-								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-								contentList: [{
-									versions: '尊享版',
-									specification: '傲诺拉-星熠光面圆盘',
-									part: '腋下切口+内窥镜(进口)+双平面',
-									doctor: '艾剑英/邱伟'
-								}, ],
-								price: 608000,
-								arrowImages: '../../static/images/arrow-down.png',
-								topImages: '../../static/images/arrow-top.png',
-								showPorduct: false,
-								allPrice: 19600,
-								onLinePay: 500,
-								discounts: 600,
-								hospitalPay: 18500,
-								copeWith: 19000,
-								porductNumber: 2,
-								state: '已使用',
-							}, {
-								id: 1,
-								url: '../../static/images/19.png',
-								porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-								content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-								contentList: [{
-									versions: '尊享版',
-									specification: '傲诺拉-星熠光面圆盘',
-									part: '腋下切口+内窥镜(进口)+双平面',
-									doctor: '艾剑英/邱伟'
-								}, ],
-								price: 608000,
-								arrowImages: '../../static/images/arrow-down.png',
-								topImages: '../../static/images/arrow-top.png',
-								showPorduct: false,
-								allPrice: 19600,
-								onLinePay: 500,
-								discounts: 600,
-								hospitalPay: 18500,
-								copeWith: 19000,
-								porductNumber: 2,
-								state: '待使用',
-							},
-						],
-					},
-
-				],
 				refundList:[
 					{name:'微信退款',content:'￥1000',time:'2020.05.07  15:51'},
 					{name:'喵豆退款',content:'19800个',time:'2020.05.07  15:51'},
@@ -336,11 +251,7 @@
 				}
 				let time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute
 				return time
-			},
-			openPorductContent:function(index,k){
-				let showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct
-				this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct
-			},
+			}
 		}
 	}
 </script>
@@ -375,6 +286,7 @@
 
 	.schedules text {
 		color: #fa3475;
+		padding-left: 20rpx;
 	}
 
 	.refund-porduct {
@@ -451,41 +363,40 @@
 		padding-bottom: 30rpx;
 		display: flex;
 		justify-content: space-between;
-		/* align-items: center; */
 		position: relative;
 	}
-
+	
 	.porduct-images {
 		width: 200rpx;
 		height: 200rpx;
 	}
-
+	
 	.porduct-images image {
 		width: 200rpx;
 		height: 200rpx;
 	}
-
+	
 	.porduct-right {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		position: relative;
+		padding: 10rpx 0 10rpx 20rpx;
+		flex: 1;
 	}
-
+	
 	.porduct-name {
-		width: 430rpx;
 		font-size: 24rpx;
 		line-height: 32rpx;
 		color: #111111;
 		overflow: hidden;
+		font-weight: lighter;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		margin-bottom: 20rpx;
 	}
-
-	.content-item {
-		width: 320rpx;
+	
+	.sku_spec_content {
 		height: 40rpx;
 		line-height: 40rpx;
 		background-color: #f0f0f0;
@@ -493,61 +404,60 @@
 		font-size: 20rpx;
 		color: #333333;
 		font-weight: lighter;
-		padding: 0 14rpx 0 16rpx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-	}
-
-	.content-item image {
-		width: 32rpx;
-		height: 32rpx;
-	}
-
-	.show-porduct-content image {
-		width: 32rpx;
-		height: 32rpx;
-	}
-
-	.show-porduct-content {
-		font-size: 20rpx;
-		background-color: #f0f0f0;
-		border-radius: 20rpx;
-		padding: 10rpx 16rpx;
+		width: 76%;
+		padding: 0 16rpx;
 		position: absolute;
-		top: 88rpx;
-		width: 360rpx;
-		min-height: 140rpx;
-		display: flex;
-		color: #333333;
-		font-weight: lighter;
-		justify-content: space-between;
-		line-height: 30rpx;
+		left: 20rpx;
+		top: 76rpx;
 	}
-
-	.show-porduct-content .content-items {
-		width: 290rpx;
-	}
-
-	.porduct-content-items {
+	
+	.item_content {
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
-		width: 280rpx;
+		flex: 1;
 	}
+	
+	.sku_spec_content image,
+	.show_item_content image {
+		width: 32rpx;
+		height: 32rpx;
+	}
+	
+	.show_item_content {
+		position: absolute;
+		left: 20rpx;
+		top: 76rpx;
+		width: 76%;
+		padding: 6rpx 16rpx 0;
+		background-color: #f0f0f0;
+		color: #333333;
+		font-size: 20rpx;
+		border-radius: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		font-weight: lighter;
+	}
+	
+	.show_item_content image {
+		transform: rotate(180deg);
+	}
+	
 
 	.porduct-price-number {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: #fa3475;
+		color: #808080;
 		margin-top: 15rpx;
 	}
 
 	.porduct-price {
 		font-size: 40rpx;
-
 	}
 
 	.porduct-price text {
@@ -585,11 +495,6 @@
 	.discounts {
 		display: flex;
 		align-items: center;
-	}
-
-	.on-line-pay,
-	.discounts {
-		color: #fa3475;
 	}
 
 	.on-line-pay,

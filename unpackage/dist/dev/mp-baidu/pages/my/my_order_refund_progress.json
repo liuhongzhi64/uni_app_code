@@ -1,7 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "top-bar": "/components/topBar",
-    "porduct": "/components/porduct"
+    "top-bar": "/components/topBar"
   }
 }

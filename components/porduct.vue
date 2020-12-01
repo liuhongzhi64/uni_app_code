@@ -256,7 +256,7 @@
 		<view class="change-porduct" v-if="changePorduct">
 			<view class="refund-porduct-list" v-for="(i,k) in changePorduct" :key="k">
 				<view class="top-change-all" v-if="i.title">
-					<checkbox color="#ff5f93" v-if="i.title!='不支持在线退款商品' && i.title!='已核销商品'  " />
+					<checkbox color="#ff5f93" v-if="i.title!='不支持在线退款商品' && i.title!='已核销商品'" />
 					<view class="change-title" :style="[{'margin-left':i.title=='不支持在线退款商品'|| i.title=='已核销商品'?50+'rpx':0+'rpx'}]">
 						{{i.title}} <text v-if="i.title=='不支持在线退款商品'">（需到院于收费室处退款)</text>
 					</view>

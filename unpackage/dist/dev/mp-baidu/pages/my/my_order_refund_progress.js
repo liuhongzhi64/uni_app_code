@@ -130,7 +130,18 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 497));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -245,8 +256,7 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    topBar: topBar,
-    porduct: porduct },
+    topBar: topBar },
 
   data: function data() {
     return {
@@ -260,109 +270,14 @@ __webpack_require__.r(__webpack_exports__);
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '/static/images/back2.png',
-      title: '申请退款', //退款进度
+      title: '退款结果', //退款进度
       requestUrl: '',
       order_info: {
         giving_info: [],
         discount_description: [] },
 
+      over_time: '',
       order_goods: [],
-      orderPorduct: [{
-        name: '退款商品',
-        porductImagesList: [
-        {
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '已退款' },
-
-        {
-          id: 2,
-          url: '../../static/images/20.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 1 },
-        {
-          id: 1,
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '已使用' },
-        {
-          id: 1,
-          url: '../../static/images/19.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '待使用' }] }],
-
-
-
-
-
       refundList: [
       { name: '微信退款', content: '￥1000', time: '2020.05.07  15:51' },
       { name: '喵豆退款', content: '19800个', time: '2020.05.07  15:51' },
@@ -468,10 +383,6 @@ __webpack_require__.r(__webpack_exports__);
       }
       var time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute;
       return time;
-    },
-    openPorductContent: function openPorductContent(index, k) {
-      var showPorduct = this.orderPorduct[index].porductImagesList[k].showPorduct;
-      this.orderPorduct[index].porductImagesList[k].showPorduct = !showPorduct;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

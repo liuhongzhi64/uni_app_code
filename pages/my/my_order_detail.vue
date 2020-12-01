@@ -429,20 +429,24 @@
 					取消订单
 				</button>
 				<button class="" type="default" size="mini" @tap="contact()">联系客服</button>
-				<button class="" type="default" v-if="order_info.status==0" size="mini" @tap="please_pay(order_info.id)">
-					立即支付
-				</button>
-				<button class="" type="default" v-if="order_info.status==4||order_info.status==6||order_info.status==7||order_info.status==8"
+				<!-- <button class="" type="default" v-if="order_info.status==4||order_info.status==6||order_info.status==7||order_info.status==8"
 				 size="mini" @tap="cancel_detail(order_info.id)">
 					退款明细
-				</button>
-				<button class="" type="default" v-if="order_info.status==2" size="mini">
+				</button> -->
+				<!-- v-if="order_info.status==2" -->
+				<button class="" type="default"  size="mini" @tap='go_refund(order_info.id)'>
 					申请退款
+				</button>
+				<button class="color_btn" type="default" size="mini" v-if="order_info.status==7" @tap="go_to_page">
+					去逛逛
 				</button>
 				<!-- <button class="" type="default" v-if="order_info.status==2" size="mini">
 					立即预约
 				</button> -->
-				<button class="" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('diary')" >写日记</button>
+				<button class="color_btn" type="default" v-if="order_info.status==0" size="mini" @tap="please_pay(order_info.id)">
+					立即支付
+				</button>
+				<button class="color_btn" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('diary')" >写日记</button>
 				<button class="" type="default" size="mini" v-if="order_info.status==5" @tap="write_content('comment')">写评价</button>
 			</view>
 		</view>
@@ -487,7 +491,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '订单详情',
@@ -834,6 +838,12 @@
 				let that = this
 				that.this_show_discount = !that.this_show_discount
 			},
+			// 去首页和分类
+			go_to_page:function(){
+				uni.reLaunch({
+				    url: '/pages/goods/goods_classify'
+				})
+			},
 			// 返回顶部
 			ToTop: function() {
 				uni.pageScrollTo({
@@ -842,17 +852,18 @@
 				})
 			},
 			// 申请退款
-			goToRefund: function() {
+			go_refund: function(id) {
 				uni.navigateTo({
-					url: `/pages/my/my_order_refund`,
+					url: `/pages/my/my_order_refund?id=${id}`,
 				})
 			},
-			// 退款详情
-			cancel_detail: function(id) {
-				uni.navigateTo({
-					url: `/pages/my/my_order_refund_progress?id=${id}`,
-				})
-			},
+			// 退款结果
+			// cancel_detail: function(id) {
+			// 	uni.navigateTo({
+			// 		url: `/pages/my/my_order_refund_progress?id=${id}`,
+			// 	})
+			// },
+			// 取消订单
 			cancel_order: function(id) {
 				let that = this
 				uni.showModal({
@@ -1236,7 +1247,7 @@
 
 	.sku_spec_content {
 		height: 40rpx;
-		line-height: 40rpx;
+		/* line-height: 40rpx; */
 		background-color: #f0f0f0;
 		border-radius: 20rpx;
 		font-size: 20rpx;
@@ -1672,17 +1683,17 @@
 		justify-content: center;
 		align-items: center;
 		padding-bottom: 210rpx;
-		padding-top: 40rpx;
 	}
 
 	.cancel-order_top image {
 		width: 64rpx;
 		height: 64rpx;
-		margin-right: 20rpx;
+		margin-right: 10rpx;
 	}
 
 	.cancel_hint {
 		color: #FFFFFF;
+		margin-left: 10rpx;
 	}
 
 	.user_info {
@@ -1761,35 +1772,9 @@
 	.i_know::after{
 		border: none;
 	}
-	.no_have_order{
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		justify-content: center;
-	}
-	.no_have_order image{
-		height: 260rpx;
-	}
-	.go_to_see_button{
-		padding-top: 60rpx;
-	}
-	.go_to_see_button button::after{
-		border: none;
-	}
-	.go_my{
+	
+	.color_btn{
 		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-		width: 200rpx;
-		line-height: 60rpx;
-		margin-right: 20rpx;
 		color: #FFFFFF;
-		border-radius: 30rpx;
-	}
-	.go_see{
-		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-		width: 200rpx;
-		line-height: 60rpx;
-		margin-left: 20rpx;
-		color: #FFFFFF;
-		border-radius: 30rpx;
 	}
 </style>

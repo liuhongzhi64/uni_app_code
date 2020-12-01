@@ -22,6 +22,7 @@
 }
 .schedules text.data-v-2885dd2c {
 		color: #fa3475;
+		padding-left: 20rpx;
 }
 .refund-porduct.data-v-2885dd2c {
 		padding: 20rpx;
@@ -100,7 +101,6 @@
 		-webkit-box-pack: justify;
 		-webkit-justify-content: space-between;
 		        justify-content: space-between;
-		/* align-items: center; */
 		position: relative;
 }
 .porduct-images.data-v-2885dd2c {
@@ -123,20 +123,22 @@
 		-webkit-justify-content: space-between;
 		        justify-content: space-between;
 		position: relative;
+		padding: 10rpx 0 10rpx 20rpx;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		        flex: 1;
 }
 .porduct-name.data-v-2885dd2c {
-		width: 430rpx;
 		font-size: 24rpx;
 		line-height: 32rpx;
 		color: #111111;
 		overflow: hidden;
+		font-weight: lighter;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		margin-bottom: 20rpx;
 }
-.content-item.data-v-2885dd2c {
-		width: 320rpx;
+.sku_spec_content.data-v-2885dd2c {
 		height: 40rpx;
 		line-height: 40rpx;
 		background-color: #f0f0f0;
@@ -144,7 +146,6 @@
 		font-size: 20rpx;
 		color: #333333;
 		font-weight: lighter;
-		padding: 0 14rpx 0 16rpx;
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
@@ -154,43 +155,47 @@
 		-webkit-box-pack: justify;
 		-webkit-justify-content: space-between;
 		        justify-content: space-between;
-}
-.content-item image.data-v-2885dd2c {
-		width: 32rpx;
-		height: 32rpx;
-}
-.show-porduct-content image.data-v-2885dd2c {
-		width: 32rpx;
-		height: 32rpx;
-}
-.show-porduct-content.data-v-2885dd2c {
-		font-size: 20rpx;
-		background-color: #f0f0f0;
-		border-radius: 20rpx;
-		padding: 10rpx 16rpx;
+		width: 76%;
+		padding: 0 16rpx;
 		position: absolute;
-		top: 88rpx;
-		width: 360rpx;
-		min-height: 140rpx;
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		color: #333333;
-		font-weight: lighter;
-		-webkit-box-pack: justify;
-		-webkit-justify-content: space-between;
-		        justify-content: space-between;
-		line-height: 30rpx;
+		left: 20rpx;
+		top: 76rpx;
 }
-.show-porduct-content .content-items.data-v-2885dd2c {
-		width: 290rpx;
-}
-.porduct-content-items.data-v-2885dd2c {
+.item_content.data-v-2885dd2c {
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
-		width: 280rpx;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		        flex: 1;
+}
+.sku_spec_content image.data-v-2885dd2c,
+	.show_item_content image.data-v-2885dd2c {
+		width: 32rpx;
+		height: 32rpx;
+}
+.show_item_content.data-v-2885dd2c {
+		position: absolute;
+		left: 20rpx;
+		top: 76rpx;
+		width: 76%;
+		padding: 6rpx 16rpx 0;
+		background-color: #f0f0f0;
+		color: #333333;
+		font-size: 20rpx;
+		border-radius: 20rpx;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		        justify-content: space-between;
+		font-weight: lighter;
+}
+.show_item_content image.data-v-2885dd2c {
+		-webkit-transform: rotate(180deg);
+		        transform: rotate(180deg);
 }
 .porduct-price-number.data-v-2885dd2c {
 		display: -webkit-box;
@@ -202,7 +207,7 @@
 		-webkit-box-align: center;
 		-webkit-align-items: center;
 		        align-items: center;
-		color: #fa3475;
+		color: #808080;
 		margin-top: 15rpx;
 }
 .porduct-price.data-v-2885dd2c {
@@ -247,10 +252,6 @@
 		-webkit-box-align: center;
 		-webkit-align-items: center;
 		        align-items: center;
-}
-.on-line-pay.data-v-2885dd2c,
-	.discounts.data-v-2885dd2c {
-		color: #fa3475;
 }
 .on-line-pay.data-v-2885dd2c,
 	.hospital-pay.data-v-2885dd2c {

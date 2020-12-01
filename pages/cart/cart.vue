@@ -83,11 +83,12 @@
 							<!-- 商品展示 -->
 							<view class="product-item-content-all" v-for="(i,is) in items.goods_list" :key='is'>
 								<view class="product-item-content" @longpress='setgoodsState(k,is)'>
-									<view class="checkbox-item">
-										<checkbox class="checkbox-item" color='#007AFF' :checked="i.checked" @tap='changeCheck(k,is)' />
-									</view>
+									
 									<view class="goods-info">
 										<view class="product-item-show">
+											<view class="checkbox-item">
+												<checkbox class="checkbox-item" color='#007AFF' :checked="i.checked" @tap='changeCheck(k,is)' />
+											</view>
 											<view class="porduct-item-images" @tap='goToGoods(i.Sku_id,i.encrypted_id)'>
 												<image :src="requestUrl+i.head_img" mode=""></image>
 											</view>

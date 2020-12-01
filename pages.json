@@ -8,11 +8,73 @@
 			"style": {}
 		},
 		
+		// 我的
+		{
+			"path": "pages/my/account_number", //账号管理
+			"style": {}
+		},
+		{
+			"path": "pages/my/add_address", //添加地址
+			"style": {}
+		},
+		{
+			"path": "pages/my/after_sales", //退换/售后
+			"style": {}
+		},
+		{
+			"path": "pages/my/harves_address", //收货地址
+			"style": {}
+		},
+		{
+			"path": "pages/my/my", //我的
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_card", //我的卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_card_gain", //领取卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_card_use", //使用卡卷
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_collection", //我的收藏
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_comment", //我的评价-评价列表
+			"style": {}
+		},
+		
 		{
 			"path": "pages/my/my_order_detail", //订单详情
 			"style": {}
 		},
-			
+		{
+			"path": "pages/my/my_order_refund", //申请退款
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_order_refund_progress", //退款结果
+			"style": {}
+		},
+		{
+			"path": "pages/my/my_order_refund_reason", //退款原因
+			"style": {}
+		},
+		
+		{
+			"path": "pages/my/my_set", //设置
+			"style": {}
+		},
+		{
+			"path": "pages/my/write_comment", //写评价
+			"style": {}
+		},
 		
 			
 		// 购物车
@@ -193,70 +255,7 @@
 			"style": {}
 		},
 
-		// 我的
-		{
-			"path": "pages/my/account_number", //账号管理
-			"style": {}
-		},
-		{
-			"path": "pages/my/add_address", //添加地址
-			"style": {}
-		},
-		{
-			"path": "pages/my/after_sales", //退换/售后
-			"style": {}
-		},
-		{
-			"path": "pages/my/harves_address", //收货地址
-			"style": {}
-		},
-		{
-			"path": "pages/my/my", //我的
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_card", //我的卡卷
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_card_gain", //领取卡卷
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_card_use", //使用卡卷
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_collection", //我的收藏
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_comment", //我的评价-评价列表
-			"style": {}
-		},
 		
-		
-		{
-			"path": "pages/my/my_order_refund", //申请退款
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_order_refund_progress", //退款结果
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_order_refund_reason", //退款原因
-			"style": {}
-		},
-		
-		{
-			"path": "pages/my/my_set", //设置
-			"style": {}
-		},
-		{
-			"path": "pages/my/write_comment", //写评价
-			"style": {}
-		},
 
 		// 其他
 		{

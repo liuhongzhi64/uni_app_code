@@ -337,7 +337,10 @@
 	.back-title .title {
 		flex: 1;
 		/* margin-left: 80rpx; */
+		display: flex;
+		justify-content: center;
 		font-size: 37rpx;
+		width: 100%;
 	}
 	
 	

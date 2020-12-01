@@ -18,4 +18,7 @@
 	body {
 		min-height: 0;
 	}
+	checkbox .uni-checkbox-input{
+		border-radius: 50%; 
+	}
 </style>

@@ -531,7 +531,7 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '/static/images/back2.png',
@@ -976,11 +976,11 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     // 退款详情
-    cancel_detail: function cancel_detail(id) {
-      uni.navigateTo({
-        url: "/pages/my/my_order_refund_progress?id=".concat(id) });
-
-    },
+    // cancel_detail: function(id) {
+    // 	uni.navigateTo({
+    // 		url: `/pages/my/my_order_refund_progress?id=${id}`,
+    // 	})
+    // },
     // 写日记和评价
     write_content: function write_content(info) {
       // 写评价

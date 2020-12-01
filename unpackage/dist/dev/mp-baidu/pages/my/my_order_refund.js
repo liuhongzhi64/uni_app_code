@@ -130,15 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _methods;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 497));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -181,8 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    topBar: topBar,
-    porduct: porduct },
+    topBar: topBar },
 
   data: function data() {
     return {
@@ -192,142 +183,91 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '申请退款',
-      hintList: ['1、若发生整单退款，或是部分退款，我院有权收回相关赠品，并根据退款/退单后的情况重新计算优惠信息和赠品信息。', '2、若邮寄商品一律不支持无理由退货；',
-      '邮寄中的商品，申请退款需要等待人工审核，我院需确认回收到货品后方可退款；', '4、关于退款金额，将原路返还。'],
+      hintList: [
+      '1、若发生整单退款，或是部分退款，我院有权收回相关赠品，并根据退款/退单后的情况重新计算优惠信息和赠品信息。',
+      '2、若邮寄商品一律不支持无理由退货；',
+      '3、邮寄中的商品，申请退款需要等待人工审核，我院需确认回收到货品后方可退款；',
+      '4、关于退款金额，将原路返还。'],
 
-      changePorduct: [
-      {
-        title: '收费室使用',
-        porduct: [
-        {
-          id: '02048492',
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
+      order_goods: [],
+      order_info: {
+        giving_info: [],
+        discount_description: [] } };
 
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '待使用' }] },
-
-
-
-      {
-        title: '会员中心使用',
-        porduct: [
-        {
-          id: '02048495',
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '未使用' }] },
-
-
-
-      {
-        title: '不支持在线退款商品',
-        porduct: [
-        {
-          id: '02048499',
-          url: '../../static/images/23.png',
-          porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
-          content: '版本：尊享版； 规格：傲若拉商品名称.... ',
-          contentList: [{
-            versions: '尊享版',
-            specification: '傲诺拉-星熠光面圆盘',
-            part: '腋下切口+内窥镜(进口)+双平面',
-            doctor: '艾剑英/邱伟' }],
-
-          price: 608000,
-          arrowImages: '../../static/images/arrow-down.png',
-          topImages: '../../static/images/arrow-top.png',
-          showPorduct: false,
-          allPrice: 19600,
-          onLinePay: 500,
-          discounts: 600,
-          hospitalPay: 18500,
-          copeWith: 19000,
-          porductNumber: 2,
-          state: '未使用' }] }],
-
-
-
-
-      changePorductNumber: [] };
 
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
-  methods: (_methods = {
-    checkboxChange: function checkboxChange(e) {
-      this.changeList = e.detail.value;
+  onLoad: function onLoad(option) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    if (option.info) {
+      that.get_order_derail(option.info);
+    } else {
+      that.get_order_derail(23149); //23170
+    }
+  },
+  methods: {
+    // 获取订单详情
+    get_order_derail: function get_order_derail(id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'get_order_info',
+        id: id };
+
+      that.request.uniRequest("order", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          // 订单的信息
+          that.order_info = data.order_info;
+          that.order_goods = data.order_goods;
+        }
+      });
     },
-    userCause: function userCause(e) {
-      this.userInputContent = e.detail.value;
-    },
-    submitApplyFor: function submitApplyFor() {
-      var porduct = this.changePorductNumber;
+    submit_apply_for: function submit_apply_for() {
       uni.navigateTo({
-        url: "/pages/my/my_order_refund_reason?refundporduct=".concat(porduct) });
+        url: "/pages/my/my_order_refund_reason" });
 
-    } }, _defineProperty(_methods, "checkboxChange",
-
-  function checkboxChange(porductNumber) {
-    this.changePorductNumber = porductNumber;
-    console.log(porductNumber);
-  }), _defineProperty(_methods, "openPorductContent",
-  function openPorductContent(index, k) {
-    console.log(index, k);
-    var showPorduct = this.changePorduct[k].porduct[index].showPorduct;
-    this.changePorduct[k].porduct[index].showPorduct = !showPorduct;
-  }), _methods) };exports.default = _default;
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

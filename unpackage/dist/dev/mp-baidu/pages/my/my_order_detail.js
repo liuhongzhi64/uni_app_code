@@ -607,6 +607,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     goodsShow: goodsShow },
@@ -619,7 +623,7 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       color: '#FFFFFF',
       backImage: '/static/images/back2.png',
       title: '订单详情',
@@ -966,6 +970,12 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       that.this_show_discount = !that.this_show_discount;
     },
+    // 去首页和分类
+    go_to_page: function go_to_page() {
+      uni.reLaunch({
+        url: '/pages/goods/goods_classify' });
+
+    },
     // 返回顶部
     ToTop: function ToTop() {
       uni.pageScrollTo({
@@ -974,17 +984,18 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 申请退款
-    goToRefund: function goToRefund() {
+    go_refund: function go_refund(id) {
       uni.navigateTo({
-        url: "/pages/my/my_order_refund" });
+        url: "/pages/my/my_order_refund?id=".concat(id) });
 
     },
-    // 退款详情
-    cancel_detail: function cancel_detail(id) {
-      uni.navigateTo({
-        url: "/pages/my/my_order_refund_progress?id=".concat(id) });
-
-    },
+    // 退款结果
+    // cancel_detail: function(id) {
+    // 	uni.navigateTo({
+    // 		url: `/pages/my/my_order_refund_progress?id=${id}`,
+    // 	})
+    // },
+    // 取消订单
     cancel_order: function cancel_order(id) {
       var that = this;
       uni.showModal({

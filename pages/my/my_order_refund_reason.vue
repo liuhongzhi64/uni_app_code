@@ -68,10 +68,10 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '申请退款',
 				hintList: ['1、若发生整单退款，或是部分退款，我院有权收回相关赠品，并根据退款/退单后的情况重新计算优惠信息和赠品信息。', '2、若邮寄商品一律不支持无理由退货；',
 					'邮寄中的商品，申请退款需要等待人工审核，我院需确认回收到货品后方可退款；', '4、关于退款金额，将原路返还。'

@@ -67,7 +67,7 @@
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
-	padding-top: 210rpx;
+	/* padding-top: 210rpx; */
 	padding-bottom: 210rpx;
 }
 .user-message.data-v-08de1eeb {
@@ -103,7 +103,7 @@
 }
 .user-all-message.data-v-08de1eeb {
 	padding: 0 20rpx;
-	margin-top: -150rpx;
+	margin-top: -130rpx;
 }
 .user-message-content.data-v-08de1eeb {
 	background-color: #FFFFFF;
@@ -346,7 +346,7 @@
 }
 .sku_spec_content.data-v-08de1eeb {
 	height: 40rpx;
-	line-height: 40rpx;
+	/* line-height: 40rpx; */
 	background-color: #f0f0f0;
 	border-radius: 20rpx;
 	font-size: 20rpx;
@@ -817,15 +817,15 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	padding-bottom: 210rpx;
-	padding-top: 40rpx;
 }
 .cancel-order_top image.data-v-08de1eeb {
 	width: 64rpx;
 	height: 64rpx;
-	margin-right: 20rpx;
+	margin-right: 10rpx;
 }
 .cancel_hint.data-v-08de1eeb {
 	color: #FFFFFF;
+	margin-left: 10rpx;
 }
 .user_info.data-v-08de1eeb {
 	display: -webkit-box;
@@ -837,7 +837,8 @@
 	background-color: #FFFFFF;
 	border-radius: 24rpx;
 	color: #fa3475;
-	padding: 34rpx 0;
+	/* padding: 34rpx 0; */
+	padding: 80rpx 0;
 }
 .color.data-v-08de1eeb {
 	color: #fa3475;
@@ -928,46 +929,9 @@
 .i_know.data-v-08de1eeb::after{
 	border: none;
 }
-.no_have_order.data-v-08de1eeb{
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-}
-.no_have_order image.data-v-08de1eeb{
-	height: 260rpx;
-}
-.go_to_see_button.data-v-08de1eeb{
-	padding-top: 60rpx;
-}
-.go_to_see_button button.data-v-08de1eeb::after{
-	border: none;
-}
-.go_my.data-v-08de1eeb{
+.color_btn.data-v-08de1eeb{
 	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%,  #ff6699 100%);
 	background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-	width: 200rpx;
-	line-height: 60rpx;
-	margin-right: 20rpx;
 	color: #FFFFFF;
-	border-radius: 30rpx;
-}
-.go_see.data-v-08de1eeb{
-	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%,  #ff6699 100%);
-	background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-	width: 200rpx;
-	line-height: 60rpx;
-	margin-left: 20rpx;
-	color: #FFFFFF;
-	border-radius: 30rpx;
 }
 

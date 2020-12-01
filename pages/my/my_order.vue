@@ -216,7 +216,7 @@
 											<button class="button" type="default" plain="true" @tap="contact()">
 												联系客服
 											</button>
-											<button class="button " type="default" plain="true" @tap="cancel_detail(item.id)"
+											<button class="button " type="default" plain="true" @tap="gotoPages(item.id)"
 											 v-show="item.status==4||item.status==6||item.status==7||item.status==8">
 												退款明细
 											</button>
@@ -320,7 +320,7 @@
 											<button class="button" type="default" plain="true" @tap="contact()">
 												联系客服
 											</button>
-											<button class="button " type="default" plain="true" @tap="cancel_detail(item.order_id)" v-show="tabIndex==4">
+											<button class="button " type="default" plain="true" @tap="gotoPages(item.order_id)" v-show="tabIndex==4">
 												退款明细
 											</button>
 											<button class="button" type="default" plain="true" @tap="gotoPages(item.order_id)"> 
@@ -393,7 +393,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
@@ -838,11 +838,11 @@
 			},
 			
 			// 退款详情
-			cancel_detail: function(id) {
-				uni.navigateTo({
-					url: `/pages/my/my_order_refund_progress?id=${id}`,
-				})
-			},
+			// cancel_detail: function(id) {
+			// 	uni.navigateTo({
+			// 		url: `/pages/my/my_order_refund_progress?id=${id}`,
+			// 	})
+			// },
 			// 写日记和评价
 			write_content: function(info) {
 				// 写评价

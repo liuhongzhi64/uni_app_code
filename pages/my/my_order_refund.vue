@@ -22,19 +22,19 @@
 							<view class="order-items" v-if="scan_one_list.length>0">
 								<view class="service-conditions">
 									<view class="line-service-name">
-										<checkbox color="#ff5f93" class="allcheckbox" :checked="scan_one_list_check" @tap="change_all(0)" />
+										<checkbox color="#ff5f93" class="allcheckbox" value="0" :checked="scan_one_list_check" @tap="change_all(0)" />
 										<view class="service-name"> 收费室使用商品 </view>
 									</view>
 								</view>
-								<checkbox-group @change="change_item">
+								<checkbox-group :data-index='0' @change="change_item">
 									<view class="change_goods" v-for="(i,k) in scan_one_list" :key='k'>
 										<view class="order-porduct-content" >
 											<view class="order-porduct-line">
 												<view class="porduct-line"></view>
 											</view>
 											<view class="order-porduct-images-name">
-												<view class="checkbox-item">
-													<checkbox color="#ff5f93" :value="i.id" :checked="i.checked" @tap="change_goods_item(i.id)" />
+												<view class="checkbox-item" >
+													<checkbox color="#ff5f93" :value="i.id" :checked="i.checked" @tap="check_item(0,k,i.id)" />
 												</view>
 												<view class="porduct-images">
 													<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
@@ -90,11 +90,11 @@
 							<view class="order-items" v-else-if="scan_two_list.length>0">
 								<view class="service-conditions">
 									<view class="line-service-name">
-										<checkbox color="#ff5f93" class="allcheckbox"  />
+										<checkbox color="#ff5f93" class="allcheckbox" value="1" :checked="scan_two_list_check" @tap="change_all(1)" />
 										<view class="service-name"> 会中心员使用商品 </view>
 									</view>
 								</view>
-								<checkbox-group @change="change_item">
+								<checkbox-group :data-index='1' @change="change_item">
 									<view class="change_goods" v-for="(i,k) in scan_two_list" :key='k'>
 										<view class="order-porduct-content" >
 											<view class="order-porduct-line">
@@ -102,7 +102,7 @@
 											</view>
 											<view class="order-porduct-images-name">
 												<view class="checkbox-item">
-													<checkbox color="#ff5f93" :value="i.id" :checked="i.checked" />
+													<checkbox color="#ff5f93" :value="i.id" :checked="i.checked" @tap="check_item(1,k,i.id)" />
 												</view>
 												<view class="porduct-images">
 													<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
@@ -158,11 +158,11 @@
 							<view class="order-items" v-else-if="is_post_list.length>0">
 								<view class="service-conditions">
 									<view class="line-service-name">
-										<checkbox color="#ff5f93" class="allcheckbox"  />
+										<checkbox color="#ff5f93" class="allcheckbox" value="2" :checked="is_post_list_check" @tap="change_all(2)" />
 										<view class="service-name"> 邮寄商品 </view>
 									</view>
 								</view>
-								<checkbox-group @change="change_item">
+								<checkbox-group :data-index='2' @change="change_item">
 									<view class="change_goods" v-for="(i,k) in is_post_list" :key='k'>
 										<view class="order-porduct-content" >
 											<view class="order-porduct-line">
@@ -170,7 +170,7 @@
 											</view>
 											<view class="order-porduct-images-name">
 												<view class="checkbox-item">
-													<checkbox color="#ff5f93" :value="i.id" :checked="i.checked" />
+													<checkbox color="#ff5f93" :value="i.id" :checked="i.checked" @tap="check_item(2,k,i.id)" />
 												</view>
 												<view class="porduct-images">
 													<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
@@ -297,7 +297,7 @@
 			<view class="all-refund-apply-for">
 				<view class="all-refund-sum">
 					<view class="all-refund-title">合计退款：</view>
-					<view class="sum"> <text>￥</text> 50000 </view>
+					<view class="sum"> <text>￥</text> {{ calculate_price }} </view>
 				</view>
 				<view class="apply-for-refund">
 					<button class="apply-for" type="default" @tap='submit_apply_for()'>下一步</button>
@@ -344,6 +344,8 @@
 				scan_one_list_check:false,
 				scan_two_list_check:false,
 				is_post_list_check:false,
+				order_list:[],
+				calculate_price:0,
 			}
 		},
 		onReady() {
@@ -375,6 +377,7 @@
 					}
 				})
 			} else {
+				that.menuWidth = 90
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
@@ -388,7 +391,7 @@
 			if (option.id) {
 				that.get_order_derail(option.id)
 			} else {
-				that.get_order_derail(23149) //23170
+				that.get_order_derail(23226) //23170  23149
 			}
 		},
 		methods: {
@@ -459,24 +462,192 @@
 			},
 			// 退款原因
 			submit_apply_for: function() {
-				uni.navigateTo({
-					url: `/pages/my/my_order_refund_reason`,
-				})
+				let that = this
+				
+				if(that.order_list.length>0&&that.calculate_price>0){
+					let user_info = {}
+					user_info.accept_name = that.order_info.accept_name
+					user_info.telphone = that.order_info.telphone
+					// console.log(user_info)
+					user_info = JSON.stringify(user_info)
+					let order_goods_id = JSON.stringify(that.order_list)
+					uni.navigateTo({
+						url: `/pages/my/my_order_refund_reason?calculate_price=${that.calculate_price}&user_info=${user_info}&order_id=${that.order_info.order_no}&order_goods_id=${order_goods_id}`,
+					})
+				}
+				else{
+					uni.showToast({
+						title:'您没有选择可退款的商品',
+						icon:'none'
+					})
+				}
 			},
-			// 选中退款商品
+			// 选中退款商品@tap="change_goods_item(i.id)"
 			change_item:function(event){
 				let that = this
-				console.log(event.detail.value)
+				let list = event.detail.value
+				let info = event.currentTarget.dataset.index
+				if(info==0&&list.length==that.scan_one_list.length){
+					that.scan_one_list_check = true
+				}else if(info==0&&list.length!=that.scan_one_list.length){
+					that.scan_one_list_check = false
+				}else if(info==1&&list.length==that.scan_two_list.length){
+					that.scan_two_list_check = true
+				}else if(info==1&&list.length!=that.scan_two_list.length){
+					that.scan_two_list_check = false
+				}else if(info==2&&list.length==that.is_post_list.length){
+					that.is_post_list_check = true
+				}else if(info==2&&list.length!=that.is_post_list.length){
+					that.is_post_list_check = false
+				}
+			},
+			// 改变单个的状态
+			check_item:function(info,index,id){
+				let that = this
+				// 0表示收费室核销商品
+				if(info==0){
+					that.scan_one_list[index].checked = !that.scan_one_list[index].checked
+					if(!that.scan_one_list[index].checked){
+						for(let key in that.order_list){
+							if(that.order_list[key]==id){
+								that.order_list.splice(key,1)
+							}
+						}
+					}else{
+						that.order_list.push(id)
+						that.order_list = [...new Set(that.order_list)]
+					}
+					
+				}else if(info==1){
+					that.scan_two_list[index].checked = !that.scan_two_list[index].checked
+					if(!that.scan_two_list[index].checked){
+						for(let key in that.order_list){
+							if(that.order_list[key]==id){
+								that.order_list.splice(key,1)
+							}
+						}
+					}else{
+						that.order_list.push(id)
+						that.order_list = [...new Set(that.order_list)]
+					}
+				}else if(info==2){
+					that.is_post_list[index].checked = !that.is_post_list[index].checked
+					if(!that.is_post_list[index].checked){
+						for(let key in that.order_list){
+							if(that.order_list[key]==id){
+								that.order_list.splice(key,1)
+							}
+						}
+					}else{
+						that.order_list.push(id)
+						that.order_list = [...new Set(that.order_list)]
+					}
+				}
+				// console.log(that.order_list,0)
+				if(that.order_list.length>0){
+					that.set_calculate(that.order_list)
+				}
 			},
 			// 选中所有商品
 			change_all:function(index){
 				let that = this
+				let order_list = []
 				if(index==0){
-					for(let key in that.scan_one_list){
-						that.scan_one_list[key].checked = !that.scan_one_list[key].checked 
+					let list = []
+					if(that.scan_one_list_check){
+						that.scan_one_list.map(item => this.$set(item, 'checked', false))
+						that.scan_one_list_check = false
+						list = []
+						if(that.order_list.length>0){
+							for(let key in that.order_list){
+								for(let i=0;i<that.scan_one_list.length;i++){
+									if(that.order_list[key]==that.scan_one_list[i].id){
+										that.order_list.splice(key,1)
+									}
+								}
+							}
+						}
+					}else{
+						that.scan_one_list.map(item => this.$set(item, 'checked', true))
+						that.scan_one_list_check = true
+						for(let key in that.scan_one_list){
+							list.push(that.scan_one_list[key].id)
+						}
+						order_list = list
+					}
+				}else if(index==1){
+					let list = []
+					if(that.scan_two_list_check){
+						that.scan_two_list.map(item => this.$set(item, 'checked', false))
+						that.scan_two_list_check = false
+						list = []
+						if(that.order_list.length>0){
+							for(let key in that.order_list){
+								for(let i=0;i<that.scan_two_list.length;i++){
+									if(that.order_list[key]==that.scan_two_list[i].id){
+										that.order_list.splice(key,1)
+									}
+								}
+							}
+						}
+					}else{
+						that.scan_two_list.map(item => this.$set(item, 'checked', true))
+						that.scan_two_list_check = true
+						for(let key in that.scan_two_list){
+							list.push(that.scan_two_list[key].id)
+						}
+						order_list = list
+					}
+				}else if(index==2){
+					let list = []
+					if(that.is_post_list_check){
+						that.is_post_list.map(item => this.$set(item, 'checked', false))
+						that.is_post_list_check = false
+						list = []
+						if(that.order_list.length>0){
+							for(let key in that.order_list){
+								for(let i=0;i<that.is_post_list.length;i++){
+									if(that.order_list[key]==that.is_post_list[i].id){
+										that.order_list.splice(key,1)
+									}
+								}
+							}
+						}
+					}else{
+						that.is_post_list.map(item => this.$set(item, 'checked', true))
+						that.is_post_list_check = true
+						for(let key in that.is_post_list){
+							list.push(that.is_post_list[key].id)
+						}
+						order_list = list
 					}
 				}
+				if(order_list.length>0){
+					for(let key in order_list){
+						that.order_list.push(order_list[key])
+					}
+				}
+				that.order_list = [...new Set(that.order_list)]
+				
+				if(that.order_list.length>0){
+					that.set_calculate(that.order_list)
+				}
 			},
+			// 计算退款金额
+			set_calculate:function(list){
+				let that = this
+				let dataInfo = {
+					interfaceId:'calculate_r',
+					id_list:list
+				}
+				that.request.uniRequest("order", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.calculate_price = data
+					}
+				})
+			},
+			
 			// 商品详情
 			goods_detail:function(id,encrypted_id){
 				uni.navigateTo({
@@ -490,7 +661,6 @@
 <style scoped>
 	.my_order_refund-content {
 		background-color: #F6F6F6;
-		/* padding-bottom: 240rpx; */
 	}
 
 	.refund-content {
@@ -582,6 +752,9 @@
 		border-radius: 40rpx;
 		color: #FFFFFF;
 		border: 0;
+	}
+	.apply-for::after{
+		border: none;
 	}
 	/* 新加样式 */
 	.order-content {

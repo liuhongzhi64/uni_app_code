@@ -1,131 +1,28 @@
 <template>
 	<view class="my_order_refund_progress">
-		<topBar class="topBar" :topBackgroundColor='topBackgroundColor'
-		 :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' 
-		 :menuHeight='menuHeight' :menuLeft='menuLeft' 
-		 :menuBottom='menuBottom'></topBar>
-		<view class="my_order_refund_progress_content" :style="[{'padding-top':menuBottom+10+'px',height:height-menuBottom-10+'px'}]">
-			<scroll-view class="my_order_refund_progress_contents">
-				<template>
-					<view class="refund_progress_content">
-						<view class="top-message">
-							<view class="order-number">订单编号 : <text> {{ order_info.order_no }} </text></view>
-							<view class="schedules">取消/退款进度 :
-								<text>已退款</text>
-							</view>
-						</view>
-
-						<view class="refund-porduct">
-							<view class="refund-porducts">
-								<view class="order-items" >
-									<view class="service-conditions">
-										<view class="line-service-name">
-											<view class="line"></view>
-											<view class="service-name"> 退款商品 </view>
-										</view>
-										<view class="appointment"> 
-											<!-- 失效的商品将自动退款，请及时到院使用 -->
-											退款金额将在1-3个工作日原路退还,请耐心等候
-										</view>
-									</view>
-									<view class="order-porduct-content" v-for="(i,k) in order_goods" :key='k'>
-										<view class="order-porduct-line">
-											<view class="porduct-line"></view>
-										</view>
-										<view class="failure-time">
-											<view class="time-hint">商品失效时间 : {{ over_time }} </view>
-										</view>
-										<view class="order-porduct-images-name">
-											<view class="porduct-images">
-												<image :src="requestUrl+i.img" @tap="goods_detail(i.sku_id,i.encrypted_id)"></image>
-											</view>
-											<view class="porduct-right">
-												<view class="porduct-name">{{i.spu_name}}</view>
-												<view class="sku_spec_content" @tap='this_show_sku_spec(i,k)'>
-													<view class="item_content">
-														<text class="content_items" v-for="(z,j) in i.sku_spec" :key='j'>
-															<text class="versions"> {{ z }} : {{ j }} ; </text>
-														</text>
-													</view>
-													<image src="../../static/images/arrow-down.png" mode=""></image>
-												</view>
-												<view class="show_item_content" @tap='this_show_sku_spec(i,k)' v-if="i.show_sku_spec">
-													<view class="show_all_items">
-														<view class="content-items" v-for="(z,j) in i.sku_spec" :key='j'>
-															<text class="versions"> {{ z }} : {{ j }} ; </text>
-														</view>
-													</view>
-													<image src="../../static/images/arrow-down.png" mode=""></image>
-												</view>
-												<view class="porduct-price-number" >
-													<view class="porduct-price" ><text>￥</text>{{i.sku_price}}</view>
-													<view class="porduct-number" >x{{i.sku_nums}}</view>
-												</view>
-											</view>
-										</view>
-										<view class="pay-for-the-order ">
-											<view class="pay-order-content">
-												<view class=" total-price-on-line-pay">
-													<view class="total-price">总价 <text>￥ {{i.payable_amount}} </text> </view>
-													<view class="on-line-pay" >
-														在线支付 <text>￥ {{i.online_pay}} </text> 
-													</view>
-												</view>
-												<view class="discounts-hospital-pay">
-													<view class="discounts" >
-														优惠 <text>￥ {{ i.discount || 0}} </text>
-														<image src="../../static/images/ask1.png"
-														 @tap="this_discount(i.hd_sale_info,i.card_sale_info,i.discount)"></image>
-													</view>
-													<view class="hospital-pay">到院再付 <text>￥ {{i.offline_pay}} </text> </view>
-												</view>
-												<view class="cope-with">应付 <text>￥ {{i.rel_price}} </text> </view>
-											</view>
-										</view>
-									</view>
-								</view>
-							</view>
-						</view>						
-						<view class="all-refund">
-							<view class="all-refund-title">退款合计</view>
-							<view class="arrival-notice" v-for="(i,k) in refundList" :key='k'>
-								<view class="refund-name">{{i.name}}:</view>
-								<view class="refund-content">{{i.content}} <text>({{i.time}}已到账)</text></view>
-							</view>
-						</view>						
-						<view class="porduct-refund-schedule">
-							<view class="refund-time-content">
-								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
-								<view class="refund-schedule-content">您的订单已提交管理员等待确认</view>
-							</view>
-							<view class="refund-time-content">
-								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
-								<view class="refund-schedule-content">您的取消申请已通过，退款金额将在1-3个工作日原路退回</view>
-							</view>
-							<view class="refund-time-content">
-								<view class="refund-time">2020年6月16日 上午 12:26:19</view>
-								<view class="refund-schedule-content">您的取消申请已通过，退款金额将在1-3个工作日原路退回</view>
-							</view>
-						</view>						
-						<view class="contact-service">
-							<view class="contact-service-bottom">
-								<button class="bottom" type="default" plain="true" >立即核销</button>
-							</view>
-						</view>
-					</view>
-				</template>
-			</scroll-view>
+		<view 
+			:style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
+			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
+				<view class="title"> {{title}} </view>
+			</view>
+		</view>
+		<view class="my_order_refund_progress_content" 
+		 :style="[{height:height-menuBottom-10+'px'}]">
+			 <view class="content_hint">
+				<view class="empty-cart-image">
+					<image src="../../static/images/cartBg.png" mode="widthFix"></image>
+				</view>
+				<view class="success"> 申请成功! </view>
+				<view class="empty-cart-text"> 在线支付金额将在1-3个人工作日原路退回，喵豆/余额将直接退回账户中。 </view>
+				<button class="i_know" type="default" @tap="my_order" > 我知道了 </button>
+			 </view>
+			
 		</view>
 	</view>
 </template>
 
 <script>
-	import topBar from "../../components/topBar.vue";
 	export default {
-		components: {
-			topBar
-		},
 		data() {
 			return {
 				menuWidth: 0,
@@ -138,32 +35,20 @@
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
-				title: '退款结果', //退款进度
+				title: '申请结果',
 				requestUrl:'',
-				order_info: {
-					giving_info:[],
-					discount_description:[]
-				},
-				over_time:'',
-				order_goods:[],
-				refundList:[
-					{name:'微信退款',content:'￥1000',time:'2020.05.07  15:51'},
-					{name:'喵豆退款',content:'19800个',time:'2020.05.07  15:51'},
-					{name:'积分退款',content:'19800分',time:'2020.05.07  15:51'},
-					{name:'余额退款',content:'￥20.45',time:'2020.05.07  15:51'},
-					{name:'卡券退款',content:'所有券',time:'2020.05.07  15:51'},
-				]
 			}
 		},
 		onLoad: function(option) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			if (option.info) {
-				that.get_order_derail(option.info)
-			} else {
-				that.get_order_derail(23149) //23170
-			}
+		},
+		onBackPress:function(){
+			uni.navigateTo({
+				url: `/pages/my/my_order`,
+			})
+			console.log(11)
 		},
 		onReady() {
 			let that = this;
@@ -201,411 +86,53 @@
 			}
 		},
 		methods: {
-			// 获取订单详情
-			get_order_derail: function(id) {
-				let that = this
-				let dataInfo = {
-					interfaceId: 'get_order_info',
-					id: id
-				}
-				that.request.uniRequest("order", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						// 订单商品信息
-						for (let i = 0; i < data.order_goods.length; i++) {
-							// 显示的规格
-							data.order_goods[i].show_sku_spec = false
-						}
-						that.over_time = that.setTimer(data.order_info.create_time + data.order_info.cancel_time)
-						// 订单的信息
-						that.order_info = data.order_info
-						that.order_goods = data.order_goods
-					}
+			my_order:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_order`,
 				})
-			},
-			// 转换时间格式
-			setTimer: function(date) {
-				let house = 0
-				let second = 0
-				let minute = 0
-				second = parseInt((date) / 60 % 60)
-				minute = parseInt((date) % 60)
-				date = new Date(date * 1000)
-				let month = date.getMonth() + 1
-				if (month < 10) {
-					month = "0" + month
-				}
-				let day = date.getDate()
-				if (day < 10) {
-					day = "0" + day
-				}
-				house = date.getHours()
-				if (house < 10) {
-					house = "0" + house
-				}
-				if (second < 10) {
-					second = "0" + second
-				}
-				if (minute < 10) {
-					minute = "0" + minute
-				}
-				let time = date.getFullYear() + '-' + month + '-' + day + "  " + ' ' + house + ':' + second + ':' + minute
-				return time
+				// console.log(222)
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	
-	.refund_progress_content {
-		background-color: #F6F6F6;
-		padding-bottom: 60rpx;
-	}
-
-	.top-message {
-		background-color: #FFFFFF;
-		border-radius: 0 0 24rpx 24rpx;
-		padding: 30rpx 36rpx 57rpx;
-	}
-
-	.order-number {
-		font-size: 28rpx;
-		color: #111111;
-		margin-bottom: 30rpx;
-	}
-
-	.order-number text {
-		margin-left: 10rpx;
-	}
-
-	.top-message .schedules {
-		font-size: 28rpx;
-		color: #111111;
-	}
-
-	.schedules text {
-		color: #fa3475;
-		padding-left: 20rpx;
-	}
-
-	.refund-porduct {
-		padding: 20rpx;
-	}
-
-	.refund-porducts {
-		background-color: #FFFFFF;
-		border-radius: 24rpx;
-	}
-
-	.order-items {
-		background-color: #FFFFFF;
-		border-radius: 24rpx;
-		padding: 40rpx 0 0;
-	}
-
-	.service-conditions {
-		display: flex;
-		justify-content: space-between;
-		padding-bottom: 22rpx;
-		padding-right: 30rpx;
-	}
-
-	.line-service-name {
-		display: flex;
-		align-items: center;
-	}
-
-	.line {
-		width: 6rpx;
-		height: 24rpx;
-		background-color: #fa3475;
-	}
-
-	.service-name {
-		font-size: 24rpx;
-		color: #111111;
-		margin-left: 28rpx;
-	}
-
-	.appointment {
-		font-size: 24rpx;
-		color: #999999;
-	}
-
-	.order-porduct-content {
-		padding: 0 30rpx;
-	}
-
-	.order-porduct-line {
-		padding: 0 0 32rpx;
-	}
-
-	.porduct-line {
-		background-color: #F0F0F0;
-		height: 2rpx;
-	}
-
-	.failure-time {
-		position: relative;
-		margin-bottom: 25rpx;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.time-hint {
-		font-size: 24rpx;
-		color: #999999;
-	}
-
-	.order-porduct-images-name {
-		border-bottom: 2rpx solid #F0F0F0;
-		padding-bottom: 30rpx;
-		display: flex;
-		justify-content: space-between;
-		position: relative;
-	}
-	
-	.porduct-images {
-		width: 200rpx;
-		height: 200rpx;
-	}
-	
-	.porduct-images image {
-		width: 200rpx;
-		height: 200rpx;
-	}
-	
-	.porduct-right {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		position: relative;
-		padding: 10rpx 0 10rpx 20rpx;
-		flex: 1;
-	}
-	
-	.porduct-name {
-		font-size: 24rpx;
-		line-height: 32rpx;
-		color: #111111;
-		overflow: hidden;
-		font-weight: lighter;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-	}
-	
-	.sku_spec_content {
-		height: 40rpx;
-		line-height: 40rpx;
-		background-color: #f0f0f0;
-		border-radius: 20rpx;
-		font-size: 20rpx;
-		color: #333333;
-		font-weight: lighter;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 76%;
-		padding: 0 16rpx;
-		position: absolute;
-		left: 20rpx;
-		top: 76rpx;
-	}
-	
-	.item_content {
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
-		flex: 1;
-	}
-	
-	.sku_spec_content image,
-	.show_item_content image {
-		width: 32rpx;
-		height: 32rpx;
-	}
-	
-	.show_item_content {
-		position: absolute;
-		left: 20rpx;
-		top: 76rpx;
-		width: 76%;
-		padding: 6rpx 16rpx 0;
-		background-color: #f0f0f0;
-		color: #333333;
-		font-size: 20rpx;
-		border-radius: 20rpx;
-		display: flex;
-		justify-content: space-between;
-		font-weight: lighter;
-	}
-	
-	.show_item_content image {
-		transform: rotate(180deg);
-	}
-	
-
-	.porduct-price-number {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		color: #808080;
-		margin-top: 15rpx;
-	}
-
-	.porduct-price {
-		font-size: 40rpx;
-	}
-
-	.porduct-price text {
-		font-size: 24rpx;
-	}
-
-	.porduct-number {
-		font-size: 24rpx;
-	}
-
-	.content-items {
-		width: 290rpx;
-	}
-
-	.pay-order-content {
-		border-top: 2rpx solid #F0F0F0;
-		border-bottom: 2rpx solid #F0F0F0;
-		color: #111111;
-		padding-bottom: 20rpx;
-	}
-
-	.pay-order-content text {
-		margin-left: 40rpx;
-	}
-
-	.total-price-on-line-pay,
-	.discounts-hospital-pay {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 20rpx;
-		font-size: 24rpx;
-	}
-
-	.discounts {
-		display: flex;
-		align-items: center;
-	}
-
-	.on-line-pay,
-	.hospital-pay {
-		width: 40%;
-	}
-
-	.discounts image {
-		width: 26rpx;
-		height: 26rpx;
-		margin-left: 20rpx;
-	}
-
-	.cope-with {
-		align-items: center;
-		margin-top: 20rpx;
-		font-size: 24rpx;
-	}
-	
-	.all-refund{
-		background-color: #FFFFFF;
-		border-radius: 24rpx;
-		padding: 40rpx;
-	}
-	.all-refund-title{
-		font-size: 28rpx;
-		color: #000000;
-		margin-bottom: 32rpx;
-		font-weight: bold;
-	}
-	.arrival-notice{
-		display: flex;
-		align-items: center;
-		margin-bottom: 32rpx;
-		font-size: 24rpx;
-		color: #000000;
-	}
-	.refund-content,.refund-content text{
-		margin-left: 10rpx;
-	}
-	
-	.porduct-refund-schedule{
-		padding: 50rpx 40rpx;
-		background-color: #FFFFFF;
-		border-radius: 24rpx;
-		margin-top: 20rpx;
-		
-	}
-	
-	.refund-time-content{
-		margin-bottom: 40rpx;
-		position: relative;
-		padding-left: 20rpx;
-	}
-	.refund-time-content:last-child{
-		margin-bottom: 0;
-	}
-	
-	.refund-time-content::before {
-	        content: "";/* 必须存在如果没有图标就留空 */
-	        position: absolute;/* 定位 */
-	        left: -20rpx;/* 移动到左边 */
-	        width: 20rpx;
-			height: 20rpx;
-			border-radius: 10rpx;
-			background-color: #fa3475;
-			top: 10rpx;
-	}
-	
-	.refund-time-content::after {
-        content: '';/* 必须存在如果没有图标就留空 */
-        top: 24%;/* 定位 距离*/
-        border-left: 1rpx solid #fa3475;/* 横线颜色 */
-        left: -10rpx;/* 定位 距离*/
-        height: 150%;/* 高度 */
-        position: absolute;/* 定位 */
-	}
-	.refund-time-content:last-child::after{
-		display: none;
-	}
-	
-	.refund-time{
-		color: #999999;
-		font-size: 20rpx;
-		line-height: 42rpx;
-	}
-	.refund-schedule-content{
-		font-size: 20rpx;
-		line-height: 30rpx;
-		color: #111111;
-	}
-	
-	
-	.contact-service{
-		margin-top: 60rpx;
-	}
-	
-	.contact-service-bottom{
-		padding: 0 40rpx;
-	}
-	.contact-service-bottom .bottom {
-		height: 88rpx;
-		line-height: 88rpx;
+	.back-title{
 		text-align: center;
-		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
-		box-shadow: 3rpx 3rpx 8rpx 0rpx rgba(233, 30, 97, 0.56);
-		border-radius: 44rpx;
-		background-color: #FFFFFF;
-		border: 0;
+		font-size: 38rpx;
+	}
+	.my_order_refund_progress_content{
+		background-color: #F0F0F0;
+	}
+	.content_hint{
+		width: 60%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		margin: 0 auto;
+		padding-top: 180rpx;
+	}
+	.success{
 		font-size: 32rpx;
+		font-weight: bold;
+		padding: 20rpx 0 40rpx;
+	}
+	.empty-cart-image image {
+		width: 400rpx;
+	}
+	.empty-cart-text{
+		font-size: 24rpx;
+		padding-bottom: 40rpx;
+	}
+	.i_know{
+		line-height: 60rpx;
+		border-radius: 30rpx;
+		width: 60%;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
 		color: #FFFFFF;
 	}
-	
+	.i_know::after{
+		border: none;
+	}
 </style>

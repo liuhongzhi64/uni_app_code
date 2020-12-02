@@ -346,7 +346,7 @@
 }
 .sku_spec_content.data-v-08de1eeb {
 	height: 40rpx;
-	line-height: 40rpx;
+	/* line-height: 40rpx; */
 	background-color: #f0f0f0;
 	border-radius: 20rpx;
 	font-size: 20rpx;
@@ -817,15 +817,15 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	padding-bottom: 210rpx;
-	padding-top: 40rpx;
 }
 .cancel-order_top image.data-v-08de1eeb {
 	width: 64rpx;
 	height: 64rpx;
-	margin-right: 20rpx;
+	margin-right: 10rpx;
 }
 .cancel_hint.data-v-08de1eeb {
 	color: #FFFFFF;
+	margin-left: 10rpx;
 }
 .user_info.data-v-08de1eeb {
 	display: -webkit-box;

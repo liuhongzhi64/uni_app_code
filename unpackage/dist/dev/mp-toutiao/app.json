@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/my/my_order",
+    "pages/my/my_order_refund",
     "pages/my/account_number",
     "pages/my/add_address",
     "pages/my/after_sales",
@@ -12,7 +13,6 @@
     "pages/my/my_collection",
     "pages/my/my_comment",
     "pages/my/my_order_detail",
-    "pages/my/my_order_refund",
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
     "pages/my/my_set",

@@ -754,11 +754,12 @@
 						}
 					}
 				}
+				
 				let dataInfo = {
 					interfaceId: 'calculate',
 					cart: change_cart
 				}
-				if (change_cart.length > 0) {
+				if (change_cart.length>0) {
 					that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data

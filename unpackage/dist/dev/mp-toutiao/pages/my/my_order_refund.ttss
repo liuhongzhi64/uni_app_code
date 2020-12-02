@@ -1,7 +1,6 @@
 
 .my_order_refund-content.data-v-3eb40adc {
 	background-color: #F6F6F6;
-	/* padding-bottom: 240rpx; */
 }
 .refund-content.data-v-3eb40adc {
 	background-color: #F6F6F6;
@@ -97,6 +96,9 @@
 	border-radius: 40rpx;
 	color: #FFFFFF;
 	border: 0;
+}
+.apply-for.data-v-3eb40adc::after{
+	border: none;
 }
 
 /* 新加样式 */

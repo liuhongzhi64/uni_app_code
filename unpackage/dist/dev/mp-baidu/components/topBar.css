@@ -353,7 +353,14 @@
 	-webkit-flex: 1;
 	        flex: 1;
 	/* margin-left: 80rpx; */
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 	font-size: 37rpx;
+	width: 100%;
 }
 
 

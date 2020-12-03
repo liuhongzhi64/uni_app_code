@@ -434,7 +434,7 @@
 					退款明细
 				</button> -->
 				<!-- v-if="order_info.status==2" -->
-				<button class="" type="default"  size="mini" @tap='go_refund(order_info.id)'>
+				<button class="" type="default" v-if="order_info.status==2"  size="mini" @tap='go_refund(order_info.id)'>
 					申请退款
 				</button>
 				<button class="color_btn" type="default" size="mini" v-if="order_info.status==7" @tap="go_to_page">
@@ -535,6 +535,9 @@
 			}
 			that.getLike()
 		},
+		onShow:function(){
+			uni.hideLoading()
+		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
@@ -584,7 +587,7 @@
 						let data = res.data.data
 						let time = data.order_info.create_time + data.order_info.cancel_time - data.order_info.time_now
 						if (time > 0 && data.order_info.status==0) {
-							that.set_dount_down(time, i)
+							that.set_dount_down(time)
 						}
 						// 订单商品信息
 						for (let i = 0; i < data.order_goods.length; i++) {
@@ -633,7 +636,7 @@
 						});
 						// app支付
 						const webview = plus.webview.create("","custom-webview")
-						webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
+						webview.loadURL(url,{"Referer":that.requestUrl})
 					}
 				})
 			},

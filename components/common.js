@@ -92,7 +92,7 @@ export default {
 							that.showModal("系统错误：" + res.data.code);
 						} else {
 							if (res.data.code !== 1000){
-								if(res.data.message=='登录失败[1007]'||res.data.message=='登录失败[1016]'||res.data.message=='登录失败[1004]'){
+								if(res.data.message=='登录失败[1007]'||res.data.message=='登录失败[1016]'||res.data.message=='登录失败[1004]'||res.data.message=='登录失败[1006]'){
 									that.showToast(res.data.message)
 									// that.getToken().then(res=>{
 									// 	console.log(res)

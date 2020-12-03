@@ -252,6 +252,7 @@ __webpack_require__.r(__webpack_exports__);
     that.calculate_price = option.calculate_price;
     that.order_id = option.order_id;
     that.order_goods_id = JSON.parse(option.order_goods_id);
+    // console.log(parseInt(that.order_id),that.order_id )
   },
 
   methods: {
@@ -276,13 +277,14 @@ __webpack_require__.r(__webpack_exports__);
             if (res.cancel) {
               var dataInfo = {
                 interfaceId: 'refund',
-                order_id: that.order_id,
+                order_id: parseInt(that.order_id),
                 order_goods_id: that.order_goods_id,
                 reason: that.changeList };
 
+              // console.log(dataInfo)
               that.request.uniRequest("pay", dataInfo).then(function (res) {
                 if (res.data.code == 1000 && res.data.status == 'ok') {
-                  uni.navigateTo({
+                  uni.reLaunch({
                     url: "/pages/my/my_order_refund_progress" });
 
                 }
@@ -291,7 +293,6 @@ __webpack_require__.r(__webpack_exports__);
           } });
 
       }
-      // console.log('退款原因:',this.changeList,'输入的原因:',this.userInputContent)
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

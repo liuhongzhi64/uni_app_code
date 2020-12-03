@@ -3,15 +3,15 @@
 
 		// 测试时的首页
 		
-		
-		{
-			"path": "pages/my/my_order_refund_progress", //退款结果
-			"style": {}
-		},
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
 		},
+		{
+			"path": "pages/my/my_order_refund_progress", //退款结果
+			"style": {}
+		},
+		
 		{
 			"path": "pages/my/my_order_refund", //申请退款
 			"style": {}

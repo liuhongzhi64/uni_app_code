@@ -336,7 +336,9 @@
 									</view>
 									<view class="item-price">在线支付:￥{{ contentList.online_pay || 0 }}, 到院再付:￥{{ contentList.offline_pay  || 0 }}</view>
 								</view>
-								<view class="promptly-play" @tap="pay_now">立即支付</view>
+								<button class="promptly-play" type="default" size="mini" :disabled='is_one_pay' @tap="pay_now">
+									立即支付
+								</button>
 							</view>
 						</view>
 					</view>
@@ -518,7 +520,8 @@
 				pay_show:false,
 				provider:'',//运行的环境 alipay 支付宝;wxpay 微信; baidu百度; appleiap 苹果
 				onShow_num:0,
-				productLists:[]
+				productLists:[],
+				is_one_pay:false
 			}
 		},
 		onShow: function() {
@@ -536,7 +539,7 @@
 					console.log(that.provider)
 				}
 			})
-			console.log(that.onShow_num)
+			// console.log(that.onShow_num)
 			that.onShow_num +=1
 			if(that.onShow_num>1){
 				that.getLike()
@@ -558,7 +561,7 @@
 				that.get_one_goods_order(goods_order)
 			}
 		},
-	
+		
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
@@ -915,7 +918,7 @@
 			},
 			showTicket: function(order_card, can_use) {
 				let that = this
-				console.log(can_use,order_card)
+				// console.log(can_use,order_card)
 				if (can_use == 0) {
 					that.can_use_card = order_card
 					// that.can_use_card[index].showTicketDetails = !that.can_use_card[index].showTicketDetails
@@ -1147,7 +1150,7 @@
 			playChange: function(e) {
 				var items = this.playWayList,
 					values = e.detail.value;
-				console.log(values)
+				// console.log(values)
 				for (var i = 0, lenI = items.length; i < lenI; ++i) {
 					const item = items[i]
 					if (values.includes(item.value)) {
@@ -1183,6 +1186,7 @@
 						}
 					}
 				}
+				that.onShow_num = -1
 				uni.navigateTo({
 					url: `/pages/confirm_order/no_refund?info=${info_list}&title=${title}`,
 				})
@@ -1197,9 +1201,10 @@
 			pay_now:function(){
 				let that = this
 				let sku_list = that.get_goods_info()
-				console.log(sku_list)
+				// console.log(sku_list)
 				let address_id = 0
-				let sale_arr = []				
+				let sale_arr = []	
+				that.is_one_pay = true
 				for(let i=0;i<that.cart_id_list.length;i++){
 					if(that.cart_id_list[i].act_id){
 						sale_arr.push(that.cart_id_list[i].act_id)
@@ -1237,7 +1242,6 @@
 						that.request.uniRequest("pay", data_info).then(res => {
 							if (res.data.code == 1000 && res.data.status == 'ok') {
 								let data = res.data.data
-								console.log(data.mweb_url)
 								that.pay_url = data.mweb_url
 								// that.pay_show = !that.pay_show
 								let url = data.mweb_url
@@ -1289,7 +1293,7 @@
 				})
 			},
 			my_order:function(){
-				uni.navigateTo({
+				uni.reLaunch({
 					url: `/pages/my/my_order`,
 				})
 			},
@@ -1825,6 +1829,10 @@
 		padding: 12rpx 40rpx;
 		background-color: #FFFFFF;
 		font-size: 20rpx;
+		align-items: center;
+	}
+	.price-item-content{
+		flex: 1;
 	}
 
 	.all-price {
@@ -1853,14 +1861,17 @@
 	}
 
 	.promptly-play {
-		width: 220rpx;
-		height: 80rpx;
+		/* width: 220rpx; */
+		height: 60rpx;
 		font-size: 28rpx;
 		color: #FFFFFF;
-		line-height: 80rpx;
+		line-height: 60rpx;
 		text-align: center;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-		border-radius: 40rpx;
+		border-radius: 30rpx;
+	}
+	.promptly-play::after{
+		border: none;
 	}
 
 	/* 联系方式 */
@@ -2056,7 +2067,8 @@
 	}
 	
 	.recommend-to-you {
-		padding: 20rpx;
+		/* padding: 20rpx; */
+		width: 100%;
 	}
 	
 	.line {
@@ -2064,6 +2076,7 @@
 		height: 24rpx;
 		background-color: #fa3576;
 		margin-right: 20rpx;
+		margin-left: 20rpx;
 	}
 	.related-title {
 		font-size: 28rpx;
@@ -2076,6 +2089,8 @@
 	
 	.subject-content {
 		background-color: #F6F6F6;
+		display: flex;
+		padding: 0 20rpx;
 	}
 	
 </style>

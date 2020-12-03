@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/my/my_order_refund_progress",
     "pages/my/my_order",
+    "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund",
     "pages/my/account_number",
     "pages/my/add_address",

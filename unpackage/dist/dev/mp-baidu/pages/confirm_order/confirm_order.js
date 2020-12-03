@@ -560,6 +560,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: {
     ticket: ticket,
@@ -650,7 +652,8 @@ __webpack_require__.r(__webpack_exports__);
       pay_show: false,
       provider: '', //运行的环境 alipay 支付宝;wxpay 微信; baidu百度; appleiap 苹果
       onShow_num: 0,
-      productLists: [] };
+      productLists: [],
+      is_one_pay: false };
 
   },
   onShow: function onShow() {
@@ -668,7 +671,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(that.provider);
       } });
 
-    console.log(that.onShow_num);
+    // console.log(that.onShow_num)
     that.onShow_num += 1;
     if (that.onShow_num > 1) {
       that.getLike();
@@ -1047,7 +1050,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     showTicket: function showTicket(order_card, can_use) {
       var that = this;
-      console.log(can_use, order_card);
+      // console.log(can_use,order_card)
       if (can_use == 0) {
         that.can_use_card = order_card;
         // that.can_use_card[index].showTicketDetails = !that.can_use_card[index].showTicketDetails
@@ -1279,7 +1282,7 @@ __webpack_require__.r(__webpack_exports__);
     playChange: function playChange(e) {
       var items = this.playWayList,
       values = e.detail.value;
-      console.log(values);
+      // console.log(values)
       for (var i = 0, lenI = items.length; i < lenI; ++i) {
         var item = items[i];
         if (values.includes(item.value)) {
@@ -1315,6 +1318,7 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+      that.onShow_num = -1;
       uni.navigateTo({
         url: "/pages/confirm_order/no_refund?info=".concat(info_list, "&title=").concat(title) });
 
@@ -1329,9 +1333,10 @@ __webpack_require__.r(__webpack_exports__);
     pay_now: function pay_now() {
       var that = this;
       var sku_list = that.get_goods_info();
-      console.log(sku_list);
+      // console.log(sku_list)
       var address_id = 0;
       var sale_arr = [];
+      that.is_one_pay = true;
       for (var i = 0; i < that.cart_id_list.length; i++) {
         if (that.cart_id_list[i].act_id) {
           sale_arr.push(that.cart_id_list[i].act_id);
@@ -1369,7 +1374,6 @@ __webpack_require__.r(__webpack_exports__);
           that.request.uniRequest("pay", data_info).then(function (res) {
             if (res.data.code == 1000 && res.data.status == 'ok') {
               var data = res.data.data;
-              console.log(data.mweb_url);
               that.pay_url = data.mweb_url;
               // that.pay_show = !that.pay_show
               var url = data.mweb_url;
@@ -1421,7 +1425,7 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     my_order: function my_order() {
-      uni.navigateTo({
+      uni.reLaunch({
         url: "/pages/my/my_order" });
 
     },

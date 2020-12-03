@@ -124,7 +124,10 @@
 					<!-- 优惠政策 -->
 					<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
 						<view class="policy-name"> {{item.name}} </view>
-						<view class="policy-content" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
+						<view class="all_policy-content">
+							<view class="policy-contents" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
+						</view>
+						
 					</view>
 				</view>
 				<!-- 版本、规格 -->
@@ -352,7 +355,9 @@
 				</view>
 				<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
 					<view class="policy-name"> {{item.name}} </view>
-					<view class="policy-content" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
+					<view class="all_policy-content">
+						<view class="policy-contents" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
+					</view>
 				</view>
 			</view>
 			<view class="card_list">
@@ -1469,9 +1474,10 @@
 		padding: 0 20rpx;
 		margin-right: 30rpx;
 	}
-
+	.all_policy-content{
+		flex: 1;
+	}
 	.policy-content {
-		width: 510rpx;
 		line-height: 30rpx;
 		color: #000000;
 		display: -webkit-box;

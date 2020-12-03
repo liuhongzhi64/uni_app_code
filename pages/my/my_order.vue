@@ -1,7 +1,13 @@
 <template>
 	<view class="my_order">
-		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
+			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
+				<view class="back" @click="goBack">
+					<image :src="backImage" mode=""></image>
+				</view>
+				<view class="title"> {{title}} </view>
+			</view>
+		</view>
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="tab_content" v-for="(i,k) in tabBars" :key='k' :class="{checkedPorduct :tabIndex == k}" @tap="tabtap(k,i.type)">
 				<view class="tab_item">
@@ -125,7 +131,7 @@
 														</view>
 													</scroll-view>
 												</view>
-												<view class="right_number_show" @tap="gotoPages(item.id)">>
+												<view class="right_number_show" @tap="gotoPages(item.id)">
 													<view> 共计 {{ item.is_post_list.length }} 件 </view>
 													<view class="see_order"> 查看 > </view>
 												</view>
@@ -181,7 +187,7 @@
 														</view>
 													</scroll-view>
 												</view>
-												<view class="right_number_show" @tap="gotoPages(item.id)">>
+												<view class="right_number_show" @tap="gotoPages(item.id)">
 													<view> 共计 {{ item.scan_two_list.length }} 件 </view>
 													<view class="see_order"> 查看 > </view>
 												</view>
@@ -210,26 +216,29 @@
 									<!-- 订单详情等按钮  -->
 									<view class="particulars-bottom-list">
 										<view class="all_button">
-											<button class="button" type="default" plain="true" v-show="item.status==0" @tap="cancel_order(item.id)">
-												取消订单 
-											</button>
-											<button class="button" type="default" plain="true" @tap="contact()">
+											<button class="button" type="default" @tap="contact()">
 												联系客服
 											</button>
-											<button class="button " type="default" plain="true" @tap="gotoPages(item.id)"
+											<button class="button" type="default" v-show="item.status==0" @tap="cancel_order(item.id)">
+												取消订单 
+											</button>
+											<button class="button" type="default" @tap='go_refund(item.id)' v-show="item.status==2">
+												申请退款
+											</button>
+											<!-- <button class="button" type="default" @tap="gotoPages(item.id)"
 											 v-show="item.status==4||item.status==6||item.status==7||item.status==8">
 												退款明细
-											</button>
-											<button class="button" type="default" plain="true" @tap="gotoPages(item.id)"> 
+											</button> -->
+											<button class="button" type="default" @tap="gotoPages(item.id)"> 
 												订单详情 
 											</button>
-											<button class="immediate-payment" type="default" plain="true" v-show="item.status==0" @tap="please_pay(item.id)">
+											<button class="immediate-payment" type="default" v-show="item.status==0" @tap="please_pay(item.id)">
 												立即支付
 											</button>
-											<button class="immediate-payment" type="default" plain="true" v-show="item.status==2" @tap="gotoPages(item.id)">
+											<button class="immediate-payment" type="default" v-show="item.status==2" @tap="gotoPages(item.id)">
 												核销使用
 											</button>
-											<button class="immediate-payment" type="default" plain="true" v-show="item.status==5" @tap="write_content()">
+											<button class="immediate-payment" type="default" v-show="item.status==5" @tap="write_content()">
 												写评价
 											</button>
 										</view>
@@ -317,19 +326,22 @@
 									<!-- 订单详情等按钮  -->
 									<view class="particulars-bottom-list">
 										<view class="all_button">
-											<button class="button" type="default" plain="true" @tap="contact()">
+											<button class="button" type="default"  @tap="contact()">
 												联系客服
 											</button>
-											<button class="button " type="default" plain="true" @tap="gotoPages(item.order_id)" v-show="tabIndex==4">
+											<!-- <button class="button " type="default"  @tap="gotoPages(item.order_id)" v-show="tabIndex==4">
 												退款明细
-											</button>
-											<button class="button" type="default" plain="true" @tap="gotoPages(item.order_id)"> 
+											</button> -->
+											<button class="button" type="default" @tap="gotoPages(item.order_id)"> 
 												订单详情 
 											</button>
-											<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==2">
+											<button class="immediate-payment" type="default" @tap='go_refund(item.id)' v-show="tabIndex==2" >
+												申请退款
+											</button>
+											<button class="immediate-payment" type="default"  v-show="tabIndex==2" @tap="gotoPages(item.order_id)">
 												核销使用
 											</button>
-											<button class="immediate-payment" type="default" plain="true" v-show="tabIndex==3" @tap="write_content()">
+											<button class="immediate-payment" type="default" v-show="tabIndex==3" @tap="write_content()">
 												写评价
 											</button>
 										</view>
@@ -393,7 +405,6 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
@@ -493,8 +504,13 @@
 				this_show_discount:false,//显示优惠信息
 				discounts_list:[],
 				card_sale_list:[],
-				all_discount:0
+				all_discount:0,
+				no_back:true,//是否禁止跳转
 			}
+		},
+		onBackPress:function(options){
+			let that = this
+			console.log(options)
 		},
 		onReady() {
 			let that = this;
@@ -535,13 +551,21 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.get_my_order()
+			if(option.type){
+				that.tabIndex = option.type
+				that.listType = option.type
+			}
+			if(option.info){
+				that.no_back = false
+			}
 			// 广告
 			that.advertising()
+			that.get_my_order()
 		},
 		onShow:function(){
 			let that = this
 			that.timers = 0
+			uni.hideLoading()
 		},
 		onReachBottom: function() {
 			let that = this;
@@ -553,6 +577,20 @@
 			that.timers +=1
 		},
 		methods: {
+			// 返回
+			goBack: function() {
+				let that = this
+				if(that.no_back){
+					uni.navigateBack({
+						delta: 1
+					});
+				}else{
+					uni.switchTab({
+						url: `/pages/my/my`,
+					})
+				}
+				
+			},
 			// 获取我的订单
 			get_my_order: function() {
 				let that = this
@@ -607,10 +645,12 @@
 								that.contentList = that.contentList.concat(data)
 								// console.log(data)
 							} else {
-								uni.showToast({
-									title: '没有更多了',
-									icon: 'none'
-								})
+								if(that.offset!=0){
+									uni.showToast({
+										title: '已经到底了',
+										icon: 'none'
+									})
+								}
 							}
 						}
 						else{
@@ -628,19 +668,22 @@
 								}
 								that.contentList = that.contentList.concat(data)
 							} else {
-								uni.showToast({
-									title: '没有更多了',
-									icon: 'none'
-								})
+								if(that.offset!=0){
+									uni.showToast({
+										title: '已经到底了',
+										icon: 'none'
+									})
+								}
 							}
 						}
-						// console.log(data)
 					}else{
 						uni.hideLoading()
-						uni.showToast({
-							title:'暂无数据',
-							icon:'none'
-						})
+						if(that.offset!=0){
+							uni.showToast({
+								title: '已经到底啦',
+								icon: 'none'
+							})
+						}
 					}
 				})
 			},
@@ -807,9 +850,13 @@
 							}
 							that.request.uniRequest("order", dataInfo).then(res => {
 								if (res.data.code == 1000 && res.data.status == 'ok') {
+									uni.navigateTo({
+										url: `/pages/my/my_order?type=${that.tabIndex}`,
+									})
 									uni.showToast({
 										title:'取消订单成功!'
 									})
+									
 								}
 							})
 						}
@@ -832,11 +879,16 @@
 						});
 						// app支付
 						const webview = plus.webview.create("","custom-webview")
-						webview.loadURL(that.pay_url,{"Referer":that.requestUrl})
+						webview.loadURL(url,{"Referer":that.requestUrl})
 					}
 				})
 			},
-			
+			// 申请退款
+			go_refund: function(id) {
+				uni.navigateTo({
+					url: `/pages/my/my_order_refund?id=${id}`,
+				})
+			},
 			// 退款详情
 			// cancel_detail: function(id) {
 			// 	uni.navigateTo({
@@ -845,7 +897,6 @@
 			// },
 			// 写日记和评价
 			write_content: function(info) {
-				// 写评价
 				uni.navigateTo({
 					url: `/pages/my/write_comment`,
 				})
@@ -884,6 +935,41 @@
 </script>
 
 <style scoped>
+	.top-bar {
+		text-align: center;
+		font-size: 40rpx;
+		position: fixed;
+		z-index: 100;
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+	
+	.back-title {
+		font-size: 38rpx;
+		position: relative;
+		text-align: center;
+	}
+	
+	.back {
+		display: flex;
+		align-items: center;
+		margin-left: 20rpx;
+		width: 60rpx;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	
+	.back image {
+		width: 36rpx;
+		height: 36rpx;
+	}
+	
+	.back-title .title {
+		font-size: 37rpx;
+	}
 	.show_color{
 		color: #fa3475;
 	}
@@ -1115,6 +1201,9 @@
 		color: #999999;
 		/* margin-right: 20rpx; */
 	}
+	.button::after{
+		border: none;
+	}
 
 	.immediate-payment {
 		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#e0619d, #e0619d);
@@ -1125,7 +1214,7 @@
 		font-size: 24rpx;
 		text-align: center;
 		border-radius: 25rpx;
-		border: 0;
+		color: #FFFFFF;
 	}
 
 	.immediate-payment::after {

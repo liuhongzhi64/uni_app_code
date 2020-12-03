@@ -472,7 +472,7 @@
 					user_info = JSON.stringify(user_info)
 					let order_goods_id = JSON.stringify(that.order_list)
 					uni.navigateTo({
-						url: `/pages/my/my_order_refund_reason?calculate_price=${that.calculate_price}&user_info=${user_info}&order_id=${that.order_info.order_no}&order_goods_id=${order_goods_id}`,
+						url: `/pages/my/my_order_refund_reason?calculate_price=${that.calculate_price}&user_info=${user_info}&order_id=${that.order_info.id}&order_goods_id=${order_goods_id}`,
 					})
 				}
 				else{

@@ -812,13 +812,15 @@
 	margin-right: 30rpx;
 }
 .recommend-to-you.data-v-51e0fab4 {
-	padding: 20rpx;
+	/* padding: 20rpx; */
+	width: 100%;
 }
 .line.data-v-51e0fab4 {
 	width: 6rpx;
 	height: 24rpx;
 	background-color: #fa3576;
 	margin-right: 20rpx;
+	margin-left: 20rpx;
 }
 .related-title.data-v-51e0fab4 {
 	font-size: 28rpx;
@@ -834,6 +836,10 @@
 }
 .subject-content.data-v-51e0fab4 {
 	background-color: #F6F6F6;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	padding: 0 20rpx;
 }
 
 

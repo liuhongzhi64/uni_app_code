@@ -347,8 +347,12 @@
 	padding: 0 20rpx;
 	margin-right: 30rpx;
 }
+.all_policy-content.data-v-098a7e2c{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
 .policy-content.data-v-098a7e2c {
-	width: 510rpx;
 	line-height: 30rpx;
 	color: #000000;
 	display: -webkit-box;

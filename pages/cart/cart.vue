@@ -453,7 +453,8 @@
 				title: '购物车',
 				height: 0,
 				productLists: [],
-				productNameList: [{
+				productNameList: [
+					{
 						name: '全部',
 						number: 0,
 					},
@@ -594,6 +595,24 @@
 
 					} else {
 						that.sku_list = []
+						that.productNameList = [
+							{
+								name: '全部',
+								number: 0,
+							},
+							{
+								name: '降价',
+								number: 0,
+							},
+							{
+								name: '医美',
+								number: 0,
+							},
+							{
+								name: '护肤品',
+								number: 0,
+							},
+						]
 					}
 				})
 			},

@@ -44,11 +44,14 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 		},
-		onBackPress:function(){
-			uni.navigateTo({
-				url: `/pages/my/my_order`,
-			})
-			console.log(11)
+		onBackPress:function(options){
+			let that = this
+			if (options.from === 'navigateBack') {  
+			    return false;  
+			} else{
+				return false;  
+			}
+			that.my_order()
 		},
 		onReady() {
 			let that = this;
@@ -87,10 +90,9 @@
 		},
 		methods: {
 			my_order:function(){
-				uni.navigateTo({
-					url: `/pages/my/my_order`,
+				uni.reLaunch({
+					url: `/pages/my/my_order?type=4&info='no'`,
 				})
-				// console.log(222)
 			}
 		}
 	}

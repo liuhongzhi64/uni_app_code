@@ -43,10 +43,10 @@
 			<view class="my-order">
 				<view class="order-all-order">
 					<view class="order"> 我的订单 </view>
-					<view class="all-order" @tap='goToOrder'> 全部订单 > </view>
+					<view class="all-order" @tap="go_to_order(0)"> 全部订单 > </view>
 				</view>
 				<view class="order-message">
-					<view class="order-list">
+					<view class="order-list" @tap="go_to_order(1)">
 						<view class="oder-image-number">
 							<view class="order-image">
 								<image src="../../static/images/my-obligation.png" mode=""></image>
@@ -56,7 +56,7 @@
 						<view class="order-name"> 待付款 </view>
 					</view>
 					<view class="order-list">
-						<view class="oder-image-number">
+						<view class="oder-image-number" @tap="go_to_order(2)">
 							<view class="order-image">
 								<image src="../../static/images/my-account-paid.png" mode=""></image>
 							</view>
@@ -65,7 +65,7 @@
 						<view class="order-name"> 已付款 </view>
 					</view>
 					<view class="order-list">
-						<view class="oder-image-number">
+						<view class="oder-image-number" @tap="go_to_order(3)">
 							<view class="order-image">
 								<image src="../../static/images/my-completed.png" mode=""></image>
 							</view>
@@ -82,7 +82,7 @@
 						<view class="order-name"> 待评价 </view>
 					</view>
 					<view class="order-list">
-						<view class="oder-image-number">
+						<view class="oder-image-number" @tap="go_to_order(4)">
 							<view class="order-image">
 								<image src="../../static/images/my-refund.png" mode=""></image>
 							</view>
@@ -460,9 +460,11 @@
 					url: `/pages/my/my_card`,
 				})
 			},
-			goToOrder:function(){
+			
+			// 
+			go_to_order:function(index){
 				uni.navigateTo({
-					url: `/pages/my/my_order`,
+					url: `/pages/my/my_order?type=${index}`,
 				})
 			},
 			goToPages:function(name){

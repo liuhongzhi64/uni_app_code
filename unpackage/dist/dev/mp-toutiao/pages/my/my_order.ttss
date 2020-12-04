@@ -265,6 +265,9 @@
 	color: #999999;
 	/* margin-right: 20rpx; */
 }
+.button.data-v-4842cd15::after{
+	border: none;
+}
 .immediate-payment.data-v-4842cd15 {
 	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%), -webkit-linear-gradient(#e0619d, #e0619d);
 	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#e0619d, #e0619d);

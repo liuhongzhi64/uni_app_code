@@ -564,6 +564,14 @@
 	padding: 12rpx 40rpx;
 	background-color: #FFFFFF;
 	font-size: 20rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.price-item-content.data-v-51e0fab4{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
 }
 .all-price.data-v-51e0fab4 {
 	color: #111111;
@@ -586,15 +594,18 @@
 	line-height: 34rpx;
 }
 .promptly-play.data-v-51e0fab4 {
-	width: 220rpx;
-	height: 80rpx;
+	/* width: 220rpx; */
+	height: 60rpx;
 	font-size: 28rpx;
 	color: #FFFFFF;
-	line-height: 80rpx;
+	line-height: 60rpx;
 	text-align: center;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	border-radius: 40rpx;
+	border-radius: 30rpx;
+}
+.promptly-play.data-v-51e0fab4::after{
+	border: none;
 }
 
 /* 联系方式 */

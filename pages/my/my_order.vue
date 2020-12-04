@@ -42,7 +42,7 @@
 									<view class="order-message-top">
 										<view class="order-invalid-time-order-label">
 											<view class="order-invalid-time" v-if="item.status==0">
-												订单作废: {{ day }} 天 {{ house }} 时 {{ second }} 分 {{ minute }} 秒
+												订单作废: {{ item.day }} 天 {{ item.house }} 时 {{ item.second }} 分 {{ item.minute }} 秒
 											</view>
 											<view class="order-invalid-time" v-if="item.status!=0">
 												下单时间: {{item.create_time}}
@@ -399,7 +399,6 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
 				menuLeft: 0,
@@ -508,10 +507,6 @@
 				no_back:true,//是否禁止跳转
 			}
 		},
-		onBackPress:function(options){
-			let that = this
-			console.log(options)
-		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
@@ -533,7 +528,6 @@
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
@@ -614,6 +608,10 @@
 									if (time > 0 && data[i].status==0) {
 										that.set_dount_down(time, i)
 									}
+									data[i].day = 0
+									data[i].house = 0
+									data[i].second = 0
+									data[i].minute = 0
 									// 作废时间
 									// data[i].over_time = that.setTimer(data[i].create_time+data[i].cancel_time) 
 									data[i].create_time = that.setTimer(data[i].create_time)
@@ -727,10 +725,14 @@
 						hourTime = 0
 						day = 0
 					}
-					that.day = day
-					that.house = hourTime
-					that.second = secondTime
-					that.minute = minuteTime
+					that.contentList[i].day = day
+					that.contentList[i].house = hourTime
+					that.contentList[i].second = secondTime
+					that.contentList[i].minute = minuteTime
+					// that.day = day
+					// that.house = hourTime
+					// that.second = secondTime
+					// that.minute = minuteTime
 					if (time <= 0) {
 						clearInterval(timers)
 						that.contentList[i].status = 1

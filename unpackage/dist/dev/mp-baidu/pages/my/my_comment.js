@@ -190,24 +190,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar },
@@ -223,9 +205,10 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '我的评价',
-      tabBars: [{
+      tabBars: [
+      {
         name: '待评价',
         type: 0 },
 
@@ -236,104 +219,142 @@ __webpack_require__.r(__webpack_exports__);
 
       tabIndex: 0,
       listType: 0,
-      contentList: [] };
+      contentList: [
+      {
+        id: 4,
+        is_anonymous: 0, //是否匿名  1 匿名 0不匿名
+        contents: "测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是", //评价内容
+        point: 6, //评价分数
+        img: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //商品图片
+        spu_name: '测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是', //商品名称
+        sku_id: 13 },
 
+      {
+        id: 5,
+        is_anonymous: 1, //是否匿名  1 匿名 0不匿名
+        contents: "测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是", //评价内容
+        point: 3, //评价分数
+        img: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //商品图片
+        spu_name: '测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是', //商品名称
+        sku_id: 12 }],
+
+
+      requestUrl: '',
+      offset: 0,
+      imgs: [{
+        id: 1 },
+      {
+        id: 2 },
+      {
+        id: 3 },
+      {
+        id: 4 },
+      {
+        id: 5 }],
+
+      src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
+      src2: 'https://img-blog.csdnimg.cn/20200610110053850.png' };
+
+  },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+    that.get_my_comment();
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.get_my_comment();
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-        that.menuPaddingRight = res.windowWidth - menu.right;
-      } });
+    // 判定运行平台
+    var platform = '';
+    that.height = uni.getSystemInfoSync().screenHeight;
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        // console.log('运行Android上')
+        platform = 'android';
+        break;
+      case 'ios':
+        // console.log('运行iOS上')
+        platform = 'ios';
+        break;
+      default:
+        // console.log('运行在开发者工具上')
+        platform = 'applet';
+        break;}
 
-    that.tabtap();
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuWidth = 90;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
+    get_my_comment: function get_my_comment() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'mygoodscommentlist',
+        type: that.listType,
+        offset: that.offset,
+        limit: 4 };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.contentList = that.contentList.concat(data);
+        }
+      });
+    },
     tabtap: function tabtap() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var that = this;
       that.tabIndex = index;
       that.listType = type; //类型 0待评价 1已评价
-      if (that.listType == 0) {
-        that.contentList = [
-        {
-          commentList: [
-          {
-            url: '../../static/images/20.png',
-            goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称',
-            label: ['眼部美容', '眼部'], //标签
-            price: 19800,
-            vipPrice: 18800,
-            subscribe: '441',
-            goodReputation: '98' }] }];
-
-
-
-
-      } else {
-        that.contentList = [
-        {
-          commentList: [
-          {
-            url: '../../static/images/20.png',
-            goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称',
-            label: ['眼部美容', '眼部'], //标签
-            price: 19800,
-            vipPrice: 18800,
-            subscribe: '441',
-            goodReputation: '98',
-            state: 1,
-            evaluate: '我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用' },
-
-          {
-            url: '../../static/images/19.png',
-            goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称，',
-            label: ['眼部美容', '眼部'], //标签
-            price: 19800,
-            vipPrice: 18800,
-            subscribe: '441',
-            goodReputation: '98',
-            state: 0,
-            evaluate: '我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用' }] }];
-
-
-
-
-      }
+      // that.contentList = []
+      // that.get_my_comment()
     },
-    writeComment: function writeComment() {
-      uni.navigateTo({
-        url: "/pages/my/write_comment" });
-
-    },
-    deleteItem: function deleteItem(index, k) {
-      // console.log(this.contentList[index].commentList[k])
+    delete_comment: function delete_comment(id) {
       var that = this;
+      // console.log(id)
       uni.showModal({
         title: '提示',
         content: '确定删除此评价？',
         success: function success(res) {
           if (res.confirm) {
-            that.contentList[index].commentList.splice(k, 1);
-            if (that.contentList[index].commentList.length == 0) {
-              that.contentList = [];
-            }
-            uni.showToast({
-              title: '删除成功',
-              duration: 1000 });
+            var dataInfo = {
+              interfaceId: 'deletegoodscomment',
+              goods_comment_id: id };
 
-          } else if (res.cancel) {
-            uni.showToast({
-              title: '取消删除',
-              duration: 1000 });
+            that.request.uniRequest("goods", dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                uni.showToast({
+                  title: '删除成功',
+                  duration: 1000 });
 
+              } else {
+                uni.showToast({
+                  title: res.data.message,
+                  duration: 1000,
+                  icon: 'none' });
+
+              }
+            });
           }
         } });
 

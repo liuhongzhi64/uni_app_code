@@ -269,47 +269,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     goodsShow: goodsShow },
@@ -323,127 +282,95 @@ __webpack_require__.r(__webpack_exports__);
       menuBottom: 0,
       cardList: [{
         number: 0,
-        name: '卡券' },
+        name: '卡券',
+        id: 0 },
 
       {
         number: 0,
-        name: '积分' },
+        name: '积分',
+        id: 1 },
 
       {
         number: 0,
-        name: '喵豆' },
+        name: '余额',
+        id: 2 },
 
       {
         number: 0,
-        name: '余额' },
-
-      {
-        number: 0,
-        name: '喵币' }],
+        name: '喵币',
+        id: 3 }],
 
 
       orderList: {},
       serveToolList: [{
-        url: '../../static/images/cart0.png',
-        toolName: '购物车' },
+        icon: "https://xcx.hmzixin.com/upload/images/3.0/my_car.png",
+        name: "购物车",
+        page: "/cart/cart" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '我的问答' },
+        icon: "https://xcx.hmzixin.com/upload/images/3.0/my_ask.png",
+        name: "我的问答",
+        page: "" },
 
       {
-        url: '../../static/images/cart0.png',
-        toolName: '我的日记' },
+        icon: "https://xcx.hmzixin.com/upload/images/3.0/my_dairy.png",
+        name: "我的日记",
+        page: "/diary/diary_personal?route=my" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '我的收藏' },
+        icon: "https://xcx.hmzixin.com/upload/images/3.0/my_collection.png",
+        name: "我的收藏",
+        page: "/my/my_collection" },
 
       {
-        url: '../../static/images/cart0.png',
-        toolName: '我的消息' },
+        icon: "https://xcx.hmzixin.com/upload/images/3.0/my_news.png",
+        name: "我的消息",
+        page: "/message/message" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '我的评价' }],
-
-
-      serveToolList2: [{
-        url: '../../static/images/cart0.png',
-        toolName: '邀请记录' },
+        icon: "https://xcx.hmzixin.com/upload/images/3.0/my_evaluate.png",
+        name: "我的评价",
+        page: "/my/my_comment" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '我要提问' },
+        icon: "https://xcx.hmzixin.com/upload/images/c_staff.png",
+        name: "员工服务",
+        page: "/other/record" },
 
       {
-        url: '../../static/images/cart0.png',
-        toolName: '实名认证' },
+        icon: "https://xcx.hmzixin.com/upload/images/c_assess.png",
+        name: "健康评估",
+        page: "/other/assess" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '地址管理' },
+        icon: "https://xcx.hmzixin.com/upload/images/c_appointment.png",
+        name: "自助挂号",
+        page: "/other/jump?url=appointment/" },
 
       {
-        url: '../../static/images/cart0.png',
-        toolName: '员工服务' },
+        icon: "https://xcx.hmzixin.com/upload/images/c_subscribe.png",
+        name: "自助预约",
+        page: "/other/subscribe?h5type=0" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '美丽基金' },
+        icon: "https://xcx.hmzixin.com/upload/images/c_my_appointment.png",
+        name: "我的预约",
+        page: "/other/subscribe?h5type=1" },
 
       {
-        url: '../../static/images/ask.png',
-        toolName: '关于整呗' },
+        icon: "https://xcx.hmzixin.com/upload/images/c_material.png",
+        name: "物资领取",
+        page: "/other/jump?url=get-present/" }],
 
-      {
-        url: '../../static/images/ask.png',
-        toolName: '联系咨询' }],
-
-
-      serveToolList3: [{
-        url: '../../static/images/cart0.png',
-        toolName: '到院导航' },
-
-      {
-        url: '../../static/images/ask.png',
-        toolName: '投诉服务' },
-
-      {
-        url: '../../static/images/cart0.png',
-        toolName: '帮助中心' },
-
-      {
-        url: '../../static/images/ask.png',
-        toolName: '满意度调查' }],
-
-
-
-      serveToolList4: [{
-        url: '../../static/images/cart0.png',
-        toolName: '邀请有礼' },
-
-      {
-        url: '../../static/images/ask.png',
-        toolName: '签到有礼' },
-
-      {
-        url: '../../static/images/cart0.png',
-        toolName: '任务中心' },
-
-      {
-        url: '../../static/images/ask.png',
-        toolName: '喵币商城' },
-
-      {
-        url: '../../static/images/cart0.png',
-        toolName: '真人秀报名' }],
 
 
       productList: [],
       requestUrl: '',
-      offset: 0 //分页起始位置
-    };
+      offset: 0, //分页起始位置
+      advertising_img: {
+        content: [] } };
+
+
   },
   onLoad: function onLoad(options) {
     var that = this;
@@ -452,7 +379,7 @@ __webpack_require__.r(__webpack_exports__);
     // 猜你喜欢
     that.getLike();
     // 广告
-    // that.advertising()
+    that.advertising();
     // 个人中心卡券订单浮标数据
     that.getCardOrder();
     // 个人中心卡等级、积分获取 非微信小程序不显示
@@ -495,8 +422,7 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    {
+    } else {
       that.menuTop = 50;
       that.menuWidth = 87;
       that.menuHeight = 32;
@@ -515,7 +441,7 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("home", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data);
+          that.advertising_img = data;
         }
       });
     },
@@ -586,48 +512,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
     },
-    changeOrder: function changeOrder(name) {
-      if (name == '卡券')
-      uni.navigateTo({
-        url: "/pages/my/my_card" });
+    change_order: function change_order(id) {
+      if (id == 0) {
+        uni.navigateTo({
+          url: "/pages/my/my_card" });
 
+      }
     },
-
-    // 
     go_to_order: function go_to_order(index) {
       uni.navigateTo({
         url: "/pages/my/my_order?type=".concat(index) });
 
     },
-    goToPages: function goToPages(name) {
-      console.log(name);
-      if (name.toolName == '购物车') {
-        uni.navigateTo({
-          url: "/pages/cart/cart" });
-
-      } else if (name.toolName == '我的问答') {
-        uni.navigateTo({
-          url: "/pages/goods/goods_detail_problem" });
-
-      } else
-      if (name.toolName == '我的日记') {
-        uni.navigateTo({
-          url: "/pages/diary/diary_personal" });
-
-      } else if (name.toolName == '我的收藏') {
-        uni.navigateTo({
-          url: "/pages/my/my_collection" });
-
-      } else if (name.toolName == '我的评价') {
-        uni.navigateTo({
-          url: "/pages/my/my_comment" });
-
-      } else
-      if (name.toolName == '地址管理') {
-        uni.navigateTo({
-          url: "/pages/my/harves_address" });
-
-      }
+    go_to_comment: function go_to_comment() {
+      uni.navigateTo({
+        url: "/pages/my/my_comment" });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

@@ -4,7 +4,7 @@
 			<view class="my-top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 					<view class="back">
-						<image src="../../static/images/return.png" mode=""></image>
+						<image src="../../static/images/return.png"></image>
 					</view>
 					<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> 个人中心 </view>
 				</view>
@@ -13,13 +13,13 @@
 				<view class="user-message">
 					<view class="user-head-portrait-name-phone-set">
 						<view class="user-head-portrait">
-							<image src="../../static/images/19.png" mode=""></image>
+							<image class="user-head-portrait_image" src=""></image>
 							<view class="name-cart-phone">
 								<view class="user-name-cart">
 									<view class="user-name">用户名字就八个字</view>
-									<view class="user-cart"> 时尚卡 </view>
+									<!-- <view class="user-cart"> 时尚卡 </view> -->
 								</view>
-								<view class="phone-account-number"> 
+								<view class="phone-account-number">
 									<view class="phone"> 18281612661 </view>
 									<view class="account-number" @tap='goToAccount'> 切换账号 </view>
 								</view>
@@ -28,16 +28,16 @@
 						<view class="set" @tap='goToSet'> 设置 > </view>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
-						<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="changeOrder(i.name)">
+						<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="change_order(i.id)">
 							<view class="card-number"> {{i.number}} </view>
 							<view class="card-name"> {{i.name}} </view>
 						</view>
 					</view>
-					<view class="advertising">
-						<image src="../../static/images/0.png" mode=""></image>
-					</view>
 				</view>
 			</view>
+		</view>
+		<view class="top_advertising">
+			<image src="https://img-blog.csdnimg.cn/202006161419295.jpg" mode="widthFix"></image>
 		</view>
 		<view class="content">
 			<view class="my-order">
@@ -51,38 +51,38 @@
 							<view class="order-image">
 								<image src="../../static/images/my-obligation.png" mode=""></image>
 							</view>
-							<view class="order-number" > {{orderList.need_pay}} </view>
+							<view class="order-number"> {{orderList.need_pay}} </view>
 						</view>
 						<view class="order-name"> 待付款 </view>
 					</view>
-					<view class="order-list">
-						<view class="oder-image-number" @tap="go_to_order(2)">
+					<view class="order-list" @tap="go_to_order(2)">
+						<view class="oder-image-number" >
 							<view class="order-image">
 								<image src="../../static/images/my-account-paid.png" mode=""></image>
 							</view>
-							<view class="order-number" > {{orderList.pay}} </view>
+							<view class="order-number"> {{orderList.pay}} </view>
 						</view>
 						<view class="order-name"> 已付款 </view>
 					</view>
-					<view class="order-list">
-						<view class="oder-image-number" @tap="go_to_order(3)">
+					<view class="order-list" @tap="go_to_order(3)">
+						<view class="oder-image-number" >
 							<view class="order-image">
 								<image src="../../static/images/my-completed.png" mode=""></image>
 							</view>
 						</view>
 						<view class="order-name"> 已完成 </view>
 					</view>
-					<view class="order-list">
+					<view class="order-list" @tap="go_to_comment">
 						<view class="oder-image-number">
 							<view class="order-image">
-								<image src="../../static/images/my-evaluate.png" mode=""></image>
+								<image src="../../static/images/my-evaluate.png"></image>
 							</view>
-							<view class="order-number" > {{orderList.not_comment}} </view>
+							<view class="order-number"> {{orderList.not_comment}} </view>
 						</view>
 						<view class="order-name"> 待评价 </view>
 					</view>
-					<view class="order-list">
-						<view class="oder-image-number" @tap="go_to_order(4)">
+					<view class="order-list" @tap="go_to_order(4)">
+						<view class="oder-image-number" >
 							<view class="order-image">
 								<image src="../../static/images/my-refund.png" mode=""></image>
 							</view>
@@ -92,63 +92,28 @@
 				</view>
 			</view>
 
-			<view class="display-advertising">
-				<image src="../../static/images/0.png" mode=""></image>
+			<!-- 广告 -->
+			<view class="order-advertising-images" v-if="advertising_img.content.length>0">
+				<view class="specialList" v-if="advertising_img.type==1">
+					<swiper autoplay interval='5000' duration='3000' circular>
+						<swiper-item class="swiper-item" v-for="(item,index) in advertising_img.content" :key="index">
+							<navigator :url="'/pages'+item.page+'?id='+item.page_id" open-type="switchTab">
+								<image :src="requestUrl+item.img" mode="heightFix"></image>
+							</navigator>
+						</swiper-item>
+					</swiper>
+				</view>
 			</view>
-
 			<view class="serve-and-tool">
 				<view class="serve-and-tool-title"> 服务与工具 </view>
 				<view class="serve-and-tool-list">
-					<view class="serve-tool-list" v-for="(i,k) in serveToolList" @tap='goToPages(i)' :key='k'>
-						<view class="tool-item">
+					<view class="serve-tool-list" v-for="(item,index) in serveToolList"  :key='index'>
+						<navigator class="tool-item" :url="'/pages'+item.page">
 							<view class="tool-image">
-								<image :src="i.url" mode=""></image>
+								<image :src="item.icon" ></image>
 							</view>
-							<view class="tool-name"> {{i.toolName}} </view>
-						</view>
-
-					</view>
-				</view>
-			</view>
-			
-			<view class="serve-and-tool">
-				<view class="serve-and-tool-title"> 服务与工具1 </view>
-				<view class="serve-and-tool-list">
-					<view class="serve-tool-list" v-for="(i,k) in serveToolList2" :key='k' @tap='goToPages(i)'>
-						<view class="tool-item">
-							<view class="tool-image">
-								<image :src="i.url" mode=""></image>
-							</view>
-							<view class="tool-name"> {{i.toolName}} </view>
-						</view>			
-					</view>
-				</view>
-			</view>
-			
-			<view class="serve-and-tool">
-				<view class="serve-and-tool-title"> 服务与工具2 </view>
-				<view class="serve-and-tool-list">
-					<view class="serve-tool-list" v-for="(i,k) in serveToolList3" :key='k'>
-						<view class="tool-item">
-							<view class="tool-image">
-								<image :src="i.url" mode=""></image>
-							</view>
-							<view class="tool-name"> {{i.toolName}} </view>
-						</view>
-					</view>
-				</view>
-			</view>
-			
-			<view class="serve-and-tool">
-				<view class="serve-and-tool-title"> 活动中心 </view>
-				<view class="serve-and-tool-list">
-					<view class="serve-tool-list" v-for="(i,k) in serveToolList4" :key='k'>
-						<view class="tool-item">
-							<view class="tool-image">
-								<image :src="i.url" mode=""></image>
-							</view>
-							<view class="tool-name"> {{i.toolName}} </view>
-						</view>
+							<view class="tool-name"> {{item.name}} </view>
+						</navigator>
 					</view>
 				</view>
 			</view>
@@ -157,22 +122,16 @@
 				<view class="related-title">
 					<view class="line"></view> 猜你喜欢
 				</view>
-
 				<scroll-view scroll-y class="topList">
 					<template>
 						<view class="subject-content">
-							<goodsShow
-							 :borderRadius=24
-							 :requestUrl='requestUrl' 
-							 :width=350
-							 :porductList='productList'>
-							 </goodsShow>
+							<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='productList'>
+							</goodsShow>
 						</view>
 					</template>
 				</scroll-view>
 			</view>
 		</view>
-
 	</view>
 </template>
 
@@ -191,126 +150,94 @@
 				menuBottom: 0,
 				cardList: [{
 						number: 0,
-						name: '卡券'
+						name: '卡券',
+						id:0,
 					},
 					{
 						number: 0,
-						name: '积分'
+						name: '积分',
+						id:1
 					},
 					{
 						number: 0,
-						name: '喵豆'
+						name: '余额',
+						id:2
 					},
 					{
 						number: 0,
-						name: '余额'
-					},
-					{
-						number: 0,
-						name: '喵币'
+						name: '喵币',
+						id:3
 					},
 				],
-				orderList:{},
+				orderList: {},
 				serveToolList: [{
-						url: '../../static/images/cart0.png',
-						toolName: '购物车',
+						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_car.png",
+						name: "购物车",
+						page: "/cart/cart"
 					},
 					{
-						url: '../../static/images/ask.png',
-						toolName: '我的问答',
+						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_ask.png",
+						name: "我的问答",
+						page: ""
 					},
 					{
-						url: '../../static/images/cart0.png',
-						toolName: '我的日记',
+						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_dairy.png",
+						name: "我的日记",
+						page: "/diary/diary_personal?route=my"
 					},
 					{
-						url: '../../static/images/ask.png',
-						toolName: '我的收藏',
+						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_collection.png",
+						name: "我的收藏",
+						page: "/my/my_collection"
 					},
 					{
-						url: '../../static/images/cart0.png',
-						toolName: '我的消息',
+						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_news.png",
+						name: "我的消息",
+						page: "/message/message"
 					},
 					{
-						url: '../../static/images/ask.png',
-						toolName: '我的评价',
+						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_evaluate.png",
+						name: "我的评价",
+						page: "/my/my_comment"
 					},
+					{
+						icon: "https://xcx.hmzixin.com/upload/images/c_staff.png",
+						name: "员工服务",
+						page: "/other/record"
+					},
+					{
+						icon: "https://xcx.hmzixin.com/upload/images/c_assess.png",
+						name: "健康评估",
+						page: "/other/assess"
+					},
+					{
+						icon: "https://xcx.hmzixin.com/upload/images/c_appointment.png",
+						name: "自助挂号",
+						page: "/other/jump?url=appointment/"
+					},
+					{
+						icon: "https://xcx.hmzixin.com/upload/images/c_subscribe.png",
+						name: "自助预约",
+						page: "/other/subscribe?h5type=0"
+					},
+					{
+						icon: "https://xcx.hmzixin.com/upload/images/c_my_appointment.png",
+						name: "我的预约",
+						page: "/other/subscribe?h5type=1"
+					},
+					{
+						icon: "https://xcx.hmzixin.com/upload/images/c_material.png",
+						name: "物资领取",
+						page: "/other/jump?url=get-present/"
+					}
 				],
-				serveToolList2: [{
-						url: '../../static/images/cart0.png',
-						toolName: '邀请记录',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '我要提问',
-					},
-					{
-						url: '../../static/images/cart0.png',
-						toolName: '实名认证',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '地址管理',
-					},
-					{
-						url: '../../static/images/cart0.png',
-						toolName: '员工服务',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '美丽基金',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '关于整呗',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '联系咨询',
-					},
-				],
-				serveToolList3: [{
-						url: '../../static/images/cart0.png',
-						toolName: '到院导航',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '投诉服务',
-					},
-					{
-						url: '../../static/images/cart0.png',
-						toolName: '帮助中心',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '满意度调查',
-					},
-					
-				],
-				serveToolList4: [{
-						url: '../../static/images/cart0.png',
-						toolName: '邀请有礼',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '签到有礼',
-					},
-					{
-						url: '../../static/images/cart0.png',
-						toolName: '任务中心',
-					},
-					{
-						url: '../../static/images/ask.png',
-						toolName: '喵币商城',
-					},
-					{
-						url: '../../static/images/cart0.png',
-						toolName: '真人秀报名',
-					},
-				],
+
 				productList: [],
-				requestUrl:'',
-				offset:0//分页起始位置
+				requestUrl: '',
+				offset: 0, //分页起始位置
+				advertising_img: {
+					content: []
+				},
 			}
 		},
 		onLoad(options) {
@@ -320,7 +247,7 @@
 			// 猜你喜欢
 			that.getLike()
 			// 广告
-			// that.advertising()
+			that.advertising()
 			// 个人中心卡券订单浮标数据
 			that.getCardOrder()
 			// 个人中心卡等级、积分获取 非微信小程序不显示
@@ -350,7 +277,7 @@
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
@@ -363,8 +290,7 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			}
-			else{
+			} else {
 				that.menuTop = 50
 				that.menuWidth = 87
 				that.menuHeight = 32
@@ -372,53 +298,53 @@
 				that.menuBottom = 82
 			}
 		},
-		methods: {				
+		methods: {
 			// 获取广告
-			advertising:function(){
+			advertising: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'getadvertising',
-					location:5
+					interfaceId: 'getadvertising',
+					location: 5
 				}
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
+						that.advertising_img = data
 					}
 				})
-			},	
+			},
 			// 猜你喜欢
-			getLike:function(){
+			getLike: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'userrecommendedgoodsspulist',
-					type:'4',
-					offset:that.offset
+					interfaceId: 'userrecommendedgoodsspulist',
+					type: '4',
+					offset: that.offset
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						if(data.length>0){
+						if (data.length > 0) {
 							that.productList = that.productList.concat(data)
-						}else{
+						} else {
 							uni.showToast({
-								title:'没有更多了',
-								icon:'none'
+								title: '没有更多了',
+								icon: 'none'
 							})
 						}
 					} else {
 						uni.showToast({
-							title:'没有更多了',
-							icon:'none'
+							title: '没有更多了',
+							icon: 'none'
 						})
 					}
-				})				
-			},			
+				})
+			},
 			// 个人中心卡券订单浮标数据
-			getCardOrder:function(){
+			getCardOrder: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'card_order'
+					interfaceId: 'card_order'
 				}
 				that.request.uniRequest("my", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -428,12 +354,12 @@
 						// console.log(data)
 					}
 				})
-			},	
+			},
 			// 个人中心卡等级、积分获取
-			crmInfo:function(){
+			crmInfo: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'crm_info'
+					interfaceId: 'crm_info'
 				}
 				that.request.uniRequest("my", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -443,69 +369,42 @@
 				})
 			},
 			// 去设置页面
-			goToSet:function(){
+			goToSet: function() {
 				uni.navigateTo({
 					url: `/pages/my/my_set`,
 				})
-			},			
-			goToAccount:function(e){
+			},
+			goToAccount: function(e) {
 				uni.navigateTo({
 					url: `/pages/my/account_number`,
 				})
-				
+
 			},
-			changeOrder:function(name){
-				if(name == '卡券')
-				uni.navigateTo({
-					url: `/pages/my/my_card`,
-				})
+			change_order: function(id) {
+				if (id==0){
+					uni.navigateTo({
+						url: `/pages/my/my_card`,
+					})
+				}
 			},
-			
-			// 
-			go_to_order:function(index){
+			go_to_order: function(index) {
 				uni.navigateTo({
 					url: `/pages/my/my_order?type=${index}`,
 				})
 			},
-			goToPages:function(name){
-				console.log(name)
-				if(name.toolName == '购物车'){
-					uni.navigateTo({
-						url: `/pages/cart/cart`,
-					})
-				}else if(name.toolName == '我的问答'){
-					uni.navigateTo({
-						url: `/pages/goods/goods_detail_problem`,
-					})
-				}
-				else if(name.toolName == '我的日记'){
-					uni.navigateTo({
-						url: `/pages/diary/diary_personal`,
-					})
-				}else if(name.toolName == '我的收藏'){
-					uni.navigateTo({
-						url: `/pages/my/my_collection`,
-					})
-				}else if(name.toolName == '我的评价'){
-					uni.navigateTo({
-						url: `/pages/my/my_comment`,
-					})
-				}
-				else if(name.toolName == '地址管理'){
-					uni.navigateTo({
-						url: `/pages/my/harves_address`,
-					})
-				}
-					
+			go_to_comment:function(){
+				uni.navigateTo({
+					url: `/pages/my/my_comment`,
+				})
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	
 	.top-nav-message {
-		background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
+		/* background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%); */
+		background-image: linear-gradient(to right, #FA558D,#EF2768);
 		overflow: hidden;
 		height: auto;
 		width: 100%;
@@ -513,7 +412,7 @@
 
 	.my-top-bar {
 		color: #FFFFFF;
-		background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
+		background-image: linear-gradient(to right, #FA558D,#EF2768);
 		text-align: center;
 		font-size: 40rpx;
 		position: fixed;
@@ -561,16 +460,18 @@
 		display: flex;
 		align-items: center;
 	}
-	
-	.content{
-		background-color:#F6F6F6;
+
+	.content {
+		background-color: #F6F6F6;
+		margin-top: -40rpx;
 	}
 
-	.user-head-portrait image {
-		width: 120rpx;
-		height: 120rpx;
+	.user-head-portrait_image {
+		width: 112rpx;
+		height: 112rpx;
 		border-radius: 60rpx;
 		margin-right: 24rpx;
+		border: 4rpx solid #FFFFFF;
 	}
 
 	.user-name-cart {
@@ -598,8 +499,8 @@
 		margin-top: 10rpx;
 		display: flex;
 	}
-	
-	.account-number{
+
+	.account-number {
 		margin-left: 10rpx;
 	}
 
@@ -612,7 +513,7 @@
 	}
 
 	.card-volume-integral-bean-balance-currency {
-		padding: 40rpx 50rpx;
+		padding: 30rpx 50rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -625,20 +526,22 @@
 		color: #f0f0f0;
 	}
 
-	.advertising {
+	.top_advertising {
 		width: 100%;
-		padding: 0 40rpx 0;
 	}
 
-	.advertising image {
-		width: 90%;
+	.top_advertising image {
 		height: 150rpx;
+		width: 100%;
 	}
 
 	/* 我的订单 */
-	.my-order{
+	.my-order {
 		background-color: #FFFFFF;
+		border-bottom-left-radius: 24rpx;
+		border-bottom-right-radius: 24rpx;
 	}
+
 	.order-all-order {
 		display: flex;
 		justify-content: space-between;
@@ -705,21 +608,18 @@
 	}
 
 	/* 图片广告 */
-	.display-advertising{
-		background-color: #F6F6F6;
-		padding: 20rpx 0 0;
-	}
-	.display-advertising image {
-		height: 240rpx;
+	.order-advertising-images,
+	.order-advertising-images image {
 		width: 100%;
+		height: 220rpx;
 	}
 
 	/* 服务与工具 */
-	.serve-and-tool{
-		margin-top: 20rpx;
+	.serve-and-tool {
 		background-color: #FFFFFF;
+		border-radius: 24rpx;
 	}
-	
+
 	.serve-and-tool-title {
 		line-height: 88rpx;
 		padding-left: 30rpx;
@@ -729,7 +629,7 @@
 	}
 
 	.serve-and-tool-list {
-		padding: 40rpx 60rpx;
+		padding: 20rpx ;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
@@ -779,6 +679,4 @@
 		/* display: flex;
 		justify-content: space-between; */
 	}
-
-	
 </style>

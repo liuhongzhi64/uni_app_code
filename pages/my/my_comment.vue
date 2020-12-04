@@ -5,72 +5,54 @@
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="top-swiper-content" 
 			 :class="{'active' : tabIndex==index}" 
-			 v-for="(item,index) in tabBars" :key='index' @tap='tabtap(index,item.type)'>
-				{{item.name}}
+			 v-for="(item,index) in tabBars" :key='index'
+			 @tap='tabtap(index,item.type)'>{{item.name}}
 				<view class="swiper-tab-line" v-if="tabIndex==index" ></view>
 			</view>
 		</view>
-		<view class="my_comment-content" :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
-			<scroll-view class="my_comment-content">
-				<template>
-					<view class="comment-content">
-						<view class="no-content" v-if="contentList.length==0">
-							<image src="../../static/images/cartBg.png" mode=""></image>
-							<view class="hint">喵~ 暂无相关内容</view>
+		<view class="comment-content" :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
+			<view class="no-content" v-if="contentList.length==0">
+				<image src="../../static/images/cartBg.png" mode="widthFix"></image>
+				<view class="hint">喵~ 暂无相关内容</view>
+			</view>
+			<view class="content-item"  v-else >
+				<view class="have-content" >
+					<view class="comment_item" v-for="(item,index) in contentList" :key='index'>
+						<view class="item_top_content">
+							<image class="goods_img" :src="requestUrl+item.img" mode="widthFix"></image>
+							<view class="comment_item_content">
+								<view class="spu_name"> {{ item.spu_name }} </view>
+								<view class="commtent_hint" v-if="tabIndex==0">
+									<text class="commtent_text"> 评价完成得 <text> 30 </text> 喵豆 </text>
+									<navigator :url="'/pages/my/write_comment?id='+item.id+'&sku_id='+item.sku_id" class="write_comment">评价</navigator>
+								</view>
+								<view class="score" v-else>
+									评分 : 
+									<view class="star-list">
+										<view class="star-img" v-for="(i,k) in imgs" :key="k" >
+											<image class="star" :src="i.id>item.point?src2:src1"></image>
+										</view>
+									</view>
+									<view class="top-right" v-if="item.point==1||item.point==2">较差</view>
+									<view class="top-right" v-else-if="item.point==3">一般</view>
+									<view class="top-right" v-else-if="item.point==4">满意</view>
+									<view class="top-right" v-else>非常满意</view>
+								</view>
+							</view>
 						</view>
-						<view class="content-item"  v-else v-for="(item,index) in contentList" :key='index'>
-							<view class="have-content" v-for="(i,k) in item.commentList" :key='k'>
-								<view class="top-content">
-									<view class="head-image">
-										<image :src="i.url" mode=""></image>
-									</view>
-									<view class="right-content">
-										<view class="goods_name">{{i.goods_name}}</view>
-										<view class="label-list">
-											<view class="label" v-for="(i,k) in i.label" :key="k"> {{i}} </view>
-										</view>
-										<view class="porduct-price-vip-cart">
-											<view class="porduct-price">
-												<text>￥</text>{{i.price}}
-											</view>
-											<view class="vip-cart-price" v-if="i.vipPrice>0">
-												<text class="vip-cart">钻卡</text>
-												<text class="vip-price">￥{{i.vipPrice}}</text>
-											</view>
-										</view>
-										<!-- 预约和好评 -->
-										<view class="subscribe-goodReputation">
-											<!-- 预约 -->
-											<view class="subscribe"> {{i.subscribe}}预约 </view>
-											<!-- 好评 -->
-											<view class="goodReputation"> {{i.goodReputation}}%好评 </view>
-										</view>
-									</view>
-								</view>
-								<view class="comment-botton-award" v-if="listType==0">
-									<view class="award"> 评价完成得 <text>30</text>喵豆 </view>
-									<view class="comment-botton">
-										<button class="write-comment" @tap='writeComment' type="default" plain="true"> 写评价 </button>
-									</view>
-								</view>
-								<view class="have-evaluate" v-if="listType==1">
-									<view class="evaluate-content">{{i.evaluate}}</view>
-									<view class="state-delete-botton">
-										<view class="evaluate-state" v-if="i.state==1">已匿名评价</view>
-										<view class="evaluate-state" v-else></view>
-										<view class="delete-botton">
-											<button class="delete" @tap='deleteItem(index,k)' type="default" plain="true" > 删除 </button>
-										</view>
-									</view>
-								</view>
+						<view class="item_bottom" v-if="tabIndex==1">
+							<view class="user_comment"> {{ item.contents }} </view>
+							<view class="whether_delete">
+								<view class="is_show" v-if="item.is_anonymous==1"> 已经匿名评价 </view>
+								<view class="is_show" v-else></view>
+								<button type="default" size="mini" class="operation_delete" @tap="delete_comment(item.id)"> 删除 </button>
 							</view>
 						</view>
 						
 					</view>
-				</template>
-			</scroll-view>
-		</view>
-		
+				</view>
+			</view>
+		</view>	
 	</view>
 </template>
 
@@ -91,9 +73,10 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '我的评价',
-				tabBars: [{
+				tabBars: [
+					{
 						name: '待评价',
 						type: 0
 					},
@@ -104,104 +87,142 @@
 				],
 				tabIndex:0,
 				listType:0,
-				contentList:[]
+				contentList:[
+					{
+						id:4,
+						is_anonymous:0,//是否匿名  1 匿名 0不匿名
+						contents:"测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是",//评价内容
+						point:6,//评价分数
+						img:'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',//商品图片
+						spu_name:'测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是' ,//商品名称
+						sku_id:13
+					},
+					{
+						id:5,
+						is_anonymous:1,//是否匿名  1 匿名 0不匿名
+						contents:"测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是",//评价内容
+						point:3,//评价分数
+						img:'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',//商品图片
+						spu_name:'测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是' ,//商品名称
+						sku_id:12
+					}
+				],
+				requestUrl:'',
+				offset:0,
+				imgs: [{
+					id: 1
+				}, {
+					id: 2
+				}, {
+					id: 3
+				}, {
+					id: 4
+				}, {
+					id: 5
+				}],
+				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
+				src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
 			}
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.get_my_comment()
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.get_my_comment()
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
-			that.tabtap()
+			// 判定运行平台
+			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					// console.log('运行Android上')
+					platform = 'android'
+					break;
+				case 'ios':
+					// console.log('运行iOS上')
+					platform = 'ios'
+					break;
+				default:
+					// console.log('运行在开发者工具上')
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuWidth = 90
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
+			get_my_comment:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'mygoodscommentlist',
+					type:that.listType,
+					offset:that.offset,
+					limit:4
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.contentList = that.contentList.concat(data)
+					}
+				})
+			},
 			tabtap: function(index = 0, type = 0) {
 				let that = this
 				that.tabIndex = index;
 				that.listType = type //类型 0待评价 1已评价
-				if(that.listType == 0){
-					that.contentList = [
-						{
-							commentList:[
-								{
-									url: '../../static/images/20.png',
-									goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称',
-									label: ['眼部美容', '眼部'], //标签
-									price: 19800,
-									vipPrice: 18800,
-									subscribe: '441',
-									goodReputation: '98'
-								},
-							]
-						}
-					]
-				}else{
-					that.contentList = [
-						{
-							commentList:[
-								{
-									url: '../../static/images/20.png',
-									goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称',
-									label: ['眼部美容', '眼部'], //标签
-									price: 19800,
-									vipPrice: 18800,
-									subscribe: '441',
-									goodReputation: '98',
-									state:1,
-									evaluate:'我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用'
-								},
-								{
-									url: '../../static/images/19.png',
-									goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称，',
-									label: ['眼部美容', '眼部'], //标签
-									price: 19800,
-									vipPrice: 18800,
-									subscribe: '441',
-									goodReputation: '98',
-									state:0,
-									evaluate:'我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用户评价,最多显示两排然后显示...我是用'
-								},
-							]
-						}
-					]
-				}
+				// that.contentList = []
+				// that.get_my_comment()
 			},
-			writeComment:function(){
-				uni.navigateTo({
-					url: `/pages/my/write_comment`,
-				})
-			},
-			deleteItem:function(index,k){
-				// console.log(this.contentList[index].commentList[k])
+			delete_comment:function(id){
 				let that = this
+				// console.log(id)
 				uni.showModal({
 					title: '提示',
 					content: '确定删除此评价？',
 					success: function (res) {
 					    if (res.confirm) {
-					      that.contentList[index].commentList.splice(k,1)
-						  if(that.contentList[index].commentList.length==0){
-							  that.contentList = []
+					      let dataInfo = {
+							  interfaceId:'deletegoodscomment',
+							  goods_comment_id:id
 						  }
-						  uni.showToast({
-						  	title:'删除成功',
-						  	duration: 1000
+						  that.request.uniRequest("goods", dataInfo).then(res => {
+						  	if (res.data.code == 1000 && res.data.status == 'ok') {
+						  		uni.showToast({
+						  			title:'删除成功',
+						  			duration: 1000
+						  		})
+						  	}else{
+								uni.showToast({
+									title:res.data.message,
+									duration: 1000,
+									icon:'none'
+								})
+							}
 						  })
-					    } else if (res.cancel) {
-					        uni.showToast({
-					        	title:'取消删除',
-								duration: 1000
-					        })
 					    }
 					}
 				})
@@ -256,7 +277,6 @@
 	}
 	.no-content image{
 		width: 525rpx;
-		height: 370rpx;
 	}
 	.no-content .hint{
 		color: #9e9e9e;
@@ -264,154 +284,109 @@
 		margin-top: 56rpx;
 	}
 	.have-content{
-		background-color: #FFFFFF;
 		margin-top: 20rpx;
+		height: 100%;
+	}
+	.comment_item{
+		background-color: #FFFFFF;
+		margin-bottom: 20rpx;
 		border-radius: 24rpx;
 		padding: 30rpx;
+		
 	}
-	.top-content {
+	.item_top_content{
 		display: flex;
-		padding-bottom: 16rpx;
-		border-bottom: 2rpx solid #F0F0F0;
-		align-items: center;
+		justify-content: space-between;
 	}
-
-	.head-image image {
-		width: 240rpx;
-		height: 240rpx;
+	.goods_img{
+		width: 200rpx;
 	}
-	
-	.right-content {
-		margin-left: 30rpx;
+	.comment_item_content{
+		flex: 1;
+		padding: 10rpx 0 10rpx 20rpx;
+		font-size: 24rpx;
+		/* height: 180rpx; */
 	}
-	
-	.goods_name {
-		font-size: 26rpx;
-		line-height: 36rpx;
+	.spu_name{
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
-	
-	.label-list {
+	.commtent_hint{
 		display: flex;
-		margin-top: 12rpx;
-	}
-	
-	.label {
-		background-color: #999999;
-		text-align: center;
-		width: 80rpx;
-		line-height: 26rpx;
-		border-radius: 4rpx;
-		color: #FFFFFF;
-		font-size: 16rpx;
-		margin-right: 10rpx;
-	}
-	
-	.porduct-price-vip-cart {
-		display: flex;
+		justify-content: space-between;
 		align-items: center;
+		width: 80%;
+		padding-top: 20rpx;
 	}
-	
-	.porduct-price {
-		font-size: 52rpx;
-		padding-right: 20rpx;
+	.commtent_text{
+		font-size: 20rpx;
+	}
+	.commtent_text text{
 		color: #fa3475;
 	}
-	
-	.porduct-price text {
-		font-size: 36rpx;
+	.write_comment{
+		padding: 0 20rpx;
+		line-height: 30rpx;
+		border-radius: 15rpx;
+		color: #fa3475;
+		border: 1rpx solid #fa3475;
 	}
-	
-	.vip-cart-price {
+	.score{
+		padding-top: 20rpx;
 		display: flex;
 		align-items: center;
 	}
-	
-	.vip-cart {
-		background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
-		font-size: 16rpx;
-		padding: 7rpx 10rpx;
-		line-height: 20rpx;
-		text-align: center;
-		color: #fefefe;
-		border-top-left-radius: 8rpx;
-		border-bottom-left-radius: 8rpx;
-	}
-	
-	.vip-price {
-		font-size: 20rpx;
-		color: #282828;
-		padding: 4rpx 8rpx;
-		line-height: 20rpx;
-		text-align: center;
-		border: 1rpx solid #282828;
-		border-top-right-radius: 10rpx;
-		border-bottom-right-radius: 10rpx;
-	}
-	.subscribe-goodReputation{
+	.star-list {
 		display: flex;
-		font-size: 20rpx;
-	}
-	.subscribe{
-		color: #666666;
-		margin-right: 40rpx;
-	}
-	.goodReputation{
-		color: #fa3576;
-	}
-	.comment-botton-award{
-		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		margin-top: 20rpx;
+		padding-left: 20rpx;
 	}
-	.award{
+	
+	.star {
+		width: 24rpx;
+		height: 24rpx;
+		margin: 0 5rpx;
+		vertical-align: middle;
+	}
+	.star-img{
+		display: flex;
+		align-items: center;
+	}
+	.top-right {
+		color: #fa3475;
+		padding-left: 20rpx;
+	}
+	.item_bottom{
 		font-size: 24rpx;
+		padding: 20rpx 0 0;
 	}
-	.award text{
-		color: #f46eae;
-	}
-	.write-comment{
-		line-height: 50rpx;
-		border-radius: 25rpx;
-		border: 1rpx solid #e0619d;
-		color: #f46eae;
-		font-size: 24rpx;
-		border: 1rpx solid #E0619D;
-	}
-	.have-evaluate{
-		margin-top: 20rpx;
-	}
-	.evaluate-content{
-		font-size: 26rpx;
-		line-height: 36rpx;
+	.user_comment{
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
-	.state-delete-botton{
+	
+	.whether_delete{
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		margin-top: 20rpx;
+		justify-content: space-between;
+		padding-top: 20rpx;
 	}
-	.evaluate-state{
-		font-size: 26rpx;
+	.is_show{
+		flex: 1;
+		font-weight: lighter;
+	}
+	.operation_delete{
+		width: 140rpx;
+		line-height: 42rpx;
+		border: 1rpx solid #999999;
+		border-radius: 22rpx;
 		color: #999999;
 	}
-	.delete {
-		width: 120rpx;
-		line-height: 50rpx;
-		border-radius: 25rpx;
-		border: 1rpx solid #e0619d;
-		color: #f46eae;
-		font-size: 24rpx;
-		border: 1rpx solid #E0619D;
-		margin-right: 20rpx;
+	.operation_delete::after{
+		border: none;
 	}
-	
 </style>

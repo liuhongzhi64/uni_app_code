@@ -1,21 +1,18 @@
 {
-    "appInfo": {},
     "appid": "21316050",
+    "appInfo": {},
     "appkey": "",
     "condition": {},
-    "host": "baiduboxapp",
-    "libVersion": "",
-    "preview": {
-        "packageId": 971000
-    },
-    "projectname": "华美",
     "setting": {
         "urlCheck": true
     },
+    "libVersion": "",
+    "projectname": "华美",
+    "host": "baiduboxapp",
     "swan": {
         "baiduboxapp": {
-            "extensionJsVersion": "1.19.4",
-            "swanJsVersion": "3.230.33"
+            "swanJsVersion": "3.230.33",
+            "extensionJsVersion": "1.19.4"
         }
     }
 }

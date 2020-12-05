@@ -4,20 +4,17 @@
 		// 测试时的首页
 				
 		
+		
 		{
-			"path": "pages/my/write_comment", //写评价
-			"style": {}
-		},
-		{
-			"path": "pages/my/my_comment", //我的评价-评价列表
+			"path": "pages/my/my_collection", //我的收藏
 			"style": {}
 		},
 		
+		 
 		{
 			"path": "pages/my/my", //我的
 			"style": {}
-		}, 
-		
+		},
 		// 我的
 		{
 			"path": "pages/my/account_number", //账号管理
@@ -48,11 +45,11 @@
 			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}
 		},
+		
 		{
-			"path": "pages/my/my_collection", //我的收藏
+			"path": "pages/my/my_comment", //我的评价-评价列表
 			"style": {}
 		},
-		
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}
@@ -79,7 +76,10 @@
 			"path": "pages/my/my_set", //设置
 			"style": {}
 		},
-		
+		{
+			"path": "pages/my/write_comment", //写评价
+			"style": {}
+		},
 		
 			
 		// 购物车

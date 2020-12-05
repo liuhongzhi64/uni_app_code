@@ -21,7 +21,7 @@
 						<view class="service_title">完成100字+图片/视频的优质评价，<text>返2倍喵豆</text></view>
 					</view>
 				</view>
-				<view class="service_list">
+				<view class="service_list" v-show="content.label_name.length>0">
 					<view class="service_list_content">
 						<block v-for="(item,index) in content.label_name" :key="index">
 							<view class="items" @tap="choice(index)" :class="item.show == true? 'active':''">
@@ -66,7 +66,10 @@
 				</view>		
 				<view class="footer">
 					<view class="next-step">
-						<button class="issue-botton" type="default" :disabled="show_issue" @tap='issue'> 发布 </button>
+						<view class="button_hint" v-show="show_issue"> 提示 : 请先打评分和评价 </view>
+						<button class="issue-botton" type="default" :disabled="show_issue" @tap='issue'>
+							发布 
+						</button>
 					</view>
 				</view>
 			</view>
@@ -386,9 +389,11 @@
 				if(type==0){
 					that.imageList.splice(index,1)
 					that.image_list.splice(index,1)
+					that.imagesNum -=1
 				}else{
 					that.videoList.splice(index,1)
 					that.video_list.splice(index,1)
+					that.imagesNum -=1
 				}
 			},
 			checkboxChange: function (e) {
@@ -406,7 +411,6 @@
 			issue:function(){
 				let that = this
 				if(!that.show_issue){
-					console.log('可以提交')
 					let label = ''
 					for(let key in that.content.label_name){
 						if(that.content.label_name[key].show){
@@ -437,6 +441,17 @@
 						imgs_list:that.image_list
 					}
 					console.log(dataInfo)
+					uni.showToast({
+						title:'评价成功!',
+					})
+					uni.navigateTo({
+						url: `/pages/my/my_comment`,
+					})
+					// that.request.uniRequest("goods", dataInfo).then(res => {
+					// 	if (res.data.code == 1000 && res.data.status == 'ok') {
+							
+					// 	}
+					// })
 					that.show_issue = true
 				}
 			},
@@ -652,6 +667,13 @@
 	}
 	.issue-botton::after{
 		border: none;
+	}
+	.button_hint{
+		width: 100%;
+		font-size: 20rpx;
+		color: #fa3475;
+		text-align: center;
+		padding-bottom: 20rpx;
 	}
 
 </style>

@@ -3,61 +3,54 @@
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+10+'px'}]">
-			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
-			 @tabtap="tabtap"></swiperTabHead>
+			<view class="top-swiper-content" :class="{'active' : tabIndex==index}" v-for="(item,index) in tabBars" :key='index'
+			 @tap='tabtap(index,item.type)'>{{item.name}}
+				<view class="swiper-tab-line" v-if="tabIndex==index"></view>
+			</view>
 		</view>
-		<view class="my_collection-content" :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
-			<scroll-view class="my_collection-content">
-				<template>
-					<view class="collection-content">
-						<view class="content-list clearfix" v-for="(item,index) in contentList" :key='index'>
-							<view class="top-content">
-								<view class="head-image">
-									<image :src="item.url" mode=""></image>
-								</view>
-								<view class="right-content">
-									<view class="goods_name">{{item.goods_name}}</view>
-									<view class="label-list">
-										<view class="label" v-for="(i,k) in item.label" :key="k"> {{i}} </view>
-									</view>
-									<view class="porduct-price-vip-cart">
-										<view class="porduct-price">
-											<text>￥</text>{{item.price}}
-										</view>
-										<view class="vip-cart-price" v-if="item.vipPrice>0">
-											<text class="vip-cart">钻卡</text>
-											<text class="vip-price">￥{{item.vipPrice}}</text>
-										</view>
-									</view>
-									<!-- 预约和好评 -->
-									<view class="subscribe-goodReputation">
-										<!-- 预约 -->
-										<view class="subscribe"> {{item.subscribe}}预约 </view>
-										<!-- 好评 -->
-										<view class="goodReputation"> {{item.goodReputation}}%好评 </view>
-									</view>
-								</view>
+		<view class="my_collection-content" :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
+			<view class="content-list clearfix" v-for="(item,index) in content_ist" :key='index'>
+				<view class="top-content">
+					<view class="head-image">
+						<image :src="item.url" mode=""></image>
+					</view>
+					<view class="right-content">
+						<view class="goods_name">{{item.goods_name}}</view>
+						<view class="label-list">
+							<view class="label" v-for="(i,k) in item.label" :key="k"> {{i}} </view>
+						</view>
+						<view class="porduct-price-vip-cart">
+							<view class="porduct-price">
+								<text>￥</text>{{item.price}}
 							</view>
-
-							<view class="delete-see-similarity">
-								<button class="delete" @tap='deleteItem' type="default" plain="true" :data-index='index'> 删除 </button>
-								<button class="see-similarity" type="default" plain="true"> 看相似 </button>
+							<view class="vip-cart-price" v-if="item.vipPrice>0">
+								<text class="vip-cart">钻卡</text>
+								<text class="vip-price">￥{{item.vipPrice}}</text>
 							</view>
 						</view>
+						<!-- 预约和好评 -->
+						<view class="subscribe-goodReputation">
+							<!-- 预约 -->
+							<view class="subscribe"> {{item.subscribe}}预约 </view>
+							<!-- 好评 -->
+							<view class="goodReputation"> {{item.goodReputation}}%好评 </view>
+						</view>
 					</view>
-				</template>
-			</scroll-view>
+				</view>
+				<view class="delete-see-similarity">
+					<button class="delete" @tap='deleteItem' type="default" plain="true" :data-index='index'> 删除 </button>
+					<button class="see-similarity" type="default" plain="true"> 看相似 </button>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import swiperTabHead from "../../components/swiper-tab.vue";
 	export default {
 		components: {
-			topBar,
-			swiperTabHead,
+			topBar
 		},
 		data() {
 			return {
@@ -67,40 +60,33 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '我的收藏',
 				tabBars: [{
 						name: '商品',
-						id: 'all',
 						type: 0
 					},
 					{
 						name: '医生',
-						id: 'obligation',
 						type: 1
 					},
 					{
 						name: '日记',
-						id: 'account-paid',
 						type: 2
 					},
 					{
 						name: '问答',
-						id: 'completed',
 						type: 3
 					},
-
 				],
-				line: true, //是否显示选中线
-				tabBackgroundColor: '#FFFFFF',
-				size: 24,
 				tabIndex: 0, // 选中的顶部的导航，
 				listType: 0, //类型
-				contentList: [
-					{
+				requestUrl:'',
+				offset:0,
+				content_ist: [{
 						url: '../../static/images/20.png',
 						goods_name: '我是秒杀商品名称，我是秒杀商品名称，我是秒杀商品名称...我是秒杀商品名称，',
 						label: ['眼部美容', '眼部'], //标签
@@ -130,50 +116,108 @@
 				]
 			}
 		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.get_my_collection()
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			// 判定运行平台
+			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuWidth = 90
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
-			tabtap: function(index = 0, type = 0) {
-				this.tabIndex = index;
-				this.listType = type //类型 0商品 1医生 2日记 3问答
-			},
-			deleteItem:function(e){
+			//获取我的收藏
+			get_my_collection:function(){
 				let that = this
-				let index = e.currentTarget.dataset.index;
-				console.log(this.contentList)
+				let interfaceId = ''
+				if(this.listType==0){//类型 0商品 1医生 2日记 3问答
+					interfaceId = 'collectlistgoods'
+				}else if(this.listType==1){
+					interfaceId = 'collectlistdoctor'
+				}else if(this.listType==2){
+					interfaceId = 'collectlistdiary'
+				}else if(this.listType==3){
+					interfaceId = 'collectlistqa'
+				}
+				let dataInfo = {
+					interfaceId:interfaceId,
+					offset:that.offset,
+					limit:4
+				}
+				that.request.uniRequest("my", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+						// that.contentList = that.contentList.concat(data)
+					}
+				})
+			},
+			
+			
+			tabtap: function(index = 0, type = 0) {
+				let that = this
+				that.tabIndex = index;
+				that.listType = type //类型 0商品 1医生 2日记 3问答
+				that.get_my_collection()
+			},
+			deleteItem: function(e) {
+				let that = this
+				let index = e.currentTarget.dataset.index
 				uni.showModal({
 					title: '提示',
 					content: '确定删除此收藏？',
-					success: function (res) {
-					    if (res.confirm) {
-					      that.contentList.splice(index,1)
-						  uni.showToast({
-						  	title:'删除成功',
-						  	duration: 1000
-						  })
-					    } else if (res.cancel) {
-					        uni.showToast({
-					        	title:'取消删除',
+					success: function(res) {
+						if (res.confirm) {
+							that.contentList.splice(index, 1)
+							uni.showToast({
+								title: '删除成功',
 								duration: 1000
-					        })
-					    }
+							})
+						} else if (res.cancel) {
+							uni.showToast({
+								title: '取消删除',
+								duration: 1000
+							})
+						}
 					}
 				})
-				
+
 			}
 		}
 	}
@@ -186,12 +230,46 @@
 
 	.top-swiper-tab {
 		position: fixed;
+		height: 80rpx;
+		background-color: #FFFFFF;
+		z-index: 9;
+		width: 100%;
+		border-radius: 0 0 24rpx 24rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.top-swiper-content {
+		width: 50%;
+		line-height: 80rpx;
+		text-align: center;
+		font-size: 24rpx;
+		position: relative;
+	}
+
+	.active {
+		color: #FA3475;
+		font-size: 28rpx;
+		font-weight: bolder;
+	}
+
+	.swiper-tab-line {
+		height: 6rpx;
+		background-color: #FA3475;
+		width: 50rpx;
+		border-radius: 3rpx;
+		position: absolute;
+		bottom: 5rpx;
+		left: 68rpx;
+	}
+
+	.top-swiper-tab {
+		position: fixed;
 		z-index: 9;
 		width: 100%;
 		border-radius: 0 0 24rpx 24rpx;
 	}
-
-	.collection-content {}
 
 	.content-list {
 		margin-top: 20rpx;
@@ -282,15 +360,18 @@
 		border-top-right-radius: 10rpx;
 		border-bottom-right-radius: 10rpx;
 	}
-	.subscribe-goodReputation{
+
+	.subscribe-goodReputation {
 		display: flex;
 		font-size: 20rpx;
 	}
-	.subscribe{
+
+	.subscribe {
 		color: #666666;
 		margin-right: 40rpx;
 	}
-	.goodReputation{
+
+	.goodReputation {
 		color: #fa3576;
 	}
 

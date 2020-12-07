@@ -130,7 +130,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 483));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 511));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 518));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 511));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 518));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -298,7 +299,6 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    porduct: porduct,
     doctor: doctor,
     diary: diary },
 
@@ -518,38 +518,53 @@ __webpack_require__.r(__webpack_exports__);
       return newArray;
     },
     // 商品详情
-    goodsDetail: function goodsDetail(id) {
-      console.log(id);
+    goodsDetail: function goodsDetail(id, encrypted_id) {
       var that = this;
-      var goodsId = id;
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
+        url: "/pages/goods/goods_detail?sku_id=".concat(id, "&encrypted_id=").concat(encrypted_id) });
 
     },
     // 收藏
-    collectdiary: function collectdiary(e) {var _this3 = this;
-      this.request = this.$request;
-      var id = e.currentTarget.dataset.id;
-      var data = {
-        interfaceId: 'collectdiary',
-        diary_id: id };
+    collectdiary: function collectdiary(is_doctor_collect, id) {
+      var that = this;
+      if (is_doctor_collect == 0) {
+        var dataInfo = {
+          interfaceId: 'doctor_collect',
+          doctor_id: id,
+          status: is_doctor_collect };
 
-      this.request.uniRequest("/diary", data).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          _this3.request.showToast('成功');
-        }
-      });
-    },
-    // 取消收藏
-    cancelLike: function cancelLike(id) {
-      console.log(id);
+        that.request.uniRequest("doctor", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.is_doctor_collect = 1;
+            uni.showToast({
+              title: '收藏成功',
+              duration: 1000 });
+
+          }
+        });
+      } else
+      {
+        var _dataInfo = {
+          interfaceId: 'doctor_collect',
+          doctor_id: id,
+          status: is_doctor_collect };
+
+        that.request.uniRequest("doctor", _dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.is_doctor_collect = 0;
+            uni.showToast({
+              title: '已取消收藏',
+              duration: 1000 });
+
+          }
+        });
+      }
     },
     // 咨询
     goToConsult: function goToConsult() {
-      console.log('咨询');
-      // uni.navigateTo({
-      // 	url: `/pages/consultation/consultation`,
-      // })
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
     },
     // 分享
     share: function share(id) {

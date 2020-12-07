@@ -50,7 +50,9 @@
 										<view class="product-item-content" v-if="doctorVideo.length>0">
 											<view class="productImgs" v-for="(i,k) in doctorVideo" :key='k'>
 												<view class="productItems" @tap='goToVideo(i.path)'>
-													<image :src="requestUrl+i.cover_img" mode="" style="width: 210rpx;height: 210rpx;"></image>
+													<image class="cover_img" :src="requestUrl+i.cover_img" mode="widthFix"  ></image>
+													<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+													</image>
 													<view class="doctor-item-explain" style="width: 210rpx;">{{i.name}}</view>
 												</view>
 											</view>
@@ -60,7 +62,7 @@
 								</view>
 							</view>
 							<!-- 专业证书 -->
-							<view class="doctor-item">
+							<view class="doctor-item" v-if="doctorList.length>0">
 								<view class="doctor-item-title">个人证书</view>
 								<view class="doctor-item-list">
 									<scroll-view class="product-items" scroll-x="true">
@@ -82,10 +84,11 @@
 								<swiper class="doctor-swiper" indicator-dots indicator-active-color="#f6db93">
 									<swiper-item class="doctor-swiper-item" v-for="(item,index) in porductList" :key='index'>
 										<view class="project-content">
-											<view class="porduct-list" v-for="(i,k) in item" :key='k' @tap='goodsDetail(i.sku_id)'>
+											<view class="porduct-list" v-for="(i,k) in item" :key='k' @tap='goodsDetail(i.sku_id,i.encrypted_id)'>
 												<view class="porduct-items">
 													<view class="porduct-item-images">
-														<image :src="requestUrl+i.head_img" mode=""></image>
+														<image :src="requestUrl+i.head_img" class="image"></image>
+														<image :src="requestUrl+i.spu_icon" class="spu_icon"></image>
 													</view>
 													<view class="porduct-introduce">
 														<view class="product-title"> {{i.goods_name}} </view>
@@ -112,7 +115,6 @@
 															<view class="goodReputation"> {{i.rate}}%好评 </view>
 														</view>
 													</view>
-
 												</view>
 											</view>
 										</view>
@@ -124,8 +126,9 @@
 						<view class="doctor-projects">
 							<view class="doctor-item-title">拜托了医生</view>
 							<view class="all-please-doctor">
-								<doctor :doctorList="doctorVideo" :requestUrl="requestUrl" :paddingLR='paddingLR' :heading='doctorHeadPortrait' :doctorname='doctorname'></doctor>
-								
+								<doctor :doctorList="doctorVideo" :requestUrl="requestUrl"
+								 :paddingLR='paddingLR' :heading='doctorHeadPortrait' :doctorname='doctorname'>
+								</doctor>
 							</view>
 						</view>
 						<view class="doctor-project">
@@ -134,17 +137,16 @@
 								<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
 							</view>
 						</view>
-
 					</view>
 				</template>
 			</scroll-view>
 		</view>
 
 		<view class="footer">
-			<view class="mar" v-if="is_doctor_collect == 0" :data-id='doctor_id' @tap='collectdiary'>
+			<view class="mar" v-if="is_doctor_collect == 0"  @tap='collectdiary(is_doctor_collect,doctor_id)'>
 				<image class="icon-img" src="../../static/images/collect.png"></image>收藏
 			</view>
-			<view class="mar" v-else @tap='cancelLike(doctor_id)'>
+			<view class="mar" v-else @tap='collectdiary(is_doctor_collect,doctor_id)'>
 				<image class="icon-img" src="../../static/images/checked-collect.png"></image>收藏
 			</view>
 			<view class="mar" @tap='goToConsult'>
@@ -160,13 +162,11 @@
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import porduct from "../../components/porduct.vue";
 	import diary from '../../components/diary.vue';
 	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
 			topBar,
-			porduct,
 			doctor,
 			diary
 		},
@@ -386,38 +386,53 @@
 				return newArray;
 			},
 			// 商品详情
-			goodsDetail:function(id){
-				console.log(id)
+			goodsDetail:function(id,encrypted_id){
 				let that = this
-				let goodsId = id
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?id=${goodsId}`,
+					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
 				})
 			},
 			// 收藏
-			collectdiary:function(e){
-				this.request = this.$request
-				var id = e.currentTarget.dataset.id
-				var data = {
-					interfaceId: 'collectdiary',
-					diary_id :id
-				}
-				this.request.uniRequest("/diary", data).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						this.request.showToast('成功')					
+			collectdiary:function(is_doctor_collect,id){
+				let that = this
+				if(is_doctor_collect==0){
+					let dataInfo = {
+						interfaceId:'doctor_collect',
+						doctor_id:id,
+						status:is_doctor_collect
 					}
-				})
-			},
-			// 取消收藏
-			cancelLike:function(id){
-				console.log(id)
+					that.request.uniRequest("doctor", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.is_doctor_collect = 1
+							uni.showToast({
+								title: '收藏成功',
+								duration: 1000
+							})
+						}
+					})
+				}
+				else{
+					let dataInfo = {
+						interfaceId:'doctor_collect',
+						doctor_id:id,
+						status:is_doctor_collect
+					}
+					that.request.uniRequest("doctor", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.is_doctor_collect = 0
+							uni.showToast({
+								title: '已取消收藏',
+								duration: 1000
+							})
+						}
+					})
+				}
 			},
 			// 咨询
 			goToConsult:function(){
-				console.log('咨询')
-				// uni.navigateTo({
-				// 	url: `/pages/consultation/consultation`,
-				// })
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
 			},
 			// 分享
 			share:function(id){
@@ -695,6 +710,7 @@
 		display: inline-block;
 		font-size: 20rpx;
 		margin-right: 10rpx;
+		position: relative;
 	}
 	.productImgs:last-child{
 		padding-right: 30rpx;
@@ -710,8 +726,17 @@
 		border-radius: 24rpx;
 	}
 
-	.productImgs image {
+	.productImgs .cover_img {
 		border-radius: 16rpx;
+		border: 1rpx solid #FFFFFF;
+		width: 210rpx;
+		height: 210rpx;
+	}
+	.pay_btn{
+		position: absolute;
+		top: 75rpx;
+		left: 75rpx;
+		width: 60rpx;
 	}
 
 	.doctor-item-explain {
@@ -762,13 +787,23 @@
 		width: 240rpx;
 		height: 240rpx;
 		margin-right: 28rpx;
+		position: relative;
 	}
 
-	.porduct-item-images image {
+	.porduct-item-images .image {
 		width: 100%;
 		height: 100%;
 		border-top-left-radius: 16rpx;
 		border-bottom-left-radius: 16rpx;
+	}
+	.spu_icon{
+		width: 100rpx;
+		height: 40rpx;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 9;
+		opacity: 0.8;
 	}
 
 	.porduct-introduce {

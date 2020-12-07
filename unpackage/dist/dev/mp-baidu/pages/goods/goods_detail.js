@@ -1270,6 +1270,39 @@ __webpack_require__.r(__webpack_exports__);
         var _number2 = parseInt(that.contentList.sku.min_buy_limit);
         that.goodsNuber = _number2;
       }
+    },
+    // 收藏
+    goods_collect: function goods_collect(is_collect, encrypted_id) {
+      var that = this;
+      if (is_collect == 0) {
+        var dataInfo = {
+          interfaceId: 'collectgoodsspu',
+          encrypted_id: encrypted_id };
+
+        that.request.uniRequest("goods", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.contentList.is_collect = 1;
+            uni.showToast({
+              title: '收藏成功',
+              duration: 1000 });
+
+          }
+        });
+      } else {
+        var _dataInfo4 = {
+          interfaceId: 'cancelcollectgoodsspu',
+          encrypted_id: encrypted_id };
+
+        that.request.uniRequest("goods", _dataInfo4).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.contentList.is_collect = 0;
+            uni.showToast({
+              title: '已取消收藏',
+              duration: 1000 });
+
+          }
+        });
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

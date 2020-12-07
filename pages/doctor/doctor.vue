@@ -55,7 +55,9 @@
 													<view class="case-all-item">
 														<view class="case-item" v-for="(i,k) in doctorInformationList.video" :key='k'
 														 @tap='playVideo(i.pivot)'>
-															<image :src="requestUrl+i.cover_img" mode=""></image>
+															<image class="image" :src="requestUrl+i.cover_img" mode=""></image>
+															<image class="pay_btn" 
+															src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
 															<view class="case-explain"> {{i.name}} </view>
 														</view>
 													</view>
@@ -126,7 +128,8 @@
 															
 															<view class="consult" @tap='goToConsult'>咨询</view>
 														</view>
-														<view class="recommended_goods" @tap='gotoGoods(i.recommended_goods.id)'>
+														<view class="recommended_goods" @tap='gotoGoods(i.recommended_goods.id,i.encrypted_id)'
+														 v-if="Object.values(i.recommended_goods).length>0">
 															<view class="goods_left">
 																<view class="goods_title">推</view>
 																<view class="gooss_content">{{i.recommended_goods.goods_name}}</view>
@@ -138,7 +141,8 @@
 																<text class="sale_price"> <text>￥</text> {{i.recommended_goods.sale_price}}</text>
 															</view>
 														</view>		
-														<view class="is_hot" @tap='gotoGoods(i.is_hot.id)'>
+														<view class="is_hot" @tap='gotoGoods(i.is_hot.id,i.encrypted_id)'
+														 v-if="Object.values(i.is_hot).length>0">
 															<view class="goods_left">
 																<view class="is_hot_title">热</view>
 																<view class="gooss_content">{{i.is_hot.goods_name}}</view>
@@ -185,9 +189,9 @@
 															<doctor 
 															 :doctorList="pleaseDoctorList" 
 															 :requestUrl="requestUrl" 
-															 :paddingLR = 'paddingLR'
-															 @collectLike='collectLike' 
-															 @cancelLike='cancelLike'>
+															 @collectLike='collectLike'
+															  @cancelLike='cancelLike'
+															 :paddingLR = 'paddingLR'>
 															</doctor>
 														</view>
 													</view>
@@ -234,9 +238,7 @@
 					</view>
 				</view>											
 			</scroll-view>
-		</view>
-		
-	
+		</view>	
 	</view>
 </template>
 
@@ -312,15 +314,12 @@
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
-					// console.log('运行Android上')
 					platform = 'android'
 					break;
 				case 'ios':
-					// console.log('运行iOS上')
 					platform = 'ios'
 					break;
 				default:
-					// console.log('运行在开发者工具上')
 					platform = 'applet'
 					break;
 			}
@@ -335,7 +334,6 @@
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
-						console.log(menu)
 					}
 				})
 			}
@@ -410,7 +408,7 @@
 			},
 			// 点击播放视频
 			playVideo:function(pivot){
-				console.log(pivot)
+				// console.log(pivot)
 				let doctorId = pivot.doctor_id
 				let videoId = pivot.video_id
 				console.log('点击了id为'+videoId+'的视频'+',和医生id为'+doctorId)
@@ -426,17 +424,14 @@
 			},
 			// 咨询
 			goToConsult:function(){
-				console.log('咨询')
-				// uni.navigateTo({
-				// 	url: `/pages/consultation/consultation`,
-				// })
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
 			},
 			// 点击商品
 			gotoGoods: function(id) {
-				let goodsId = id
-				console.log('点击了id为'+goodsId+'的商品')
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?id=${goodsId}`,
+					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
 				})
 			},
 			// 点击医生中心分类
@@ -471,7 +466,6 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.pleaseDoctorList = data
-						console.log(data)
 					}
 				})
 			},
@@ -485,30 +479,42 @@
 				return newArray;
 			},
 			// 点赞
-			collectLike:function(id){
+			collectLike:function(id,index){
+				let that = this
 				let videoId = id
 				let data = {
 					interfaceId: 'video_collect',
 					video_id :videoId,
 					status:'0'
 				}
-				this.request.uniRequest("/doctor", data).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						this.request.showToast('成功')					
+				this.request.uniRequest("doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {	
+						that.pleaseDoctorList[index].is_collect=1
+						that.pleaseDoctorList[index].collect +=1
+						uni.showToast({
+							title: '点赞成功',
+							duration: 1000
+						})
 					}
 				})
 			},
 			// 取消点赞
-			cancelLike:function(id){
+			cancelLike:function(id,index){
 				let videoId = id
+				let that = this
 				let data = {
 					interfaceId: 'video_collect',
 					video_id :videoId,
 					status:'1'
 				}
-				this.request.uniRequest("/doctor", data).then(res => {
+				this.request.uniRequest("doctor", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						this.request.showToast('成功')					
+						that.pleaseDoctorList[index].is_collect=0
+						that.pleaseDoctorList[index].collect -=1
+						uni.showToast({
+							title: '已取消点赞',
+							duration: 1000
+						})
 					}
 				})
 			},
@@ -692,14 +698,22 @@
 		width: 210rpx;
 		margin-right: 10rpx;
 		height: 280rpx;
+		position: relative;
 	}
 	.case-item:last-child{
 		padding-right: 30rpx;
 	}
-	.case-item image{
+	.pay_btn{
+		position: absolute;
+		top: 75rpx;
+		left: 75rpx;
+		width: 60rpx;
+	}
+	.case-item .image{
 		width: 210rpx;
 		height: 210rpx;
 		border-radius: 16rpx;
+		border: 1rpx solid #FFFFFF;
 	}
 	.case-explain{
 		overflow: hidden;

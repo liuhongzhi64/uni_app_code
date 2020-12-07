@@ -208,11 +208,6 @@ var _default =
     requestUrl: String },
 
 
-  data: function data() {
-    return {
-      // requestUrl:'https://mtest.hmzixin.com/'
-    };
-  },
   methods: {
     // 点击日记进入详情页
     diaryDetail: function diaryDetail(id) {

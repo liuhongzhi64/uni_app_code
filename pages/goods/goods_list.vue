@@ -195,12 +195,9 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// if(option.name){
-			// 	that.title = option.name
-			// }else if(option.id){
-				
-			// }	
-			that.title = option.name
+			if(option.name){
+				that.title = option.name
+			}
 			that.top_id = option.id
 			that.getClassList(that.top_id,that.top_index)
 			console.log(option)
@@ -312,7 +309,7 @@
 			// 点击商品
 			gotoGoods: function(id,encrypted_id) {
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?sku_id=${id}&&encrypted_id=${encrypted_id}`,
+					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
 				})
 			},
 			// 咨询

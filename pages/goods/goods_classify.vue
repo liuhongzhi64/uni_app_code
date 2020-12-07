@@ -235,10 +235,10 @@
 					that.tabtap()
 				} else {
 					that.request.uniRequest("goods", dataInfo).then(res => {
-						console.log(res.data, id)
+						// console.log(res.data, id)
 						if (res.data.code == 1000) {
 							that.classfyList = res.data.data
-							console.log(that.classfyList)
+							// console.log(that.classfyList)
 						} else {
 							that.request.showToast()
 						}

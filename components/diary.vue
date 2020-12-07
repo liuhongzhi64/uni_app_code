@@ -92,11 +92,6 @@
 			requestUrl:String
 		},
 		
-		data() {
-			return {
-				// requestUrl:'https://mtest.hmzixin.com/'
-			}
-		},
 		methods: {
 			// 点击日记进入详情页
 			diaryDetail:function(id){
@@ -114,7 +109,6 @@
 .detail-content{
 		display: flex;
 		justify-content: space-between;
-		/* padding: 33rpx 20rpx; */
 		width: 710rpx;
 	}
 	.left-content,.right-content{

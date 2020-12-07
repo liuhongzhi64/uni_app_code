@@ -26,25 +26,23 @@
 							</view>								
 							<view 
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-if="item.is_collect==0" @tap='collectLike(item.id)'
+							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)'
 							 >
-								<view class="like">
-									<image class="like-image" 
-									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view>
+								<!-- <view class="like">
+									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+								</view> -->
+								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
-								<text v-if="item.collect_num">{{item.collect_num}} </text>
 							</view>
 							<view
-							 :class="[item.is_collect==1?'is_no_collect':'collect_num']" 
-							 v-else @tap='cancelLike(item.id)'
+							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
+							 v-else @tap='cancelLike(item.id,index)'
 							 >
-								<view class="like">
-									<image class="like-image" 
-									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view>
+								<!-- <view class="like">
+									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+								</view> -->
+								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
-								<text v-if="item.collect_num">{{item.collect_num}} </text>
 							</view>							
 						</view>											
 					</view>
@@ -72,27 +70,22 @@
 								<image :src="heading" mode=""></image>
 								<text>{{doctorname}}</text>
 							</view>							
-							<view
-							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-if="item.is_collect==0" @tap='collectLike(item.id)'
-							 >
-								<view class="like">
-									<image class="like-image" 
-									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view>
+							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
+							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)'>
+								<!-- <view class="like">
+									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+								</view> -->
+								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
-								<text v-if="item.collect_num">{{item.collect_num}} </text>
 							</view>
 							<view
-							 :class="[item.is_collect==1?'is_no_collect':'collect_num']" 
-							 v-else @tap='cancelLike(item.id)'
-							 >
-								<view class="like">
-									<image class="like-image" 
-									 src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view>
+							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
+							 v-else @tap='cancelLike(item.id,index)'>
+								<!-- <view class="like">
+									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+								</view> -->
+								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
-								<text v-if="item.collect_num">{{item.collect_num}} </text> 
 							</view>
 						</view>
 					</view>
@@ -124,16 +117,14 @@
 				})
 			},
 			// 点赞
-			collectLike:function(id){
-				// console.log(111)
+			collectLike:function(id,index){
 				let videoId = id
-				this.$emit('collectLike',videoId)
+				this.$emit('collectLike',videoId,index)
 			},
 			// 取消点赞
-			cancelLike:function(id){
-				// console.log(222)
+			cancelLike:function(id,index){
 				let videoId = id
-				this.$emit('cancelLike',videoId)
+				this.$emit('cancelLike',videoId,index)
 			},
 			
 		}
@@ -211,7 +202,7 @@
 	
 	.collect_num{
 		font-size: 30rpx;
-		color: #fc4783;		
+		color: #9F55FF;		
 		display: flex;
 		align-items: center;
 	}
@@ -242,7 +233,8 @@
 		margin-right: 16rpx;
 	}
 	.like-image{
-		width: 24rpx;
-		height: 24rpx;
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 10rpx;
 	}	
 </style>

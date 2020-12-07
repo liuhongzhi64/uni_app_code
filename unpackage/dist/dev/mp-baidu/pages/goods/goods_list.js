@@ -350,12 +350,9 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    // if(option.name){
-    // 	that.title = option.name
-    // }else if(option.id){
-
-    // }	
-    that.title = option.name;
+    if (option.name) {
+      that.title = option.name;
+    }
     that.top_id = option.id;
     that.getClassList(that.top_id, that.top_index);
     console.log(option);
@@ -467,7 +464,7 @@ __webpack_require__.r(__webpack_exports__);
     // 点击商品
     gotoGoods: function gotoGoods(id, encrypted_id) {
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?sku_id=".concat(id, "&&encrypted_id=").concat(encrypted_id) });
+        url: "/pages/goods/goods_detail?sku_id=".concat(id, "&encrypted_id=").concat(encrypted_id) });
 
     },
     // 咨询

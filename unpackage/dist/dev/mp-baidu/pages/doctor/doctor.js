@@ -102,9 +102,13 @@ var render = function() {
       var l1 = _vm.__map(_vm.particularDoctorList, function(item, index) {
         var l0 = _vm.__map(item, function(i, k) {
           var g0 = Math.round(i.employed_time / 31104000)
+          var g1 = Object.values(i.recommended_goods)
+          var g2 = Object.values(i.is_hot)
           return {
             $orig: _vm.__get_orig(i),
-            g0: g0
+            g0: g0,
+            g1: g1,
+            g2: g2
           }
         })
 
@@ -168,6 +172,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 518));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
 
 
 
@@ -481,15 +487,12 @@ __webpack_require__.r(__webpack_exports__);
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
       case 'android':
-        // console.log('运行Android上')
         platform = 'android';
         break;
       case 'ios':
-        // console.log('运行iOS上')
         platform = 'ios';
         break;
       default:
-        // console.log('运行在开发者工具上')
         platform = 'applet';
         break;}
 
@@ -504,7 +507,6 @@ __webpack_require__.r(__webpack_exports__);
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
-          console.log(menu);
         } });
 
     } else
@@ -579,7 +581,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 点击播放视频
     playVideo: function playVideo(pivot) {
-      console.log(pivot);
+      // console.log(pivot)
       var doctorId = pivot.doctor_id;
       var videoId = pivot.video_id;
       console.log('点击了id为' + videoId + '的视频' + ',和医生id为' + doctorId);
@@ -595,17 +597,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 咨询
     goToConsult: function goToConsult() {
-      console.log('咨询');
-      // uni.navigateTo({
-      // 	url: `/pages/consultation/consultation`,
-      // })
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
     },
     // 点击商品
     gotoGoods: function gotoGoods(id) {
-      var goodsId = id;
-      console.log('点击了id为' + goodsId + '的商品');
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
+        url: "/pages/goods/goods_detail?sku_id=".concat(id, "&encrypted_id=").concat(encrypted_id) });
 
     },
     // 点击医生中心分类
@@ -640,7 +639,6 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.pleaseDoctorList = data;
-          console.log(data);
         }
       });
     },
@@ -654,30 +652,42 @@ __webpack_require__.r(__webpack_exports__);
       return newArray;
     },
     // 点赞
-    collectLike: function collectLike(id) {var _this3 = this;
+    collectLike: function collectLike(id, index) {
+      var that = this;
       var videoId = id;
       var data = {
         interfaceId: 'video_collect',
         video_id: videoId,
         status: '0' };
 
-      this.request.uniRequest("/doctor", data).then(function (res) {
+      this.request.uniRequest("doctor", data).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          _this3.request.showToast('成功');
+          that.pleaseDoctorList[index].is_collect = 1;
+          that.pleaseDoctorList[index].collect += 1;
+          uni.showToast({
+            title: '点赞成功',
+            duration: 1000 });
+
         }
       });
     },
     // 取消点赞
-    cancelLike: function cancelLike(id) {var _this4 = this;
+    cancelLike: function cancelLike(id, index) {
       var videoId = id;
+      var that = this;
       var data = {
         interfaceId: 'video_collect',
         video_id: videoId,
         status: '1' };
 
-      this.request.uniRequest("/doctor", data).then(function (res) {
+      this.request.uniRequest("doctor", data).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          _this4.request.showToast('成功');
+          that.pleaseDoctorList[index].is_collect = 0;
+          that.pleaseDoctorList[index].collect -= 1;
+          uni.showToast({
+            title: '已取消点赞',
+            duration: 1000 });
+
         }
       });
     } } };exports.default = _default;

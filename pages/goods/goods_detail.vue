@@ -76,12 +76,12 @@
 								</view>
 								<view class="remind-text"> 分享 </view>
 							</view>
-							<view class="collect">
+							<view class="collect" @tap="goods_collect(contentList.is_collect,encrypted_id)">
 								<view class="collect-images">
 									<image v-if="contentList.is_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
-									<image v-if="contentList.is_collect == 1" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
+									<image v-else-if="contentList.is_collect == 1" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
 								</view>
-								<view class="collect-text"> 收藏 </view>
+								<view class="collect-text" :class="contentList.is_collect == 1? 'collect' : '' "> 收藏 </view>
 							</view>
 						</view>
 					</view>
@@ -1138,6 +1138,39 @@
 					let number = parseInt(that.contentList.sku.min_buy_limit)
 					that.goodsNuber = number
 				}
+			},
+			// 收藏
+			goods_collect:function(is_collect,encrypted_id){
+				let that = this
+				if(is_collect==0){
+					let dataInfo = {
+						interfaceId:'collectgoodsspu',
+						encrypted_id:encrypted_id
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.contentList.is_collect = 1
+							uni.showToast({
+								title: '收藏成功',
+								duration: 1000
+							})
+						}
+					})
+				}else{
+					let dataInfo = {
+						interfaceId:'cancelcollectgoodsspu',
+						encrypted_id:encrypted_id
+					}
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.contentList.is_collect = 0
+							uni.showToast({
+								title: '已取消收藏',
+								duration: 1000
+							})
+						}
+					})
+				}
 			}
 		
 			
@@ -1338,6 +1371,9 @@
 		font-size: 20rpx;
 		color: #111111;
 		margin-top: 7rpx;
+	}
+	.collect{
+		color: #9F55FF;	
 	}
 
 	.hot-sale-remind {

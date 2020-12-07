@@ -211,13 +211,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 var _default =
 {
   props: {
@@ -240,16 +233,14 @@ var _default =
 
     },
     // 点赞
-    collectLike: function collectLike(id) {
-      // console.log(111)
+    collectLike: function collectLike(id, index) {
       var videoId = id;
-      this.$emit('collectLike', videoId);
+      this.$emit('collectLike', videoId, index);
     },
     // 取消点赞
-    cancelLike: function cancelLike(id) {
-      // console.log(222)
+    cancelLike: function cancelLike(id, index) {
       var videoId = id;
-      this.$emit('cancelLike', videoId);
+      this.$emit('cancelLike', videoId, index);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

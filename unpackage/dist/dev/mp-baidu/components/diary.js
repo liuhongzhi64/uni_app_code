@@ -216,6 +216,12 @@ var _default =
       uni.navigateTo({
         url: "/pages/diary/diary_detail?id=".concat(detail_id) });
 
+    },
+    collect_diary: function collect_diary(id, index) {
+      this.$emit('collect_diary', id, index);
+    },
+    cancel_like: function cancel_like(id, index) {
+      this.$emit('cancel_like', id, index);
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

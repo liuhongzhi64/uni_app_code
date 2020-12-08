@@ -303,13 +303,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // 详情
     diarydetails: function diarydetails(id) {
-      this.request = this.$request;
       var that = this;
       var data = {
         interfaceId: 'diarydetails',
         diary_id: id };
 
-      this.request.uniRequest("/diary", data).then(function (res) {
+      this.request.uniRequest("diary", data).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var _data = res.data.data;
           // console.log(data)
@@ -333,10 +332,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     // 相关商品
-    goToGoods: function goToGoods(goodsId) {
-      // console.log(goodsId)
+    goToGoods: function goToGoods(goodsId, encrypted_id) {
       uni.navigateTo({
-        url: "/pages/goods/goods_detail?id=".concat(goodsId) });
+        url: "/pages/goods/goods_detail?sku_id=".concat(goodsId, "&encrypted_id=").concat(encrypted_id) });
 
     },
     // 相关医生
@@ -353,29 +351,46 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     // 收藏
-    collectdiary: function collectdiary(e) {var _this = this;
-      this.request = this.$request;
-      var id = e.currentTarget.dataset.id;
+    collectdiary: function collectdiary(id) {
+      var that = this;
       var data = {
         interfaceId: 'collectdiary',
         diary_id: id };
 
-      this.request.uniRequest("/diary", data).then(function (res) {
+      this.request.uniRequest("diary", data).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          _this.request.showToast('成功');
+          that.is_collect = 1;
+          that.collect_num += 1;
+          uni.showToast({
+            title: '收藏成功',
+            duration: 1000 });
+
         }
       });
     },
     // 取消收藏
     cancelLike: function cancelLike(id) {
-      console.log(id);
+      var that = this;
+      var data = {
+        interfaceId: 'cancelcollectdiary',
+        diary_id: id.toString() };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.is_collect = 0;
+          that.collect_num -= 1;
+          uni.showToast({
+            title: '已取消收藏',
+            duration: 1000 });
+
+        }
+      });
     },
     // 咨询
     goToConsult: function goToConsult() {
-      console.log('咨询');
-      // uni.navigateTo({
-      // 	url: `/pages/consultation/consultation`,
-      // })
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

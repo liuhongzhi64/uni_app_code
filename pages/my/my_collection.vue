@@ -8,195 +8,207 @@
 				<view class="swiper-tab-line" v-if="tabIndex==index"></view>
 			</view>
 		</view>
-		<view class="my_collection-content" :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
+		<view class="my_collection-content" :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
 			<view class="no_have_collection" v-if="content_list.length==0">
 				<image src="../../static/images/cartBg.png" mode="widthFix"></image>
 				<view class="no_have_hint">
 					喵 ! 暂无相关内容
 				</view>
 				<view class="no_have_button">
-					<button class="go_index" type="default" @tap="go_to_pages(tabIndex)"> 去逛逛 </button>
+					<button class="go_index" type="default" @tap="go_to_pages(tabIndex)"> 去看看 </button>
 				</view>
 			</view>
-			<!-- 商品 -->
-			<view class="content-list clearfix" v-else v-for="(item,index) in content_list" :key='index' v-show="tabIndex==0">
-				<view class="top-content" @tap="good_detail(item.sku_id,item.encrypted_id)">
-					<view class="head-image">
-						<image class="head_img" :src="requestUrl+item.head_img"></image>
-						<image class="spu_icon" :src="requestUrl+item.spu_icon" mode="widthFix"></image>
+			
+			<view class="have_collection" v-else>
+				<!-- 商品 -->
+				<view class="content-list clearfix"  v-for="(item,index) in content_list" :key='index' v-if="tabIndex==0">
+					<view class="top-content" @tap="good_detail(item.sku_id,item.encrypted_id)">
+						<view class="head-image">
+							<image class="head_img" :src="requestUrl+item.head_img"></image>
+							<image class="spu_icon" :src="requestUrl+item.spu_icon" mode="widthFix"></image>
+						</view>
+						<view class="right-content">
+							<view class="goods_name">{{item.goods_name}}</view>
+							<view class="label-list">
+								<view class="label" v-for="(i,k) in item.label.list" :key="k">
+									{{ i }}
+								</view>
+							</view>
+							<view class="porduct-price-vip-cart">
+								<view class="porduct-price">
+									<text>￥</text> {{item.sale_price}}
+								</view>
+								<view class="vip-cart-price" v-if="item.member.member_title">
+									<text class="vip-cart"> {{ item.member.member_title }} </text>
+									<text class="vip-price">￥ {{ item.member.price }} </text>
+								</view>
+							</view>
+							<!-- 预约和好评 -->
+							<view class="subscribe-goodReputation">
+								<!-- 预约 -->
+								<view class="subscribe"> {{ item.sales }} 预约 </view>
+								<!-- 好评 -->
+								<view class="goodReputation"> {{ item.rate }} %好评 </view>
+							</view>
+						</view>
 					</view>
-					<view class="right-content">
-						<view class="goods_name">{{item.goods_name}}</view>
-						<view class="label-list">
-							<view class="label" v-for="(i,k) in item.label.list" :key="k">
-								{{ i }}
+					<view class="delete-see-similarity">
+						<button class="delete" @tap='delete_item(item.encrypted_id)' type="default" size="mini"> 删除 </button>
+						<button class="see-similarity" type="default" size="mini" @tap="see_similar(item.category_id)"> 看相似 </button>
+					</view>
+				</view>
+				<!-- 医生 -->
+				<view class="my_collection_doctor" v-if="tabIndex==1">
+					<view class="swiper-item" v-for="(item,index) in content_list" :key='index'>
+						<view class="swiper-item-content">
+							<view class="item-top-content" @tap='go_to_doctor(item.id,requestUrl+item.heading)'>
+								<view class="head-portrait">
+									<image :src="requestUrl+item.heading"></image>
+								</view>
+								<view class="middle-content">
+									<view class="middle-doctor-name">
+										{{item.name}} <text>{{item.zhicheng}}</text>
+									</view>
+									<view class="employed_time-case_num">
+										<view class="employed_time"> 从业经验:{{ item.employed_y }}年</view>
+										<view class="case_num">案列数:{{item.case_num}}</view>
+									</view>
+									<view class="goods_category">
+										<view class="goods_category-title">擅长</view>
+										<text class='goods_category-item' v-for="(j,k) in item.goods_project" :key='k'>
+											{{j}}<text>、</text>
+										</text>
+									</view>
+									<view class="doctor_view">
+										<view class="doctor_view_content">
+											<view class='doctor_view_title'>观点 </view>
+											<text class="view_content">{{item.view}}</text>
+										</view>
+									</view>
+								</view>
+							</view>
+							<view class="consult" @tap='cancel_like(item.id)'> 删除 </view>
+						</view>
+						<view class="recommended_goods" @tap='good_detail(item.recommended_goods.id,item.recommended_goods.encrypted_id)'
+						 v-if="item.recommended_goods.length>0">
+							<view class="goods_left">
+								<view class="goods_title">推</view>
+								<view class="gooss_content">{{item.recommended_goods.goods_name}}</view>
+							</view>
+							<view class="goods_right">
+								<text class="sale_weight">
+									{{item.recommended_goods.sale_weight}}人预约
+								</text>
+								<text class="sale_price"> <text>￥</text> {{item.recommended_goods.sale_price}}</text>
 							</view>
 						</view>
-						<view class="porduct-price-vip-cart">
-							<view class="porduct-price">
-								<text>￥</text>{{item.sale_price}}
+						<view class="is_hot" @tap='good_detail(item.hot_goods.id,item.hot_goods.encrypted_id)' v-if="item.hot_goods.length>0">
+							<view class="goods_left">
+								<view class="is_hot_title">热</view>
+								<view class="gooss_content">{{ item.hot_goods.goods_name }}</view>
 							</view>
-							<view class="vip-cart-price" v-if="item.member.member_title">
-								<text class="vip-cart"> {{ item.member.member_title }} </text>
-								<text class="vip-price">￥ {{ item.member.price }} </text>
+							<view class="goods_right">
+								<text class="sale_weight">
+									{{item.hot_goods.sale_weight}}人预约
+								</text>
+								<text class="sale_price"> <text>￥</text> {{item.hot_goods.sale_price}}</text>
 							</view>
-						</view>
-						<!-- 预约和好评 -->
-						<view class="subscribe-goodReputation">
-							<!-- 预约 -->
-							<view class="subscribe"> {{ item.sales }} 预约 </view>
-							<!-- 好评 -->
-							<view class="goodReputation"> {{ item.rate }} %好评 </view>
 						</view>
 					</view>
 				</view>
-				<view class="delete-see-similarity">
-					<button class="delete" @tap='delete_item(item.encrypted_id)' type="default" size="mini"> 删除 </button>
-					<button class="see-similarity" type="default" size="mini" @tap="see_similar(item.category_id)"> 看相似 </button>
+				<!-- 日记 -->
+				<view class="my_collection_diary" v-show="tabIndex==2">
+					<view class="detail-content">
+						<view class="left-content">
+							<view class="subject-content ">
+								<view class="subject-content-list" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
+									<view class="diary-item-top" @tap='diary_detail(item.id)'>
+										<view class="image-label">
+											<view class="diary-images">
+												<image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image>
+												<view class="diary_label">{{item.label}}</view>
+											</view>										
+										</view>
+										<view class="diary-title" v-if="item.name"> {{item.name}} </view>
+										<view class="diary-title" v-if="item.title"> {{item.title}} </view>
+										<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
+											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
+											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
+										</view>
+										<view class="goods_name">{{item.goods_name}}</view>
+									</view>
+									<view class="head_ico-nick_name-collect_num">
+										<view class="head_ico-nick_name">
+											<image class="head_ico" :src="requestUrl+item.head_ico" ></image>
+											<text class="nick_name">{{item.nick_name}}</text>
+										</view>
+										<view class="is_no_collect" v-if="item.is_collect==0">
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num || 0 }}
+										</view>
+										<view class="collect_num" v-else>
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num }}
+										</view>
+									</view>
+									<view class="diary_operation">
+										<button class="consultant_diary" type="default" size="mini" @tap="go_consult"> 咨询 </button>
+										<button class="delete_diary" type="default" size="mini" @tap="delete_diary(item.id)"> 删除 </button>
+									</view>
+								</view>
+							</view>
+						</view>
+						<view class="diary_right-content">
+							<view class="subject-content ">
+								<view class="subject-content-list" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
+									<view class="diary-item-top" @tap='diary_detail(item.id)'>
+										<view class="image-label">
+											<view class="diary-images">
+												<image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image>
+												<view class="diary_label">{{item.label}}</view>
+											</view>
+										</view>
+										<view class="diary-title" v-if="item.name"> {{item.name}} </view>
+										<view class="diary-title" v-if="item.title"> {{item.title}} </view>
+										<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
+											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
+											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
+										</view>
+										<view class="goods_name" v-if="item.goods_name">{{item.goods_name}}</view>
+									</view>
+									<view class="head_ico-nick_name-collect_num">
+										<view class="head_ico-nick_name">
+											<image class="head_ico" :src="requestUrl+item.head_ico" ></image>
+											<text class="nick_name">{{item.nick_name}}</text>
+										</view>
+										<view class="is_no_collect" v-if="item.is_collect==0">
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num || 0 }}
+										</view>
+										<view class="collect_num" v-else>
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num }}
+										</view>
+									</view>
+									<view class="diary_operation">
+										<button class="consultant_diary" type="default" size="mini" @tap="go_consult"> 咨询 </button>
+										<button class="delete_diary" type="default" size="mini" @tap="delete_diary(item.id)"> 删除 </button>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
 				</view>
 			</view>
-			<!-- 医生 -->
-			<view class="my_collection_doctor" v-show="tabIndex==1">
-				<view class="swiper-item" v-for="(item,index) in content_list" :key='index'>
-					<view class="swiper-item-content">
-						<view class="item-top-content" @tap='go_to_doctor(item.id,requestUrl+item.heading)'>
-							<view class="head-portrait">
-								<image :src="requestUrl+item.heading"></image>
-							</view>
-							<view class="middle-content">
-								<view class="middle-doctor-name">
-									{{item.name}} <text>{{item.zhicheng}}</text>
-								</view>
-								<view class="employed_time-case_num">
-									<view class="employed_time"> 从业经验:{{ item.employed_y }}年</view>
-									<view class="case_num">案列数:{{item.case_num}}</view>
-								</view>
-								<view class="goods_category">
-									<view class="goods_category-title">擅长</view>
-									<text class='goods_category-item' v-for="(j,k) in item.goods_project" :key='k'>
-										{{j}}<text>、</text>
-									</text>
-								</view>
-								<view class="doctor_view">
-									<view class="doctor_view_content">
-										<view class='doctor_view_title'>观点 </view>
-										<text class="view_content">{{item.view}}</text>
-									</view>
-								</view>
-							</view>
-						</view>
-						<view class="consult" @tap='cancel_like(item.id)'> 删除 </view>
-					</view>
-					<view class="recommended_goods" @tap='good_detail(item.recommended_goods.id,item.encrypted_id)' v-if="item.recommended_goods.length>0">
-						<view class="goods_left">
-							<view class="goods_title">推</view>
-							<view class="gooss_content">{{item.recommended_goods.goods_name}}</view>
-						</view>
-						<view class="goods_right">
-							<text class="sale_weight">
-								{{item.recommended_goods.sale_weight}}人预约
-							</text>
-							<text class="sale_price"> <text>￥</text> {{item.recommended_goods.sale_price}}</text>
-						</view>
-					</view>
-					<view class="is_hot" @tap='good_detail(item.is_hot.id,item.encrypted_id)' v-if="item.is_hot.length>0">
-						<view class="goods_left">
-							<view class="is_hot_title">热</view>
-							<view class="gooss_content">{{item.is_hot.goods_name}}</view>
-						</view>
-						<view class="goods_right">
-							<text class="sale_weight">
-								{{item.is_hot.sale_weight}}人预约
-							</text>
-							<text class="sale_price"> <text>￥</text> {{item.is_hot.sale_price}}</text>
-						</view>
-					</view>
-				</view>
-			</view>
-			<!-- 日记 -->
-			<view class="my_collection_diary" v-show="tabIndex==2">
-				<view class="detail-content">
-					<view class="left-content">
-						<view class="subject-content ">
-							<view class="subject-content-list" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
-								<view class="diary-item-top" @tap='diaryDetail(item.id)'>
-									<view class="image-label">
-										<view class="diary-images">
-											<image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image>
-											<view class="label">{{item.label}}</view>
-										</view>
-										
-									</view>
-									<view class="diary-title" v-if="item.name"> {{item.name}} </view>
-									<view class="diary-title" v-if="item.title"> {{item.title}} </view>
-									<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
-										<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
-										<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
-									</view>
-									<view class="goods_name">{{item.goods_name}}</view>
-								</view>
-								<view class="head_ico-nick_name-collect_num">
-									<view class="head_ico-nick_name">
-										<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
-										<text class="nick_name">{{item.nick_name}}</text>
-									</view>
-									<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num">
-										<view class="like">
-											<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
-										</view>
-										{{item.collect_num}}
-									</view>
-									<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
-										<view class="like">
-											<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
-										</view>
-										0
-									</view>
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="right-content">
-						<view class="subject-content ">
-							<view class="subject-content-list" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
-								<view class="diary-item-top" @tap='diaryDetail(item.id)'>
-									<view class="image-label">
-										<view class="diary-images">
-											<image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image>
-											<view class="label">{{item.label}}</view>
-										</view>
-									</view>
-									<view class="diary-title" v-if="item.name"> {{item.name}} </view>
-									<view class="diary-title" v-if="item.title"> {{item.title}} </view>
-									<view class="category_name-doctor_name" v-if="item.category_name||item.doctor_name">
-										<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
-										<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
-									</view>
-									<view class="goods_name" v-if="item.goods_name">{{item.goods_name}}</view>
-								</view>
-								<view class="head_ico-nick_name-collect_num">
-									<view class="head_ico-nick_name">
-										<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
-										<text class="nick_name">{{item.nick_name}}</text>
-									</view>
-									<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num">
-										<view class="like">
-											<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
-										</view>
-										{{item.collect_num}}
-									</view>
-									<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
-										<view class="like">
-											<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
-										</view>
-										0
-									</view>
-								</view>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
+			
 		</view>
 	</view>
 </template>
@@ -384,11 +396,44 @@
 					}
 				})
 			},
+			// 取消收藏
+			delete_diary:function(id){
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定删除此收藏？',
+					success: function(res) {
+						if (res.confirm) {
+							let dataInfo = {
+								interfaceId:'cancelcollectdiary',
+								diary_id:id.toString()
+							}
+							that.request.uniRequest("diary", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									that.tabtap(that.tabIndex, that.listType)
+									uni.showToast({
+										title: '删除成功',
+										duration: 1000
+									})
+								}
+							})
+						}
+					}
+				})
+				
+			},
 			good_detail: function(id, encrypted_id) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
 				})
 			},
+			// 咨询
+			go_consult:function(){
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
+			},
+			// 看相似
 			see_similar: function(category_id) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_list?id=${category_id}`,
@@ -417,8 +462,12 @@
 				uni.navigateTo({
 					url: `/pages/doctor/doctor_detail?id=${doctorId}&&heading=${heading}`,
 				})
+			},
+			diary_detail:function(id){
+				uni.navigateTo({
+					url: `/pages/diary/diary_detail?id=${id}`,
+				})
 			}
-
 		}
 	}
 </script>
@@ -858,15 +907,18 @@
 		top: 0;
 		z-index: 9;
 	}
-
+	
+	.my_collection_diary{
+		height: 100%;
+	}
 	.detail-content {
-		padding: 20rpx;
+		padding: 20rpx ;
 		display: flex;
 		justify-content: space-between;
 	}
 
 	.left-content,
-	.right-content {
+	.diary_right-content {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -920,7 +972,7 @@
 		margin-right: 10rpx;
 	}
 
-	.diary-images .label {
+	.diary-images .diary_label {
 		position: absolute;
 		right: 0;
 		bottom: 10rpx;
@@ -931,6 +983,7 @@
 		color: #FFFFFF;
 		font-size: 24rpx;
 		margin-right: 0;
+		padding: 0 15rpx;
 	}
 
 	.category_name-doctor_name {
@@ -978,7 +1031,6 @@
 		width: 48rpx;
 		height: 48rpx;
 		border-radius: 24rpx;
-		border: 1rpx solid red;
 		margin-right: 10rpx;
 	}
 
@@ -1027,4 +1079,24 @@
 		width: 24rpx;
 		height: 24rpx;
 	}
+	
+	.diary_operation{
+		border-top: 1rpx solid #D3D3D3;
+		padding: 20rpx 10rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: #D3D3D3;
+	}
+	.diary_operation button{
+		border: 1rpx solid #D3D3D3;
+		color: #D3D3D3;
+		line-height: 40rpx;
+		width: 40%;
+		border-radius: 20rpx;
+	}
+	.diary_operation button::after{
+		border: none;
+	}
+	
 </style>

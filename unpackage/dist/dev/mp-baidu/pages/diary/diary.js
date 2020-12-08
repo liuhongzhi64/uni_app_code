@@ -178,8 +178,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   components: {
     diary: diary },
@@ -293,7 +291,42 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    // 收藏
+    collect_diary: function collect_diary(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'collectdiary',
+        diary_id: id };
 
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.contentList[index].is_collect = 1;
+          that.contentList[index].collect_num += 1;
+          uni.showToast({
+            title: '已收藏',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 取消收藏
+    cancel_like: function cancel_like(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'cancelcollectdiary',
+        diary_id: id.toString() };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.contentList[index].is_collect = 0;
+          that.contentList[index].collect_num -= 1;
+          uni.showToast({
+            title: '已取消收藏',
+            duration: 1000 });
+
+        }
+      });
+    },
     // 写日记
     writeDiary: function writeDiary() {
       uni.navigateTo({

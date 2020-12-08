@@ -341,6 +341,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -522,11 +534,44 @@ __webpack_require__.r(__webpack_exports__);
         } });
 
     },
+    // 取消收藏
+    delete_diary: function delete_diary(id) {
+      var that = this;
+      uni.showModal({
+        title: '提示',
+        content: '确定删除此收藏？',
+        success: function success(res) {
+          if (res.confirm) {
+            var dataInfo = {
+              interfaceId: 'cancelcollectdiary',
+              diary_id: id.toString() };
+
+            that.request.uniRequest("diary", dataInfo).then(function (res) {
+              if (res.data.code == 1000 && res.data.status == 'ok') {
+                that.tabtap(that.tabIndex, that.listType);
+                uni.showToast({
+                  title: '删除成功',
+                  duration: 1000 });
+
+              }
+            });
+          }
+        } });
+
+
+    },
     good_detail: function good_detail(id, encrypted_id) {
       uni.navigateTo({
         url: "/pages/goods/goods_detail?sku_id=".concat(id, "&encrypted_id=").concat(encrypted_id) });
 
     },
+    // 咨询
+    go_consult: function go_consult() {
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
+    },
+    // 看相似
     see_similar: function see_similar(category_id) {
       uni.navigateTo({
         url: "/pages/goods/goods_list?id=".concat(category_id) });
@@ -554,6 +599,11 @@ __webpack_require__.r(__webpack_exports__);
     go_to_doctor: function go_to_doctor(doctorId, heading) {
       uni.navigateTo({
         url: "/pages/doctor/doctor_detail?id=".concat(doctorId, "&&heading=").concat(heading) });
+
+    },
+    diary_detail: function diary_detail(id) {
+      uni.navigateTo({
+        url: "/pages/diary/diary_detail?id=".concat(id) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))

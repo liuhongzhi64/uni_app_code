@@ -296,6 +296,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     topBar: topBar,
@@ -318,78 +322,7 @@ __webpack_require__.r(__webpack_exports__);
       requestUrl: '',
       doctorHeadPortrait: '', //医生的背景图片
       doctorMessage: {},
-      doctorVideo: [{
-        id: 2,
-        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-        cover_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //封面图
-        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-        collect: 2, //真实收藏数
-        collect_weighting: 1, //收藏加权值
-        category_name: [//所属分类
-        "视频分类222",
-        "眼泪",
-        '眼部美容',
-        '微针双眼皮'],
-
-        is_collect: 0, // 是否收藏： 0 否1是
-        doctor_relation: {
-          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-          name: '就是名字' } },
-
-
-      {
-        id: 5,
-        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-        cover_img: "upload/diary/images/202009/11/UrqE9tLcUAuYhJsOpyqH6uAAih5fYW8EjPGzunXu.jpeg", //封面图
-        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-        collect: 260, //真实收藏数
-        collect_weighting: 1, //收藏加权值
-        category_name: [//所属分类
-        "视频分类222",
-        "眼泪"],
-
-        is_collect: 1, // 是否收藏： 0 否1是
-        doctor_relation: {
-          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-          name: '就是名字' } },
-
-
-      {
-        id: 4,
-        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-        cover_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //封面图
-        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-        collect: 102, //真实收藏数
-        collect_weighting: 1, //收藏加权值
-        category_name: [//所属分类
-        "视频分类222",
-        "眼泪",
-        '眼部美容',
-        '微针双眼皮'],
-
-        is_collect: 1, // 是否收藏： 0 否1是
-        doctor_relation: {
-          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-          name: '就是名字' } },
-
-
-      {
-        id: 8,
-        name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-        cover_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //封面图
-        path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-        collect: 240, //真实收藏数
-        collect_weighting: 1, //收藏加权值
-        category_name: [//所属分类
-        "视频分类222"],
-
-        is_collect: 0, // 是否收藏： 0 否1是
-        doctor_relation: {
-          heading: "upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-          name: '就是名字' } }],
-
-
-      //这是专辑和拜托医生
+      doctorVideo: [], //这是专辑和拜托医生
       doctorList: [], //医生相册
       diaryList: [], //日记
       porductList: [],
@@ -501,7 +434,82 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/doctor/doctor_certificate?id=".concat(doctorId) });
 
     },
+    // 点赞
+    collectLike: function collectLike(id, index) {
+      var that = this;
+      var videoId = id;
+      var data = {
+        interfaceId: 'video_collect',
+        video_id: videoId,
+        status: '0' };
 
+      this.request.uniRequest("doctor", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.doctorVideo[index].is_collect = 1;
+          that.doctorVideo[index].collect += 1;
+          uni.showToast({
+            title: '已点赞',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 取消点赞
+    cancelLike: function cancelLike(id, index) {
+      var videoId = id;
+      var that = this;
+      var data = {
+        interfaceId: 'video_collect',
+        video_id: videoId,
+        status: '1' };
+
+      this.request.uniRequest("doctor", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.doctorVideo[index].is_collect = 0;
+          that.doctorVideo[index].collect -= 1;
+          uni.showToast({
+            title: '已取消点赞',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 收藏
+    collect_diary: function collect_diary(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'collectdiary',
+        diary_id: id };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.diaryList[index].is_collect = 1;
+          that.diaryList[index].collect_num += 1;
+          uni.showToast({
+            title: '收藏成功',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 取消收藏
+    cancel_like: function cancel_like(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'cancelcollectdiary',
+        diary_id: id.toString() };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.diaryList[index].is_collect = 0;
+          that.diaryList[index].collect_num -= 1;
+          uni.showToast({
+            title: '已取消收藏',
+            duration: 1000 });
+
+        }
+      });
+    },
     // 点击专辑和拜托医生
     goToVideo: function goToVideo(path) {
       uni.navigateTo({

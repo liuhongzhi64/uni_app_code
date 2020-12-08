@@ -26,17 +26,17 @@
 								<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
 								<text class="nick_name">{{item.nick_name}}</text>
 							</view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num">
+							<view class="is_no_collect" v-if="item.is_collect==0" @tap="collect_diary(item.id,index)">
 								<view class="like">
 									<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								{{item.collect_num}} 
+								{{ item.collect_num || 0 }} 
 							 </view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+							<view class="collect_num" v-else @tap="cancel_like(item.id,index)">
 								<view class="like">
 									<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								0
+								{{ item.collect_num }} 
 							</view>
 						</view>
 					</view>
@@ -65,17 +65,17 @@
 								<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
 								<text class="nick_name">{{item.nick_name}}</text>
 							</view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-if="item.collect_num"> 
+							<view class="is_no_collect" v-if="item.is_collect==0" @tap="collect_diary(item.id,index)"> 
 								<view class="like">
 									<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								{{item.collect_num}} 
+								{{ item.collect_num || 0 }} 
 							 </view>
-							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" v-else>
+							<view class="collect_num" v-else @tap="cancel_like(item.id,index)">
 								<view class="like">
 									<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
 								</view>
-								0
+								{{ item.collect_num }} 
 							</view>
 						</view>											
 					</view>
@@ -100,6 +100,12 @@
 				uni.navigateTo({
 					url: `/pages/diary/diary_detail?id=${detail_id}`,
 				})
+			},
+			collect_diary:function(id,index){
+				this.$emit('collect_diary', id,index)
+			},
+			cancel_like:function(id,index){
+				this.$emit('cancel_like', id,index)
 			}
 		}
 	}
@@ -166,7 +172,7 @@
 		right: 0;
 		bottom: 10rpx;
 		line-height: 40rpx;
-		padding: 0 10rpx;
+		padding: 0 15rpx;
 		background-color: #fa3475;
 		border-radius: 16rpx 0rpx 0rpx 0rpx;
 		opacity: 0.8;
@@ -212,7 +218,6 @@
 		width: 48rpx;
 		height: 48rpx;
 		border-radius: 24rpx;
-		border: 1rpx solid red;
 		margin-right: 10rpx;
 	}
 	.nick_name{

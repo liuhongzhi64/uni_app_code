@@ -5,7 +5,7 @@
 			<view class="left-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx','height':width+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -33,7 +33,7 @@
 			<view class="right-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" mode="widthFix"  :style="[{'width':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img"  :style="[{'width':width+'rpx','height':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -65,9 +65,11 @@
 			<scroll-view class="product-items" scroll-x="true">
 				<view class="product-item-content">
 					<view class="productImgs" v-for="(item,k) in crosswiseGoods" :key='k' @tap="changeGoods(item.sku_id,item.encrypted_id)">
-						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]">
+						<view :id="'productImg'+k" class="productItems" style="background-color: #FFFFFF;"
+						 :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]">
 							<view class="Imgs">
-								<image :src="requestUrl + item.head_img" mode="widthFix" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx','width':width+'rpx'}]">
+								<image :src="requestUrl + item.head_img"
+								 :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx','width':width+'rpx','height':width+'rpx'}]">
 								</image>
 							</view>
 							<view class="bottom-content">

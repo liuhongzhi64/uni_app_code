@@ -416,7 +416,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     doctor: doctor },
@@ -665,7 +664,7 @@ __webpack_require__.r(__webpack_exports__);
           that.pleaseDoctorList[index].is_collect = 1;
           that.pleaseDoctorList[index].collect += 1;
           uni.showToast({
-            title: '点赞成功',
+            title: '已点赞',
             duration: 1000 });
 
         }

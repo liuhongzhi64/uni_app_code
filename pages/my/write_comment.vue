@@ -418,22 +418,22 @@
 						}
 					}
 					// that.starId表示评分
-					let point = 0
-					if(that.starId==1){
-						point=2
-					}else if(that.starId==2){
-						point=4
-					}else if(that.starId==3){
-						point=6
-					}else if(that.starId==4){
-						point=8
-					}else if(that.starId==5){
-						point=10
-					}
+					// let point = 0
+					// if(that.starId==1){
+					// 	point=2
+					// }else if(that.starId==2){
+					// 	point=4
+					// }else if(that.starId==3){
+					// 	point=6
+					// }else if(that.starId==4){
+					// 	point=8
+					// }else if(that.starId==5){
+					// 	point=10
+					// }
 					let dataInfo = {
 						interfaceId:'writegoodscomment',
 						order_goods_id:that.content.id,
-						point:point,//评分 1 ～10分
+						point:that.starId,//评分 1 ～10分
 						contents:that.reason,//评价内容 500字符以内
 						is_anonymous:that.is_anonymous,//是否匿名 0 否 1 是
 						label:label,//评论标签id 多个已逗号隔开
@@ -508,7 +508,6 @@
 	.itembox {
 		display: flex;
 		align-items: center;
-		/* width: 400rpx; */
 		height: 60rpx;
 	}
 	.itembox text{

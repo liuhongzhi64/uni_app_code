@@ -48,34 +48,17 @@
 .video.data-v-098a7e2c {
 	width: 750rpx;
 	height: 750rpx;
+	background-color: #000000;
 }
 .all-top-swiper-item.data-v-098a7e2c {
 	position: relative;
 }
-.video-noPlay.data-v-098a7e2c{
-	width: 100%;
-	height: 100%;
-	position: relative;
-}
-.video-play.data-v-098a7e2c{
-	width: 100%;
-	height: 100%;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
+.swiper_video.data-v-098a7e2c{
+	width: 120rpx;
+	height: 120rpx;
 	position: absolute;
-	z-index: 100;
-	background-color: #F0F0F0;
-	opacity: 0.5;
-}
-.all-top-swiper-item .video image.data-v-098a7e2c {
-	width: 128rpx;
+	top: 310rpx;
+	left: 310rpx;
 }
 .top-banner.data-v-098a7e2c {
 	position: absolute;
@@ -88,11 +71,10 @@
 .top-swiper-item image.data-v-098a7e2c {
 	width: 100%;
 }
-.activity.data-v-098a7e2c {
-	height: 100%;
-}
-.activity image.data-v-098a7e2c {
+.advertising-images.data-v-098a7e2c,
+.advertising-images image.data-v-098a7e2c {
 	width: 100%;
+	height: 220rpx;
 }
 
 /* 介绍 */
@@ -784,14 +766,11 @@
 	margin-right: 10rpx;
 }
 .questions-content.data-v-098a7e2c {
-	width: 520rpx;
+	width: 100%;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
 	overflow: hidden;
-}
-.answers.data-v-098a7e2c {
-	color: #999999;
 }
 
 /* 评价 */
@@ -868,18 +847,40 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
 	margin-top: 20rpx;
+	height: 230rpx;
 }
-.effect-picture image.data-v-098a7e2c {
+.effect-picture-items.data-v-098a7e2c{
+	overflow: hidden;
+	white-space: nowrap;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	width: 100%;
+}
+.effect-picture .image.data-v-098a7e2c {
 	width: 230rpx;
 	height: 230rpx;
 	border-radius: 16rpx;
+	background-color: #000000;
+	margin-right: 20rpx;
+	display: inline-block;
+}
+.item_video.data-v-098a7e2c{
+	position: relative;
+}
+.video_img.data-v-098a7e2c{
+	width: 60rpx;
+	height: 60rpx;
+	position: absolute;
+	top: 85rpx;
+	left: 85rpx;
 }
 .trade-name.data-v-098a7e2c {
 	font-size: 20rpx;
@@ -1271,4 +1272,25 @@
 	width: 48rpx;
 	height: 48rpx;
 }
+.itembox.data-v-098a7e2c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	height: 60rpx;
+}
+.itembox text.data-v-098a7e2c{
+	font-size: 32rpx;
+	color: #fa3475;
+	margin-left: 40rpx;
+}
+.star.data-v-098a7e2c {
+	width: 50rpx;
+	height: 50rpx;
+	margin: 0 5rpx;
+	vertical-align: middle;
+}
+
 

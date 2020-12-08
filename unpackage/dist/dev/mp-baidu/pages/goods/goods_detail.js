@@ -599,6 +599,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar,
@@ -627,6 +628,19 @@ __webpack_require__.r(__webpack_exports__);
             title_icon: '' } } },
 
 
+
+      imgs: [{
+        id: 1 },
+      {
+        id: 2 },
+      {
+        id: 3 },
+      {
+        id: 4 },
+      {
+        id: 5 }],
+
+      src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
 
       pay_type: 1, //支付方式  0预约金 1 全款 2 全选
       class_type: 0, //领取方式 0到院 1邮寄
@@ -1152,7 +1166,42 @@ __webpack_require__.r(__webpack_exports__);
     moveHandle: function moveHandle() {
       return;
     },
+    // 收藏
+    collect_diary: function collect_diary(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'collectdiary',
+        diary_id: id };
 
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.contentList[index].is_collect = 1;
+          that.contentList[index].collect_num += 1;
+          uni.showToast({
+            title: '已收藏',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 取消收藏
+    cancel_like: function cancel_like(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'cancelcollectdiary',
+        diary_id: id.toString() };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.contentList[index].is_collect = 0;
+          that.contentList[index].collect_num -= 1;
+          uni.showToast({
+            title: '已取消收藏',
+            duration: 1000 });
+
+        }
+      });
+    },
     // 加入购物车
     addCart: function addCart(index) {
       var that = this;
@@ -1303,6 +1352,12 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    // 更多问答
+    more_questions_answers: function more_questions_answers(id) {
+      uni.navigateTo({
+        url: "/pages/goods/goods_detail_problem?id=".concat(id) });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

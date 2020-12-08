@@ -74,7 +74,7 @@
 		right: 0;
 		bottom: 10rpx;
 		line-height: 40rpx;
-		padding: 0 10rpx;
+		padding: 0 15rpx;
 		background-color: #fa3475;
 		border-radius: 16rpx 0rpx 0rpx 0rpx;
 		opacity: 0.8;
@@ -132,7 +132,6 @@
 		width: 48rpx;
 		height: 48rpx;
 		border-radius: 24rpx;
-		border: 1px solid red;
 		margin-right: 10rpx;
 }
 .nick_name.data-v-2f0b53d0{

@@ -196,7 +196,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     topBar: topBar },
@@ -221,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
   onLoad: function onLoad(option) {
     var that = this;
     this.request = this.$request;
-    that.getMessage();
+    that.getMessage(option.id);
     that.requestUrl = that.request.globalData.requestUrl;
   },
   onReady: function onReady() {
@@ -261,20 +260,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    getMessage: function getMessage() {var _this = this;
-      this.request = this.$request;
+    getMessage: function getMessage(id) {var _this = this;
       var that = this;
-      var encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09';
       var dataInfo = {
         interfaceId: 'qalist',
-        encrypted_id: encrypted_id,
+        encrypted_id: id,
         offset: 0,
-        limit: 10 };
+        limit: 4 };
 
       this.request.uniRequest("qa", dataInfo).then(function (res) {
         if (res.data.code === 1000) {
           that.contentList = res.data.data;
-
         } else {
           _this.request.showToast(res.data.message);
         }
@@ -289,8 +285,7 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 收藏
-    clickLike: function clickLike(id, state) {var _this2 = this;
-      this.request = this.$request;
+    clickLike: function clickLike(id, state, index) {
       var that = this;
       var problemId = id;
       // state状态 是否收藏  0未收藏 1 收藏
@@ -300,10 +295,13 @@ __webpack_require__.r(__webpack_exports__);
           qa_id: problemId };
 
         this.request.uniRequest("qa", dataInfo).then(function (res) {
-          if (res.data.code === 1000) {
-            _this2.request.showToast("收藏" + res.data.message);
-          } else {
-            _this2.request.showToast(res.data.message);
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.contentList[index].is_collect = 1;
+            that.contentList[index].collect_num += 1;
+            uni.showToast({
+              title: '已收藏',
+              duration: 1000 });
+
           }
         });
       } else {
@@ -312,10 +310,13 @@ __webpack_require__.r(__webpack_exports__);
           qa_id: problemId };
 
         this.request.uniRequest("qa", _dataInfo).then(function (res) {
-          if (res.data.code === 1000) {
-            _this2.request.showToast("取消" + res.data.message);
-          } else {
-            _this2.request.showToast(res.data.message);
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.contentList[index].is_collect = 0;
+            that.contentList[index].collect_num -= 1;
+            uni.showToast({
+              title: '已取消收藏',
+              duration: 1000 });
+
           }
         });
       }

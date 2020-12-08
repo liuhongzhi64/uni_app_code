@@ -18,11 +18,7 @@
 						 :duration="durationTime" circular>
 							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
 								<view class="video" @tap='goToVideo(contentList.video_list)'>
-									<video class="video-noPlay" :src="requestUrl+contentList.video_list" show-fullscreen-btn="false">
-										<view class="video-play">
-											<!-- <image src="../../static/images/video.png" mode="widthFix"></image> -->
-										</view>
-									</video>
+									<image class="swiper_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</view>
 								<!-- <image :src="requestUrl+contentList.sku.act.banner" mode="widthFix"></image> -->
 							</swiper-item>
@@ -31,30 +27,26 @@
 									<image class="banner-img" :src="requestUrl+i" lazy-load='true' mode="widthFix"></image>
 								</view>
 								<!-- 商品头部活动广告图 -->
-								<!-- <image class="top-banner" :src="requestUrl+'upload/pages/images/202010/23/mBGXkqPtH3wIYbl9pd2oRJr2XuvTO4pmeNYJEsg6.jpeg'"
-								 mode="widthFix"></image> -->
 								<image class="top-banner" :src="requestUrl+contentList.sku.spu_icon" mode="widthFix"></image>
 							</swiper-item>
 						</swiper>
 					</view>
 				</view>
 				<!-- 活动节日 -->
-				<view class="activity" v-if='advertisingList.type==2||advertisingList.type==1'>
-					<image :src="requestUrl+item.img" mode="widthFix" v-for="(item,index) in advertisingList.content" :key='index'></image>
-					<!-- <image src="https://xcx.hmzixin.com/upload/images/3.0/4.jpg" mode="widthFix"></image> -->
+				<view class="advertising-images" v-if="advertisingList.type==1">
+					<view class="specialList">
+						<swiper autoplay interval='5000' duration='3000' circular>
+							<swiper-item class="swiper-item" v-for="(item,index) in advertisingList.content" :key="index">
+								<navigator :url="'/pages'+item.page+'?id='+item.page_id" open-type="switchTab">
+									<image :src="requestUrl+item.img" mode="heightFix"></image>
+								</navigator>
+							</swiper-item>
+						</swiper>
+					</view>
 				</view>
 				<!-- <view class="particulars-image"  v-else-if='advertisingList.type==0' >
 					<image :src="requestUrl+item.img" mode="" v-for="(item,index) in advertisingList.content" :key='index'></image>
 				</view>
-				<view class="adverting-swpier" v-else-if="advertisingList.type==1">
-					<swiper class="top-swiper" indicator-dots  autoplay  circular>
-						<swiper-item v-for="(i,k) in advertisingList.content" :key="k">
-							<view class="top-swiper-item">
-								<image class="banner-img" :src="requestUrl+i.img" lazy-load='true'></image>
-							</view>
-						</swiper-item>
-					</swiper>
-				</view> -->
 				<!-- 价格、优惠卷、提醒、介绍、领取的卷介绍 -->
 				<view class="products-introduction">
 					<view class="price-depreciate-collect">
@@ -225,7 +217,7 @@
 						<view class="diary-more" @tap='seeAll()'> 查看全部 > </view>
 					</view>
 					<view class="all-diary">
-						<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
+						<diary :diaryList="diaryList" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
 					</view>
 				</view>
 				<!-- 问答 -->
@@ -234,14 +226,13 @@
 						<view class="related-title">
 							<view class="line"></view> 问答
 						</view>
-						<view class="diary-more"> 更多 > </view>
+						<view class="diary-more" @tap="more_questions_answers(encrypted_id)"> 更多 > </view>
 					</view>
 					<view class="questions-answers-item" v-for="(i,k) in questionsAnswersList" :key="k">
 						<view class="questions-and-content">
 							<view class="questions"> 问 </view>
-							<view class="questions-content"> {{i.contents}} </view>
+							<view class="questions-content"> {{i.q_contents}} </view>
 						</view>
-						<view class="answers"> {{i.answers}}个问答 </view>
 					</view>
 				</view>
 				<!-- 评价 -->
@@ -250,7 +241,7 @@
 						<view class="related-title">
 							<view class="line"></view> 评价
 						</view>
-						<view class="diary-more"> 98%好评 </view>
+						<view class="diary-more"> {{contentList.rate}} %好评 </view>
 					</view>
 					<view class="evaluate-content" v-for="(item,index) in evaluateList" :key="index">
 						<view class="evaluate-label">
@@ -258,28 +249,38 @@
 						</view>
 						<view class="headPortrait-name">
 							<view class="headPortrait">
-								<image :src="requestUrl+item.head_ico" mode=""></image>
+								<image :src="item.head_ico" mode=""></image>
 							</view>
 							<view class="name-score">
 								<view class="evaluate-user-name"> {{item.nick_name}} </view>
-								<view class="score"> {{item.point}} </view>
+								<view class='itembox'>
+									<view v-for="(i,index) in imgs" :key="index" >
+										<image class="star" :src="item.point>=i.id?src1:''"></image>
+									</view>
+								</view>
 							</view>
 						</view>
 						<view class="evaluate-details"> {{item.contents}} </view>
 						<view class="effect-picture">
-							<image :src="requestUrl+i" mode="" v-for="(i,k) in item.imgs_list" :key="k"></image>
+							<scroll-view class="effect-picture-items" scroll-x="true">
+								<view class="image item_video" @tap='goToVideo(i)' v-for="(i,j) in item.video_list" :key="j">
+									<image class="video_img" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
+								</view>
+								<image class="image" :src="requestUrl+i" v-for="(i,k) in item.imgs_list" :key="k"></image>
+							</scroll-view>
+							
 						</view>
 					</view>
 				</view>
 				<!-- 项目价格表 -->
 				<view class="all-table" v-if="parameter.length>0">
 					<view class="table-list" v-for="(item,index) in parameter" :key='index' v-show="item.title">
-						<view class="table-title"> {{item.title}} </view>
+						<view class="table-title" :style="[{'color':item.color}]"> {{item.title}} </view>
 						<view class="all-table-li">
 							<view class="table-ul" v-for="(i,k) in item.data" :key='k'>
 								<view class="table-li"
 								 v-for="(is,j) in i" :key='j'
-								 :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':(i.length==1?'100%':'20%')))}]">
+								 :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':(i.length==1?'100%':'20%'))),'color':is.color}]">
 									{{is.val }}
 								</view>
 							</view>
@@ -496,6 +497,19 @@
 						}
 					}
 				},
+				imgs: [{
+					id: 1
+				}, {
+					id: 2
+				}, {
+					id: 3
+				}, {
+					id: 4
+				}, {
+					id: 5
+				}],
+				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
+				
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
 				class_type:0,//领取方式 0到院 1邮寄
 				swiperList: [],
@@ -1020,7 +1034,42 @@
 			moveHandle: function() {
 				return
 			},
-			
+			// 收藏
+			collect_diary:function(id,index){
+				let that = this
+				let data = {
+					interfaceId: 'collectdiary',
+					diary_id :id
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.contentList[index].is_collect = 1
+						that.contentList[index].collect_num +=1
+						uni.showToast({
+							title: '已收藏',
+							duration: 1000
+						})				
+					}
+				})
+			},
+			// 取消收藏
+			cancel_like:function(id,index){
+				let that = this
+				let data = {
+					interfaceId:'cancelcollectdiary',
+					diary_id:id.toString()
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.contentList[index].is_collect = 0
+						that.contentList[index].collect_num -=1
+						uni.showToast({
+							title: '已取消收藏',
+							duration: 1000
+						})				
+					}
+				})
+			},
 			// 加入购物车
 			addCart: function(index) {
 				let that = this
@@ -1171,6 +1220,12 @@
 						}
 					})
 				}
+			},
+			// 更多问答
+			more_questions_answers:function(id){
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail_problem?id=${id}`,
+				})
 			}
 		
 			
@@ -1229,31 +1284,18 @@
 	.video {
 		width: 750rpx;
 		height: 750rpx;
+		background-color: #000000;
 	}
 
 	.all-top-swiper-item {
 		position: relative;
 	}
-
-	.video-noPlay{
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
-	.video-play{
-		width: 100%;
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.swiper_video{
+		width: 120rpx;
+		height: 120rpx;
 		position: absolute;
-		z-index: 100;
-		background-color: #F0F0F0;
-		opacity: 0.5;
-	}
-
-	.all-top-swiper-item .video image {
-		width: 128rpx;
+		top: 310rpx;
+		left: 310rpx;
 	}
 
 	.top-banner {
@@ -1269,12 +1311,10 @@
 		width: 100%;
 	}
 
-	.activity {
-		height: 100%;
-	}
-
-	.activity image {
+	.advertising-images,
+	.advertising-images image {
 		width: 100%;
+		height: 220rpx;
 	}
 
 	/* 介绍 */
@@ -1903,16 +1943,13 @@
 	}
 
 	.questions-content {
-		width: 520rpx;
+		width: 100%;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 	}
 
-	.answers {
-		color: #999999;
-	}
 
 	/* 评价 */
 	.evaluate {
@@ -1979,15 +2016,35 @@
 
 	.effect-picture {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 		margin-top: 20rpx;
+		height: 230rpx;
+	}
+	.effect-picture-items{
+		overflow: hidden;
+		white-space: nowrap;
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
 	}
 
-	.effect-picture image {
+	.effect-picture .image {
 		width: 230rpx;
 		height: 230rpx;
 		border-radius: 16rpx;
+		background-color: #000000;
+		margin-right: 20rpx;
+		display: inline-block;
+	}
+	.item_video{
+		position: relative;
+	}
+	.video_img{
+		width: 60rpx;
+		height: 60rpx;
+		position: absolute;
+		top: 85rpx;
+		left: 85rpx;
 	}
 
 	.trade-name {
@@ -2342,4 +2399,22 @@
 		width: 48rpx;
 		height: 48rpx;
 	}
+	.itembox {
+		display: flex;
+		align-items: center;
+		height: 60rpx;
+	}
+	.itembox text{
+		font-size: 32rpx;
+		color: #fa3475;
+		margin-left: 40rpx;
+	}
+	
+	.star {
+		width: 50rpx;
+		height: 50rpx;
+		margin: 0 5rpx;
+		vertical-align: middle;
+	}
+	
 </style>

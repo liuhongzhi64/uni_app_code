@@ -127,14 +127,17 @@
 							<view class="doctor-item-title">拜托了医生</view>
 							<view class="all-please-doctor">
 								<doctor :doctorList="doctorVideo" :requestUrl="requestUrl"
-								 :paddingLR='paddingLR' :heading='doctorHeadPortrait' :doctorname='doctorname'>
+								 :paddingLR='paddingLR' :heading='doctorHeadPortrait' 
+								 @collectLike='collectLike'
+								  @cancelLike='cancelLike'
+								 :doctorname='doctorname' >
 								</doctor>
 							</view>
 						</view>
 						<view class="doctor-project">
 							<view class="doctor-item-title">用户日记</view>
 							<view class="doctor-projects-item">
-								<diary :diaryList="diaryList" :requestUrl='requestUrl'></diary>
+								<diary :diaryList="diaryList" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
 							</view>
 						</view>
 					</view>
@@ -144,10 +147,11 @@
 
 		<view class="footer">
 			<view class="mar" v-if="is_doctor_collect == 0"  @tap='collectdiary(is_doctor_collect,doctor_id)'>
-				<image class="icon-img" src="../../static/images/collect.png"></image>收藏
+				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>收藏
 			</view>
 			<view class="mar" v-else @tap='collectdiary(is_doctor_collect,doctor_id)'>
-				<image class="icon-img" src="../../static/images/checked-collect.png"></image>收藏
+				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
+				<text class="collect_hover">收藏</text>
 			</view>
 			<view class="mar" @tap='goToConsult'>
 				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>咨询
@@ -186,78 +190,7 @@
 				requestUrl: '',
 				doctorHeadPortrait: '', //医生的背景图片
 				doctorMessage: {},
-				doctorVideo: [{
-						id: 2,
-						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-						cover_img: "upload/diary/images/202009/11/jPfDQqAudxMIaukY7xC6TY9i6nnrY06KCbrfmQIZ.jpeg", //封面图
-						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-						collect: 2, //真实收藏数
-						collect_weighting: 1, //收藏加权值
-						category_name: [ //所属分类
-							"视频分类222",
-							"眼泪",
-							'眼部美容',
-							'微针双眼皮'
-						],
-						is_collect: 0 ,// 是否收藏： 0 否1是
-						doctor_relation:{
-							heading:"upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-							name:'就是名字'
-						}
-					},
-					{
-						id: 5,
-						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-						cover_img: "upload/diary/images/202009/11/UrqE9tLcUAuYhJsOpyqH6uAAih5fYW8EjPGzunXu.jpeg", //封面图
-						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-						collect: 260, //真实收藏数
-						collect_weighting: 1, //收藏加权值
-						category_name: [ //所属分类
-							"视频分类222",
-							"眼泪",
-						],
-						is_collect: 1 ,// 是否收藏： 0 否1是
-						doctor_relation:{
-							heading:"upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-							name:'就是名字'
-						}
-					},
-					{
-						id: 4,
-						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-						cover_img: "upload/diary/images/202009/11/bZl57h0Gx3fUlUDaGnbMscf2p5v6zikJITHhs8nA.jpeg", //封面图
-						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-						collect: 102, //真实收藏数
-						collect_weighting: 1, //收藏加权值
-						category_name: [ //所属分类
-							"视频分类222",
-							"眼泪",
-							'眼部美容',
-							'微针双眼皮'
-						],
-						is_collect: 1 ,// 是否收藏： 0 否1是
-						doctor_relation:{
-							heading:"upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-							name:'就是名字'
-						}
-					},
-					{
-						id: 8,
-						name: "是文章标题，显示两排后就以省略号结束,是文章标题，显示两排后就以省略号结束", //名称
-						cover_img: "upload/diary/images/202009/11/gBlibw3zljzwigRTGXyQUNdWAAwovMWT4zvS8Waq.jpeg", //封面图
-						path: "upload/vJpo96kTeyWEyfw.mp4", //视频路径
-						collect: 240, //真实收藏数
-						collect_weighting: 1, //收藏加权值
-						category_name: [ //所属分类
-							"视频分类222",
-						],
-						is_collect: 0 ,// 是否收藏： 0 否1是
-						doctor_relation:{
-							heading:"upload/doctor/images/202009/11/AzNoEz4OXEDheyfIBms5BO5ELIqNE05MLveaX9Aw.jpeg",
-							name:'就是名字'
-						}
-					},
-				], //这是专辑和拜托医生
+				doctorVideo: [], //这是专辑和拜托医生
 				doctorList: [], //医生相册
 				diaryList: [], //日记
 				porductList: [],
@@ -369,7 +302,82 @@
 					url: `/pages/doctor/doctor_certificate?id=${doctorId}`,
 				})
 			},
-			
+			// 点赞
+			collectLike:function(id,index){
+				let that = this
+				let videoId = id
+				let data = {
+					interfaceId: 'video_collect',
+					video_id :videoId,
+					status:'0'
+				}
+				this.request.uniRequest("doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {	
+						that.doctorVideo[index].is_collect=1
+						that.doctorVideo[index].collect +=1
+						uni.showToast({
+							title: '已点赞',
+							duration: 1000
+						})
+					}
+				})
+			},
+			// 取消点赞
+			cancelLike:function(id,index){
+				let videoId = id
+				let that = this
+				let data = {
+					interfaceId: 'video_collect',
+					video_id :videoId,
+					status:'1'
+				}
+				this.request.uniRequest("doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.doctorVideo[index].is_collect=0
+						that.doctorVideo[index].collect -=1
+						uni.showToast({
+							title: '已取消点赞',
+							duration: 1000
+						})
+					}
+				})
+			},
+			// 收藏
+			collect_diary:function(id,index){
+				let that = this
+				let data = {
+					interfaceId: 'collectdiary',
+					diary_id :id
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.diaryList[index].is_collect = 1
+						that.diaryList[index].collect_num +=1
+						uni.showToast({
+							title: '收藏成功',
+							duration: 1000
+						})				
+					}
+				})
+			},
+			// 取消收藏
+			cancel_like:function(id,index){
+				let that = this
+				let data = {
+					interfaceId:'cancelcollectdiary',
+					diary_id:id.toString()
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.diaryList[index].is_collect = 0
+						that.diaryList[index].collect_num -=1
+						uni.showToast({
+							title: '已取消收藏',
+							duration: 1000
+						})				
+					}
+				})
+			},
 			// 点击专辑和拜托医生
 			goToVideo: function(path) {
 				uni.navigateTo({
@@ -941,5 +949,8 @@
 		width: 50rpx;
 		height: 50rpx;
 		margin-right: 16rpx;
+	}
+	.collect_hover{
+		color: #9F55FF;	
 	}
 </style>

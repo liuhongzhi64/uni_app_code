@@ -455,8 +455,11 @@
 	top: 0;
 	z-index: 9;
 }
+.my_collection_diary.data-v-e97a0532{
+	height: 100%;
+}
 .detail-content.data-v-e97a0532 {
-	padding: 20rpx;
+	padding: 20rpx ;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -465,7 +468,7 @@
 	        justify-content: space-between;
 }
 .left-content.data-v-e97a0532,
-.right-content.data-v-e97a0532 {
+.diary_right-content.data-v-e97a0532 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -526,7 +529,7 @@
 	color: #4f4f4f;
 	margin-right: 10rpx;
 }
-.diary-images .label.data-v-e97a0532 {
+.diary-images .diary_label.data-v-e97a0532 {
 	position: absolute;
 	right: 0;
 	bottom: 10rpx;
@@ -537,6 +540,7 @@
 	color: #FFFFFF;
 	font-size: 24rpx;
 	margin-right: 0;
+	padding: 0 15rpx;
 }
 .category_name-doctor_name.data-v-e97a0532 {
 	display: -webkit-box;
@@ -590,7 +594,6 @@
 	width: 48rpx;
 	height: 48rpx;
 	border-radius: 24rpx;
-	border: 1px solid red;
 	margin-right: 10rpx;
 }
 .nick_name.data-v-e97a0532 {
@@ -654,4 +657,29 @@
 	width: 24rpx;
 	height: 24rpx;
 }
+.diary_operation.data-v-e97a0532{
+	border-top: 1px solid #D3D3D3;
+	padding: 20rpx 10rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	color: #D3D3D3;
+}
+.diary_operation button.data-v-e97a0532{
+	border: 1px solid #D3D3D3;
+	color: #D3D3D3;
+	line-height: 40rpx;
+	width: 40%;
+	border-radius: 20rpx;
+}
+.diary_operation button.data-v-e97a0532::after{
+	border: none;
+}
+
 

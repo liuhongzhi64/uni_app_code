@@ -21,7 +21,6 @@
 							</view>
 						</view>
 					</view>
-
 				</scroll-view>
 			</view>
 		</view>
@@ -32,17 +31,16 @@
 						<!-- 主体内容 -->
 						<view class="detail-content">
 							<!-- 主体内容 -->
-							<diary :diaryList="contentList" :requestUrl='requestUrl'></diary>
+							<diary :diaryList="contentList" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like' >
+							</diary>
 						</view>
 					</template>
 				</scroll-view>
 			</view>
-		</view>
-		
+		</view>		
 		<view class="write_diary" @tap='writeDiary'>
 			 写日记
-		</view>
-		
+		</view>		
 	</view>
 </template>
 
@@ -161,7 +159,42 @@
 					}
 				})
 			},
-			
+			// 收藏
+			collect_diary:function(id,index){
+				let that = this
+				let data = {
+					interfaceId: 'collectdiary',
+					diary_id :id
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.contentList[index].is_collect = 1
+						that.contentList[index].collect_num +=1
+						uni.showToast({
+							title: '已收藏',
+							duration: 1000
+						})				
+					}
+				})
+			},
+			// 取消收藏
+			cancel_like:function(id,index){
+				let that = this
+				let data = {
+					interfaceId:'cancelcollectdiary',
+					diary_id:id.toString()
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.contentList[index].is_collect = 0
+						that.contentList[index].collect_num -=1
+						uni.showToast({
+							title: '已取消收藏',
+							duration: 1000
+						})				
+					}
+				})
+			},
 			// 写日记
 			writeDiary:function(){
 				uni.navigateTo({

@@ -28,7 +28,7 @@
 								 v-for="(i,index) in swiperList" :key="index" :style="{backgroundImage:'url('+requestUrl+i+')'}">
 									<view class="top-swiper-item">
 										<!-- <image class="top-swiper-images" :src="requestUrl+i" ></image>										 -->
-										<view class="porduct-message" @tap='goToGoods(goods.id)'>
+										<view class="porduct-message" @tap='goToGoods(goods.id,goods.encrypted_id)'>
 											<view class="porduct-images">
 												<image :src="requestUrl+goods.head_img" mode=""></image>
 											</view>
@@ -66,14 +66,14 @@
 		<view class="bottom-messages">
 			<view class="page-view-collect-transpond">
 				<view class="page-view">浏览量: <text>{{view_num}}</text></view>
-				<view class="collect" v-if="is_collect == 0" :data-id='id' @tap='collectdiary'>
-					<image src="../../static/images/collect.png" mode=""></image><text>{{collect_num}}</text>
+				<view class="collect" v-if="is_collect == 0" @tap='collectdiary(id)'>
+					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" ></image><text>{{collect_num}}</text>
 				</view>
 				<view class="collect" v-else @tap='cancelLike(id)'>
-					<image src="../../static/images/checked-collect.png" mode=""></image><text>{{collect_num}}</text>
+					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" ></image><text class="collect_hover">{{collect_num}}</text>
 				</view>
 				<view class="transpond">
-					<image src="../../static/images/share.png" mode=""></image> <text>{{share_num}}</text>
+					<image src="../../static/images/share.png" ></image> <text>{{share_num}}</text>
 				</view>
 			</view>
 		</view>
@@ -171,13 +171,12 @@
 		methods: {
 			// 详情
 			diarydetails: function (id) {
-				this.request = this.$request
 				const that = this
 				let data = {
 					interfaceId: 'diarydetails',
 					diary_id :id
 				}
-				this.request.uniRequest("/diary", data).then(res => {
+				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						// console.log(data)
@@ -201,10 +200,9 @@
 				})
 			},
 			// 相关商品
-			goToGoods:function(goodsId){
-				// console.log(goodsId)
+			goToGoods:function(goodsId,encrypted_id){
 				uni.navigateTo({
-					url: `/pages/goods/goods_detail?id=${goodsId}`,
+					url: `/pages/goods/goods_detail?sku_id=${goodsId}&encrypted_id=${encrypted_id}`,
 				})
 			},
 			// 相关医生
@@ -221,29 +219,46 @@
 			},
 			
 			// 收藏
-			collectdiary:function(e){
-				this.request = this.$request
-				var id = e.currentTarget.dataset.id
-				var data = {
+			collectdiary:function(id){
+				let that = this
+				let data = {
 					interfaceId: 'collectdiary',
 					diary_id :id
 				}
-				this.request.uniRequest("/diary", data).then(res => {
+				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						this.request.showToast('成功')					
+						that.is_collect = 1
+						that.collect_num +=1
+						uni.showToast({
+							title: '收藏成功',
+							duration: 1000
+						})				
 					}
 				})
 			},
 			// 取消收藏
 			cancelLike:function(id){
-				console.log(id)
+				let that = this
+				let data = {
+					interfaceId:'cancelcollectdiary',
+					diary_id:id.toString()
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.is_collect = 0
+						that.collect_num -=1
+						uni.showToast({
+							title: '已取消收藏',
+							duration: 1000
+						})				
+					}
+				})
 			},
 			// 咨询
 			goToConsult:function(){
-				console.log('咨询')
-				// uni.navigateTo({
-				// 	url: `/pages/consultation/consultation`,
-				// })
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
 			}
 		}
 	}
@@ -470,5 +485,7 @@
 		color: #FFFFFF;
 		border-radius: 24rpx;
 	}
-	
+	.collect_hover{
+		color: #9F55FF;
+	}
 </style>

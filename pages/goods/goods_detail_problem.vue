@@ -32,15 +32,14 @@
 										</view>
 									</view>
 								</view>
-							</view>
-														
+							</view>						
 							<view class="browse-like-consult">
 								<view class="browse" v-if="item.views_num<=9999">{{item.views_num}}浏览量</view>
 								<view class="browse" v-else>9999+浏览量</view>
-								<view class="like" @tap='clickLike(item.id,item.is_collect)'>
-									<image src="../../static/images/collect.png" mode="" v-if="item.is_collect == 0" ></image> 
-									<image src="../../static/images/checked-collect.png" mode="" v-else ></image> 
-									<text>{{item.collect_num}}</text>
+								<view class="like" @tap='clickLike(item.id,item.is_collect,index)'>
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" mode="" v-if="item.is_collect == 0" ></image> 
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" v-else ></image> 
+									<text :class="item.is_collect == 1?'collect_hover':''">{{item.collect_num}}</text>
 								</view>
 								<view class="consult" @tap='goToCondult(item.id)'>
 									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
@@ -89,7 +88,7 @@
 		onLoad: function(option) {
 			let that = this
 			this.request = this.$request
-			that.getMessage()
+			that.getMessage(option.id)
 			that.requestUrl = that.request.globalData.requestUrl					
 		},
 		onReady() {
@@ -129,20 +128,17 @@
 			}
 		},
 		methods: {
-			getMessage:function(){
-				this.request = this.$request
+			getMessage:function(id){
 				let that = this
-				let encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09'
 				let dataInfo = {
 					interfaceId : 'qalist',
-					encrypted_id : encrypted_id,
+					encrypted_id : id,
 					offset:0,
-					limit:10
+					limit:4
 				}
 				this.request.uniRequest("qa", dataInfo).then(res => {
 					if (res.data.code === 1000) {
 						that.contentList = res.data.data
-				
 					} else {
 						this.request.showToast(res.data.message);
 					}
@@ -157,8 +153,7 @@
 				})
 			},
 			// 收藏
-			clickLike:function(id,state){
-				this.request = this.$request
+			clickLike:function(id,state,index){
 				let that = this
 				let problemId = id
 				// state状态 是否收藏  0未收藏 1 收藏
@@ -168,10 +163,13 @@
 						qa_id:problemId
 					}
 					this.request.uniRequest("qa", dataInfo).then(res => {
-						if (res.data.code === 1000) {
-							this.request.showToast("收藏"+res.data.message);
-						} else {
-							this.request.showToast(res.data.message);
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.contentList[index].is_collect = 1
+							that.contentList[index].collect_num +=1
+							uni.showToast({
+								title: '已收藏',
+								duration: 1000
+							})
 						}
 					})
 				}else{
@@ -180,10 +178,13 @@
 						qa_id:problemId
 					}
 					this.request.uniRequest("qa", dataInfo).then(res => {
-						if (res.data.code === 1000) {
-							this.request.showToast("取消"+res.data.message);
-						} else {
-							this.request.showToast(res.data.message);
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.contentList[index].is_collect = 0
+							that.contentList[index].collect_num -=1
+							uni.showToast({
+								title: '已取消收藏',
+								duration: 1000
+							})
 						}
 					})
 				}
@@ -221,15 +222,16 @@
 	}
 	.top-ask{
 		display: flex;
-		align-items: center;
 	}
 	.ask-title{
 		width: 32rpx;
+		height: 32rpx;
 		line-height: 32rpx;
+		padding: 0 6rpx;
 		background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
 		font-size: 18rpx;
 		color: #FFFFFF;	
-		border-radius: 18rpx;
+		border-radius: 16rpx;
 		text-align: center;
 	}
 	.ask-contnet{
@@ -259,9 +261,10 @@
 	.answer-title{
 		width: 32rpx;
 		height: 32rpx;
+		line-height: 32rpx;
 		font-size: 18rpx;
 		color: #FFFFFF;	
-		border-radius: 18rpx;
+		border-radius: 16rpx;
 		text-align: center;
 		background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);	
 	}
@@ -321,6 +324,9 @@
 		color: #9e9e9e;
 		font-size: 28rpx;
 		margin-top: 56rpx;
+	}
+	.collect_hover{
+		color: #9F55FF;	
 	}
 	
 	.footer {

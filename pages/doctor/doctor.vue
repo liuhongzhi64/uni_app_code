@@ -125,7 +125,6 @@
 																	</view>														
 																</view>	
 															</view>
-															
 															<view class="consult" @tap='goToConsult'>咨询</view>
 														</view>
 														<view class="recommended_goods" @tap='gotoGoods(i.recommended_goods.id,i.encrypted_id)'
@@ -492,7 +491,7 @@
 						that.pleaseDoctorList[index].is_collect=1
 						that.pleaseDoctorList[index].collect +=1
 						uni.showToast({
-							title: '点赞成功',
+							title: '已点赞',
 							duration: 1000
 						})
 					}

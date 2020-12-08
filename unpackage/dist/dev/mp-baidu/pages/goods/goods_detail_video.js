@@ -130,28 +130,29 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default =
 {
-  components: {
-    topBar: topBar },
-
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
       menuLeft: 0,
@@ -160,7 +161,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '视频播放',
       list: [],
       requestUrl: '', //请求地址前缀
@@ -171,16 +172,15 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    var doctorId = option.doctorid;
-    var videoId = option.videoid;
+    // let doctorId = option.doctorid
+    // let videoId = option.videoid
     var videoUrl = that.requestUrl + option.video;
     that.videoUrl = videoUrl;
-    console.log(videoUrl, doctorId, videoId);
+    console.log(videoUrl);
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    that.videoContext = uni.createVideoContext('myVideo');
     // 判定运行平台
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
@@ -212,7 +212,12 @@ __webpack_require__.r(__webpack_exports__);
       that.menuBottom = 82;
     }
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    goBack: function goBack() {
+      uni.navigateBack({
+        delta: 1 });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

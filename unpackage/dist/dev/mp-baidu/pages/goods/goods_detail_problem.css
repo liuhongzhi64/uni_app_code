@@ -15,18 +15,17 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
 }
 .ask-title.data-v-89af38e8{
 	width: 32rpx;
+	height: 32rpx;
 	line-height: 32rpx;
+	padding: 0 6rpx;
 	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
 	font-size: 18rpx;
 	color: #FFFFFF;	
-	border-radius: 18rpx;
+	border-radius: 16rpx;
 	text-align: center;
 }
 .ask-contnet.data-v-89af38e8{
@@ -60,9 +59,10 @@
 .answer-title.data-v-89af38e8{
 	width: 32rpx;
 	height: 32rpx;
+	line-height: 32rpx;
 	font-size: 18rpx;
 	color: #FFFFFF;	
-	border-radius: 18rpx;
+	border-radius: 16rpx;
 	text-align: center;
 	background-image: -webkit-linear-gradient(135deg, #8834fa 0%, #bc66ff 100%);
 	background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
@@ -151,6 +151,9 @@
 	color: #9e9e9e;
 	font-size: 28rpx;
 	margin-top: 56rpx;
+}
+.collect_hover.data-v-89af38e8{
+	color: #9F55FF;
 }
 .footer.data-v-89af38e8 {
 	width: 100%;

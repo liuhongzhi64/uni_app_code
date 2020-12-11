@@ -130,7 +130,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperDot = function swiperDot() {__webpack_require__.e(/*! require.ensure | components/swperDot */ "components/swperDot").then((function () {return resolve(__webpack_require__(/*! ../../components/swperDot.vue */ 504));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 483));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 511));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 518));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperDot = function swiperDot() {__webpack_require__.e(/*! require.ensure | components/swperDot */ "components/swperDot").then((function () {return resolve(__webpack_require__(/*! ../../components/swperDot.vue */ 504));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 483));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 511));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 518));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
 
 
 
@@ -466,15 +470,12 @@ __webpack_require__.r(__webpack_exports__);
     var platform = '';
     switch (uni.getSystemInfoSync().platform) {
       case 'android':
-        // console.log('运行Android上')
         platform = 'android';
         break;
       case 'ios':
-        // console.log('运行iOS上')
         platform = 'ios';
         break;
       default:
-        // console.log('运行在开发者工具上')
         platform = 'applet';
         break;}
 
@@ -528,7 +529,8 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("home", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.topBackgroundColor = data.background;
+          // "background": { "up": "#7231fd", "centre": "#8d58ff", "down": "#ffffff" },
+          that.topBackgroundColor = data.background.up;
           //导航栏
           if (data.top_navigation) {
             that.skipList = data.top_navigation;
@@ -624,15 +626,6 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/goods/goods_classify" });
 
     },
-    // 商品列表
-    goToGoodsList: function goToGoodsList(e) {
-      var goodsList = e.currentTarget.dataset.goods;
-      // console.log(e.currentTarget.dataset)
-      uni.navigateTo({
-        url: "/pages/goods/goods_list?goodsname=".concat(goodsList) });
-
-    },
-
     // 点击商品
     gotoGoods: function gotoGoods(e) {
       var goods = e.currentTarget.dataset.name;

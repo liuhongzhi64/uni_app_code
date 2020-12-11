@@ -130,10 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -211,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '整呗官方答疑',
       contentList: [],
       requestUrl: '' //请求地址前缀
@@ -227,6 +224,7 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     // 判定运行平台
     var platform = '';
+    that.height = uni.getSystemInfoSync().screenHeight;
     switch (uni.getSystemInfoSync().platform) {
       case 'android':
         platform = 'android';
@@ -242,7 +240,6 @@ __webpack_require__.r(__webpack_exports__);
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
-          that.height = res.screenHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
@@ -252,7 +249,6 @@ __webpack_require__.r(__webpack_exports__);
         } });
 
     } else {
-      that.height = 812;
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
@@ -288,6 +284,7 @@ __webpack_require__.r(__webpack_exports__);
     clickLike: function clickLike(id, state, index) {
       var that = this;
       var problemId = id;
+      console.log(11111);
       // state状态 是否收藏  0未收藏 1 收藏
       if (state == 0) {
         var dataInfo = {
@@ -320,7 +317,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
-
     },
 
     // 提问
@@ -333,7 +329,9 @@ __webpack_require__.r(__webpack_exports__);
 
     // 立即提问
     quiz: function quiz() {
-      console.log('立即提问');
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

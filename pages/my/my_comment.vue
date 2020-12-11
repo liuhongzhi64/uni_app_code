@@ -128,6 +128,10 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
+			if(options.index){
+				that.listType = options.index
+				that.tabIndex = options.index
+			}
 			that.get_my_comment()
 		},
 		onReachBottom: function() {

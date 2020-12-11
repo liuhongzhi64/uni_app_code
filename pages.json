@@ -5,10 +5,7 @@
 				
 		
 		
-		{
-			"path": "pages/my/my_collection", //我的收藏
-			"style": {}
-		},
+		
 		
 		 
 		{
@@ -45,7 +42,10 @@
 			"path": "pages/my/my_card_use", //使用卡卷
 			"style": {}
 		},
-		
+		{
+			"path": "pages/my/my_collection", //我的收藏
+			"style": {}
+		},
 		{
 			"path": "pages/my/my_comment", //我的评价-评价列表
 			"style": {}

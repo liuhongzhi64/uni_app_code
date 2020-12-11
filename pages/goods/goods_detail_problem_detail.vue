@@ -2,62 +2,49 @@
 	<view class="goods_detail_problem_detail">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-		<view class="goods_detail_problem_detail_content" :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
-			<scroll-view class="problem_detail-content">
-				<template>
-					<view class="content-details" :style="[{'min-height':height-menuBottom-30+'px'}]">
-						<view class="top-content">
-							<view class="top-ask">
-								<view class="ask-title">问</view>
-								<view class="ask-contnet">{{q_contents}}</view>
-							</view>								
-							<view class="all-img-video">
-								<view class="image-video" v-for="(i,k) in q_img_list" :key='k'>
-									<image class="correlation"
-									 :src="requestUrl+i.img" mode=""
-									 :data-video='i.video' :data-type='i.type' :data-img='i.img'
-									 @tap='seeDetail'></image>
-									<!-- <video class="correlation" :src="requestUrl+i.video" controls v-else></video> -->
-								</view>
-							</view>																
-							<view class="all-answer">
-								<view class="answer">
-									<view class="answer-title">答</view>
-									<view class="answer-content"> {{a_contents}} </view>	
-								</view>
-								<view class="all-img-video">
-									<view class="image-video" v-for="(i,k) in a_img_list" :key='k'>
-										<image class="correlation"
-										 :src="requestUrl+i.img" mode="" 
-										 :data-video='i.video' :data-type='i.type' :data-img='i.img'  
-										 @tap='seeDetail'></image>
-										<!-- <video class="correlation" :src="requestUrl+i.video" controls v-else></video> -->
-									</view>
-									
-								</view>
-							</view>
-						</view>
-					
-						<view class="footer">
-							<view class="page-view-collect-transpond">
-								<view class="page-view">浏览量: <text>{{views_num}}</text></view>
-								<view class="collect" v-if="is_collect == 0" @tap='clickLike(id)'>
-									<image src="../../static/images/collect.png" mode=""></image><text>{{collect_num}}</text>
-								</view>
-								<view class="collect" v-else @tap='cancelLike(id)'>
-									<image src="../../static/images/checked-collect.png" mode=""></image><text>{{collect_num}}</text>
-								</view>
-								<view class="transpond">
-									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
-								</view>
-							</view>
-						</view>
-
+		<view class="content-details" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
+			<view class="top-content">
+				<view class="top-ask">
+					<view class="ask-title">问</view>
+					<view class="ask-contnet">{{q_contents}}</view>
+				</view>								
+				<view class="all-img-video">
+					<view class="image-video" v-for="(i,k) in q_img_list" :key='k' @tap='see_detail(i.type,i.video)'>
+						<image class="correlation" :src="requestUrl+i.img" ></image>
+						 <image class="this_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" v-if="i.type==1"></image>
 					</view>
-				</template>
-			</scroll-view>
+				</view>																
+				<view class="all-answer">
+					<view class="answer">
+						<view class="answer-title">答</view>
+						<view class="answer-content"> {{a_contents}} </view>	
+					</view>
+					<view class="all-img-video">
+						<view class="image-video" v-for="(i,k) in a_img_list" :key='k' @tap='see_detail(i.type,i.video)'>
+							<image class="correlation" :src="requestUrl+i.img" ></image>
+							 <image class="this_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" v-if="i.type==1"></image>
+						</view>
+						
+					</view>
+				</view>
+			</view>					
+			<view class="footer">
+				<view class="page-view-collect-transpond">
+					<view class="page-view">浏览量: <text>{{views_num}}</text></view>
+					<view class="collect" v-if="is_collect == 0" @tap='clickLike(id)'>
+						<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" mode=""></image><text>{{collect_num}}</text>
+					</view>
+					<view class="collect" v-else @tap='cancelLike(id)'>
+						<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" mode=""></image>
+						<text class="collect_num">{{collect_num}}
+						</text>
+					</view>
+					<view class="transpond" @tap="go_consult">
+						<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
+					</view>
+				</view>
+			</view>
 		</view>
-
 	</view>
 </template>
 
@@ -78,7 +65,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '问答详情',
 				id: '',
 				q_contents: '',
@@ -99,18 +86,38 @@
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-				}
-			})
+			// 判定运行平台
+			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
 			getDetail: function(id) {
@@ -173,24 +180,16 @@
 				
 			},
 			
-			// 提问
-			goToCondult:function(){
-				let problemId = that.id
+			// 咨询
+			go_consult:function(){
 				uni.navigateTo({
-					url: `/pages/consultation/consultation?id=${problemId}`,
+					url: `/pages/consultation/consultation`,
 				})
 			},
 			// 点击图片
-			seeDetail:function(e){
-				// console.log(e)
+			see_detail:function(type,video){
 				// "type": 0  图片  1 视频
-				let type = e.currentTarget.dataset.type
-				if(type == 0){
-					let img = e.currentTarget.dataset.img
-					console.log('图片',img)
-				}else{
-					let video = e.currentTarget.dataset.video
-					console.log(video)
+				if(type == 1){
 					uni.navigateTo({
 						url: `/pages/goods/goods_detail_video?video=${video}`,
 					})
@@ -211,25 +210,38 @@
 	}
 	.top-ask{
 		display: flex;
-		align-items: center;
+		/* align-items: center; */
 	}
 	.ask-title{
 		width: 32rpx;
+		height: 32rpx;
 		line-height: 32rpx;
 		background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
 		font-size: 18rpx;
 		color: #FFFFFF;	
-		border-radius: 18rpx;
+		border-radius: 16rpx;
 		text-align: center;
 	}
 	.ask-contnet{
 		font-size: 28rpx;
 		margin-left: 15rpx;
+		flex: 1;
 	}
 	.all-img-video{
 		display: flex;
 		width: 100%;
-		padding: 26rpx 0 0 40rpx;
+		padding: 26rpx 0 0 0;
+	}
+	.image-video{
+		position: relative;
+	}
+	.this_video{
+		position: absolute;
+		width: 60rpx;
+		height: 60rpx;
+		top: 85rpx;
+		left: 85rpx;
+		opacity: 0.8;
 	}
 	.correlation{
 		width: 230rpx;
@@ -294,7 +306,9 @@
 		color: #999999;
 		align-items: center;
 	}
-
+	.collect_num{
+		color: #bc66ff;
+	}
 	.page-view {
 		color: #fa3475;
 		font-size: 26rpx;

@@ -33,36 +33,40 @@
 								 :duration="topDuration" circular>
 									<swiper-item v-for="(i,index) in swiperList" :key="index">
 										<view class="swiper-item swiper-img">
-											<image :src="requestUrl+i.img" mode=""></image>
+											<image :src="requestUrl+i.img" ></image>
 										</view>
 									</swiper-item>
 								</swiper>
 							</view>
 							<!-- 认证 -->
-							<view id="certification" class="certification" v-if="honor_list">
-								<view class="certifications" v-for="(i,index) in honor_list" :key="index">
-									<view class="certificationimgs">
-										<image src="../../static/images/1.png" mode=""></image>
+							<view class="certification" v-if="honor_list">
+								<scroll-view class="certifications_content" scroll-x="true">
+									<view class="honor_list" v-for="(i,index) in honor_list" :key="index">
+										<view class="honor_list_item">
+											<view class="certificationimgs_item">
+												<image src="../../static/images/1.png" ></image>
+											</view>
+											<view>{{i}}</view>
+										</view>
 									</view>
-									<view>{{i}}</view>
-								</view>
+								</scroll-view>
 							</view>
 							<!-- 自定义导航条 -->
-							<view id="tabBarSwiper" v-if="tabBarSwiperList" class="swiperContent">
+							<view v-if="tabBarSwiperList" class="swiperContent">
 								<swiper :duration="tabDuration" class="swiper-box" @change="changeSwiperDot">
 									<swiper-item class="tabBarSwiper" v-for="(item,index) in barSwiperList" :key="index">
-										<view v-for="(i,index) in item" :key="index" class="tabBarSwiperItem" :data-goods="i.name" @tap="goToGoodsList">
+										<navigator v-for="(i,index) in item" :key="index" class="tabBarSwiperItem" :url="'/pages'+i.page">
 											<view class="icon">
 												<image :src="requestUrl+i.img" mode=""></image>
 											</view>
 											<view class="text"> {{i.title}} </view>
-										</view>
+										</navigator>
 									</swiper-item>
 								</swiper>
 								<swiperDot class="dot" :current="currents" :list="barSwiperList"></swiperDot>
 							</view>
 							<!-- 全部广告位 -->
-							<view class="advertisingAll" :style="[{backgroundImage:'url('+advertisingAllUrl+')',backgroundColor:advertisingAllColor}]"
+							<view class="advertisingAll"
 							 style="width: 100%;height: 100%;background-size: 100% 100%;" v-for="(item,index) in advertisingList.content"
 							 :key='index'>
 								<!-- 广告位01 -->
@@ -334,15 +338,12 @@
 			let platform = ''
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
-					// console.log('运行Android上')
 					platform = 'android'
 					break;
 				case 'ios':
-					// console.log('运行iOS上')
 					platform = 'ios'
 					break;
 				default:
-					// console.log('运行在开发者工具上')
 					platform = 'applet'
 					break;
 			}
@@ -396,7 +397,8 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.topBackgroundColor = data.background
+						// "background": { "up": "#7231fd", "centre": "#8d58ff", "down": "#ffffff" },
+						that.topBackgroundColor = data.background.up
 						//导航栏
 						if (data.top_navigation) {
 							that.skipList = data.top_navigation
@@ -492,15 +494,6 @@
 					url: `/pages/goods/goods_classify`,
 				})
 			},
-			// 商品列表
-			goToGoodsList: function(e) {
-				let goodsList = e.currentTarget.dataset.goods
-				// console.log(e.currentTarget.dataset)
-				uni.navigateTo({
-					url: `/pages/goods/goods_list?goodsname=${goodsList}`,
-				})
-			},
-
 			// 点击商品
 			gotoGoods: function(e) {
 				let goods = e.currentTarget.dataset.name
@@ -740,20 +733,35 @@
 	.certification {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		font-size: 24rpx;
 		color: #333333;
 		line-height: 30rpx;
-		padding: 0 10rpx;
+		padding: 0 20rpx;
 	}
-
-	.certifications {
+	
+	.certifications_content{
+		overflow: hidden;
+		white-space: nowrap;
+		width: 100%;
 		display: flex;
-		color: #333333;
+		justify-content: space-between;
 	}
-
-	.certificationimgs image {
+	.honor_list{
+		display: inline-block;
+		color: #333333;
+		padding-left: 20rpx;
+	}
+	.honor_list:first-child{
+		padding-left: 0;
+	}
+	.honor_list_item {
+		display: flex;
+	}
+	.certificationimgs_item image {
 		width: 18rpx;
 		height: 18rpx;
+		margin-right: 10rpx;
 	}
 
 	.tabBarSwiper {
@@ -799,7 +807,6 @@
 		width: 80rpx;
 		height: 80rpx;
 		border-radius: 40rpx;
-		border: 1rpx solid #FFFFFF;
 	}
 
 	/* 广告位 */

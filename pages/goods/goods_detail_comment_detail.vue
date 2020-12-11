@@ -49,11 +49,10 @@
 							<view class="page-view-collect-transpond">
 								<view class="page-view">浏览量: <text>{{views_num}}</text></view>
 								<view class="collect" v-if="is_collect == 0"  @tap='clickLike(id)'>
-									<image src="../../static/images/collect.png" mode="" ></image><text>{{collect_num}}</text>
-									<!-- <image src="../../static/images/collect.png" mode=""></image> <text>{{collect_num}}</text> -->
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" mode="" ></image><text>{{collect_num}}</text>
 								</view>
 								<view class="collect" v-else  @tap='cancelLike(id)'>
-									<image src="../../static/images/checked-collect.png" mode="" ></image><text>{{collect_num}}</text>
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" mode="" ></image><text class="collect_hover">{{collect_num}}</text>
 								</view>
 								<view class="transpond">
 									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
@@ -90,7 +89,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '评价详情',
 				imgs: [{
 					id: 1
@@ -367,5 +366,7 @@
 		color: #fa3475;
 		font-size: 26rpx;
 	}
-	
+	.collect_hover{
+		color: #9F55FF;	
+	}
 </style>

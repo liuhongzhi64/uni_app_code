@@ -65,9 +65,9 @@
 								<view class="browse" v-if="item.views_num<=9999">{{item.views_num}}浏览量</view>
 								<view class="browse" v-else>9999+浏览量</view>
 								<view class="like">
-									<image src="../../static/images/collect.png" mode="" v-if="item.is_collect == 0" ></image> 
-									<image src="../../static/images/checked-collect.png" mode="" v-else ></image> 
-									<text>{{item.collect_num}}</text>
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" mode="" v-if="item.is_collect == 0" ></image> 
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" mode="" v-else ></image> 
+									<text :class="item.is_collect == 0?'':'collect_hover'">{{item.collect_num}}</text>
 								</view>
 								<view class="consult">
 									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
@@ -106,7 +106,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '全部评价',
 				typeList: [{
 						name: '全部',
@@ -405,5 +405,7 @@
 		font-size: 28rpx;
 		margin-top: 56rpx;
 	}
-	
+	.collect_hover{
+		color: #9F55FF;	
+	}
 </style>

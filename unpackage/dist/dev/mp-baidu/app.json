@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/my/my_collection",
     "pages/my/my",
     "pages/my/account_number",
     "pages/my/add_address",
@@ -9,6 +8,7 @@
     "pages/my/my_card",
     "pages/my/my_card_gain",
     "pages/my/my_card_use",
+    "pages/my/my_collection",
     "pages/my/my_comment",
     "pages/my/my_order",
     "pages/my/my_order_detail",

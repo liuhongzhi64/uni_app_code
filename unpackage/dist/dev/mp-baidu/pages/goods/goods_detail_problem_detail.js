@@ -130,20 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 469));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -210,7 +197,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '../static/images/back2.png',
+      backImage: '/static/images/back2.png',
       title: '问答详情',
       id: '',
       q_contents: '',
@@ -231,18 +218,38 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-      } });
+    // 判定运行平台
+    var platform = '';
+    that.height = uni.getSystemInfoSync().screenHeight;
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
     getDetail: function getDetail(id) {var _this = this;
@@ -305,24 +312,16 @@ __webpack_require__.r(__webpack_exports__);
 
     },
 
-    // 提问
-    goToCondult: function goToCondult() {
-      var problemId = that.id;
+    // 咨询
+    go_consult: function go_consult() {
       uni.navigateTo({
-        url: "/pages/consultation/consultation?id=".concat(problemId) });
+        url: "/pages/consultation/consultation" });
 
     },
     // 点击图片
-    seeDetail: function seeDetail(e) {
-      // console.log(e)
+    see_detail: function see_detail(type, video) {
       // "type": 0  图片  1 视频
-      var type = e.currentTarget.dataset.type;
-      if (type == 0) {
-        var img = e.currentTarget.dataset.img;
-        console.log('图片', img);
-      } else {
-        var video = e.currentTarget.dataset.video;
-        console.log(video);
+      if (type == 1) {
         uni.navigateTo({
           url: "/pages/goods/goods_detail_video?video=".concat(video) });
 

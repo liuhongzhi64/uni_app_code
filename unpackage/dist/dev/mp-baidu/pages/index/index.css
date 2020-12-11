@@ -67,20 +67,42 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 	font-size: 24rpx;
 	color: #333333;
 	line-height: 30rpx;
-	padding: 0 10rpx;
+	padding: 0 20rpx;
 }
-.certifications.data-v-57280228 {
+.certifications_content.data-v-57280228{
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	color: #333333;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
 }
-.certificationimgs image.data-v-57280228 {
+.honor_list.data-v-57280228{
+	display: inline-block;
+	color: #333333;
+	padding-left: 20rpx;
+}
+.honor_list.data-v-57280228:first-child{
+	padding-left: 0;
+}
+.honor_list_item.data-v-57280228 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.certificationimgs_item image.data-v-57280228 {
 	width: 18rpx;
 	height: 18rpx;
+	margin-right: 10rpx;
 }
 .tabBarSwiper.data-v-57280228 {
 	display: -webkit-box;
@@ -131,7 +153,6 @@
 	width: 80rpx;
 	height: 80rpx;
 	border-radius: 40rpx;
-	border: 1px solid #FFFFFF;
 }
 
 /* 广告位 */

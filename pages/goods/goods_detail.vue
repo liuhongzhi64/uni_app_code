@@ -254,7 +254,7 @@
 							<view class="name-score">
 								<view class="evaluate-user-name"> {{item.nick_name}} </view>
 								<view class='itembox'>
-									<view v-for="(i,index) in imgs" :key="index" >
+									<view v-for="(i,z) in imgs" :key="z" >
 										<image class="star" :src="item.point>=i.id?src1:''"></image>
 									</view>
 								</view>
@@ -567,6 +567,10 @@
 				that.encrypted_id = encrypted_id
 			} else {
 				encrypted_id = 'MDlqdXJZTzQyODErcm1kYVBPYzBiZz09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
+				that.encrypted_id = encrypted_id 
+			}
+			if(option.id){
+				encrypted_id = option.id
 				that.encrypted_id = encrypted_id
 			}
 			that.getGoodsDetail(sku_id, encrypted_id)

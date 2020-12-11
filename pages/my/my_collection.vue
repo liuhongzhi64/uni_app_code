@@ -207,6 +207,51 @@
 						</view>
 					</view>
 				</view>
+				<!-- 问答 -->
+				<view class="questions" v-if="tabIndex==3">
+					<view class="questions_content" v-for="(item,index) in content_list" :key='index'>
+						<view class="questions_top_content" @tap="questions_detail(item.id)">
+							<view class="ask-contnet">
+								<view class="ask_top">
+									<view class="ask_hint"> 问 </view>
+									<view class="ask-title"> {{ item.q_contents }} </view>
+								</view>
+								<view class="ask_list" v-if="item.q_img_list.length>0">
+									<scroll-view class="ask_list_item" scroll-x="true">
+										<view class="item_img" v-for="(i,k) in item.q_img_list" :key="k">
+											<image class="ask_img" :src="requestUrl+i.img" > </image>
+											<image class="this_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" v-if="i.type==1"></image>
+										</view>
+									</scroll-view>
+								</view>
+							</view>
+							<view class="answer">
+								<view class="answer_top">
+									<view class="answer_hint"> 答 </view>
+									<view class="answer_title"> {{ item.a_contents }} </view>
+								</view>
+								<view class="answer_list" v-if="item.a_img_list.length>0">
+									<scroll-view class="ask_list_item" scroll-x="true">
+										<view class="item_img" v-for="(i,k) in item.a_img_list" :key="k">
+											<image class="ask_img" :src="requestUrl+i.img" > </image>
+											<image class="this_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" v-if="i.type==1"></image>
+										</view>
+									</scroll-view>
+								</view>
+							</view>
+						</view>
+						<view class="questions_buttom">
+							<view class="browse_content">
+								<text v-if="item.views_num<9999"> {{ item.views_num }} </text>  
+								<text v-else > 9999+ </text>
+								浏览 
+							</view>
+							<view class="set_ask" @tap="go_consult"> <image src="../../static/images/advisory.png" ></image> 提问 </view>
+							<view class="delete_questions" @tap="delete_questions(item.id)"> 删除 </view>
+						</view>
+					</view>
+					
+				</view>
 			</view>
 			
 		</view>
@@ -326,7 +371,6 @@
 						let data = res.data.data
 						if (data.length > 0) {
 							that.content_list = that.content_list.concat(data)
-							console.log(data)
 						} else if (that.offset > 0) {
 							uni.showToast({
 								title: '没有更多了',
@@ -467,7 +511,39 @@
 				uni.navigateTo({
 					url: `/pages/diary/diary_detail?id=${id}`,
 				})
+			},
+			// 问答详情
+			questions_detail:function(id){
+				uni.navigateTo({
+					url: `/pages/goods/goods_detail_problem_detail?id=${id}`,
+				})
+			},
+			// 删除问答
+			delete_questions:function(id){
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定删除此收藏？',
+					success: function(res) {
+						if (res.confirm) {
+							let dataInfo = {
+								interfaceId: 'cancelcollectqa',
+								qa_id: id
+							}
+							that.request.uniRequest("qa", dataInfo).then(res => {
+								if (res.data.code == 1000 && res.data.status == 'ok') {
+									that.tabtap(that.tabIndex, that.listType)
+									uni.showToast({
+										title: '删除成功',
+										duration: 1000
+									})
+								}
+							})
+						}
+					}
+				})
 			}
+		
 		}
 	}
 </script>
@@ -1096,6 +1172,120 @@
 		border-radius: 20rpx;
 	}
 	.diary_operation button::after{
+		border: none;
+	}
+	
+	.questions_content{
+		padding: 0 20rpx;
+	}
+	.ask_top,.answer_top{
+		display: flex;
+		font-size: 24rpx;
+		padding: 20rpx 0;
+	}
+	.ask_hint,.answer_hint{
+		width: 40rpx;
+		height: 40rpx;
+		line-height: 40rpx;
+		border-radius: 20rpx;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 20rpx;
+		color: #FFFFFF;
+		background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
+	}
+	.answer_hint{
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+	}
+	.ask-title,.answer_title{
+		flex: 1;
+		padding-left: 20rpx;
+		color: #999999;
+	}
+	.answer_title{
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
+	}
+	.answer{
+		padding-bottom: 30rpx;
+		border-bottom: 1rpx solid #999999;
+	}
+	
+	.ask_list,.answer_list{
+		display: flex;
+		align-items: center;
+		height: 220rpx;
+		width: 100%;
+	}
+	.ask_list_item{
+		overflow: hidden;
+		white-space: nowrap;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+	.item_img{
+		width: 100%;
+		display: inline-block;
+		width: 220rpx;
+		height: 220rpx;
+		background-color: #000000;
+		margin-right: 20rpx;
+		position: relative;
+	}
+	.ask_img {
+		width: 220rpx;
+		height: 220rpx;
+		border-radius: 16rpx;
+	}
+	.this_video{
+		position: absolute;
+		width: 60rpx;
+		height: 60rpx;
+		top: 80rpx;
+		left: 80rpx;
+		opacity: 0.8;
+	}
+	.item_img:last-child{
+		margin-right: 0;
+	}
+	.questions_buttom{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 24rpx;
+		padding: 30rpx 0;
+	}
+	.browse_content{
+		color: #fa3475;
+	}
+	.browse_content text{
+		padding-right: 10rpx;
+	}
+	.set_ask{
+		display: flex;
+		align-items: center;
+	}
+	.set_ask image{
+		width: 40rpx;
+		height: 40rpx;
+		margin-right: 10rpx;
+	}
+	.delete_questions{
+		width: 120rpx;
+		height: 40rpx;
+		line-height: 40rpx;
+		border-radius: 20rpx;
+		background-color: #FFFFFF;
+		border: 1rpx solid #D3D3D3;
+		text-align: center;
+		color: #999999;
+	}
+	.delete_questions::after{
 		border: none;
 	}
 	

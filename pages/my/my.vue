@@ -198,7 +198,7 @@
 					{
 						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_evaluate.png",
 						name: "我的评价",
-						page: "/my/my_comment"
+						page: "/my/my_comment?index=1"
 					},
 					{
 						icon: "https://xcx.hmzixin.com/upload/images/c_staff.png",

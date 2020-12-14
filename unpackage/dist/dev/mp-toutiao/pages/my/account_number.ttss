@@ -125,6 +125,9 @@
 	font-size: 28rpx;
 	color: #ffffff;
 }
+.log-out-btn.data-v-54291e35::after{
+	border: none;
+}
 .hint.data-v-54291e35{
 	padding: 172rpx 168rpx 0;
 }

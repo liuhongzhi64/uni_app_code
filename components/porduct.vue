@@ -66,7 +66,7 @@
 		<view class="product-show" :style="[{'width':width+'rpx'}]" v-for="(i,k) in porductLists" :class="(k%2==0)?'product-item-fl':'product-item-fr'"
 		 :key='k' :data-name="i.goods_name" :data-id='i.encrypted_id' :data-sku_id = 'i.sku_id' @tap="changeGoods">
 			<view class="images">
-				<image src="../static/images/19.png" mode="" :style="[{'height':width+'rpx'}]" ></image>
+				<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg" mode="" :style="[{'height':width+'rpx'}]" ></image>
 				<!-- <image :src="requestUrl + i.head_img" mode="" :style="[{'width':width+'rpx','height':width+'rpx'}]"></image> -->
 			</view>
 			<view class="product-title"> 

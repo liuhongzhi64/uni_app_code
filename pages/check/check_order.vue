@@ -124,7 +124,7 @@
 						title: '收费室使用',
 						porduct: [{
 							id: '02048492',
-							url: '../../static/images/23.png',
+							url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
 							porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
 							content: '版本：尊享版； 规格：傲若拉商品名称.... ',
 							contentList: [{
@@ -150,7 +150,7 @@
 						title: '会员中心使用',
 						porduct: [{
 							id: '02048495',
-							url: '../../static/images/23.png',
+							url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
 							porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
 							content: '版本：尊享版； 规格：傲若拉商品名称.... ',
 							contentList: [{
@@ -176,7 +176,7 @@
 						title: '已核销商品',
 						porduct: [{
 							id: '02048499',
-							url: '../../static/images/23.png',
+							url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
 							porductName: '商品名称,商品名称,商品名称,商品名称,商品名称,最多两行就隐藏显示为....',
 							content: '版本：尊享版； 规格：傲若拉商品名称.... ',
 							contentList: [{

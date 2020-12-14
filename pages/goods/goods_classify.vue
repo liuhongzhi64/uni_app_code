@@ -142,15 +142,7 @@
 				rightswiperHeight: 0, //右边的滑动元素高度
 				newslist: [], //商品数组
 				classfyList: [], //非热门推荐商品列表
-				swiperList: [{
-						id: 0,
-						url: '../../static/images/22.png',
-					},
-					{
-						id: 1,
-						url: '../../static/images/22.png',
-					},
-				],
+				
 				requestUrl: '',
 				advertising_img:{
 					content:[]

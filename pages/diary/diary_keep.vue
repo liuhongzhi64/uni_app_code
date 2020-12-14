@@ -11,14 +11,14 @@
 						<label class="change-video">
 							
 							<view class="video-image">
-								<image src="../../static/images/20.png" mode=""></image>
+								<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg"></image>
 							</view>
 							<radio class="change-type" value="video" color='#fa3576' style="transform:scale(1.2)"  />
 							<view class="video-text"> 视频攻略 </view>
 						</label>
 						<label class="change-text-photo">
 							<view class="photo-image">
-								<image src="../../static/images/test.jpg" mode=""></image>
+								<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg"></image>
 							</view>
 							<radio class="change-type" value="photo" color='#fa3576' style="transform:scale(1.2)" />
 							<view class="photo-text"> 图文攻略 </view>

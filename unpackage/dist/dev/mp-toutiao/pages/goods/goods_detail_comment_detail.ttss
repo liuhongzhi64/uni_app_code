@@ -120,5 +120,7 @@
 	color: #fa3475;
 	font-size: 26rpx;
 }
-
+.collect_hover.data-v-4b99a0d4{
+	color: #9F55FF;
+}
 

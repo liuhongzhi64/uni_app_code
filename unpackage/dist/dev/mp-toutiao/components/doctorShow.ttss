@@ -132,15 +132,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
 /* 左右布局 */
 .goods_content.data-v-19479237{
 		/* padding: 34rpx 10rpx; */
@@ -238,7 +229,7 @@
 }
 .collect_num.data-v-19479237{
 		font-size: 30rpx;
-		color: #fc4783;		
+		color: #9F55FF;		
 		display: -webkit-box;		
 		display: -webkit-flex;		
 		display: flex;
@@ -290,7 +281,8 @@
 		margin-right: 16rpx;
 }
 .like-image.data-v-19479237{
-		width: 24rpx;
-		height: 24rpx;
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 10rpx;
 }	
 

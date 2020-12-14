@@ -1,66 +1,45 @@
 <template>
-	<view class="search_result"> 
+	<view class="search_result">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 		<!-- 搜索栏 -->
 		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="search-input-text">
-				<view class="left-input"> <icon type="search" size="18"/> <input class="search-content" @input="onKeyInput" placeholder-style='color: #b2b2b2;' placeholder="请输入关键词搜索" /></view>
+				<view class="left-input">
+					<image class="search-icon" src="../../static/images/search_icon.png"></image>
+					<input class="search-content" @input="onKeyInput" placeholder-style='color: #b2b2b2;' :placeholder="searchContent" />
+				</view>
 				<view class="right-text">确定</view>
 			</view>
-			
 		</view>
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+60+'px'}]">
-			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
-			 @tabtap="tabtap"></swiperTabHead>
-		</view>		
+			<view class="top-swiper-content" :class="{'active' : tabIndex==index}" v-for="(item,index) in tabBars" :key='index'
+			 @tap='tabtap(index,item.type)'>{{item.name}}
+				<view class="swiper-tab-line" v-if="tabIndex==index"></view>
+			</view>
+		</view>
 		<view class="search-input_content" :style="[{'padding-top':menuBottom+100+'px'}]">
-			<view class="search-input_items">
-				<swiper :style="[{'height':height-menuBottom-100+'px'}]" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(item,index) in tabBars" :key="index">
-						<scroll-view scroll-y :style="[{'height':height-menuBottom-100+'px'}]">
-							<template>
-								<block>
-									<view class="result_content">
-										<view class="item-all">
-											{{item.name+item.type}}
-										</view>
-										<goodsShow
-										 :borderRadius=24 
-										 :requestUrl='requestUrl' 
-										 :width=350 
-										 :porductList='productList' 
-										 v-if='items.type==0'>
-										</goodsShow>
-										<doctor :doctorList="productList"
-										 :requestUrl="requestUrl" :paddingLR='paddingLR' @collectLike='collectLike'
-										 @cancelLike='cancelLike' v-else-if="items.type==1">
-										</doctor>
-										<diary :diaryList="productList" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
-										<porduct :width=350 :porductList='productList' v-else-if="item.type==3"></porduct>	
-									</view>
-								</block>
-							</template>
-						</scroll-view>
-					</swiper-item>
-				</swiper>
-				</view>
-			</view>		
+			<view class="result_content">
+				<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='content_list' v-if='items.type==0'>
+				</goodsShow>
+				<doctor :doctorList="content_list" :requestUrl="requestUrl" :paddingLR='paddingLR' @collectLike='collectLike'
+				 @cancelLike='cancelLike' v-else-if="items.type==1">
+				</doctor>
+				<diary :diaryList="content_list" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
+				<porduct :width=350 :porductList='content_list' v-else-if="item.type==3"></porduct>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import porduct from '../../components/porduct.vue'
-	import swiperTabHead from "../../components/swiper-tab.vue";
 	import goodsShow from "../../components/goodsShow.vue";
 	import diary from '../../components/diary.vue';
 	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
 			topBar,
-			porduct,
-			swiperTabHead,
 			goodsShow,
 			diary,
 			doctor
@@ -76,10 +55,9 @@
 				barName: 'particularsPage', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '搜索结果页',
-				tabBars: [
-					{
+				tabBars: [{
 						name: '商品',
 						id: 'porduct',
 						type: 0
@@ -90,7 +68,7 @@
 						type: 1,
 					},
 					{
-						name: '日记',
+						name: '买家秀',
 						id: 'diary',
 						type: 2
 					},
@@ -99,84 +77,22 @@
 						id: 'video',
 						type: 3
 					},
-				
+
 				],
-				line: true, //是否显示选中线
-				tabBackgroundColor: '#FFFFFF',
-				size: 24,
-				tabIndex: 0, // 选中的顶部的导航的索引
+
+				tabIndex: 0, // 选中的顶部的导航的索引,类型
 				inputValue: '',
-				contentList: [],
-				productList:[
-					{
-						url:'../../static/images/19.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/23.png',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'',
-						productTitle:'',
-						prouctPrice:0
-					},
-					{
-						url:'../../static/images/20.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/test.jpg',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'../../static/images/20.png',
-						productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						prouctPrice:998
-					},
-					{
-						url:'../../static/images/19.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/23.png',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'',
-						productTitle:'',
-						prouctPrice:0
-					},
-					{
-						url:'../../static/images/20.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/test.jpg',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'../../static/images/20.png',
-						productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						prouctPrice:998
-					},
-					{
-						url:'../../static/images/20.png',
-						title:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label:['眼部美容','眼部'],//标签
-						headPortrait:'../../static/images/test.jpg',//头像
-						userName:'用户昵称几个字',
-						like:99,//点赞
-						productUrl:'../../static/images/20.png',
-						productTitle:'我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						prouctPrice:998
-					},
-				],
-				offset:0,
-				searchContent:'祛斑'
+				content_list: [],
+				offset: 0,
+				searchContent: ''
 			}
 		},
 		onLoad: function(option) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			if(option.search){
-				let search = option.search
-				that.searchContent = search
-			}
-			that.getVideo()
+			that.searchContent = option.search
+			that.get_search()
 		},
 		onReady() {
 			let that = this;
@@ -215,99 +131,95 @@
 			}
 		},
 		methods: {
-			getGoods:function(){
+			get_search:function(){
 				let that = this
-				let dataInfo = {
-					interfaceId:'goodssearch',
-					search:that.searchContent,
-					offset:that.offset,
-					limit:6
-				}
-				that.request.uniRequest("search", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						console.log(data)
+				if( that.tabIndex +1 == 1 ){
+					let dataInfo = {
+						interfaceId: 'goodssearch',
+						search: that.searchContent,
+						offset: that.offset,
+						limit: 6
 					}
-				})
-			},
-			getDoctor:function(){
-				let that = this
-				let dataInfo = {
-					interfaceId:'doctorsearch',
-					search:that.searchContent,
-					offset:that.offset,
-					limit:6
-				}
-				that.request.uniRequest("search", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						console.log(data)
+					that.request.uniRequest("search", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							that.content_list = data
+						}
+					})
+				}else if( that.tabIndex +1 == 2 ){
+					let dataInfo = {
+						interfaceId: 'doctorsearch',
+						search: that.searchContent,
+						offset: that.offset,
+						limit: 6
 					}
-				})
-			},
-			getDiary:function(){
-				let that = this
-				let dataInfo = {
-					interfaceId:'diarysearch',
-					search:that.searchContent,
-					offset:that.offset,
-					limit:6
-				}
-				that.request.uniRequest("search", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						console.log(data)
+					that.request.uniRequest("search", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							console.log(data)
+						}
+					})
+				}else if( that.tabIndex +1 == 3 ){
+					let dataInfo = {
+						interfaceId: 'diarysearch',
+						search: that.searchContent,
+						offset: that.offset,
+						limit: 6
 					}
-				})
-			},
-			getVideo:function(){
-				let that = this
-				let dataInfo = {
-					interfaceId:'videosearch',
-					search:that.searchContent,
-					offset:that.offset,
-					limit:6
-				}
-				that.request.uniRequest("search", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						console.log(data)
+					that.request.uniRequest("search", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							console.log(data)
+						}
+					})
+				}else if( that.tabIndex +1 == 4 ){
+					let dataInfo = {
+						interfaceId: 'videosearch',
+						search: that.searchContent,
+						offset: that.offset,
+						limit: 6
 					}
-				})
+					that.request.uniRequest("search", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							let data = res.data.data
+							console.log(data)
+						}
+					})
+				}
+				
 			},
-			
-			
 			onKeyInput: function(event) {
-			   this.inputValue = event.target.value
+				let that = this
+				that.inputValue = event.target.value
+				that.searchContent = that.inputValue
+				that.get_search()
 			},
 			tabtap: function(index, type) {
-				this.tabIndex = index;
-				console.log(index,type)
+				let that = this
+				that.tabIndex = index
+				that.get_search()
 			},
-			tabChange: function(e) {
-				this.tabIndex = e.detail.current;
-				let index = e.detail.current;
-				let type = e.detail.current
-			}
 		}
 	}
 </script>
 
 <style scoped>
-	.search-input{
+	.search-input {
 		background-color: #F6F6F6;
 		height: 88rpx;
 		position: fixed;
 		z-index: 9;
 		width: 100%;
 	}
-	.search-input-text{
+
+	.search-input-text {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 16rpx  20rpx;
+		padding: 16rpx 20rpx;
 	}
-	.left-input{
+
+	.left-input {
 		width: 620rpx;
 		height: 56rpx;
 		background-color: #ffffff;
@@ -318,29 +230,69 @@
 		display: flex;
 		align-items: center;
 		padding-left: 24rpx;
+		position: relative;
 	}
-	.left-input icon{
-		height: 40rpx;
+
+	.search-icon {
+		position: absolute;
+		left: 20rpx;
+		width: 32rpx;
+		height: 32rpx;
+		top: 12rpx;
 	}
-	.search-content{
+
+	.search-content {
 		font-size: 26rpx;
 		height: 56rpx;
 		line-height: 56rpx;
-		/* text-indent: 55rpx; */
+		padding-left: 30rpx;
 	}
-	.right-text{
+
+	.right-text {
 		font-size: 26rpx;
 	}
+
 	.top-swiper-tab {
 		position: fixed;
+		height: 80rpx;
+		background-color: #FFFFFF;
 		z-index: 9;
 		width: 100%;
+		border-radius: 0 0 24rpx 24rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
+
+	.top-swiper-content {
+		width: 50%;
+		line-height: 80rpx;
+		text-align: center;
+		font-size: 24rpx;
+		position: relative;
+	}
+
+	.active {
+		color: #FA3475;
+		font-size: 28rpx;
+		font-weight: bolder;
+	}
+
+	.swiper-tab-line {
+		height: 6rpx;
+		background-color: #FA3475;
+		width: 50rpx;
+		border-radius: 3rpx;
+		position: absolute;
+		bottom: 5rpx;
+		left: 68rpx;
+	}
+
 	.search-input_items {
 		background-color: #F6F6F6;
 	}
-	.result_content{
+
+	.result_content {
 		padding: 0 20rpx;
 	}
 </style>
-

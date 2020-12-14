@@ -1,17 +1,17 @@
 <template>
 	<view class="login_phone">
-		<view class="login" :style="[{'height':height+'px'}]">
-			<view class="login-top" :style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px'}]">
-				<view class="back-title">
+		<view class="login" :style="[{'height':height-menuBottom-10+'px'}]">
+			<view class="login-top" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
+				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 					<view class="back" @tap='goBack'>
 						<image src="../../static/images/return.png" mode=""></image>
 					</view>
 					<view class="title">
-						<view class="title-name" :style="[{'padding-right':80+'rpx'}]"> 手机号登录 </view>
+						<view class="title-name" > 手机号登录 </view>
 					</view>
 				</view>
 			</view>
-			<view class="login-input" :style="'height:'+height +'rpx'">
+			<view class="login-input" :style="[{'margin-top':menuBottom+10+'px'}]">
 				<view class="login-message">
 					<view class="phone">
 						<input class="phone-input" type="number" @blur="phoneInput" placeholder="请输入手机号" maxlength="11" />
@@ -76,27 +76,20 @@
 		},
 		onReady() {
 			let that = this;
-			// 判定运行平台
 			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
-					// console.log('运行Android上')
 					platform = 'android'
-					this.thisPlatform = platform
 					break;
 				case 'ios':
-					// console.log('运行iOS上')
 					platform = 'ios'
-					this.thisPlatform = platform
 					break;
 				default:
-					// console.log('运行在开发者工具上')
 					platform = 'applet'
-					this.thisPlatform = platform
 					break;
 			}
-			if(platform=='applet'){
-				// 获取屏幕高度
+			if (platform == 'applet') {
 				uni.getSystemInfo({
 					success: function(res) {
 						that.height = res.screenHeight
@@ -108,15 +101,13 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			}
-			else{
-				that.height = 812
+			} else {
+				that.menuWidth = 90
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
 				that.menuBottom = 82
 			}
-			// console.log(this.thisPlatform)			
 		},
 		methods: {
 			// 返回
@@ -245,7 +236,6 @@
 						// uni.navigateBack({
 						// 	delta: 1
 						// });
-						console.log(1111)
 						uni.switchTab({
 							url: `/pages/index/index`,
 						})
@@ -253,51 +243,6 @@
 						that.phoneCodeValueState = true
 					}
 				})
-								
-				// 判定运行环境是小程序还是安卓IOS
-				// if(that.thisPlatform=='applet'){
-				// 	// 判定sessionKey是否有值
-				// 	if (uni.getStorageSync("sessionKey") !== "") {
-				// 		// 检查登录状态是否过期
-				// 		uni.checkSession({
-				// 			success() {
-				// 				let dataInfo = {
-				// 					interfaceId: "phoneregister",
-				// 					tel: that.phoneValue,
-				// 					mobile_code: that.phoneCodeValue,
-				// 					type: 1,
-				// 					code_session: uni.getStorageSync("sessionKey"),
-				// 					channelSource: uni.getStorageSync("userInfo").channelSource
-				// 				}
-				// 				console.log(dataInfo)
-				// 				// this.request.uniRequest("login", dataInfo).then(res => {
-				// 				// 	that.getImageCode();
-				// 				// 	if (res.data.code === 1000) {
-				// 				// 		let data = res.data.data;
-				// 				// 		uni.setStorageSync("consultation", data.consultation);
-				// 				// 		uni.setStorageSync("token", data.token);
-				// 				// 		uni.setStorageSync("userInfo", data);
-				// 				// 		this.request.showToast("登录成功");
-				// 				// 	}
-				// 				// })
-				// 			},
-				// 			fail() {
-				// 				that.getSessionKey();
-				// 			}
-				// 		})
-				// 	} else {
-				// 		that.getSessionKey();
-				// 	}
-				// }else{
-				// 	let dataInfo ={
-				// 		interfaceId:'commonlogin',
-				// 		tel:that.phoneValue,
-				// 		mobile_code:that.phoneCodeValue,
-				// 		archives_id:'',
-				// 		f_unique_id:''					
-				// 	}
-				// }
-							
 			},
 			consultation:function(){
 				uni.navigateTo({
@@ -336,7 +281,8 @@
 	}
 	.login .login-top {
 		color: #FFFFFF;
-		background-image: linear-gradient(90deg, #ff6699 0%, #fa3475 100%);
+		background-image: linear-gradient(to right, #FF72AA,#F54F8F);
+		/* background-image: linear-gradient(90deg, #ff6699 0%, #fa3475 100%); */
 		text-align: center;
 		font-size: 40rpx;
 		width: 100%;
@@ -344,6 +290,10 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 9;
 	}
 
 	.back-title {
@@ -352,14 +302,18 @@
 		align-items: center;
 		font-size: 38rpx;
 		width: 100%;
+		position: relative;
 	}
 
 	.back {
 		display: flex;
 		align-items: center;
-		margin-left: 20rpx;
 		width: 60rpx;
 		height: 100%;
+		position: absolute;
+		left: 20rpx;
+		top: 0;
+		z-index: 9;
 	}
 
 	.back image {
@@ -369,6 +323,11 @@
 
 	.title {
 		flex: 1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		text-align: center;
 	}
 
 	.login-input {

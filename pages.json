@@ -5,7 +5,15 @@
 				
 		
 		
-		
+		// 搜索
+		{
+			"path": "pages/search/search", //搜索主页
+			"style": {}
+		},
+		{
+			"path": "pages/search/search_result", //搜索结果）
+			"style": {}
+		},
 		
 		 
 		{
@@ -71,11 +79,11 @@
 			"path": "pages/my/my_order_refund_reason", //退款原因
 			"style": {}
 		},
-		
 		{
 			"path": "pages/my/my_set", //设置
 			"style": {}
 		},
+		
 		{
 			"path": "pages/my/write_comment", //写评价
 			"style": {}
@@ -280,15 +288,7 @@
 			"style": {}
 		},
 
-		// 搜索
-		{
-			"path": "pages/search/search", //搜索主页
-			"style": {}
-		},
-		{
-			"path": "pages/search/search_result", //搜索结果）
-			"style": {}
-		},
+		
 
 		// 签到
 		{

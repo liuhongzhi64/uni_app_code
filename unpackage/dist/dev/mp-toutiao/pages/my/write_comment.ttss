@@ -40,7 +40,6 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	/* width: 400rpx; */
 	height: 60rpx;
 }
 .itembox text.data-v-7d1efd56{
@@ -218,6 +217,13 @@
 }
 .issue-botton.data-v-7d1efd56::after{
 	border: none;
+}
+.button_hint.data-v-7d1efd56{
+	width: 100%;
+	font-size: 20rpx;
+	color: #fa3475;
+	text-align: center;
+	padding-bottom: 20rpx;
 }
 
 

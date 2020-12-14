@@ -2,8 +2,6 @@
   "component": true,
   "usingComponents": {
     "top-bar": "/components/topBar",
-    "porduct": "/components/porduct",
-    "swiper-tab-head": "/components/swiper-tab",
     "goods-show": "/components/goodsShow",
     "diary": "/components/diary",
     "doctor": "/components/doctorShow"

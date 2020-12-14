@@ -6,25 +6,31 @@
 					<view class="back">
 						<image src="../../static/images/return.png"></image>
 					</view>
-					<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> 个人中心 </view>
+					<view class="title"> 个人中心 </view>
 				</view>
 			</view>
 			<view class="top-message" :style="[{'padding-top':menuBottom+10+'px'}]">
 				<view class="user-message">
 					<view class="user-head-portrait-name-phone-set">
 						<view class="user-head-portrait">
-							<image class="user-head-portrait_image" src=""></image>
+							<image class="user-head-portrait_image" :src="requestUrl+user_info.head_ico"></image>
 							<view class="name-cart-phone">
 								<view class="user-name-cart">
-									<view class="user-name">用户名字就八个字</view>
+									<view class="user-name"> {{ user_info.real_name || user_info.nick_name }} </view>
 									<!-- <view class="user-cart"> 时尚卡 </view> -->
 								</view>
 								<view class="phone-account-number">
-									<view class="phone"> 18281612661 </view>
+									<view class="phone"> {{ user_info.tel }} </view>
 									<view class="account-number" @tap='goToAccount'> 切换账号 </view>
 								</view>
 							</view>
 						</view>
+						
+						<view class="eye_img" @tap="set_show_user()">
+							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye_no.png" v-if="this_show_user"></image>
+							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye.png" v-else></image>
+						</view>
+						
 						<view class="set" @tap='goToSet'> 设置 > </view>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
@@ -231,27 +237,38 @@
 						page: "/other/jump?url=get-present/"
 					}
 				],
-
+				user_info:{},
 				productList: [],
 				requestUrl: '',
 				offset: 0, //分页起始位置
 				advertising_img: {
 					content: []
 				},
+				this_show_user:false
 			}
 		},
 		onLoad(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			// 猜你喜欢
-			that.getLike()
+			// // 猜你喜欢
+			// that.getLike()
 			// 广告
 			that.advertising()
 			// 个人中心卡券订单浮标数据
-			that.getCardOrder()
+			// that.getCardOrder()
 			// 个人中心卡等级、积分获取 非微信小程序不显示
 			// that.crmInfo()
+		},
+		onShow:function(){
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.set_show_user()
+			// 猜你喜欢
+			that.getLike()
+			// 个人中心卡券订单浮标数据
+			that.getCardOrder()
 		},
 		onReachBottom: function() {
 			let that = this;
@@ -312,6 +329,39 @@
 						that.advertising_img = data
 					}
 				})
+			},
+			set_show_user:function(){
+				let that = this
+				that.this_show_user = !that.this_show_user
+				if(that.this_show_user){
+					that.user_info = uni.getStorageSync("userInfo")
+					if(that.user_info.real_name.length==2){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*')
+					}else if(that.user_info.real_name.length==3){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'**')
+					}
+					else if(that.user_info.real_name.length==4){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'***')
+					}
+					else if(that.user_info.real_name.length==5){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'****')
+					}
+					else if(that.user_info.real_name.length==6){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*****')
+					}
+					else if(that.user_info.real_name.length==7){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'******')
+					}else if(that.user_info.real_name.length==8){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*******')
+					}else if(that.user_info.real_name.length==9){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'********')
+					}else if(that.user_info.real_name.length==10){
+						that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*********')
+					}
+					that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3,7),'****')
+				}else{
+					that.user_info = uni.getStorageSync("userInfo")
+				}
 			},
 			// 猜你喜欢
 			getLike: function() {
@@ -385,6 +435,11 @@
 					uni.navigateTo({
 						url: `/pages/my/my_card`,
 					})
+				}else{
+					uni.showToast({
+						title:'正在开发中...',
+						icon:'none'
+					})
 				}
 			},
 			go_to_order: function(index) {
@@ -428,6 +483,7 @@
 		justify-content: space-between;
 		align-items: center;
 		font-size: 38rpx;
+		position: relative;
 	}
 
 	.back {
@@ -445,7 +501,11 @@
 
 	.back-title .title {
 		flex: 1;
-		margin-left: 80rpx;
+		position: absolute;
+		width: 100%;
+		left: 0;
+		top: 0;
+		text-align: center;
 	}
 
 	.user-head-portrait-name-phone-set {
@@ -502,10 +562,19 @@
 
 	.account-number {
 		margin-left: 10rpx;
+		border: 1rpx solid #FFFFFF;
+		padding: 0 10rpx;
+		border-radius: 16rpx;
+		font-size: 20rpx;
 	}
 
 	.user-head-portrait-name-phone-set .set {
 		color: #FFFFFF;
+	}
+	
+	.eye_img image{
+		width: 40rpx;
+		height: 30rpx;
 	}
 
 	.set text {

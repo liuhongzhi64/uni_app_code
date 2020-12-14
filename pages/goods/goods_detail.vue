@@ -288,7 +288,7 @@
 					</view>
 				</view>
 				<!-- 详情 -->
-				<view class="particulars">
+				<view class="particulars" v-if="spu_info.length>0">
 					<view class="related-title">
 						<view class="line"></view> 详情
 					</view>
@@ -1047,8 +1047,8 @@
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						that.contentList[index].is_collect = 1
-						that.contentList[index].collect_num +=1
+						that.diaryList[index].is_collect = 1
+						that.diaryList[index].collect_num +=1
 						uni.showToast({
 							title: '已收藏',
 							duration: 1000
@@ -1065,8 +1065,8 @@
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						that.contentList[index].is_collect = 0
-						that.contentList[index].collect_num -=1
+						that.diaryList[index].is_collect = 0
+						that.diaryList[index].collect_num -=1
 						uni.showToast({
 							title: '已取消收藏',
 							duration: 1000

@@ -5,7 +5,7 @@
 
 		<view class="diary_write_video-content" :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
 			<view class="top-video">
-				<image src="../../static/images/20.png" mode=""></image>
+				<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg" mode=""></image>
 			</view>
 			<view class="top-content">
 				<view class="top-title"><input class="top-title-input" @input="onKeyInput" placeholder="可以写标题" /></view>

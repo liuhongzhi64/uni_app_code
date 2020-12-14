@@ -52,7 +52,8 @@
 									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" mode="" ></image><text>{{collect_num}}</text>
 								</view>
 								<view class="collect" v-else  @tap='cancelLike(id)'>
-									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" mode="" ></image><text class="collect_hover">{{collect_num}}</text>
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" mode="" ></image>
+									<text class="collect_hover">{{collect_num}}</text>
 								</view>
 								<view class="transpond">
 									<image src="../../static/images/share.png" mode=""></image> <text>提问</text>
@@ -121,10 +122,10 @@
 				id:0,
 				productList: [
 					{
-						url: '../../static/images/19.png',
+						url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						price: 19800,
 						closed:'闭馆特推',
 						activity: [],
@@ -136,10 +137,10 @@
 				
 					},
 					{
-						url: '../../static/images/20.png',
+						url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						activity: ['首单必减', '折扣'],
 						price: 19800,
 						vipPrice: 18800,
@@ -149,10 +150,10 @@
 						}],
 					},
 					{
-						url: '../../static/images/19.png',
+						url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						price: 19800,
 						closed:'闭馆特推',
 						activity: [],

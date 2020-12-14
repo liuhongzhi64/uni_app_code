@@ -201,14 +201,22 @@
 	width: 210rpx;
 	margin-right: 10rpx;
 	height: 280rpx;
+	position: relative;
 }
 .case-item.data-v-1e282ce6:last-child{
 	padding-right: 30rpx;
 }
-.case-item image.data-v-1e282ce6{
+.pay_btn.data-v-1e282ce6{
+	position: absolute;
+	top: 75rpx;
+	left: 75rpx;
+	width: 60rpx;
+}
+.case-item .image.data-v-1e282ce6{
 	width: 210rpx;
 	height: 210rpx;
 	border-radius: 16rpx;
+	border: 1rpx solid #FFFFFF;
 }
 .case-explain.data-v-1e282ce6{
 	overflow: hidden;

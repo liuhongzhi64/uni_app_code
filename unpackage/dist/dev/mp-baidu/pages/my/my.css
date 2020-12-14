@@ -31,6 +31,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	font-size: 38rpx;
+	position: relative;
 }
 .back.data-v-0be17cc6 {
 	display: -webkit-box;
@@ -51,7 +52,11 @@
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
-	margin-left: 80rpx;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+	text-align: center;
 }
 .user-head-portrait-name-phone-set.data-v-0be17cc6 {
 	padding: 10rpx 40rpx;
@@ -115,9 +120,17 @@
 }
 .account-number.data-v-0be17cc6 {
 	margin-left: 10rpx;
+	border: 1px solid #FFFFFF;
+	padding: 0 10rpx;
+	border-radius: 16rpx;
+	font-size: 20rpx;
 }
 .user-head-portrait-name-phone-set .set.data-v-0be17cc6 {
 	color: #FFFFFF;
+}
+.eye_img image.data-v-0be17cc6{
+	width: 40rpx;
+	height: 30rpx;
 }
 .set text.data-v-0be17cc6 {
 	margin-left: 10rpx;

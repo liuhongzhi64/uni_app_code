@@ -237,5 +237,7 @@
 	font-size: 28rpx;
 	margin-top: 56rpx;
 }
-
+.collect_hover.data-v-3a45af4c{
+	color: #9F55FF;
+}
 

@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/search/search",
+    "pages/search/search_result",
     "pages/my/my",
     "pages/my/account_number",
     "pages/my/add_address",
@@ -56,8 +58,6 @@
     "pages/other/jump",
     "pages/pay_success/pay_success",
     "pages/poster/poster",
-    "pages/search/search",
-    "pages/search/search_result",
     "pages/sign/sign"
   ],
   "subPackages": [],

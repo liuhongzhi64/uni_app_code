@@ -8,7 +8,7 @@
 
 			<view class="login_gather_content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
 				<view class="advertising-images">
-					<image src="../../static/images/19.png" mode=""></image>
+					<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg" mode=""></image>
 				</view>
 
 				<view class="go-weichat-login-btn">

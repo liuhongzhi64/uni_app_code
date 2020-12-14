@@ -28,7 +28,7 @@
 					<template>
 						<view class="top-content">
 							<!-- 轮播 -->
-							<view id="top-swiper">
+							<view class="top-swiper">
 								<swiper v-if="swiperList" class="swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval="topInterval"
 								 :duration="topDuration" circular>
 									<swiper-item v-for="(i,index) in swiperList" :key="index">
@@ -737,7 +737,7 @@
 		font-size: 24rpx;
 		color: #333333;
 		line-height: 30rpx;
-		padding: 0 20rpx;
+		padding:  20rpx;
 	}
 	
 	.certifications_content{
@@ -779,7 +779,7 @@
 	.dot {
 		position: absolute;
 		bottom: 0rpx;
-		right: 340rpx;
+		right: 49%;
 	}
 
 	.tabBarSwiperItem {

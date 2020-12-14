@@ -1,0 +1,66 @@
+
+.set_content.data-v-3aad17e9{
+	background-color: #F0F0F0;
+}
+.set_top.data-v-3aad17e9{
+	background-color: #FFFFFF;
+	border-bottom-left-radius: 24rpx;
+	border-bottom-right-radius: 24rpx;
+}
+.set_info.data-v-3aad17e9{
+	margin-top: 30rpx;
+	background-color: #FFFFFF;
+	border-radius: 24rpx;
+}
+.user_info.data-v-3aad17e9{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding: 20rpx ;
+	border-bottom: 1rpx solid #F0F0F0;
+}
+.right_info.data-v-3aad17e9{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.head_ico.data-v-3aad17e9{
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50rpx;
+	background-color: #C0C0C0;
+}
+.authentication.data-v-3aad17e9{
+	color: #fa3576;
+}
+.go_img.data-v-3aad17e9{
+	width: 32rpx;
+	height: 32rpx;
+	margin-left: 20rpx;
+	-webkit-transform:rotate(180deg);
+	        transform:rotate(180deg)
+}
+.sign_out_btn.data-v-3aad17e9{
+	height: 80rpx;
+	line-height: 80rpx;
+	width: 100%;
+	border-radius: 40rpx;
+	text-align: center;
+}
+.sign_out.data-v-3aad17e9{
+	margin-top: 60rpx;
+	padding: 0 20rpx;
+}
+.sign_out_btn.data-v-3aad17e9::after{
+	border: none;
+}
+

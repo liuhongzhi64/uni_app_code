@@ -12,27 +12,23 @@
 		</view>
 
 		<view class="account-number-content" :style="[{'height':height-menuHeight-menuTop-10+'px'}]">
-			<view class="set-login-account-number">
+			<view class="set-login-account-number" @tap="logout">
 				<view class="set-login-account">
 					<view class="set-login"> 换登录账号 </view>
 					<view class="user-name-phone">
-						<view class="user-name"> 张** </view>
-						<view class="user-phone"> 189***897 > </view>
+						<view class="user-name"> {{ user_info.real_name || user_info.nick_name }} </view>
+						<view class="user-phone"> {{ user_info.tel }} > </view>
 					</view>
 				</view>
-
 			</view>
-
-			<view class="set-bound-phone">
+			<view class="set-bound-phone" @tap="set_new_tel">
 				<view class="relieve-phone"> 改绑手机号 </view>
-				<view class="at-present-phone"> 改绑当前手机号 > </view>
+				<view class="at-present-phone" > 改绑当前手机号 > </view>
 			</view>
 
 			<view class="log-out">
-				<button type="default" class="log-out-btn" plain="true" @tap="logout">退出登录</button>
+				<button type="default" class="log-out-btn" :disabled='is_disabled'  @tap="logout">退出登录</button>
 			</view>
-			
-			<view class="hint"> <view class="prompt-message" :style="[{'display': hintShow ? 'block':'none' }]"  >正在开发中...</view> </view>
 		</view>
 
 	</view>
@@ -49,45 +45,74 @@
 				menuBottom: 0,
 				menuPaddingRight: 0,
 				height: 0,
-				hintShow:false
+				is_disabled:false,
+				user_info:{},
 			}
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			that.user_info = uni.getStorageSync("userInfo") 
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					console.log(res)
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				uni.getSystemInfo({
+					success: function(res) {
+						that.height = res.screenHeight
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuWidth = 90
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
 			goBack: function() {
-				console.log('back')
 				uni.navigateBack({
 					delta: 1
 				});
 			},
 			logout: function() {
-				this.hintShow = !this.hintShow
+				let that = this
+				that.is_disabled = true
 				setTimeout(() => {
-					this.setHint()
 					uni.navigateTo({
-						url: `/pages/login/login`,
+						url: `/pages/login/login_phone`,
 					})
-				}, 3000)
+					that.is_disabled = false
+				}, 1000)
 				
 			},
-			setHint:function(){
-				this.hintShow = !this.hintShow
+			set_new_tel:function(){
+				let that = this
+				uni.showToast({
+					title:'正在开发中...',
+					icon:'none'
+				})
 			}
 		}
 	}
@@ -197,21 +222,9 @@
 		font-size: 28rpx;
 		color: #ffffff;
 	}
-	
-	.hint{
-		padding: 172rpx 168rpx 0;
+	.log-out-btn::after{
+		border: none;
 	}
 	
-	.prompt-message{
-		height: 64rpx;
-		line-height: 64rpx;
-		background-color: #000000;
-		border-radius: 32rpx;
-		opacity: 0.7;
-		font-size: 26rpx;
-		color: #ffffff;
-		text-align: center;
-		
-	}
 	
 </style>

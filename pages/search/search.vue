@@ -6,9 +6,9 @@
 		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="search-input-text">
 				<view class="left-input">
-					<icon class="search-icon" type="search" size="16" />
-					<input class="search-content"
-					 @input="onKeyInput" v-model="defaultContent" placeholder-style='color: #b2b2b2;' :placeholder="searchContent" />
+					<image class="search-icon" src="../../static/images/search_icon.png"></image>
+					<input class="search-content" @input="onKeyInput" v-model="defaultContent" placeholder-style='color: #b2b2b2;'
+					 :placeholder="searchContent||'请输入关键词搜索'" />
 				</view>
 				<view class="right-text" @tap='goToResult'>确定</view>
 			</view>
@@ -17,12 +17,12 @@
 			<template>
 				<view class="search-contents">
 					<view class="search-swiper">
-						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
-						 :duration="durationTime" circular>
-							<swiper-item v-for="(i,index) in swiperList" :key="index">
-								<view class="top-swiper-item">
-									<image :src="i.url" mode=""></image>
-								</view>
+						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay interval='6000' duration="3000"
+						 circular>
+							<swiper-item v-for="(item,index) in advertising_img.content" :key="index">
+								<navigator class="top-swiper-item" :url="'/pages'+item.page+'?id='+item.page_id" open-type="switchTab">
+									<image class="image" :src="requestUrl+item.img" mode="widthFix"></image>
+								</navigator>
 							</swiper-item>
 						</swiper>
 					</view>
@@ -89,63 +89,19 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../static/images/back2.png',
+				backImage: '/static/images/back2.png',
 				title: '搜索',
-				searchContent: '请输入关键词搜索', //默认搜索内容
-				defaultContent:'',
-				intervalTime: 3000, //自动切换时间间隔
-				durationTime: 1000, //	滑动动画时长
-				swiperList: [{
-						id: 0,
-						url: '../../static/images/0.png',
-					},
-					{
-						id: 1,
-						url: '../../static/images/22.png',
-					},
-					{
-						id: 2,
-						url: '../../static/images/0.png',
-					},
-					{
-						id: 3,
-						url: '../../static/images/22.png',
-					},
-				],
-				hotSearchList: [
-					'玻尿酸', '双眼皮', '脂肪填充', '吸脂', '水光针', '鼻综合', '瘦脸针', '隆鼻', '综合美胸', '草莓妆'
-				],
+				searchContent: '', //默认搜索内容
+				defaultContent: '',
+				advertising_img: {
+					content: []
+				},
+				hotSearchList: [],
 				colorNum: -1,
 				searchHistoryList: [],
 				searchHistoryNum: -1,
 				requestUrl: '',
-				announcementList: [
-					// {
-					// 	content: '拒绝大黄牙，分享我的牙齿美白经历',
-					// 	state: '↑',
-					// 	number: 1597
-					// },
-					// {
-					// 	content: '后台配置内容，可控制',
-					// 	state: '↑',
-					// 	number: 1597
-					// },
-					// {
-					// 	content: '拒绝大黄牙，分享我的牙齿美白经历',
-					// 	state: '',
-					// 	number: 1200
-					// },
-					// {
-					// 	content: '后台配置内容，可控制',
-					// 	state: '↓',
-					// 	number: 990
-					// },
-					// {
-					// 	content: '拒绝大黄牙，分享我的牙齿美白经历',
-					// 	state: '↓',
-					// 	number: 496
-					// },
-				]
+				announcementList: []
 			}
 		},
 		onLoad: function(option) {
@@ -153,11 +109,11 @@
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
 			that.searchContent = option.search
-			if(uni.getStorageSync("search_list")){
+			if (uni.getStorageSync("search_list")) {
 				that.searchHistoryList = uni.getStorageSync("search_list")
 			}
 			that.getDetails()
-			// that.advertising()
+			that.advertising()
 		},
 		onReady() {
 			let that = this;
@@ -206,9 +162,6 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.hotSearchList = data
-					} else {
-						// this.request.showToast('暂时没有数据')
-						console.log('没有数据')
 					}
 				})
 			},
@@ -222,27 +175,35 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
+						that.advertising_img = data
 					}
 				})
 			},
 			onKeyInput: function(event) {
-				this.inputValue = event.target.value
-				that.defaultContent = this.inputValue
+				let that = this
+				that.inputValue = event.target.value
+				that.defaultContent = that.inputValue
 			},
 			// 点击确定
 			goToResult: function() {
 				let that = this
-				// console.log(that.inputValue)
-				uni.navigateTo({
-					url: `/pages/search/search_result?search=${that.inputValue}`,
-				})
-				if(that.inputValue){
-					that.searchHistoryList.unshift(that.inputValue)
-					that.searchHistoryList = that.setArr(that.searchHistoryList)
-					uni.setStorageSync("search_list", that.searchHistoryList)
-					that.defaultContent = ''
+				if (that.inputValue) {
+					uni.navigateTo({
+						url: `/pages/search/search_result?search=${that.inputValue}`,
+					})
+					if (that.inputValue) {
+						that.searchHistoryList.unshift(that.inputValue)
+						that.searchHistoryList = that.setArr(that.searchHistoryList)
+						uni.setStorageSync("search_list", that.searchHistoryList)
+						that.defaultContent = ''
+					}
+				}else{
+					uni.showToast({
+						title:'请输入关键词',
+						icon:'none'
+					})
 				}
+
 			},
 
 			changeHotSearch: function(item, index) {
@@ -268,18 +229,18 @@
 				uni.setStorageSync("search_list", that.searchHistoryList)
 			},
 			// 数组去重
-			setArr: function(arr){
-			    //新建一个空数组
-			    let newArr = [];
-			    for(let i = 0; i < arr.length; i++ ){
-			        //遍历传入的数组，查找传入数组的值第一次出现的下标
-			         if(arr.indexOf(arr[i]) === i){
-			             //push传入数组的一次出现的数字
-			            newArr.push(arr[i]);
-			         }
-			    }
-			    //返回新的数组
-			    return newArr;
+			setArr: function(arr) {
+				//新建一个空数组
+				let newArr = [];
+				for (let i = 0; i < arr.length; i++) {
+					//遍历传入的数组，查找传入数组的值第一次出现的下标
+					if (arr.indexOf(arr[i]) === i) {
+						//push传入数组的一次出现的数字
+						newArr.push(arr[i]);
+					}
+				}
+				//返回新的数组
+				return newArr;
 			}
 
 		}
@@ -303,40 +264,45 @@
 	}
 
 	.left-input {
-		width: 620rpx;
+		width: 85%;
 		height: 56rpx;
 		background-color: #ffffff;
-		border-radius: 10rpx;
+		border-radius: 28rpx;
 		border: solid 1rpx #e6e6ea;
 		background-color: #FFFFFF;
 		line-height: 56rpx;
 		display: flex;
 		align-items: center;
 		padding-left: 24rpx;
+		position: relative;
 	}
 
-	.left-input .search-icon {
-		height: 35rpx;
-		color: #b2b2b2;
-		padding: 5rpx 0 0;
+	.search-icon {
+		position: absolute;
+		left: 20rpx;
+		width: 32rpx;
+		height: 32rpx;
+		top: 12rpx;
 	}
 
 	.search-content {
 		font-size: 28rpx;
 		height: 56rpx;
 		line-height: 56rpx;
-		padding-left: 10rpx;
+		padding-left: 30rpx;
 		/* text-indent: 10rpx; */
 	}
 
 	.right-text {
 		font-size: 26rpx;
 	}
-	.search-all-content{
+
+	.search-all-content {
 		background-color: #F6F6F6;
 	}
+
 	.search-contents {
-		
+
 		padding-bottom: 120rpx;
 	}
 
@@ -349,8 +315,7 @@
 		height: 220rpx;
 	}
 
-	.top-swiper-item image {
-		height: 220rpx;
+	.top-swiper-item .image {
 		width: 100%;
 	}
 

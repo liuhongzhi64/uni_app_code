@@ -55,7 +55,7 @@
 							 :interval="interval" :duration="duration" circular>
 								<swiper-item v-for="(i,index) in swiperList" :key="index" :data-name="i" @tap="gotoGoods">
 									<view class="swiper-img">
-										<image :src="i" mode=""></image>
+										<image :src="requestUrl+i" ></image>
 									</view>
 								</swiper-item>
 							</swiper>
@@ -102,13 +102,13 @@
 				title:'支付成功',
 				interval: 3000, //自动切换时间间隔
 				duration: 1000, //	滑动动画时长
-				swiperList:['../../static/images/0.png','../../static/images/22.png','../../static/images/0.png','../../static/images/22.png'],
+				swiperList:['upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg','upload/goods/images/202010/15/txz4G5kFQGKgAJ6jGiNuVHCI2ZPsZl1Fw8ZeAAXm_250.jpeg'],
 				productLists: [
 					{
-						url: '../../static/images/19.png',
+						url: 'upload/goods/images/202010/15/txz4G5kFQGKgAJ6jGiNuVHCI2ZPsZl1Fw8ZeAAXm_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						price: 19800,
 						closed:'闭馆特推',
 						activity: [],
@@ -120,10 +120,10 @@
 				
 					},
 					{
-						url: '../../static/images/20.png',
+						url: 'upload/goods/images/202010/15/txz4G5kFQGKgAJ6jGiNuVHCI2ZPsZl1Fw8ZeAAXm_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						activity: ['首单必减', '折扣'],
 						price: 19800,
 						vipPrice: 18800,
@@ -133,10 +133,10 @@
 						}],
 					},
 					{
-						url: '../../static/images/19.png',
+						url: 'upload/goods/images/202010/15/txz4G5kFQGKgAJ6jGiNuVHCI2ZPsZl1Fw8ZeAAXm_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/23.png', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						price: 19800,
 						closed:'闭馆特推',
 						activity: [],
@@ -148,10 +148,10 @@
 					
 					},
 					{
-						url: '../../static/images/20.png',
+						url: 'upload/goods/images/202010/15/txz4G5kFQGKgAJ6jGiNuVHCI2ZPsZl1Fw8ZeAAXm_250.jpeg',
 						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
 						label: [], //标签
-						headPortrait: '../../static/images/test.jpg', //头像
+						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
 						activity: ['首单必减', '折扣'],
 						price: 19800,
 						vipPrice: 18800,
@@ -161,23 +161,58 @@
 						}],
 					},
 				],
+				requestUrl:''
 			}
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
+			
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.get_my_comment()
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
+			// 判定运行平台
+			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					// console.log('运行Android上')
+					platform = 'android'
+					break;
+				case 'ios':
+					// console.log('运行iOS上')
+					platform = 'ios'
+					break;
+				default:
+					// console.log('运行在开发者工具上')
+					platform = 'applet'
+					break;
+			}
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuWidth = 90
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		methods: {
 			seeIndent:function(){

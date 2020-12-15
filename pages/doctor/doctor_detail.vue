@@ -69,7 +69,7 @@
 										<view class="product-item-content">
 											<view class="productImgs" v-for="(i,k) in doctorList" :key='k' @tap='certificate(i.doctor_id)'>
 												<view class="productItems">
-													<image :src="requestUrl+i.url" mode="heightFix" style="width: 280rpx;height: 210rpx;"></image>
+													<image class="doctor_img" :src="requestUrl+i.url" mode="heightFix" ></image>
 												</view>
 											</view>
 										</view>
@@ -732,6 +732,11 @@
 		height: 100%;
 		white-space: normal;
 		border-radius: 24rpx;
+	}
+	.productItems .doctor_img{
+		width: 280rpx;
+		height: 210rpx;
+		border: 1rpx solid #FFFFFF;
 	}
 
 	.productImgs .cover_img {

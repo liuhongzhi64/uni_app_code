@@ -10,8 +10,10 @@
 					 v-if="index%2==0">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
 							<view class="image-label">
-								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
-								<view class="label">{{item.label}}</view>
+								<view class="diary-images">
+									<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+									<view class="label">{{item.label}}</view>
+								</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>	
 							<view class="diary-title" v-if="item.title"> {{item.title}} </view>										
@@ -49,8 +51,11 @@
 					 v-if="index%2==1">
 						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
 							<view class="image-label">
-								<view class="diary-images"><image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image></view>
-								<view class="label">{{item.label}}</view>
+								<view class="diary-images">
+									<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+									<view class="label">{{item.label}}</view>
+								</view>
+								
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>
 							<view class="diary-title" v-if="item.title"> {{item.title}} </view>										
@@ -134,14 +139,16 @@
 		
 		height: auto;
 	}
-	.image-label{
+	.diary-images{
 		position: relative;
+		height: 100%;
 	}
 	
 	.diary-image{
 		width: 350rpx;
 		border-radius: 16rpx 16rpx 0 0;
 		background-color: #EEEEEE;
+		display: block;
 	}
 	.diary-title {
 		overflow: hidden;
@@ -159,18 +166,10 @@
 		display: flex;
 		flex-wrap: wrap;
 	}
-	.label-name{
-		line-height: 26rpx;
-		font-size: 16rpx;
-		padding: 0 14rpx;
-		background-color: #d3d3d3;
-		color: #4f4f4f;
-		margin-right: 10rpx;
-	}
 	.label{
 		position: absolute;
 		right: 0;
-		bottom: 10rpx;
+		bottom: 0;
 		line-height: 40rpx;
 		padding: 0 15rpx;
 		background-color: #fa3475;

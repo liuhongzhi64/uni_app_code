@@ -97,6 +97,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.content_list, function(item, index) {
+    var g0 = Object.prototype.toString.call(item.recommended_goods)
+    var g1 = Object.prototype.toString.call(item.hot_goods)
+    return {
+      $orig: _vm.__get_orig(item),
+      g0: g0,
+      g1: g1
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -130,7 +148,158 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 471));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 492));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 499));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 506));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 471));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 485));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -172,9 +341,7 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    goodsShow: goodsShow,
-    diary: diary,
-    doctor: doctor },
+    diary: diary },
 
   data: function data() {
     return {
@@ -184,11 +351,11 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      barName: 'particularsPage', //导航条名称
+      barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '/static/images/back2.png',
-      title: '搜索结果页',
+      title: '搜索',
       tabBars: [{
         name: '商品',
         id: 'porduct',
@@ -211,19 +378,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-      tabIndex: 0, // 选中的顶部的导航的索引,类型
+      tabIndex: 3, // 选中的顶部的导航的索引,类型
       inputValue: '',
       content_list: [],
       offset: 0,
-      searchContent: '' };
+      searchContent: '隆鼻',
+      requestUrl: '' };
 
   },
   onLoad: function onLoad(option) {
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    that.searchContent = option.search;
+    if (option.search) {
+      that.searchContent = option.search;
+    }
+
     that.get_search();
   },
   onReady: function onReady() {
@@ -288,7 +458,7 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("search", _dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
-            console.log(data);
+            that.content_list = data;
           }
         });
       } else if (that.tabIndex + 1 == 3) {
@@ -301,7 +471,7 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("search", _dataInfo2).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
-            console.log(data);
+            that.content_list = data;
           }
         });
       } else if (that.tabIndex + 1 == 4) {
@@ -314,7 +484,7 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("search", _dataInfo3).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
-            console.log(data);
+            that.content_list = data;
           }
         });
       }
@@ -329,7 +499,80 @@ __webpack_require__.r(__webpack_exports__);
     tabtap: function tabtap(index, type) {
       var that = this;
       that.tabIndex = index;
+      that.content_list = [];
+      that.offset = 0;
       that.get_search();
+    },
+    // 视频收藏
+    cancel_video_like: function cancel_video_like(is_collect, id, index) {
+      var that = this;
+      if (is_collect == 0) {
+        var dataInfo = {
+          interfaceId: 'collectvideo',
+          video_id: id.toString() };
+
+        this.request.uniRequest("video", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.content_list[index].is_collect = 1;
+            that.content_list[index].collect_num += 1;
+            uni.showToast({
+              title: '已收藏',
+              duration: 1000 });
+
+          }
+        });
+      } else {
+        var _dataInfo4 = {
+          interfaceId: 'cancelcollectvideo',
+          video_id: id.toString() };
+
+        this.request.uniRequest("video", _dataInfo4).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.content_list[index].is_collect = 0;
+            that.content_list[index].collect_num -= 1;
+            uni.showToast({
+              title: '已取消收藏',
+              duration: 1000 });
+
+          }
+        });
+      }
+    },
+    // 收藏
+    collect_diary: function collect_diary(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'collectdiary',
+        diary_id: id };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.content_list[index].is_collect = 1;
+          that.content_list[index].collect_num += 1;
+          uni.showToast({
+            title: '已收藏',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 取消收藏
+    cancel_like: function cancel_like(id, index) {
+      var that = this;
+      var data = {
+        interfaceId: 'cancelcollectdiary',
+        diary_id: id.toString() };
+
+      this.request.uniRequest("diary", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.content_list[index].is_collect = 0;
+          that.content_list[index].collect_num -= 1;
+          uni.showToast({
+            title: '已取消收藏',
+            duration: 1000 });
+
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

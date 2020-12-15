@@ -9,7 +9,8 @@
 				 :key='index' 
 				 v-if="index%2==0" 
 				 >
-					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" mode=""></image>
+					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
+					<image :src="requestUrl+item.heading" v-else class="cover_img"></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
 						<view class="category_name">
@@ -55,7 +56,8 @@
 				 :key='index' 
 				 v-if="index%2==1" 
 				 >
-					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" mode=""></image>
+					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
+					<image :src="requestUrl+item.heading" v-else class="cover_img"></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
 						<view class="category_name">

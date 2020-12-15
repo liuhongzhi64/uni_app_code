@@ -27,7 +27,7 @@
 				<view class="searchInput" @click="hideKeyboard">
 					<view class="searchContent">
 						<view class="searchIcon">
-							<image src="../static/images/search.png" mode=""></image>
+							<image src="../static/images/search_icon.png" mode=""></image>
 						</view>
 						<view class="topSearch">
 							{{topSearchContent}}

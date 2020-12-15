@@ -4,16 +4,16 @@
 		// 测试时的首页
 				
 		
-		
+		{
+			"path": "pages/search/search_result", //搜索结果）
+			"style": {}
+		},
 		// 搜索
 		{
 			"path": "pages/search/search", //搜索主页
 			"style": {}
 		},
-		{
-			"path": "pages/search/search_result", //搜索结果）
-			"style": {}
-		},
+		
 		
 		 
 		{

@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/search/search",
     "pages/search/search_result",
+    "pages/search/search",
     "pages/my/my",
     "pages/my/account_number",
     "pages/my/add_address",

@@ -3,44 +3,124 @@
 		<view class="diary-top-bar">
 			<view class="bar-name" :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px','padding-right':menuWidth+20+'px','padding-bottom':10+'px'}]">
 				<view class="top-navigation-bars" v-for="(item,index) in navigationList" :key='index' :class="{checked :btnnum == index}"
-				 @tap="change(index)"> {{ item }}
+				 @tap="change_top(index)"> {{ item }}
 					<view :class="{checkedBar :btnnum == index}"> </view>
 				</view>
 			</view>
 		</view>
-		<view class="content-all-bar" :style="[{'top':menuBottom+10+'px'}]">
+		<view class="content-all-bar" :style="[{'padding-top':menuBottom+10+'px'}]">
 			<view class="content-bar">
 				<scroll-view class="content-bar-items" scroll-x="true">
 					<view class="top-content">
-						<view class="top-content-list" v-for="(i,k) in topTabList" :key="k" @tap="changeContentBar(k)">
+						<navigator class="top-content-list" v-for="(i,k) in topTabList" :key="k" 
+						 :url="'/pages/diary/about_list?id='+i.id+'&name='+this_name+'&title='+i.name">
 							<view class="list-items">
 								<view class="item-image">
 									<image :src="requestUrl+i.icon" mode=""></image>
 								</view>
 								<view class="item-name">{{i.name}}</view>
 							</view>
-						</view>
+						</navigator>
 					</view>
 				</scroll-view>
 			</view>
 		</view>
-		<view class="content" :style="[{'padding-top':menuBottom+85+'px','min-height':height-menuBottom-130+'px'}]">
-			<view class="content-list">
-				<scroll-view scroll-y>
-					<template>
-						<!-- 主体内容 -->
-						<view class="detail-content">
-							<!-- 主体内容 -->
-							<diary :diaryList="contentList" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like' >
-							</diary>
+
+		<!-- 主体内容 -->
+		<view class="detail-content" :style="[{'min-height':height-menuBottom-170+'px'}]">
+			<!-- 主体内容 -->
+			<diary :diaryList="contentList" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'
+			 v-if="btnnum==1">
+			</diary>
+			<view class="this_list" v-else-if='btnnum==2'>
+				<view class="video_info">
+					<view class="video_left">
+						<view class="left_content">
+							<view class="left_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
+								<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path">
+									<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+									<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
+								</navigator>
+								<view class="info_content">
+									<view class="video_name"> {{ item.name }} </view>
+									<view class="category_list">
+										<view class="list_item" v-for="(i,k) in item.category_name" :key='k'> {{ i }} </view>
+									</view>
+									<navigator class="video_goods" v-if="Object.prototype.toString.call(item.goods_relation)!='[object Array]'"
+									 :url="'/pages/goods/goods_detail?sku_id='+item.goods_relation.id+'&encrypted_id='+item.goods_relation.encrypted_id">
+										<image :src="requestUrl+item.goods_relation.head_img" class="goods_img"></image>
+										<view class="video_goods_info">
+											<view class="video_goods_name"> {{ item.goods_relation.goods_name }} </view>
+											<view class="video_goods_sale_price"> ￥{{ item.goods_relation.sale_price }} </view>
+										</view>
+									</navigator>
+									<view class="user_info">
+										<view class="head_ico-nick_name">
+											<image class="head_ico" :src="requestUrl+item.doctor_relation.heading" mode=""></image>
+											<text class="nick_name">{{ item.doctor_relation.name }}</text>
+										</view>
+										<view class="is_no_collect" v-if="item.is_collect==0" @tap="cancel_video_like(item.is_collect,item.id,index)">
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num || 0 }}
+										</view>
+										<view class="collect_num" v-else @tap="cancel_video_like(item.is_collect,item.id,index)">
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num }}
+										</view>
+									</view>
+								</view>
+							</view>
 						</view>
-					</template>
-				</scroll-view>
+					</view>
+					<view class="video_right">
+						<view class="right_content">
+							<view class="right_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
+								<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path">
+									<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+									<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
+								</navigator>
+								<view class="info_content">
+									<view class="video_name"> {{ item.name }} </view>
+									<view class="category_list">
+										<view class="list_item" v-for="(i,k) in item.category_name" :key='k'> {{ i }} </view>
+									</view>
+									<navigator class="video_goods" v-if="Object.prototype.toString.call(item.goods_relation)!='[object Array]'"
+									 :url="'/pages/goods/goods_detail?sku_id='+item.goods_relation.id+'&encrypted_id='+item.goods_relation.encrypted_id">
+										<image :src="requestUrl+item.goods_relation.head_img" class="goods_img"></image>
+										<view class="video_goods_info">
+											<view class="video_goods_name"> {{ item.goods_relation.goods_name }} </view>
+											<view class="video_goods_sale_price"> ￥{{ item.goods_relation.sale_price }} </view>
+										</view>
+									</navigator>
+									<view class="user_info">
+										<view class="head_ico-nick_name">
+											<image class="head_ico" :src="requestUrl+item.doctor_relation.heading" mode=""></image>
+											<text class="nick_name">{{ item.doctor_relation.name }}</text>
+										</view>
+										<view class="is_no_collect" v-if="item.is_collect==0" @tap="cancel_video_like(item.is_collect,item.id,index)">
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num || 0 }}
+										</view>
+										<view class="collect_num" v-else @tap="cancel_video_like(item.is_collect,item.id,index)">
+											<view class="like">
+												<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png"></image>
+											</view>
+											{{ item.collect_num }}
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
-		</view>		
-		<view class="write_diary" @tap='writeDiary'>
-			 写日记
-		</view>		
+		</view>
 	</view>
 </template>
 
@@ -58,28 +138,28 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				btnnum: 0,
-				navigationList: ['全部', '直播', '日记', '视频'],
+				btnnum: 1,
+				navigationList: ['直播', '买家秀', '视频'],
 				topTabList: [],
+				this_name:'',
 				contentList: [],
+				content_list: [],
 				requestUrl: '',
-				offset: 0,//开始数据下标
-				limit: 5,//条数
+				offset: 0, //开始数据下标
+				limit: 5, //条数
 			}
 		},
 		onLoad: function() {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.getDiaryClassfiy()
-			that.getDiaryList()
-			that.change()			
+			that.change_top(1)
 		},
 		onReady() {
 			let that = this;
-			let pageHeight = 0
 			// 判定运行平台
 			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
 					// console.log('运行Android上')
@@ -94,11 +174,10 @@
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
-						pageHeight = res.screenHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
@@ -107,25 +186,83 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			}
-			else{
+			} else {
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
 				that.menuBottom = 82
 			}
 		},
-		onReachBottom: function () {
+		onReachBottom: function() {
 			var that = this;
-			that.offset += 5;
-			that.getDiaryList()
+			if (that.btnnum == 1) {
+				that.offset += 5;
+				that.getDiaryList()
+			}else if(that.btnnum == 2){
+				that.offset += 5;
+				that.get_video_list()
+			}
+
 		},
 		methods: {
-			change: function(index = 2) {
-				this.btnnum = index
+			change_top: function(index) {
+				let that = this
+				if (index == 0) {
+					uni.showToast({
+						title: '正在升级中...敬请期待!',
+						icon: 'none'
+					})
+				} else if(index==1){
+					this.btnnum = index
+					that.offset = 0
+					that.this_name = 'diary'
+					that.contentList = []
+					that.getDiaryClassfiy()
+					that.getDiaryList()
+				}else if(index==2){
+					this.btnnum = index
+					that.offset = 0
+					that.this_name = 'video'
+					that.content_list = []
+					that.get_video_classfiy()
+					that.get_video_list()
+				}
+
 			},
-			changeContentBar: function(k) {
-				console.log(k)
+			// 视频收藏
+			cancel_video_like:function(is_collect,id,index){
+				let that = this
+				if(is_collect==0){
+					let dataInfo = {
+						interfaceId:'collectvideo',
+						video_id:id.toString()
+					}
+					this.request.uniRequest("video", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.content_list[index].is_collect = 1
+							that.content_list[index].collect_num +=1
+							uni.showToast({
+								title: '已收藏',
+								duration: 1000
+							})				
+						}
+					})
+				}else{
+					let dataInfo = {
+						interfaceId:'cancelcollectvideo',
+						video_id:id.toString()
+					}
+					this.request.uniRequest("video", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.content_list[index].is_collect = 0
+							that.content_list[index].collect_num -=1
+							uni.showToast({
+								title: '已取消收藏',
+								duration: 1000
+							})				
+						}
+					})
+				}
 			},
 			// 获取日记分类
 			getDiaryClassfiy: function() {
@@ -134,12 +271,42 @@
 					interfaceId: 'category'
 				}
 				that.request.uniRequest("diary", dataInfo).then(res => {
-					if (res.data.code == 1000) {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.topTabList = res.data.data
-						// console.log(that.topTabList)
 					}
 				})
 			},
+			// 视频分类
+			get_video_classfiy:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'categorylist'
+				}
+				that.request.uniRequest("video", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.topTabList = res.data.data
+					}
+				})
+			},
+			// 视频推荐
+			get_video_list:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId: 'videorecommended',
+					offset: that.offset,
+					limit: that.limit
+				}
+				that.request.uniRequest("video", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						if (data.length == 0&&that.offset>0) {
+							that.request.showToast('没有更多了')
+						}
+						that.content_list = that.content_list.concat(data)
+					}
+				})
+			},
+			
 			// 获取推荐日记列表
 			getDiaryList: function() {
 				let that = this
@@ -149,66 +316,52 @@
 					limit: that.limit
 				}
 				that.request.uniRequest("diary", dataInfo).then(res => {
-					if (res.data.code == 1000) {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						if(data.length == 0){
+						if (data.length == 0&&that.offset>0) {
 							that.request.showToast('没有更多了')
 						}
 						that.contentList = that.contentList.concat(data)
-						// console.log(that.contentList)
 					}
 				})
 			},
 			// 收藏
-			collect_diary:function(id,index){
+			collect_diary: function(id, index) {
 				let that = this
 				let data = {
 					interfaceId: 'collectdiary',
-					diary_id :id
+					diary_id: id
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.contentList[index].is_collect = 1
-						that.contentList[index].collect_num +=1
+						that.contentList[index].collect_num += 1
 						uni.showToast({
 							title: '已收藏',
 							duration: 1000
-						})				
+						})
 					}
 				})
 			},
 			// 取消收藏
-			cancel_like:function(id,index){
+			cancel_like: function(id, index) {
 				let that = this
 				let data = {
-					interfaceId:'cancelcollectdiary',
-					diary_id:id.toString()
+					interfaceId: 'cancelcollectdiary',
+					diary_id: id.toString()
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.contentList[index].is_collect = 0
-						that.contentList[index].collect_num -=1
+						that.contentList[index].collect_num -= 1
 						uni.showToast({
 							title: '已取消收藏',
 							duration: 1000
-						})				
+						})
 					}
 				})
 			},
-			// 写日记
-			writeDiary:function(){
-				uni.navigateTo({
-					url: `/pages/diary/diary_write`,
-				})
-			},
-			// 点击日记进入详情页
-			diaryDetail:function(id){
-				let that = this
-				let detail_id = id
-				uni.navigateTo({
-					url: `/pages/diary/diary_detail?id=${detail_id}`,
-				})
-			}
+
 		}
 	}
 </script>
@@ -234,6 +387,7 @@
 		font-size: 32rpx;
 		font-weight: normal;
 		font-stretch: normal;
+		position: relative;
 	}
 
 	.checked {
@@ -245,13 +399,13 @@
 	.checkedBar {
 		width: 0;
 		height: 0;
-		border-width: 15rpx;
+		border-width: 16rpx;
 		border-style: solid;
 		border-color: transparent #FFFFFF transparent transparent;
 		transform: rotate(90deg);
-		margin-top: -5px;
-		margin-left: 20rpx;
-		margin-bottom: 0;
+		position: absolute;
+		bottom: -20rpx;
+		left: 32%;
 	}
 
 	.end-cont {
@@ -268,10 +422,7 @@
 
 	.content-all-bar {
 		width: 100%;
-		position: fixed;
 		background-color: #FFFFFF;
-		left: 0;
-		z-index: 9;
 		border-radius: 0 0 24rpx 24rpx;
 	}
 
@@ -310,144 +461,54 @@
 		align-items: center;
 	}
 
-	.item-image {
-		margin-bottom: 20rpx;
-	}
 
-	.item-image,
 	.item-image image {
 		width: 64rpx;
 		height: 48rpx;
-		border: 1rpx solid #EEEEEE;
+		border: 1rpx solid #F0F0F0;
 	}
 
-	.subject-content {
+
+	.detail-content {
+		display: flex;
+		justify-content: space-between;
+		padding: 30rpx 20rpx ;
 		background-color: #F6F6F6;
 	}
-	.detail-content{
-		display: flex;
-		justify-content: space-between;
-		padding: 33rpx 20rpx;
-		width: 710rpx;
-	}
-	.left-content,.right-content{
-		display: flex;
-		flex-direction: column;
-	}
-	
-	
-	.subject-content-list{
-		background-color: #FFFFFF;
-		border-radius: 16rpx;
-		margin-bottom: 10rpx;
-		width: 350rpx;
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		height: auto;
-	}
-	
-	.diary-image{
-		width: 350rpx;
-		/* height: 350rpx; */
-		border-radius: 16rpx 16rpx 0 0;
-		background-color: #EEEEEE;
-	}
-	.diary-title {
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		font-size: 24rpx;
-		line-height: 34rpx;
-		padding: 0 20rpx;
-		color: #111111;
-	}
-	
-	.diary-label{
-		padding: 0 20rpx;
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.label-name{
-		line-height: 26rpx;
-		font-size: 16rpx;
-		padding: 0 14rpx;
-		background-color: #d3d3d3;
-		color: #4f4f4f;
-		margin-right: 10rpx;
-	}
-	.label{
-		position: absolute;
-		right: 0;
-		top: 410rpx;
-		line-height: 40rpx;
-		padding: 0 10rpx;
-		background-color: #fa3475;
-		border-radius: 16rpx 0rpx 0rpx 0rpx;
-		opacity: 0.8;
-		color: #FFFFFF;
-		font-size: 24rpx;
-	}
-	.category_name-doctor_name{
-		display: flex;
-		padding: 15rpx 20rpx;
-	}
-	.category_name,.doctor_name{
-		line-height: 26rpx;
-		background-color: #d3d3d3;
-		border-radius: 4rpx;
-		font-size: 16rpx;
-		/* width: 80rpx; */
-		padding: 0 15rpx;
-		text-align: center;
-		color: #4f4f4f;
-		margin-right: 10rpx;
-	}
-	.goods_name{
-		padding: 0 20rpx ;
-		color: #999999;
-		font-size: 20rpx;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
-		/* margin-top: 15rpx; */
-	}
-	.head_ico-nick_name-collect_num{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 24rpx 20rpx;
-	}
-	.head_ico-nick_name{
+
+	.head_ico-nick_name {
 		display: flex;
 		align-items: center;
 	}
-	.head_ico{
+
+	.head_ico {
 		width: 48rpx;
 		height: 48rpx;
 		border-radius: 24rpx;
 		border: 1rpx solid red;
 		margin-right: 10rpx;
 	}
-	.nick_name{
+
+	.nick_name {
 		font-size: 20rpx;
 		color: #111111;
 	}
-	.collect_num{
+
+	.collect_num {
 		font-size: 30rpx;
-		color: #fc4783;		
+		color: #fc4783;
 		display: flex;
 		align-items: center;
 	}
-	.is_no_collect{
+
+	.is_no_collect {
 		color: #B2B2B2;
 		display: flex;
 		align-items: center;
 		font-size: 30rpx;
 	}
-	.is_no_collect .like{
+
+	.is_no_collect .like {
 		background-color: #d0d0d0;
 		width: 40rpx;
 		height: 40rpx;
@@ -457,34 +518,140 @@
 		justify-content: center;
 		margin-right: 16rpx;
 	}
-	.collect_num .like{
+
+	.collect_num .like {
 		width: 42rpx;
 		height: 42rpx;
 		border-radius: 21rpx;
-		background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
+		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#f56fb4, #f56fb4);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-right: 16rpx;
 	}
-	.like-image{
+
+	.like-image {
 		width: 24rpx;
 		height: 24rpx;
 	}
-	
-	/* 写日记 */
-	.write_diary{
-		position: fixed;
-		right: 30rpx;
-		top: 50%;
-		width: 92rpx;
-		line-height: 110rpx;
-		font-size: 24rpx;
-		color: #FFFFFF;
-		z-index: 9;
-		background-color: #E0619D;
-		text-align: center;
-		opacity: 0.8;
+
+	/* 视频 */
+	.this_list{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+	.video_info {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.left_content,
+	.right_content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.left_item,
+	.right_item {
+		background-color: #FFFFFF;
 		border-radius: 16rpx;
+		width: 350rpx;
+		margin-bottom: 20rpx;
+	}
+
+	.video-images {
+		position: relative;
+	}
+
+	.video_img {
+		width: 350rpx;
+		border-radius: 16rpx 16rpx 0 0;
+		background-color: #EEEEEE;
+		display: block;
+	}
+
+	.pay_btn {
+		position: absolute;
+		left: 145rpx;
+		bottom: 40%;
+		width: 60rpx;
+		height: 60rpx;
+	}
+
+	.info_content {
+		padding: 10rpx;
+		font-size: 24rpx;
+	}
+
+	.video_name {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-height: 32rpx;
+		color: #111111;
+	}
+
+	.category_list {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding-top: 15rpx;
+		padding-bottom: 15rpx;
+	}
+
+	.list_item {
+		line-height: 28rpx;
+		padding: 0 15rpx;
+		font-size: 18rpx;
+		background-color: #999999;
+		color: #FFFFFF;
+		border-radius: 5rpx;
+		margin-right: 20rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+	}
+
+	.video_goods {
+		display: flex;
+		align-items: center;
+		padding-bottom: 10rpx;
+	}
+
+	.goods_img {
+		width: 100rpx;
+		height: 100rpx;
+		background-color: #F0f0f0;
+	}
+
+	.video_goods_info {
+		flex: 1;
+		height: 80rpx;
+		padding: 0 20rpx;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.video_goods_name {
+		font-weight: lighter;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+	}
+
+	.video_goods_sale_price {
+		color: #fa3475;
+	}
+
+	.user_info {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 </style>

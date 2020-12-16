@@ -97,6 +97,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.content_list, function(item, index) {
+    var g0 = Object.prototype.toString.call(item.goods_relation)
+    return {
+      $orig: _vm.__get_orig(item),
+      g0: g0
+    }
+  })
+
+  var l1 = _vm.__map(_vm.content_list, function(item, index) {
+    var g1 = Object.prototype.toString.call(item.goods_relation)
+    return {
+      $orig: _vm.__get_orig(item),
+      g1: g1
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+        l1: l1
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -130,7 +155,87 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 485));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 478));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -190,10 +295,12 @@ __webpack_require__.r(__webpack_exports__);
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      btnnum: 0,
-      navigationList: ['全部', '直播', '日记', '视频'],
+      btnnum: 1,
+      navigationList: ['直播', '买家秀', '视频'],
       topTabList: [],
+      this_name: '',
       contentList: [],
+      content_list: [],
       requestUrl: '',
       offset: 0, //开始数据下标
       limit: 5 //条数
@@ -203,15 +310,13 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    that.getDiaryClassfiy();
-    that.getDiaryList();
-    that.change();
+    that.change_top(1);
   },
   onReady: function onReady() {
     var that = this;
-    var pageHeight = 0;
     // 判定运行平台
     var platform = '';
+    that.height = uni.getSystemInfoSync().screenHeight;
     switch (uni.getSystemInfoSync().platform) {
       case 'android':
         // console.log('运行Android上')
@@ -230,7 +335,6 @@ __webpack_require__.r(__webpack_exports__);
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
-          pageHeight = res.screenHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
@@ -239,8 +343,7 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    {
+    } else {
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
@@ -249,15 +352,74 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReachBottom: function onReachBottom() {
     var that = this;
-    that.offset += 5;
-    that.getDiaryList();
+    if (that.btnnum == 1) {
+      that.offset += 5;
+      that.getDiaryList();
+    } else if (that.btnnum == 2) {
+      that.offset += 5;
+      that.get_video_list();
+    }
+
   },
   methods: {
-    change: function change() {var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2;
-      this.btnnum = index;
+    change_top: function change_top(index) {
+      var that = this;
+      if (index == 0) {
+        uni.showToast({
+          title: '正在升级中...敬请期待!',
+          icon: 'none' });
+
+      } else if (index == 1) {
+        this.btnnum = index;
+        that.offset = 0;
+        that.this_name = 'diary';
+        that.contentList = [];
+        that.getDiaryClassfiy();
+        that.getDiaryList();
+      } else if (index == 2) {
+        this.btnnum = index;
+        that.offset = 0;
+        that.this_name = 'video';
+        that.content_list = [];
+        that.get_video_classfiy();
+        that.get_video_list();
+      }
+
     },
-    changeContentBar: function changeContentBar(k) {
-      console.log(k);
+    // 视频收藏
+    cancel_video_like: function cancel_video_like(is_collect, id, index) {
+      var that = this;
+      if (is_collect == 0) {
+        var dataInfo = {
+          interfaceId: 'collectvideo',
+          video_id: id.toString() };
+
+        this.request.uniRequest("video", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.content_list[index].is_collect = 1;
+            that.content_list[index].collect_num += 1;
+            uni.showToast({
+              title: '已收藏',
+              duration: 1000 });
+
+          }
+        });
+      } else {
+        var _dataInfo = {
+          interfaceId: 'cancelcollectvideo',
+          video_id: id.toString() };
+
+        this.request.uniRequest("video", _dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.content_list[index].is_collect = 0;
+            that.content_list[index].collect_num -= 1;
+            uni.showToast({
+              title: '已取消收藏',
+              duration: 1000 });
+
+          }
+        });
+      }
     },
     // 获取日记分类
     getDiaryClassfiy: function getDiaryClassfiy() {
@@ -266,12 +428,42 @@ __webpack_require__.r(__webpack_exports__);
         interfaceId: 'category' };
 
       that.request.uniRequest("diary", dataInfo).then(function (res) {
-        if (res.data.code == 1000) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
           that.topTabList = res.data.data;
-          // console.log(that.topTabList)
         }
       });
     },
+    // 视频分类
+    get_video_classfiy: function get_video_classfiy() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'categorylist' };
+
+      that.request.uniRequest("video", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.topTabList = res.data.data;
+        }
+      });
+    },
+    // 视频推荐
+    get_video_list: function get_video_list() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'videorecommended',
+        offset: that.offset,
+        limit: that.limit };
+
+      that.request.uniRequest("video", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          if (data.length == 0 && that.offset > 0) {
+            that.request.showToast('没有更多了');
+          }
+          that.content_list = that.content_list.concat(data);
+        }
+      });
+    },
+
     // 获取推荐日记列表
     getDiaryList: function getDiaryList() {
       var that = this;
@@ -281,13 +473,12 @@ __webpack_require__.r(__webpack_exports__);
         limit: that.limit };
 
       that.request.uniRequest("diary", dataInfo).then(function (res) {
-        if (res.data.code == 1000) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          if (data.length == 0) {
+          if (data.length == 0 && that.offset > 0) {
             that.request.showToast('没有更多了');
           }
           that.contentList = that.contentList.concat(data);
-          // console.log(that.contentList)
         }
       });
     },
@@ -326,20 +517,6 @@ __webpack_require__.r(__webpack_exports__);
 
         }
       });
-    },
-    // 写日记
-    writeDiary: function writeDiary() {
-      uni.navigateTo({
-        url: "/pages/diary/diary_write" });
-
-    },
-    // 点击日记进入详情页
-    diaryDetail: function diaryDetail(id) {
-      var that = this;
-      var detail_id = id;
-      uni.navigateTo({
-        url: "/pages/diary/diary_detail?id=".concat(detail_id) });
-
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

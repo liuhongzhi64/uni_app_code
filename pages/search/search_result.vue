@@ -1,7 +1,7 @@
 <template>
 	<view class="search_result">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		 :title='title' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 		<!-- 搜索栏 -->
 		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="search-input-text">
@@ -9,7 +9,7 @@
 					<image class="search-icon" src="../../static/images/search_icon.png"></image>
 					<input class="search-content" @input="onKeyInput" placeholder-style='color: #b2b2b2;' :placeholder="searchContent" />
 				</view>
-				<view class="right-text">确定</view>
+				<view class="right-text" @tap="keep_search(searchContent)">确定</view>
 			</view>
 		</view>
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+50+'px'}]">
@@ -24,164 +24,178 @@
 			</view>
 		</view>
 		<view class="search-input_content" :style="[{'padding-top':menuBottom+100+'px'}]">
-			<view class="result_content" :style="[{'min-height':height-menuBottom-120+'px'}]">
-				<!-- 商品 -->
-				<view class="this_goods_result" v-if="tabIndex==0">
-					<navigator class="goods_info" v-for="(item,index) in content_list" :key='index'
-					 :url="'/pages/goods/goods_detail?sku_id='+item.id+'&encrypted_id='+item.encrypted_id">
-						<image class="head_img" :src="requestUrl+item.head_img" ></image>
-						<image :src="requestUrl+item.spu_icon" class="spu_icon"></image>
-						<view class="goods_right">
-							<view class="goods_name"> {{ item.goods_name }} </view>
-							<view class="goods-label" v-if="item.label.list.length>0">
-								<view class="label_item" v-for="(i,k) in item.label.list" :key="k" > {{ i }} </view>
-							</view>
-							<view class="all_price">
-								<text class="sale_price"> ￥ {{ item.sale_price }}  </text>
-								<view class="member" v-if="item.member.member_title">
-									<text>{{item.member.member_title}}</text> {{ item.member.price }}
+			<view class="result_content" :style="[{'height':height-menuBottom-120+'px'}]">
+				<scroll-view class="have_result" v-if="content_list.length>0" :style="[{'padding-bottom':tabIndex==0?'40rpx':''}]">
+					<!-- 商品 -->
+					<view class="this_goods_result" v-if="tabIndex==0">
+						<navigator class="goods_info" v-for="(item,index) in content_list" :key='index'
+						 :url="'/pages/goods/goods_detail?sku_id='+item.id+'&encrypted_id='+item.encrypted_id">
+							<image class="head_img" :src="requestUrl+item.head_img" ></image>
+							<image :src="requestUrl+item.spu_icon" class="spu_icon"></image>
+							<view class="goods_right">
+								<view class="goods_name"> {{ item.goods_name }} </view>
+								<view class="goods-label" v-if="item.label.list.length>0">
+									<view class="label_item" v-for="(i,k) in item.label.list" :key="k" > {{ i }} </view>
+								</view>
+								<view class="all_price">
+									<text class="sale_price"> ￥ {{ item.sale_price }}  </text>
+									<view class="member" v-if="item.member.member_title">
+										<text>{{item.member.member_title}}</text> {{ item.member.price }}
+									</view>
+								</view>
+								<view class="rate_sales">
+									<text>{{ item.sales }} 预约</text> <text> {{ item.rate }}%好评 </text>
 								</view>
 							</view>
-							<view class="rate_sales">
-								<text>{{ item.sales }} 预约</text> <text> {{ item.rate }}%好评 </text>
-							</view>
-						</view>
-					</navigator>
-				</view>
-				<!-- 医生 -->
-				<view class="this_result" v-if="tabIndex==1">
-					<view class="doctor_info" v-for="(item,index) in content_list" :key='index' >
-						<navigator class="doctor_top" :url="'/pages/doctor/doctor_detail?id='+item.id+'&heading='+item.heading">
-							<image class="doctor_head_img" :src="requestUrl+item.head_img" ></image>
-							<view class="doctor_right_info">
-								<view class="doctor_name"> {{ item.name }} <text class="zhicheng"> {{ item.zhicheng }} </text> </view>
-								<view class="employed_y_case_num">
-									<view class="employed_y"> 从业经验: {{ item.employed_y }}年</view>
-									<view class="case_num">案列数: {{ item.case_num }} </view>
-								</view>																
-								<view class="goods_project">
-									<view class="goods_project_title">擅长</view>
-									<text class='goods_category-item' v-for="(i,k) in item.goods_project" :key='k'> {{ i }}  </text>
-								</view>
-								<view class="view_content">
-									<view class='doctor_view_title'>观点</view>
-									<text class="views">{{item.view}}</text>
-								</view>	
-							</view>
-							<view class="consult" >咨询</view>
 						</navigator>
-						<view class="doctor_recommended_goods" v-if="Object.prototype.toString.call(item.recommended_goods)!='[object Array]'">
-							<view class="recommende_goods_name">
-								<text class="recommende_title"> 推 </text> {{ item.recommended_goods.goods_name }}
-							</view>
-							<view class="sale_weight_sale_price">
-								<text>{{ item.recommended_goods.sale_weight }}</text> <text> {{ item.recommended_goods.sale_price }} </text>
-							</view>
-						</view>
-						<view class="doctor_hot_goods" v-if="Object.prototype.toString.call(item.hot_goods)!='[object Array]'">
-							<view class="recommende_goods_name">
-								<text class="hot_goods_title"> 热 </text> {{ item.hot_goods.goods_name }}
-							</view>
-							<view class="sale_weight_sale_price">
-								<text>{{ item.hot_goods.sale_weight }}</text> <text> {{ item.hot_goods.sale_price }} </text>
-							</view>
+					</view>
+					<!-- 医生 -->
+					<view class="this_result" v-if="tabIndex==1">
+						<view class="doctor_info" v-for="(item,index) in content_list" :key='index' >
+							<navigator class="doctor_top" :url="'/pages/doctor/doctor_detail?id='+item.id+'&heading='+item.heading">
+								<image class="doctor_head_img" :src="requestUrl+item.head_img" ></image>
+								<view class="doctor_right_info">
+									<view class="doctor_name"> {{ item.name }} <text class="zhicheng"> {{ item.zhicheng }} </text> </view>
+									<view class="employed_y_case_num">
+										<view class="employed_y"> 从业经验: {{ item.employed_y }}年</view>
+										<view class="case_num">案列数: {{ item.case_num }} </view>
+									</view>																
+									<view class="goods_project">
+										<view class="goods_project_title">擅长</view>
+										<text class='goods_category-item' v-for="(i,k) in item.goods_project" :key='k'> {{ i }}  </text>
+									</view>
+									<view class="view_content">
+										<view class='doctor_view_title'>观点</view>
+										<text class="views">{{item.view}}</text>
+									</view>	
+								</view>
+								<view class="consult" >咨询</view>
+							</navigator>
+							<navigator class="doctor_recommended_goods" v-if="Object.prototype.toString.call(item.recommended_goods)!='[object Array]'"
+							 :url="'/pages/goods/goods_detail?sku_id='+item.recommended_goods.id+'&encrypted_id='+item.recommended_goods.encrypted_id">
+								<view class="recommende_goods_name">
+									<text class="recommende_title"> 推 </text> {{ item.recommended_goods.goods_name }}
+								</view>
+								<view class="sale_weight_sale_price">
+									<text>{{ item.recommended_goods.sale_weight }}</text> <text> {{ item.recommended_goods.sale_price }} </text>
+								</view>
+							</navigator>
+							<navigator class="doctor_hot_goods" v-if="Object.prototype.toString.call(item.hot_goods)!='[object Array]'"
+							 :url="'/pages/goods/goods_detail?sku_id='+item.hot_goods.id+'&encrypted_id='+item.hot_goods.encrypted_id">
+								<view class="recommende_goods_name">
+									<text class="hot_goods_title"> 热 </text> {{ item.hot_goods.goods_name }}
+								</view>
+								<view class="sale_weight_sale_price">
+									<text>{{ item.hot_goods.sale_weight }}人预约 </text> <text class="sale_price"> ￥{{ item.hot_goods.sale_price }} </text>
+								</view>
+							</navigator>
 						</view>
 					</view>
-				</view>
-				<!-- 日记 -->
-				<view class="this_list"  v-else-if="tabIndex==2">
-					<diary :diaryList="content_list" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
-				</view>
-				<!-- 视频 -->
-				<view class="this_list" v-else-if='tabIndex==3'>
-					<view class="video_info">
-						<view class="video_left" >
-							<view class="left_content">
-								<view class="left_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
-									<view class="video-images">
-										<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
-										<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
+					<!-- 日记 -->
+					<view class="this_list"  v-else-if="tabIndex==2">
+						<diary :diaryList="content_list" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
+					</view>
+					<!-- 视频 -->
+					<view class="this_list" v-else-if='tabIndex==3'>
+						<view class="video_info">
+							<view class="video_left" >
+								<view class="left_content">
+									<view class="left_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
+										<navigator class="video-images"
+										 :url="'/pages/diary/diary_video?path='+item.path">
+											<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+											<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
+										</navigator>
+										<view class="info_content">
+											<view class="video_name"> {{ item.name }} </view>
+											<view class="category_list">
+												<view class="list_item" v-for="(i,k) in item.category_name" :key='k'> {{ i }} </view>
+											</view>
+											<navigator class="video_goods" v-if="Object.prototype.toString.call(item.goods_relation)!='[object Array]'"
+											 :url="'/pages/goods/goods_detail?sku_id='+item.goods_relation.id+'&encrypted_id='+item.goods_relation.encrypted_id">
+												<image :src="requestUrl+item.goods_relation.head_img" class="goods_img"></image>
+												<view class="video_goods_info">
+													<view class="video_goods_name"> {{ item.goods_relation.goods_name }} </view>
+													<view class="video_goods_sale_price"> ￥{{ item.goods_relation.sale_price }} </view>
+												</view>
+											</navigator>
+											<view class="user_info">
+												<view class="head_ico-nick_name">
+													<image class="head_ico" :src="requestUrl+item.doctor_relation.heading" mode=""></image>
+													<text class="nick_name">{{ item.doctor_relation.name }}</text>
+												</view>
+												<view class="is_no_collect" v-if="item.is_collect==0" @tap="cancel_video_like(item.is_collect,item.id,index)"> 
+													<view class="like">
+														<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+													</view>
+													{{ item.collect_num || 0 }} 
+												 </view>
+												<view class="collect_num" v-else @tap="cancel_video_like(item.is_collect,item.id,index)">
+													<view class="like">
+														<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+													</view>
+													{{ item.collect_num }} 
+												</view>
+											</view>
+										</view>
 									</view>
-									<view class="info_content">
-										<view class="video_name"> {{ item.name }} </view>
-										<view class="category_list">
-											<view class="list_item" v-for="(i,k) in item.category_name" :key='k'> {{ i }} </view>
-										</view>
-										<view class="video_goods" >
-											<image :src="requestUrl+item.goods_relation.head_img" class="goods_img"></image>
-											<view class="video_goods_info">
-												<view class="video_goods_name"> {{ item.goods_relation.goods_name }} </view>
-												<view class="video_goods_sale_price"> ￥{{ item.goods_relation.sale_price }} </view>
+								</view>
+							</view>
+							<view class="video_right">
+								<view class="right_content">
+									<view class="right_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
+										<navigator class="video-images"
+										 :url="'/pages/diary/diary_video?path='+item.path">
+											<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+											<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
+										</navigator>
+										<view class="info_content">
+											<view class="video_name"> {{  item.name }} </view>
+											<view class="category_list">
+												<view class="list_item" v-for="(i,k) in item.category_name" :key='k'> {{ i }} </view>
 											</view>
-										</view>
-										<view class="user_info">
-											<view class="head_ico-nick_name">
-												<image class="head_ico" :src="requestUrl+item.doctor_relation.heading" mode=""></image>
-												<text class="nick_name">{{ item.doctor_relation.name }}</text>
-											</view>
-											<view class="is_no_collect" v-if="item.is_collect==0" @tap="cancel_video_like(item.is_collect,item.id,index)"> 
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+											<navigator class="video_goods" v-if="Object.prototype.toString.call(item.goods_relation)!='[object Array]'"
+											 :url="'/pages/goods/goods_detail?sku_id='+item.goods_relation.id+'&encrypted_id='+item.goods_relation.encrypted_id">
+												<image :src="requestUrl+item.goods_relation.head_img" class="goods_img"></image>
+												<view class="video_goods_info">
+													<view class="video_goods_name"> {{ item.goods_relation.goods_name }} </view>
+													<view class="video_goods_sale_price"> ￥{{ item.goods_relation.sale_price }} </view>
 												</view>
-												{{ item.collect_num || 0 }} 
-											 </view>
-											<view class="collect_num" v-else @tap="cancel_video_like(item.is_collect,item.id,index)">
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+											</navigator>
+											<view class="user_info">
+												<view class="head_ico-nick_name">
+													<image class="head_ico" :src="requestUrl+item.doctor_relation.heading" mode=""></image>
+													<text class="nick_name">{{ item.doctor_relation.name }}</text>
 												</view>
-												{{ item.collect_num }} 
+												<view class="is_no_collect" v-if="item.is_collect==0" @tap="cancel_video_like(item.is_collect,item.id,index)"> 
+													<view class="like">
+														<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+													</view>
+													{{ item.collect_num || 0 }} 
+												 </view>
+												<view class="collect_num" v-else @tap="cancel_video_like(item.is_collect,item.id,index)">
+													<view class="like">
+														<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
+													</view>
+													{{ item.collect_num }} 
+												</view>
 											</view>
 										</view>
 									</view>
 								</view>
 							</view>
 						</view>
-						<view class="video_right">
-							<view class="right_content">
-								<view class="right_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
-									<view class="video-images">
-										<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
-										<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
-									</view>
-									<view class="info_content">
-										<view class="video_name"> {{  item.name }} </view>
-										<view class="category_list">
-											<view class="list_item" v-for="(i,k) in item.category_name" :key='k'> {{ i }} </view>
-										</view>
-										<view class="video_goods" >
-											<image :src="requestUrl+item.goods_relation.head_img" class="goods_img"></image>
-											<view class="video_goods_info">
-												<view class="video_goods_name"> {{ item.goods_relation.goods_name }} </view>
-												<view class="video_goods_sale_price"> ￥{{ item.goods_relation.sale_price }} </view>
-											</view>
-										</view>
-										<view class="user_info">
-											<view class="head_ico-nick_name">
-												<image class="head_ico" :src="requestUrl+item.doctor_relation.heading" mode=""></image>
-												<text class="nick_name">{{ item.doctor_relation.name }}</text>
-											</view>
-											<view class="is_no_collect" v-if="item.is_collect==0" @tap="cancel_video_like(item.is_collect,item.id,index)"> 
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												{{ item.collect_num || 0 }} 
-											 </view>
-											<view class="collect_num" v-else @tap="cancel_video_like(item.is_collect,item.id,index)">
-												<view class="like">
-													<image class="like-image" src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-												</view>
-												{{ item.collect_num }} 
-											</view>
-										</view>
-									</view>
-								</view>
-							</view>
-						</view>
 					</view>
-				</view>
+				</scroll-view>
 				
+				<view class="no_have_result" v-else :style="[{'height':height-menuBottom-130+'px'}]">
+					<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+					<view class="no-have_hint"> 暂无相关内容 </view>
+				</view>
 			</view>
 		</view>
+		<!-- 回到顶部 -->
+		<view class="top-button" @tap="ToTop" v-if="showTop"> TOP </view>
 	</view>
 </template>
 
@@ -195,12 +209,11 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
-				menuTop: 0,
-				menuHeight: 0,
-				menuLeft: 0,
-				menuBottom: 0,
-				height: 0,
+				menuTop: 50,
+				menuHeight: 32,
+				menuLeft: 280,
+				menuBottom: 82,
+				height: 812,
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
@@ -228,12 +241,13 @@
 					},
 
 				],
-				tabIndex: 3, // 选中的顶部的导航的索引,类型
+				tabIndex: 0, // 选中的顶部的导航的索引,类型
 				inputValue: '',
 				content_list: [],
 				offset: 0,
-				searchContent: '隆鼻',
-				requestUrl:''
+				searchContent: '',
+				requestUrl:'',
+				showTop:false
 			}
 		},
 		onLoad: function(option) {
@@ -250,6 +264,7 @@
 			let that = this;
 			// 判定运行平台
 			let platform = ''
+			that.height = uni.getSystemInfoSync().screenHeight;
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
 					platform = 'android'
@@ -265,9 +280,7 @@
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
-						that.height = res.screenHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
 						that.menuLeft = menu.left
@@ -275,12 +288,16 @@
 					}
 				})
 			} else {
-				that.height = uni.getSystemInfoSync().screenHeight;
 				that.menuTop = 50
 				that.menuHeight = 32
-				that.menuLeft = 278
+				that.menuLeft = 280
 				that.menuBottom = 82
 			}
+		},
+		onReachBottom: function () {
+			var that = this;
+			that.offset += 6;
+			that.get_search()
 		},
 		methods: {
 			get_search:function(){
@@ -295,7 +312,13 @@
 					that.request.uniRequest("search", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.content_list = data
+							that.content_list = that.content_list.concat(data)
+							if(data.length==0&&that.offset!=0){
+								uni.showToast({
+									title:'没有更多了!',
+									icon:'none'
+								})
+							}
 						}
 					})
 				}else if( that.tabIndex +1 == 2 ){
@@ -308,7 +331,13 @@
 					that.request.uniRequest("search", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.content_list = data
+							that.content_list = that.content_list.concat(data)
+							if(data.length==0&&that.offset!=0){
+								uni.showToast({
+									title:'没有更多了!',
+									icon:'none'
+								})
+							}
 						}
 					})
 				}else if( that.tabIndex +1 == 3 ){
@@ -321,7 +350,13 @@
 					that.request.uniRequest("search", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.content_list = data
+							that.content_list = that.content_list.concat(data)
+							if(data.length==0&&that.offset!=0){
+								uni.showToast({
+									title:'没有更多了!',
+									icon:'none'
+								})
+							}
 						}
 					})
 				}else if( that.tabIndex +1 == 4 ){
@@ -334,7 +369,13 @@
 					that.request.uniRequest("search", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let data = res.data.data
-							that.content_list = data
+							that.content_list = that.content_list.concat(data)
+							if(data.length==0&&that.offset!=0){
+								uni.showToast({
+									title:'没有更多了!',
+									icon:'none'
+								})
+							}
 						}
 					})
 				}
@@ -344,6 +385,8 @@
 				let that = this
 				that.inputValue = event.target.value
 				that.searchContent = that.inputValue
+				that.content_list = []
+				that.offset = 0
 				that.get_search()
 			},
 			tabtap: function(index, type) {
@@ -424,7 +467,39 @@
 					}
 				})
 			},
+			keep_search:function(text){
+				let that = this
+				if(text){
+					that.searchContent = text
+					that.content_list = []
+					that.offset = 0
+					that.get_search()
+				}
+				else{
+					uni.showToast({
+						title: '请输入关键字',
+						icon:'none',
+						duration: 1000
+					})	
+				}
+			},
+			// 返回顶部
+			ToTop: function() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 600
+				})
+			},
+		},
+		// 显示回到顶部按钮
+		onPageScroll: function(e) {
+			if (e.scrollTop > 0) {
+				this.showTop = true
+			} else if (e.scrollTop == 0) {
+				this.showTop = false
+			}
 		}
+		
 	}
 </script>
 
@@ -434,7 +509,7 @@
 		height: 88rpx;
 		left: 0;
 		position: fixed;
-		z-index: 99;
+		z-index: 100;
 		width: 100%;
 	}
 
@@ -480,9 +555,8 @@
 
 	.top-swiper-tab {
 		position: fixed;
-		/* height: 80rpx; */
 		background-color: #FFFFFF;
-		z-index: 9;
+		z-index: 99;
 		width: 100%;
 		display: flex;
 		justify-content: center;
@@ -504,19 +578,38 @@
 		font-weight: bolder;
 	}
 	.change_item{	
-		border-bottom: 6rpx solid #FA3475;
+		border-bottom: 4rpx solid #FA3475;
 	}
-
-	.result_content {
-		height: 100%;
-		padding: 20rpx 0;
+	.search-input_content{
 		background-color: #F6F6F6;
 	}
+	.result_content {
+		padding: 20rpx 0 0;
+		
+	}
+	.have_result{
+		background-color: #F6F6F6;
+	}
+	.no_have_result{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.no_have_result image{
+		width: 60%;
+	}
+	.no-have_hint{
+		font-size: 28rpx;
+	}
+	
 	.this_list{
 		padding: 0 20rpx;
 	}
 	.this_goods_result{
-		padding: 0 20rpx;
+		padding: 0 20rpx ;
 	}
 	
 	.goods_info{
@@ -527,7 +620,6 @@
 		margin-bottom: 30rpx;
 		border-radius: 24rpx;
 	}
-	
 	.head_img{
 		width: 230rpx;
 		height: 230rpx;
@@ -606,7 +698,7 @@
 		border-radius: 24rpx;
 		background-color: #FFFFFF;
 		margin-bottom: 30rpx;
-		padding: 0 20rpx;
+		padding: 0 20rpx 20rpx;
 	}
 	.doctor_top{
 		position: relative;
@@ -691,11 +783,11 @@
 		justify-content: space-between;
 		font-size: 24rpx;
 		font-weight: lighter;
-		margin-top: 20rpx;
+		margin-bottom: 20rpx;
 		background-color: #F0F0F0;
 	}
 	.recommende_goods_name{
-		width: 55%;
+		width: 60%;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
@@ -703,20 +795,39 @@
 		line-height: 56rpx;
 		font-size: 24rpx;
 		color: #111111;
+		display: flex;
+		align-items: center;
 	}
 	.recommende_title{
 		background-color: #ff7b1a;
 		color: #FFFFFF;
+		margin-right: 15rpx;
+		width: 30rpx;
+		height: 30rpx;
+		border-radius: 10rpx;
+		text-align: center;
+		line-height: 30rpx;
+		font-size: 20rpx;
 	}
 	.hot_goods_title{
 		background-color: #da129f;
 		color: #FFFFFF;
+		margin-right: 15rpx;
+		width: 30rpx;
+		border-radius: 10rpx;
+		height: 30rpx;
+		text-align: center;
+		line-height: 30rpx;
+		font-size: 20rpx;
 	}
 	.sale_weight_sale_price{
 		flex: 1;
 		display: flex;
-		justify-content: space-between;
 		padding-left: 20rpx;
+		justify-content: space-between;
+	}
+	.sale_price{
+		color: #fa3475;
 	}
 	
 	/* 视频 */
@@ -733,6 +844,7 @@
 		background-color: #FFFFFF;
 		border-radius: 16rpx;
 		width: 350rpx;
+		margin-bottom: 20rpx;
 	}
 	.video-images{
 		position: relative;
@@ -874,6 +986,21 @@
 	.like-image{
 		width: 24rpx;
 		height: 24rpx;
+	}
+	
+	.top-button {
+		width: 64rpx;
+		line-height: 65rpx;
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+		box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
+		border-radius: 50%;
+		position: fixed;
+		right: 40rpx;
+		bottom: 130px;
+		z-index: 9999;
+		font-size: 26rpx;
+		color: #FFFFFF;
+		text-align: center;
 	}
 	
 </style>

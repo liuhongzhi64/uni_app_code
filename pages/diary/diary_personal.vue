@@ -16,7 +16,8 @@
 											<view class="user-name" v-if="user.nick_name!=''">{{user.nick_name}}</view>
 											<view class="user-name" v-else>用户昵称</view>
 										</view>
-										<view class="user-signature" v-if="user.signature!=''"> {{user.signature}} </view>										
+										<view class="user-signature" v-if="user.signature!=''"> {{ user.signature}} </view>
+										<view class="user-signature" v-else> 这个人很懒,什么都没有留下 </view>
 									</view>
 								</view>
 						
@@ -55,7 +56,7 @@
 
 		</view>
 		
-		<view class="bottom-botton">
+		<view class="bottom-botton" v-if="this_my">
 			<view class="keep-diary">
 				<button class="keep-diary-botton" type="default" plain="true" @tap='keepDiary'> + 写日记</button>
 			</view>
@@ -85,18 +86,35 @@
 				backImage: '/static/images/back2.png',
 				title: '个人主页',
 				requestUrl:'',
-				count:{},//第一页 offset 等于0 才返回 统计数据
-				user:{},//用户信息 第一页 offset 等于0 才返回 用户信息
+				count:{
+					collect_num:0,
+					is_write:0,
+					num:0,
+					share_num:0,
+					view_num:0
+				},//第一页 offset 等于0 才返回 统计数据
+				user:{
+					signature:'',
+					head_ico:'',
+					nick_name:''
+				},//用户信息 第一页 offset 等于0 才返回 用户信息
 				list:[],//日记列表
-				
+				offset:0,
+				this_my:false
 			}
 		},
 		onLoad:function(options){
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			let user_mark = options.user_mark
-			that.getMessage(user_mark)
+			if(options.user_mark){
+				let user_mark = options.user_mark
+				that.getMessage(user_mark)
+			}
+			else if(options.route){
+				that.this_my = true
+				that.get_my_diary()
+			}
 			
 		},
 		onReady() {
@@ -142,27 +160,44 @@
 				})
 			},
 			getMessage:function(user_mark){
-				this.request = this.$request
 				let that = this
 				let dataInfo = {
 					interfaceId:'inexuserhome',
 					user_mark:user_mark,
-					offset:'0',
-					limit:'10'
+					offset:that.offset,
+					limit:6
 				}
 				this.request.uniRequest("diary", dataInfo).then(res => {
-					if (res.data.code === 1000) {
-						console.log(res.data.data)
+					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.count = data.count
 						that.list = data.list
 						that.user = data.user
-					} else {
-						this.request.showToast(res.data.message);
-					}
+						that.title = data.user.nick_name + '的' + that.title
+					} 
 				})
 			},
-			
+			get_my_diary:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'mydiary',
+					offset:that.offset,
+					limit:6
+				}
+				this.request.uniRequest("diary", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.count = data.count
+						that.list = data.list
+						that.user = data.user
+						if(!data.user.nick_name){
+							let info= uni.getStorageSync("userInfo").real_name 
+							that.user.nick_name = info
+						}
+						that.title = '我的' + that.title
+					} 
+				})
+			},
 		}
 	}
 </script>
@@ -195,7 +230,7 @@
 		height: 160rpx;
 		border-radius: 80rpx;
 		margin-right: 24rpx;
-		border: 1rpx solid #FFFFFF;
+		background-color: #F0F0F0;
 	}
 
 	.user-name-cart {

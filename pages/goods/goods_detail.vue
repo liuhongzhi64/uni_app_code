@@ -288,7 +288,7 @@
 					</view>
 				</view>
 				<!-- 详情 -->
-				<view class="particulars" v-if="spu_info.length>0">
+				<view class="particulars" v-if="spu_info">
 					<view class="related-title">
 						<view class="line"></view> 详情
 					</view>

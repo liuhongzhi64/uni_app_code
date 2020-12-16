@@ -130,7 +130,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 471));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 485));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 471));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 478));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -217,18 +218,35 @@ __webpack_require__.r(__webpack_exports__);
       backImage: '/static/images/back2.png',
       title: '个人主页',
       requestUrl: '',
-      count: {}, //第一页 offset 等于0 才返回 统计数据
-      user: {}, //用户信息 第一页 offset 等于0 才返回 用户信息
-      list: [] //日记列表
-    };
+      count: {
+        collect_num: 0,
+        is_write: 0,
+        num: 0,
+        share_num: 0,
+        view_num: 0 },
+      //第一页 offset 等于0 才返回 统计数据
+      user: {
+        signature: '',
+        head_ico: '',
+        nick_name: '' },
+      //用户信息 第一页 offset 等于0 才返回 用户信息
+      list: [], //日记列表
+      offset: 0,
+      this_my: false };
 
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    var user_mark = options.user_mark;
-    that.getMessage(user_mark);
+    if (options.user_mark) {
+      var user_mark = options.user_mark;
+      that.getMessage(user_mark);
+    } else
+    if (options.route) {
+      that.this_my = true;
+      that.get_my_diary();
+    }
 
   },
   onReady: function onReady() {
@@ -273,24 +291,42 @@ __webpack_require__.r(__webpack_exports__);
         url: "/pages/diary/diary_keep" });
 
     },
-    getMessage: function getMessage(user_mark) {var _this = this;
-      this.request = this.$request;
+    getMessage: function getMessage(user_mark) {
       var that = this;
       var dataInfo = {
         interfaceId: 'inexuserhome',
         user_mark: user_mark,
-        offset: '0',
-        limit: '10' };
+        offset: that.offset,
+        limit: 6 };
 
       this.request.uniRequest("diary", dataInfo).then(function (res) {
-        if (res.data.code === 1000) {
-          console.log(res.data.data);
+        if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.count = data.count;
           that.list = data.list;
           that.user = data.user;
-        } else {
-          _this.request.showToast(res.data.message);
+          that.title = data.user.nick_name + '的' + that.title;
+        }
+      });
+    },
+    get_my_diary: function get_my_diary() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'mydiary',
+        offset: that.offset,
+        limit: 6 };
+
+      this.request.uniRequest("diary", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.count = data.count;
+          that.list = data.list;
+          that.user = data.user;
+          if (!data.user.nick_name) {
+            var info = uni.getStorageSync("userInfo").real_name;
+            that.user.nick_name = info;
+          }
+          that.title = '我的' + that.title;
         }
       });
     } } };exports.default = _default;

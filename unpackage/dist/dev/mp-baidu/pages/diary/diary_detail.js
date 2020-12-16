@@ -215,10 +215,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 {
   components: {
     topBar: topBar },
@@ -385,12 +381,6 @@ __webpack_require__.r(__webpack_exports__);
 
         }
       });
-    },
-    // 咨询
-    goToConsult: function goToConsult() {
-      uni.navigateTo({
-        url: "/pages/consultation/consultation" });
-
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

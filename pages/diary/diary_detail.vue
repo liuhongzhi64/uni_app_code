@@ -77,10 +77,6 @@
 				</view>
 			</view>
 		</view>
-		
-		<view class="consult" @tap='goToConsult'>
-			咨询>
-		</view>
 
 	</view>
 </template>
@@ -254,12 +250,6 @@
 					}
 				})
 			},
-			// 咨询
-			goToConsult:function(){
-				uni.navigateTo({
-					url: `/pages/consultation/consultation`,
-				})
-			}
 		}
 	}
 </script>
@@ -318,10 +308,6 @@
 	.top-swiper {
 		min-height:1000rpx;
 	}
-	/* .top-swiper-item .top-swiper-images {
-		height: 584rpx;
-		width: 750rpx;
-	} */
 	.doctor-information {
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
@@ -329,7 +315,6 @@
 	}
 
 	.top-swiper-item {
-		/* position: relative; */
 		display: flex;
 		height:100%;
 		width: 100%;
@@ -472,19 +457,6 @@
 		margin-left: 10rpx;
 	}
 	
-	.consult{
-		position: fixed;
-		z-index: 9;
-		background-color: #FA3475;
-		opacity: 0.8;
-		width: 130rpx;
-		line-height: 120rpx;
-		text-align: center;
-		top: 50%;
-		right: 10rpx;
-		color: #FFFFFF;
-		border-radius: 24rpx;
-	}
 	.collect_hover{
 		color: #9F55FF;
 	}

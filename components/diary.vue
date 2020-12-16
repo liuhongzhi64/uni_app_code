@@ -8,8 +8,8 @@
 					<view class="subject-content-list"
 					 v-for="(item,index) in diaryList" :key='index'
 					 v-if="index%2==0">
-						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
-							<view class="image-label">
+						<view class="diary-item-top">
+							<view class="image-label" @tap='diaryDetail(item.id)'>
 								<view class="diary-images">
 									<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 									<view class="label">{{item.label}}</view>
@@ -23,7 +23,7 @@
 							</view>																				
 							<view class="goods_name">{{item.goods_name}}</view>	
 						</view>									
-						<view class="head_ico-nick_name-collect_num">
+						<view class="head_ico-nick_name-collect_num" @tap='personal(item.user_mark)'>
 							<view class="head_ico-nick_name">
 								<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
 								<text class="nick_name">{{item.nick_name}}</text>
@@ -49,13 +49,12 @@
 					<view class="subject-content-list"
 					 v-for="(item,index) in diaryList" :key='index'
 					 v-if="index%2==1">
-						<view class="diary-item-top"  @tap='diaryDetail(item.id)'>
-							<view class="image-label">
+						<view class="diary-item-top">
+							<view class="image-label" @tap='diaryDetail(item.id)'>
 								<view class="diary-images">
 									<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 									<view class="label">{{item.label}}</view>
 								</view>
-								
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>
 							<view class="diary-title" v-if="item.title"> {{item.title}} </view>										
@@ -65,7 +64,7 @@
 							</view>																				
 							<view class="goods_name" v-if="item.goods_name">{{item.goods_name}}</view>	
 						</view>										
-						<view class="head_ico-nick_name-collect_num">
+						<view class="head_ico-nick_name-collect_num" @tap='personal(item.user_mark)'>
 							<view class="head_ico-nick_name">
 								<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
 								<text class="nick_name">{{item.nick_name}}</text>
@@ -111,7 +110,13 @@
 			},
 			cancel_like:function(id,index){
 				this.$emit('cancel_like', id,index)
-			}
+			},
+			// 个人主页
+			personal:function(user_mark){
+				uni.navigateTo({
+					url: `/pages/diary/diary_personal?user_mark=${user_mark}`,
+				})
+			},
 		}
 	}
 </script>

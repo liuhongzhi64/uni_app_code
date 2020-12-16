@@ -660,7 +660,6 @@
 	.order-image image {
 		width: 50rpx;
 		height: 46rpx;
-		margin-left: 15rpx;
 	}
 
 	.order-number {

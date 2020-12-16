@@ -1,15 +1,18 @@
 <template>
 	<view class="diary_video">
-		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color,}]">
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack" >
-					<image src="../../static/images/back2.png" mode=""></image>
+					<image src="/static/images/back2.png" mode=""></image>
 				</view>
 				<view class="title" > {{title}} </view>
 			</view>
 		</view>
 		<!-- 日记详情（视频） -->
-		<video class="play-video" :style="[{'height':height+'px'}]" :src="videoUrl" controls ></video>
+		<view class="video_content" :style="[{'height':height-10-menuBottom+'px','padding-top':menuBottom+10+'px'}]" >
+			<video class="play-video" :src="videoUrl" controls ></video>
+		</view>
+		
 	</view>
 </template>
 
@@ -26,7 +29,6 @@
 				height: 0,
 				title:'视频播放',
 				topBackgroundColor: '#222222',
-				color: '#FFFFFF',
 				videoUrl:''
 			}
 		},
@@ -92,7 +94,6 @@
 		font-size: 40rpx;
 		position: fixed;
 		z-index: 100;
-		position: fixed;
 		width: 100%;
 		top: 0;
 		left: 0;
@@ -123,9 +124,11 @@
 	.back-title .title {
 		flex: 1;
 		font-size: 37rpx;
+		color: #FFFFFF;
 	}
+	
 	.play-video{
 		width: 100%;
-		height: 100%;
 	}
+	
 </style>

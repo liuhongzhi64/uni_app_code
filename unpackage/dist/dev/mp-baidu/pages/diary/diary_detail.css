@@ -31,7 +31,7 @@
 	height: 160rpx;
 	border-radius: 80rpx;
 	margin-right: 24rpx;
-	border: 1px solid #FFFFFF;
+	background-color: #FFFFFF;
 }
 .user-name-cart.data-v-799f96d2 {
 	display: -webkit-box;
@@ -50,22 +50,15 @@
 	font-size: 24rpx;
 	margin-top: 18rpx;
 }
-.detail-swiper.data-v-799f96d2 {
-	min-height:1000rpx;
-}
-.top-swiper.data-v-799f96d2 {
-	min-height:1000rpx;
-}
-.doctor-information.data-v-799f96d2 {
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	position: relative;
+.top-swiper-item  image.data-v-799f96d2{
+	width: 100%;
+	display: block;
 }
 .top-swiper-item.data-v-799f96d2 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	height:100%;
+	height: 100%;
 	width: 100%;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
@@ -73,7 +66,8 @@
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
-	height: auto;
+	position: relative;
+	padding: 0;
 }
 .porduct-message.data-v-799f96d2 {
 	position: absolute;
@@ -115,12 +109,14 @@
 .porduct-images image.data-v-799f96d2 {
 	width: 80rpx;
 	height: 80rpx;
+	background-color: #FFFFFF;
 }
 .correlation-doctor .doctor-images.data-v-799f96d2,
 .correlation-doctor .doctor-images image.data-v-799f96d2 {
 	width: 80rpx;
 	height: 80rpx;
 	border-radius: 40rpx;
+	background-color: #FFFFFF;
 }
 .porduct-name-price.data-v-799f96d2,
 .doctor-name-subordinate-position.data-v-799f96d2 {
@@ -139,7 +135,7 @@
 }
 .porduct-name-price .porduct-name.data-v-799f96d2,
 .subordinate-position.data-v-799f96d2 {
-	font-size: 24rpx;
+	font-size: 20rpx;
 	color: #ffffff;
 	width: 208rpx;
 	overflow: hidden;
@@ -150,10 +146,10 @@
 .porduct-price.data-v-799f96d2 {
 	color: #fa3475;
 	line-height: 34rpx;
-	font-size: 24rpx;
+	font-size: 20rpx;
 }
 .porduct-price text.data-v-799f96d2 {
-	font-size: 32rpx;
+	font-size: 24rpx;
 }
 .detail_contents.data-v-799f96d2 {
 	padding: 40rpx;
@@ -171,6 +167,9 @@
 	color: #333333;
 	padding-top: 32rpx;
 	padding-bottom: 160rpx;
+}
+.item_content.data-v-799f96d2 {
+	min-height: 40rpx;
 }
 .bottom-messages.data-v-799f96d2 {
 	background-color: #F6F6F6;
@@ -211,10 +210,19 @@
 	color: #fa3475;
 	font-size: 26rpx;
 }
-.page-view  text.data-v-799f96d2{
+.page-view text.data-v-799f96d2 {
 	margin-left: 10rpx;
 }
-.collect_hover.data-v-799f96d2{
+.collect_hover.data-v-799f96d2 {
 	color: #9F55FF;
+}
+.consultation.data-v-799f96d2 {
+	position: fixed;
+	z-index: 99;
+	right: 20rpx;
+	bottom: 240rpx;
+}
+.consultation_img.data-v-799f96d2 {
+	width: 120rpx;
 }
 

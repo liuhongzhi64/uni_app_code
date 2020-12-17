@@ -22,62 +22,68 @@
 							</view>
 						</view>
 						<view class="detail-swiper" v-if="swiperList.length>0">
-							<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" :interval='intervalTime' :duration="durationTime"
-							 circular>
-								<swiper-item class="doctor-information"
-								 v-for="(i,index) in swiperList" :key="index" :style="{backgroundImage:'url('+requestUrl+i+')'}">
-									<view class="top-swiper-item">
-										<!-- <image class="top-swiper-images" :src="requestUrl+i" ></image>										 -->
-										<view class="porduct-message" @tap='goToGoods(goods.id,goods.encrypted_id)'>
-											<view class="porduct-images">
-												<image :src="requestUrl+goods.head_img" mode=""></image>
+							<swiper class="top-swiper" indicator-dots @change="change_swiper"
+							:style="{height:swiper_height+'px'}"
+							 indicator-active-color="#FA3475"  circular>
+								<swiper-item class="doctor-information" v-for="(i,index) in swiperList" :key="index">
+										<view class="top-swiper-item" :style="{height:swiper_height+'px'}">
+											<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-if="index==0" @load='get_img_height'>
+											</image>
+											<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else >
+											</image>
+											<view class="porduct-message" @tap='goToGoods(goods.id,goods.encrypted_id)'>
+												<view class="porduct-images">
+													<image :src="requestUrl+goods.head_img" mode="widthFix"></image>
+												</view>
+												<view class="porduct-name-price">
+													<view class="porduct-name">{{goods.goods_name}}</view>
+													<view class="porduct-price">¥<text>{{goods.sale_price}}</text></view>
+												</view>
 											</view>
-											<view class="porduct-name-price">
-												<view class="porduct-name">{{goods.goods_name}}</view>
-												<view class="porduct-price">¥<text>{{goods.sale_price}}</text></view>
+											<view class="correlation-doctor" @tap='goToDoctor(doctor.id)'>
+												<view class="doctor-images">
+													<image :src="requestUrl+doctor.heading"></image>
+												</view>
+												<view class="doctor-name-subordinate-position">
+													<view class="doctor-name">{{doctor.name}}</view>
+													<view class="subordinate-position">{{doctor.zhicheng}}</view>
+												</view>
 											</view>
 										</view>
-
-										<view class="correlation-doctor" @tap='goToDoctor(doctor.id)'>
-											<view class="doctor-images">
-												<image :src="requestUrl+doctor.heading" mode=""></image>
-											</view>
-											<view class="doctor-name-subordinate-position">
-												<view class="doctor-name">{{doctor.name}}</view>
-												<view class="subordinate-position">{{doctor.zhicheng}}</view>
-											</view>
-
-										</view>
-
-									</view>
 								</swiper-item>
 							</swiper>
 						</view>
 						<view class="detail_contents">
-							<view class="details-title"> {{diaryTitle}} </view>
+							<view class="details-title"> {{ diaryTitle }} </view>
 							<view class="user-details-contents">
-								{{content}}								
+								<view class="item_content" v-for="(item,index) in content" :key="index">
+									{{ item }}
+								</view>
 							</view>
 						</view>
 					</view>
 				</template>
 			</scroll-view>
 		</view>
+
+		<navigator class="consultation" url="/pages/consultation/consultation">
+			<image class="consultation_img" src="https://xcx.hmzixin.com/upload/images/3.0/consulting.png" mode="widthFix"></image>
+		</navigator>
+
 		<view class="bottom-messages">
 			<view class="page-view-collect-transpond">
 				<view class="page-view">浏览量: <text>{{view_num}}</text></view>
 				<view class="collect" v-if="is_collect == 0" @tap='collectdiary(id)'>
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png" ></image><text>{{collect_num}}</text>
+					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image><text>{{collect_num}}</text>
 				</view>
 				<view class="collect" v-else @tap='cancelLike(id)'>
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png" ></image><text class="collect_hover">{{collect_num}}</text>
+					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image><text class="collect_hover">{{collect_num}}</text>
 				</view>
 				<view class="transpond">
-					<image src="../../static/images/share.png" ></image> <text>{{share_num}}</text>
+					<image src="../../static/images/share.png"></image> <text>{{share_num}}</text>
 				</view>
 			</view>
 		</view>
-
 	</view>
 </template>
 
@@ -100,25 +106,25 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '日记详情',
-				intervalTime: 3000, //自动切换时间间隔
-				durationTime: 1000, //	滑动动画时长
+				swiper_height: 350, //外部的高度
 				swiperList: [],
-				id:'',//日记id
-				content:'',//内容
-				collect_num:0,//日记收藏数
-				diary_num:1,//日记总数,
-				doctor:[{}],//医生信息    为空则不展示
-				goods:[{}],//日记关联的商品信息
-				head_ico:'',// 日记用户用户头像
-				imgs:[],//日记图片地址     该字段不为空  日记有图片
-				is_collect:0,// 浏览用户是否收藏    0 未收藏  1 已收藏
-				nick_name:'' ,// 日记用户昵称
-				share_num:0,
-				diaryTitle:'',//日记标题
-				user_mark:'',//日记用户标示
-				video:'' ,// 日记视频地址    该字段不为空  日记有视频
-				view_num:0,//日记浏览数
+				id: '', //日记id
+				content: '', //内容
+				collect_num: 0, //日记收藏数
+				diary_num: 1, //日记总数,
+				doctor: [{}], //医生信息    为空则不展示
+				goods: [{}], //日记关联的商品信息
+				head_ico: '', // 日记用户用户头像
+				imgs: [], //日记图片地址     该字段不为空  日记有图片
+				is_collect: 0, // 浏览用户是否收藏    0 未收藏  1 已收藏
+				nick_name: '', // 日记用户昵称
+				share_num: 0,
+				diaryTitle: '', //日记标题
+				user_mark: '', //日记用户标示
+				video: '', // 日记视频地址    该字段不为空  日记有视频
+				view_num: 0, //日记浏览数
 				requestUrl: '',
+				platform:''
 			}
 		},
 		onLoad: function(options) {
@@ -129,7 +135,7 @@
 			that.diarydetails(that.id)
 		},
 		onReady() {
-			let that = this;		
+			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
 			// 判定运行平台
 			let platform = ''
@@ -144,7 +150,8 @@
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			that.platform = platform
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
@@ -156,8 +163,7 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			}
-			else{
+			} else {
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
@@ -165,88 +171,110 @@
 			}
 		},
 		methods: {
+			getlist_height(list) {
+				let that = this
+				const query = uni.createSelectorQuery()
+				query.select(list).boundingClientRect(data => {
+					that.swiper_height = data.height
+					console.log(data.height)
+				}).exec();
+			},
+			change_swiper(e) {
+				let that = this;
+				that.getlist_height(`.list_img${e.target.current}`)
+			},
+			get_img_height:function(event){
+				let that = this
+				let height = event.detail.height
+				console.log(height)
+				if(that.platform != 'applet'){
+					that.swiper_height = height/2-18
+				} else{
+					that.swiper_height = height/2
+				}
+			},
 			// 详情
-			diarydetails: function (id) {
+			diarydetails: function(id) {
 				const that = this
 				let data = {
 					interfaceId: 'diarydetails',
-					diary_id :id
+					diary_id: id
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						// console.log(data)
-						that.id = data.id//日记id
-						that.content = data.content //内容
-						that.collect_num = data.collect_num//日记收藏数
-						that.diary_num = data.diary_num//日记总数,
-						that.doctor = data.doctor//医生信息    为空则不展示
-						that.goods = data.goods//日记关联的商品信息
-						that.head_ico = data.head_ico// 日记用户用户头像
-						that.imgs = data.imgs//日记图片地址     该字段不为空  日记有图片
-						that.is_collect = data.is_collect// 浏览用户是否收藏    0 未收藏  1 已收藏
+						that.id = data.id //日记id
+						that.content = data.content.split('<br />') //内容
+						that.collect_num = data.collect_num //日记收藏数
+						that.diary_num = data.diary_num //日记总数,
+						that.doctor = data.doctor //医生信息    为空则不展示
+						that.goods = data.goods //日记关联的商品信息
+						that.head_ico = data.head_ico // 日记用户用户头像
+						that.imgs = data.imgs //日记图片地址     该字段不为空  日记有图片
+						that.is_collect = data.is_collect // 浏览用户是否收藏    0 未收藏  1 已收藏
 						that.nick_name = data.nick_name // 日记用户昵称
 						that.share_num = data.share_num
-						that.diaryTitle = data.title//日记标题
-						that.user_mark = data.user_mark//日记用户标示
-						that.video = data.video// 日记视频地址    该字段不为空  日记有视频
-						that.view_num = data.view_num//日记浏览数
+						that.diaryTitle = data.title //日记标题
+						that.user_mark = data.user_mark //日记用户标示
+						that.video = data.video // 日记视频地址    该字段不为空  日记有视频
+						that.view_num = data.view_num //日记浏览数
 						that.swiperList = that.imgs
 					}
 				})
 			},
 			// 相关商品
-			goToGoods:function(goodsId,encrypted_id){
+			goToGoods: function(goodsId, encrypted_id) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?sku_id=${goodsId}&encrypted_id=${encrypted_id}`,
 				})
 			},
 			// 相关医生
-			goToDoctor:function(doctorId){
+			goToDoctor: function(doctorId) {
 				uni.navigateTo({
 					url: `/pages/doctor/doctor_detail?id=${doctorId}`,
 				})
 			},
 			// 个人主页
-			personal:function(user_mark){
+			personal: function(user_mark) {
 				uni.navigateTo({
 					url: `/pages/diary/diary_personal?user_mark=${user_mark}`,
 				})
 			},
-			
+
 			// 收藏
-			collectdiary:function(id){
+			collectdiary: function(id) {
 				let that = this
 				let data = {
 					interfaceId: 'collectdiary',
-					diary_id :id
+					diary_id: id
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.is_collect = 1
-						that.collect_num +=1
+						that.collect_num += 1
 						uni.showToast({
 							title: '收藏成功',
 							duration: 1000
-						})				
+						})
 					}
 				})
 			},
 			// 取消收藏
-			cancelLike:function(id){
+			cancelLike: function(id) {
 				let that = this
 				let data = {
-					interfaceId:'cancelcollectdiary',
-					diary_id:id.toString()
+					interfaceId: 'cancelcollectdiary',
+					diary_id: id.toString()
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.is_collect = 0
-						that.collect_num -=1
+						that.collect_num -= 1
 						uni.showToast({
 							title: '已取消收藏',
 							duration: 1000
-						})				
+						})
 					}
 				})
 			},
@@ -255,7 +283,6 @@
 </script>
 
 <style scoped>
-
 	.user-message {
 		background-color: #333333;
 	}
@@ -282,7 +309,7 @@
 		height: 160rpx;
 		border-radius: 80rpx;
 		margin-right: 24rpx;
-		border: 1rpx solid #FFFFFF;
+		background-color: #FFFFFF;
 	}
 
 	.user-name-cart {
@@ -301,26 +328,19 @@
 		margin-top: 18rpx;
 	}
 
-	.detail-swiper {
-		min-height:1000rpx;
-	}
-
-	.top-swiper {
-		min-height:1000rpx;
-	}
-	.doctor-information {
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		position: relative;
+	.top-swiper-item  image{
+		width: 100%;
+		display: block;
 	}
 
 	.top-swiper-item {
 		display: flex;
-		height:100%;
+		height: 100%;
 		width: 100%;
 		align-items: center;
 		justify-content: center;
-		height: auto;
+		position: relative;
+		padding: 0;
 	}
 
 	.porduct-message {
@@ -357,6 +377,7 @@
 	.porduct-images image {
 		width: 80rpx;
 		height: 80rpx;
+		background-color: #FFFFFF;
 	}
 
 	.correlation-doctor .doctor-images,
@@ -364,6 +385,7 @@
 		width: 80rpx;
 		height: 80rpx;
 		border-radius: 40rpx;
+		background-color: #FFFFFF;
 	}
 
 	.porduct-name-price,
@@ -380,7 +402,7 @@
 
 	.porduct-name-price .porduct-name,
 	.subordinate-position {
-		font-size: 24rpx;
+		font-size: 20rpx;
 		color: #ffffff;
 		width: 208rpx;
 		overflow: hidden;
@@ -392,11 +414,11 @@
 	.porduct-price {
 		color: #fa3475;
 		line-height: 34rpx;
-		font-size: 24rpx;
+		font-size: 20rpx;
 	}
 
 	.porduct-price text {
-		font-size: 32rpx;
+		font-size: 24rpx;
 	}
 
 	.detail_contents {
@@ -417,6 +439,10 @@
 		color: #333333;
 		padding-top: 32rpx;
 		padding-bottom: 160rpx;
+	}
+
+	.item_content {
+		min-height: 40rpx;
 	}
 
 	.bottom-messages {
@@ -453,11 +479,23 @@
 		color: #fa3475;
 		font-size: 26rpx;
 	}
-	.page-view  text{
+
+	.page-view text {
 		margin-left: 10rpx;
 	}
-	
-	.collect_hover{
+
+	.collect_hover {
 		color: #9F55FF;
+	}
+
+	.consultation {
+		position: fixed;
+		z-index: 99;
+		right: 20rpx;
+		bottom: 240rpx;
+	}
+
+	.consultation_img {
+		width: 120rpx;
 	}
 </style>

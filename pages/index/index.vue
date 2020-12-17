@@ -265,7 +265,7 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				BarImgs: '/static/images/0.png', //
+				BarImgs: 'https://xcx.hmzixin.com/upload/images/3.0/0.png', 
 				cartNumber: 0, //购物车数量
 				messageNumber: 0, //消息
 				topSearchContent: '', //头部搜索框的推荐内容
@@ -397,7 +397,6 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						// "background": { "up": "#7231fd", "centre": "#8d58ff", "down": "#ffffff" },
 						that.topBackgroundColor = data.background.up
 						//导航栏
 						if (data.top_navigation) {

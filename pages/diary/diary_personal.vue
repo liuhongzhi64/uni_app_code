@@ -14,13 +14,12 @@
 									<view class="name-cart-phone">
 										<view class="user-name-cart">
 											<view class="user-name" v-if="user.nick_name!=''">{{user.nick_name}}</view>
-											<view class="user-name" v-else>用户昵称</view>
+											<view class="user-name" v-else>还没有给喵起名字呢!</view>
 										</view>
-										<view class="user-signature" v-if="user.signature!=''"> {{ user.signature}} </view>
-										<view class="user-signature" v-else> 这个人很懒,什么都没有留下 </view>
+										<view class="user-signature" v-if="user.signature!=''"> {{ user.signature }} </view>
+										<view class="user-signature" v-else> 很懒哟!喵,什么都没有留下呢! </view>
 									</view>
 								</view>
-						
 							</view>
 							<view class="card-volume-integral-bean-balance-currency">
 								<view class="all-card">
@@ -44,21 +43,22 @@
 									<view class="card-name"> 浏览量 </view>
 								</view>
 							</view>
-									
+							<image class="top_img" src="https://xcx.hmzixin.com/upload/images/3.0/diary_personal_Arc.jpg" mode="widthFix"></image>	
+							<view class="diary_content">
+								<!-- 主体内容 -->
+								<diary :diaryList="list" :requestUrl='requestUrl'
+								 :user_heading='user.head_ico' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
+							</view>
 						</view>
-						<view class="diary_content">
-							<!-- 主体内容 -->
-							<diary :diaryList="list" :requestUrl='requestUrl'></diary>
-						</view>
+						
 					</view>					
 				</template>
 			</scroll-view> 
 
 		</view>
-		
 		<view class="bottom-botton" v-if="this_my">
 			<view class="keep-diary">
-				<button class="keep-diary-botton" type="default" plain="true" @tap='keepDiary'> + 写日记</button>
+				<navigator class="keep-diary-botton" url="/pages/diary/diary_keep" > + 写日记 </navigator>
 			</view>
 		</view>
 	</view>
@@ -81,7 +81,7 @@
 				menuBottom: 0,
 				height: 0,
 				barName: 'back', //导航条名称
-				topBackgroundColor: '#222222',
+				topBackgroundColor: '#26272B',
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '个人主页',
@@ -154,11 +154,6 @@
 			}
 		},
 		methods: {
-			keepDiary:function(){
-				uni.navigateTo({
-					url: `/pages/diary/diary_keep`,
-				})
-			},
 			getMessage:function(user_mark){
 				let that = this
 				let dataInfo = {
@@ -198,22 +193,58 @@
 					} 
 				})
 			},
+			// 收藏
+			collect_diary: function(id, index) {
+				let that = this
+				let data = {
+					interfaceId: 'collectdiary',
+					diary_id: id
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.list[index].is_collect = 1
+						that.list[index].collect_num += 1
+						uni.showToast({
+							title: '已收藏',
+							duration: 1000
+						})
+					}
+				})
+			},
+			// 取消收藏
+			cancel_like: function(id, index) {
+				let that = this
+				let data = {
+					interfaceId: 'cancelcollectdiary',
+					diary_id: id.toString()
+				}
+				this.request.uniRequest("diary", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.list[index].is_collect = 0
+						that.list[index].collect_num -= 1
+						uni.showToast({
+							title: '已取消收藏',
+							duration: 1000
+						})
+					}
+				})
+			},
 		}
 	}
 </script>
 
 <style scoped>
 	.user-message {
-		background-color: #222222;
-		border-radius: 0 0 50rpx 50rpx;
+		position: relative;
 	}
 
 	.user-head-portrait-name-phone-set {
-		padding: 10rpx 40rpx;
+		padding: 10rpx 40rpx 20rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		font-size: 24rpx;
+		background-color: #26272B;
 	}
 
 	.user-head-portrait {
@@ -255,35 +286,46 @@
 	}
 
 	.card-volume-integral-bean-balance-currency {
-		padding: 40rpx 50rpx 160rpx;
+		padding: 40rpx 0 0;
 		display: flex;
-		justify-content: space-between;
+		justify-content: space-around;
 		align-items: center;
 		color: #FFFFFF;
 		font-size: 32rpx;
 		text-align: center;
+		position: absolute;
+		top: 160rpx;
+		left: 0;
+		z-index: 10;
+		width: 100%;
 	}
-
+	.card-number{
+		margin-bottom: 10rpx;
+	}
 	.all-card .card-name {
 		color: #999999;
 		font-size: 24rpx;
 	}
+	.top_img{
+		width: 100%;
+		position: absolute;
+		top: 180rpx;
+		left: 0;
+		z-index: 0;
+	}
+	
 	.diary_personal_content{
 		background-color: #F6F6F6;
 	}
-	.personal_content-all{
-		padding-bottom: 200rpx;
-	}
 	
 	.diary_content{
-		margin-top: -120rpx;
-		padding: 0 20rpx;
+		padding: 160rpx 20rpx 180rpx;
 	}
 	
 	.bottom-botton{
 		position: fixed;
 		width: 100%;
-		/* background-color: #FFFFFF; */
+		z-index: 99;
 		bottom: 0;
 		left: 0;
 	}
@@ -291,7 +333,8 @@
 		padding: 40rpx;
 	}
 	.keep-diary-botton{
-		width: 670rpx;
+		text-align: center;
+		width: 100%;
 		height: 80rpx;
 		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
 		box-shadow: 0rpx 4rpx 16rpx 0rpx  rgba(250, 53, 118, 0.56);
@@ -299,7 +342,6 @@
 		line-height: 80rpx;
 		color: #FFFFFF;
 		font-size: 28rpx;
-		border: 0;
 	}
 	
 	

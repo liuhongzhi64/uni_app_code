@@ -25,7 +25,8 @@
 						</view>									
 						<view class="head_ico-nick_name-collect_num" @tap='personal(item.user_mark)'>
 							<view class="head_ico-nick_name">
-								<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
+								<image class="head_ico" :src="requestUrl+item.head_ico" v-if="!user_heading"></image>
+								<image class="head_ico" :src="requestUrl+user_heading" v-else></image>
 								<text class="nick_name">{{item.nick_name}}</text>
 							</view>
 							<view class="is_no_collect" v-if="item.is_collect==0" @tap="collect_diary(item.id,index)">
@@ -66,7 +67,8 @@
 						</view>										
 						<view class="head_ico-nick_name-collect_num" @tap='personal(item.user_mark)'>
 							<view class="head_ico-nick_name">
-								<image class="head_ico" :src="requestUrl+item.head_ico" mode=""></image>
+								<image class="head_ico" :src="requestUrl+item.head_ico" v-if="!user_heading"></image>
+								<image class="head_ico" :src="requestUrl+user_heading" v-else></image>
 								<text class="nick_name">{{item.nick_name}}</text>
 							</view>
 							<view class="is_no_collect" v-if="item.is_collect==0" @tap="collect_diary(item.id,index)"> 
@@ -93,7 +95,8 @@
 	export default {
 		props: {
 			diaryList: Array,
-			requestUrl:String
+			requestUrl:String,
+			user_heading:String
 		},
 		
 		methods: {
@@ -113,9 +116,12 @@
 			},
 			// 个人主页
 			personal:function(user_mark){
-				uni.navigateTo({
-					url: `/pages/diary/diary_personal?user_mark=${user_mark}`,
-				})
+				let that = this
+				if(!that.user_heading){
+					uni.navigateTo({
+						url: `/pages/diary/diary_personal?user_mark=${user_mark}`,
+					})
+				}
 			},
 		}
 	}

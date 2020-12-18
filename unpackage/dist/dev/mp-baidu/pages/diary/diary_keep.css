@@ -28,11 +28,12 @@
 	position: relative;
 	text-align: center;
 }
-.diary-classfiy image.data-v-5750f646{
+.diary-classfiy .chang_label.data-v-5750f646{
 	width: 240rpx;
-	height: 320rpx;
+	height: 260rpx;
 	border-radius: 16rpx;
 	margin-bottom: 25rpx;
+	background-color: #F0F0F0;
 }
 .change-type.data-v-5750f646{
 	position: absolute;

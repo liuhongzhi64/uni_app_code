@@ -43,22 +43,27 @@
 									<view class="card-name"> 浏览量 </view>
 								</view>
 							</view>
-							<image class="top_img" src="https://xcx.hmzixin.com/upload/images/3.0/diary_personal_Arc.jpg" mode="widthFix"></image>	
+							<image class="top_img" src="https://xcx.hmzixin.com/upload/images/3.0/diary_personal_Arc.jpg" mode="widthFix"></image>
 							<view class="diary_content">
 								<!-- 主体内容 -->
-								<diary :diaryList="list" :requestUrl='requestUrl'
-								 :user_heading='user.head_ico' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
+								<diary :diaryList="list" :requestUrl='requestUrl' v-if="list.length>0"
+								 :user_heading='user.head_ico' :this_my='this_my'
+								 @collect_diary='collect_diary' @cancel_like='cancel_like'>
+								</diary>
+								<view class="no_have_list" v-else-if="list.length==0&&this_my">
+									<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+									您还没有日记喵!
+									<text>快去写一条吧</text>
+								</view>
 							</view>
 						</view>
-						
-					</view>					
+					</view>
 				</template>
-			</scroll-view> 
-
+			</scroll-view>
 		</view>
 		<view class="bottom-botton" v-if="this_my">
 			<view class="keep-diary">
-				<navigator class="keep-diary-botton" url="/pages/diary/diary_keep" > + 写日记 </navigator>
+				<navigator class="keep-diary-botton" url="/pages/diary/diary_keep"> + 写日记 </navigator>
 			</view>
 		</view>
 	</view>
@@ -85,37 +90,67 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '个人主页',
-				requestUrl:'',
-				count:{
-					collect_num:0,
-					is_write:0,
-					num:0,
-					share_num:0,
-					view_num:0
-				},//第一页 offset 等于0 才返回 统计数据
-				user:{
-					signature:'',
-					head_ico:'',
-					nick_name:''
-				},//用户信息 第一页 offset 等于0 才返回 用户信息
-				list:[],//日记列表
-				offset:0,
-				this_my:false
+				requestUrl: '',
+				count: {
+					collect_num: 0,
+					is_write: 0,
+					num: 0,
+					share_num: 0,
+					view_num: 0
+				}, //第一页 offset 等于0 才返回 统计数据
+				user: {
+					signature: '',
+					head_ico: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
+					nick_name: ''
+				}, //用户信息 第一页 offset 等于0 才返回 用户信息
+				list: [
+					// {
+					// id: 15, //日记id
+					// title: "黎巴嫩总统承认3周前就知道贝鲁特港有危险：但我不负责", //日记名称
+					// cover_img: "upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg", //日记封面图片
+					// collect_num: 1, //日记收藏数
+					// video: "1", //日记视频地址
+					// label: "", //日记标签   
+					// status: -1, //日记状态  0待审核 1 审核通过  -1 审核未通过
+					// category_name: "", //分类名称  有则显示
+					// doctor_name: "陈扬", //关联的医生名称  有则显示
+					// goods_name: "和你很高3", //关联的商品名称   有则显示
+					// is_collect: 0, //当前用户是否收藏   0 未收藏  1  已收藏 
+					// user_mark:"VUZSUFNGTkVTVzV5YjFCT05tcGxVbGRHUW1KR05HTkNVRVpDYjNZeVkwSTJTSGxsVVdkV016QmFjejA9" //日记用户标示
+					// }, 
+				], //日记列表
+				offset: 0,
+				this_my: false,
+				user_mark:''
 			}
 		},
-		onLoad:function(options){
+		onReachBottom: function() {
+			let that = this;
+			if(that.this_my){
+				that.offset += 6;
+				that.get_my_diary()
+			}
+			else{
+				that.offset += 6;
+				that.getMessage()
+			}
+		},
+		onLoad: function(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			if(options.user_mark){
-				let user_mark = options.user_mark
-				that.getMessage(user_mark)
-			}
-			else if(options.route){
+			if (options.user_mark) {
+				that.user_mark = options.user_mark
+				that.getMessage()
+			} else if (options.route) {
 				that.this_my = true
+				that.title = '我的日记主页'
+				that.get_my_diary()
+			} else {
+				that.this_my = true
+				that.title = '我的日记主页'
 				that.get_my_diary()
 			}
-			
 		},
 		onReady() {
 			let that = this;
@@ -133,7 +168,7 @@
 					platform = 'applet'
 					break;
 			}
-			if(platform=='applet'){
+			if (platform == 'applet') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
@@ -145,8 +180,7 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			}
-			else{
+			} else {
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
@@ -154,43 +188,55 @@
 			}
 		},
 		methods: {
-			getMessage:function(user_mark){
+			getMessage: function(user_mark) {
 				let that = this
 				let dataInfo = {
-					interfaceId:'inexuserhome',
-					user_mark:user_mark,
-					offset:that.offset,
-					limit:6
+					interfaceId: 'inexuserhome',
+					user_mark: that.user_mark,
+					offset: that.offset,
+					limit: 6
 				}
 				this.request.uniRequest("diary", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.count = data.count
-						that.list = data.list
-						that.user = data.user
-						that.title = data.user.nick_name + '的' + that.title
-					} 
+						if (data.list.length == 0&&that.offset>0) {
+							that.request.showToast('没有更多了')
+						}
+						that.list = that.list.concat(data.list)
+						if(data.user){
+							that.user = data.user
+							that.title = data.user.nick_name + '的' + that.title
+						}
+					}
 				})
 			},
-			get_my_diary:function(){
+			get_my_diary: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'mydiary',
-					offset:that.offset,
-					limit:6
+					interfaceId: 'mydiary',
+					offset: that.offset,
+					limit: 6
 				}
 				this.request.uniRequest("diary", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.count = data.count
-						that.list = data.list
 						that.user = data.user
-						if(!data.user.nick_name){
-							let info= uni.getStorageSync("userInfo").real_name 
-							that.user.nick_name = info
+						if (data.list.length == 0&&that.offset>0) {
+							that.request.showToast('没有更多了')
 						}
-						that.title = '我的' + that.title
-					} 
+						that.list = that.list.concat(data.list)
+						if (data.user) {
+							if (!data.user.nick_name) {
+								let info = uni.getStorageSync("userInfo").real_name
+								that.user.nick_name = info
+							}
+						}
+						// if(data.user.head_ico){
+						// 	that.user.head_ico = data.user.head_ico
+						// }
+					}
 				})
 			},
 			// 收藏
@@ -299,50 +345,68 @@
 		z-index: 10;
 		width: 100%;
 	}
-	.card-number{
+
+	.card-number {
 		margin-bottom: 10rpx;
 	}
+
 	.all-card .card-name {
 		color: #999999;
 		font-size: 24rpx;
 	}
-	.top_img{
+
+	.top_img {
 		width: 100%;
 		position: absolute;
 		top: 180rpx;
 		left: 0;
 		z-index: 0;
 	}
-	
-	.diary_personal_content{
+
+	.diary_personal_content {
 		background-color: #F6F6F6;
 	}
-	
-	.diary_content{
+
+	.diary_content {
 		padding: 160rpx 20rpx 180rpx;
 	}
-	
-	.bottom-botton{
+
+	.no_have_list {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		padding-top: 240rpx;
+		color: #fa3475;
+		font-size: 24rpx;
+	}
+
+	.no_have_list image {
+		width: 70%;
+	}
+
+	.bottom-botton {
 		position: fixed;
 		width: 100%;
 		z-index: 99;
 		bottom: 0;
 		left: 0;
 	}
-	.keep-diary{
+
+	.keep-diary {
 		padding: 40rpx;
 	}
-	.keep-diary-botton{
+
+	.keep-diary-botton {
 		text-align: center;
 		width: 100%;
 		height: 80rpx;
-		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-		box-shadow: 0rpx 4rpx 16rpx 0rpx  rgba(250, 53, 118, 0.56);
-		border-radius: 40rpx;	
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+		box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(250, 53, 118, 0.56);
+		border-radius: 40rpx;
 		line-height: 80rpx;
 		color: #FFFFFF;
 		font-size: 28rpx;
 	}
-	
-	
 </style>

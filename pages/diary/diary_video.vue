@@ -29,16 +29,27 @@
 				height: 0,
 				title:'视频播放',
 				topBackgroundColor: '#222222',
-				videoUrl:''
+				videoUrl:'',
+				path:"upload/video/videos/202011/25/BJdGKSxEd6A9GxuN9nAGACAbeIWFMIoUzBOsmpQm.mp4",
+				video_info:{}
 			}
 		},
 		onLoad: function(option) {
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			let videoUrl = that.requestUrl + option.path
-			that.videoUrl = videoUrl
-			console.log(videoUrl)
+			if(option.path){
+				let videoUrl = that.requestUrl + option.path
+				that.videoUrl = videoUrl
+			}else{
+				that.videoUrl = that.requestUrl + that.path
+			}
+			console.log(option.id,option) 
+			if(option.id){
+				that.get_video_detail(option.id)
+			}else{
+				that.get_video_detail(20)
+			}
 		},
 		onReady() {
 			let that = this;
@@ -83,6 +94,20 @@
 				uni.navigateBack({
 					delta: 1
 				});
+			},
+			get_video_detail:function(id){
+				let that = this
+				let dataInfo = {
+					interfaceId:'videodetails',
+					video_id:id
+				}
+				this.request.uniRequest("video", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.video_info = data
+						console.log(res.data.data)
+					}
+				})
 			}
 		}
 	}

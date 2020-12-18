@@ -65,7 +65,7 @@
 				that.count = 10
 			}
 
-			that.chooseImage()
+			// that.chooseImage()
 		},
 		onReady() {
 			let that = this;

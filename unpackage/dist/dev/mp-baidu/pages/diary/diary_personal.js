@@ -199,6 +199,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 {
   components: {
     topBar: topBar,
@@ -227,27 +232,57 @@ __webpack_require__.r(__webpack_exports__);
       //第一页 offset 等于0 才返回 统计数据
       user: {
         signature: '',
-        head_ico: '',
+        head_ico: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
         nick_name: '' },
       //用户信息 第一页 offset 等于0 才返回 用户信息
-      list: [], //日记列表
+      list: [
+        // {
+        // id: 15, //日记id
+        // title: "黎巴嫩总统承认3周前就知道贝鲁特港有危险：但我不负责", //日记名称
+        // cover_img: "upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg", //日记封面图片
+        // collect_num: 1, //日记收藏数
+        // video: "1", //日记视频地址
+        // label: "", //日记标签   
+        // status: -1, //日记状态  0待审核 1 审核通过  -1 审核未通过
+        // category_name: "", //分类名称  有则显示
+        // doctor_name: "陈扬", //关联的医生名称  有则显示
+        // goods_name: "和你很高3", //关联的商品名称   有则显示
+        // is_collect: 0, //当前用户是否收藏   0 未收藏  1  已收藏 
+        // user_mark:"VUZSUFNGTkVTVzV5YjFCT05tcGxVbGRHUW1KR05HTkNVRVpDYjNZeVkwSTJTSGxsVVdkV016QmFjejA9" //日记用户标示
+        // }, 
+      ], //日记列表
       offset: 0,
-      this_my: false };
+      this_my: false,
+      user_mark: '' };
 
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    if (that.this_my) {
+      that.offset += 6;
+      that.get_my_diary();
+    } else
+    {
+      that.offset += 6;
+      that.getMessage();
+    }
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
     if (options.user_mark) {
-      var user_mark = options.user_mark;
-      that.getMessage(user_mark);
-    } else
-    if (options.route) {
+      that.user_mark = options.user_mark;
+      that.getMessage();
+    } else if (options.route) {
       that.this_my = true;
+      that.title = '我的日记主页';
+      that.get_my_diary();
+    } else {
+      that.this_my = true;
+      that.title = '我的日记主页';
       that.get_my_diary();
     }
-
   },
   onReady: function onReady() {
     var that = this;
@@ -277,8 +312,7 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    {
+    } else {
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
@@ -290,7 +324,7 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       var dataInfo = {
         interfaceId: 'inexuserhome',
-        user_mark: user_mark,
+        user_mark: that.user_mark,
         offset: that.offset,
         limit: 6 };
 
@@ -298,9 +332,14 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.count = data.count;
-          that.list = data.list;
-          that.user = data.user;
-          that.title = data.user.nick_name + '的' + that.title;
+          if (data.list.length == 0 && that.offset > 0) {
+            that.request.showToast('没有更多了');
+          }
+          that.list = that.list.concat(data.list);
+          if (data.user) {
+            that.user = data.user;
+            that.title = data.user.nick_name + '的' + that.title;
+          }
         }
       });
     },
@@ -315,13 +354,20 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.count = data.count;
-          that.list = data.list;
           that.user = data.user;
-          if (!data.user.nick_name) {
-            var info = uni.getStorageSync("userInfo").real_name;
-            that.user.nick_name = info;
+          if (data.list.length == 0 && that.offset > 0) {
+            that.request.showToast('没有更多了');
           }
-          that.title = '我的' + that.title;
+          that.list = that.list.concat(data.list);
+          if (data.user) {
+            if (!data.user.nick_name) {
+              var info = uni.getStorageSync("userInfo").real_name;
+              that.user.nick_name = info;
+            }
+          }
+          // if(data.user.head_ico){
+          // 	that.user.head_ico = data.user.head_ico
+          // }
         }
       });
     },

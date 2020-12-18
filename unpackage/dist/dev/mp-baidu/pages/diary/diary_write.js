@@ -197,7 +197,7 @@ __webpack_require__.r(__webpack_exports__);
       that.count = 10;
     }
 
-    that.chooseImage();
+    // that.chooseImage()
   },
   onReady: function onReady() {
     var that = this;

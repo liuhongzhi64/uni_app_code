@@ -221,8 +221,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   components: {
     topBar: topBar },
@@ -264,6 +262,8 @@ __webpack_require__.r(__webpack_exports__);
       tabIndex: 0,
       listType: 1,
       contentList: [],
+      requestUrl: '',
+      offset: 0,
       rate: '', //评分
       imgs: [{
         id: 1 },
@@ -277,27 +277,51 @@ __webpack_require__.r(__webpack_exports__);
         id: 5 }],
 
       src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-      src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
-      imgs_list: ['../../static/images/20.png', '../../static/images/19.png', '../../static/images/20.png'] };
+      imgs_list: [],
+      encrypted_id: '' };
 
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-      } });
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    that.platform = platform;
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   onLoad: function onLoad(option) {
+    this.request = this.$request;
     var that = this;
+    that.requestUrl = that.request.globalData.requestUrl;
+    that.encrypted_id = option.encrypted_id;
     that.getMessage();
   },
   methods: {
@@ -308,23 +332,20 @@ __webpack_require__.r(__webpack_exports__);
       that.getMessage();
     },
     getMessage: function getMessage() {var _this = this;
-      this.request = this.$request;
       var that = this;
-      var encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09';
+      // let encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09'
       var dataInfo = {
         interfaceId: 'goodscommentlist',
-        encrypted_id: encrypted_id,
+        encrypted_id: that.encrypted_id,
         type: that.listType,
-        offset: 0,
+        offset: that.offset,
         limit: 6 };
 
       this.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code === 1000) {
-          console.log(res.data.data);
           var data = res.data.data;
           that.contentList = data.list;
           that.rate = data.rate;
-
         } else {
           _this.request.showToast(res.data.message);
         }

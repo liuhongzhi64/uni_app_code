@@ -13,6 +13,13 @@
 								<view class="diary-images">
 									<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 									<view class="label">{{item.label}}</view>
+									<view class="status" v-if="item.status"> 
+										<text v-if="item.status==0">待审核</text>
+										<text v-else-if="item.status==1">审核通过</text>
+										<text v-else-if="item.status==-1">审核未通过</text>
+									</view>
+									<image class="pay_btn" v-if="item.video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+									</image>
 								</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>	
@@ -21,7 +28,7 @@
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 								<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 							</view>																				
-							<view class="goods_name">{{item.goods_name}}</view>	
+							<view class="goods_name" v-if="item.goods_name"> <text> {{item.goods_name}} </text> </view>	
 						</view>									
 						<view class="head_ico-nick_name-collect_num" @tap='personal(item.user_mark)'>
 							<view class="head_ico-nick_name">
@@ -55,6 +62,13 @@
 								<view class="diary-images">
 									<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 									<view class="label">{{item.label}}</view>
+									<view class="status" v-if="item.status">
+										<text v-if="item.status==0">待审核</text>
+										<text v-else-if="item.status==1">审核通过</text>
+										<text v-else-if="item.status==-1">审核未通过</text>
+									</view>
+									<image class="pay_btn" v-if="item.video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+									</image>
 								</view>
 							</view>
 							<view class="diary-title" v-if="item.name"> {{item.name}} </view>
@@ -63,7 +77,7 @@
 								<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 								<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 							</view>																				
-							<view class="goods_name" v-if="item.goods_name">{{item.goods_name}}</view>	
+							<view class="goods_name" v-if="item.goods_name"> <text> {{item.goods_name}} </text> </view>	
 						</view>										
 						<view class="head_ico-nick_name-collect_num" @tap='personal(item.user_mark)'>
 							<view class="head_ico-nick_name">
@@ -96,7 +110,8 @@
 		props: {
 			diaryList: Array,
 			requestUrl:String,
-			user_heading:String
+			user_heading:String,
+			this_my:Boolean
 		},
 		
 		methods: {
@@ -104,9 +119,15 @@
 			diaryDetail:function(id){
 				let that = this
 				let detail_id = id
-				uni.navigateTo({
-					url: `/pages/diary/diary_detail?id=${detail_id}`,
-				})
+				if(that.this_my){
+					uni.navigateTo({
+						url: `/pages/diary/diary_detail?id=${detail_id}&route='my'`,
+					})
+				}else{
+					uni.navigateTo({
+						url: `/pages/diary/diary_detail?id=${detail_id}`,
+					})
+				}
 			},
 			collect_diary:function(id,index){
 				this.$emit('collect_diary', id,index)
@@ -154,6 +175,9 @@
 		position: relative;
 		height: 100%;
 	}
+	.image-label{
+		margin-bottom: 15rpx;
+	}
 	
 	.diary-image{
 		width: 350rpx;
@@ -189,16 +213,37 @@
 		color: #FFFFFF;
 		font-size: 24rpx;
 	}
+	.status{
+		position: absolute;
+		top: 0;
+		right: 0;
+		line-height: 30rpx;
+		border-radius: 15rpx;
+		padding: 0 15rpx;
+		background-color: #FFFFFF;
+		border: 1rpx solid #fa3475;
+		color: #fa3475;
+		font-size: 20rpx;
+		opacity: 0.6;
+	}
+	
+	.pay_btn{
+		position: absolute;
+		top: 145rpx;
+		left: 145rpx;
+		width: 60rpx;
+	}
+	
 	.category_name-doctor_name{
 		display: flex;
 		padding: 15rpx 20rpx;
+		flex-wrap: wrap;
 	}
 	.category_name,.doctor_name{
 		line-height: 26rpx;
 		background-color: #d3d3d3;
 		border-radius: 4rpx;
 		font-size: 16rpx;
-		/* width: 80rpx; */
 		padding: 0 15rpx;
 		text-align: center;
 		color: #4f4f4f;
@@ -209,10 +254,17 @@
 		margin-bottom: 10rpx;
 		color: #999999;
 		font-size: 20rpx;
+		line-height: 32rpx;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
+		font-weight: lighter;
+	}
+	.goods_name text{
+		background-color: #F0F0F0;
+		border-radius: 16rpx;
+		padding: 0 10rpx;
 	}
 	.head_ico-nick_name-collect_num{
 		display: flex;
@@ -229,6 +281,7 @@
 		height: 48rpx;
 		border-radius: 24rpx;
 		margin-right: 10rpx;
+		background-color: #F0F0F0;
 	}
 	.nick_name{
 		font-size: 20rpx;

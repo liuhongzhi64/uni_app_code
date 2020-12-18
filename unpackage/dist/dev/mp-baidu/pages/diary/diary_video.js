@@ -161,16 +161,27 @@ var _default =
       height: 0,
       title: '视频播放',
       topBackgroundColor: '#222222',
-      videoUrl: '' };
+      videoUrl: '',
+      path: "upload/video/videos/202011/25/BJdGKSxEd6A9GxuN9nAGACAbeIWFMIoUzBOsmpQm.mp4",
+      video_info: {} };
 
   },
   onLoad: function onLoad(option) {
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    var videoUrl = that.requestUrl + option.path;
-    that.videoUrl = videoUrl;
-    console.log(videoUrl);
+    if (option.path) {
+      var videoUrl = that.requestUrl + option.path;
+      that.videoUrl = videoUrl;
+    } else {
+      that.videoUrl = that.requestUrl + that.path;
+    }
+    console.log(option.id, option);
+    if (option.id) {
+      that.get_video_detail(option.id);
+    } else {
+      that.get_video_detail(20);
+    }
   },
   onReady: function onReady() {
     var that = this;
@@ -215,6 +226,20 @@ var _default =
       uni.navigateBack({
         delta: 1 });
 
+    },
+    get_video_detail: function get_video_detail(id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'videodetails',
+        video_id: id };
+
+      this.request.uniRequest("video", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.video_info = data;
+          console.log(res.data.data);
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

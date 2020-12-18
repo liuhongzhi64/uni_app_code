@@ -37,7 +37,7 @@
 					<view class="video_left">
 						<view class="left_content">
 							<view class="left_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
-								<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path">
+								<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path+'&id='+item.id">
 									<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 									<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
 								</navigator>
@@ -79,7 +79,7 @@
 					<view class="video_right">
 						<view class="right_content">
 							<view class="right_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
-								<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path">
+								<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path+'&id='+item.id">
 									<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 									<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
 								</navigator>

@@ -207,12 +207,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
     diaryList: Array,
     requestUrl: String,
-    user_heading: String },
+    user_heading: String,
+    this_my: Boolean },
 
 
   methods: {
@@ -220,9 +235,15 @@ var _default =
     diaryDetail: function diaryDetail(id) {
       var that = this;
       var detail_id = id;
-      uni.navigateTo({
-        url: "/pages/diary/diary_detail?id=".concat(detail_id) });
+      if (that.this_my) {
+        uni.navigateTo({
+          url: "/pages/diary/diary_detail?id=".concat(detail_id, "&route='my'") });
 
+      } else {
+        uni.navigateTo({
+          url: "/pages/diary/diary_detail?id=".concat(detail_id) });
+
+      }
     },
     collect_diary: function collect_diary(id, index) {
       this.$emit('collect_diary', id, index);

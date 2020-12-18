@@ -241,15 +241,18 @@
 						<view class="related-title">
 							<view class="line"></view> 评价
 						</view>
-						<view class="diary-more"> {{contentList.rate}} %好评 </view>
+						<navigator class="diary-more" :url="'/pages/goods/goods_detail_comment?encrypted_id='+encrypted_id"> 
+							{{contentList.rate}} %好评 > 
+						</navigator>
 					</view>
-					<view class="evaluate-content" v-for="(item,index) in evaluateList" :key="index">
+					<navigator class="evaluate-content" v-for="(item,index) in evaluateList" :key="index"
+					 :url="'/pages/goods/goods_detail_comment_detail?id='+item.id">
 						<view class="evaluate-label">
 							<view class="label-item" v-for="(i,k) in item.label" :key="k">{{i}}</view>
 						</view>
 						<view class="headPortrait-name">
 							<view class="headPortrait">
-								<image :src="item.head_ico" mode=""></image>
+								<image :src="requestUrl+item.head_ico" mode=""></image>
 							</view>
 							<view class="name-score">
 								<view class="evaluate-user-name"> {{item.nick_name}} </view>
@@ -263,14 +266,14 @@
 						<view class="evaluate-details"> {{item.contents}} </view>
 						<view class="effect-picture">
 							<scroll-view class="effect-picture-items" scroll-x="true">
-								<view class="image item_video" @tap='goToVideo(i)' v-for="(i,j) in item.video_list" :key="j">
+								<view class="image item_video"  v-for="(i,j) in item.video_list" :key="j">
 									<image class="video_img" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</view>
 								<image class="image" :src="requestUrl+i" v-for="(i,k) in item.imgs_list" :key="k"></image>
 							</scroll-view>
 							
 						</view>
-					</view>
+					</navigator>
 				</view>
 				<!-- 项目价格表 -->
 				<view class="all-table" v-if="parameter.length>0">

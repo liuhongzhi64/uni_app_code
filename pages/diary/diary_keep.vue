@@ -9,19 +9,14 @@
 				<view class="diary-classfiy">
 					<radio-group @change="radioChange">
 						<label class="change-video">
-							
-							<view class="video-image">
-								<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg"></image>
-							</view>
+							<view class="chang_label"></view>
 							<radio class="change-type" value="video" color='#fa3576' style="transform:scale(1.2)"  />
-							<view class="video-text"> 视频攻略 </view>
+							<view class="video-text"> 视频日记 </view>
 						</label>
 						<label class="change-text-photo">
-							<view class="photo-image">
-								<image src="https://mytest.hmzixin.com/upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg"></image>
-							</view>
+							<view class="chang_label"></view>
 							<radio class="change-type" value="photo" color='#fa3576' style="transform:scale(1.2)" />
-							<view class="photo-text"> 图文攻略 </view>
+							<view class="photo-text"> 图文日记 </view>
 						</label>
 					</radio-group>
 				</view>
@@ -154,11 +149,12 @@
 		text-align: center;
 	}
 
-	.diary-classfiy image{
+	.diary-classfiy .chang_label{
 		width: 240rpx;
-		height: 320rpx;
+		height: 260rpx;
 		border-radius: 16rpx;
 		margin-bottom: 25rpx;
+		background-color: #F0F0F0;
 	}
 	.change-type{
 		position: absolute;

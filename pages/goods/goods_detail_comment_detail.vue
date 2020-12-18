@@ -9,13 +9,13 @@
 					<view class="content-details" >
 						<view class="top-content">
 							<view class="left-content">
-								<image class="user-images" :src="head_ico" mode=""></image>
+								<image class="user-images" :src="requestUrl+head_ico" mode=""></image>
 								<view class="user-name-star">
 									<view class="user-name" v-if="is_anonymous == 0">{{nick_name}}</view>
 									<view class="user-name" v-else>匿名用户</view>
 									<view class="star-list">
 										<view class="star-img" v-for="(item,index) in imgs" :key="index" :data-index="item.id">
-											<image class="star" :src="item.id>starId?src2:src1"></image>
+											<image class="star" :src="item.id>starId?'':src1"></image>
 										</view>
 									</view>
 								</view>
@@ -25,26 +25,27 @@
 							<view class="top-right" v-else-if="starId==4">满意</view>
 							<view class="top-right" v-else>非常满意</view>
 						</view>
-
 						<view class="top-swiper">
 							<swiper class="swiper" autoplay indicator-dots :interval="interval" :duration="duration">
-								<swiper-item v-for="(item,index) in swiperList" :key='index'>
-									<image :src="item" mode=""></image>
+								<swiper-item v-for="(item,index) in imgs_list" :key='index'>
+									<image class="image" :src="requestUrl+item" mode=""></image>
+								</swiper-item>
+								<swiper-item class="video_info" v-for="(item,index) in video_list" :key='index'>
+									<image class="image" :src="requestUrl+item" mode=""></image>
+									<image class="video_img" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</swiper-item>
 							</swiper>
 						</view>
-						
 						<view class="ueser-comment"> {{contents}} </view>
-						
 						<view class="guess-what-you-like">
 							<view class="related-title">
 								<view class="line"></view> 猜你喜欢
 							</view>
 							<view class="subject-content">
-								<porduct :width=350 :porductList='productList' ></porduct>
+								<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='productLists'>
+								</goodsShow>
 							</view>
 						</view>
-						
 						<view class="footer">
 							<view class="page-view-collect-transpond">
 								<view class="page-view">浏览量: <text>{{views_num}}</text></view>
@@ -60,24 +61,21 @@
 								</view>
 							</view>
 						</view>
-
 					</view>
 				</template>
 			</scroll-view>
 		</view>
-		
-		
 		
 	</view>
 </template>
 
 <script>
 	import topBar from "../../components/topBar.vue";
-	import porduct from "../../components/porduct.vue";
+	import goodsShow from "../../components/goodsShow.vue";
 	export default {
 		components: {
 			topBar,
-			porduct
+			goodsShow
 		},
 		data() {
 			return {
@@ -104,11 +102,9 @@
 					id: 5
 				}],
 				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-				src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
 				starId: 4,
 				interval: 5000,
 				duration: 1000,
-				swiperList:['../../static/images/20.png','../../static/images/19.png'],
 				collect_num:0,//点赞
 				views_num:0,//浏览量
 				is_anonymous:0,//是否匿名
@@ -120,72 +116,59 @@
 				is_collect:0,
 				nick_name:'',
 				id:0,
-				productList: [
-					{
-						url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-						price: 19800,
-						closed:'闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-				
-					},
-					{
-						url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-						activity: ['首单必减', '折扣'],
-						price: 19800,
-						vipPrice: 18800,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					},
-					{
-						url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-						title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: [], //标签
-						headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-						price: 19800,
-						closed:'闭馆特推',
-						activity: [],
-						vipPrice: 0,
-						subscribeAndGoodReputation: [{
-							subscribe: '441',
-							goodReputation: '98'
-						}],
-					
-					},
-				]
+				productLists: [],
+				requestUrl:'',
+				offset:0
 			}
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-				}
-			})
+			that.height = uni.getSystemInfoSync().screenHeight;
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			that.platform = platform
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		onLoad: function(option) {
+			this.request = this.$request
 			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
 			let goods_comment_id= option.id
 			that.getDetail(goods_comment_id)
+			that.getLike()
+		},
+		onReachBottom: function() {
+			let that = this;
+			that.offset += 1;
+			that.getLike()
 		},
 		methods: {
 			getDetail:function(id){
@@ -216,13 +199,35 @@
 					}
 				})
 			},
+			// 为你推荐
+			getLike: function() {
+				let that = this
+				let dataInfo = {
+					interfaceId: 'userrecommendedgoodsspulist',
+					type: '2',
+					offset: that.offset
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						if(data.length>0){
+							that.productLists = that.productLists.concat(data)
+						}else{
+							uni.showToast({
+								title:'没有更多了',
+								icon:'none'
+							})
+						}
+					} 
+				})
+			},
 			// 点赞
 			clickLike:function(id){
 				this.request = this.$request
 				let that = this
 				let commentId = id.toString()
 				// commentId = parseInt(commentId)
-				console.log( typeof commentId)
+				// console.log( typeof commentId)
 				let dataInfo = {
 					interfaceId:'goodscollectcomment',
 					goods_comment_id:commentId
@@ -303,9 +308,20 @@
 		color: #fa3475;
 		font-size: 24rpx;
 	}
-	.top-swiper,.swiper,.swiper image{
+	.top-swiper,.swiper,.swiper .image{
 		height: 760rpx;
 		width: 100%;
+		background-color: #000000;
+	}
+	.video_info{
+		position: relative;
+	}
+	.video_img{
+		width: 180rpx;
+		height: 180rpx;
+		position: absolute;
+		top: 290rpx;
+		left: 285rpx;
 	}
 	
 	.ueser-comment{

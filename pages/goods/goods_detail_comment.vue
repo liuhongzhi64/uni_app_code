@@ -26,13 +26,13 @@
 							
 							<view class="top-content">
 								<view class="left-content">
-									<image class="user-images" :src="item.head_ico" mode=""></image>
+									<image class="user-images" :src="requestUrl+item.head_ico" mode=""></image>
 									<view class="user-name-star">
 										<view class="user-name" v-if="item.is_anonymous==0">{{item.nick_name}}</view>
 										<view class="user-name" v-else>匿名用户</view>
 										<view class="star-list">
 											<view class="star-img" v-for="(i,k) in imgs" :key="k" >
-												<image class="star" :src="i.id>item.point?src2:src1"></image>
+												<image class="star" :src="i.id>item.point?'':src1"></image>
 											</view>
 										</view>
 									</view>
@@ -52,12 +52,13 @@
 							<view class="ueser-comment-details"> {{item.contents}} </view>
 							
 							<view class="image-video">
-								<view class="image_list" v-for="(item,index) in  imgs_list" :key='index'>
+								<view class="image_list" v-for="(item,index) in  item.imgs_list" :key='index'>
 									<!-- 后期使用item.imgs_list  item.video_list-->
-									<image class="list-content" :src="item" mode=""></image>
+									<image class="list-content" :src="requestUrl+item" mode=""></image>
 								</view>
-								<view class="image_list" v-for="(item,index) in  video_list" :key='index'>
-									<video class="list-content" :src="item" controls></video>
+								<view class="image_list" v-for="(item,index) in  item.video_list" :key='index'>
+									<image class="list-content" :src="requestUrl+item" mode=""></image>
+									<image class="video_img" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</view>
 							</view>
 							
@@ -74,18 +75,15 @@
 								</view>
 							</view>
 							
-						</view>
-						
+						</view>	
 						<view class="no-content" v-if="contentList.length==0">
 							<image src="../../static/images/cartBg.png" mode=""></image>
 							<view class="hint">喵~ 暂无相关内容</view>
 						</view>
-						
 					</view>
 				</template>
 			</scroll-view>
 		</view>
-
 	</view>
 </template>
 
@@ -132,6 +130,8 @@
 				tabIndex: 0,
 				listType: 1,
 				contentList:[],
+				requestUrl:'',
+				offset:0,
 				rate:'',//评分
 				imgs: [{
 					id: 1
@@ -145,27 +145,51 @@
 					id: 5
 				}],
 				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-				src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
-				imgs_list:['../../static/images/20.png','../../static/images/19.png','../../static/images/20.png']
+				imgs_list:[],
+				encrypted_id:''
 			}
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-				}
-			})
+			that.height = uni.getSystemInfoSync().screenHeight;
+			// 判定运行平台
+			let platform = ''
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					platform = 'android'
+					break;
+				case 'ios':
+					platform = 'ios'
+					break;
+				default:
+					platform = 'applet'
+					break;
+			}
+			that.platform = platform
+			if (platform == 'applet') {
+				// 获取屏幕高度
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} else {
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 82
+			}
 		},
 		onLoad: function(option) {
+			this.request = this.$request
 			let that = this
+			that.requestUrl = that.request.globalData.requestUrl
+			that.encrypted_id = option.encrypted_id
 			that.getMessage()
 		},
 		methods: {
@@ -176,23 +200,20 @@
 				that.getMessage()
 			},
 			getMessage:function(){
-				this.request = this.$request
 				let that = this
-				let encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09'
+				// let encrypted_id = 'MFFrKzlnYnMzUTV1NGNrRjYvS3I1Zz09'
 				let dataInfo = {
 					interfaceId : 'goodscommentlist',
-					encrypted_id : encrypted_id,
+					encrypted_id : that.encrypted_id,
 					type:that.listType,
-					offset:0,
+					offset:that.offset,
 					limit:6
 				}
 				this.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code === 1000) {
-						console.log(res.data.data)
 						let data = res.data.data
 						that.contentList = data.list
 						that.rate = data.rate
-				
 					} else {
 						this.request.showToast(res.data.message);
 					}
@@ -351,12 +372,22 @@
 		padding: 24rpx 0;
 		border-bottom: 1rpx solid #F0F0F0;
 	}
+	.image_list{
+		position: relative;
+	}
 	.list-content{
 		width: 230rpx;
 		height: 230rpx;
 		background-color: #acacac;
 		border-radius: 16rpx;
 		margin-right: 6rpx;
+	}
+	.video_img{
+		width: 60rpx;
+		height: 60rpx;
+		position: absolute;
+		top: 85rpx;
+		left: 85rpx;
 	}
 	.browse-like-consult{
 		display: flex;

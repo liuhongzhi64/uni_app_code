@@ -1,13 +1,13 @@
 {
   "pages": [
     "pages/diary/diary",
+    "pages/diary/diary_personal",
+    "pages/diary/diary_video",
     "pages/diary/about_list",
     "pages/diary/diary_about",
-    "pages/diary/diary_detail",
     "pages/diary/diary_keep",
-    "pages/diary/diary_personal",
+    "pages/diary/diary_detail",
     "pages/diary/diary_successs",
-    "pages/diary/diary_video",
     "pages/diary/diary_write",
     "pages/diary/diary_write_video",
     "pages/cart/cart",

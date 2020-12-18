@@ -130,9 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 514));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 493));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -209,7 +207,7 @@ __webpack_require__.r(__webpack_exports__);
 {
   components: {
     topBar: topBar,
-    porduct: porduct },
+    goodsShow: goodsShow },
 
   data: function data() {
     return {
@@ -236,11 +234,9 @@ __webpack_require__.r(__webpack_exports__);
         id: 5 }],
 
       src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-      src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
       starId: 4,
       interval: 5000,
       duration: 1000,
-      swiperList: ['../../static/images/20.png', '../../static/images/19.png'],
       collect_num: 0, //点赞
       views_num: 0, //浏览量
       is_anonymous: 0, //是否匿名
@@ -252,72 +248,59 @@ __webpack_require__.r(__webpack_exports__);
       is_collect: 0,
       nick_name: '',
       id: 0,
-      productList: [
-      {
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-
-      {
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-        activity: ['首单必减', '折扣'],
-        price: 19800,
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-      {
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: [], //标签
-        headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-        price: 19800,
-        closed: '闭馆特推',
-        activity: [],
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] }] };
-
-
-
-
+      productLists: [],
+      requestUrl: '',
+      offset: 0 };
 
   },
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-      } });
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = '';
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        platform = 'android';
+        break;
+      case 'ios':
+        platform = 'ios';
+        break;
+      default:
+        platform = 'applet';
+        break;}
 
+    that.platform = platform;
+    if (platform == 'applet') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else {
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   onLoad: function onLoad(option) {
+    this.request = this.$request;
     var that = this;
+    that.requestUrl = that.request.globalData.requestUrl;
     var goods_comment_id = option.id;
     that.getDetail(goods_comment_id);
+    that.getLike();
+  },
+  onReachBottom: function onReachBottom() {
+    var that = this;
+    that.offset += 1;
+    that.getLike();
   },
   methods: {
     getDetail: function getDetail(id) {var _this = this;
@@ -348,13 +331,35 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    // 为你推荐
+    getLike: function getLike() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'userrecommendedgoodsspulist',
+        type: '2',
+        offset: that.offset };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          if (data.length > 0) {
+            that.productLists = that.productLists.concat(data);
+          } else {
+            uni.showToast({
+              title: '没有更多了',
+              icon: 'none' });
+
+          }
+        }
+      });
+    },
     // 点赞
     clickLike: function clickLike(id) {var _this2 = this;
       this.request = this.$request;
       var that = this;
       var commentId = id.toString();
       // commentId = parseInt(commentId)
-      console.log(typeof commentId);
+      // console.log( typeof commentId)
       var dataInfo = {
         interfaceId: 'goodscollectcomment',
         goods_comment_id: commentId };

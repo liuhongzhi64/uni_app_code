@@ -1,15 +1,30 @@
 <script>
 	export default {
+		globalData: {
+			platform: ''
+		},
 		onLaunch: function() {
 			// console.log('App Launch')
 		},
 		onShow: function() {
 			// console.log('App Show')
+			let that = this
+			let platform = ''
+			// #ifdef APP-PLUS || APP-NVUE
+			platform = 'APP'
+			// #endif
+			// #ifdef  MP
+			platform = 'Applets'
+			// #endif
+			// #ifdef  H5
+			platform = 'H5'
+			// #endif
+			getApp().globalData.platform = platform
+			that.platform = platform
 		},
 		onHide: function() {
 			// console.log('App Hide')
 		},
-		
 	}
 </script>
 
@@ -18,7 +33,8 @@
 	body {
 		min-height: 0;
 	}
-	checkbox .uni-checkbox-input{
-		border-radius: 50%; 
+
+	checkbox .uni-checkbox-input {
+		border-radius: 50%;
 	}
 </style>

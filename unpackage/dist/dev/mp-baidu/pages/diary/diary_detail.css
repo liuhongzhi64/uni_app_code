@@ -154,6 +154,7 @@
 .detail_contents.data-v-799f96d2 {
 	padding: 40rpx;
 	background-color: #FFFFFF;
+	font-size: 24rpx;
 }
 .details-title.data-v-799f96d2 {
 	font-size: 40rpx;
@@ -162,15 +163,13 @@
 	padding-bottom: 24rpx;
 	border-bottom: 2rpx solid #f0f0f0;
 }
-.user-details-contents.data-v-799f96d2 {
+.user_diary_content.data-v-799f96d2 {
 	font-size: 24rpx;
-	line-height: 40rpx;
 	color: #333333;
-	padding-top: 32rpx;
-	padding-bottom: 160rpx;
+	padding: 30rpx 0 160rpx;
 }
 .item_content.data-v-799f96d2 {
-	min-height: 40rpx;
+	min-height: 20rpx;
 }
 .bottom-messages.data-v-799f96d2 {
 	background-color: #F6F6F6;
@@ -229,7 +228,7 @@
 }
 
 /* 我的 */
-.my_diary_relevant.data-v-799f96d2{
+.my_diary_relevant.data-v-799f96d2 {
 	position: absolute;
 	left: 0;
 	width: 100%;
@@ -243,7 +242,7 @@
 	background-color: #F0F0F0;
 	padding: 15rpx 0;
 }
-.relevant.data-v-799f96d2{
+.relevant.data-v-799f96d2 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -256,12 +255,13 @@
 	width: 340rpx;
 	background-color: #999999;
 }
-.relevant_goods_img.data-v-799f96d2,.relevant_doctor_img.data-v-799f96d2{
+.relevant_goods_img.data-v-799f96d2,
+.relevant_doctor_img.data-v-799f96d2 {
 	width: 80rpx !important;
 	height: 80rpx;
 	background-color: #FFFFFF;
 }
-.relevant_info.data-v-799f96d2{
+.relevant_info.data-v-799f96d2 {
 	font-size: 24rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -275,7 +275,7 @@
 	-webkit-flex: 1;
 	        flex: 1;
 }
-.relevant_name.data-v-799f96d2{
+.relevant_name.data-v-799f96d2 {
 	line-height: 32rpx;
 	overflow: hidden;
 	display: -webkit-box;
@@ -286,10 +286,10 @@
 	font-size: 28rpx;
 	color: #fa3475;
 }
-.good-price text.data-v-799f96d2{
+.good-price text.data-v-799f96d2 {
 	font-size: 20rpx;
 }
-.zhicheng.data-v-799f96d2{
+.zhicheng.data-v-799f96d2 {
 	font-size: 20rpx;
 	overflow: hidden;
 	display: -webkit-box;
@@ -297,11 +297,11 @@
 	-webkit-line-clamp: 2;
 	font-weight: lighter;
 }
-.my_diary_content.data-v-799f96d2{
+.my_diary_content.data-v-799f96d2 {
 	padding: 20rpx 20rpx 160rpx;
 	font-size: 24rpx;
 }
-.my_diary_hint.data-v-799f96d2{
+.my_diary_hint.data-v-799f96d2 {
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -313,10 +313,10 @@
 	text-align: center;
 	font-size: 24rpx;
 }
-.hint_content.data-v-799f96d2{
+.hint_content.data-v-799f96d2 {
 	min-height: 6rpx;
 }
-.my_diary_btn.data-v-799f96d2{
+.my_diary_btn.data-v-799f96d2 {
 	position: fixed;
 	right: 20rpx;
 	bottom: 200rpx;
@@ -328,7 +328,7 @@
 	-webkit-flex-direction: column;
 	        flex-direction: column;
 }
-.diary_btn.data-v-799f96d2{
+.diary_btn.data-v-799f96d2 {
 	background-color: #202020;
 	opacity: 0.6;
 	width: 100rpx;
@@ -349,5 +349,4 @@
 	        flex-direction: column;
 	text-align: center;
 }
-
 

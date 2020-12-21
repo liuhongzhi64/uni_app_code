@@ -174,29 +174,39 @@ __webpack_require__.r(__webpack_exports__);
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
       backImage: '../static/images/back2.png',
-      title: '欢迎登录' };
+      title: '欢迎登录',
+      requestUrl: '' };
 
   },
-  onShow: function onShow() {
+  onLoad: function onLoad(options) {
+    var that = this;
     this.request = this.$request;
-    // console.log(this.request)
+    that.requestUrl = that.request.globalData.requestUrl;
   },
-
   onReady: function onReady() {
     var that = this;
-    // 获取屏幕高度
-    uni.getSystemInfo({
-      success: function success(res) {
-        that.height = res.screenHeight;
-        // console.log(res)
-        var menu = uni.getMenuButtonBoundingClientRect();
-        that.menuWidth = menu.width;
-        that.menuTop = menu.top;
-        that.menuHeight = menu.height;
-        that.menuLeft = menu.left;
-        that.menuBottom = menu.bottom;
-      } });
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
 
+    } else if (platform == 'APP') {
+      that.menuWidth = 90;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
   },
   methods: {
     // 返回

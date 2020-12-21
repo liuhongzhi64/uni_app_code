@@ -3,7 +3,10 @@
 
 		// 测试时的首页
 				
-		
+		{
+			"path": "pages/diary/diary_video", //日记详情（视频）
+			"style": {}
+		},
 		
 		// 日记
 		{
@@ -14,10 +17,7 @@
 			"path": "pages/diary/diary_personal", //个人主页
 			"style": {}
 		},
-		{
-			"path": "pages/diary/diary_video", //日记详情（视频）
-			"style": {}
-		},
+		
 		{
 			"path":"pages/diary/about_list",//相关日记或视频
 			"style": {}

@@ -402,6 +402,11 @@ __webpack_require__.r(__webpack_exports__);
     // 个人中心卡券订单浮标数据
     that.getCardOrder();
   },
+  // 页面隐藏
+  onHide: function onHide() {
+    var that = this;
+    that.offset = 0;
+  },
   onReachBottom: function onReachBottom() {
     var that = this;
     that.offset += 1;
@@ -409,28 +414,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
-    var pageHeight = 0;
     // 判定运行平台
-    var platform = '';
-    switch (uni.getSystemInfoSync().platform) {
-      case 'android':
-        // console.log('运行Android上')
-        platform = 'android';
-        break;
-      case 'ios':
-        // console.log('运行iOS上')
-        platform = 'ios';
-        break;
-      default:
-        // console.log('运行在开发者工具上')
-        platform = 'applet';
-        break;}
-
-    if (platform == 'applet') {
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
-          pageHeight = res.screenHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
@@ -439,7 +428,9 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else {
+    } else
+    if (platform == 'APP') {
+      that.menuWidth = 90;
       that.menuTop = 50;
       that.menuWidth = 87;
       that.menuHeight = 32;

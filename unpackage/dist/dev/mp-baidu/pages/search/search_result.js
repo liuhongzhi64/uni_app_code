@@ -431,20 +431,9 @@ __webpack_require__.r(__webpack_exports__);
   onReady: function onReady() {
     var that = this;
     // 判定运行平台
-    var platform = '';
     that.height = uni.getSystemInfoSync().screenHeight;
-    switch (uni.getSystemInfoSync().platform) {
-      case 'android':
-        platform = 'android';
-        break;
-      case 'ios':
-        platform = 'ios';
-        break;
-      default:
-        platform = 'applet';
-        break;}
-
-    if (platform == 'applet') {
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
@@ -455,7 +444,8 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else {
+    } else
+    if (platform == 'APP') {
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 280;

@@ -108,20 +108,9 @@
 		},
 		onReady() {
 			let that = this;
-			let platform = ''
 			that.height = uni.getSystemInfoSync().screenHeight;
-			switch (uni.getSystemInfoSync().platform) {
-				case 'android':
-					platform = 'android'
-					break;
-				case 'ios':
-					platform = 'ios'
-					break;
-				default:
-					platform = 'applet'
-					break;
-			}
-			if (platform == 'applet') {
+			let platform = getApp().platform || getApp().globalData.platform
+			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
 						that.height = res.screenHeight
@@ -133,7 +122,8 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} else {
+			} 
+			else if (platform == 'APP'){
 				that.menuWidth = 90
 				that.menuTop = 50
 				that.menuHeight = 32

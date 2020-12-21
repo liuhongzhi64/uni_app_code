@@ -71,28 +71,16 @@
 			if(options.page){
 				that.page = options.page
 			}
-			console.log(that.page)
 			that.getDetails()
 		},
 		onReady() {
 			let that = this;
 			// 获取屏幕高度
-			let platform = ''
-			switch (uni.getSystemInfoSync().platform) {
-				case 'android':
-					platform = 'android'
-					break;
-				case 'ios':
-					platform = 'ios'
-					break;
-				default:
-					platform = 'applet'
-					break;
-			}
-			if (platform == 'applet') {
+			that.height = uni.getSystemInfoSync().screenHeight;
+			let platform = getApp().platform || getApp().globalData.platform
+			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
-						that.height = res.screenHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
@@ -101,13 +89,13 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} else {
-				that.menuWidth = 87
+			} 
+			else if (platform == 'APP'){
+				that.menuWidth = 90
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278
-				that.menuBottom = 82
-				that.height = uni.getSystemInfoSync().windowHeight ;
+				that.menuBottom = 80
 			}
 		},
 		methods: {

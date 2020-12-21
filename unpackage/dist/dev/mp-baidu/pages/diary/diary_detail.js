@@ -368,7 +368,6 @@ __webpack_require__.r(__webpack_exports__);
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          console.log(menu.width);
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;

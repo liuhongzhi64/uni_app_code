@@ -28,7 +28,7 @@
 									<view class="top-swiper-item" :style="{height:swiper_height+'px'}">
 										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-if="index==0" lazy-load @load='get_img_height'>
 										</image>
-										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else lazy-load>
+										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else >
 										</image>
 										<navigator class="porduct-message" :url="'/pages/goods/goods_detail?sku_id='+goods.id+'&encrypted_id='+goods.encrypted_id">
 											<view class="porduct-images">
@@ -68,7 +68,7 @@
 									<view class="top-swiper-item" :style="{height:swiper_height+'px'}">
 										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-if="index==0" @load='get_img_height'>
 										</image>
-										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else lazy-load>
+										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else >
 										</image>
 										<view class="my_diary_relevant">
 											<navigator class="relevant" :url="'/pages/goods/goods_detail?sku_id='+my_diary.goods.id+'&encrypted_id='+my_diary.goods.encrypted_id">
@@ -236,7 +236,6 @@
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						console.log(menu.width)
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height

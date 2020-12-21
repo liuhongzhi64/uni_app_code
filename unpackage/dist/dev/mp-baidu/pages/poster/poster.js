@@ -128,20 +128,68 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
+
+
+
+
+
+
+
+{
+  components: {
+    topBar: topBar },
+
+  data: function data() {
+    return {
+      menuWidth: 0,
+      menuTop: 0,
+      menuHeight: 0,
+      menuLeft: 0,
+      menuBottom: 0,
+      height: 0,
+      requestUrl: '',
+      barName: 'back', //导航条名称
+      topBackgroundColor: '#333333',
+      color: '#FFFFFF',
+      backImage: '/static/images/back2.png',
+      title: '邀请码' };
 
   },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
+  },
+  onReady: function onReady() {
+    var that = this;
+    that.height = uni.getSystemInfoSync().screenHeight;
+    // 判定运行平台
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
+      // 获取屏幕高度
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuWidth = menu.width;
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuLeft = menu.left;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else
+    if (platform == 'APP') {
+      that.menuWidth = 90;
+      that.menuTop = 50;
+      that.menuHeight = 32;
+      that.menuLeft = 278;
+      that.menuBottom = 82;
+    }
+  },
   methods: {} };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ })
 

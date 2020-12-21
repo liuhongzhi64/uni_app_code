@@ -208,20 +208,9 @@ var _default =
   },
   onReady: function onReady() {
     var that = this;
-    var platform = '';
     that.height = uni.getSystemInfoSync().screenHeight;
-    switch (uni.getSystemInfoSync().platform) {
-      case 'android':
-        platform = 'android';
-        break;
-      case 'ios':
-        platform = 'ios';
-        break;
-      default:
-        platform = 'applet';
-        break;}
-
-    if (platform == 'applet') {
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
           that.height = res.screenHeight;
@@ -233,7 +222,8 @@ var _default =
           that.menuBottom = menu.bottom;
         } });
 
-    } else {
+    } else
+    if (platform == 'APP') {
       that.menuWidth = 90;
       that.menuTop = 50;
       that.menuHeight = 32;

@@ -270,6 +270,11 @@
 			// 个人中心卡券订单浮标数据
 			that.getCardOrder()
 		},
+		// 页面隐藏
+		onHide:function(){
+			let that = this
+			that.offset = 0
+		},
 		onReachBottom: function() {
 			let that = this;
 			that.offset += 1;
@@ -277,28 +282,12 @@
 		},
 		onReady() {
 			let that = this;
-			let pageHeight = 0
 			// 判定运行平台
-			let platform = ''
-			switch (uni.getSystemInfoSync().platform) {
-				case 'android':
-					// console.log('运行Android上')
-					platform = 'android'
-					break;
-				case 'ios':
-					// console.log('运行iOS上')
-					platform = 'ios'
-					break;
-				default:
-					// console.log('运行在开发者工具上')
-					platform = 'applet'
-					break;
-			}
-			if (platform == 'applet') {
+			let platform = getApp().platform || getApp().globalData.platform
+			if (platform == 'Applets') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
-						pageHeight = res.screenHeight
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
@@ -307,7 +296,9 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} else {
+			} 
+			else if (platform == 'APP'){
+				that.menuWidth = 90
 				that.menuTop = 50
 				that.menuWidth = 87
 				that.menuHeight = 32

@@ -1,1 +1,1 @@
-<view class="jump">跳转</view>
+<view class="jump"><top-bar class="topBar" vue-id="646c7ede-1" topBackgroundColor="{{topBackgroundColor}}" color="{{color}}" backImage="{{backImage}}" barName="{{barName}}" title="{{title}}" menuWidth="{{menuWidth}}" menuTop="{{menuTop}}" menuHeight="{{menuHeight}}" menuLeft="{{menuLeft}}" menuBottom="{{menuBottom}}"></top-bar></view>

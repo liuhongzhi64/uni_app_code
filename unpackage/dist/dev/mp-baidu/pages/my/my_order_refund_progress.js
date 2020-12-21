@@ -157,7 +157,6 @@ var _default =
 {
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
       menuLeft: 0,
@@ -189,35 +188,24 @@ var _default =
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
     // 判定运行平台
-    var platform = '';
-    switch (uni.getSystemInfoSync().platform) {
-      case 'android':
-        platform = 'android';
-        break;
-      case 'ios':
-        platform = 'ios';
-        break;
-      default:
-        platform = 'applet';
-        break;}
-
-    if (platform == 'applet') {
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
-    } else {
+    } else
+    if (platform == 'APP') {
       that.menuTop = 50;
-      that.menuHeight = 32;
+      that.menuHeight = 30;
       that.menuLeft = 278;
-      that.menuBottom = 82;
+      that.menuBottom = 80;
     }
   },
   methods: {

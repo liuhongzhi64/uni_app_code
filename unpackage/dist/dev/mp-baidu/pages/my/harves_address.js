@@ -203,28 +203,16 @@ __webpack_require__.r(__webpack_exports__);
     if (options.page) {
       that.page = options.page;
     }
-    console.log(that.page);
     that.getDetails();
   },
   onReady: function onReady() {
     var that = this;
     // 获取屏幕高度
-    var platform = '';
-    switch (uni.getSystemInfoSync().platform) {
-      case 'android':
-        platform = 'android';
-        break;
-      case 'ios':
-        platform = 'ios';
-        break;
-      default:
-        platform = 'applet';
-        break;}
-
-    if (platform == 'applet') {
+    that.height = uni.getSystemInfoSync().screenHeight;
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
-          that.height = res.screenHeight;
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
@@ -233,13 +221,13 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else {
-      that.menuWidth = 87;
+    } else
+    if (platform == 'APP') {
+      that.menuWidth = 90;
       that.menuTop = 50;
       that.menuHeight = 32;
       that.menuLeft = 278;
-      that.menuBottom = 82;
-      that.height = uni.getSystemInfoSync().windowHeight;
+      that.menuBottom = 80;
     }
   },
   methods: {

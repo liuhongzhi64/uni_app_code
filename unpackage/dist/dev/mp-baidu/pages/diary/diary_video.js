@@ -148,22 +148,87 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       requestUrl: '',
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
       height: 0,
-      title: '视频播放',
+      title: '视频详情',
       topBackgroundColor: '#222222',
       videoUrl: '',
       path: "upload/video/videos/202011/25/BJdGKSxEd6A9GxuN9nAGACAbeIWFMIoUzBOsmpQm.mp4",
-      video_info: {} };
+      video_info: {},
+      this_show: false };
 
   },
   onLoad: function onLoad(option) {
@@ -176,7 +241,7 @@ var _default =
     } else {
       that.videoUrl = that.requestUrl + that.path;
     }
-    console.log(option.id, option);
+    // console.log(option.id,option) 
     if (option.id) {
       that.get_video_detail(option.id);
     } else {
@@ -187,24 +252,12 @@ var _default =
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
     // 判定运行平台
-    var platform = '';
-    switch (uni.getSystemInfoSync().platform) {
-      case 'android':
-        platform = 'android';
-        break;
-      case 'ios':
-        platform = 'ios';
-        break;
-      default:
-        platform = 'applet';
-        break;}
-
-    if (platform == 'applet') {
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
           that.menuLeft = menu.left;
@@ -212,8 +265,7 @@ var _default =
         } });
 
     } else
-    {
-      that.menuTop = 50;
+    if (platform == 'APP') {
       that.menuHeight = 32;
       that.menuLeft = 278;
       that.menuBottom = 82;
@@ -237,9 +289,71 @@ var _default =
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.video_info = data;
-          console.log(res.data.data);
         }
       });
+    },
+    show_info: function show_info() {
+      var that = this;
+      that.this_show = !that.this_show;
+    },
+    collect_video: function collect_video(type, id) {
+      var that = this;
+      if (type == 0) {
+        var dataInfo = {
+          interfaceId: 'collectvideo',
+          video_id: id.toString() };
+
+        this.request.uniRequest("video", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.video_info.is_collect = 1;
+            that.video_info.collect_num += 1;
+            uni.showToast({
+              title: '收藏成功',
+              duration: 1000 });
+
+          }
+        });
+      } else if (type == 1) {
+        var _dataInfo = {
+          interfaceId: 'cancelcollectvideo',
+          video_id: id.toString() };
+
+        this.request.uniRequest("video", _dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.video_info.is_collect = 0;
+            that.video_info.collect_num -= 1;
+            uni.showToast({
+              title: '已取消',
+              duration: 1000 });
+
+          }
+        });
+      }
+    },
+    share_video: function share_video(id) {
+      var that = this;
+      var platform = getApp().platform || getApp().globalData.platform;
+      if (platform == 'Applets') {
+        uni.showToast({
+          title: '正在升级中...',
+          icon: 'none' });
+
+      } else
+      if (platform == 'APP') {
+        uni.share({
+          provider: 'weixin',
+          scene: 'WXSceneSession', //WXSceneSession 分享到聊天界面 WXSenceTimeline 分享到朋友圈 WXSceneFavorite 分享到微信收藏
+          type: 0, //分享类型。默认图文0，纯文字1，纯图片2，音乐3，视频4，小程序5
+          summary: '我正在使用华美整呗APP,快来喝我一起来体验',
+          success: function success(res) {
+            console.log("success:" + JSON.stringify(res));
+          },
+          fail: function fail(err) {
+            console.log("fail:" + JSON.stringify(err));
+          } });
+
+      }
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

@@ -87,20 +87,9 @@
 		onReady() {
 			let that = this;
 			// 判定运行平台
-			let platform = ''
 			that.height = uni.getSystemInfoSync().screenHeight;
-			switch (uni.getSystemInfoSync().platform) {
-				case 'android':
-					platform = 'android'
-					break;
-				case 'ios':
-					platform = 'ios'
-					break;
-				default:
-					platform = 'applet'
-					break;
-			}
-			if (platform == 'applet') {
+			let platform = getApp().platform || getApp().globalData.platform
+			if (platform == 'Applets') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
@@ -112,7 +101,9 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} else {
+			} 
+			else if (platform == 'APP'){
+				that.menuWidth = 90
 				that.menuTop = 50
 				that.menuHeight = 32
 				that.menuLeft = 278

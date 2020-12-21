@@ -95,25 +95,38 @@
 					{ name: '申请记录'},
 				],
 				changePorduct: [],
-				porductWidth:453
+				porductWidth:453,
+				requestUrl:''
 			}
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
 		},
 		onReady() {
 			let that = this;
-			// 获取屏幕高度
-			uni.getSystemInfo({
-				success: function(res) {
-					that.height = res.screenHeight
-					let menu = uni.getMenuButtonBoundingClientRect();
-					that.menuWidth = menu.width
-					that.menuTop = menu.top
-					that.menuHeight = menu.height
-					that.menuLeft = menu.left
-					that.menuBottom = menu.bottom
-					that.menuPaddingRight = res.windowWidth - menu.right
-				}
-			})
-			this.tabtap()
+			that.height = uni.getSystemInfoSync().screenHeight;
+			let platform = getApp().platform || getApp().globalData.platform
+			if (platform == 'Applets') {
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menuWidth = menu.width
+						that.menuTop = menu.top
+						that.menuHeight = menu.height
+						that.menuLeft = menu.left
+						that.menuBottom = menu.bottom
+					}
+				})
+			} 
+			else if (platform == 'APP'){
+				that.menuWidth = 90
+				that.menuTop = 50
+				that.menuHeight = 32
+				that.menuLeft = 278
+				that.menuBottom = 80
+			}
 		},
 		methods: {
 			tabtap: function(index = 0, type = 0) {

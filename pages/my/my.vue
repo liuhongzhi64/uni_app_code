@@ -4,7 +4,7 @@
 			<view class="my-top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 					<view class="back">
-						<image src="../../static/images/return.png"></image>
+						<image src="/static/images/return.png"></image>
 					</view>
 					<view class="title"> 个人中心 </view>
 				</view>
@@ -124,7 +124,7 @@
 				</view>
 			</view>
 
-			<view class="guess-what-you-like">
+			<view class="guess-what-you-like" v-if="productList.length>0">
 				<view class="related-title">
 					<view class="line"></view> 猜你喜欢
 				</view>
@@ -299,11 +299,10 @@
 			} 
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 50
-				that.menuWidth = 87
-				that.menuHeight = 32
+				that.menuTop = 20
+				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 82
+				that.menuBottom = 50
 			}
 		},
 		methods: {
@@ -525,7 +524,7 @@
 		height: 112rpx;
 		border-radius: 60rpx;
 		margin-right: 24rpx;
-		border: 4rpx solid #FFFFFF;
+		background-color: #FFFFFF;
 	}
 
 	.user-name-cart {

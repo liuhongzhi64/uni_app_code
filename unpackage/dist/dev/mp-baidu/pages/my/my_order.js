@@ -657,10 +657,10 @@ __webpack_require__.r(__webpack_exports__);
 
     } else
     if (platform == 'APP') {
-      that.menuTop = 50;
+      that.menuTop = 20;
       that.menuHeight = 30;
       that.menuLeft = 278;
-      that.menuBottom = 80;
+      that.menuBottom = 50;
     }
   },
   onLoad: function onLoad(option) {

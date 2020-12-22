@@ -1,18 +1,30 @@
 <template>
 	<view class="goods_classify">
-		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth'
-		 :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber'
-		 :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
-		<view class="content" :style="[{'padding-top':menuBottom+52+'px'}]">
+		<view class="goods_top_tar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
+			<view class="left_input" :style="[{'height':menuHeight+'px','border-radius':menuHeight/2+'px'}]">
+				<image class="search-icon" src="/static/images/search_icon.png"></image>
+			</view>
+			<view class="cart_info" >
+				<image class="cart_img" src="/static/images/cart.png" ></image>
+				<view class="cart_num"> {{ cart_number }} </view>
+			</view>
+			<view class="message_info">
+				<image class="message_img" src="/static/images/consulting.png" ></image>
+				<view class="message_num"> {{ message_number }} </view>
+			</view>
+		</view>
+		<view class="content" :style="[{'top':menuBottom+10+'px'}]">
 			<!-- 左边导航条 -->
-			<scroll-view class="left" scroll-y :style="[{'height':height-menuBottom-55+'px'}]">
-				<view v-if="leftList.length>0" @tap="categoryClickMain(item.id,index)" :class="index==btnnum?'btna':''" v-for="(item,index) in leftList"
-				 :key="index">
-					{{item.name}}
+			<scroll-view class="left" scroll-y :style="[{'height':height-menuBottom-10+'px'}]">
+				<view v-if="leftList.length>0" @tap="categoryClickMain(item.id,index)"
+				 :class="index==btnnum?'btna':''" 
+				 v-for="(item,index) in leftList" :key="index">
+					<view class="left_item">{{item.name}}</view>
+					<view class="show_line" :class="index==btnnum?'line_show':''"></view>
 				</view>
 			</scroll-view>
 			<!-- 右边内容 -->
-			<scroll-view class="rightContent" scroll-y  :style="[{'height':height-menuBottom-55+'px'}]"
+			<scroll-view class="rightContent" scroll-y  :style="[{'height':height-menuBottom-10+'px'}]"
 			 scroll-with-animation
 			 @scrolltolower='onBottom'>
 				<!-- 热门推荐 -->
@@ -34,16 +46,20 @@
 							<swiperTabHead :tabBars="tabBars" :line="line" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 						</view>
 						<view class="uni-tab-bar">
-							<!-- <swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'" :current="tabIndex" @change="tabChange"> -->
 							<swiper class="swiper-boxs" :style="'height:'+rightswiperHeight+'rpx'" :current="tabIndex" @change="tabChange">
 								<swiper-item style="height: 100%;padding-top: 24rpx;" v-for="(items,index) in tabBars" :key="index">
 									<scroll-view scroll-y class="list">
 										<template>
 											<block>
-												<view class="detailed-goods">
+												<view class="detailed-goods" v-if="newslist.length>0">
 													<goodsShow :requestUrl='requestUrl' 
 													 :borderRadius=24 :width=260
 													 :porductList='newslist' ></goodsShow>
+												</view>
+												<view class="no_have_new_list" v-else>
+													<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix">
+													</image>
+													<view class="no-have_hint">暂无相关商品</view>
 												</view>
 											</block>
 										</template>
@@ -54,10 +70,10 @@
 					</view>
 				</view>
 				<!-- 二级分类 -->
-				<view class="rightContentForClass" v-else>
+				<view class="right_content" v-else :style="[{'height':height-menuBottom-30+'px'}]">
 					<!-- 空 -->
 					<view class="no-have-porduct" v-if="classfyList.length==0">
-						<image src="../../static/images/cartBg.png" mode=""></image>
+						<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png"></image>
 						<view class="no-have-porduct-hint">暂无相关商品</view>
 					</view>
 					<!-- 非空 -->
@@ -86,28 +102,23 @@
 <script>
 	import topBar from "../../components/topBar.vue";
 	import swiperTabHead from "../../components/swiper-tab.vue";
-	import porduct from "../../components/porduct.vue";
 	import goodsShow from "../../components/goodsShow.vue"
 	export default {
 		components: {
 			topBar,
 			swiperTabHead,
-			porduct,
 			goodsShow
 		},
 		data() {
 			return {
-				barName: 'mianPage', //页面名称
-				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				BarImgs: '/static/images/0.png',
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				cartNumber: 3, //购物车数量
-				messageNumber: 19, //消息
-				topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
+				cart_number: 0, //购物车数量
+				message_number: 0, //消息
+				topSearchContent: '', //头部搜索框的推荐内容
 				intervalTime: 3000, //自动切换时间间隔
 				durationTime: 1000, //	滑动动画时长
 				height: 0,
@@ -138,11 +149,9 @@
 				],
 				line: true, //是否显示选中线
 				tabIndex: 0, // 选中的
-				swiperHeight: 180, //高度
-				rightswiperHeight: 0, //右边的滑动元素高度
+				rightswiperHeight: 650, //右边的滑动元素高度
 				newslist: [], //商品数组
 				classfyList: [], //非热门推荐商品列表
-				
 				requestUrl: '',
 				advertising_img:{
 					content:[]
@@ -191,10 +200,10 @@
 			}
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 50
-				that.menuHeight = 32
+				that.menuTop = 20
+				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 82
+				that.menuBottom = 50
 			}
 		},
 
@@ -257,6 +266,9 @@
 							that.newslist = data
 							// that.newslist = that.newslist.concat(data)
 							that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 650
+							if(that.rightswiperHeight==0){
+								that.rightswiperHeight = 900
+							}
 						}
 					})
 				}else{
@@ -272,6 +284,9 @@
 							that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 650
 							that.newslist = data
 							// that.newslist = that.newslist.concat(data)
+							if(that.rightswiperHeight==0){
+								that.rightswiperHeight = 900
+							}
 						}	
 					})
 				}				
@@ -305,6 +320,58 @@
 </script>
 
 <style scoped>
+	.goods_top_tar{
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 9;
+		background-color: #000000;
+		width: 100%;
+		color: #FFFFFF;
+		display: flex;
+		align-items: center;
+	}
+	.left_input{
+		width: 50%;
+		background-color: #FFFFFF;
+		margin-left: 20rpx;
+		position: relative;
+	}
+	.search-icon{
+		position: absolute;
+		left: 20rpx;
+		width: 40rpx;
+		height: 40rpx;
+		top: 10rpx;
+	}
+	.cart_info,.message_info{
+		margin-left: 20rpx;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.message_info{
+		margin-left: 30rpx;
+	}
+	.cart_img,.message_img{
+		width: 46rpx;
+		height: 46rpx;
+	}
+	.cart_num,.message_num{
+		position: absolute;
+		right: -10rpx;
+		top: -10rpx;
+		width: 30rpx;
+		height: 30rpx;
+		border-radius: 15rpx;
+		background-color: #fa3475;
+		color: #FFFFFF;
+		font-size: 16rpx;
+		line-height: 30rpx;
+		text-align: center;
+	}
 	.goods_classify {
 		height: 100%;
 		background-color: #f6f6f6;
@@ -312,31 +379,43 @@
 
 	.content {
 		display: flex;
+		position: fixed;
+		left: 0;
+		width: 100%;
 	}
 
 	.left {
 		width: 190rpx;
 		line-height: 100rpx;
 		font-size: 30rpx;
-		text-align: center;
 		display: flex;
 		flex-direction: column;
 		background-color: #FFFFFF;
-	}
-
-	.leftItem {
-		height: 100rpx;
-		line-height: 100rpx;
 		font-size: 24rpx;
-		width: 190rpx;
 	}
 
 	.btna {
 		font-size: 28rpx;
 		width: 190rpx;
-		color: #111111;
+		color: #fa3576;
 		background-color: #f6f6f6;
 		font-weight: bolder;
+		position: relative;
+	}
+	.left_item{
+		padding-left: 30rpx;
+	}
+	.show_line{
+		width: 6rpx;
+		height: 16rpx;
+		background-color: #FA3576;
+		position: absolute;
+		top: 42rpx;
+		left: 20rpx;
+		display: none;
+	}
+	.line_show{
+		display: block;
 	}
 
 	/* 右边 */
@@ -345,10 +424,11 @@
 		height: 100%;
 		padding-left: 10rpx;
 		padding-right: 20rpx;
+		background-color: #f6f6f6;
 	}
 
 	.rightContentItem {
-		padding-top: 13rpx;
+		padding-top: 10rpx;
 	}
 	.right-swiper,.right-swiper image{
 		height: 180rpx;
@@ -358,11 +438,18 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
 	}
 
 	.no-have-porduct image {
 		width: 400rpx;
 		height: 254rpx;
+	}
+	.have-porduct-item{
+		margin-top: -20rpx;
+		padding-top: 10rpx;
 	}
 
 	.item-top {
@@ -382,4 +469,17 @@
 		width: 100%;
 		padding-top: 10rpx;
 	}
+	.no_have_new_list{
+		width: 100%;
+		height: 1000rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		color: #fa3475;
+	}
+	.hint_img{
+		width: 350rpx;
+	}
+	
 </style>

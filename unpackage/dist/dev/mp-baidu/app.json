@@ -1,8 +1,9 @@
 {
   "pages": [
-    "pages/diary/diary_video",
+    "pages/goods/goods_classify",
     "pages/diary/diary",
     "pages/diary/diary_personal",
+    "pages/diary/diary_video",
     "pages/diary/about_list",
     "pages/diary/diary_about",
     "pages/diary/diary_keep",

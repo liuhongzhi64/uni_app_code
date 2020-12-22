@@ -196,10 +196,10 @@ var _default =
 
     } else
     if (platform == 'APP') {
-      that.menuTop = 50;
+      that.menuTop = 20;
       that.menuHeight = 32;
       that.menuLeft = 278;
-      that.menuBottom = 82;
+      that.menuBottom = 50;
     }
   },
   methods: {

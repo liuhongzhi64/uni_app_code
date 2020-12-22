@@ -46,7 +46,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
@@ -75,10 +75,10 @@
 			}
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 50
-				that.menuHeight = 32
+				that.menuTop = 20
+				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 82
+				that.menuBottom = 50
 			}
 		},
 		methods: {

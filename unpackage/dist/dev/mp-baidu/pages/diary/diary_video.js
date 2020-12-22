@@ -213,6 +213,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -224,11 +238,13 @@ var _default =
       menuBottom: 0,
       height: 0,
       title: '视频详情',
-      topBackgroundColor: '#222222',
+      topBackgroundColor: '#111111',
       videoUrl: '',
       path: "upload/video/videos/202011/25/BJdGKSxEd6A9GxuN9nAGACAbeIWFMIoUzBOsmpQm.mp4",
       video_info: {},
-      this_show: false };
+      this_show: false,
+      platform: '',
+      this_like_img: '/static/images/like_hover.png' };
 
   },
   onLoad: function onLoad(option) {
@@ -253,6 +269,7 @@ var _default =
     that.height = uni.getSystemInfoSync().screenHeight;
     // 判定运行平台
     var platform = getApp().platform || getApp().globalData.platform;
+    that.platform = platform;
     if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
@@ -264,11 +281,9 @@ var _default =
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    if (platform == 'APP') {
-      that.menuHeight = 32;
-      that.menuLeft = 278;
-      that.menuBottom = 82;
+    } else if (platform == 'APP') {
+      that.menuTop = 30;
+      that.menuHeight = 60;
     }
   },
   methods: {
@@ -289,12 +304,22 @@ var _default =
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.video_info = data;
+          if (data.is_collect == 0) {
+            that.this_like_img = '/static/images/like.png';
+          } else {
+            that.this_like_img = '/static/images/like_hover.png';
+          }
         }
       });
     },
     show_info: function show_info() {
       var that = this;
       that.this_show = !that.this_show;
+    },
+    consulting: function consulting() {
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
     },
     collect_video: function collect_video(type, id) {
       var that = this;
@@ -307,6 +332,7 @@ var _default =
           if (res.data.code == 1000 && res.data.status == 'ok') {
             that.video_info.is_collect = 1;
             that.video_info.collect_num += 1;
+            that.this_like_img = '/static/images/like_hover.png';
             uni.showToast({
               title: '收藏成功',
               duration: 1000 });
@@ -322,6 +348,7 @@ var _default =
           if (res.data.code == 1000 && res.data.status == 'ok') {
             that.video_info.is_collect = 0;
             that.video_info.collect_num -= 1;
+            that.this_like_img = '/static/images/like.png';
             uni.showToast({
               title: '已取消',
               duration: 1000 });
@@ -338,8 +365,7 @@ var _default =
           title: '正在升级中...',
           icon: 'none' });
 
-      } else
-      if (platform == 'APP') {
+      } else if (platform == 'APP') {
         uni.share({
           provider: 'weixin',
           scene: 'WXSceneSession', //WXSceneSession 分享到聊天界面 WXSenceTimeline 分享到朋友圈 WXSceneFavorite 分享到微信收藏

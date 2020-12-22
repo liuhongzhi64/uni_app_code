@@ -16,7 +16,7 @@
 					</view>
 					<view class="message" @tap="message">
 						<view class="messageImg">
-							<image src="../static/images/message.png" mode=""></image>
+							<image src="/static/images/consulting.png" mode=""></image>
 						</view>
 						<view class="messageNumber"> {{messageNumber}} </view>
 					</view>

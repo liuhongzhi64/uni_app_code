@@ -130,7 +130,22 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 528));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var porduct = function porduct() {__webpack_require__.e(/*! require.ensure | components/porduct */ "components/porduct").then((function () {return resolve(__webpack_require__(/*! ../../components/porduct.vue */ 514));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 493));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 528));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 493));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -224,22 +239,18 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     topBar: topBar,
     swiperTabHead: swiperTabHead,
-    porduct: porduct,
     goodsShow: goodsShow },
 
   data: function data() {
     return {
-      barName: 'mianPage', //页面名称
-      topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-      BarImgs: '/static/images/0.png',
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
-      cartNumber: 3, //购物车数量
-      messageNumber: 19, //消息
-      topSearchContent: '华美整呗手动挡擦拭你快点好说的水电费打法就第三方都是十点多', //头部搜索框的推荐内容
+      cart_number: 0, //购物车数量
+      message_number: 0, //消息
+      topSearchContent: '', //头部搜索框的推荐内容
       intervalTime: 3000, //自动切换时间间隔
       durationTime: 1000, //	滑动动画时长
       height: 0,
@@ -270,11 +281,9 @@ __webpack_require__.r(__webpack_exports__);
 
       line: true, //是否显示选中线
       tabIndex: 0, // 选中的
-      swiperHeight: 180, //高度
-      rightswiperHeight: 0, //右边的滑动元素高度
+      rightswiperHeight: 650, //右边的滑动元素高度
       newslist: [], //商品数组
       classfyList: [], //非热门推荐商品列表
-
       requestUrl: '',
       advertising_img: {
         content: [] },
@@ -323,10 +332,10 @@ __webpack_require__.r(__webpack_exports__);
     } else
     if (platform == 'APP') {
       that.menuWidth = 90;
-      that.menuTop = 50;
-      that.menuHeight = 32;
+      that.menuTop = 20;
+      that.menuHeight = 30;
       that.menuLeft = 278;
-      that.menuBottom = 82;
+      that.menuBottom = 50;
     }
   },
 
@@ -389,6 +398,9 @@ __webpack_require__.r(__webpack_exports__);
             that.newslist = data;
             // that.newslist = that.newslist.concat(data)
             that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 650;
+            if (that.rightswiperHeight == 0) {
+              that.rightswiperHeight = 900;
+            }
           }
         });
       } else {
@@ -404,6 +416,9 @@ __webpack_require__.r(__webpack_exports__);
             that.rightswiperHeight = Math.ceil(res.data.data.length / 2) * 650;
             that.newslist = data;
             // that.newslist = that.newslist.concat(data)
+            if (that.rightswiperHeight == 0) {
+              that.rightswiperHeight = 900;
+            }
           }
         });
       }

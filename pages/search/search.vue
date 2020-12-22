@@ -6,7 +6,7 @@
 		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="search-input-text">
 				<view class="left-input">
-					<image class="search-icon" src="../../static/images/search_icon.png"></image>
+					<image class="search-icon" src="/static/images/search_icon.png"></image>
 					<input class="search-content" @input="onKeyInput" v-model="defaultContent" placeholder-style='color: #b2b2b2;'
 					 :placeholder="searchContent||'请输入关键词搜索'" />
 				</view>
@@ -135,10 +135,10 @@
 			} 
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 50
-				that.menuHeight = 32
+				that.menuTop = 20
+				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 82
+				that.menuBottom = 50
 			}
 		},
 		methods: {

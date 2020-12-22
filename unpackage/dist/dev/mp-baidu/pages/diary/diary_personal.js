@@ -303,10 +303,10 @@ __webpack_require__.r(__webpack_exports__);
 
     } else if (platform == 'APP') {
       that.menuWidth = 90;
-      that.menuTop = 50;
-      that.menuHeight = 32;
+      that.menuTop = 20;
+      that.menuHeight = 30;
       that.menuLeft = 278;
-      that.menuBottom = 82;
+      that.menuBottom = 50;
     }
   },
   methods: {
@@ -343,21 +343,25 @@ __webpack_require__.r(__webpack_exports__);
       this.request.uniRequest("diary", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.count = data.count;
-          that.user = data.user;
+
+          if (data.count) {
+            that.count = data.count;
+          }
           if (data.list.length == 0 && that.offset > 0) {
             that.request.showToast('没有更多了');
           }
           that.list = that.list.concat(data.list);
           if (data.user) {
+            that.user = data.user;
             if (!data.user.nick_name) {
               var info = uni.getStorageSync("userInfo").real_name;
               that.user.nick_name = info;
             }
+            if (data.user.head_ico) {
+              that.user.head_ico = data.user.head_ico;
+            }
           }
-          // if(data.user.head_ico){
-          // 	that.user.head_ico = data.user.head_ico
-          // }
+
         }
       });
     },

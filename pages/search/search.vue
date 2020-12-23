@@ -13,10 +13,10 @@
 				<view class="right-text" @tap='goToResult'>确定</view>
 			</view>
 		</view>
-		<scroll-view class="search-all-content" scroll-y :style="[{'padding-top':menuBottom+50+'px','height':height-menuBottom-50+'px'}]">
+		<scroll-view class="search-all-content" scroll-y :style="[{'padding-top':menuBottom+50+'px'}]">
 			<template>
-				<view class="search-contents">
-					<view class="search-swiper">
+				<view class="search-contents" :style="[{'height':height-menuBottom-122+'px'}]">
+					<view class="search-swiper" v-if="advertising_img.content.length>0">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay interval='6000' duration="3000"
 						 circular>
 							<swiper-item v-for="(item,index) in advertising_img.content" :key="index">
@@ -27,10 +27,12 @@
 						</swiper>
 					</view>
 					<!-- 热门搜索 -->
-					<view class="hot-search">
+					<view class="hot-search" v-if="hotSearchList.length>0">
 						<view class="title">热门搜索</view>
 						<view class="hot-search-list">
-							<view class="list-item" @tap='changeHotSearch(item,index)' :class="{changeStyle:colorNum==index}" v-for="(item,index) in hotSearchList"
+							<view class="list-item" @tap='changeHotSearch(item,index)'
+							 :class="{changeStyle:colorNum==index}"
+							 v-for="(item,index) in hotSearchList"
 							 :key="index">
 								{{item}}
 							</view>
@@ -280,7 +282,6 @@
 		height: 56rpx;
 		line-height: 56rpx;
 		padding-left: 30rpx;
-		/* text-indent: 10rpx; */
 	}
 
 	.right-text {
@@ -292,7 +293,6 @@
 	}
 
 	.search-contents {
-
 		padding-bottom: 120rpx;
 	}
 

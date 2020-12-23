@@ -1,9 +1,9 @@
 <template>
-	<view class="my_card">
+	<!-- :style="[{'min-height':height+'px'}]"  -->
+	<view class="my_card" :style="show_scan ? 'height: 80vh' : 'min-height:100vh'">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :barImage='barImage' :color='color' :backImage='backImage'
 		 :barName='barName' :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft'
 		 :menuBottom='menuBottom' ></topBar>
-
 		<view class="my_card-content">
 			<scroll-view class="my_card-content" :style="[{'padding-top':menuBottom+50+'px'}]">
 				<template>
@@ -21,7 +21,7 @@
 								<view class="character">去领取&nbsp;></view>
 							</view>
 						</view>
-						<view class="tabBarList" :style="[{'top':menuBottom+50+'px'}]">
+						<view class="tabBarList" :style="[{'top':menuBottom+48+'px'}]">
 							<view class="tab-bar-list">
 								<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" :tabBackgroundColor='tabBackgroundColor'
 								 @tabtap="tabtap"></swiperTabHead>
@@ -29,7 +29,7 @@
 						</view>
 						<view class="list-content">
 							<view class="item-content end-cont" :class="{dis:tabIndex == index}" v-for="(i,index) in tabBars" :key="index">
-								<view class="ticket-label" :style="[{'top':menuBottom+90+'px'}]">
+								<view class="ticket-label" :style="[{'top':menuBottom+86+'px'}]">
 									<view class="label-name"
 									 :class="{labelColor:colorNum==k}" 
 									 @tap='selectLabel(k,listType)' 
@@ -41,15 +41,17 @@
 								<view class="select-content end-cont"
 								 :style="[{'padding-top':60+'px'}]" 
 								 :class="{dis:colorNum == k}" 
-								 v-for="(item,k) in lableList"
-								 :key="k">
+								 v-for="(item,k) in lableList" :key="k">
 									<view class="ticket-use-explain" :style="[{'padding-top':30+'px'}]">
-										<!-- <view class="title">{{i.name}}{{i.type}}{{k}}</view> -->
-										<scroll-view class="select-contents">
+										<scroll-view class="select-contents" >
+											<view class="frozen_explain" v-if="k==1">
+												冻结说明:
+												<view class="explain_item" v-for="(is,index) in frozen_explain_list" :key='index'>{{ is }}</view>
+											</view>
 											<view class="content-item" v-if="cardsList.length == 0">
 												<view class="Ticket-number">
 													<view class="images">
-														<image src="../../static/images/cartBg.png" mode=""></image>
+														<image src="https://xcx.hmzixin.com/upload/images/3.0/cat_no.png" mode=""></image>
 													</view>
 													<view class="no-have-ticket">喵！暂无相关卡券~</view>
 												</view>
@@ -60,18 +62,52 @@
 											 @showTicket='showTicket'
 											 @useCard = 'useCard'
 											 @deleteCard = 'deleteCard'
-											 @scanCard = 'scanCard'>
+											 @scan_card = 'scan_card'>
 											</ticket>
-											
 										</scroll-view>
 									</view>
 								</view>
 							</view>
 						</view>
-						
 					</view>
 				</template>
 			</scroll-view>
+		</view>
+		<view class="scan_card_info" :style="[{'height':height-menuBottom-10+'px','padding-top':menuBottom+10+'px'}]" v-if="show_scan" @tap="show_scan_info">
+			<view class="scan_info_content">
+				<image class="scan_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_tc.png" mode="widthFix"></image>
+				<view class="hx_code"> 卡券核销码:{{ scan_info.hx_code }} </view>
+				<view class="show_name_card_type">
+					<view class="show_name_info">
+						<text v-if="scan_info.card_type==1||scan_info.card_type==2" :style="[{'background-color':scan_info.card_style}]">满减</text>
+						<text v-else-if="scan_info.card_type==3||scan_info.card_type==4" :style="[{'background-color':scan_info.card_style}]">折扣</text>
+						<text v-else-if="scan_info.card_type==5" :style="[{'background-color':scan_info.card_style}]">礼品券</text> 
+						<text v-else-if="scan_info.card_type==6" :style="[{'background-color':scan_info.card_style}]">体验券</text>
+						{{ scan_info.show_name }}
+					</view>
+				</view>
+				<view class="status_scan_type">
+					<view class="scan_type_info">
+						<view class="status"> 当前状态 : 
+						   <text v-if="scan_info.status==0">已冻结</text>
+						   <text v-else-if="scan_info.status==1">可使用</text>
+						</view>
+						<view class="scan_type"> 核销地点 :
+							<text v-if="scan_info.scan_type==0">财务室</text>
+							<text v-else-if="scan_info.scan_type==1">会员中心</text>
+						</view>
+					</view>
+				</view>
+				<view class="use_time_info">
+					<view class="user-time" >使用时间 :
+						<text> {{scan_info.user_time}} 至 {{scan_info.end_time}} </text>
+					</view>
+				</view>
+				<view class="qrcodes_info">
+					<image class="qrcodes_img" :src="requestUrl+scan_info.qrcodes" mode="widthFix"></image>
+				</view>
+			</view>
+			<view class="close_scan_card"> 关闭 </view>
 		</view>
 	</view>
 </template>
@@ -93,7 +129,8 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				barName: 'particularsPage', //导航条名称
+				height: 0,
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#111111',
 				color: '#FFFFFF',
 				backImage: '/static/images/return.png',
@@ -145,6 +182,14 @@
 				limit:4, //	每页多少条
 				offset:1 ,//页数
 				get_count:0,//可领取数量
+				frozen_explain_list:[
+					'1）若卡券是下单后赠送的、支付有礼赠送的，需要核销订单后卡券才可使用;',
+					'2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效;',
+					'3）失效的卡券将不予补发;',
+					'4）若提前领取卡券，还未到使用时间，也将处于冻结状态.'
+				],
+				scan_info:{},
+				show_scan:false
 			}
 		},
 		onReachBottom: function() {
@@ -160,6 +205,7 @@
 		},
 		onReady() {
 			let that = this;
+			that.height = uni.getSystemInfoSync().windowHeight ;
 			// 判定运行平台
 			let platform = getApp().platform || getApp().globalData.platform
 			if (platform == 'Applets') {
@@ -194,37 +240,29 @@
 					limit: that.limit,
 					offset: that.offset
 				}
-				if (uni.getStorageSync("token")) {
-					that.request.uniRequest("card", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							that.tabBars[0].number = data.num.all
-							that.tabBars[1].number = data.num.online
-							that.tabBars[2].number = data.num.offline
-							that.tabBars[3].number = data.num.gift
-							that.tabBars[4].number = data.num.experience
-							that.get_count = data.get_count
-							that.time_now = data.time_now
-							for (let i = 0; i < data.cards.length; i++) {
-								data.cards[i].showTicketDetails = false
-								data.cards[i].arrowImages = '/static/images/arrow-down.png'
-								let startTime = data.cards[i].use_start_time
-								data.cards[i].c_use_start_time = that.setTimer(startTime)
-								let useTime = data.cards[i].use_end_time
-								data.cards[i].c_use_end_time = that.setTimer(useTime)
-							}
-							that.cardsList = that.cardsList.concat(data.cards)
-							console.log(data,that.time_now)
-						} else {
-							console.log('没有数据')
+				that.request.uniRequest("card", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.tabBars[0].number = data.num.all
+						that.tabBars[1].number = data.num.online
+						that.tabBars[2].number = data.num.offline
+						that.tabBars[3].number = data.num.gift
+						that.tabBars[4].number = data.num.experience
+						that.get_count = data.get_count
+						that.time_now = data.time_now
+						for (let i = 0; i < data.cards.length; i++) {
+							data.cards[i].showTicketDetails = false
+							data.cards[i].arrowImages = '/static/images/arrow-down.png'
+							let startTime = data.cards[i].use_start_time
+							data.cards[i].c_use_start_time = that.setTimer(startTime)
+							let useTime = data.cards[i].use_end_time
+							data.cards[i].c_use_end_time = that.setTimer(useTime)
 						}
-					})
-				} else {
-					this.request.showToast('未登录,将为您跳转到登录页面')
-					uni.navigateTo({
-						url: '/pages/login/login_phone'
-					});
-				}
+						that.cardsList = that.cardsList.concat(data.cards)
+					}else if(res.data.code == 3005 && that.offset>1 ){
+						that.request.showToast('没有更多了')
+					}
+				})
 			},
 			
 			setTimer:function(date){
@@ -275,7 +313,6 @@
 			},
 			// 使用卡券
 			useCard:function(id,state){
-				console.log('使用的卡券id:',id,"卡券状态",state)
 				let cardId = id
 				if(state==1){
 					uni.navigateTo({
@@ -304,12 +341,27 @@
 				}
 			},
 			// 核销卡券
-			scanCard:function(id){
-				let cardId = id
-				console.log('核销的卡券id:',cardId)
-				// uni.navigateTo({
-				// 	url: `/pages/check/check_card?id=${cardId}`
-				// });
+			scan_card:function(id){
+				console.log(id)
+				let that = this
+				let dataInfo = {
+					interfaceId:'salecard_user_scan',
+					card_id:id
+				}
+				that.request.uniRequest("card", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						data.user_time = that.setTimer(data.use_start_time)
+						data.end_time = that.setTimer(data.use_end_time)
+						that.scan_info = data
+						that.show_scan = !that.show_scan
+						console.log(data)
+					}
+				})
+			},
+			show_scan_info:function(){
+				let that = this
+				that.show_scan = !that.show_scan
 			},
 			// 删除卡券
 			deleteCard:function(id){
@@ -359,6 +411,9 @@
 </script>
 
 <style scoped>
+	.my_card{
+		background-color: #F6F6F6;
+	}
 	.card-top {
 		height: 80rpx;
 		line-height: 80rpx;
@@ -430,7 +485,6 @@
 	}
 
 	.my_card-content {
-		background-color: #F6F6F6;
 		height: 100%;
 	}
 
@@ -446,8 +500,8 @@
 	}
 
 	.ticket-label .label-name {
-		width: 107rpx;
-		height: 46rpx;
+		width: 108rpx;
+		height: 50rpx;
 		border-radius: 25rpx;
 		text-align: center;
 		line-height: 50rpx;
@@ -458,8 +512,11 @@
 
 	.labelColor {
 		background-color: #ffe8f0;
-		border: 2rpx solid #fa3475;
+		border: 1rpx solid #fa3475;
 		color: #fa3475;
+		width: 108rpx !important;
+		height: 48rpx !important;
+		border-radius: 25rpx;
 	}
 
 	.content-item {
@@ -467,7 +524,6 @@
 		font-size: 20rpx;
 		line-height: 32rpx;
 		color: #999999;
-		height: 1100rpx;
 	}
 
 
@@ -478,8 +534,7 @@
 		color: #999999;
 	}
 	.select-contents{
-		padding-bottom: 32rpx;
-		min-height: 1140rpx;
+		padding-bottom: 30rpx;
 	}
 
 	.images {
@@ -661,4 +716,124 @@
 		width: 195rpx;
 		height: 155rpx;
 	}
+	
+	.frozen_explain{
+		font-size: 20rpx;
+		color: #999999;
+	}
+	
+	.scan_card_info{
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 9;
+		width: 100%;
+		background-color: #999999;
+		opacity: 0.9;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.scan_info_content{
+		width: 80%;
+		position: relative;
+		color: #000000;
+	}
+	.hx_code{
+		width: 100%;
+		text-align: center;
+		position: absolute;
+		top: 40rpx;
+		left: 0;
+		color: #999999;
+	}
+	.scan_img{
+		width: 100%;
+	}
+	.show_name_card_type{
+		position: absolute;
+		left: 0;
+		width: 100%;
+		top: 120rpx;
+	}
+	.show_name_info{
+		padding: 0 40rpx;
+		font-size: 24rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-height: 28rpx;
+		color: #000000;
+	}
+	.show_name_info text{
+		border-radius: 10rpx;
+		color: #FFFFFF;
+		padding: 0 10rpx;
+		margin-right: 10rpx;
+	}
+	
+	.status_scan_type{
+		position: absolute;
+		width: 100%;
+		left: 0;
+		top: 240rpx;
+	}
+	
+	.scan_type_info{
+		display: flex;
+		justify-content: space-between;
+		padding: 0 40rpx;
+		color: #000000;
+		font-size: 22rpx;
+	}
+	
+	.status text{
+		color: #fa3475;
+		margin-left: 10rpx;
+	}
+	.scan_type text{
+		margin-left: 10rpx;
+	}
+	
+	.use_time_info{
+		position: absolute;
+		left: 0;
+		width: 100%;
+		top: 280rpx;
+		font-size: 20rpx;
+		color: #999999;
+	}
+	.user-time{
+		padding: 0 40rpx;
+	}
+	.user-time text{
+		margin-left: 10rpx;
+	}
+	
+	.qrcodes_info{
+		position: absolute;
+		left: 0;
+		width: 100%;
+		top: 360rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.qrcodes_img{
+		width: 60%;
+	}
+	
+	.close_scan_card{
+		width: 80%;
+		line-height: 80rpx;
+		text-align: center;
+		color: #FFFFFF;
+		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
+		border-radius: 40rpx;
+		font-size: 28rpx;
+		margin-top: 30rpx;
+	}
+	
 </style>

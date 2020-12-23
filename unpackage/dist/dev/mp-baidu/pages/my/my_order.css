@@ -1,4 +1,8 @@
 
+.my_order.data-v-4842cd15{
+	background-color: #F6F6F6;
+	height: 100vh;
+}
 .top-bar.data-v-4842cd15 {
 	text-align: center;
 	font-size: 40rpx;
@@ -283,7 +287,6 @@
 .immediate-payment.data-v-4842cd15::after {
 	border: none;
 }
-
 /* 新写的样式 */
 .order_goods-content.data-v-4842cd15 {
 	display: -webkit-box;
@@ -453,7 +456,6 @@
 	color: #FFFFFF;
 	text-align: center;
 }
-
 /* 优惠信息 */
 .discount_content.data-v-4842cd15{
 	width: 100%;
@@ -557,7 +559,7 @@
 	        justify-content: center;
 }
 .no_have_order image.data-v-4842cd15{
-	height: 260rpx;
+	width: 60%;
 }
 .go_to_see_button.data-v-4842cd15{
 	padding-top: 60rpx;

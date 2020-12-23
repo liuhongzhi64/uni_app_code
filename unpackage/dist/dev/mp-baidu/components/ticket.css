@@ -35,6 +35,7 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 	border-bottom: 1px dashed #999999;
+	position: relative;
 }
 .ticket-items-content-applet.data-v-ab11f3f2{
 	display: -webkit-box;
@@ -75,15 +76,15 @@
 }
 .ticket-labels.data-v-ab11f3f2 {
 	padding: 0 9rpx;
-	font-size: 22rpx;
+	font-size: 20rpx;
 	margin-right: 10rpx;
 	color: #FFFFFF;
 	background-image: -webkit-linear-gradient(right, #8834fa 0%, #a25eff 100%);
 	background-image: linear-gradient(-90deg, #8834fa 0%, #a25eff 100%);
-	border-radius: 4rpx;
+	border-radius: 8rpx;
 }
 .ticket-writer.data-v-ab11f3f2 {
-	font-size: 28rpx;
+	font-size: 26rpx;
 	color: #111111;
 }
 .ticket-state.data-v-ab11f3f2 {
@@ -140,7 +141,6 @@
 	margin-top: 14rpx;
 }
 .ticket-images-exclusiveName.data-v-ab11f3f2 {
-	/* padding: 0 30rpx; */
 	width: 248rpx;
 	min-height: 240rpx;
 	border-top-right-radius: 16rpx;
@@ -163,16 +163,27 @@
 .exclusive-name.data-v-ab11f3f2 {
 	width: 128rpx;
 	height: 36rpx;
+	position: relative;
+}
+.note_img.data-v-ab11f3f2{
+	width: 128rpx;
+	height: 36rpx;
+	position: absolute;
+	top: -6rpx;
+	z-index: 1;
+	right: 0;
+}
+.this_note.data-v-ab11f3f2{
+	width: 128rpx;
+	height: 36rpx;
 	text-align: center;
-	background-image: -webkit-linear-gradient(bottom, #070606 0%, #303030 100%);
-	background-image: linear-gradient(0deg, #070606 0%, #303030 100%);
-	border-radius: 0rpx 0rpx 16rpx 16rpx;
+	position: absolute;
 	font-size: 20rpx;
 	line-height: 36rpx;
-}
-.no-exclusive-name.data-v-ab11f3f2{
-	width: 128rpx;
-	height: 26rpx;
+	color: #FFFFFF;
+	z-index: 1;
+	top: -8rpx;
+	right: 0;
 }
 .exclusive-price.data-v-ab11f3f2 {
 	font-size: 48rpx;
@@ -320,6 +331,29 @@
 	height: 44rpx;
 	border-radius: 22rpx;
 	border: 1px solid #ff6699;
+	background-color: #FFFFFF;
+}
+.all_circular.data-v-ab11f3f2{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	margin-left: 5rpx;
+	width: 10rpx;
+	position: absolute;
+	right: 245rpx;
+	top: 0;
+	height: 100%;
+}
+.circular.data-v-ab11f3f2{
+	width: 10rpx;
+	height: 10rpx;
+	border-radius: 10rpx;
 	background-color: #FFFFFF;
 }
 

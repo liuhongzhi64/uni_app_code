@@ -138,7 +138,7 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				btnnum: 1,
+				btnnum: 2,
 				navigationList: ['直播', '买家秀', '视频'],
 				topTabList: [],
 				this_name:'',
@@ -153,7 +153,7 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.change_top(1)
+			that.change_top(that.btnnum)
 		},
 		onReady() {
 			let that = this;

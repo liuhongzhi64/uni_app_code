@@ -3,11 +3,13 @@
 		globalData: {
 			platform: ''
 		},
+		
 		onLaunch: function() {
 			// console.log('App Launch')
 		},
 		onShow: function() {
 			// console.log('App Show')
+			
 			let that = this
 			let platform = ''
 			// #ifdef APP-PLUS || APP-NVUE
@@ -19,7 +21,12 @@
 			// #ifdef  H5
 			platform = 'H5'
 			// #endif
-			getApp().globalData.platform = platform
+			// #ifdef  MP-TOUTIAO
+			platform = 'tuotiao'
+			// #endif
+			if(platform!= 'tuotiao'){
+				getApp().globalData.platform = platform
+			}
 			that.platform = platform
 		},
 		onHide: function() {

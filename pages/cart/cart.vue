@@ -22,7 +22,7 @@
 			<!-- 购物车为空 -->
 			<view class="empty-cart" v-if="sku_list.length==0">
 				<view class="empty-cart-image">
-					<image src="../../static/images/cartBg.png" mode=""></image>
+					<image src="/static/images/cartBg.png" mode="widthFix"></image>
 				</view>
 				<view class="empty-cart-text"> 购物车还是空的哟~ </view>
 				<view class="go-stroll" @tap='goToGoodsClassfiy'> 去逛逛 </view>
@@ -1536,7 +1536,7 @@
 	.empty-cart {
 		text-align: center;
 		color: #111111;
-		font-size: 32rpx;
+		font-size: 28rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

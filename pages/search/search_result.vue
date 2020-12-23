@@ -53,9 +53,12 @@
 					<view class="this_result" v-if="tabIndex==1">
 						<view class="doctor_info" v-for="(item,index) in content_list" :key='index' >
 							<navigator class="doctor_top" :url="'/pages/doctor/doctor_detail?id='+item.id+'&heading='+item.heading">
-								<image class="doctor_head_img" :src="requestUrl+item.head_img" ></image>
+								<image class="doctor_head_img" :src="requestUrl+item.heading" ></image>
 								<view class="doctor_right_info">
-									<view class="doctor_name"> {{ item.name }} <text class="zhicheng"> {{ item.zhicheng }} </text> </view>
+									<view class="doctor_name">
+										<text class="this_name">{{ item.name }}</text>
+										<text class="zhicheng"> {{ item.zhicheng }} </text> 
+									</view>
 									<view class="employed_y_case_num">
 										<view class="employed_y"> 从业经验: {{ item.employed_y }}年</view>
 										<view class="case_num">案列数: {{ item.case_num }} </view>
@@ -74,16 +77,18 @@
 							<navigator class="doctor_recommended_goods" v-if="Object.prototype.toString.call(item.recommended_goods)!='[object Array]'"
 							 :url="'/pages/goods/goods_detail?sku_id='+item.recommended_goods.id+'&encrypted_id='+item.recommended_goods.encrypted_id">
 								<view class="recommende_goods_name">
-									<text class="recommende_title"> 推 </text> {{ item.recommended_goods.goods_name }}
+									<text class="recommende_title"> 推 </text> 
+									<text class="this_info_content">{{ item.recommended_goods.goods_name }}</text>
 								</view>
 								<view class="sale_weight_sale_price">
-									<text>{{ item.recommended_goods.sale_weight }}</text> <text> {{ item.recommended_goods.sale_price }} </text>
+									<text>{{ item.recommended_goods.sale_weight }} 人预约</text> <text> {{ item.recommended_goods.sale_price }} </text>
 								</view>
 							</navigator>
 							<navigator class="doctor_hot_goods" v-if="Object.prototype.toString.call(item.hot_goods)!='[object Array]'"
 							 :url="'/pages/goods/goods_detail?sku_id='+item.hot_goods.id+'&encrypted_id='+item.hot_goods.encrypted_id">
 								<view class="recommende_goods_name">
-									<text class="hot_goods_title"> 热 </text> {{ item.hot_goods.goods_name }}
+									<text class="hot_goods_title"> 热 </text> 
+									<text class="this_info_content">{{ item.hot_goods.goods_name }}</text>
 								</view>
 								<view class="sale_weight_sale_price">
 									<text>{{ item.hot_goods.sale_weight }}人预约 </text> <text class="sale_price"> ￥{{ item.hot_goods.sale_price }} </text>
@@ -727,9 +732,13 @@
 		width: 80%;
 		font-size: 32rpx;
 	}
+	.this_name{
+		min-width: 50rpx;
+	}
 	.zhicheng{
 		font-size: 24rpx;
 		margin-left: 20rpx;
+		flex: 1;
 	}
 	
 	.employed_y_case_num{
@@ -778,15 +787,17 @@
 	}
 	.recommende_goods_name{
 		width: 60%;
+		color: #111111;
+		display: flex;
+		align-items: center;
+	}
+	.this_info_content{
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
-		line-height: 56rpx;
+		line-height: 32rpx;
 		font-size: 24rpx;
-		color: #111111;
-		display: flex;
-		align-items: center;
 	}
 	.recommende_title{
 		background-color: #ff7b1a;

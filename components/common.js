@@ -18,19 +18,19 @@ export default {
 		})
 	},
 	// 获取token
-	getToken:function(businessId='1',unique_id=16, method = "POST"){
+	getToken: function(businessId = '1', unique_id = 16, method = "POST") {
 		let that = this
 		return new Promise((resolve) => {
 			uni.request({
 				method: method,
 				url: that.globalData.requestUrl + "login" + "?d=" + new Date().getTime(),
 				header: {
-					appid:that.globalData.appid,
-					businessId:businessId
+					appid: that.globalData.appid,
+					businessId: businessId
 				},
-				data:{
-					interfaceId:'token',
-					unique_id:unique_id
+				data: {
+					interfaceId: 'token',
+					unique_id: unique_id
 				},
 				success: res => {
 					resolve(res);
@@ -39,42 +39,21 @@ export default {
 					} else {
 						if (res.data.code !== 1000) that.showModal(res.data.message);
 					}
-					
+
 				},
 				complete() {
 					uni.hideLoading();
 				}
 			})
 		})
-		// uni.request({
-		// 	method:'POST',
-		// 	url:that.globalData.requestUrl + 'login' + "?d=" + new Date().getTime(),
-		// 	header:{
-		// 		appid:that.globalData.appid,
-		// 		businessId:businessId
-		// 	},
-		// 	data:{
-		// 		interfaceId:'token',
-		// 		unique_id:unique_id
-		// 	},
-		// 	success: (res) => {
-		// 		if(res.data.code==1000){
-		// 			let data = res.data.data
-		// 			console.log(data)
-		// 			return data
-		// 		}else{
-		// 			that.showModal(res.data.message)
-		// 		}
-		// 	}
-		// })
 	},
 	// 数据请求(异步)
 	uniRequest: function(fileName, data, method = "POST") {
 		const that = this;
-		// uni.showLoading({
-		// 	title: '加载中...',
-		// 	mask: true
-		// })
+		uni.showLoading({
+			title: '加载中...',
+			mask: true
+		})
 		return new Promise((resolve) => {
 			uni.request({
 				method: method,
@@ -87,51 +66,27 @@ export default {
 				data: data,
 				success: res => {
 					resolve(res);
-					if (fileName != "goods" && fileName != 'card' ) {
+					if (fileName != "goods") {
 						if (res.data.status !== "ok") {
 							that.showModal("系统错误：" + res.data.code);
 						} else {
-							if (res.data.code !== 1000){
-								if(res.data.message=='登录失败[1007]'||res.data.message=='登录失败[1016]'||res.data.message=='登录失败[1004]'||res.data.message=='登录失败[1006]'){
+							if (res.data.code !== 1000) {
+								if (res.data.message == '登录失败[1007]' || res.data.message == '登录失败[1016]' || res.data.message ==
+									'登录失败[1004]' || res.data.message == '登录失败[1006]') {
 									that.showToast(res.data.message)
-									// that.getToken().then(res=>{
-									// 	console.log(res)
-									// })
 									// 后期使用
-									setTimeout(function(){
+									setTimeout(function() {
 										uni.navigateTo({
 											url: '/pages/login/login_phone'
 										})
-									},1000)
-								} else if(res.data.code==2201){
+									}, 1000)
+								} else if (res.data.code == 2201) {
 									that.showToast(res.data.message)
 								}
-								else{
+								else if (res.data.code != 1098&&res.data.code != 3005&&res.data.code != 3004 ) {
 									that.showModal(res.data.message)
 								}
-							} 
-						}
-					}
-					else if(fileName =='card'){
-						if (res.data.status !== "ok") {
-							that.showModal("系统错误：" + res.data.code);
-						} else {
-							if (res.data.code !== 1000){
-								if(res.data.message=='没有用户卡券信息'){
-									that.showToast("没有更多了")
-								}else if(res.data.message=="没有卡券信息"){
-									that.showToast("没有更多相关卡券了")
-								}else if(res.data.message=='登录失败[1007]'){
-									that.showToast(res.data.message)
-									// setTimeout(function(){
-									// 	uni.navigateTo({
-									// 		url: '/pages/login/login_phone'
-									// 	})
-									// },1000)
-								}else{
-									// that.showModal(res.data.message)
-								}
-							} 
+							}
 						}
 					}
 				},

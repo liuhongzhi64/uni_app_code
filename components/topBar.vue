@@ -6,7 +6,6 @@
 				<view class="leftImg">
 					<image :src="BarImgs" mode=""></image>
 				</view>
-		
 				<view class="cartAndMessage">
 					<view class="cart" :data-cartNumber='cartNumber' @tap="cart" >
 						<view class="cartImg">
@@ -21,7 +20,6 @@
 						<view class="messageNumber"> {{messageNumber}} </view>
 					</view>
 				</view>
-		
 			</view>
 			<view class="search" :style="[{'padding-top':10+'px'}]">
 				<view class="searchInput" @click="hideKeyboard">
@@ -63,8 +61,6 @@
 			</view>
 		</view>
 		
-		
-		
 	</view>
 	
 </template>
@@ -91,7 +87,7 @@
 			barImage:String,
 			barName:{
 				type: String,
-				default: 'particularsPage'
+				default: 'back'
 			},//导航条的名称
 			title:String,//标题名称
 			menuHeight:Number,//高

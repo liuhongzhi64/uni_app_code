@@ -278,6 +278,16 @@
 	font-size: 20rpx;
 	line-height: 32rpx;
 	color: #999999;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 }
 .no-have-ticket.data-v-e3febc3e {
 	text-align: center;

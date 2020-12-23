@@ -7,7 +7,6 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 Vue.prototype.$request = request;
-
 const app = new Vue({
     ...App
 })

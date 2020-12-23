@@ -31,7 +31,9 @@
 							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye.png" v-else></image>
 						</view>
 						
-						<view class="set" @tap='goToSet'> 设置 > </view>
+						<view class="set" @tap='goToSet'> 设置 
+							<image class="go_img" src="/static/images/return.png" mode="widthFix"></image>
+						</view>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
 						<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="change_order(i.id)">
@@ -49,13 +51,15 @@
 			<view class="my-order">
 				<view class="order-all-order">
 					<view class="order"> 我的订单 </view>
-					<view class="all-order" @tap="go_to_order(0)"> 全部订单 > </view>
+					<view class="all-order" @tap="go_to_order(0)"> 全部订单 
+					 <image class="unfold_img" src="/static/images/unfold.png" mode="widthFix"></image>
+					</view>
 				</view>
 				<view class="order-message">
 					<view class="order-list" @tap="go_to_order(1)">
 						<view class="oder-image-number">
 							<view class="order-image">
-								<image src="../../static/images/my-obligation.png" mode=""></image>
+								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_unpaid.png" mode="widthFix"></image>
 							</view>
 							<view class="order-number"> {{orderList.need_pay}} </view>
 						</view>
@@ -64,7 +68,7 @@
 					<view class="order-list" @tap="go_to_order(2)">
 						<view class="oder-image-number" >
 							<view class="order-image">
-								<image src="../../static/images/my-account-paid.png" mode=""></image>
+								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_paid.png" mode="widthFix"></image>
 							</view>
 							<view class="order-number"> {{orderList.pay}} </view>
 						</view>
@@ -73,7 +77,7 @@
 					<view class="order-list" @tap="go_to_order(3)">
 						<view class="oder-image-number" >
 							<view class="order-image">
-								<image src="../../static/images/my-completed.png" mode=""></image>
+								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_complete.png" mode="widthFix"></image>
 							</view>
 						</view>
 						<view class="order-name"> 已完成 </view>
@@ -81,7 +85,7 @@
 					<view class="order-list" @tap="go_to_comment">
 						<view class="oder-image-number">
 							<view class="order-image">
-								<image src="../../static/images/my-evaluate.png"></image>
+								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_evaluated.png" mode="widthFix"></image>
 							</view>
 							<view class="order-number"> {{orderList.not_comment}} </view>
 						</view>
@@ -90,7 +94,7 @@
 					<view class="order-list" @tap="go_to_order(4)">
 						<view class="oder-image-number" >
 							<view class="order-image">
-								<image src="../../static/images/my-refund.png" mode=""></image>
+								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_refund.png" mode="widthFix"></image>
 							</view>
 						</view>
 						<view class="order-name"> 已退款 </view>
@@ -116,7 +120,7 @@
 					<view class="serve-tool-list" v-for="(item,index) in serveToolList"  :key='index'>
 						<navigator class="tool-item" :url="'/pages'+item.page">
 							<view class="tool-image">
-								<image :src="item.icon" ></image>
+								<image :src="item.icon" mode="widthFix"></image>
 							</view>
 							<view class="tool-name"> {{item.name}} </view>
 						</navigator>
@@ -274,6 +278,7 @@
 		onHide:function(){
 			let that = this
 			that.offset = 0
+			that.productList = []
 		},
 		onReachBottom: function() {
 			let that = this;
@@ -563,6 +568,8 @@
 
 	.user-head-portrait-name-phone-set .set {
 		color: #FFFFFF;
+		display: flex;
+		align-items: center;
 	}
 	
 	.eye_img image{
@@ -608,18 +615,18 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 35rpx;
+		padding: 30rpx 35rpx;
 		font-size: 28rpx;
 		color: #111111;
 	}
-
-	.order,
-	.all-order {
+	.order{
 		width: 40%;
+		font-weight: bolder;
 	}
-
+	
 	.all-order {
-		text-align: end;
+		display: flex;
+		align-items: center;
 	}
 
 	.all-order text {
@@ -652,7 +659,6 @@
 
 	.order-image image {
 		width: 50rpx;
-		height: 46rpx;
 	}
 
 	.order-number {
@@ -734,10 +740,18 @@
 		display: flex;
 		align-items: center;
 	}
+	.go_img{
+		width: 24rpx;
+		margin-left: 6rpx;
+		transform:rotate(180deg);
+	}
+	.unfold_img{
+		width: 24rpx;
+		margin-left: 6rpx;
+		transform:rotate(270deg);
+	}
 
 	.subject-content {
 		background-color: #F6F6F6;
-		/* display: flex;
-		justify-content: space-between; */
 	}
 </style>

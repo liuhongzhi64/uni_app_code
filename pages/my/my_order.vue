@@ -1,5 +1,5 @@
 <template>
-	<view class="my_order">
+	<view class="my_order" >
 		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
@@ -350,7 +350,7 @@
 							</view>
 							<!-- 没有订单 -->
 							<view class="no_have_order" v-else :style="[{'min-height':height-menuBottom-320+'px'}]">
-								<image src="../../static/images/cartBg.png" mode="heightFix"></image>
+								<image src="https://xcx.hmzixin.com/upload/images/3.0/cat_no.png" mode="heightFix"></image>
 								<view class="go_to_see_button">
 									<button class="go_my" type="default" size="mini" @tap="go_to_page('index')">
 										去首页
@@ -365,7 +365,10 @@
 				</scroll-view>
 			</view>
 		</view>
-		<view class="top-button" @click="ToTop" v-if="showTop"> TOP </view>
+		<view class="top-button" @click="ToTop" v-if="showTop">  
+		<!-- order_top.png -->
+			TOP 
+		</view>
 		<!-- 优惠信息 -->
 		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">
 			<view class="discount-hint">
@@ -927,6 +930,10 @@
 </script>
 
 <style scoped>
+	.my_order{
+		background-color: #F6F6F6;
+		height: 100vh;
+	}
 	.top-bar {
 		text-align: center;
 		font-size: 40rpx;
@@ -1433,7 +1440,7 @@
 		justify-content: center;
 	}
 	.no_have_order image{
-		height: 260rpx;
+		width: 60%;
 	}
 	.go_to_see_button{
 		padding-top: 60rpx;

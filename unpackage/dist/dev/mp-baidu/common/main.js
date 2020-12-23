@@ -16,7 +16,6 @@ _vue.default.config.productionTip = false;
 _App.default.mpType = 'app';
 
 _vue.default.prototype.$request = _common.default;
-
 var app = new _vue.default(_objectSpread({},
 _App.default));
 
@@ -95,11 +94,13 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   globalData: {
     platform: '' },
 
+
   onLaunch: function onLaunch() {
     // console.log('App Launch')
   },
   onShow: function onShow() {
     // console.log('App Show')
+
     var that = this;
     var platform = '';
 
@@ -111,7 +112,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-    getApp().globalData.platform = platform;
+
+
+
+    if (platform != 'tuotiao') {
+      getApp().globalData.platform = platform;
+    }
     that.platform = platform;
   },
   onHide: function onHide() {

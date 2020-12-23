@@ -1,6 +1,6 @@
 <template>
 	<view class="my_card_use"> 
-		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :barImage='barImage' :backImage='backImage' :barName='barName'
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>		 
 		<view class="user-card-top" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="top-item" v-for="(i,k) in topList" :key='k' > 			
@@ -74,12 +74,10 @@
 								</view>
 							</view>
 							<view class="no-have-porduct" v-if="porductList.length==0">
-								<view class="Ticket-number">
-									<view class="images">
-										<image src="../../static/images/cartBg.png" mode=""></image>
-									</view>																		
-									<view class="no-have-ticket">喵！暂无相关商品可用此卡券~</view>
-								</view>
+								<view class="no-have-images">
+									<image class="no-have-images" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+								</view>																		
+								<view class="no-have-ticket">喵！暂无相关商品可用此卡券~</view>
 							</view>
 						</view>
 					</view>					
@@ -104,12 +102,11 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/return.png',
 				title: '我的卡券',
-				barImage: '../static/images/refresh.png',
 				changeBtn:0,
 				topList:[
 					{name:'全部分类',type:1,list:[{sort_tall:false,sort_low:false}]},
@@ -562,6 +559,9 @@
 		font-size: 20rpx;
 		line-height: 32rpx;
 		color: #999999;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 	.no-have-ticket {
 		text-align: center;

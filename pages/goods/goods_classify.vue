@@ -1,14 +1,14 @@
 <template>
 	<view class="goods_classify">
 		<view class="goods_top_tar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
-			<view class="left_input" :style="[{'height':menuHeight+'px','border-radius':menuHeight/2+'px'}]">
+			<view class="left_input" :style="[{'height':menuHeight+'px','border-radius':menuHeight/2+'px'}]" @tap="top_go('search')">
 				<image class="search-icon" src="/static/images/search_icon.png"></image>
 			</view>
-			<view class="cart_info" >
+			<view class="cart_info" @tap="top_go('cart')">
 				<image class="cart_img" src="/static/images/cart.png" ></image>
 				<view class="cart_num"> {{ cart_number }} </view>
 			</view>
-			<view class="message_info">
+			<view class="message_info" @tap="top_go('message')">
 				<image class="message_img" src="/static/images/consulting.png" ></image>
 				<view class="message_num"> {{ message_number }} </view>
 			</view>
@@ -119,10 +119,7 @@
 				cart_number: 0, //购物车数量
 				message_number: 0, //消息
 				topSearchContent: '', //头部搜索框的推荐内容
-				intervalTime: 3000, //自动切换时间间隔
-				durationTime: 1000, //	滑动动画时长
 				height: 0,
-				scrollHeight: 0,
 				btnnum: 0, //当前选中的
 				leftList: [{
 					id: 0,
@@ -312,8 +309,24 @@
 				uni.navigateTo({
 					url: `/pages/goods/goods_list?name=${listName}&id=${id}`,
 				})
+			},
+			top_go:function(info){
+				if(info=='cart'){
+					uni.navigateTo({
+						url: `/pages/cart/cart`,
+					})
+				}
+				else if(info=='message'){
+					uni.navigateTo({
+						url: '/pages/message/message',
+					})
+				}
+				else if(info=='search'){
+					uni.navigateTo({
+						url: `/pages/search/search`,
+					})
+				}
 			}
-
 		}
 
 	}

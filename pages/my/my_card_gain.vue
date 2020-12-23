@@ -56,7 +56,7 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
 				backImage: '/static/images/return.png',

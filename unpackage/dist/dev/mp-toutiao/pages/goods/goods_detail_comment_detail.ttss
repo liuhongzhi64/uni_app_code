@@ -49,9 +49,20 @@
 	color: #fa3475;
 	font-size: 24rpx;
 }
-.top-swiper.data-v-4b99a0d4,.swiper.data-v-4b99a0d4,.swiper image.data-v-4b99a0d4{
+.top-swiper.data-v-4b99a0d4,.swiper.data-v-4b99a0d4,.swiper .image.data-v-4b99a0d4{
 	height: 760rpx;
 	width: 100%;
+	background-color: #000000;
+}
+.video_info.data-v-4b99a0d4{
+	position: relative;
+}
+.video_img.data-v-4b99a0d4{
+	width: 180rpx;
+	height: 180rpx;
+	position: absolute;
+	top: 290rpx;
+	left: 285rpx;
 }
 .ueser-comment.data-v-4b99a0d4{
 	background-color: #FFFFFF;

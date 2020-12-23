@@ -301,7 +301,7 @@
 		height: 160rpx;
 		border-radius: 80rpx;
 		margin-right: 24rpx;
-		background-color: #F0F0F0;
+		background-color: #FFFFFF;
 	}
 
 	.user-name-cart {

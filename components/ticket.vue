@@ -100,25 +100,29 @@
 						<view class="receive-times" v-else> 已结束 {{item.get_end_time-time_now }} </view>
 					</view>					
 				</view>
+				<!-- 中间圆 -->
+				<view class="all_circular">
+					<view class="circular" v-for="(i,k) in circular_list" :key="k"></view>
+				</view>
 				<view class="ticket-images-exclusiveName" v-if="!item.status"
 				 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0  && item.store-item.take_store >0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-					<view class="exclusive-name" v-if="item.note" >
-						{{item.note}}
+					<view class="exclusive-name"  >
+						<image class="note_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png " ></image>
+						<text class="this_note">{{item.note}}</text> 
 					</view>
-					<view class="no-exclusive-name" v-else></view>
 					<view class="all-exclusive-price" v-if="item.condition">
 						<view class="exclusive-price"  v-if="item.card_type != 6&&item.card_type != 5" 
 						 :style="[{'padding-top':item.note ? '10rpx':'16rpx'}]">
-							<text>￥</text> {{item.condition}}
+							<text>￥</text>  {{item.min_affect}}
 						</view>
 						<view class="exclusive-price" v-else>
-							{{item.condition}}
+							{{item.min_affect}}
 						</view>
 						<view class="meet-price-user" v-if="item.card_type != 6&&item.card_type != 5" >
-							满{{item.min_affect}}可用
+							满{{item.condition}}可用
 						</view>
 						<view class="meet-price-user" v-else style="margin-top:10rpx ;">
-							{{item.min_affect}}
+							{{item.condition}}
 						</view>
 					</view>
 					<view class="all-exclusive-price" v-else>
@@ -144,24 +148,24 @@
 				<!-- 我的卡券 -->
 				<view class="ticket-images-exclusiveName" v-else
 				 :style="[{'background-image': item.status!=2 && item.use_end_time-time_now>0  ? `linear-gradient(-90deg,  ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-					<view class="exclusive-name" v-if="item.c_note" >
-						{{item.c_note}}
+					<view class="exclusive-name" >
+						<image class="note_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png " ></image>
+						<text class="this_note">{{item.c_note}}</text> 
 					</view>
-					<view class="no-exclusive-name" v-else></view>
 					<view class="all-exclusive-price" v-if="item.c_condition">
 						<view class="exclusive-price" 
 						 v-if="item.c_card_type!=6&&item.c_card_type != 5" 
 						 :style="[{'padding-top':item.c_note ? '10rpx':'16rpx'}]">
-							<text>￥</text> {{item.c_condition}}
+							<text>￥</text> {{item.c_min_affect}}
 						</view>
 						<view class="exclusive-price" v-else>
-							{{item.c_condition}}
+							{{item.c_min_affect}}
 						</view>
 						<view class="meet-price-user" v-if="item.c_card_type!=6&&item.c_card_type != 5">
-							满{{item.c_min_affect}}可用
+							满{{item.c_condition}}可用
 						</view>
 						<view class="meet-price-user" v-else style="margin-top:10rpx ;">
-							{{item.c_min_affect}}
+							{{item.c_condition}}
 						</view>
 					</view>
 					<view class="all-exclusive-price" v-else>
@@ -174,14 +178,14 @@
 						</view>
 					</view>	
 					<view class="useing-ticket"
-					 v-if="item.c_use_channel == 0 && item.c_card_type == 1 || item.c_card_type ==2 || item.c_card_type ==3 ||item.c_card_type ==4 "
+					 v-if="item.c_use_channel != 1"
 					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
 					 @tap='userCard(item.c_id,item.status)'>
 						立即使用
 					</view>	
-					<view class="useing-ticket" v-else
+					<view class="useing-ticket" v-else-if="item.c_use_channel == 1 "
 					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0  ?  item.c_card_style: '#999999'}"
-					 @tap='scanCard(item.id)'>
+					 @tap='scan_card(item.c_id)'>
 						立即核销
 					</view>				
 				</view>
@@ -196,26 +200,30 @@
 			</view>
 			<!-- 已抢光 -->
 			<view class="ticket-label-images" v-if="item.store-item.take_store==0">
-				<image src="../static/images/loot-all.png" mode=""></image>
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_no.png" mode=""></image>
 			</view>
 			<!-- 已结束 -->
 			<view class="ticket-label-images" v-else-if="item.get_end_time-time_now < 0">
-				<image src="../static/images/ticke-over.png" mode=""></image>
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_end.png" mode=""></image>
 			</view>
 			<!-- 上限 -->
 			<view class="ticket-label-images" v-else-if="item.get_limit-item.salecard_user_count==0">
-				<image src="../static/images/upper-limit.png" mode=""></image>
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_top.png"></image>
 			</view>			
 			<!-- 已失效 -->
 			<view class="ticket-label-images invalid" v-else-if="item.use_end_time-time_now<0 && item.get_end_time-time_now<0">
-				<image src="../static/images/state1.png" mode=""></image>
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_invalid.png" ></image>
 			</view>
 			<!-- 已使用 -->
 			<view class="ticket-label-images invalid" v-else-if="item.status==3">
-				<image src="../static/images/state2.png" mode=""></image>
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_used.png" ></image>
+			</view>
+			<!-- 已核销  -->
+			<view class="ticket-label-images invalid" v-else-if="item.scan==1">
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_off.png " ></image>
 			</view>
 		</view>
-		
+		 <!-- 右边的顶部背景https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png -->
 		<!-- 商品的卡券 -->
 		<view class="ticket-items" v-for="(item,k) in goodsCardsList" :key='k' >
 			<view class="ticket-items-content">
@@ -266,19 +274,19 @@
 				</view>
 				<view class="ticket-images-exclusiveName"
 				 :style="[{'background-image': item.rest_time >0 && item.status>0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
-					<view class="exclusive-name" v-if="item.note" >
-						{{item.note}}
+					<view class="exclusive-name" >
+						<image class="note_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png " ></image>
+						<text class="this_note">{{item.note}}</text> 
 					</view>
-					<view class="no-exclusive-name" v-else></view>
 					<view class="all-exclusive-price" v-if="item.condition">
 						<view class="exclusive-price" v-if="item.card_type != 6" 
-						 :style="[{'padding-top':item.note ? '10rpx':'16rpx'}]"> <text>￥</text> {{item.condition}}
+						 :style="[{'padding-top':item.note ? '10rpx':'16rpx'}]"> <text>￥</text> {{item.min_affect}}
 						</view>
 						<view class="exclusive-price" v-else>
-							{{item.condition}}
+							{{item.min_affect}}
 						</view>
 						<view class="meet-price-user">
-							满{{item.min_affect}}可用
+							满{{item.condition}}可用
 						</view>
 					</view>														
 					<view class="Immediately-receive useing-ticket" v-if="item.status>0"
@@ -391,7 +399,8 @@
 		},
 		data() {
 			return {
-				show:false
+				show:false,
+				circular_list:['','','','','','','','','','','','']
 			}
 		},
 		
@@ -491,8 +500,9 @@
 				this.$emit('useCard', id,state)
 			},
 			// 核销卡券
-			scanCard:function(id){
-				this.$emit('scanCard', id)
+			scan_card:function(id){
+				this.$emit('scan_card', id)
+				let that = this
 			},
 			// 删除卡券
 			deleteCard:function(id){
@@ -540,6 +550,7 @@
 		display: flex;
 		justify-content: center;
 		border-bottom: 1rpx dashed #999999;
+		position: relative;
 	}
 	.ticket-items-content-applet{
 		display: flex;
@@ -568,15 +579,15 @@
 
 	.ticket-labels {
 		padding: 0 9rpx;
-		font-size: 22rpx;
+		font-size: 20rpx;
 		margin-right: 10rpx;
 		color: #FFFFFF;
 		background-image: linear-gradient(-90deg, #8834fa 0%, #a25eff 100%);
-		border-radius: 4rpx;
+		border-radius: 8rpx;
 	}
 
 	.ticket-writer {
-		font-size: 28rpx;
+		font-size: 26rpx;
 		color: #111111;
 	}
 
@@ -635,7 +646,6 @@
 	}
 
 	.ticket-images-exclusiveName {
-		/* padding: 0 30rpx; */
 		width: 248rpx;
 		min-height: 240rpx;
 		border-top-right-radius: 16rpx;
@@ -650,16 +660,29 @@
 	.exclusive-name {
 		width: 128rpx;
 		height: 36rpx;
+		position: relative;
+	}
+	.note_img{
+		width: 128rpx;
+		height: 36rpx;
+		position: absolute;
+		top: -6rpx;
+		z-index: 1;
+		right: 0;
+	}
+	.this_note{
+		width: 128rpx;
+		height: 36rpx;
 		text-align: center;
-		background-image: linear-gradient(0deg, #070606 0%, #303030 100%);
-		border-radius: 0rpx 0rpx 16rpx 16rpx;
+		position: absolute;
 		font-size: 20rpx;
 		line-height: 36rpx;
+		color: #FFFFFF;
+		z-index: 1;
+		top: -8rpx;
+		right: 0;
 	}
-	.no-exclusive-name{
-		width: 128rpx;
-		height: 26rpx;
-	}
+	
 
 	.exclusive-price {
 		font-size: 48rpx;
@@ -801,6 +824,24 @@
 		height: 44rpx;
 		border-radius: 22rpx;
 		border: 1rpx solid #ff6699;
+		background-color: #FFFFFF;
+	}
+	
+	.all_circular{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		margin-left: 5rpx;
+		width: 10rpx;
+		position: absolute;
+		right: 245rpx;
+		top: 0;
+		height: 100%;
+	}
+	.circular{
+		width: 10rpx;
+		height: 10rpx;
+		border-radius: 10rpx;
 		background-color: #FFFFFF;
 	}
 	

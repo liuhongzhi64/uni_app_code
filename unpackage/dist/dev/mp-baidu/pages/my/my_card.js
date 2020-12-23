@@ -130,7 +130,43 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 528));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 500));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 479));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab */ "components/swiper-tab").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var ticket = function ticket() {__webpack_require__.e(/*! require.ensure | components/ticket */ "components/ticket").then((function () {return resolve(__webpack_require__(/*! ../../components/ticket.vue */ 507));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -225,7 +261,8 @@ __webpack_require__.r(__webpack_exports__);
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
-      barName: 'particularsPage', //导航条名称
+      height: 0,
+      barName: 'back', //导航条名称
       topBackgroundColor: '#111111',
       color: '#FFFFFF',
       backImage: '/static/images/return.png',
@@ -276,8 +313,16 @@ __webpack_require__.r(__webpack_exports__);
       card_state: 1, //1可使用2冻结中3已失效4已使用
       limit: 4, //	每页多少条
       offset: 1, //页数
-      get_count: 0 //可领取数量
-    };
+      get_count: 0, //可领取数量
+      frozen_explain_list: [
+      '1）若卡券是下单后赠送的、支付有礼赠送的，需要核销订单后卡券才可使用;',
+      '2）若相关订单发生退款，则赠送的卡券将失效，或者赠送的卡券未在规定时间内核销使用也将失效;',
+      '3）失效的卡券将不予补发;',
+      '4）若提前领取卡券，还未到使用时间，也将处于冻结状态.'],
+
+      scan_info: {},
+      show_scan: false };
+
   },
   onReachBottom: function onReachBottom() {
     var that = this;
@@ -292,6 +337,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
+    that.height = uni.getSystemInfoSync().windowHeight;
     // 判定运行平台
     var platform = getApp().platform || getApp().globalData.platform;
     if (platform == 'Applets') {
@@ -326,37 +372,29 @@ __webpack_require__.r(__webpack_exports__);
         limit: that.limit,
         offset: that.offset };
 
-      if (uni.getStorageSync("token")) {
-        that.request.uniRequest("card", dataInfo).then(function (res) {
-          if (res.data.code == 1000 && res.data.status == 'ok') {
-            var data = res.data.data;
-            that.tabBars[0].number = data.num.all;
-            that.tabBars[1].number = data.num.online;
-            that.tabBars[2].number = data.num.offline;
-            that.tabBars[3].number = data.num.gift;
-            that.tabBars[4].number = data.num.experience;
-            that.get_count = data.get_count;
-            that.time_now = data.time_now;
-            for (var i = 0; i < data.cards.length; i++) {
-              data.cards[i].showTicketDetails = false;
-              data.cards[i].arrowImages = '/static/images/arrow-down.png';
-              var startTime = data.cards[i].use_start_time;
-              data.cards[i].c_use_start_time = that.setTimer(startTime);
-              var useTime = data.cards[i].use_end_time;
-              data.cards[i].c_use_end_time = that.setTimer(useTime);
-            }
-            that.cardsList = that.cardsList.concat(data.cards);
-            console.log(data, that.time_now);
-          } else {
-            console.log('没有数据');
+      that.request.uniRequest("card", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.tabBars[0].number = data.num.all;
+          that.tabBars[1].number = data.num.online;
+          that.tabBars[2].number = data.num.offline;
+          that.tabBars[3].number = data.num.gift;
+          that.tabBars[4].number = data.num.experience;
+          that.get_count = data.get_count;
+          that.time_now = data.time_now;
+          for (var i = 0; i < data.cards.length; i++) {
+            data.cards[i].showTicketDetails = false;
+            data.cards[i].arrowImages = '/static/images/arrow-down.png';
+            var startTime = data.cards[i].use_start_time;
+            data.cards[i].c_use_start_time = that.setTimer(startTime);
+            var useTime = data.cards[i].use_end_time;
+            data.cards[i].c_use_end_time = that.setTimer(useTime);
           }
-        });
-      } else {
-        this.request.showToast('未登录,将为您跳转到登录页面');
-        uni.navigateTo({
-          url: '/pages/login/login_phone' });
-
-      }
+          that.cardsList = that.cardsList.concat(data.cards);
+        } else if (res.data.code == 3005 && that.offset > 1) {
+          that.request.showToast('没有更多了');
+        }
+      });
     },
 
     setTimer: function setTimer(date) {
@@ -407,7 +445,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 使用卡券
     useCard: function useCard(id, state) {
-      console.log('使用的卡券id:', id, "卡券状态", state);
       var cardId = id;
       if (state == 1) {
         uni.navigateTo({
@@ -436,12 +473,27 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // 核销卡券
-    scanCard: function scanCard(id) {
-      var cardId = id;
-      console.log('核销的卡券id:', cardId);
-      // uni.navigateTo({
-      // 	url: `/pages/check/check_card?id=${cardId}`
-      // });
+    scan_card: function scan_card(id) {
+      console.log(id);
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'salecard_user_scan',
+        card_id: id };
+
+      that.request.uniRequest("card", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          data.user_time = that.setTimer(data.use_start_time);
+          data.end_time = that.setTimer(data.use_end_time);
+          that.scan_info = data;
+          that.show_scan = !that.show_scan;
+          console.log(data);
+        }
+      });
+    },
+    show_scan_info: function show_scan_info() {
+      var that = this;
+      that.show_scan = !that.show_scan;
     },
     // 删除卡券
     deleteCard: function deleteCard(id) {

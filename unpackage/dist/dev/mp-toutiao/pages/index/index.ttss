@@ -73,7 +73,7 @@
 	font-size: 24rpx;
 	color: #333333;
 	line-height: 30rpx;
-	padding: 0 20rpx;
+	padding:  20rpx;
 }
 .certifications_content.data-v-57280228{
 	overflow: hidden;
@@ -123,7 +123,7 @@
 .dot.data-v-57280228 {
 	position: absolute;
 	bottom: 0rpx;
-	right: 340rpx;
+	right: 49%;
 }
 .tabBarSwiperItem.data-v-57280228 {
 	width: 17%;

@@ -275,6 +275,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     goodsShow: goodsShow },
@@ -406,6 +410,7 @@ __webpack_require__.r(__webpack_exports__);
   onHide: function onHide() {
     var that = this;
     that.offset = 0;
+    that.productList = [];
   },
   onReachBottom: function onReachBottom() {
     var that = this;

@@ -157,12 +157,22 @@
 	padding: 24rpx 0;
 	border-bottom: 1rpx solid #F0F0F0;
 }
+.image_list.data-v-3a45af4c{
+	position: relative;
+}
 .list-content.data-v-3a45af4c{
 	width: 230rpx;
 	height: 230rpx;
 	background-color: #acacac;
 	border-radius: 16rpx;
 	margin-right: 6rpx;
+}
+.video_img.data-v-3a45af4c{
+	width: 60rpx;
+	height: 60rpx;
+	position: absolute;
+	top: 85rpx;
+	left: 85rpx;
 }
 .browse-like-consult.data-v-3a45af4c{
 	display: -webkit-box;

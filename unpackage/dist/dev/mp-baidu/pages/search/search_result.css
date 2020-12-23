@@ -285,9 +285,15 @@
 	width: 80%;
 	font-size: 32rpx;
 }
+.this_name.data-v-062a8834{
+	min-width: 50rpx;
+}
 .zhicheng.data-v-062a8834{
 	font-size: 24rpx;
 	margin-left: 20rpx;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
 }
 .employed_y_case_num.data-v-062a8834{
 	display: -webkit-box;
@@ -344,18 +350,21 @@
 }
 .recommende_goods_name.data-v-062a8834{
 	width: 60%;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
-	line-height: 56rpx;
-	font-size: 24rpx;
 	color: #111111;
+	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+}
+.this_info_content.data-v-062a8834{
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	line-height: 32rpx;
+	font-size: 24rpx;
 }
 .recommende_title.data-v-062a8834{
 	background-color: #ff7b1a;

@@ -1,5 +1,6 @@
 <template>
 	<view class="doctor">
+		<!-- https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg下面的横杆 -->
 		<view class="doctor-top-bar">
 			<view class="bar-name">
 				<view :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px'}]">

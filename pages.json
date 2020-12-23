@@ -4,51 +4,12 @@
 		// 测试时的首页
 				
 		{
-			"path": "pages/goods/goods_classify", //商品分类
-			"style": {}
-		},
-		
-		// 日记
-		{
-			"path": "pages/diary/diary", //日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_personal", //个人主页
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_video", //日记详情（视频）
-			"style": {}
-		},
-		{
-			"path":"pages/diary/about_list",//相关日记或视频
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_about", //日记关联商品+医生
+			"path": "pages/my/my", //我的
 			"style": {}
 		},
 		
 		{
-			"path": "pages/diary/diary_keep", //日记类型图文+视频
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_detail", //日记详情（图文）
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_successs", //发布成功
-			"style": {}
-		},
-		
-		{
-			"path": "pages/diary/diary_write", //写日记
-			"style": {}
-		},
-		{
-			"path": "pages/diary/diary_write_video", //日记类型图文+视频
+			"path": "pages/my/my_card", //我的卡卷
 			"style": {}
 		},
 		 
@@ -126,7 +87,49 @@
 			"style": {}
 		},				
 
+		// 日记
+		{
+			"path": "pages/diary/diary", //日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_personal", //个人主页
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_video", //日记详情（视频）
+			"style": {}
+		},
+		{
+			"path":"pages/diary/about_list",//相关日记或视频
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_about", //日记关联商品+医生
+			"style": {}
+		},
 		
+		{
+			"path": "pages/diary/diary_keep", //日记类型图文+视频
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_detail", //日记详情（图文）
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_successs", //发布成功
+			"style": {}
+		},
+		
+		{
+			"path": "pages/diary/diary_write", //写日记
+			"style": {}
+		},
+		{
+			"path": "pages/diary/diary_write_video", //日记类型图文+视频
+			"style": {}
+		},
 
 		// 医生
 		{
@@ -197,10 +200,7 @@
 			"style": {}
 		},
 
-		{
-			"path": "pages/my/my", //我的
-			"style": {}
-		},
+		
 		// 我的
 		{
 			"path": "pages/my/account_number", //账号管理
@@ -219,10 +219,7 @@
 			"style": {}
 		},
 		
-		{
-			"path": "pages/my/my_card", //我的卡卷
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}

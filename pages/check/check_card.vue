@@ -46,9 +46,6 @@
 								</view>
 							</view>
 							
-							
-							
-							
 						</view>
 						
 						

@@ -4,7 +4,7 @@
 		 :title='title' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
 
 		<view class="about_list_content" :style="[{'padding-top':menuBottom+25+'px','height':height-menuBottom-25+'px'}]">
-			<scroll-view scroll-y="true" >
+			<scroll-view scroll-y="true" v-if="content_list.length>0">
 				<diary :diaryList="content_list" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'
 				 v-if="this_show=='diary'">
 				</diary>
@@ -13,7 +13,7 @@
 						<view class="video_left">
 							<view class="left_content">
 								<view class="left_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==0">
-									<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path">
+									<navigator class="video-images" :url="'/pages/diary/diary_video?id='+item.id">
 										<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 										<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
 									</navigator>
@@ -55,7 +55,7 @@
 						<view class="video_right">
 							<view class="right_content">
 								<view class="right_item" v-for="(item,index) in content_list" :key='index' v-if="index%2==1">
-									<navigator class="video-images" :url="'/pages/diary/diary_video?path='+item.path">
+									<navigator class="video-images" :url="'/pages/diary/diary_video?id='+item.id">
 										<image class="video_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 										<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
 									</navigator>
@@ -97,7 +97,12 @@
 					</view>
 				</view>
 			</scroll-view>
-			
+			<view class="no_have_info" v-else >
+				<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix">
+				</image>
+				<view class="no-have_hint">暂无相关<text v-if="this_show =='diary'">日记</text>
+				<text v-else-if="this_show =='video'">视频</text> </view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -159,10 +164,10 @@
 					}
 				})
 			} else if (platform == 'APP'){
-				that.menuTop = 20
+				that.menuTop = 40
 				that.menuHeight = 32
 				that.menuLeft = 278
-				that.menuBottom = 50
+				that.menuBottom = 70
 			}
 		},
 		methods: {
@@ -286,6 +291,19 @@
 	.about_list_content{
 		background-color: #F0F0F0;
 		padding: 0 20rpx 0;
+	}
+	.no_have_info{
+		background-color: #F0F0F0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		font-size: 28rpx;
+		color: #000000;
+		height: 80%;
+	}
+	.hint_img{
+		width: 60%;
 	}
 	
 	/* 视频 */

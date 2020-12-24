@@ -30,7 +30,7 @@
 				<view class="item-btn">
 					<button type="default" plain="true" class="define-btn" 
 					 :disabled = 'itemBtn' 
-					 :style="{'background-color':classfiyBtn!=-1 ?'#fa3475':'#999999'}"
+					 :style="{'background-color': !itemBtn ?'#fa3475':'#999999'}"
 					 @tap='define()'>
 						确定
 					 </button>
@@ -102,6 +102,7 @@
 				menuHeight: 0,
 				menuLeft: 0,
 				menuBottom: 0,
+				height:0,
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
@@ -148,6 +149,7 @@
 		},
 		onReady() {
 			let that = this;
+			that.height = uni.getSystemInfoSync().screenHeight;
 			let platform = getApp().platform || getApp().globalData.platform
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
@@ -164,10 +166,10 @@
 			} 
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 20
+				that.menuTop = 40
+				that.menuBottom = 70
 				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 50
 				that.menuPaddingRight = 20
 			}
 			

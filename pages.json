@@ -4,7 +4,7 @@
 		// 测试时的首页
 				
 		{
-			"path": "pages/my/my", //我的
+			"path": "pages/doctor/this_doctor", //医生
 			"style": {}
 		},
 		
@@ -202,6 +202,11 @@
 
 		
 		// 我的
+		{
+			"path": "pages/my/my", //我的
+			"style": {}
+		},
+		
 		{
 			"path": "pages/my/account_number", //账号管理
 			"style": {}

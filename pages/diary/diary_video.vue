@@ -11,7 +11,7 @@
 			</view>
 			<!-- 日记详情（视频） -->
 			<view class="video_content" :style="[{'padding-top':menuBottom+10+'px'}]">
-				<video class="play-video" :src="videoUrl" controls :style="[{'height':height-10-menuBottom+'px'}]"
+				<video class="play-video" :src="requestUrl+video_info.path" controls :style="[{'height':height-10-menuBottom+'px'}]"
 				 :auto-pause-if-navigate="true" :enable-play-gesture="true">
 				</video>
 				<view class="right_btn">
@@ -35,21 +35,25 @@
 				</view>
 				<view class="relevant">
 					<view class="relevant_content">
-						<!-- 单个关联商品时 -->
-						<navigator class="relevant_info" v-for="(item,index) in video_info.goods_relation" :key='item.id' :url="'/pages/goods/goods_detail?sku_id='+item.id+'&encrypted_id='+item.encrypted_id" >
-							<image class="info_img" :src="item.head_img"></image>
+						<!-- 单个关联商品时v-for="(item,index) in video_info.goods_relation" :key='item.id' -->
+						<navigator class="relevant_info" v-if="video_info.goods_relation.length>0"
+						 :url="'/pages/goods/goods_detail?sku_id='+video_info.goods_relation[0].id+'&encrypted_id='+video_info.goods_relation[0].encrypted_id" >
+							<image class="info_img" :src="requestUrl+video_info.goods_relation[0].head_img"></image>
 							<view class="info_content">
-								<view class="info_title"> {{ item.goods_name }} </view>
-								<view class="good-price"> <text>￥</text> {{ item.sale_price }} </view>
+								<view class="info_title"> {{ video_info.goods_relation[0].goods_name }} </view>
+								<view class="good-price"> <text>￥</text> {{ video_info.goods_relation[0].sale_price }} </view>
 							</view>
 						</navigator>
 
-						<!-- 单个医生关联 -->
-						<navigator class="relevant_info" v-for="(item,index) in video_info.doctor_relation" :key='item.id' :url="'/pages/doctor/doctor_detail?id='+item.id">
-							<image class="info_img" :src="requestUrl+item.heading"></image>
+						<!-- 单个医生关联 v-for="(item,index) in video_info.doctor_relation" :key='item.id' -->
+						<navigator class="relevant_info" v-if="video_info.doctor_relation.length>0"
+						 :url="'/pages/doctor/doctor_detail?id='+video_info.doctor_relation[0].id">
+							<image class="info_img" :src="requestUrl+video_info.doctor_relation[0].heading"></image>
 							<view class="info_content">
-								<view class="info_title"> {{ item.name }} <text class="zhicheng">{{ item.view }}</text> </view>
-								<view class="view"> {{ item.zhicheng }} </view>
+								<view class="info_title"> {{ video_info.doctor_relation[0].name }}
+								 <!-- <text class="zhicheng">{{ video_info.doctor_relation[0].view }}</text> -->
+								</view>
+								<view class="view"> {{ video_info.doctor_relation[0].zhicheng }} </view>
 							</view>
 						</navigator>
 
@@ -77,7 +81,7 @@
 				<image class="this_back" src="/static/images/back2.png" @click="goBack"></image>
 				<view class="this_title"> {{title}} </view>
 			</view>
-			<video class="play-video" :src="videoUrl" controls
+			<video class="play-video" :src="requestUrl+video_info.path" controls
 			 :style="[{'height':height-10-menuHeight+'px','top':menuHeight+10+'px'}]"
 			 :auto-pause-if-navigate="true" :enable-play-gesture="true">
 				<cover-image class="this_like_img" @tap="collect_video(video_info.is_collect,video_info.id)" 
@@ -106,9 +110,7 @@
 				menuBottom: 0,
 				height: 0,
 				title: '视频详情',
-				topBackgroundColor: '#111111',
-				videoUrl: '',
-				path: "upload/video/videos/202011/25/BJdGKSxEd6A9GxuN9nAGACAbeIWFMIoUzBOsmpQm.mp4",
+				topBackgroundColor: '#000000',
 				video_info: {},
 				this_show: false,
 				platform: '',
@@ -119,12 +121,6 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			if (option.path) {
-				let videoUrl = that.requestUrl + option.path
-				that.videoUrl = videoUrl
-			} else {
-				that.videoUrl = that.requestUrl + that.path
-			}
 			// console.log(option.id,option) 
 			if (option.id) {
 				that.get_video_detail(option.id)
@@ -150,14 +146,12 @@
 					}
 				})
 			} else if (platform == 'APP') {
-				that.menuTop = 30
-				that.menuHeight = 60
+				that.menuHeight = 120
 			}
 		},
 		methods: {
 			// 返回上一级
 			goBack: function() {
-				// console.log('back')
 				uni.navigateBack({
 					delta: 1
 				});

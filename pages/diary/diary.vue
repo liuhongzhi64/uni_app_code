@@ -173,10 +173,10 @@
 				})
 			} else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 20
+				that.menuTop = 40
 				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 50
+				that.menuBottom = 70
 			}
 		},
 		onReachBottom: function() {

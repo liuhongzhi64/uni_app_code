@@ -3,7 +3,28 @@
 	background-color: #F0F0F0;
 	padding: 0 20rpx 0;
 }
-
+.no_have_info.data-v-36a2ab56{
+	background-color: #F0F0F0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	font-size: 28rpx;
+	color: #000000;
+	height: 80%;
+}
+.hint_img.data-v-36a2ab56{
+	width: 60%;
+}
 /* 视频 */
 .this_list.data-v-36a2ab56 {
 	width: 100%;

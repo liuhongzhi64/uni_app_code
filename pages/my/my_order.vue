@@ -366,8 +366,7 @@
 			</view>
 		</view>
 		<view class="top-button" @click="ToTop" v-if="showTop">  
-		<!-- order_top.png -->
-			TOP 
+			<image src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix"></image>
 		</view>
 		<!-- 优惠信息 -->
 		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">
@@ -528,10 +527,10 @@
 				})
 			} 
 			else if (platform == 'APP'){
-				that.menuTop = 20
+				that.menuTop = 40
 				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 50
+				that.menuBottom = 70
 			}
 		},
 		onLoad: function(option) {
@@ -547,12 +546,13 @@
 			}
 			// 广告
 			that.advertising()
-			that.get_my_order()
+			
 		},
 		onShow:function(){
 			let that = this
 			that.timers = 0
-			uni.hideLoading()
+			that.contentList = []
+			that.get_my_order()
 		},
 		onReachBottom: function() {
 			let that = this;
@@ -588,12 +588,8 @@
 					limit: 2
 				}
 				that.request.uniRequest("order", dataInfo).then(res => {
-					uni.showLoading({
-						title: '加载中...'
-					});
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						uni.hideLoading()
 						if(that.listType<2){
 							if (data.length > 0) {
 								for (let i = 0; i < data.length; i++) {
@@ -668,7 +664,6 @@
 							}
 						}
 					}else{
-						uni.hideLoading()
 						if(that.offset!=0){
 							uni.showToast({
 								title: '已经到底啦',
@@ -1355,19 +1350,14 @@
 		color: #fa3475;
 	}
 	.top-button {
-		width: 64rpx;
-		height: 65rpx;
-		line-height: 65rpx;
-		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
-		box-shadow: 0rpx 8rpx 16rpx 0rpx  rgba(250, 53, 118, 0.32);
-		border-radius: 50%;
+		width: 120rpx;
 		position: fixed;
 		right: 40rpx;
 		bottom: 130px;
-		z-index: 99;
-		font-size: 27rpx;
-		color: #FFFFFF;
-		text-align: center;
+		z-index: 9999;
+	}
+	.top-button image{
+		width: 120rpx;
 	}
 	/* 优惠信息 */
 	.discount_content{

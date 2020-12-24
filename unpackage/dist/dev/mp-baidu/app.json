@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/my/my",
+    "pages/doctor/this_doctor",
     "pages/my/my_card",
     "pages/cart/cart",
     "pages/confirm_order/confirm_order",
@@ -39,6 +39,7 @@
     "pages/goods/goods_detail_video",
     "pages/message/message",
     "pages/message/message_detail",
+    "pages/my/my",
     "pages/my/account_number",
     "pages/my/add_address",
     "pages/my/after_sales",

@@ -771,19 +771,14 @@
 	border: none;
 }
 .top-button.data-v-08de1eeb {
-	width: 64rpx;
-	line-height: 65rpx;
-	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
-	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-	border-radius: 50%;
+	width: 120rpx;
 	position: fixed;
 	right: 40rpx;
 	bottom: 130px;
 	z-index: 9999;
-	font-size: 26rpx;
-	color: #FFFFFF;
-	text-align: center;
+}
+.top-button image.data-v-08de1eeb{
+	width: 120rpx;
 }
 /* 新写的样式 */
 .refunded.data-v-08de1eeb {

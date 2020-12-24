@@ -25,7 +25,6 @@
 								</view>
 							</view>
 						</view>
-						
 						<view class="eye_img" @tap="set_show_user()">
 							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye_no.png" v-if="this_show_user"></image>
 							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye.png" v-else></image>
@@ -278,6 +277,7 @@
 		onHide:function(){
 			let that = this
 			that.offset = 0
+			that.set_show_user()
 			that.productList = []
 		},
 		onReachBottom: function() {
@@ -304,10 +304,10 @@
 			} 
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 20
+				that.menuTop = 40
 				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 50
+				that.menuBottom = 70
 			}
 		},
 		methods: {

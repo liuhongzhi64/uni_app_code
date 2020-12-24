@@ -16,7 +16,7 @@
 						<view class="wait-pay">等待付款</view>
 						<!-- 倒计时 -->
 						<view class="residue-time">剩余支付时间:
-							<text>0</text>天<text>0</text>时<text>3</text>分<text>59</text>秒
+							<text>{{ day }}</text>天<text>{{ house }}</text>时<text>{{ second }}</text>分<text>{{ minute }}</text>秒
 						</view>
 						<view class="user-pay-price">
 							在线支付￥<text>{{ order_info.online_pay }}</text>,到院再付￥<text>{{ order_info.offline_pay }}</text>
@@ -38,7 +38,7 @@
 			</view>
 			<!-- 已作废 -->
 			<view class="cancel-order_top" :style="[{'padding-top':menuBottom+40+'px'}]" v-else-if="order_info.status==1">
-				<image src="../../static/images/delete.png" mode=""></image>
+				<image src="/static/images/delete.png" mode=""></image>
 				<view class="cancel_hint">已作废</view>
 			</view>
 		</view>
@@ -100,10 +100,10 @@
 									<view class="failure-time">
 										<view class="time-hint">商品失效时间: {{ over_time }} </view>
 										<view class="hint-image" v-if="order_info.status==7">
-											<image src="../../static/images/refund.png" mode=""></image>
+											<image src="/static/images/refund.png" mode=""></image>
 										</view>
 										<view class="hint-image" v-if="order_info.status==5">
-											<image src="../../static/images/state2.png" mode=""></image>
+											<image src="https://xcx.hmzixin.com/upload/images/3.0/card_used.png" mode=""></image>
 										</view>
 										<view class="hint-text" v-if="order_info.status==2">待使用</view>
 									</view>
@@ -178,7 +178,7 @@
 											<image src="../../static/images/refund.png" mode=""></image>
 										</view>
 										<view class="hint-image" v-if="order_info.status==5">
-											<image src="../../static/images/state2.png" mode=""></image>
+											<image src="https://xcx.hmzixin.com/upload/images/3.0/card_used.png" mode=""></image>
 										</view>
 										<view class="hint-text" v-if="order_info.status==2">待使用</view>
 									</view>
@@ -253,7 +253,7 @@
 											<image src="../../static/images/refund.png" mode=""></image>
 										</view>
 										<view class="hint-image" v-if="order_info.status==5">
-											<image src="../../static/images/state2.png" mode=""></image>
+											<image src="https://xcx.hmzixin.com/upload/images/3.0/card_used.png" mode=""></image>
 										</view>
 										<view class="hint-text" v-if="order_info.status==2">待使用</view>
 									</view>
@@ -451,7 +451,9 @@
 			</view>
 		</view>
 		<!-- 回到顶部 -->
-		<view class="top-button" @click="ToTop" v-if="showTop"> TOP </view>
+		<view class="top-button" @click="ToTop" v-if="showTop"> 
+			<image src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix"></image>
+		</view>
 		<!-- 优惠信息 -->
 		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">
 			<view class="discount-hint">
@@ -536,7 +538,7 @@
 			that.getLike()
 		},
 		onShow:function(){
-			uni.hideLoading()
+			
 		},
 		onReady() {
 			let that = this;
@@ -558,10 +560,10 @@
 			} 
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 20
+				that.menuTop = 40
+				that.menuBottom = 70
 				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 50
 			}
 		},
 		methods: {
@@ -1639,18 +1641,14 @@
 	}
 
 	.top-button {
-		width: 64rpx;
-		line-height: 65rpx;
-		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-		box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-		border-radius: 50%;
+		width: 120rpx;
 		position: fixed;
 		right: 40rpx;
 		bottom: 130px;
 		z-index: 9999;
-		font-size: 26rpx;
-		color: #FFFFFF;
-		text-align: center;
+	}
+	.top-button image{
+		width: 120rpx;
 	}
 
 	/* 新写的样式 */

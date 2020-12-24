@@ -71,8 +71,7 @@ export default {
 							that.showModal("系统错误：" + res.data.code);
 						} else {
 							if (res.data.code !== 1000) {
-								if (res.data.message == '登录失败[1007]' || res.data.message == '登录失败[1016]' || res.data.message ==
-									'登录失败[1004]' || res.data.message == '登录失败[1006]') {
+								if (res.data.code == 1007 || res.data.code == 1016|| res.data.code == 1004 || res.data.code == 1006) {
 									that.showToast(res.data.message)
 									// 后期使用
 									setTimeout(function() {

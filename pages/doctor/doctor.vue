@@ -17,14 +17,8 @@
 								<view id="doctor-item" class="doctor-item" v-for="(i,k) in doctorList" :key='k' :class="{checked :btnnum == k}"
 								 @tap="change(k,i.id)">
 									<view class="doctor-head-portrait-doctorName">
-										<!-- 医生 -->
-										<view class="doctor-head-portrait">
-											<image :src="requestUrl+i.heading" mode=""></image>
-										</view>
-										<!-- 医生名字 -->
-										<view class="doctorName">
-											<view class="doctor-item-content"> {{i.name}} </view>
-										</view>
+										<view class="doctor-head-portrait"><image :src="requestUrl+i.heading" mode=""></image></view>
+										<view class="doctorName"><view class="doctor-item-content"> {{i.name}} </view></view>
 									</view>
 									<view class="checkedBarLine">
 										<view :class="{checkedBar :btnnum == k}"></view>
@@ -91,9 +85,7 @@
 									 v-for="(i,index) in doctorNameList"
 									 :key="index">
 										<view class="recommend-doctor-swiper" >
-											<swiper class="doctor-swiper" 
-											 indicator-dots 
-											 indicator-active-color="#ffffff"
+											<swiper  indicator-dots  indicator-active-color="#ffffff"
 											 :class="[doctorListLength>2?'doctor-swiper':'doctor-swiper-min']">
 												<swiper-item 
 												 v-for="(item,index) in particularDoctorList" 
@@ -128,7 +120,8 @@
 															</view>
 															<view class="consult" @tap='goToConsult'>咨询</view>
 														</view>
-														<view class="recommended_goods" @tap='gotoGoods(i.recommended_goods.id,i.encrypted_id)'
+														<view class="recommended_goods"
+														 @tap='gotoGoods(i.recommended_goods.id,i.recommended_goods.encrypted_id)'
 														 v-if="Object.values(i.recommended_goods).length>0">
 															<view class="goods_left">
 																<view class="goods_title">推</view>
@@ -141,16 +134,14 @@
 																<text class="sale_price"> <text>￥</text> {{i.recommended_goods.sale_price}}</text>
 															</view>
 														</view>		
-														<view class="is_hot" @tap='gotoGoods(i.is_hot.id,i.encrypted_id)'
+														<view class="is_hot" @tap='gotoGoods(i.is_hot.id,i.is_hot.encrypted_id)'
 														 v-if="Object.values(i.is_hot).length>0">
 															<view class="goods_left">
 																<view class="is_hot_title">热</view>
 																<view class="gooss_content">{{i.is_hot.goods_name}}</view>
 															</view>
 															<view class="goods_right">
-																<text class="sale_weight">
-																 {{i.is_hot.sale_weight}}人预约
-																</text>
+																<text class="sale_weight"> {{i.is_hot.sale_weight}}人预约 </text>
 																<text class="sale_price"> <text>￥</text> {{i.is_hot.sale_price}}</text>
 															</view>															
 														</view>
@@ -161,7 +152,6 @@
 									</view>
 									<!-- 拜托了医生 -->
 									<view class="please-doctor" >
-										<!-- 标题 -->
 										<view class="please-doctor-title"> 拜托了医生 </view>
 										<view class="please-doctor-title-line">
 											<view></view>
@@ -326,10 +316,10 @@
 			}
 			else if (platform == 'APP'){
 				that.menuWidth = 90
-				that.menuTop = 20
+				that.menuTop = 40
+				that.menuBottom = 70
 				that.menuHeight = 30
 				that.menuLeft = 278
-				that.menuBottom = 50
 			}			
 		},
 		methods: {
@@ -396,13 +386,12 @@
 			},
 			// 点击播放视频
 			playVideo:function(pivot){
-				// console.log(pivot)
 				let doctorId = pivot.doctor_id
 				let videoId = pivot.video_id
-				console.log('点击了id为'+videoId+'的视频'+',和医生id为'+doctorId)
-				// uni.navigateTo({
-				// 	url: `/pages/diary/diary_video?path=${path}`,
-				// })
+				// console.log('点击了id为'+videoId+'的视频'+',和医生id为'+doctorId)
+				uni.navigateTo({
+					url: `/pages/diary/diary_video?id=${videoId}`,
+				})
 			},
 			// 医生主页
 			goToDoctor:function(doctorId,heading){
@@ -417,7 +406,8 @@
 				})
 			},
 			// 点击商品
-			gotoGoods: function(id) {
+			gotoGoods: function(id,encrypted_id) {
+				// console.log(id,encrypted_id)
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
 				})
@@ -766,7 +756,7 @@
 
 	.doctor-swiper {
 		color: #FFFFFF;
-		height: 1480rpx;
+		height: 1200rpx;
 	}
 	.doctor-swiper-min{
 		height: 990rpx;
@@ -889,7 +879,7 @@
 		margin-right: 10rpx;
 	}
 	.gooss_content{
-		width: 90%;
+		width: 80%;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
@@ -900,12 +890,13 @@
 	.goods_right{
 		display: flex;
 		align-items: center;
+		/* flex: 1; */
 	}
 	
 	.sale_weight{
 		color: #999999;
 		margin-right: 10rpx;
-		min-width: 100rpx;
+		min-width: 120rpx;
 		text-align: right;
 	}
 	.sale_price{

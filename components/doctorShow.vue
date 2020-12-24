@@ -9,7 +9,7 @@
 				 :key='index' 
 				 v-if="index%2==0" 
 				 >
-					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
+					<image @tap='playVideo(item.id)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
 					<image :src="requestUrl+item.heading" v-else class="cover_img"></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
@@ -56,7 +56,7 @@
 				 :key='index' 
 				 v-if="index%2==1" 
 				 >
-					<image @tap='playVideo(item.path)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
+					<image @tap='playVideo(item.id)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
 					<image :src="requestUrl+item.heading" v-else class="cover_img"></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
@@ -113,9 +113,9 @@
 			}
 		},
 		methods: {
-			playVideo:function(path){
+			playVideo:function(id){
 				uni.navigateTo({
-					url: `/pages/diary/diary_video?path=${path}`,
+					url: `/pages/diary/diary_video?id=${id}`,
 				})
 			},
 			// 点赞

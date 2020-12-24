@@ -179,12 +179,12 @@
 					</view>	
 					<view class="useing-ticket"
 					 v-if="item.c_use_channel != 1"
-					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
-					 @tap='userCard(item.c_id,item.status)'>
+					 :style="{'color': item.c_status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
+					 @tap='userCard(item.c_id,item.c_status)'>
 						立即使用
 					</view>	
 					<view class="useing-ticket" v-else-if="item.c_use_channel == 1 "
-					 :style="{'color': item.status!=2 && item.use_end_time-time_now>0  ?  item.c_card_style: '#999999'}"
+					 :style="{'color': item.c_status!=2 && item.use_end_time-time_now>0  ?  item.c_card_style: '#999999'}"
 					 @tap='scan_card(item.c_id)'>
 						立即核销
 					</view>				
@@ -211,7 +211,8 @@
 				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_top.png"></image>
 			</view>			
 			<!-- 已失效 -->
-			<view class="ticket-label-images invalid" v-else-if="item.use_end_time-time_now<0 && item.get_end_time-time_now<0">
+			<view class="ticket-label-images invalid"
+			 v-else-if="item.use_end_time-time_now<0 && item.use_end_time!=0 ">
 				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_invalid.png" ></image>
 			</view>
 			<!-- 已使用 -->
@@ -497,6 +498,7 @@
 			
 			// 使用卡券
 			userCard:function(id,state){
+				console.log(state)
 				this.$emit('useCard', id,state)
 			},
 			// 核销卡券

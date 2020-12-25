@@ -4,6 +4,7 @@
 }
 .login .login-top.data-v-0a73af49 {
 	color: #FFFFFF;
+	background-image: -webkit-gradient(linear, left top, right top, from(#FF72AA),to(#F54F8F));
 	background-image: -webkit-linear-gradient(left, #FF72AA,#F54F8F);
 	background-image: linear-gradient(to right, #FF72AA,#F54F8F);
 	/* background-image: linear-gradient(90deg, #ff6699 0%, #fa3475 100%); */
@@ -79,8 +80,10 @@
 	background-color: #FFFFFF;
 	padding: 72rpx 45rpx;
 	margin-top: -20rpx;
-	border-radius: 24rpx;
-	box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.16);
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
+	-webkit-box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.16);
+	        box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.16);
 }
 .phone.data-v-0a73af49 {
 	border-bottom: 2rpx solid #e0e0e0;
@@ -130,7 +133,8 @@
 .verification.data-v-0a73af49 {
 	width: 200rpx;
 	height: 70rpx;
-	border-radius: 35rpx;
+	-webkit-border-radius: 35rpx;
+	        border-radius: 35rpx;
 	line-height: 70rpx;
 	font-size: 24rpx;
 	color: #fa3475;
@@ -145,9 +149,11 @@
 	line-height: 80rpx;
 	margin-top: 70rpx;
 	text-align: center;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fa3475), to(#ff6699));
 	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	font-size: 28rpx;
 	color: #ffffff;
 	border: none !important;
@@ -191,7 +197,8 @@
 .advertising-images image.data-v-0a73af49 {
 	width: 168rpx;
 	height: 168rpx;
-	box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
+	-webkit-box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
+	        box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
 	-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.3) 0%, transparent 40%, transparent 100%);
 }
 

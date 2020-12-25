@@ -97,32 +97,56 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.content_list, function(item, index) {
-    var g0 = Object.prototype.toString.call(item.recommended_goods)
-    var g1 = Object.prototype.toString.call(item.hot_goods)
-    return {
-      $orig: _vm.__get_orig(item),
-      g0: g0,
-      g1: g1
-    }
-  })
+  var l0 =
+    _vm.content_list.length > 0 && _vm.tabIndex == 1
+      ? _vm.__map(_vm.content_list, function(item, index) {
+          var $orig = _vm.__get_orig(item)
 
-  var l1 = _vm.__map(_vm.content_list, function(item, index) {
-    var g2 = Object.prototype.toString.call(item.goods_relation)
-    return {
-      $orig: _vm.__get_orig(item),
-      g2: g2
-    }
-  })
+          var g0 = Object.prototype.toString.call(item.recommended_goods)
+          var g1 = Object.prototype.toString.call(item.hot_goods)
+          return {
+            $orig: $orig,
+            g0: g0,
+            g1: g1
+          }
+        })
+      : null
+  var l1 =
+    _vm.content_list.length > 0 &&
+    !(_vm.tabIndex == 1) &&
+    !(_vm.tabIndex == 2) &&
+    _vm.tabIndex == 3
+      ? _vm.__map(_vm.content_list, function(item, index) {
+          var $orig = _vm.__get_orig(item)
 
-  var l2 = _vm.__map(_vm.content_list, function(item, index) {
-    var g3 = Object.prototype.toString.call(item.goods_relation)
-    return {
-      $orig: _vm.__get_orig(item),
-      g3: g3
-    }
-  })
+          var g2 =
+            index % 2 == 0
+              ? Object.prototype.toString.call(item.goods_relation)
+              : null
+          return {
+            $orig: $orig,
+            g2: g2
+          }
+        })
+      : null
+  var l2 =
+    _vm.content_list.length > 0 &&
+    !(_vm.tabIndex == 1) &&
+    !(_vm.tabIndex == 2) &&
+    _vm.tabIndex == 3
+      ? _vm.__map(_vm.content_list, function(item, index) {
+          var $orig = _vm.__get_orig(item)
 
+          var g3 =
+            index % 2 == 1
+              ? Object.prototype.toString.call(item.goods_relation)
+              : null
+          return {
+            $orig: $orig,
+            g3: g3
+          }
+        })
+      : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -166,7 +190,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 529));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 494));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

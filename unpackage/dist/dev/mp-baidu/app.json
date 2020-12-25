@@ -1,7 +1,8 @@
 {
   "pages": [
+    "pages/doctor/doctor",
     "pages/doctor/this_doctor",
-    "pages/my/my_card",
+    "pages/doctor/doctor_detail",
     "pages/cart/cart",
     "pages/confirm_order/confirm_order",
     "pages/confirm_order/no_refund",
@@ -24,9 +25,7 @@
     "pages/diary/diary_successs",
     "pages/diary/diary_write",
     "pages/diary/diary_write_video",
-    "pages/doctor/doctor",
     "pages/doctor/doctor_certificate",
-    "pages/doctor/doctor_detail",
     "pages/doctor/doctor_photo",
     "pages/goods/goods_classify",
     "pages/goods/goods_detail",
@@ -44,6 +43,7 @@
     "pages/my/add_address",
     "pages/my/after_sales",
     "pages/my/harves_address",
+    "pages/my/my_card",
     "pages/my/my_card_gain",
     "pages/my/my_card_use",
     "pages/my/my_collection",

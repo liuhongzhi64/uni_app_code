@@ -51,7 +51,8 @@
 .content-all-bar.data-v-61fd5b0e {
 	width: 100%;
 	background-color: #FFFFFF;
-	border-radius: 0 0 24rpx 24rpx;
+	-webkit-border-radius: 0 0 24rpx 24rpx;
+	        border-radius: 0 0 24rpx 24rpx;
 }
 .content-bar.data-v-61fd5b0e {
 	white-space: nowrap;
@@ -131,7 +132,8 @@
 .head_ico.data-v-61fd5b0e {
 	width: 48rpx;
 	height: 48rpx;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	border: 1px solid red;
 	margin-right: 10rpx;
 }
@@ -163,7 +165,8 @@
 	background-color: #d0d0d0;
 	width: 40rpx;
 	height: 40rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -178,7 +181,9 @@
 .collect_num .like.data-v-61fd5b0e {
 	width: 42rpx;
 	height: 42rpx;
-	border-radius: 21rpx;
+	-webkit-border-radius: 21rpx;
+	        border-radius: 21rpx;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fa3475), to(#ff6699)), -webkit-gradient(linear, left top, left bottom, from(#f56fb4), to(#f56fb4));
 	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%), -webkit-linear-gradient(#f56fb4, #f56fb4);
 	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#f56fb4, #f56fb4);
 	display: -webkit-box;
@@ -229,7 +234,8 @@
 .left_item.data-v-61fd5b0e,
 .right_item.data-v-61fd5b0e {
 	background-color: #FFFFFF;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	width: 350rpx;
 	margin-bottom: 20rpx;
 }
@@ -238,7 +244,8 @@
 }
 .video_img.data-v-61fd5b0e {
 	width: 350rpx;
-	border-radius: 16rpx 16rpx 0 0;
+	-webkit-border-radius: 16rpx 16rpx 0 0;
+	        border-radius: 16rpx 16rpx 0 0;
 	background-color: #EEEEEE;
 	display: block;
 }
@@ -279,7 +286,8 @@
 	font-size: 18rpx;
 	background-color: #999999;
 	color: #FFFFFF;
-	border-radius: 5rpx;
+	-webkit-border-radius: 5rpx;
+	        border-radius: 5rpx;
 	margin-right: 20rpx;
 	overflow: hidden;
 	display: -webkit-box;

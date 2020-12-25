@@ -105,40 +105,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l2 = _vm.__map(_vm.doctor_classfiy_list, function(item, index) {
-    var l1 = _vm.__map(_vm.classfiy_doctor_list, function(is, k) {
-      var l0 = _vm.__map(is, function(i, z) {
-        var g0 = Math.round(i.employed_time / 31104000)
-        var g1 = Object.values(i.recommended_goods)
-        var g2 = Object.values(i.is_hot)
-        return {
-          $orig: _vm.__get_orig(i),
-          g0: g0,
-          g1: g1,
-          g2: g2
-        }
-      })
-
-      return {
-        $orig: _vm.__get_orig(is),
-        l0: l0
-      }
-    })
-
-    return {
-      $orig: _vm.__get_orig(item),
-      l1: l1
-    }
-  })
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        l2: l2
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -170,17 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 536));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var diary = function diary() {__webpack_require__.e(/*! require.ensure | components/diary */ "components/diary").then((function () {return resolve(__webpack_require__(/*! ../../components/diary.vue */ 494));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 501));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -333,7 +289,9 @@ __webpack_require__.r(__webpack_exports__);
 
 {
   components: {
-    doctor: doctor },
+    topBar: topBar,
+    doctor: doctor,
+    diary: diary },
 
   data: function data() {
     return {
@@ -341,29 +299,28 @@ __webpack_require__.r(__webpack_exports__);
       menuHeight: 0,
       menuBottom: 0,
       height: 0,
+      barName: 'back', //导航条名称
+      topBackgroundColor: '#000000',
+      color: '#FFFFFF',
+      backImage: '/static/images/back2.png',
+      title: '主页',
       requestUrl: '',
-      doctor_list: [],
-      doctor_change: 0,
-      doctor_detail_info: {},
-      doctor_classfiy_list: [],
-      change_classfiy: 0,
-      classfiy_doctor_list: [],
-      please_doctor_list: [],
-      change_please: 0,
-      doctor_please_list: [] };
+      doctor_id: 4, //4
+      doctor_info: {},
+      certificate_list: [],
+      doctor_heading: '',
+      doctor_name: '' };
 
   },
-  onShow: function onShow() {
-
-  },
-  onLoad: function onLoad() {
-    var that = this;
+  onLoad: function onLoad(option) {
     this.request = this.$request;
+    var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    that.get_doctor_list();
-    that.get_doctor_classfiy();
-    that.get_please_list();
+    // that.doctor_id = option.id
+    that.get_detail();
+    that.get_doctor_certificate();
   },
+
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
@@ -377,106 +334,137 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    if (platform == 'APP') {
+    } else if (platform == 'APP') {
       that.menuTop = 40;
-      that.menuHeight = 30;
       that.menuBottom = 70;
+      that.menuHeight = 30;
     }
   },
   methods: {
-    get_doctor_list: function get_doctor_list() {
+    get_detail: function get_detail() {
       var that = this;
       var dataInfo = {
-        interfaceId: 'start_list' };
+        interfaceId: 'info',
+        doctor_id: that.doctor_id };
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      this.request.uniRequest("doctor", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.doctor_list = data;
-          that.change_doctor(0, data[0].id);
-        }
-      });
-    },
-    change_doctor: function change_doctor(index, id) {
-      var that = this;
-      that.doctor_change = index;
-      var dataInfo = {
-        interfaceId: 'star',
-        doctor_id: id };
-
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_detail_info = data;
-        }
-      });
-    },
-    // 医生中心分类
-    get_doctor_classfiy: function get_doctor_classfiy() {var _this = this;
-      var that = this;
-      var dataInfo = {
-        interfaceId: 'centon' };
-
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_classfiy_list = data;
-          _this.change_doctor_classfiy(0, data[0].id);
-        }
-      });
-    },
-    change_doctor_classfiy: function change_doctor_classfiy(index, id) {
-      var that = this;
-      that.change_classfiy = index;
-      var dataInfo = {
-        interfaceId: 'docker_centon',
-        doctor_centon_id: id };
-
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.classfiy_doctor_list = data;
-          that.classfiy_doctor_list = that.group(that.classfiy_doctor_list, 2);
+          data.goods = that.group(data.goods, 2);
+          that.doctor_info = data;
+          that.title = data[0].name + '的' + that.title;
+          that.doctor_heading = that.requestUrl + data[0].heading;
+          that.doctor_name = data[0].name;
         }
       });
     },
     // 分割数组
-    group: function group(array, number) {
+    group: function group(array, subGroupLength) {
       var index = 0;
       var newArray = [];
       while (index < array.length) {
-        newArray.push(array.slice(index, index += number));
+        newArray.push(array.slice(index, index += subGroupLength));
       }
       return newArray;
     },
-    // 拜托医生
-    get_please_list: function get_please_list() {
+    // 获取证书
+    get_doctor_certificate: function get_doctor_certificate() {
       var that = this;
       var dataInfo = {
-        interfaceId: 'video_category' };
+        interfaceId: 'docker_img',
+        doctor_id: that.doctor_id,
+        type: '1' };
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      this.request.uniRequest("doctor", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.please_doctor_list = data;
-          that.change_please_doctor(0, data[0].id);
+          that.certificate_list = data;
+          console.log(that.certificate_list.length);
         }
       });
     },
-    change_please_doctor: function change_please_doctor(index, id) {
+    // 点赞
+    collectLike: function collectLike(id, index) {
       var that = this;
-      that.change_please = index;
-      var dataInfo = {
-        interfaceId: 'video',
-        category_id: id };
+      var videoId = id;
+      var data = {
+        interfaceId: 'video_collect',
+        video_id: videoId,
+        status: '0' };
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      this.request.uniRequest("doctor", data).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_please_list = data;
+          that.doctor_info.video[index].is_collect = 1;
+          that.doctor_info.video[index].collect += 1;
+          uni.showToast({
+            title: '已点赞',
+            duration: 1000 });
+
         }
       });
+    },
+    // 取消点赞
+    cancelLike: function cancelLike(id, index) {
+      var videoId = id;
+      var that = this;
+      var data = {
+        interfaceId: 'video_collect',
+        video_id: videoId,
+        status: '1' };
+
+      this.request.uniRequest("doctor", data).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          that.doctor_info.video[index].is_collect = 0;
+          that.doctor_info.video[index].collect -= 1;
+          uni.showToast({
+            title: '已取消点赞',
+            duration: 1000 });
+
+        }
+      });
+    },
+    // 收藏
+    collect_doctor: function collect_doctor(is_doctor_collect, id) {
+      var that = this;
+      if (is_doctor_collect == 0) {
+        var dataInfo = {
+          interfaceId: 'doctor_collect',
+          doctor_id: id,
+          status: is_doctor_collect };
+
+        that.request.uniRequest("doctor", dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.doctor_info.is_doctor_collect = 1;
+            uni.showToast({
+              title: '收藏成功',
+              duration: 1000 });
+
+          }
+        });
+      } else {
+        var _dataInfo = {
+          interfaceId: 'doctor_collect',
+          doctor_id: id,
+          status: is_doctor_collect };
+
+        that.request.uniRequest("doctor", _dataInfo).then(function (res) {
+          if (res.data.code == 1000 && res.data.status == 'ok') {
+            that.doctor_info.is_doctor_collect = 0;
+            uni.showToast({
+              title: '已取消收藏',
+              duration: 1000 });
+
+          }
+        });
+      }
+    },
+    share: function share(id) {
+      console.log("分享了id是" + id + "的医生");
+    },
+    go_to_consult: function go_to_consult() {
+      uni.navigateTo({
+        url: "/pages/consultation/consultation" });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

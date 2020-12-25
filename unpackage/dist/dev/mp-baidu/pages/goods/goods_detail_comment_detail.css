@@ -32,7 +32,8 @@
 .user-images.data-v-4b99a0d4 {
 	width: 74rpx;
 	height: 74rpx;
-	border-radius: 37rpx;
+	-webkit-border-radius: 37rpx;
+	        border-radius: 37rpx;
 }
 .star-list.data-v-4b99a0d4 {
 	display: -webkit-box;
@@ -69,7 +70,8 @@
 	padding: 32rpx 20rpx 40rpx ;
 	font-size: 24rpx;
 	line-height: 40rpx;
-	border-radius: 0 0 24rpx 24rpx;
+	-webkit-border-radius: 0 0 24rpx 24rpx;
+	        border-radius: 0 0 24rpx 24rpx;
 }
 /* 猜你喜欢 */
 .guess-what-you-like.data-v-4b99a0d4 {

@@ -77,7 +77,8 @@
 }
 .service_list_content .items.data-v-7d1efd56 {
 	background-color: rgba(242, 242, 242, 1);
-	border-radius: 25rpx;
+	-webkit-border-radius: 25rpx;
+	        border-radius: 25rpx;
 	font-size: 20rpx;
 	text-align: center;
 	margin-right: 50rpx;
@@ -95,7 +96,8 @@
 .write.data-v-7d1efd56,.upload.data-v-7d1efd56{
 	padding: 30rpx;
 	background-color: #FFFFFF;
-	border-radius: 0 0 24rpx 24rpx;
+	-webkit-border-radius: 0 0 24rpx 24rpx;
+	        border-radius: 0 0 24rpx 24rpx;
 }
 .write.data-v-7d1efd56{
 	padding-top: 0;
@@ -208,8 +210,10 @@
 .issue-botton.data-v-7d1efd56 {
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
-	border-radius: 40rpx;
+	-webkit-box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
+	        box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	font-size: 28rpx;
 	text-align: center;
 	line-height: 80rpx;

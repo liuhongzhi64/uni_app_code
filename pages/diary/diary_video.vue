@@ -121,12 +121,8 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// console.log(option.id,option) 
-			if (option.id) {
-				that.get_video_detail(option.id)
-			} else {
-				that.get_video_detail(20)
-			}
+			console.log(option) 
+			that.get_video_detail(option.id)
 		},
 		onReady() {
 			let that = this;
@@ -174,6 +170,8 @@
 					}
 				})
 			},
+			
+			
 			show_info: function() {
 				let that = this
 				that.this_show = !that.this_show

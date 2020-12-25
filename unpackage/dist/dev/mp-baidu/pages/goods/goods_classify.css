@@ -57,7 +57,8 @@
 	top: -10rpx;
 	width: 30rpx;
 	height: 30rpx;
-	border-radius: 15rpx;
+	-webkit-border-radius: 15rpx;
+	        border-radius: 15rpx;
 	background-color: #fa3475;
 	color: #FFFFFF;
 	font-size: 16rpx;

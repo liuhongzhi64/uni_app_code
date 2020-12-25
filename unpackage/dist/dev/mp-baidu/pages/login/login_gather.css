@@ -59,7 +59,8 @@
 .advertising-images image.data-v-6d2c3d30 {
 	width: 168rpx;
 	height: 168rpx;
-	box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
+	-webkit-box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
+	        box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
 	-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.3) 0%, transparent 40%, transparent 100%);
 }
 .go-weichat-login-btn.data-v-6d2c3d30 {
@@ -70,7 +71,8 @@
 	height: 88rpx;
 	line-height: 88rpx;
 	background-color: #09bb07;
-	border-radius: 44rpx;
+	-webkit-border-radius: 44rpx;
+	        border-radius: 44rpx;
 	border: solid 1px #029400;
 	color: #ffffff;
 	font-size: 32rpx;

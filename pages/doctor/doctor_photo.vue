@@ -7,7 +7,7 @@
 				<template>
 					<view class="photo_content-all">
 						<view class="doctor-photo-list" v-for="(item,index) in doctorPhotoList" :key='index' @tap='goToDoctor'>
-							<image :src="requestUrl+item.url" mode="heightFix"></image>
+							<image :src="requestUrl+item.url" mode="widthFix"></image>
 						</view>
 						<view class="bottom-hint">
 							本喵也是有底线的喵~
@@ -115,16 +115,14 @@
 		justify-content: space-between;
 	}
 	.doctor-photo-list{
-		width: 350rpx;
-		height: 350rpx;
 		background-color: #ffffff;
 		border-radius: 16rpx;
-		margin-bottom: 10rpx;
+		margin-bottom: 20rpx;
 	}
 	.doctor-photo-list image{
 		width: 350rpx;
-		height: 350rpx;
 		border-radius: 16rpx;
+		display: block;
 	}
 	.bottom-hint{
 		margin-top: 160rpx;

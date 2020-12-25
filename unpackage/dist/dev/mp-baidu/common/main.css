@@ -41,6 +41,7 @@ page {
 	min-height: 0;
 }
 checkbox .uni-checkbox-input {
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 }
 

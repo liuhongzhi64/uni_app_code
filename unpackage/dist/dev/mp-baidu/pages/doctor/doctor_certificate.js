@@ -182,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    // console.log(option)
+    console.log(option);
     that.getDoctormessage(option.id);
   },
   onReady: function onReady() {

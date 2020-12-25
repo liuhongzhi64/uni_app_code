@@ -1,6 +1,7 @@
 
 .top-nav-message.data-v-0be17cc6 {
 	/* background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%); */
+	background-image: -webkit-gradient(linear, left top, right top, from(#FA558D),to(#EF2768));
 	background-image: -webkit-linear-gradient(left, #FA558D,#EF2768);
 	background-image: linear-gradient(to right, #FA558D,#EF2768);
 	overflow: hidden;
@@ -9,6 +10,7 @@
 }
 .my-top-bar.data-v-0be17cc6 {
 	color: #FFFFFF;
+	background-image: -webkit-gradient(linear, left top, right top, from(#FA558D),to(#EF2768));
 	background-image: -webkit-linear-gradient(left, #FA558D,#EF2768);
 	background-image: linear-gradient(to right, #FA558D,#EF2768);
 	text-align: center;
@@ -86,7 +88,8 @@
 .user-head-portrait_image.data-v-0be17cc6 {
 	width: 112rpx;
 	height: 112rpx;
-	border-radius: 60rpx;
+	-webkit-border-radius: 60rpx;
+	        border-radius: 60rpx;
 	margin-right: 24rpx;
 	background-color: #FFFFFF;
 }
@@ -107,7 +110,8 @@
 	padding: 6rpx 15rpx;
 	background-color: #FFFFFF;
 	color: #fa3475;
-	border-radius: 17rpx;
+	-webkit-border-radius: 17rpx;
+	        border-radius: 17rpx;
 	margin-left: 24rpx;
 }
 .user-head-portrait-name-phone-set .phone-account-number.data-v-0be17cc6 {
@@ -122,7 +126,8 @@
 	margin-left: 10rpx;
 	border: 1px solid #FFFFFF;
 	padding: 0 10rpx;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	font-size: 20rpx;
 }
 .user-head-portrait-name-phone-set .set.data-v-0be17cc6 {
@@ -170,8 +175,10 @@
 /* 我的订单 */
 .my-order.data-v-0be17cc6 {
 	background-color: #FFFFFF;
-	border-bottom-left-radius: 24rpx;
-	border-bottom-right-radius: 24rpx;
+	-webkit-border-bottom-left-radius: 24rpx;
+	        border-bottom-left-radius: 24rpx;
+	-webkit-border-bottom-right-radius: 24rpx;
+	        border-bottom-right-radius: 24rpx;
 }
 .order-all-order.data-v-0be17cc6 {
 	display: -webkit-box;
@@ -243,7 +250,8 @@
 .order-number.data-v-0be17cc6 {
 	width: 24rpx;
 	height: 24rpx;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	text-align: center;
 	line-height: 24rpx;
 	background-image: -webkit-linear-gradient(121deg, #ee2668 0%, #ff6699 100%);
@@ -264,7 +272,8 @@
 /* 服务与工具 */
 .serve-and-tool.data-v-0be17cc6 {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 }
 .serve-and-tool-title.data-v-0be17cc6 {
 	line-height: 88rpx;

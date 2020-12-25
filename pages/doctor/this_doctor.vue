@@ -1,197 +1,188 @@
 <template>
-	<view class="doctor_homepage"> 
-		<view class="this_doctor_top" :style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px'}]"> 明星医生 </view>
-		<view class="this_doctor_content" :style="[{'min-height':height-menuBottom-10+'px','padding-top':menuBottom+10+'px'}]">
-			<view class="doctor_info">
-				<scroll-view class="doctor_items" scroll-x="true">
-					<view class="doctor_items_centent" >
-						<view class="item_info" :class="{checked_doctor :doctor_change == index}" v-for="(item,index) in doctor_list" :key='index'
-						 @tap="change_doctor(index,item.id)">
-							<view class="doctor_info_content">
-								<view class="heading_line" :class="{checked_heaing :doctor_change == index}">
-									<image class="doctor_heading" :src="requestUrl+item.heading"></image>
-								</view>
-								<view class="doctor_name"> {{ item.name }} </view>
+	<view class="doctor_detail"> 
+		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
+		 :title='title' :menuTop='menuTop' :menuHeight='menuHeight'  :menuBottom='menuBottom'></topBar>
+		
+		<view class="detail_content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
+			<view class="this_doctor_info">
+				<image class="doctor_image" :src="requestUrl+doctor_info[0].image" mode="widthFix" ></image>
+				<navigator class="doctor_photos" v-show="doctor_info.album" :url="'/pages/doctor/doctor_photo?id='+doctor_id" >医生相册一览 
+					<image class="go_img" src="/static/images/return.png" mode="widthFix"></image>
+				</navigator>
+				<view class="doctor_info">
+					<view class="doctor_name"> Dr. {{doctor_info[0].name}}</view>
+					<view class="position">{{doctor_info[0].zhicheng}}</view>
+					<view class="subline"></view>
+					<view class="experience_case">
+						<view class="experience">从业经验: {{ doctor_info[0].employed_y }} 年</view>
+						<view class="case">案列数: {{ doctor_info[0].case_num }} </view>
+					</view>
+					<view class="all_sign">
+						<view class="sign_item" v-for="(item,index) in doctor_info[0].sign" :key='index'> 
+							<image class="circular" src="/static/images/circular.png" mode="widthFix"></image> <text class="sign_item_info">{{ item }}</text> 
+						</view>
+					</view>
+					<view class="all_sign">
+						<view class="top_title">擅长项目</view>
+						<view class="goods_project">
+							<view class="goods_project_item" v-for="(item,index) in doctor_info[0].goods_project" :key='index'>
+								{{item}} <text class="project_line">、</text>
 							</view>
-							<view class="checked_line_info"> <view :class="{checked_line :doctor_change == index}"></view>  </view>
 						</view>
 					</view>
-				</scroll-view>
+					<view class="all_sign">
+						<view class="top_title">手术特点</view>
+						<view class="surgery_item"> {{doctor_info[0].surgery}} </view>
+					</view>
+				</view>
 			</view>
-			<view class="doctor_detail_info">
-				<image class="doctor_tar_image" :src="requestUrl+doctor_detail_info.tar_image" mode=""></image>
-				<view class="doctor_content">
-					<view class="doctor_info_top">
-						<view class="this_doctor_name">{{ doctor_detail_info.name }}</view>
-						<view class="post"> {{doctor_detail_info.tar_sign}} </view>
-						<view class="all_sign">
-							<view class="sign_item" v-for="(i,k) in doctor_detail_info.sign" :key='k'> <text></text> {{i}} </view>
-						</view>
-						<view class="goods_project"> 擅长项目 </view>
-						<view class="goods_project_item"> 
-							<text v-for="(item,index) in doctor_detail_info.goods_project" :key='index'>{{item}} 、</text> 
-						</view>
+			<image class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"></image>
+			<view class="doctor_album_certificate">
+				<view class="doctor_album" v-if="doctor_info.video_album!='undefind' && doctor_info.video_album.length>0">
+					<view class="this_title">个人专辑</view>
+					<view class="this_list">
+						<scroll-view class="this_items" scroll-x="true">
+							<view class="this_item_content" >
+								<view class="item_img" v-for="(item,index) in doctor_info.video_album" :key='index'>
+									<navigator class="item_info" :url="'/pages/diary/diary_video?id='+item.id">
+										<image class="cover_img" :src="requestUrl+item.cover_img" ></image>
+										<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+										</image>
+										<view class="item_explain" >{{item.name}}</view>
+									</navigator>
+								</view>
+							</view>
+						</scroll-view>
 					</view>
-					<view class="doctor_video_list" >
-						<scroll-view class="video_info" scroll-x="true">
-							<view class="video_item">
-								<navigator class="video_item_info" :url="'/pages/diary/diary_video?id='+item.pivot.video_id"
-								 v-for="(item,index) in doctor_detail_info.video" :key='index'>
-									<image class="video_image" :src="requestUrl+item.cover_img" mode=""></image>
-									<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
-									<view class="video_name"> {{item.name}} </view>
+				</view>
+				<view class="doctor_certificate" v-if="certificate_list.length>0">
+					<view class="this_title">个人证书 </view>
+					<view class="this_list">
+						<scroll-view class="this_items" scroll-x="true">
+							<view class="this_item_content">
+								<navigator class="item_img" v-for="(item,index) in certificate_list" :key='index'
+								 :url="'/pages/doctor/doctor_certificate?id='+item.doctor_id">
+									<view class="item_info">
+										<image class="doctor_img" :src="requestUrl+item.url" mode="widthFix"></image>
+									</view>
 								</navigator>
 							</view>
 						</scroll-view>
 					</view>
 				</view>
 			</view>
-			<image class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"></image>
-			<!-- 医生中心分类 -->
-			<view class="this_doctor_classfiy">
-				<view class="doctor_classfiy">
-					<scroll-view class="doctor_classfiy_items" scroll-x="true">
-						<view class="classfiy_items_content">
-							<view class="classfiy_info"
-							 v-for="(item,index) in doctor_classfiy_list" :key='index' v-show="item.docker_count>0"
-							 :class="{checked_classfiy_doctor :change_classfiy == index}"
-							  @tap="change_doctor_classfiy(index,item.id)">
-								<view class="item-name">{{ item.name }}</view>
-								<view :class="{change_classfiy__line :change_classfiy == index}"></view>
+			<view class="this_doctor_project" v-if="doctor_info.goods.length>0">
+				<view class="this_title">TA的项目</view>
+				<view class="doctor-item-swiper">
+					<swiper class="doctor-swiper" indicator-dots indicator-active-color="#f6db93">
+						<swiper-item class="doctor-swiper-item" v-for="(item,index) in doctor_info.goods" :key='index'>
+							<view class="project-content">
+								<view class="porduct-list" v-for="(i,k) in item" :key='k' @tap='goodsDetail(i.sku_id,i.encrypted_id)'>
+									<view class="porduct-items">
+										<view class="porduct-item-images">
+											<image :src="requestUrl+i.head_img" class="image"></image>
+											<image :src="requestUrl+i.spu_icon" class="spu_icon"></image>
+										</view>
+										<view class="porduct-introduce">
+											<view class="product-title"> {{i.goods_name}} </view>
+											<view class="label" v-if="i.label.type==0">
+												<view class="label-name" v-for="(j,q) in i.label.list" :key='q'> {{j}}</view>
+											</view>
+											<view class="activity" v-if="i.label.type==1">
+												<view class="activity-name" v-for="(j,q) in i.label.list" :key='q'> {{j}} </view>
+											</view>
+											<view class="porduct-price">
+												<view class="porduct-original-cost"> <text>￥</text>{{i.sale_price}} </view>
+												<view class="porduct-vip-price" v-if="i.member.price>0">
+													<view class="vip" v-if="i.member.member_title">{{i.member.member_title}}</view>
+													<view class="vip" v-else>钻卡</view>
+													<view class="vip-price">￥{{i.member.price}}</view>
+												</view>
+											</view>
+											<view class="subscribe-goodReputation">
+												<view class="subscribe"> {{i.sales}}预约 </view>
+												<view class="good_reputation"> {{i.rate}}%好评 </view>
+											</view>
+										</view>
+									</view>
+								</view>
 							</view>
-						</view>											
-					</scroll-view>
-				</view>
-				<view class="classfiy_doctor_info hide_item"
-				 :class="{show_item:change_classfiy == index}" 
-				 v-for="(item,index) in doctor_classfiy_list" :key="index">
-				 <view class="this_swiper_info">
-				 	<swiper  indicator-dots  indicator-active-color="#ffffff" class="doctor_swiper">
-				 		<swiper-item class="this_swiper" v-for="(is,k) in classfiy_doctor_list"  :key='k'>
-				 			<view class="swiper_item" v-for="(i,z) in is" :key='z'>
-				 				<view class="item__top_info">
-				 					<image class="item_img" :src="requestUrl+i.heading" ></image>
-				 					<view class="item_doctor_info">
-				 						<view class="name_zhicheng">
-				 							{{i.name}} <text>{{i.zhicheng}}</text>
-				 						</view>
-				 						<view class="employed_time_case_num">
-				 							<view class="employed_time"> 从业经验:{{Math.round(i.employed_time/31104000)}}年</view>
-				 							<view class="case_num">案列数:{{i.case_num}}</view>
-				 						</view>																
-				 						<view class="goods_category">
-				 							<text class="goods_category_title">擅长</text>
-				 							<text class='goods_category_item' v-for="(j,f) in i.goods_category" :key='f'>
-				 								{{j}} <text :class="{hide_item:f+1 == i.goods_category.length}">、</text>
-				 							</text>
-				 						</view>
-				 						<view class="doctor_view">
-				 							<text class='view_title'>观点</text>
-				 							<text class="view_content">{{i.view}}</text>																
-				 						</view>	
-				 					</view>
-				 					<navigator class="consult" url="/pages/consultation/consultation" >咨询</navigator>
-				 				</view>
-				 				<view class="item_bottom_info">
-				 					<view class="recommended_goods"
-				 					 @tap='gotoGoods(i.recommended_goods.id,i.recommended_goods.encrypted_id)'
-				 					 v-if="Object.values(i.recommended_goods).length>0">
-				 						<view class="goods_left">
-				 							<view class="goods_title">推</view>
-				 							<view class="gooss_content">{{i.recommended_goods.goods_name}}</view>
-				 						</view>
-				 						<view class="goods_right">
-				 							<text class="sale_weight">
-				 								{{i.recommended_goods.sale_weight}}人预约
-				 							</text>
-				 							<text class="sale_price"> <text>￥</text> {{i.recommended_goods.sale_price}}</text>
-				 						</view>
-				 					</view>		
-				 					<view class="is_hot" @tap='gotoGoods(i.is_hot.id,i.is_hot.encrypted_id)'
-				 					 v-if="Object.values(i.is_hot).length>0">
-				 						<view class="goods_left">
-				 							<view class="is_hot_title">热</view>
-				 							<view class="gooss_content">{{i.is_hot.goods_name}}</view>
-				 						</view>
-				 						<view class="goods_right">
-				 							<text class="sale_weight"> {{i.is_hot.sale_weight}}人预约 </text>
-				 							<text class="sale_price"> <text>￥</text> {{i.is_hot.sale_price}}</text>
-				 						</view>															
-				 					</view>
-				 				</view>
-				 			</view>
-				 		</swiper-item>
-				 	</swiper>
-				 </view>
+						</swiper-item>
+					</swiper>
 				</view>
 			</view>
 			<image class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"></image>
-			<!-- 拜托了医生 -->
-			<view class="this_please_doctor">
-				<view class="please_doctor_title"> 拜托了医生 </view>
-				<view class="please_doctor">
-					<scroll-view class="please_doctor_items" scroll-x="true">
-						<view class="classfiy_items_content">
-							<view class="classfiy_info"
-							 v-for="(item,index) in please_doctor_list" :key='index' 
-							 :class="{checked_classfiy_doctor :change_please == index}"
-							  @tap="change_please_doctor(index,item.id)">
-								<view class="item-name please_doctor">{{ item.name }}</view>
-								<view :class="{change_classfiy__line :change_please == index}"></view>
-							</view>
-						</view>											
-					</scroll-view>
-				</view>
-				<view class="hide_item" :class="{show_item:change_please == index}" v-show="item.video_count>0"
-				 v-for="(item,index) in please_doctor_list" :key="index">
-					<doctor :doctorList="doctor_please_list" 
-					 :requestUrl="requestUrl" 
-					 @collectLike='collectLike'
-					 @cancelLike='cancelLike'
-					 :paddingLR = 'paddingLR'>
+			
+			<view class="doctor_projects" v-if="doctor_info.video.length>0">
+				<view class="this_title">拜托了医生</view>
+				<view class="doctor_projects_item">
+					<doctor :doctorList="doctor_info.video" :requestUrl="requestUrl" :heading='doctor_heading' :doctorname='doctor_name'
+					 @collectLike='collectLike' @cancelLike='cancelLike' >
 					</doctor>
 				</view>
 			</view>
-			
+			<view class="doctor_projects" v-if="doctor_info.diary.length>0">
+				<view class="this_title">用户日记</view>
+				<view class="doctor_projects_item">
+					<diary :diaryList="doctor_info.diary" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'></diary>
+				</view>
+			</view>
+		</view>
+		
+		<view class="footer">
+			<view class="mar"  @tap='collect_doctor(doctor_info.is_doctor_collect,doctor_id)'>
+				<image class="icon-img" v-if="doctor_info.is_doctor_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
+				<image class="icon-img" v-else src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
+				<text :class="doctor_info.is_doctor_collect == 0?'':'collect_hover'">收藏</text>
+			</view>
+			<view class="mar" @tap='go_to_consult'>
+				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>咨询
+			</view>
+			<view class="mar" @tap='share(doctor_id)'>
+				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_share.png"></image>分享
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import topBar from "../../components/topBar.vue";
+	import diary from '../../components/diary.vue';
 	import doctor from '../../components/doctorShow.vue'
 	export default {
 		components: {
+			topBar,
 			doctor,
+			diary
 		},
 		data() {
 			return {
 				menuTop: 0,
 				menuHeight: 0,
-				menuBottom:0,
+				menuBottom: 0,
 				height: 0,
+				barName: 'back', //导航条名称
+				topBackgroundColor: '#000000',
+				color: '#FFFFFF',
+				backImage: '/static/images/back2.png',
+				title: '主页',
 				requestUrl: '',
-				doctor_list:[],
-				doctor_change:0,
-				doctor_detail_info:{},
-				doctor_classfiy_list:[],
-				change_classfiy:0,
-				classfiy_doctor_list:[],
-				please_doctor_list:[],
-				change_please:0,
-				doctor_please_list:[]
+				doctor_id:4, //4
+				doctor_info:{},
+				certificate_list:[],
+				doctor_heading:'',
+				doctor_name:''
 			}
 		},
-		onShow:function(){
-			
-		},
-		onLoad: function() {
-			let that = this
+		onLoad: function(option) {
 			this.request = this.$request
+			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			that.get_doctor_list()
-			that.get_doctor_classfiy()
-			that.get_please_list()
+			// that.doctor_id = option.id
+			that.get_detail()
+			that.get_doctor_certificate()
 		},
+		
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
@@ -205,510 +196,519 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} 
-			else if (platform == 'APP'){
+			} else if (platform == 'APP') {
 				that.menuTop = 40
-				that.menuHeight = 30
 				that.menuBottom = 70
+				that.menuHeight = 30
 			}
 		},
 		methods: {
-			get_doctor_list:function(){
+			get_detail: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId : 'start_list'
+					interfaceId: 'info',
+					doctor_id: that.doctor_id
 				}
-				that.request.uniRequest("doctor", dataInfo).then(res => {
+				this.request.uniRequest("doctor", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.doctor_list = data
-						that.change_doctor(0,data[0].id)
-					}
+						data.goods = that.group(data.goods, 2)
+						that.doctor_info = data
+						that.title = data[0].name+'的'+that.title
+						that.doctor_heading = that.requestUrl + data[0].heading
+						that.doctor_name = data[0].name
+					} 
 				})
-			},
-			change_doctor:function(index,id){
-				let that = this
-				that.doctor_change = index
-				let dataInfo = {
-					interfaceId:'star',
-					doctor_id:id
-				}
-				that.request.uniRequest("doctor", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						that.doctor_detail_info = data
-					}
-				})
-			},
-			// 医生中心分类
-			get_doctor_classfiy:function(){
-				let that = this
-				let dataInfo = {
-					interfaceId : 'centon'
-				}
-				that.request.uniRequest("doctor", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						that.doctor_classfiy_list = data
-						this.change_doctor_classfiy(0,data[0].id)
-					}
-				})
-			},
-			change_doctor_classfiy:function(index,id){
-				let that = this
-				that.change_classfiy = index
-				let dataInfo = {
-					interfaceId:'docker_centon',
-					doctor_centon_id:id
-				}
-				that.request.uniRequest("doctor", dataInfo).then(res => {
-					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						that.classfiy_doctor_list = data
-						that.classfiy_doctor_list = that.group(that.classfiy_doctor_list, 2)
-					}
-				})	
 			},
 			// 分割数组
-			group: function(array, number) {
+			group: function(array, subGroupLength) {
 				let index = 0;
 				let newArray = [];
 				while (index < array.length) {
-					newArray.push(array.slice(index, index += number));
+					newArray.push(array.slice(index, index += subGroupLength));
 				}
 				return newArray;
 			},
-			// 拜托医生
-			get_please_list:function(){
+			// 获取证书
+			get_doctor_certificate: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'video_category'
+					interfaceId: 'docker_img',
+					doctor_id: that.doctor_id,
+					type: '1'
 				}
-				that.request.uniRequest("doctor", dataInfo).then(res => {
+				this.request.uniRequest("doctor", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.please_doctor_list = data
-						that.change_please_doctor(0,data[0].id)
+						that.certificate_list = data
+						console.log(that.certificate_list.length)
 					}
 				})
 			},
-			change_please_doctor:function(index,id){
+			// 点赞
+			collectLike: function(id, index) {
 				let that = this
-				that.change_please = index
-				let dataInfo = {
-					interfaceId:'video',
-					category_id:id
+				let videoId = id
+				let data = {
+					interfaceId: 'video_collect',
+					video_id: videoId,
+					status: '0'
 				}
-				that.request.uniRequest("doctor", dataInfo).then(res => {
+				this.request.uniRequest("doctor", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						let data = res.data.data
-						that.doctor_please_list = data
+						that.doctor_info.video[index].is_collect = 1
+						that.doctor_info.video[index].collect += 1
+						uni.showToast({
+							title: '已点赞',
+							duration: 1000
+						})
 					}
 				})
 			},
+			// 取消点赞
+			cancelLike: function(id, index) {
+				let videoId = id
+				let that = this
+				let data = {
+					interfaceId: 'video_collect',
+					video_id: videoId,
+					status: '1'
+				}
+				this.request.uniRequest("doctor", data).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						that.doctor_info.video[index].is_collect = 0
+						that.doctor_info.video[index].collect -= 1
+						uni.showToast({
+							title: '已取消点赞',
+							duration: 1000
+						})
+					}
+				})
+			},
+			// 收藏
+			collect_doctor: function(is_doctor_collect, id) {
+				let that = this
+				if (is_doctor_collect == 0) {
+					let dataInfo = {
+						interfaceId: 'doctor_collect',
+						doctor_id: id,
+						status: is_doctor_collect
+					}
+					that.request.uniRequest("doctor", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.doctor_info.is_doctor_collect = 1
+							uni.showToast({
+								title: '收藏成功',
+								duration: 1000
+							})
+						}
+					})
+				} else {
+					let dataInfo = {
+						interfaceId: 'doctor_collect',
+						doctor_id: id,
+						status: is_doctor_collect
+					}
+					that.request.uniRequest("doctor", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							that.doctor_info.is_doctor_collect = 0
+							uni.showToast({
+								title: '已取消收藏',
+								duration: 1000
+							})
+						}
+					})
+				}
+			},
+			share: function(id) {
+				console.log("分享了id是" + id + "的医生")
+			},
+			go_to_consult:function(){
+				uni.navigateTo({
+					url: `/pages/consultation/consultation`,
+				})
+			}
 		}
 	}
 </script>
 
 <style scoped>
-	.this_doctor_top{
-		width: 100%;
-		position: fixed;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: #000000;
-		color: #FFFFFF;
-		padding-bottom: 10px;
-		font-size: 40rpx;
-		z-index: 99;
+	.doctor_detail{
+		background-image: linear-gradient(0deg, #222222 0%, #151515 100%);
 	}
-	.doctor_info {
-		white-space: nowrap;
-		background-image: linear-gradient(0deg, #2c2d31 0%, #101013 100%);
+	.detail_content{
+		padding-bottom: 100rpx;
 	}
-	.doctor_items{
-		width: 100%;
-		padding: 10rpx 0 0;
-	}
-	.doctor_items_centent{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 100%;
-		width: 100%;
-	}
-	.doctor_info_content{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		border-radius: 55rpx;
-		font-size: 24rpx;
-	}
-	.item_info{
-		padding: 0 30rpx;
-		color: #FFFFFF;
-	}
-	.checked_doctor{
-		color: #d1bf86;
-	}
-	.checked_heaing{
-		width: 100rpx;
-		height: 100rpx;
-		border-radius: 50rpx;
-		border: 2rpx solid #d1bf86;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.heading_line{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.doctor_heading{
-		width: 88rpx;
-		height: 88rpx;
-		border-radius: 44rpx;
-		background-color: #FFFFFF;
-	}
-	.doctor_name{
-		padding-top: 10rpx;
-	}
-	.checked_line_info{
-		position: relative;
-		height: 30rpx;
-	}
-	.checked_line{
-		position: absolute;
-		border-bottom: 0;
-		left: 25rpx;
-		z-index: 2;
-		width: 0;
-		height: 0;
-		border-width: 25rpx;
-		border-style: solid;
-		border-color: transparent #d1bf86 transparent transparent;
-		transform: rotate(90deg);
-		margin-top: -10rpx;
-	}
-	.doctor_detail_info{
-		background-color: #1c1c1c;
+	.this_doctor_info{
+		height: 1300rpx;
 		position: relative;
 	}
-	.doctor_tar_image{
+	.doctor_image{
 		width: 100%;
-		height: 970rpx;
 	}
-	.doctor_content{
+	.line_img{
+		width: 100%;
+	}
+	.doctor_photos {
 		position: absolute;
-		top: 130rpx;
 		left: 0;
-		width: 390rpx;
-		height: 840rpx;
-		padding-left: 30rpx;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-	}
-	.this_doctor_name{
-		font-size: 60rpx;
-		color: #d1bf86;
-		padding-bottom: 24rpx;
-	}
-	.post {
-		width: 390rpx;
-		color: #d1bf86;
-		line-height: 36rpx;
+		top: 60rpx;
+		width: 240rpx;
+		text-align: center;
+		line-height: 48rpx;
+		background-image: linear-gradient(0deg, #ac995b 0%, #d1bf86 100%);
+		box-shadow: 1rpx 4rpx 6rpx 0rpx rgba(0, 0, 0, 0.71);
+		border-top-right-radius: 24rpx;
+		border-bottom-right-radius: 24rpx;
 		font-size: 26rpx;
-		padding-bottom: 20rpx;
+		color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.doctor_info{
+		position: absolute;
+		left: 0;
+		top: 230rpx;
+		padding-left: 40rpx;
+	}
+	.doctor_name {
+		font-size: 64rpx;
+		color: #d1bf86;
+	}
+	.position {
+		width: 350rpx;
+		line-height: 48rpx;
+		font-size: 32rpx;
+		color: #d1bf86;
+		margin-top: 20rpx;
+	}
+	
+	.subline {
+		margin-top: 20rpx;
+		margin-bottom: 20rpx;
+		width: 300rpx;
+		height: 4rpx;
+		background-color: #d1bf86;
+	}
+	.experience_case {
+		display: flex;
+		color: #FFFFFF;
+		font-size: 26rpx;
+		padding-bottom: 30rpx;
+	}
+	
+	.experience {
+		margin-right: 20rpx;
 	}
 	.all_sign{
 		color: #C0C0C0;
-		line-height: 36rpx;
-		font-size: 20rpx;
-		max-height: 170rpx;
+		line-height: 32rpx;
+		font-size: 26rpx;
+		max-height: 230rpx;
 		overflow-y: scroll;
 		margin-bottom: 20rpx;
+		width: 500rpx;
+		padding: 20rpx 15rpx;
+		background-color: #121212;
+		border-radius: 24rpx;
+		opacity: 0.8;
 	}
 	.sign_item{
-		display: flex;
+		padding: 0 0 10rpx;
 	}
-	.sign_item text{
-		display: inline-block;
-		width: 10rpx;
-		height: 10rpx;
-		border-radius: 10rpx;
-		background-color: #FFFFFF;
-		margin: 15rpx 20rpx 0 0;
+	
+	.circular{
+		width: 12rpx;
+		margin-bottom: 4rpx;
+	}
+	.sign_item_info{
+		padding-left: 20rpx;
+	}
+	.top_title{
+		font-size: 28rpx;
+		font-weight: bold;
+		line-height: 30rpx;
+		color: #d1bf86;
+		padding-bottom: 10rpx;
 	}
 	.goods_project{
-		font-size: 28rpx;
-		color: #d1bf86;
-		padding-bottom: 20rpx;
-	}
-	.goods_project_item{
-		line-height: 30rpx;
-		font-size: 22rpx;
-		color: #C0C0C0;
-		max-height: 120rpx;
-		overflow-y: scroll;
-		margin-bottom: 30rpx;
-	}
-	.doctor_video_list{
-		height: 280rpx;
-		width: 100%;
-	}
-	.video_item{
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		width: 100%;
-		white-space: normal;
+		flex-wrap: wrap;
 	}
-	.video_item_info{
-		width: 210rpx;
+	
+	.go_img {
+		width: 24rpx;
+		margin-left: 6rpx;
+		transform: rotate(180deg);
+	}
+	.doctor_certificate{
+		margin-top: 30rpx;
+	}
+	.doctor_album_certificate{
+		padding: 40rpx;
+	}
+	.this_title{
+		padding-bottom: 20rpx;
+		font-size: 48rpx;
+		color: #d1bf86;
+		border-bottom: 4rpx solid #393939;
+	}
+	.this_list{
+		width: 100%;
+		padding-top: 30rpx;
+	}
+	.this_items {
+		overflow: hidden;
+		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+	}
+	.this_item_content {
+		display: flex;
+		width: 100%;
+		height: 100%;
+	}
+	.item_img {
+		display: inline-block;
+		font-size: 20rpx;
 		margin-right: 10rpx;
-		height: 280rpx;
 		position: relative;
 	}
-	.video_item_info:last-child{
-		padding-right: 30rpx;
+	.item_info {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+		white-space: normal;
+		border-radius: 24rpx;
+		
 	}
-	.pay_btn{
+	.item_info .doctor_img {
+		width: 280rpx;
+	}
+	.item_info .cover_img {
+		width: 210rpx;
+		height: 210rpx;
+		display: block;
+	}
+	
+	.pay_btn {
 		position: absolute;
 		top: 75rpx;
 		left: 75rpx;
 		width: 60rpx;
 	}
-	.video_image{
-		width: 210rpx;
-		height: 210rpx;
-		border-radius: 16rpx;
-		background-color: #FFFFFF;
-	}
-	.video_name{
+	.item_explain {
+		margin-top: 16rpx;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		font-size: 22rpx;
-		color: #FFFFFF;
-		line-height: 32rpx;
-		font-weight: lighter;
-		padding: 0 8rpx;
-	}
-	.line_img{
-		width: 100%;
-	}
-	.this_doctor_classfiy{
-		background-image: linear-gradient(left, #222222 0%, #202020 100%);
-	}
-	.doctor_classfiy {
-		white-space: nowrap;
-		margin-top: -20rpx;
+		color: #C0C0C0;
+		font-size: 20rpx;
+		width: 210rpx;
 	}
 	
-	.classfiy_items_content{
-		width: 100%;
-		display: flex;
-	}
-	.classfiy_info{
-		padding: 50rpx 40rpx 0;
-		color: #FFFFFF;
-	}
-	.checked_classfiy_doctor{
-		font-weight: bold;
-		display: flex;
-		flex-direction: column;
-	}
-	.checked_classfiy_doctor .change_classfiy__line{
-		display: block;
-		height: 6rpx;
-		margin-top: 6rpx;
-		background-color: #d1bf86;
-	}
-	.hide_item{
-		display: none;
-	}
-	.show_item{
-		display: block;
-	}
-	.doctor_swiper{
-		height: 1000rpx;
-	}
-	.this_swiper_info{
-		padding: 0 20rpx 40rpx;
-	}
-	.swiper_item{
-		color: #FFFFFF;
-		margin-top: 40rpx;
-		background-color: #2A2A2A;
-		border-radius: 24rpx;
-		padding: 30rpx;
-	}
-	.item__top_info{
-		display: flex;
-		align-items: center;
-		position: relative;
-	}
-	.item_img{
-		width: 120rpx;
-		height: 120rpx;
-		border-radius: 60rpx;
-		background-color: #FFFFFF;
-	}
-	.item_doctor_info{
-		padding-left: 20rpx;
-		flex: 1;
-	}
-	.name_zhicheng{
-		font-size: 34rpx;
-		width: 75%;
-	}
-	.name_zhicheng text{
-		font-size: 26rpx;
-		padding-left: 10rpx;
-	}
-	.employed_time_case_num{
-		width: 90%;
-		display: flex;
-		align-items: center;
-		font-size: 24rpx;
-		padding: 15rpx 0 30rpx;
-	}
-	.case_num{
+	.this_doctor_project{
 		padding-left: 40rpx;
 	}
-	.goods_category,.doctor_view{
+	.doctor-item-swiper {
+		margin-top: 30rpx;
+		padding-right: 40rpx;
+	}
+	
+	.doctor-swiper {
+		height: 800rpx;
+	}
+	
+	.doctor-swiper-item,
+	.project-content {
 		width: 100%;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
-		font-size: 24rpx;
-		color: #999999;
-		margin-bottom: 15rpx;
-		line-height: 32rpx;
+		height: 100%;
+	
 	}
-	.goods_category_title{
-		border: 1rpx solid #e85c9e;
-		color: #e85c9e;
-		font-size: 22rpx;
-		border-radius: 10rpx;
-		margin-right: 10rpx;
-		padding: 0 5rpx;
+	
+	.porduct-items {
+		display: flex;
+		align-items: center;
+		border-radius: 16rpx;
+		background-color: #f0f0f0;
+		margin-bottom: 20rpx;
 	}
-	.view_title{
-		border: 1rpx solid #689efb;	
-		color: #689efb;
-		font-size: 22rpx;
-		border-radius: 10rpx;
-		margin-right: 10rpx;
-		width: 50rpx;
-		padding: 0 5rpx;
+	
+	.porduct-item-images {
+		width: 240rpx;
+		height: 240rpx;
+		margin-right: 28rpx;
+		position: relative;
 	}
-	.consult{
-		width: 110rpx;
-		line-height: 46rpx;
-		border-radius: 10rpx;
-		border: 2rpx solid #cfbe85;
-		color: #cfbd85;
-		font-size: 24rpx;
-		text-align: center;
+	
+	.porduct-item-images .image {
+		width: 100%;
+		height: 100%;
+		border-top-left-radius: 16rpx;
+		border-bottom-left-radius: 16rpx;
+	}
+	
+	.spu_icon {
+		width: 100rpx;
+		height: 40rpx;
 		position: absolute;
-		right: 0;
-		top:  0;
-		z-index: 1;
+		top: 0;
+		left: 0;
+		z-index: 9;
+		opacity: 0.8;
 	}
-	.recommended_goods{
-		width: 92%;
-		padding: 0 20rpx;
-		height: 56rpx;
-		line-height: 56rpx;
-		background-color: #202020;
-		border-radius: 28rpx;
+	
+	.porduct-introduce {
+		flex: 1;
+		font-size: 26rpx;
+		white-space: normal;
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		font-size: 24rpx;
-		margin-top: 27rpx;
-		margin-bottom: 15rpx;
+		flex-direction: column;
+		padding-right: 48rpx;
 	}
-	.goods_left{
-		display: flex;
-		align-items: center;
-	}
-	.goods_title{
-		width: 30rpx;
-		height: 30rpx;
-		line-height: 30rpx;
-		background-color: #ff7b1a;
-		border-radius: 5rpx;
-		text-align: center;
-		margin-right: 10rpx;
-	}
-	.gooss_content{
-		width: 80%;
+	
+	.product-title {
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
-		font-size: 24rpx;
-		line-height: 30rpx;
+		-webkit-line-clamp: 2;
+		color: #111111;
+		line-height: 36rpx;
 	}
-	.goods_right{
+	
+	.label {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 12rpx;
+	}
+	
+	.label-name {
+		background-color: #999999;
+		text-align: center;
+		font-size: 16rpx;
+		padding: 5rpx 8rpx;
+		margin-right: 10rpx;
+		border-radius: 4rpx;
+		color: #FFFFFF;
+	}
+	
+	.activity {
+		display: flex;
+		font-size: 16rpx;
+		color: #fa3475;
+		flex-wrap: wrap;
+		margin-top: 12rpx;
+	}
+	
+	.activity-name {
+		border: 1rpx solid #fa3475;
+		margin-right: 10rpx;
+		padding: 5rpx;
+		border-radius: 4rpx;
+	}
+	
+	.porduct-price {
+		display: flex;
+		margin-top: 20rpx;
+	}
+	
+	.porduct-vip-price {
+		display: flex;
+		margin-left: 25rpx;
+		border: 1rpx solid #282828;
+		border-radius: 4rpx;
+	}
+	
+	.vip {
+		font-size: 16rpx;
+		border-radius: 4rpx;
+		width: 48rpx;
+		height: 29rpx;
+		line-height: 30rpx;
+		background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
+		color: #FFFFFF;
+		text-align: center;
+	}
+	
+	.vip-price {
+		height: 28rpx;
+		font-size: 16rpx;
+		color: #282828;
+		border-width: 1rpx;
+		border-image-source: linear-gradient(0deg, #000000 0%, #2c2c2c 100%);
+		border-image-slice: 1;
+		padding: 0 9rpx;
+	}
+	
+	.porduct-price {
+		line-height: 34rpx;
 		display: flex;
 		align-items: center;
 	}
 	
-	.sale_weight{
-		color: #999999;
-		margin-right: 10rpx;
-		min-width: 120rpx;
-		text-align: right;
+	.porduct-original-cost {
+		color: #fa3475;
+		font-size: 52rpx;
 	}
-	.sale_price{
-		font-size: 28rpx;
-		color: #cfbe85;
-		
+	
+	.porduct-original-cost text {
+		font-size: 36rpx;
 	}
-	.sale_price text{
-		font-size: 24rpx;
+	
+	.subscribe-goodReputation {
+		display: flex;
+		font-size: 20rpx;
+		margin-top: 10rpx;
+		color: #666666;
 	}
-		
-	.is_hot{
-		width: 92%;
-		padding: 0 20rpx;
-		height: 56rpx;
-		line-height: 56rpx;
-		background-color: #202020;
-		border-radius: 28rpx;
+	
+	.good_reputation {
+		color: #fa3576;
+		margin-left: 30rpx;
+	}
+	.doctor_projects {
+		padding: 0 30rpx 30rpx;
+		background-color: #151515;
+	}
+	.doctor_projects_item{
+		padding-top: 30rpx;
+	}
+	
+	.footer {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		z-index: 2;
+		width: 750rpx;
+		height: 100rpx;
+		background-image: linear-gradient(90deg, #282828 50%, #272727 100%);
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		font-size: 24rpx;
 	}
-	.is_hot_title{
-		width: 30rpx;
-		line-height: 30rpx;
-		height: 30rpx;
-		background-color: #da129f;
-		border-radius: 5rpx;
-		text-align: center;
-		margin-right: 10rpx;	
+	
+	.footer .mar {
+		width: 33.3%;
+		color: #FFFFFF;
+		font-size: 28rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-right: 1rpx solid #505050;
 	}
-	.this_please_doctor{
-		background-image: linear-gradient(left, #222222 0%, #202020 100%);
-		margin-top: -20rpx;
-		padding-bottom: 40rpx;
+	
+	.footer .mar image {
+		width: 50rpx;
+		height: 50rpx;
+		margin-right: 16rpx;
 	}
-	.please_doctor{
-		white-space: nowrap;
-	}
-	.please_doctor_title{
-		font-size: 56rpx;
-		padding: 50rpx 30rpx 0;
-		color: #d1bf86;
+	
+	.collect_hover {
+		color: #9F55FF;
 	}
 </style>

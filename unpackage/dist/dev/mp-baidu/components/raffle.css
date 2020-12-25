@@ -13,7 +13,8 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 	color: #ffffff;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 }
 .framecontent{
 	font-size: 48rpx !important;
@@ -38,7 +39,8 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	border-radius: 30rpx;
+	-webkit-border-radius: 30rpx;
+	        border-radius: 30rpx;
 }
 .img image{
 	width: 42rpx;

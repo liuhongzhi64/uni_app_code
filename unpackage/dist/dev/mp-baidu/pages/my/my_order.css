@@ -92,7 +92,8 @@
 }
 .order-message.data-v-4842cd15 {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	margin-bottom: 40rpx;
 	position: relative;
 }
@@ -165,9 +166,11 @@
 .appointment.data-v-4842cd15 {
 	width: 120rpx;
 	height: 40rpx;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fa3475), to(#ff6699)), -webkit-gradient(linear, left top, left bottom, from(#e0619d), to(#e0619d));
 	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%), -webkit-linear-gradient(#e0619d, #e0619d);
 	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#e0619d, #e0619d);
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	border: 0;
 	line-height: 40rpx;
 	text-align: center;
@@ -179,7 +182,8 @@
 	height: 40rpx;
 	text-align: center;
 	line-height: 40rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	border: 2rpx solid #fa3475;
 	font-size: 20rpx;
 	color: #fa3475;
@@ -264,7 +268,8 @@
 	line-height: 50rpx;
 	text-align: center;
 	border: 1px solid #999999;
-	border-radius: 25rpx;
+	-webkit-border-radius: 25rpx;
+	        border-radius: 25rpx;
 	font-size: 24rpx;
 	color: #999999;
 	/* margin-right: 20rpx; */
@@ -273,6 +278,7 @@
 	border: none;
 }
 .immediate-payment.data-v-4842cd15 {
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fa3475), to(#ff6699)), -webkit-gradient(linear, left top, left bottom, from(#e0619d), to(#e0619d));
 	background-image: -webkit-linear-gradient(bottom, #fa3475 0%, #ff6699 100%), -webkit-linear-gradient(#e0619d, #e0619d);
 	background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%), linear-gradient(#e0619d, #e0619d);
 	color: #FFFFFF;
@@ -281,7 +287,8 @@
 	line-height: 50rpx;
 	font-size: 24rpx;
 	text-align: center;
-	border-radius: 25rpx;
+	-webkit-border-radius: 25rpx;
+	        border-radius: 25rpx;
 	color: #FFFFFF;
 }
 .immediate-payment.data-v-4842cd15::after {
@@ -340,7 +347,8 @@
 	font-weight: lighter;
 	font-size: 20rpx;
 	line-height: 40rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -384,7 +392,8 @@
 	background-color: #f0f0f0;
 	color: #333333;
 	font-size: 20rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -471,7 +480,8 @@
 .discount-hint.data-v-4842cd15{
 	background-color: #FFFFFF;
 	padding: 40rpx 20rpx 10rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	width: 60%;
 }
 .discounts_list.data-v-4842cd15{
@@ -507,7 +517,8 @@
 	background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
 	padding: 0 20rpx;
 	line-height: 32rpx;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	margin-right: 10rpx;
 	color: #FFFFFF;
 }
@@ -568,7 +579,8 @@
 	line-height: 60rpx;
 	margin-right: 20rpx;
 	color: #FFFFFF;
-	border-radius: 30rpx;
+	-webkit-border-radius: 30rpx;
+	        border-radius: 30rpx;
 }
 .go_see.data-v-4842cd15{
 	background-image: -webkit-linear-gradient(135deg,  #fa3475 0%,  #ff6699 100%);
@@ -577,6 +589,7 @@
 	line-height: 60rpx;
 	margin-left: 20rpx;
 	color: #FFFFFF;
-	border-radius: 30rpx;
+	-webkit-border-radius: 30rpx;
+	        border-radius: 30rpx;
 }
 

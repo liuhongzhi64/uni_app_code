@@ -30,7 +30,8 @@
 .user-head-portrait image.data-v-bfd8c1fe {
 	width: 160rpx;
 	height: 160rpx;
-	border-radius: 80rpx;
+	-webkit-border-radius: 80rpx;
+	        border-radius: 80rpx;
 	margin-right: 24rpx;
 	background-color: #FFFFFF;
 }
@@ -133,8 +134,10 @@
 	height: 80rpx;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(250, 53, 118, 0.56);
-	border-radius: 40rpx;
+	-webkit-box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(250, 53, 118, 0.56);
+	        box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(250, 53, 118, 0.56);
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	line-height: 80rpx;
 	color: #FFFFFF;
 	font-size: 28rpx;

@@ -22,7 +22,8 @@
 .left-input.data-v-062a8834 {
 	width: 620rpx;
 	height: 56rpx;
-	border-radius: 28rpx;
+	-webkit-border-radius: 28rpx;
+	        border-radius: 28rpx;
 	background-color: #ffffff;
 	border: solid 1px #e6e6ea;
 	background-color: #FFFFFF;
@@ -131,18 +132,22 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 	margin-bottom: 30rpx;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 }
 .head_img.data-v-062a8834{
 	width: 230rpx;
 	height: 230rpx;
-	border-top-left-radius: 24rpx;
-	border-bottom-left-radius: 24rpx;
+	-webkit-border-top-left-radius: 24rpx;
+	        border-top-left-radius: 24rpx;
+	-webkit-border-bottom-left-radius: 24rpx;
+	        border-bottom-left-radius: 24rpx;
 }
 .spu_icon.data-v-062a8834{
 	width: 120rpx;
 	height: 40rpx;
-	border-top-left-radius: 24rpx;
+	-webkit-border-top-left-radius: 24rpx;
+	        border-top-left-radius: 24rpx;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -190,7 +195,8 @@
 	font-weight: lighter;
 	padding: 0 20rpx;
 	line-height: 36rpx;
-	border-radius: 18rpx;
+	-webkit-border-radius: 18rpx;
+	        border-radius: 18rpx;
 	background-color: #F0F0F0;
 	margin-right: 20rpx;
 }
@@ -226,7 +232,8 @@
 
 /* 医生 */
 .doctor_info.data-v-062a8834{
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	background-color: #FFFFFF;
 	margin-bottom: 30rpx;
 	padding: 0 20rpx 20rpx;
@@ -246,7 +253,8 @@
 .consult.data-v-062a8834{
 	width: 80rpx;
 	line-height: 32rpx;
-	border-radius:16rpx;
+	-webkit-border-radius:16rpx;
+	        border-radius:16rpx;
 	border: 1px solid #cfbe85;
 	color: #cfbd85;
 	font-size: 24rpx;
@@ -259,7 +267,8 @@
 .doctor_head_img.data-v-062a8834{
 	width: 120rpx;
 	height: 120rpx;
-	border-radius: 60rpx;
+	-webkit-border-radius: 60rpx;
+	        border-radius: 60rpx;
 	background-color: #000000;
 }
 .doctor_right_info.data-v-062a8834{
@@ -318,12 +327,14 @@
 	border: 1px solid #fa3475;
 	color: #fa3475;
 	padding: 0 10rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	font-size: 20rpx;
 	margin-right: 20rpx;
 }
 .doctor_view_title.data-v-062a8834{
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	border: 1px solid #ADD8E6;
 	color: #ADD8E6;
 	padding: 0 10rpx;
@@ -333,7 +344,8 @@
 .doctor_recommended_goods.data-v-062a8834,.doctor_hot_goods.data-v-062a8834{
 	line-height: 56rpx;
 	padding: 0 20rpx;
-	border-radius: 28rpx;
+	-webkit-border-radius: 28rpx;
+	        border-radius: 28rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -372,7 +384,8 @@
 	margin-right: 15rpx;
 	width: 30rpx;
 	height: 30rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	text-align: center;
 	line-height: 30rpx;
 	font-size: 20rpx;
@@ -382,7 +395,8 @@
 	color: #FFFFFF;
 	margin-right: 15rpx;
 	width: 30rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	height: 30rpx;
 	text-align: center;
 	line-height: 30rpx;
@@ -425,7 +439,8 @@
 }
 .left_item.data-v-062a8834,.right_item.data-v-062a8834{
 	background-color: #FFFFFF;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	width: 350rpx;
 	margin-bottom: 20rpx;
 }
@@ -434,7 +449,8 @@
 }
 .video_img.data-v-062a8834{
 	width: 350rpx;
-	border-radius: 16rpx 16rpx 0 0;
+	-webkit-border-radius: 16rpx 16rpx 0 0;
+	        border-radius: 16rpx 16rpx 0 0;
 	background-color: #EEEEEE;
 	display: block;
 }
@@ -475,7 +491,8 @@
 	font-size: 18rpx;
 	background-color: #999999;
 	color: #FFFFFF;
-	border-radius: 5rpx;
+	-webkit-border-radius: 5rpx;
+	        border-radius: 5rpx;
 	margin-right: 20rpx;
 	overflow: hidden;
 	display: -webkit-box;
@@ -545,7 +562,8 @@
 .head_ico.data-v-062a8834{
 	width: 48rpx;
 	height: 48rpx;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	margin-right: 10rpx;
 	background-color: #F0F0F0;
 }
@@ -582,7 +600,8 @@
 	background-color: #d0d0d0;
 	width: 40rpx;
 	height: 40rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -597,7 +616,9 @@
 .collect_num .like.data-v-062a8834{
 	width: 42rpx;
 	height: 42rpx;
-	border-radius: 21rpx;
+	-webkit-border-radius: 21rpx;
+	        border-radius: 21rpx;
+	background-image: -webkit-gradient(linear,  left bottom, left top,  from(#fa3475),  to(#ff6699)),  -webkit-gradient( linear, left top, left bottom, from(#f56fb4), to(#f56fb4));
 	background-image: -webkit-linear-gradient(bottom,  #fa3475 0%,  #ff6699 100%),  -webkit-linear-gradient( #f56fb4, #f56fb4);
 	background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
 	display: -webkit-box;
@@ -620,8 +641,10 @@
 	line-height: 65rpx;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-	border-radius: 50%;
+	-webkit-box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
+	        box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 	position: fixed;
 	right: 40rpx;
 	bottom: 130px;

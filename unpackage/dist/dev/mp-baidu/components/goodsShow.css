@@ -64,7 +64,8 @@
 .label-name.data-v-3712ff48 {
 	background-color: #999999;
 	text-align: center;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	margin: 0 10rpx 10rpx 0;
 	padding: 0 10rpx;
 	line-height: 36rpx;
@@ -99,6 +100,7 @@
 	        align-items: center;
 }
 .vip-price .cart.data-v-3712ff48 {
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#000000), to(#2c2c2c)), -webkit-gradient(linear, left top, left bottom, from(#282828), to(#282828));
 	background-image: -webkit-linear-gradient(bottom, #000000 0%, #2c2c2c 100%), -webkit-linear-gradient(#282828, #282828);
 	background-image: linear-gradient(0deg, #000000 0%, #2c2c2c 100%), linear-gradient(#282828, #282828);
 	font-size: 16rpx;
@@ -106,7 +108,8 @@
 	line-height: 20rpx;
 	text-align: center;
 	color: #fefefe;
-	border-radius: 8rpx 0 0 8rpx;
+	-webkit-border-radius: 8rpx 0 0 8rpx;
+	        border-radius: 8rpx 0 0 8rpx;
 }
 .vip-price .price.data-v-3712ff48 {
 	font-size: 20rpx;
@@ -115,7 +118,8 @@
 	line-height: 20rpx;
 	text-align: center;
 	border: 1px solid #282828;
-	border-radius: 0 8rpx 8rpx 0;
+	-webkit-border-radius: 0 8rpx 8rpx 0;
+	        border-radius: 0 8rpx 8rpx 0;
 }
 .rate-sales.data-v-3712ff48 {
 	display: -webkit-box;

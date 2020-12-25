@@ -4,12 +4,8 @@
 		<view class="goods_content" :style="{'padding-left':paddingLR+'rpx','padding-right':paddingLR+'rpx'}">
 			<view class="left-content">
 				<view class="goods_item-content" 
-				 style="width: 340rpx;"  
-				 v-for="(item,index) in doctorList" 
-				 :key='index' 
-				 v-if="index%2==0" 
-				 >
-					<image @tap='playVideo(item.id)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
+				 style="width: 340rpx;" v-for="(item,index) in doctorList" :key='index' v-if="index%2==0" >
+					<image @tap="playVideo(item.id)" class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
 					<image :src="requestUrl+item.heading" v-else class="cover_img"></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
@@ -27,21 +23,13 @@
 							</view>								
 							<view 
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)'
-							 >
-								<!-- <view class="like">
-									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view> -->
+							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)' >
 								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
-							 v-else @tap='cancelLike(item.id,index)'
-							 >
-								<!-- <view class="like">
-									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view> -->
+							 v-else @tap='cancelLike(item.id,index)' >
 								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
 							</view>							
@@ -50,13 +38,10 @@
 				</view>
 			</view>
 			<view class="right-content">
-				<view class="goods_item-content"
-				 style="width: 340rpx;"
-				 v-for="(item,index) in doctorList" 
-				 :key='index' 
-				 v-if="index%2==1" 
-				 >
-					<image @tap='playVideo(item.id)' class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
+				<view class="goods_item-content" style="width: 340rpx;"
+				 v-for="(item,index) in doctorList" :key='index' 
+				 v-if="index%2==1" >
+					<image @tap="playVideo(item.id)" class="cover_img" :src="requestUrl+item.cover_img" v-if="!item.heading"></image>
 					<image :src="requestUrl+item.heading" v-else class="cover_img"></image>
 					<view class="bottom-content">
 						<view class="item-title"> {{item.name}} </view>
@@ -74,18 +59,12 @@
 							</view>							
 							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)'>
-								<!-- <view class="like">
-									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view> -->
 								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-else @tap='cancelLike(item.id,index)'>
-								<!-- <view class="like">
-									<image class="like-image"  src="https://img-blog.csdnimg.cn/20200620165003616.png" ></image>
-								</view> -->
 								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
 								<text v-if="item.collect">{{item.collect}} </text>
 							</view>

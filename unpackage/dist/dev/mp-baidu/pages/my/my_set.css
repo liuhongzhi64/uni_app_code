@@ -4,13 +4,16 @@
 }
 .set_top.data-v-3aad17e9{
 	background-color: #FFFFFF;
-	border-bottom-left-radius: 24rpx;
-	border-bottom-right-radius: 24rpx;
+	-webkit-border-bottom-left-radius: 24rpx;
+	        border-bottom-left-radius: 24rpx;
+	-webkit-border-bottom-right-radius: 24rpx;
+	        border-bottom-right-radius: 24rpx;
 }
 .set_info.data-v-3aad17e9{
 	margin-top: 30rpx;
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 }
 .user_info.data-v-3aad17e9{
 	display: -webkit-box;
@@ -36,7 +39,8 @@
 .head_ico.data-v-3aad17e9{
 	width: 100rpx;
 	height: 100rpx;
-	border-radius: 50rpx;
+	-webkit-border-radius: 50rpx;
+	        border-radius: 50rpx;
 	background-color: #C0C0C0;
 }
 .authentication.data-v-3aad17e9{
@@ -53,7 +57,8 @@
 	height: 80rpx;
 	line-height: 80rpx;
 	width: 100%;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	text-align: center;
 }
 .sign_out.data-v-3aad17e9{

@@ -5,6 +5,7 @@
 .card-top.data-v-6e8e8cce {
 	height: 80rpx;
 	line-height: 80rpx;
+	background-image: -webkit-gradient(linear, right top, left top, from(#fa3475), to(#ff6699));
 	background-image: -webkit-linear-gradient(right, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-90deg, #fa3475 0%, #ff6699 100%);
 	display: -webkit-box;
@@ -96,7 +97,8 @@
 .ticket-label .label-name.data-v-6e8e8cce {
 	width: 108rpx;
 	height: 50rpx;
-	border-radius: 25rpx;
+	-webkit-border-radius: 25rpx;
+	        border-radius: 25rpx;
 	text-align: center;
 	line-height: 50rpx;
 	background-color: #f0f0f0;
@@ -109,7 +111,8 @@
 	color: #fa3475;
 	width: 108rpx !important;
 	height: 48rpx !important;
-	border-radius: 25rpx;
+	-webkit-border-radius: 25rpx;
+	        border-radius: 25rpx;
 }
 .content-item.data-v-6e8e8cce {
 	padding: 32rpx 36rpx 0;
@@ -196,7 +199,8 @@
 	-webkit-flex-direction: column;
 	        flex-direction: column;
 	padding: 30rpx 32rpx 20rpx;
-	border-top-left-radius: 16rpx;
+	-webkit-border-top-left-radius: 16rpx;
+	        border-top-left-radius: 16rpx;
 }
 .ticket-label-writer.data-v-6e8e8cce {
 	overflow: hidden;
@@ -209,9 +213,11 @@
 	font-size: 18rpx;
 	margin-right: 10rpx;
 	color: #FFFFFF;
+	background-image: -webkit-gradient(linear, right top, left top, from(#8834fa), to(#a25eff));
 	background-image: -webkit-linear-gradient(right, #8834fa 0%, #a25eff 100%);
 	background-image: linear-gradient(-90deg, #8834fa 0%, #a25eff 100%);
-	border-radius: 4rpx;
+	-webkit-border-radius: 4rpx;
+	        border-radius: 4rpx;
 }
 .ticket-writer.data-v-6e8e8cce {
 	font-size: 28rpx;
@@ -231,7 +237,8 @@
 }
 .ticket-images-exclusiveName.data-v-6e8e8cce {
 	width: 248rpx;
-	border-top-right-radius: 16rpx;
+	-webkit-border-top-right-radius: 16rpx;
+	        border-top-right-radius: 16rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -248,9 +255,11 @@
 	width: 128rpx;
 	height: 36rpx;
 	text-align: center;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#070606), to(#303030));
 	background-image: -webkit-linear-gradient(bottom, #070606 0%, #303030 100%);
 	background-image: linear-gradient(0deg, #070606 0%, #303030 100%);
-	border-radius: 0rpx 0rpx 16rpx 16rpx;
+	-webkit-border-radius: 0rpx 0rpx 16rpx 16rpx;
+	        border-radius: 0rpx 0rpx 16rpx 16rpx;
 	font-size: 20rpx;
 	line-height: 36rpx;
 }
@@ -271,16 +280,21 @@
 	text-align: center;
 	line-height: 40rpx;
 	background-color: #ffffff;
-	box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(0, 0, 0, 0.16);
-	border-radius: 20rpx;
+	-webkit-box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(0, 0, 0, 0.16);
+	        box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(0, 0, 0, 0.16);
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	margin-top: 20rpx;
 	font-size: 24rpx;
 }
 .ticketDetails.data-v-6e8e8cce {
 	padding: 18rpx 26rpx 18rpx 30rpx;
-	border-bottom-left-radius: 16rpx;
-	border-bottom-right-radius: 16rpx;
-	box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
+	-webkit-border-bottom-left-radius: 16rpx;
+	        border-bottom-left-radius: 16rpx;
+	-webkit-border-bottom-right-radius: 16rpx;
+	        border-bottom-right-radius: 16rpx;
+	-webkit-box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
+	        box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
 	color: #999999;
 }
 .details-title.data-v-6e8e8cce {
@@ -370,7 +384,8 @@
 	color: #000000;
 }
 .show_name_info text.data-v-6e8e8cce{
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	color: #FFFFFF;
 	padding: 0 10rpx;
 	margin-right: 10rpx;
@@ -438,7 +453,8 @@
 	color: #FFFFFF;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	font-size: 28rpx;
 	margin-top: 30rpx;
 }

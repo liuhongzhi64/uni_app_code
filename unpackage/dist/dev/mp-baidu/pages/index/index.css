@@ -146,13 +146,15 @@
 }
 .swiper-img image.data-v-57280228 {
 	height: 260rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	background-color: #FFFFFF;
 }
 .icon image.data-v-57280228 {
 	width: 80rpx;
 	height: 80rpx;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 }
 
 /* 广告位 */
@@ -183,7 +185,8 @@
 	background-color: #FFFFFF;
 	width: 710rpx;
 	margin: 20rpx auto;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
@@ -260,14 +263,16 @@
 	padding: 20rpx 20rpx 0;
 	background-color: #FFFFFF;
 	margin: 20rpx auto;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 }
 .all-red-packet-item.data-v-57280228 {
 	display: inline-block;
 	width: 74rpx;
 	height: 92rpx;
 	background-color: #ffbea7;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	margin-right: 20rpx;
 }
 .pitchOn.data-v-57280228 {
@@ -275,14 +280,16 @@
 	display: inline-block;
 	height: 100rpx;
 	background-color: #ff3d3d;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	color: #FFFFFF;
 }
 .pitchOnItemsConten.data-v-57280228 {
 	width: 44rpx;
 	height: 44rpx;
 	background-color: #ffc825;
-	border-radius: 22rpx;
+	-webkit-border-radius: 22rpx;
+	        border-radius: 22rpx;
 	margin-left: 5rpx;
 }
 .red-packe-Items.data-v-57280228 {
@@ -301,7 +308,8 @@
 .red-packe-ItemsContent.data-v-57280228 {
 	width: 40rpx;
 	height: 40rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	font-size: 22rpx;
 	background-color: #ffedb8;
 }
@@ -355,7 +363,8 @@
 	color: #ffffff;
 	width: 230rpx;
 	height: 160rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 }
 .scrollText.data-v-57280228 {
 	/* width: 160rpx;	 */
@@ -374,7 +383,8 @@
 }
 .scrollTextGo.data-v-57280228 {
 	height: 26rpx;
-	border-radius: 13rpx;
+	-webkit-border-radius: 13rpx;
+	        border-radius: 13rpx;
 	background-color: #e87a07;
 	width: 60rpx;
 	line-height: 26rpx;
@@ -458,7 +468,8 @@
 	height: 30rpx;
 	line-height: 30rpx;
 	background-color: #fa3475;
-	border-radius: 4rpx;
+	-webkit-border-radius: 4rpx;
+	        border-radius: 4rpx;
 	border: solid 1px #fa3475;
 	margin-top: 12rpx;
 	text-align: center;
@@ -524,7 +535,8 @@
 
 /* 推荐内容 */
 .recommenListItem.data-v-57280228 {
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 0 20rpx;
 }
 .footer.data-v-57280228 {

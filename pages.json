@@ -4,15 +4,18 @@
 		// 测试时的首页
 				
 		{
-			"path": "pages/doctor/this_doctor", //医生
+			"path": "pages/doctor/doctor", //医生
 			"style": {}
 		},
 		
 		{
-			"path": "pages/my/my_card", //我的卡卷
+			"path": "pages/doctor/this_doctor", //医生主页
 			"style": {}
-		},
-		 
+		}, 
+		{
+			"path": "pages/doctor/doctor_detail", //医生主页
+			"style": {}
+		}, 
 		
 		
 			
@@ -132,18 +135,12 @@
 		},
 
 		// 医生
-		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
+		
 		{
 			"path": "pages/doctor/doctor_certificate", //医生证书
 			"style": {}
 		},
-		{
-			"path": "pages/doctor/doctor_detail", //医生主页
-			"style": {}
-		},
+		
 		{
 			"path": "pages/doctor/doctor_photo", //医生相册
 			"style": {}
@@ -224,7 +221,10 @@
 			"style": {}
 		},
 		
-		
+		{
+			"path": "pages/my/my_card", //我的卡卷
+			"style": {}
+		},
 		{
 			"path": "pages/my/my_card_gain", //领取卡卷
 			"style": {}

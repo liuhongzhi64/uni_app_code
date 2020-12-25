@@ -13,13 +13,16 @@
 .dot-item {
 	width: 30rpx;
 	height: 10rpx;
-	border-radius: 3rpx;
+	-webkit-border-radius: 3rpx;
+	        border-radius: 3rpx;
 	background-color: #c5c5c5;
 	margin: 0 6rpx;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 .active {
-	border-radius: 5rpx;
+	-webkit-border-radius: 5rpx;
+	        border-radius: 5rpx;
 	width: 30rpx;
 	background-color: #fa3475;
 }

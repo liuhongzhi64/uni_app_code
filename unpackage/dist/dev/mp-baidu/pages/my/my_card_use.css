@@ -115,7 +115,8 @@
 }
 .define-btn.data-v-e3febc3e{
 	height: 80rpx;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	line-height: 80rpx;
 	text-align: center;	
 	border: none;
@@ -124,7 +125,8 @@
 	height: 80rpx;
 	text-align: center;
 	line-height: 80rpx;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	background-color: #F6F6F6;
 	margin-right: 30rpx;
 	margin-bottom: 20rpx;
@@ -208,7 +210,8 @@
 	font-size: 16rpx;
 	padding: 5rpx 8rpx;
 	margin-right: 10rpx;
-	border-radius: 4rpx;
+	-webkit-border-radius: 4rpx;
+	        border-radius: 4rpx;
 	color: #FFFFFF;
 }
 .porduct-price.data-v-e3febc3e{
@@ -223,14 +226,17 @@
 	display: flex;
 	margin-left: 25rpx;
 	border: 1px solid #282828;
-	border-radius:4rpx ;
+	-webkit-border-radius:4rpx ;
+	        border-radius:4rpx ;
 }
 .vip.data-v-e3febc3e{
 	font-size: 16rpx;
-	border-radius: 4rpx;
+	-webkit-border-radius: 4rpx;
+	        border-radius: 4rpx;
 	width: 48rpx;
 	height: 29rpx;
 	line-height: 30rpx;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#000000),  to(#2c2c2c)),  -webkit-gradient( linear, left top, left bottom, from(#282828), to(#282828));
 	background-image: -webkit-linear-gradient(bottom, #000000 0%,  #2c2c2c 100%),  -webkit-linear-gradient( #282828, #282828);
 	background-image: linear-gradient(0deg, #000000 0%,  #2c2c2c 100%),  linear-gradient( #282828, #282828);
 	color: #FFFFFF;

@@ -50,7 +50,7 @@
 			this.request = this.$request			
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// console.log(option)
+			console.log(option)
 			that.getDoctormessage(option.id)
 		},
 		onReady() {

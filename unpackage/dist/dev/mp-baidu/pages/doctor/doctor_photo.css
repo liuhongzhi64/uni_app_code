@@ -14,16 +14,16 @@
 	        justify-content: space-between;
 }
 .doctor-photo-list.data-v-4f4eebce{
-	width: 350rpx;
-	height: 350rpx;
 	background-color: #ffffff;
-	border-radius: 16rpx;
-	margin-bottom: 10rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
+	margin-bottom: 20rpx;
 }
 .doctor-photo-list image.data-v-4f4eebce{
 	width: 350rpx;
-	height: 350rpx;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
+	display: block;
 }
 .bottom-hint.data-v-4f4eebce{
 	margin-top: 160rpx;

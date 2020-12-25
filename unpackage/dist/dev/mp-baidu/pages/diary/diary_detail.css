@@ -29,7 +29,8 @@
 .user-head-portrait image.data-v-799f96d2 {
 	width: 160rpx;
 	height: 160rpx;
-	border-radius: 80rpx;
+	-webkit-border-radius: 80rpx;
+	        border-radius: 80rpx;
 	margin-right: 24rpx;
 	background-color: #FFFFFF;
 }
@@ -76,7 +77,8 @@
 	width: 320rpx;
 	height: 80rpx;
 	background-color: #000000;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	opacity: 0.7;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -94,7 +96,8 @@
 	width: 320rpx;
 	height: 80rpx;
 	background-color: #000000;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	opacity: 0.7;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -115,7 +118,8 @@
 .correlation-doctor .doctor-images image.data-v-799f96d2 {
 	width: 80rpx;
 	height: 80rpx;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	background-color: #FFFFFF;
 }
 .porduct-name-price.data-v-799f96d2,
@@ -333,7 +337,8 @@
 	opacity: 0.6;
 	width: 100rpx;
 	height: 100rpx;
-	border-radius: 50rpx;
+	-webkit-border-radius: 50rpx;
+	        border-radius: 50rpx;
 	margin-bottom: 20rpx;
 	color: #FFFFFF;
 	font-size: 24rpx;

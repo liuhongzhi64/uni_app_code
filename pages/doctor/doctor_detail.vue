@@ -6,7 +6,8 @@
 		<view class="detail_content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-60+'px'}]">
 			<view class="this_doctor_info">
 				<image class="doctor_image" :src="requestUrl+doctor_info[0].image" mode="widthFix"></image>
-				<navigator class="doctor_photos" v-if="doctor_info.album" :url="'/pages/doctor/doctor_photo?id='+doctor_id">医生相册一览
+				<navigator class="doctor_photos" v-if="doctor_info.album" :url="'/pages/doctor/doctor_photo?id='+doctor_id">
+					医生相册一览
 					<image class="go_img" src="/static/images/return.png" mode="widthFix"></image>
 				</navigator>
 				<view class="doctor_info">
@@ -61,7 +62,8 @@
 					<view class="this_list">
 						<scroll-view class="this_items" scroll-x="true">
 							<view class="this_item_content">
-								<navigator class="item_img" v-for="(item,index) in certificate_list" :key='index' :url="'/pages/doctor/doctor_certificate?id='+item.doctor_id">
+								<navigator class="item_img" v-for="(item,index) in certificate_list" :key='index'
+								 :url="'/pages/doctor/doctor_certificate?id='+item.doctor_id">
 									<view class="item_info">
 										<image class="doctor_img" :src="requestUrl+item.url" mode="widthFix"></image>
 									</view>
@@ -187,7 +189,7 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			that.doctor_id = option.id
+			// that.doctor_id = option.id
 			that.get_detail()
 			that.get_doctor_certificate()
 		},
@@ -223,7 +225,6 @@
 						let data = res.data.data
 						data.goods = that.group(data.goods, 2)
 						that.doctor_info = data
-						console.log(data)
 						that.title = data[0].name + '的' + that.title
 						that.doctor_heading = that.requestUrl + data[0].heading
 						that.doctor_name = data[0].name

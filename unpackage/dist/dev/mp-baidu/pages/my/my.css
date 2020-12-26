@@ -1,6 +1,5 @@
 
 .top-nav-message.data-v-0be17cc6 {
-	/* background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%); */
 	background-image: -webkit-gradient(linear, left top, right top, from(#FA558D),to(#EF2768));
 	background-image: -webkit-linear-gradient(left, #FA558D,#EF2768);
 	background-image: linear-gradient(to right, #FA558D,#EF2768);
@@ -26,39 +25,13 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
 	font-size: 38rpx;
-	position: relative;
-}
-.back.data-v-0be17cc6 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	margin-left: 20rpx;
-	width: 60rpx;
-	height: 100%;
-}
-.back image.data-v-0be17cc6 {
-	width: 36rpx;
-	height: 36rpx;
-}
-.back-title .title.data-v-0be17cc6 {
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	        flex: 1;
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top: 0;
-	text-align: center;
 }
 .user-head-portrait-name-phone-set.data-v-0be17cc6 {
 	padding: 10rpx 40rpx;

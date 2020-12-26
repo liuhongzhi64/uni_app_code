@@ -130,11 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 494));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -160,77 +156,88 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       height: 0,
       barName: 'back', //导航条名称
-      topBackgroundColor: '#222222',
+      topBackgroundColor: '#000000',
       color: '#FFFFFF',
       backImage: '/static/images/back2.png',
       title: '医生相册一览',
-      doctorPhotoList: [],
-      requestUrl: '' };
+      requestUrl: '',
+      doctor_id: 4,
+      photo_list: [],
+      show_list: [] };
 
-  },
-  onReady: function onReady() {
-    var that = this;
-    that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
-    if (platform == 'Applets') {
-      // 获取屏幕高度
-      uni.getSystemInfo({
-        success: function success(res) {
-          var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
-          that.menuTop = menu.top;
-          that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
-          that.menuBottom = menu.bottom;
-        } });
-
-    } else
-    if (platform == 'APP') {
-      that.menuWidth = 90;
-      that.menuTop = 40;
-      that.menuBottom = 70;
-      that.menuHeight = 30;
-      that.menuLeft = 278;
-    }
   },
   onLoad: function onLoad(option) {
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    that.getDetail(option.id);
+    that.doctor_id = option.id;
+    that.get_detail();
+
+  },
+
+  onReady: function onReady() {
+    var that = this;
+    that.height = uni.getSystemInfoSync().screenHeight;
+    var platform = getApp().platform || getApp().globalData.platform;
+    if (platform == 'Applets') {
+      uni.getSystemInfo({
+        success: function success(res) {
+          var menu = uni.getMenuButtonBoundingClientRect();
+          that.menuTop = menu.top;
+          that.menuHeight = menu.height;
+          that.menuBottom = menu.bottom;
+        } });
+
+    } else if (platform == 'APP') {
+      that.menuTop = 40;
+      that.menuBottom = 70;
+      that.menuHeight = 30;
+    }
   },
   methods: {
-    goToDoctor: function goToDoctor() {
-      // uni.navigateTo({
-      // 	url: `/pages/doctor/doctor_detail`,
-      // })
-      console.log('点击了图片');
-    },
-    // 获取相册
-    getDetail: function getDetail(doctorId) {var _this = this;
+    get_detail: function get_detail() {
       var that = this;
       var dataInfo = {
         interfaceId: 'docker_img',
-        doctor_id: doctorId,
+        doctor_id: that.doctor_id,
         type: '0' };
 
       this.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.doctorPhotoList = data;
-        } else
-        {
-          _this.request.showToast(res.data.message);
+          that.photo_list = data;
+          var imgs_array = data;
+          var list = [];
+          for (var key in data) {
+            var url = that.requestUrl + data[key].url;
+            list.push(url);
+          }
+          that.show_list = list;
         }
       });
+    },
+    show_photo: function show_photo(index) {
+      var that = this;
+      console.log(that.show_list);
+      //
+      // uni.previewImage({
+      // 	current:index,
+      // 	urls:that.show_list,
+      // 	indicator:'number',
+      // 	loop:true
+      // })
+      //
+      uni.previewImage({
+        current: index,
+        urls: that.show_list,
+        indicator: 'number',
+        loop: true });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

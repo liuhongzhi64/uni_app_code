@@ -1,22 +1,15 @@
 <template>
 	<view class="doctor_certificate">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-		医生证书
-		<view class="doctor_certificate_content" :style="[{'padding-top':menuBottom-10+'px','height':height-menuBottom-11+'px'}]">
-
-			<view class="certificate-photo">
-				<swiper class="swiper" indicator-active-color="#ffffff" display-multiple-items='1.5' :duration="duration" circular previous-margin='64rpx' next-margin='64rpx'>
-					<swiper-item class="swiper-item" v-for="(i,index) in doctorPhotoList" :key="index">
-						<view class="swiper-item">
-							<image :src="requestUrl+i.url" mode="heightFix"></image>
-						</view>
-					</swiper-item>
-				</swiper>
-			</view>
-			
-
-
+		 :title='title' :menuTop='menuTop' :menuHeight='menuHeight' :menuBottom='menuBottom'></topBar>
+		<view class="certificate_photo" >
+			<swiper class="swiper_info" :style="[{'height':height+'px'}]">
+				<swiper-item v-for="(item,index) in photo_list" :key='index'>
+					<view class="swiper_item" :style="[{'height':height+'px'}]">
+						<image class="photo_item" :src="requestUrl+item.url" mode="widthFix"></image>
+					</view>
+				</swiper-item>
+			</swiper>
 		</view>
 	</view>
 </template>
@@ -29,10 +22,8 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
 				barName: 'back', //导航条名称
@@ -40,8 +31,7 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '医生证书',
-				duration: 1000, //	滑动动画时长
-				doctorPhotoList: [],
+				photo_list: [],
 				requestUrl:'',
 			}
 
@@ -50,7 +40,6 @@
 			this.request = this.$request			
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			console.log(option)
 			that.getDoctormessage(option.id)
 		},
 		onReady() {
@@ -63,20 +52,16 @@
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
 			}
 			else if (platform == 'APP'){
-				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 30
-				that.menuLeft = 278
 			}
 		},
 		methods: {
@@ -89,12 +74,9 @@
 					type:'1'
 				}
 				this.request.uniRequest("doctor", dataInfo).then(res => {
-					if (res.data.code == 1000) {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.doctorPhotoList = data
-					}
-					else {
-						this.request.showToast(res.data.message);
+						that.photo_list = data
 					}
 				})
 			},
@@ -103,23 +85,20 @@
 </script>
 
 <style scoped>
-	.doctor_certificate_content {
-		background-color: #222222;
-		display: flex;
-		align-items: center;
-		/* width: 100%; */
-	}
-
-	.certificate-photo {
-		height: 100%;
-		text-align: center;
-		width: 100%;
+	.certificate_photo {
 		color: #FFFFFF;
-		display: flex;
-		align-items: center;
+		background-image: linear-gradient(0deg, #222222 0%, #151515 100%);
+		
 	}
-	.swiper{
-		height: 225px;
+	.swiper_item{
 		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.photo_item{
+		width: 85%;
+		background-color: #FFFFFF;
 	}
 </style>

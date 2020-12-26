@@ -130,14 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 494));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -161,10 +154,8 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       height: 0,
       barName: 'back', //导航条名称
@@ -172,8 +163,7 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '/static/images/back2.png',
       title: '医生证书',
-      duration: 1000, //	滑动动画时长
-      doctorPhotoList: [],
+      photo_list: [],
       requestUrl: '' };
 
 
@@ -182,7 +172,6 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    console.log(option);
     that.getDoctormessage(option.id);
   },
   onReady: function onReady() {
@@ -195,25 +184,21 @@ __webpack_require__.r(__webpack_exports__);
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
     } else
     if (platform == 'APP') {
-      that.menuWidth = 90;
       that.menuTop = 40;
       that.menuBottom = 70;
       that.menuHeight = 30;
-      that.menuLeft = 278;
     }
   },
   methods: {
     // 获取证书
-    getDoctormessage: function getDoctormessage(doctorId) {var _this = this;
+    getDoctormessage: function getDoctormessage(doctorId) {
       var that = this;
       var dataInfo = {
         interfaceId: 'docker_img',
@@ -221,12 +206,9 @@ __webpack_require__.r(__webpack_exports__);
         type: '1' };
 
       this.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          that.doctorPhotoList = data;
-        } else
-        {
-          _this.request.showToast(res.data.message);
+          that.photo_list = data;
         }
       });
     } } };exports.default = _default;

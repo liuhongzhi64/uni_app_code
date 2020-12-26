@@ -44,9 +44,9 @@
 									<view class="honor_list" v-for="(i,index) in honor_list" :key="index">
 										<view class="honor_list_item">
 											<view class="certificationimgs_item">
-												<image src="../../static/images/1.png" ></image>
+												<image src="/static/images/1.png" ></image>
 											</view>
-											<view>{{i}}</view>
+											<view :style="[{'color':content_info.top_font_color}]">{{i}}</view>
 										</view>
 									</view>
 								</scroll-view>
@@ -317,6 +317,7 @@
 						name: '优质内容'
 					},
 				],
+				content_info:{},
 				tabIndex: 1, // 选中的
 				swiperheight: 0, //高度
 				productImgList: [],
@@ -386,6 +387,7 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
+						that.content_info = data
 						that.topBackgroundColor = data.background.up
 						//导航栏
 						if (data.top_navigation) {
@@ -409,9 +411,6 @@
 						that.productImgList = that.seckill_module.act_goods_list //活动商品
 						that.setTime()
 						console.log(data, 22222222)
-					} else {
-						// this.request.showToast('暂时没有数据')
-						console.log('11111111')
 					}
 				})
 			},
@@ -724,8 +723,8 @@
 		align-items: center;
 		font-size: 24rpx;
 		color: #333333;
-		line-height: 30rpx;
-		padding:  20rpx;
+		line-height: 60rpx;
+		padding: 0 20rpx;
 	}
 	
 	.certifications_content{
@@ -762,6 +761,7 @@
 	.swiperContent {
 		position: relative;
 		padding-bottom: 20rpx;
+		margin-top: 20rpx;
 	}
 
 	.dot {
@@ -779,6 +779,7 @@
 		flex-direction: column;
 		justify-content: space-around;
 		font-size: 20rpx;
+		color: #FFFFFF;
 	}
 
 	.swiper-img {
@@ -948,7 +949,6 @@
 
 	.all {
 		line-height: 80rpx;
-		;
 	}
 
 	.advertisingItems {

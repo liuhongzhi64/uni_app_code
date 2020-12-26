@@ -1,8 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "top-bar": "/components/topBar",
-    "doctor": "/components/doctorShow",
-    "diary": "/components/diary"
+    "top-bar": "/components/topBar"
   }
 }

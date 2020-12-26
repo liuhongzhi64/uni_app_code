@@ -72,8 +72,8 @@
 	        align-items: center;
 	font-size: 24rpx;
 	color: #333333;
-	line-height: 30rpx;
-	padding:  20rpx;
+	line-height: 60rpx;
+	padding: 0 20rpx;
 }
 .certifications_content.data-v-57280228{
 	overflow: hidden;
@@ -119,6 +119,7 @@
 .swiperContent.data-v-57280228 {
 	position: relative;
 	padding-bottom: 20rpx;
+	margin-top: 20rpx;
 }
 .dot.data-v-57280228 {
 	position: absolute;
@@ -140,6 +141,7 @@
 	-webkit-justify-content: space-around;
 	        justify-content: space-around;
 	font-size: 20rpx;
+	color: #FFFFFF;
 }
 .swiper-img.data-v-57280228 {
 	height: 260rpx;

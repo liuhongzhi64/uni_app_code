@@ -1,8 +1,14 @@
 
-.doctor_photo_content.data-v-4f4eebce {
-	background-color: #222222;
+.doctor_detail.data-v-4f4eebce{
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#222222), to(#151515));
+	background-image: -webkit-linear-gradient(bottom, #222222 0%, #151515 100%);
+	background-image: linear-gradient(0deg, #222222 0%, #151515 100%);
 }
-.photo_content-all.data-v-4f4eebce{
+.this_doctor_info.data-v-4f4eebce{
+	height: 1300rpx;
+	position: relative;
+}
+.doctor_info.data-v-4f4eebce{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -13,23 +19,18 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 }
-.doctor-photo-list.data-v-4f4eebce{
-	background-color: #ffffff;
-	-webkit-border-radius: 16rpx;
-	        border-radius: 16rpx;
-	margin-bottom: 20rpx;
-}
-.doctor-photo-list image.data-v-4f4eebce{
+.item_img.data-v-4f4eebce{
 	width: 350rpx;
 	-webkit-border-radius: 16rpx;
 	        border-radius: 16rpx;
-	display: block;
+	margin-bottom: 20rpx;
+	background-color: #FFFFFF;
 }
 .bottom-hint.data-v-4f4eebce{
-	margin-top: 160rpx;
 	width: 100%;
 	text-align: center;
 	color: #FFFFFF;
 	font-size: 24rpx;
+	padding-top: 40rpx;
 }
 

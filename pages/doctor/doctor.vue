@@ -276,7 +276,13 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.doctor_classfiy_list = data
-						this.change_doctor_classfiy(0,data[0].id)
+						let list = []
+						for(let key in data){
+							if(data[key].docker_count>0){
+								list.push(key)
+							}
+						}
+						this.change_doctor_classfiy(list[0],data[list[0]].id)
 					}
 				})
 			},
@@ -309,7 +315,13 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						that.please_doctor_list = data
-						that.change_please_doctor(0,data[0].id)
+						let list = []
+						for(let key in data){
+							if(data[key].video_count>0){
+								list.push(key)
+							}
+						}
+						that.change_please_doctor(list[0],data[list[0]].id)
 					}
 				})
 			},

@@ -2,12 +2,7 @@
 	<view class="my">
 		<view class="top-nav-message">
 			<view class="my-top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
-				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
-					<view class="back">
-						<image src="/static/images/return.png"></image>
-					</view>
-					<view class="title"> 个人中心 </view>
-				</view>
+				<view class="back-title" :style="[{'height':menuHeight+'px'}]"> 个人中心 </view>
 			</view>
 			<view class="top-message" :style="[{'padding-top':menuBottom+10+'px'}]">
 				<view class="user-message">
@@ -456,7 +451,6 @@
 
 <style scoped>
 	.top-nav-message {
-		/* background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%); */
 		background-image: linear-gradient(to right, #FA558D,#EF2768);
 		overflow: hidden;
 		height: auto;
@@ -478,32 +472,9 @@
 
 	.back-title {
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
 		font-size: 38rpx;
-		position: relative;
-	}
-
-	.back {
-		display: flex;
-		align-items: center;
-		margin-left: 20rpx;
-		width: 60rpx;
-		height: 100%;
-	}
-
-	.back image {
-		width: 36rpx;
-		height: 36rpx;
-	}
-
-	.back-title .title {
-		flex: 1;
-		position: absolute;
-		width: 100%;
-		left: 0;
-		top: 0;
-		text-align: center;
 	}
 
 	.user-head-portrait-name-phone-set {

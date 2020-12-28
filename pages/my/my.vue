@@ -362,7 +362,7 @@
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
 					type: '4',
-					offset: that.offset
+					offset: that.offset*6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {

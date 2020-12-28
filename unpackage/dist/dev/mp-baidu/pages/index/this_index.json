@@ -2,6 +2,8 @@
   "enablePullDownRefresh": true,
   "component": true,
   "usingComponents": {
-    "swiperline": "/components/swperDot"
+    "swiperline": "/components/swperDot",
+    "goods-show": "/components/goodsShow",
+    "doctor": "/components/doctorShow"
   }
 }

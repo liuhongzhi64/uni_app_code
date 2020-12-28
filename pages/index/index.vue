@@ -1,385 +1,313 @@
 <template>
-	<view class="content">
-		<topBar class="topBar" :barName='barName' :topBackgroundColor='topBackgroundColor' :BarImgs='BarImgs' :menuWidth='menuWidth'
-		 :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom' :cartNumber='cartNumber'
-		 :messageNumber='messageNumber' :topSearchContent='topSearchContent'></topBar>
-		<!-- 主体内容 -->
-		<view class="subject-content" :style="[{'padding-top':menuBottom+42+'px'}]">
-			<view class="end-title" v-if="skipList.length>0">
-				<scroll-view class="endtitleitem" scroll-x="true" :style="{backgroundColor:topBackgroundColor}">
-					<view id="scroll-view-item" class="endtitleitem_H endtitleitemTitle" v-for="(item,index) in skipList" :key='index'
-					 :class="{btna:btnnum == index}" @tap="change(index)">
-						{{ item.title}}
-					</view>
-				</scroll-view>
-				<!-- 分类 -->
-				<view class="goods_classify" :style="{backgroundColor:topBackgroundColor}">
-					<view class="goods_classifys" @tap="gotoClassify">
-						<view class="classifyImg">
-							<image src="../../static/images/barcClassify.png" mode=""></image>
-						</view>
-						<view class="classifytext">分类</view>
-					</view>
+	<view class="this_index" >
+		<view class="index_top_fixed" :style="[{'padding-top':menu_top+'px','background-color':index_info.background.up,'padding-bottom':10+'px'}]">
+			<view class="this_top_left" :style="[{'height':menu_height+'px','padding-bottom':10+'px'}]">
+				<navigator class="top_img_nav"
+				 :url="'/pages'+index_info.top_advertising.content.page+'?id='+index_info.top_advertising.content.page_id" v-show="!show_go_top">
+					<image class="top_bar_img" :src="requestUrl+index_info.top_advertising.content.img" :style="[{'height':menu_height+'px'}]"></image>
+				</navigator>
+				<view class="this_top_info" :style="[{'right':this_width-menu_left+10+'px','top':menu_top-8+'px'}]">
+					<navigator class="top_info" url="/pages/cart/cart">
+						<image class="top_image" src="/static/images/cart.png"></image>
+						<text>购物车</text>
+					</navigator>
+					<navigator class="top_info" url="/pages/message/message">
+						<image class="top_image" src="/static/images/consulting.png"></image>
+						<text>消息</text>
+					</navigator>
 				</view>
 			</view>
-			<!-- 主体内容 -->
-			<view class="end-cont" :class="{dis:btnnum == index}" v-for="(items,index) in skipList" :key="index" :style="{backgroundColor:topBackgroundColor}">
-				<scroll-view scroll-y class="list">
-					<template>
-						<view class="top-content">
-							<!-- 轮播 -->
-							<view class="top-swiper">
-								<swiper v-if="swiperList" class="swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval="topInterval"
-								 :duration="topDuration" circular>
-									<swiper-item v-for="(i,index) in swiperList" :key="index">
-										<view class="swiper-item swiper-img">
-											<image :src="requestUrl+i.img" ></image>
-										</view>
-									</swiper-item>
-								</swiper>
-							</view>
-							<!-- 认证 -->
-							<view class="certification" v-if="honor_list">
-								<scroll-view class="certifications_content" scroll-x="true">
-									<view class="honor_list" v-for="(i,index) in honor_list" :key="index">
-										<view class="honor_list_item">
-											<view class="certificationimgs_item">
-												<image src="/static/images/1.png" ></image>
-											</view>
-											<view :style="[{'color':content_info.top_font_color}]">{{i}}</view>
-										</view>
-									</view>
-								</scroll-view>
-							</view>
-							<!-- 自定义导航条 -->
-							<view v-if="tabBarSwiperList" class="swiperContent">
-								<swiper :duration="tabDuration" class="swiper-box" @change="changeSwiperDot">
-									<swiper-item class="tabBarSwiper" v-for="(item,index) in barSwiperList" :key="index">
-										<navigator v-for="(i,index) in item" :key="index" class="tabBarSwiperItem" :url="'/pages'+i.page">
-											<view class="icon">
-												<image :src="requestUrl+i.img" mode=""></image>
-											</view>
-											<view class="text"> {{i.title}} </view>
-										</navigator>
-									</swiper-item>
-								</swiper>
-								<swiperDot class="dot" :current="currents" :list="barSwiperList"></swiperDot>
-							</view>
-							<!-- 全部广告位 -->
-							<view class="advertisingAll"
-							 style="width: 100%;height: 100%;background-size: 100% 100%;" v-for="(item,index) in advertisingList.content"
-							 :key='index'>
-								<!-- 广告位01 -->
-								<view v-show="advertisingList.type==3" v-for="(i,k) in item" :key='k'>
-									<view class="advertising">
-										<image class="advertisImg" :src="requestUrl+i.img" mode=""></image>
-									</view>
-								</view>
-								<!-- 广告位03 -->
-								<!-- <view id="advertising03" class="advertisingItem">
-									<view class="advertising03" v-for="(i,k) in item.advertisingList" :key='k'>
-										<view class="advertisingItems">
-											<view class="advertisingTitle">
-												{{i.title}}
-											</view>
-											<view class="advertisingContent">
-												{{i.content}}
-											</view>
-											<view class="advertisingButton">
-												立即购买
-											</view>
-										</view>
-										<view class="advertisingImg">
-											<image :src="i.backgroungUrl" mode=""></image>
-										</view>
-									</view>
-								</view> -->
-
-								<!-- 广告位04 -->
-								<!-- <view id="scroll-view_H">
-									<scroll-view class="scroll-view-item-Y" scroll-x="true" @scroll="scroll" scroll-left="0" enable-flex='true'>
-										<view id="scroll-view-item" class="scroll-view-item_H" v-for="(i,k) in item.scrollViewItemYList" :key='k'
-										 :data-name="i.name+i.content" @tap="gotoGoods">
-											<view class="scrollAll">
-												<view class="scrollText">
-													<view class="scrollTextName">
-														{{i.name}}
-													</view>
-
-													<view class="scrollTextContent">
-														{{i.content}}
-													</view>
-													<view class="scrollTextGo">
-														GO!
-													</view>
-												</view>
-												<view class="scrollImg">
-													<img :src="i.url"></img>
-												</view>
-											</view>
-
-										</view>
-									</scroll-view>
-								</view> -->
-
-								<!-- 签到红包 -->
-								<!-- <view class="signIn-red-packet">
-									<view class="sign-in-red-packet">
-										<view class="title"> 每日签到 </view>
-										<view class="red-packet"> 即可领取 <text>现金红包</text>等大奖 </view>
-									</view>
-									<view class="all-red-packet">
-										<scroll-view class="all-red-packet-items" scroll-x="true" @scroll="scroll">
-											<view id="all-red-packet-item" class="all-red-packet-item" v-for="(i,k) in item.redPacketList" :key='k'
-											 :class="{pitchOn:item.btnnum == k}" @click="changeRedpacket(k)">
-												<view :id="'all-red-packet-item'+k" class="red-packe-Items">
-													<view class="Imgs"> </view>
-													<view class="red-packe-ItemsContent" :class="{pitchOnItemsConten:item.btnnum == k}">
-														{{i}}
-													</view>
-												</view>
-											</view>
-										</scroll-view>
-									</view>
-								</view> -->
-							</view>
+			<!-- #ifdef MP -->
+			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top+'px':''}]">
+				<image class="search-icon" src="/static/images/search_icon.png"></image>
+				<text class="search_hint">请输入关键字...</text>
+			</navigator>
+			<!-- #endif -->
+			<!-- #ifdef APP-NVUE -->
+			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
+				<image class="search-icon" src="/static/images/search_icon.png"></image>
+				<text class="search_hint">请输入关键字...</text>
+			</navigator>
+			<!-- #endif -->
+			<!-- #ifdef APP-PLUS -->
+			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
+				<image class="search-icon" src="/static/images/search_icon.png"></image>
+				<text class="search_hint">请输入关键字...</text>
+			</navigator>
+			<!-- #endif -->
+			<!-- #ifdef APP-VUE -->
+			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
+				<image class="search-icon" src="/static/images/search_icon.png"></image>
+				<text class="search_hint">请输入关键字...</text>
+			</navigator>
+			<!-- #endif -->
+			<view class="top_calssify" :style="[{'margin-top':!show_go_top?'10px':''}]">
+				<view class="top_calssify_info">
+					<scroll-view class="calssify_info" scroll-x="true">
+						<view class="calssify_item" >
+							<navigator class="item_info" v-for="(item,index) in index_info.top_navigation" :key='index'
+							 :url="'/pages'+item.page+'?id='+item.page_id">
+								{{ item.title}}
+							</navigator>
 						</view>
-					</template>
-				</scroll-view>
+					</scroll-view>
+				</view>
+				<navigator class="goods_classify" url="/pages/goods/goods_classify" open-type="switchTab">
+					<image class="classify_img" src="/static/images/barcClassify.png" ></image> 分类
+				</navigator>
 			</view>
 		</view>
-
-		<!-- 自定义导航条加倒计时 -->
-		<view id="countDown" v-if="seckill_module.length>0">
-			<view class="countDown">
-				<!-- 自定义名称和时间倒计时 -->
-				<view class="timeTitle-time">
-					<view class="timeTitle"> {{seckill_module.name}} </view>
-					<!-- 倒计时 -->
-					<view class="time" v-if="seckill_module.countdwon_format==1">
-						<view class="house">
-							<view class="houses"> {{day}} </view>
-							<view class="dots"> : </view>
+		
+		<view class="index_top_info" :style="[{'padding-top':menu_bottom*2+20+'px','background-color':index_info.background.up}]">
+			<view class="top_swiper">
+				<swiper class="banner_swiper" indicator-dots indicator-active-color="#ffffff" autoplay interval="5000" duration="3000" circular>
+					<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
+						<view class="banner_info">
+							<image class="banner_img" :src="requestUrl+item.img" mode="widthFix"></image>
 						</view>
-						<view class="house">
-							<view class="houses"> {{house}} </view>
-							<view class="dots"> : </view>
-						</view>
-						<view class="second">
-							<view class="seconds"> {{ second }} </view>
-							<view class="dots"> : </view>
-						</view>
-						<view class="minute">
-							<view class="minutes"> {{ minute }} </view>
-						</view>
-					</view>
-					<view class="time" v-else-if="seckill_module.countdwon_format==2">
-						<view class="house">
-							<view class="houses"> {{house}} </view>
-							<view class="dots"> : </view>
-						</view>
-						<view class="second">
-							<view class="seconds"> {{ second }} </view>
-							<view class="dots"> : </view>
-						</view>
-						<view class="minute">
-							<view class="minutes"> {{ minute }} </view>
-						</view>
-					</view>
-				</view>
-				<!-- 全部 -->
-				<view class="all">
-					全部 >
-				</view>
-			</view>
-
-			<!-- 图片商品 -->
-			<view class="productImg">
-				<!-- <porduct :width=240 :requestUrl='requestUrl' :height=370 :crosswisePorducts='productImgList'></porduct> -->
-				<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='productImgList'></goodsShow>
-			</view>
-		</view>
-		<!-- 自定义导航条可滑动 -->
-		<scroll-view id="image" class="customTab">
-			<view class="tabBarList">
-				<scroll-view class="bar-items" scroll-x="true">
-					<view class="tab-all-item">
-						<view class="tab-item" v-for="(i,index) in tabBars" :key='index' :class="{'changeTab' : tabIndex==index}" @tap="tabtap(index,i.type)">
-							<text class="tab-item-title"> {{i.title}} </text>
-							<text class="tab-item-name"> {{i.name}} </text>
-							<view class="tab-line" v-if="index<4"></view>
-						</view>
-					</view>
-				</scroll-view>
-			</view>
-			<view class="uni-tab-bar">
-				<swiper class="swiper-boxs" :style="{height:swiperheight+'rpx'}" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(items,index) in tabBars" :key="index">
-						<scroll-view scroll-y class="list">
-							<template>
-								<block>
-									<view class="recommenListItem">
-										<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='newslist' v-if='items.type==0||items.type==4'>
-										</goodsShow>
-										<diary :diaryList="newslist" :requestUrl='requestUrl' v-else-if="items.type==2"></diary>
-										<doctor :doctorList="newslist" :requestUrl="requestUrl" :paddingLR='paddingLR' @collectLike='collectLike'
-										 @cancelLike='cancelLike' v-else-if="items.type==1">
-										</doctor>
-									</view>
-								</block>
-							</template>
-						</scroll-view>
 					</swiper-item>
 				</swiper>
 			</view>
-		</scroll-view>
-		<!-- 底部 -->
-		<view class="footer">
-			——人家也是有底线的喵！——
+			<view class="certification">
+				<scroll-view class="certifications_content" scroll-x="true">
+					<view class="honor_list_info">
+						<view class="honor_list" v-for="(item,index) in index_info.honor_list" :key="index">
+							<image class="honor_image" src="/static/images/1.png" ></image>
+							<view :style="[{'color':index_info.top_font_color}]">{{item}}</view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="this_index_icon_list">
+				<swiper class="icon_list" @change="change_swiper_line" duration="3000">
+					<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
+						<navigator class="icon_list_item" v-for="(item,k) in list" :key="k"  :url="'/pages'+item.page">
+							<image class="icon_img" :src="requestUrl+item.img" mode="widthFix"></image>
+							<view class="icon_title"> {{item.title}} </view>
+						</navigator>
+					</swiper-item>
+				</swiper>
+				<swiperline class="swiper_line" :current="swiper_line" :list="index_info.icon_list"></swiperline>
+			</view>
+		</view>
+		<!-- 中部广告位 -->
+		<view class="all_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index'>
+			<view class="tile_advertising" v-for="(item,k) in list" :key='k'>
+				<view class="advertising">
+					<image class="advertisImg" :src="requestUrl+item.img" mode=""></image>
+				</view>
+			</view>
+		</view>
+		<!-- 秒杀 -->
+		<view class="this_seckill_module" v-if="Object.prototype.toString.call(index_info.seckill_module) != '[object Array]'">
+			<view class="seckill_module_top">
+				<view class="seckill_module_left">
+					<text class="seckill_module_title">每日秒杀</text>
+					<view class="seckill_module_time">
+						<text class="time_info" v-if="index_info.seckill_module.countdwon_format==1">{{ this_day }}</text> 
+						<text class="time_line" v-if="index_info.seckill_module.countdwon_format==1">:</text> 
+						<text class="time_info"> {{ this_house }} </text> <text class="time_line">:</text> 
+						<text class="time_info"> {{ this_second }} </text> <text class="time_line">:</text> 
+						<text class="time_info"> {{  this_minute }}</text> 
+						<text class="time_line" v-if="index_info.seckill_module.countdwon_format==3">:</text>
+						<text class="time_info" v-if="index_info.seckill_module.countdwon_format==3">{{ this_millisecond }}</text>
+					</view>
+				</view>
+				<navigator class="seckill_module_right" 
+				 :url="'/pages'+index_info.seckill_module.page+'?id='+index_info.seckill_module.page_id">
+					全部 <image class="go_img" src="/static/images/unfold.png" mode="widthFix"></image>
+				</navigator>
+			</view>
+			<view class="seckill_module_goods">
+				<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='index_info.seckill_module.act_goods_list'></goodsShow>
+			</view>
+		</view>
+		<!-- 推荐 -->
+		<view class="index_recommend">
+			<view class="recommend_list">
+				<scroll-view class="recommend_items" scroll-x="true">
+					<view class="recommend_info">
+						<view class="info_list" v-for="(item,index) in recommend_list" :key='index'
+						 :class="{'change_recommend' : recommend_index==index}" @tap="choice_recommend(index)">
+							<text class="recommend_title"> {{item.title}} </text>
+							<text class="recommend_subtitle"> {{item.subtitle}} </text>
+							<view class="this_line" v-if="index<recommend_list.length-1"></view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+		</view>
+		<view class="recommend_content" v-if="this_recommend_list.length>0">
+			<view class="recommen_content_item this_hide" :class="{this_show:recommend_index == index}" v-for="(item,index) in recommend_list" :key="index">
+				<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='this_recommend_list' v-if='index==0||index==1'>
+				</goodsShow>
+				<doctor :doctorList="this_recommend_list" :requestUrl="requestUrl" :paddingLR='10'
+				 @collectLike='collectLike' @cancelLike='cancelLike' v-else-if="index==2">
+				</doctor>
+			</view>
+		</view>
+		<view class="go_top" v-if="show_go_top">
+			<navigator class="consult" url="/pages/consultation/consultation"> <text>立即</text> <text>咨询</text> </navigator>
+			<image class="go_top_image" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
 		</view>
 	</view>
 </template>
 
 <script>
-	import topBar from "../../components/topBar.vue";
-	import swiperDot from "../../components/swperDot.vue";
-	import porduct from "../../components/porduct.vue";
+	import swiperline from "../../components/swperDot.vue";
 	import goodsShow from "../../components/goodsShow.vue";
-	import diary from '../../components/diary.vue';
-	import doctor from '../../components/doctorShow.vue'
+	import doctor from '../../components/doctorShow.vue';
 	export default {
 		components: {
-			swiperDot,
-			topBar,
-			porduct,
+			swiperline,
 			goodsShow,
-			diary,
 			doctor
 		},
 		data() {
 			return {
-				barName: 'mianPage', //页面名称
-				topBackgroundColor: "#5D060E", //顶部导航条背景颜色
-				menuWidth: 0,
-				menuTop: 0,
-				menuHeight: 0,
-				menuLeft: 0,
-				menuBottom: 0,
-				BarImgs: 'https://xcx.hmzixin.com/upload/images/3.0/0.png', 
-				cartNumber: 0, //购物车数量
-				messageNumber: 0, //消息
-				topSearchContent: '', //头部搜索框的推荐内容
-				marginTopBar: 0, //距离顶部的距离
-				btnnum: 0,
+				menu_width: 0,
+				menu_top: 0,
+				menu_height: 0,
+				menu_left: 0,
+				menu_bottom: 0,
+				this_height: 0,
+				this_width: 0,
+				search_width: 315,
 				requestUrl: '',
-				skipList: [], //头部导航条
-				topInterval: 5000,
-				topDuration: 2000,
-				swiperList: [{
-					img: 'upload/goods/images/202009/16/oOwoBZAMkbqCSyLTy2i4taeyeMm7f0kK7EBSA5ol.jpeg'
-				}, {
-					img: 'upload/goods/images/202008/11/1c72d804fa4bcdfbf8778236565bce61129.jpg'
-				}], //顶部轮播
-				honor_list: [],
-				tabDuration: 3000,
-				tabBarSwiperList: [], //中部icon
-				barSwiperList: [],
-				currents: 0,
-				seckill_module: {}, //秒杀模块
-				times: 0,
-				day: 0,
-				house: 0,
-				second: 0,
-				minute: 0,
-				tabBars: [{
-						type: 4,
-						title: '精选',
-						name: '猜你喜欢'
+				index_info: {
+					banner:{
+						content:[]
+					},
+					background:{
+						up:''
+					},
+					centre_advertising:{
+						content:[]
+					},
+					top_advertising:{
+						content:{
+							img:''
+						}
+					},
+					seckill_module:{
+						countdwon_format:1
+					}
+				},
+				swiper_line:0,
+				recommend_list:[
+					{
+						title:'精选',
+						subtitle:'猜你喜欢'
 					},
 					{
-						type: 0,
 						title: '护肤品',
-						name: '品质推荐'
+						subtitle: '支持邮寄'
 					},
 					{
-						type: 3,
-						title: '直播',
-						name: '精选视频'
-					},
-					{
-						type: 1,
 						title: '视频',
-						name: '精选视频'
+						subtitle: '精选视频'
 					},
 					{
-						type: 2,
+						title: '直播',
+						subtitle: '主播力建'
+					},
+					{
 						title: '日记',
-						name: '优质内容'
+						subtitle: '真人记录'
 					},
 				],
-				content_info:{},
-				tabIndex: 1, // 选中的
-				swiperheight: 0, //高度
-				productImgList: [],
-				newslist: [],
-				paddingLR: 10, //拜托医生的左右边距
-				advertisingList: {}, //广告
-				offset: 0,
+				recommend_index:0,
+				this_recommend_list:[],
+				this_offset:0,
+				show_go_top:false,
+				this_day: 0,
+				this_house: 0,
+				this_second: 0,
+				this_minute: 0,
+				this_millisecond:0,
+				set_timers:0
 			}
 		},
-		onReachBottom: function() {
-			let that = this;
-			that.offset += 1;
-			that.tabtap(0, 4)
-		},
-		onReady() {
-			let that = this;
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
-			if (platform == 'Applets') {
-				// 获取屏幕高度
-				uni.getSystemInfo({
-					success: function(res) {
-						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
-						that.menuTop = menu.top
-						that.menuHeight = menu.height
-						that.menuLeft = menu.left
-						that.menuBottom = menu.bottom
-					}
-				})
-			}
-			else if (platform == 'APP'){
-				that.menuWidth = 90
-				that.menuTop = 40
-				that.menuBottom = 70
-				that.menuHeight = 30
-				that.menuLeft = 278
-			}
-		},
-		onLoad(options) {
+		onLoad: function(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.getIndexDetail()
-			that.tabtap(0, 4)
+			that.choice_recommend(0)
+		},
+		onShow: function() {
+			let that = this
+			that.set_timers = 0
+			that.get_index_info()
+		},
+		onReady() {
+			let that = this;
+			that.this_height = uni.getSystemInfoSync().screenHeight;
+			that.this_width = uni.getSystemInfoSync().screenWidth
+			let platform = getApp().platform || getApp().globalData.platform
+			if (platform == 'Applets') {
+				uni.getSystemInfo({
+					success: function(res) {
+						let menu = uni.getMenuButtonBoundingClientRect();
+						that.menu_width = menu.width
+						that.menu_top = menu.top
+						that.menu_height = menu.height
+						that.menu_left = menu.left
+						that.menu_bottom = menu.bottom
+						that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left)
+					}
+				})
+			} else if (platform == 'APP') {
+				that.menu_width = 70
+				that.menu_top = 40
+				that.menu_bottom = 70
+				that.menu_height = 30
+				that.menu_left = 280
+				that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left)
+			}
 		},
 		// 下拉刷新
 		onPullDownRefresh: function() {
 			let that = this
 			success: {
-				title: '刷新成功',
-				this.request.showToast('刷新成功')
-				that.getIndexDetail()
-				that.tabtap(0, 4)
+				that.get_index_info()
+				uni.showToast({
+					title:'刷新成功'
+				})
 			};
 			setTimeout(function() {
+				// 停止下拉刷新
 				uni.stopPullDownRefresh();
-			}, 1000);
+			}, 1500);
+		},
+		// 显示回到顶部按钮
+		onPageScroll: function(e) {
+			let that = this
+			let top = e.scrollTop
+			if (top > 0) {
+				that.show_go_top = true
+			} else if (top == 0) {
+				that.show_go_top = false
+			}
+		},
+		onReachBottom: function() {
+			let that = this
+			that.this_offset += 1
+			if(that.recommend_index==0){
+				that.get_recommend_goods()
+			}else{
+				that.get_sift_list()
+			}
+		},
+		onHide:function(){
+			let that = this
+			that.set_timers = 1
 		},
 		methods: {
-			// 获取首页信息
-			getIndexDetail: function() {
+			get_index_info: function() {
 				let that = this
 				let dataInfo = {
 					interfaceId: 'index'
@@ -387,342 +315,298 @@
 				that.request.uniRequest("home", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.content_info = data
-						that.topBackgroundColor = data.background.up
-						//导航栏
-						if (data.top_navigation) {
-							that.skipList = data.top_navigation
+						data.icon_list = that.group(data.icon_list, 10)
+						that.index_info = data
+						if(Object.prototype.toString.call(data.seckill_module) != '[object Array]'&&data.seckill_module.rest_time>0){
+							that.set_time(data.seckill_module.rest_time)
 						}
-						if (data.banner.content.length > 0) {
-							that.swiperList = data.banner.content //首页banner
-						}
-						that.honor_list = data.honor_list //荣誉列表
-						//中部icon
-						if (data.icon_list) {
-							that.tabBarSwiperList = data.icon_list
-							that.barSwiperList = that.group(that.tabBarSwiperList, 10)
-						}
-						// 中部广告
-						if (data.centre_advertising) {
-							that.advertisingList = data.centre_advertising
-						}
-						that.seckill_module = data.seckill_module //秒杀模块
-						that.times = that.seckill_module.rest_time //倒计时秒数
-						that.productImgList = that.seckill_module.act_goods_list //活动商品
-						that.setTime()
-						console.log(data, 22222222)
 					}
 				})
 			},
-			// 开启定时器
-			setTime: function() {
-				let that = this
-				if (that.times <= 0) {
-					let text = '活动结束'
-				} else {
-					// that.setTimes()
-					that.day = parseInt(that.times / 1000 / 60 / 60 / 24 % 30)
-					that.house = parseInt(that.times / 1000 / 60 / 60 % 24)
-					that.second = parseInt(that.times / 1000 / 60 % 60)
-					that.minute = parseInt(that.times / 1000 % 60)
-					setInterval(function() {
-						that.minute = that.minute - 1
-						if (that.minute == 0) {
-							that.minute = 59
-							that.second = that.second - 1
-							if (that.second == 0) {
-								that.second = 59
-								that.house = that.house - 1
-								if (that.house == 0) {
-									that.house = 59
-									if (that.day > 0) {
-										that.day = that.day - 1
-									} else {
-										that.day = 0
-										that.house = 0
-										that.second = 0
-										that.minute = 0
-									}
-								}
-							}
-						} else if (that.minute == -1) {
-							that.minute = 0
-						}
-
-					}, 1000)
-				}
-
-			},
-
 			// 分割数组
-			group: function(array, subGroupLength) {
+			group: function(array, number) {
 				let index = 0;
 				let newArray = [];
 				while (index < array.length) {
-					newArray.push(array.slice(index, index += subGroupLength));
+					newArray.push(array.slice(index, index += number));
 				}
 				return newArray;
 			},
-
-			change: function(index) {
-				this.btnnum = index
-			},
-			// 轮播的指示点
-			changeSwiperDot: function(e) {
-				this.currents = e.detail.current;
-			},
-			// 签到红包
-			changeRedpacket: function(index) {
-				console.log(index)
-			},
-			// 分类
-			gotoClassify: function(e) {
-				uni.switchTab({
-					url: `/pages/goods/goods_classify`,
-				})
-			},
-			// 点击商品
-			gotoGoods: function(e) {
-				let goods = e.currentTarget.dataset.name
-				uni.navigateTo({
-					url: `/pages/goods/goods_detail?goods=${goods}`,
-				})
-			},
-			// 设置底部导航条的名称和图标
-			setTabBarItem: function(e) {
-				// 这是动态设置底部导航条的函数，详情见https://uniapp.dcloud.io/api/ui/tabbar?id=settabbaritem
-				uni.setTabBarItem({
-					index: 0,
-					text: '首页',
-					"iconPath": "static/images/index.png",
-					"selectedIconPath": "static/images/idnex1.png",
-				})
-				uni.setTabBarItem({
-					index: 1,
-					text: '分类',
-					"iconPath": "static/images/doctor.png",
-					"selectedIconPath": "static/images/doctor1.png",
-				})
-			},
-			//接受子组件传过来的值点击切换导航
-			tabtap: function(index, type) {
+			change_swiper_line: function(e) {
 				let that = this
-				this.tabIndex = index;
-				if (type == 4) {
-					let dataInfo = {
-						interfaceId: 'userrecommendedgoodsspulist',
-						type: '0',
-						offset: that.offset
-					}
-					that.request.uniRequest("goods", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							// that.newslist = data
-							that.newslist = that.newslist.concat(data)
-							setTimeout(() => {
-								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
-							}, 500)
-							// console.log(data)
-						}
-					})
-				} else {
-					let dataInfo = {
-						interfaceId: 'siftlist',
-						type: type,
-						offset: that.offset,
-						limit: 6
-					}
-					that.request.uniRequest("home", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							that.newslist = data
-							setTimeout(() => {
-								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
-							}, 1000)
-							// console.log(data)
-						}
+				that.swiper_line = e.detail.current;
+			},
+			// 精选
+			choice_recommend:function(index){
+				let that = this
+				if (index == 0 ) {
+					that.recommend_index = index
+					that.this_recommend_list = []
+					that.this_offset = 0
+					that.get_recommend_goods()
+				}else if(index==1||index==2) {
+					that.recommend_index = index
+					that.this_recommend_list = []
+					that.this_offset = 0
+					that.get_sift_list()
+				}else{
+					uni.showToast({
+						title: '正在升级中...敬请期待!',
+						icon: 'none'
 					})
 				}
 			},
-			// 选中的内容
-			tabChange: function(e) {
+			get_recommend_goods:function(){
 				let that = this
-				that.tabIndex = e.detail.current;
-				let index = e.detail.current
-				let type = 0
-				// console.log(e,"我想要的是")
-				switch (index) {
-					case 0:
-						type = 4
-						break;
-					case 1:
-						type = 0
-						break;
-					case 2:
-						type = 3
-						break;
-					case 3:
-						type = 1
-						break;
-					case 4:
-						type = 2
-						break;
-					default:
-						type = 2
-						break;
+				let dataInfo = {
+					interfaceId: 'userrecommendedgoodsspulist',
+					type: that.recommend_index,
+					offset: that.this_offset*4
 				}
-				// if (index == 0) {
-				// 	type = 4
-				// } else if (index == 1) {
-				// 	type = 0
-				// } else if (index == 2) {
-				// 	type = 3
-				// } else if (index == 3) {
-				// 	type = 1
-				// } else {
-				// 	type = 2
-				// }
-				if (type == 4) {
-					let dataInfo = {
-						interfaceId: 'userrecommendedgoodsspulist',
-						type: that.tabType,
-						offset: 0
-					}
-					that.request.uniRequest("goods", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							that.newslist = data
-							setTimeout(() => {
-								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
-							}, 1000)
-							console.log(data)
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						if(data.length>0){
+							that.this_recommend_list = that.this_recommend_list.concat(data)
 						}
-					})
-				} else {
-					let dataInfo = {
-						interfaceId: 'siftlist',
-						type: type,
-						offset: 0,
-						limit: 6
-					}
-					that.request.uniRequest("home", dataInfo).then(res => {
-						if (res.data.code == 1000 && res.data.status == 'ok') {
-							let data = res.data.data
-							that.newslist = data
-							setTimeout(() => {
-								that.swiperheight = Math.ceil(that.newslist.length / 2) * 750
-							}, 1000)
-							console.log(data)
+						else if(data.length==0&&that.this_offset>0){
+							uni.showToast({
+								title: '没有更多啦...',
+								icon: 'none'
+							})
 						}
-					})
+					}
+				})
+			},
+			get_sift_list:function(){
+				let that = this
+				// type 0 护肤品 1视频 2 日记 3直播 //直播暂时为写
+				// index 1 护肤品 2 视频 3直播 4日记
+				let type = that.recommend_index - 1
+				let dataInfo = {
+					interfaceId: 'siftlist',
+					type: type,
+					offset: that.this_offset*4,
+					limit: 4
 				}
+				that.request.uniRequest("home", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						if(data.length>0){
+							that.this_recommend_list = that.this_recommend_list.concat(data)
+						}
+						else if(data.length==0&&that.this_offset>0){
+							uni.showToast({
+								title: '没有更多啦...',
+								icon: 'none'
+							})
+						}
+					}
+				})
+			},
+			go_to_top: function() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 600
+				})
 			},
 			// 点赞
-			collectLike: function(id) {
-				let videoId = id
+			collectLike: function(id,index) {
+				let that = this
 				let data = {
 					interfaceId: 'video_collect',
-					video_id: videoId,
+					video_id: id,
 					status: '0'
 				}
-				this.request.uniRequest("/doctor", data).then(res => {
+				that.request.uniRequest("/doctor", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						this.request.showToast('成功')
+						that.request.showToast('收藏成功')
+						that.this_recommend_list[index].is_collect = 1
 					}
 				})
 			},
 			// 取消点赞
-			cancelLike: function(id) {
-				let videoId = id
+			cancelLike: function(id,index) {
+				let that = this
 				let data = {
 					interfaceId: 'video_collect',
-					video_id: videoId,
+					video_id: id,
 					status: '1'
 				}
-				this.request.uniRequest("/doctor", data).then(res => {
+				that.request.uniRequest("/doctor", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
-						this.request.showToast('成功')
+						that.request.showToast('取消成功')
+						that.this_recommend_list[index].is_collect = 0
 					}
 				})
 			},
+			set_time:function(time){
+				console.log(time)
+				let that = this
+				let millisecond = 0 //毫秒
+				let secondTime = 0; // 分
+				let hourTime = 0; // 小时
+				let day = 0; //天
+				let set_timer = setInterval(function() {
+					time -= 1
+					let minuteTime = time; // 秒
+					if (minuteTime > 60) {
+						secondTime = parseInt(minuteTime / 60)
+						minuteTime = parseInt(minuteTime % 60)
+						if (secondTime > 60) {
+							hourTime = parseInt(secondTime / 60)
+							secondTime = parseInt(secondTime % 60)
+							if (hourTime > 24) {
+								day = parseInt(hourTime / 24)
+								hourTime = parseInt(hourTime % 60)
+							}
+						}
+					} else {
+						secondTime = 0
+						hourTime = 0
+						day = 0
+					}
+					
+					that.this_day = day
+					that.this_house = hourTime
+					that.this_second = secondTime
+					that.this_minute = minuteTime
+					if (time <= 0) {
+						clearInterval(set_timer)
+					}
+					if(that.set_timers>0){
+						clearInterval(set_timer)
+					}
+				},1000)
+			}
 		}
 	}
 </script>
 
 <style scoped>
-	.endtitleitem {
-		overflow: hidden;
-		white-space: nowrap;
-	}
-
-	.endtitleitem_H {
-		display: inline-block;
-		text-align: center;
-		padding-left: 40rpx;
-		color: #F1F1F1;
-	}
-
-	.endtitleitemTitle {
+	.index_top_fixed {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 99;
+		color: #FFFFFF;
+		width: 100%;
 		font-size: 24rpx;
+
 	}
 
-	.end-title {
+	.this_top_left {
 		display: flex;
-		height: 68rpx;
-		line-height: 68rpx;
-		justify-content: space-between;
-		padding: 10rpx 0 0;
+		align-items: center;
 	}
 
-	.end-title view {
-		text-align: center;
+	.top_img_nav {
+		padding-left: 20rpx;
 	}
 
-	.end-cont {
-		display: none;
+	.top_bar_img {
+		width: 280rpx;
 	}
-
-	.btna {
-		color: #FFFFFF;
-		font-weight: bolder;
-		font-size: 40rpx;
-	}
-
-	.dis {
-		display: block;
-	}
-
-	.goods_classifys {
-		width: 140rpx;
+	
+	.this_top_info{
 		display: flex;
-		font-weight: bolder;
-		font-size: 40rpx;
-		text-align: center;
-		/* padding: 0 0 0 20rpx; */
-		color: #FFFFFF;
+		position: absolute;
 	}
 
-	.goods_classify image {
-		width: 26rpx;
-		height: 26rpx;
-		margin-right: 10rpx;
+	.top_info {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		margin-left: 40rpx;
 	}
 
-	.swiper {
-		text-align: center;
-		height: 280rpx;
+	.top_image {
+		width: 46rpx;
+		height: 46rpx;
 	}
 
-	.swiper-box {
-		padding-bottom: 20rpx;
+	.top_input {
+		background-color: #FFFFFF;
+		margin-left: 20rpx;
+		position: relative;
+		font-size: 24rpx;
+		color: #999999;
+		transition:width 2s;
+	}
+	.fixed_inupt{
+		transition:width 2s;
+		background-color: #FFFFFF;
+		left: 20rpx;
+		position: absolute;
+		font-size: 24rpx;
+		color: #999999;
 	}
 
-	.certification {
+	.search-icon {
+		position: absolute;
+		left: 20rpx;
+		width: 40rpx;
+		height: 40rpx;
+		top: 10rpx;
+	}
+
+	.search_hint {
+		padding-left: 80rpx;
+	}
+	
+	.top_calssify{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		font-size: 24rpx;
-		color: #333333;
+		padding: 0 20rpx;
+	}
+	.top_calssify_info{
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	.calssify_info{
+		width: 100%;
+	}
+	.calssify_item{
+		width: 100%;
+		display: flex;
+	}
+	.item_info{
+		padding-right: 34rpx ;
+	}
+	
+	.goods_classify {
+		width: 186rpx;
+		display: flex;
+		justify-content: space-between;
+		text-align: center;
+		align-items: center;
+	}
+	
+	.classify_img {
+		width: 26rpx;
+		height: 26rpx;
+	}
+	.banner_swiper{
+		height: 280rpx;
+	}
+	.banner_swiper_item{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.banner_info{
+		width: 80%;
+	}
+	.banner_img{
+		width: 100%;
+		border-radius: 16rpx;
+	}
+	
+	.certification {
+		font-size: 24rpx;
 		line-height: 60rpx;
 		padding: 0 20rpx;
 	}
@@ -731,403 +615,142 @@
 		overflow: hidden;
 		white-space: nowrap;
 		width: 100%;
+		
+	}
+	.honor_list_info{
 		display: flex;
-		justify-content: space-between;
+		align-items: center;
 	}
 	.honor_list{
 		display: inline-block;
-		color: #333333;
 		padding-left: 20rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	.honor_list:first-child{
 		padding-left: 0;
 	}
-	.honor_list_item {
-		display: flex;
-	}
-	.certificationimgs_item image {
+	
+	.honor_image {
 		width: 18rpx;
 		height: 18rpx;
 		margin-right: 10rpx;
 	}
-
-	.tabBarSwiper {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		color: #333333;
-	}
-
-	.swiperContent {
+	
+	.this_index_icon_list {
 		position: relative;
-		padding-bottom: 20rpx;
-		margin-top: 20rpx;
+		padding: 0 20rpx;
 	}
-
-	.dot {
-		position: absolute;
-		bottom: 0rpx;
-		right: 49%;
+	.icon_list{
+		height: 350rpx;
 	}
-
-	.tabBarSwiperItem {
-		width: 17%;
-		text-align: center;
-		height: 130rpx;
-		padding: 5rpx 10rpx;
+	.icon_list_info {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-around;
+	}
+	.icon_list_item {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-around;
-		font-size: 20rpx;
+		align-items: center;
+		font-size: 24rpx;
 		color: #FFFFFF;
+		padding: 20rpx 22rpx;
 	}
-
-	.swiper-img {
-		height: 260rpx;
-	}
-
-	.swiper-img image {
-		height: 260rpx;
-		border-radius: 20rpx;
-		background-color: #FFFFFF;
-	}
-
-	.icon image {
+	.icon_img{
 		width: 80rpx;
 		height: 80rpx;
-		border-radius: 40rpx;
 	}
-
-	/* 广告位 */
-	.advertisingAll {
-		padding-bottom: 20rpx;
+	.icon_title{
+		padding-top: 10rpx;
 	}
-
-	.advertising {
-		height: 210rpx;
-		text-align: center;
-		margin-top: 20rpx;
-	}
-
-	.advertisImg {
+	.swiper_line{
+		position: absolute;
 		width: 100%;
-		height: 210rpx;
-		background-color: #FFFFFF;
-	}
-
-	.advertisingItem {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		height: 210rpx;
-		background-color: #FFFFFF;
-		width: 710rpx;
-		margin: 20rpx auto;
-		border-radius: 20rpx;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.advertising03 {
-		width: 320rpx;
-		height: 156rpx;
+		bottom: 10rpx;
 		display: flex;
 		justify-content: center;
-
+		margin-left: -20rpx;
 	}
-
-	.advertising03 image {
-		width: 172rpx;
-		height: 156rpx;
-		margin-left: 10rpx;
-	}
-
-	.advertisingTitle {
-		font-size: 20rpx;
-		line-height: 30rpx;
-		letter-spacing: 1rpx;
-		color: #111111;
-	}
-
-	.advertisingContent {
-		color: #da2820;
-		line-height: 24rpx;
-		width: 105rpx;
-	}
-
-	.advertisingButton {
-		width: 127rpx;
-		line-height: 40rpx;
-		color: #ffffff;
-		background-color: #8C0009;
-	}
-
-	.advertising02 {
-		width: 49%;
-	}
-
-	.sign-in-red-packet {
-		display: flex;
-		line-height: 60rpx;
-		font-size: 32rpx;
-		/* padding-left: 20rpx; */
+	
+	.this_seckill_module{
+		padding: 30rpx 40rpx;
 		background-color: #FFFFFF;
 	}
-
-	.red-packet {
-		font-size: 24rpx;
-		color: #999999;
-		margin-left: 10rpx;
-		font-family: MicrosoftYaHei-Bold;
-	}
-
-	.red-packet text {
-		color: #cb1c1c;
-	}
-
-	.all-red-packet-items {
-		width: 100%;
-		height: 100rpx;
-		overflow: hidden;
-		white-space: nowrap;
+	
+	.seckill_module_top{
 		display: flex;
-		padding: 0 0 30rpx;
-	}
-
-	.signIn-red-packet {
-		/* height: 200rpx; */
-		width: 670rpx;
-		padding: 20rpx 20rpx 0;
-		background-color: #FFFFFF;
-		margin: 20rpx auto;
-		border-radius: 20rpx;
-	}
-
-	.all-red-packet-item {
-		display: inline-block;
-		width: 74rpx;
-		height: 92rpx;
-		background-color: #ffbea7;
-		border-radius: 10rpx;
-		margin-right: 20rpx;
-	}
-
-	.pitchOn {
-		width: 82rpx;
-		display: inline-block;
-		height: 100rpx;
-		background-color: #ff3d3d;
-		border-radius: 10rpx;
-		color: #FFFFFF;
-	}
-
-	.pitchOnItemsConten {
-		width: 44rpx;
-		height: 44rpx;
-		background-color: #ffc825;
-		border-radius: 22rpx;
-		margin-left: 5rpx;
-	}
-
-	.red-packe-Items {
-		white-space: normal;
-		display: flex;
-		width: 74rpx;
-		height: 100rpx;
-		text-align: center;
+		justify-content: space-between;
 		align-items: center;
-		margin-left: 18rpx;
+		font-size: 24rpx;
 	}
-
-	.red-packe-ItemsContent {
-		width: 40rpx;
-		height: 40rpx;
-		border-radius: 20rpx;
-		font-size: 22rpx;
-		background-color: #ffedb8;
-	}
-
-	.all {
-		line-height: 80rpx;
-	}
-
-	.advertisingItems {
-		text-align: center;
+	
+	.seckill_module_left{
 		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		font-size: 20rpx;
+		align-items: center;
 	}
-
-	.scroll-view-item-Y {
-		width: 710rpx;
-		margin: 0 auto;
-		height: 160rpx;
-		overflow: hidden;
-		white-space: nowrap;
-		display: flex;
-		justify-content: space-between;
-		background-color: #FFFFFF;
-	}
-
-	.scroll-view-item_H {
-		display: inline-block;
-		width: 230rpx;
-		height: 160rpx;
-		font-size: 20rpx;
-		margin-right: 20rpx;
-		text-align: center;
-	}
-
-	.scrollAll {
-		display: flex;
-		justify-content: space-between;
-		white-space: normal;
-		background-color: #ffb222;
-		color: #ffffff;
-		width: 230rpx;
-		height: 160rpx;
-		border-radius: 20rpx;
-	}
-
-	.scrollText {
-		/* width: 160rpx;	 */
-		padding: 10rpx;
-		position: relative;
-		left: 0;
-		z-index: 20;
-	}
-
-	.scrollTextContent {
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		line-height: 22rpx;
-		width: 120rpx;
-	}
-
-	.scrollTextGo {
-		height: 26rpx;
-		border-radius: 13rpx;
-		background-color: #e87a07;
-		width: 60rpx;
-		line-height: 26rpx;
-		font-size: 22rpx;
-		margin-top: 15rpx;
-		margin-left: 15rpx;
-	}
-
-	.scrollTextName {
-		font-size: 30rpx;
-
-	}
-
-	.scrollImg {
-		position: relative;
-		right: 100rpx;
-		top: -40rpx;
-		z-index: 10;
-
-	}
-
-	.scrollImg img {
-		width: 204rpx;
-		height: 204rpx;
-	}
-
-	/* 倒计时自定义名称 */
-	.countDown {
-		display: flex;
-		justify-content: space-between;
-		padding: 0 40rpx;
-		font-size: 25rpx;
-		text-align: center;
-		line-height: 60rpx;
-	}
-
-	.productImg {
-		padding-bottom: 40rpx;
-		padding-left: 40rpx;
-		margin-top: -10rpx;
-	}
-
-	.timeTitle-time {
-		display: flex;
-		justify-content: space-between;
-		font-size: 40rpx;
-		text-align: center;
-	}
-
-	.time {
-		display: flex;
-		padding: 10rpx 10rpx 0;
-	}
-
-	.time .dots {
-		font-size: 20rpx;
-		color: #fa3475;
-		line-height: 55rpx;
-		margin-left: 12rpx;
-		font-weight: bolder;
-	}
-
-	.timeTitle {
-		line-height: 80rpx;
+	
+	.seckill_module_title{
 		font-size: 32rpx;
 		color: #212121;
+		font-weight: bold;
+		padding-right: 20rpx;
 	}
-
-	.house,
-	.minute,
-	.second {
+	
+	.seckill_module_time{
 		display: flex;
-		font-size: 30rpx;
-		margin-left: 10rpx;
-
-	}
-
-	.houses,
-	.seconds,
-	.minutes {
-		width: 30rpx;
-		height: 30rpx;
-		line-height: 30rpx;
-		background-color: #fa3475;
-		border-radius: 4rpx;
-		border: solid 1rpx #fa3475;
-		margin-top: 12rpx;
-		text-align: center;
-		font-size: 20rpx;
+		align-items: center;
 		color: #FFFFFF;
+		font-size: 20rpx;
 	}
-
-	/* 导航条 */
-	.customTab {
-		height: auto;
+	.time_info{
+		width: 30rpx;
+		line-height: 30rpx;
+		background-color: #FA3475;
+		text-align: center;
+		border-radius: 4rpx;
+	}
+	
+	.time_line{
+		font-weight: bold;
+		color: #FA3475;
+		line-height: 30rpx;
+		padding: 0 10rpx;
+	}
+	
+	.seckill_module_right{
+		display: flex;
+		align-items: center;
+	}
+	.go_img{
+		width: 24rpx;
+		margin-left: 6rpx;
+		transform:rotate(270deg);
+	}
+	
+	.index_recommend{
 		background-color: #F6F6F6;
 	}
-
-	.tabBarList {
+	
+	.recommend_list{
 		width: 100%;
 	}
-
-	.bar-items {
+	
+	.recommend_items {
 		overflow: hidden;
 		white-space: nowrap;
 	}
-
-	.tab-all-item {
+	
+	.recommend_info {
 		display: flex;
 		align-items: center;
 		padding: 30rpx 0;
-	}
-
-	.tab-item .tab-item-title {
 		font-size: 28rpx;
 	}
-
-	.tab-item {
+	
+	.info_list {
 		padding: 0 45rpx;
 		display: flex;
 		flex-direction: column;
@@ -1136,8 +759,20 @@
 		font-size: 24rpx;
 		position: relative;
 	}
-
-	.tab-line {
+	
+	.recommend_subtitle{
+		font-size: 24rpx;
+	}
+	
+	.change_recommend {
+		color: #fa3475;
+	}
+	
+	.change_recommend .recommend_title{
+		font-weight: bolder;
+	}
+	
+	.this_line {
 		height: 32rpx;
 		width: 1rpx;
 		background-color: #666666;
@@ -1145,25 +780,46 @@
 		right: 0;
 		top: 25%;
 	}
-
-	.changeTab {
-		color: #fa3475;
-	}
-
-	.changeTab .tab-item-title {
-		font-size: 32rpx;
-		font-weight: bold;
-	}
-
-	/* 推荐内容 */
-	.recommenListItem {
-		border-radius: 24rpx;
+	
+	.recommen_content_item{
 		padding: 0 20rpx;
+		background-color: #F6F6F6;
 	}
-
-	.footer {
+	
+	.this_hide{
+		display: none;
+	}
+	
+	.this_show{
+		display: block;
+	}
+	
+	.go_top {
+		position: fixed;
+		right: 30rpx;
+		bottom: 40px;
+		z-index: 9;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.consult{
+		width: 60rpx;
+		height: 60rpx;
+		border-radius: 30rpx;
+		font-size: 20rpx;
+		color: #FFFFFF;
 		text-align: center;
-		font-size: 30rpx;
-		color: #2e2e2e;
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		margin-bottom: 40rpx;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+	}
+	
+	.go_top_image{
+		width: 80rpx;
 	}
 </style>

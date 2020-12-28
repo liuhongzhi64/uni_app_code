@@ -494,7 +494,7 @@ __webpack_require__.r(__webpack_exports__);
       var dataInfo = {
         interfaceId: 'userrecommendedgoodsspulist',
         type: '4',
-        offset: that.offset };
+        offset: that.offset * 6 };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {

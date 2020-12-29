@@ -27,11 +27,11 @@
 						<view class="top_title">擅长项目</view>
 						<view class="goods_project">
 							<view class="goods_project_item" v-for="(item,index) in doctor_info[0].goods_project" :key='index'>
-								{{item}} <text class="project_line">、</text>
+								{{item}} <text class="project_line" >、</text>
 							</view>
 						</view>
 					</view>
-					<view class="all_sign">
+					<view class="all_sign" v-if="doctor_info[0].surgery">
 						<view class="top_title">手术特点</view>
 						<view class="surgery_item"> {{doctor_info[0].surgery}} </view>
 					</view>
@@ -189,7 +189,7 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// that.doctor_id = option.id
+			that.doctor_id = option.id
 			that.get_detail()
 			that.get_doctor_certificate()
 		},

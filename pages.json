@@ -153,11 +153,11 @@
 			"style": {}
 		},
 		
+		
 		{
 			"path": "pages/goods/goods_list", //商品列表
 			"style": {}
 		},
-		
 		{
 			"path": "pages/goods/goods_detail_comment", //商品详情（全部评价）
 			"style": {}
@@ -310,7 +310,7 @@
 	},
 	"tabBar": {
 		"color": "#7A7E83",
-		"selectedColor": "#007AFF",
+		"selectedColor": "#FA3475",
 		"borderStyle": "black",
 		"backgroundColor": "#F8F8F8",
 		"list": [{

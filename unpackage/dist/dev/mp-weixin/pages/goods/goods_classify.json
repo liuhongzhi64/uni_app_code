@@ -2,7 +2,6 @@
   "usingComponents": {
     "top-bar": "/components/topBar",
     "swiper-tab-head": "/components/swiper-tab",
-    "porduct": "/components/porduct",
     "goods-show": "/components/goodsShow"
   }
 }

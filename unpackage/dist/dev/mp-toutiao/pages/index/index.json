@@ -1,11 +1,8 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "swiper-dot": "/components/swperDot",
-    "top-bar": "/components/topBar",
-    "porduct": "/components/porduct",
+    "swiperline": "/components/swperDot",
     "goods-show": "/components/goodsShow",
-    "diary": "/components/diary",
     "doctor": "/components/doctorShow"
   }
 }

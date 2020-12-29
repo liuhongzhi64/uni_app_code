@@ -2260,8 +2260,8 @@ function normalizeComponent (
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
   globalData: {
     appid: "wx8068a8a4b6c8a39f", //wxd8c2d232303432c2
-    requestUrl: "https://mytest.hmzixin.com/" },
-
+    requestUrl: "https://mytest.hmzixin.com/" //https://mytest.hmzixin.com/
+  },
   // 模态对话框
   showModal: function showModal(content) {var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "提示";
     uni.showModal({

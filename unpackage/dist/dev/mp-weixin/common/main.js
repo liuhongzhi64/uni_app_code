@@ -16,7 +16,6 @@ _vue.default.config.productionTip = false;
 _App.default.mpType = 'app';
 
 _vue.default.prototype.$request = _common.default;
-
 var app = new _vue.default(_objectSpread({},
 _App.default));
 
@@ -92,11 +91,29 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
+  globalData: {
+    platform: '' },
+
+
   onLaunch: function onLaunch() {
     // console.log('App Launch')
   },
   onShow: function onShow() {
     // console.log('App Show')
+
+    var that = this;
+    var platform = '';
+
+
+
+
+    platform = 'Applets';
+
+
+
+
+
+    that.platform = platform;
   },
   onHide: function onHide() {
     // console.log('App Hide')

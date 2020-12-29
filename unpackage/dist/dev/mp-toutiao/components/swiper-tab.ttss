@@ -43,7 +43,8 @@
 	background-color: #FA3475;
 	width: 80rpx;
 	margin: auto;
-	border-radius: 3rpx;
+	-webkit-border-radius: 3rpx;
+	        border-radius: 3rpx;
 	margin-top: -8rpx;
 }
 

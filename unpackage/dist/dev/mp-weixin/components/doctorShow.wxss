@@ -116,31 +116,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 左右布局 */
 .goods_content.data-v-19479237{
 		/* padding: 34rpx 10rpx; */
@@ -170,11 +145,13 @@
 		-webkit-box-direction: normal;
 		-webkit-flex-direction: column;
 		        flex-direction: column;
-		border-radius: 10rpx;
+		-webkit-border-radius: 10rpx;
+		        border-radius: 10rpx;
 }
 .cover_img.data-v-19479237{
 		width: 340rpx;
-		border-radius: 10rpx 10rpx 0 0;
+		-webkit-border-radius: 10rpx 10rpx 0 0;
+		        border-radius: 10rpx 10rpx 0 0;
 }
 .bottom-content.data-v-19479237{
 		padding: 20rpx 20rpx 30rpx;
@@ -202,7 +179,8 @@
 		padding: 0 20rpx;
 		line-height: 36rpx;
 		background-color: #aaaaaa;
-		border-radius: 5rpx;
+		-webkit-border-radius: 5rpx;
+		        border-radius: 5rpx;
 		font-size: 20rpx;
 		text-align: center;
 		color: #FFFFFF;
@@ -233,12 +211,13 @@
 .doctor_heading_name image.data-v-19479237{
 		width: 46rpx;
 		height: 46rpx;
-		border-radius: 23rpx;
+		-webkit-border-radius: 23rpx;
+		        border-radius: 23rpx;
 		margin-right: 15rpx;
 }
 .collect_num.data-v-19479237{
 		font-size: 30rpx;
-		color: #fc4783;		
+		color: #9F55FF;		
 		display: -webkit-box;		
 		display: -webkit-flex;		
 		display: flex;
@@ -260,7 +239,8 @@
 		background-color: #d0d0d0;
 		width: 40rpx;
 		height: 40rpx;
-		border-radius: 20rpx;
+		-webkit-border-radius: 20rpx;
+		        border-radius: 20rpx;
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
@@ -275,7 +255,9 @@
 .collect_num .like.data-v-19479237{
 		width: 42rpx;
 		height: 42rpx;
-		border-radius: 21rpx;
+		-webkit-border-radius: 21rpx;
+		        border-radius: 21rpx;
+		background-image: -webkit-gradient(linear,  left bottom, left top,  from(#fa3475),  to(#ff6699)),  -webkit-gradient( linear, left top, left bottom, from(#f56fb4), to(#f56fb4));
 		background-image: -webkit-linear-gradient(bottom,  #fa3475 0%,  #ff6699 100%),  -webkit-linear-gradient( #f56fb4, #f56fb4);
 		background-image: linear-gradient(0deg,  #fa3475 0%,  #ff6699 100%),  linear-gradient( #f56fb4, #f56fb4);
 		display: -webkit-box;
@@ -290,7 +272,8 @@
 		margin-right: 16rpx;
 }
 .like-image.data-v-19479237{
-		width: 24rpx;
-		height: 24rpx;
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 10rpx;
 }	
 

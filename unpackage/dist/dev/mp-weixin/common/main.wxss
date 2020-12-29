@@ -14,8 +14,29 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*每个页面公共css */
 page {
 	min-height: 0;
+}
+checkbox .uni-checkbox-input {
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 }
 

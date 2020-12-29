@@ -8,7 +8,8 @@
 	background-color: #FFFFFF;
 	z-index: 9;
 	width: 100%;
-	border-radius: 0 0 24rpx 24rpx;
+	-webkit-border-radius: 0 0 24rpx 24rpx;
+	        border-radius: 0 0 24rpx 24rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -35,7 +36,8 @@
 	height: 6rpx;
 	background-color: #FA3475;
 	width: 50rpx;
-	border-radius: 3rpx;
+	-webkit-border-radius: 3rpx;
+	        border-radius: 3rpx;
 	position: absolute;
 	bottom: 5rpx;
 	left: 162rpx;
@@ -68,7 +70,8 @@
 .comment_item.data-v-c42d1834{
 	background-color: #FFFFFF;
 	margin-bottom: 20rpx;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 30rpx;
 }
 .item_top_content.data-v-c42d1834{
@@ -118,7 +121,8 @@
 .write_comment.data-v-c42d1834{
 	padding: 0 20rpx;
 	line-height: 30rpx;
-	border-radius: 15rpx;
+	-webkit-border-radius: 15rpx;
+	        border-radius: 15rpx;
 	color: #fa3475;
 	border: 1rpx solid #fa3475;
 }
@@ -190,7 +194,8 @@
 	width: 140rpx;
 	line-height: 42rpx;
 	border: 1rpx solid #999999;
-	border-radius: 22rpx;
+	-webkit-border-radius: 22rpx;
+	        border-radius: 22rpx;
 	color: #999999;
 }
 .operation_delete.data-v-c42d1834::after{

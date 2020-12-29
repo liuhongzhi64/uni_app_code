@@ -259,10 +259,7 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			if(option.search){
-				that.searchContent = option.search
-			}
-			
+			that.searchContent = option.val
 			that.get_search()
 		},
 		onReady() {

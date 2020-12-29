@@ -139,7 +139,10 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var swiperline = function swiperline() {__webpack_require__.e(/*! require.ensure | components/swperDot */ "components/swperDot").then((function () {return resolve(__webpack_require__(/*! ../../components/swperDot.vue */ 487));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 508));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 522));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var swiperline = function swiperline() {__webpack_require__.e(/*! require.ensure | components/swperDot */ "components/swperDot").then((function () {return resolve(__webpack_require__(/*! ../../components/swperDot.vue */ 500));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var goodsShow = function goodsShow() {__webpack_require__.e(/*! require.ensure | components/goodsShow */ "components/goodsShow").then((function () {return resolve(__webpack_require__(/*! ../../components/goodsShow.vue */ 486));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 507));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
 
 
 
@@ -335,7 +338,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
         seckill_module: {
-          countdwon_format: 1 } },
+          countdwon_format: 1 },
+
+        popup_window: {
+          content: {
+            page: '' } } },
+
 
 
       swiper_line: 0,
@@ -354,7 +362,7 @@ __webpack_require__.r(__webpack_exports__);
 
       {
         title: '直播',
-        subtitle: '主播力建' },
+        subtitle: '主播力荐' },
 
       {
         title: '日记',
@@ -370,7 +378,8 @@ __webpack_require__.r(__webpack_exports__);
       this_second: 0,
       this_minute: 0,
       this_millisecond: 0,
-      set_timers: 0 };
+      set_timers: 0,
+      this_show_popup: true };
 
   },
   onLoad: function onLoad(options) {
@@ -388,7 +397,7 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     that.this_height = uni.getSystemInfoSync().screenHeight;
     that.this_width = uni.getSystemInfoSync().screenWidth;
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
@@ -411,19 +420,19 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   // 下拉刷新
-  onPullDownRefresh: function onPullDownRefresh() {
-    var that = this;
-    success: {
-      that.get_index_info();
-      uni.showToast({
-        title: '刷新成功' });
-
-    };
-    setTimeout(function () {
-      // 停止下拉刷新
-      uni.stopPullDownRefresh();
-    }, 1500);
-  },
+  // onPullDownRefresh: function() {
+  // 	let that = this
+  // 	success: {
+  // 		that.get_index_info()
+  // 		uni.showToast({
+  // 			title:'刷新成功'
+  // 		})
+  // 	};
+  // 	setTimeout(function() {
+  // 		// 停止下拉刷新
+  // 		uni.stopPullDownRefresh();
+  // 	}, 1500);
+  // },
   // 显示回到顶部按钮
   onPageScroll: function onPageScroll(e) {
     var that = this;
@@ -448,6 +457,7 @@ __webpack_require__.r(__webpack_exports__);
     that.set_timers = 1;
   },
   methods: {
+
     get_index_info: function get_index_info() {
       var that = this;
       var dataInfo = {
@@ -582,7 +592,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     set_time: function set_time(time) {
-      console.log(time);
       var that = this;
       var millisecond = 0; //毫秒
       var secondTime = 0; // 分
@@ -619,6 +628,10 @@ __webpack_require__.r(__webpack_exports__);
           clearInterval(set_timer);
         }
       }, 1000);
+    },
+    show_popup: function show_popup() {
+      var that = this;
+      that.this_show_popup = false;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

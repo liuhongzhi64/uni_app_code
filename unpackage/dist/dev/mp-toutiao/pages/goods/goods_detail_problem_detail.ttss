@@ -21,7 +21,8 @@
 	background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
 	font-size: 18rpx;
 	color: #FFFFFF;	
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;	
+	        border-radius: 16rpx;
 	text-align: center;
 }
 .ask-contnet.data-v-9760b6d8{
@@ -52,7 +53,8 @@
 .correlation.data-v-9760b6d8{
 	width: 230rpx;
 	height: 230rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	background-color: #d9d9d9;
 	margin-right: 6rpx;
 }
@@ -71,7 +73,8 @@
 	height: 32rpx;
 	font-size: 18rpx;
 	color: #FFFFFF;	
-	border-radius: 18rpx;
+	-webkit-border-radius: 18rpx;	
+	        border-radius: 18rpx;
 	text-align: center;
 	background-image: -webkit-linear-gradient(135deg, #8834fa 0%, #bc66ff 100%);
 	background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);

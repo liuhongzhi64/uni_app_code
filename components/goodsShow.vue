@@ -1,7 +1,7 @@
 <template>
 	<view class="goods_content">
 		<!-- 左右布局商品展示 -->
-		<view class="left-right-layout" v-if="porductList">
+		<view class="left-right-layout" v-if="porductList.length>0&&crosswiseGoods.length==0">
 			<view class="left-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id,item.encrypted_id)">
@@ -61,7 +61,7 @@
 		</view>
 
 		<!-- 横向商品展示 -->
-		<view class="crosswise-porduct" v-if="crosswiseGoods">
+		<view class="crosswise-porduct" v-if="crosswiseGoods.length>0">
 			<scroll-view class="product-items" scroll-x="true">
 				<view class="product-item-content">
 					<view class="productImgs" v-for="(item,k) in crosswiseGoods" :key='k' @tap="changeGoods(item.sku_id,item.encrypted_id)">
@@ -106,7 +106,16 @@
 <script>
 	export default {
 		props: {
-			porductList: Array,
+			porductList: {
+				type:Array,
+				default:[
+						{
+							label:{
+								type:0
+							}
+						}
+					]
+			},
 			crosswiseGoods: Array,
 			requestUrl: String,
 			width: Number,

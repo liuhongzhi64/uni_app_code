@@ -1,6 +1,6 @@
 
 .top-nav-message.data-v-0be17cc6 {
-	/* background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%); */
+	background-image: -webkit-gradient(linear, left top, right top, from(#FA558D),to(#EF2768));
 	background-image: -webkit-linear-gradient(left, #FA558D,#EF2768);
 	background-image: linear-gradient(to right, #FA558D,#EF2768);
 	overflow: hidden;
@@ -9,6 +9,7 @@
 }
 .my-top-bar.data-v-0be17cc6 {
 	color: #FFFFFF;
+	background-image: -webkit-gradient(linear, left top, right top, from(#FA558D),to(#EF2768));
 	background-image: -webkit-linear-gradient(left, #FA558D,#EF2768);
 	background-image: linear-gradient(to right, #FA558D,#EF2768);
 	text-align: center;
@@ -24,39 +25,13 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
 	font-size: 38rpx;
-	position: relative;
-}
-.back.data-v-0be17cc6 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	margin-left: 20rpx;
-	width: 60rpx;
-	height: 100%;
-}
-.back image.data-v-0be17cc6 {
-	width: 36rpx;
-	height: 36rpx;
-}
-.back-title .title.data-v-0be17cc6 {
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	        flex: 1;
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top: 0;
-	text-align: center;
 }
 .user-head-portrait-name-phone-set.data-v-0be17cc6 {
 	padding: 10rpx 40rpx;
@@ -86,7 +61,8 @@
 .user-head-portrait_image.data-v-0be17cc6 {
 	width: 112rpx;
 	height: 112rpx;
-	border-radius: 60rpx;
+	-webkit-border-radius: 60rpx;
+	        border-radius: 60rpx;
 	margin-right: 24rpx;
 	background-color: #FFFFFF;
 }
@@ -107,7 +83,8 @@
 	padding: 6rpx 15rpx;
 	background-color: #FFFFFF;
 	color: #fa3475;
-	border-radius: 17rpx;
+	-webkit-border-radius: 17rpx;
+	        border-radius: 17rpx;
 	margin-left: 24rpx;
 }
 .user-head-portrait-name-phone-set .phone-account-number.data-v-0be17cc6 {
@@ -122,11 +99,18 @@
 	margin-left: 10rpx;
 	border: 1rpx solid #FFFFFF;
 	padding: 0 10rpx;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	font-size: 20rpx;
 }
 .user-head-portrait-name-phone-set .set.data-v-0be17cc6 {
 	color: #FFFFFF;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 }
 .eye_img image.data-v-0be17cc6{
 	width: 40rpx;
@@ -164,8 +148,10 @@
 /* 我的订单 */
 .my-order.data-v-0be17cc6 {
 	background-color: #FFFFFF;
-	border-bottom-left-radius: 24rpx;
-	border-bottom-right-radius: 24rpx;
+	-webkit-border-bottom-left-radius: 24rpx;
+	        border-bottom-left-radius: 24rpx;
+	-webkit-border-bottom-right-radius: 24rpx;
+	        border-bottom-right-radius: 24rpx;
 }
 .order-all-order.data-v-0be17cc6 {
 	display: -webkit-box;
@@ -177,16 +163,21 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	padding: 35rpx;
+	padding: 30rpx 35rpx;
 	font-size: 28rpx;
 	color: #111111;
 }
-.order.data-v-0be17cc6,
-.all-order.data-v-0be17cc6 {
+.order.data-v-0be17cc6{
 	width: 40%;
+	font-weight: bolder;
 }
 .all-order.data-v-0be17cc6 {
-	text-align: end;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 }
 .all-order text.data-v-0be17cc6 {
 	margin-left: 10rpx;
@@ -228,12 +219,12 @@
 }
 .order-image image.data-v-0be17cc6 {
 	width: 50rpx;
-	height: 46rpx;
 }
 .order-number.data-v-0be17cc6 {
 	width: 24rpx;
 	height: 24rpx;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	text-align: center;
 	line-height: 24rpx;
 	background-image: -webkit-linear-gradient(121deg, #ee2668 0%, #ff6699 100%);
@@ -254,7 +245,8 @@
 /* 服务与工具 */
 .serve-and-tool.data-v-0be17cc6 {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 }
 .serve-and-tool-title.data-v-0be17cc6 {
 	line-height: 88rpx;
@@ -319,9 +311,19 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
+.go_img.data-v-0be17cc6{
+	width: 24rpx;
+	margin-left: 6rpx;
+	-webkit-transform:rotate(180deg);
+	        transform:rotate(180deg);
+}
+.unfold_img.data-v-0be17cc6{
+	width: 24rpx;
+	margin-left: 6rpx;
+	-webkit-transform:rotate(270deg);
+	        transform:rotate(270deg);
+}
 .subject-content.data-v-0be17cc6 {
 	background-color: #F6F6F6;
-	/* display: flex;
-	justify-content: space-between; */
 }
 

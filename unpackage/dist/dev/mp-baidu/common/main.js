@@ -112,10 +112,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-
-
-
-    if (platform != 'tuotiao') {
+    if (getApp()) {
       getApp().globalData.platform = platform;
     }
     that.platform = platform;

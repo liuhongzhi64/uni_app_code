@@ -49,8 +49,10 @@
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
-	border-bottom-left-radius: 24rpx;
-	border-bottom-right-radius: 24rpx;
+	-webkit-border-bottom-left-radius: 24rpx;
+	        border-bottom-left-radius: 24rpx;
+	-webkit-border-bottom-right-radius: 24rpx;
+	        border-bottom-right-radius: 24rpx;
 }
 .user-message.data-v-51e0fab4 {
 	display: -webkit-box;
@@ -139,7 +141,8 @@
 /* 商品信息 */
 .porduct-introduce.data-v-51e0fab4 {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -278,7 +281,8 @@
 	width: 360rpx;
 	line-height: 40rpx;
 	background-color: #f0f0f0;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	padding: 0 16rpx;
 	color: #999999;
 	font-size: 20rpx;
@@ -330,7 +334,8 @@
 	height: 30rpx;
 	line-height: 30rpx;
 	background-color: #ffe8f0;
-	border-radius: 15rpx;
+	-webkit-border-radius: 15rpx;
+	        border-radius: 15rpx;
 	font-size: 20rpx;
 	color: #fa3475;
 	margin-right: 18rpx;
@@ -349,7 +354,8 @@
 	padding: 40rpx;
 	margin-top: 20rpx;
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -368,7 +374,8 @@
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 	background-color: #F6F6F6;
 	padding: 28rpx 0 28rpx 32rpx;
 	font-size: 24rpx;
@@ -406,7 +413,8 @@
 	color: #fa3475;
 	text-align: center;
 	background-color: #ffe8f0;
-	border-radius: 15rpx;
+	-webkit-border-radius: 15rpx;
+	        border-radius: 15rpx;
 	margin-right: 16rpx;
 }
 .preferential-price.data-v-51e0fab4,
@@ -458,7 +466,8 @@
 .porduct-price.data-v-51e0fab4 {
 	padding: 40rpx;
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	margin-top: 20rpx;
 }
 .porduct-price-item.data-v-51e0fab4 {
@@ -507,7 +516,8 @@
 	margin-top: 20rpx;
 	margin-bottom: 294rpx;
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 40rpx;
 }
 .payment-way.data-v-51e0fab4 {
@@ -535,7 +545,8 @@
 .image-name image.data-v-51e0fab4 {
 	width: 72rpx;
 	height: 72rpx;
-	border-radius: 36rpx;
+	-webkit-border-radius: 36rpx;
+	        border-radius: 36rpx;
 	margin-right: 20rpx;
 }
 
@@ -602,7 +613,8 @@
 	text-align: center;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	border-radius: 30rpx;
+	-webkit-border-radius: 30rpx;
+	        border-radius: 30rpx;
 }
 .promptly-play.data-v-51e0fab4::after{
 	border: none;
@@ -615,7 +627,8 @@
 	width: 320rpx;
 	height: 180px;
 	background-color: #F0F0F0;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	z-index: 52;
 	padding: 40rpx 20rpx;
 }
@@ -623,7 +636,8 @@
 .phone-input.data-v-51e0fab4 {
 	border: 1rpx solid #fa3475;
 	margin-bottom: 30rpx;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	padding: 10rpx 15rpx;
 }
 .tel_hint.data-v-51e0fab4{
@@ -647,7 +661,8 @@
 	width: 240rpx;
 	line-height: 80rpx;
 	color: #FFFFFF;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 }
@@ -666,7 +681,8 @@
 	background-color: #f6f6f6;
 	left: 0;
 	bottom: 0;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 20rpx 0 120rpx;
 	z-index: 52;
 }
@@ -754,8 +770,10 @@
 	width: 100%;
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
-	border-radius: 40rpx;
+	-webkit-box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
+	        box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(250, 53, 118, 0.5);
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 }
 .pay_now_content.data-v-51e0fab4{
 	position: fixed;
@@ -815,7 +833,8 @@
 	color: #FFFFFF;
 	line-height: 80rpx;
 	text-align: center;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 }
 .my_order.data-v-51e0fab4{
 	background-image: -webkit-linear-gradient(135deg, #1AAB00 0%, #1AAB94 100%);

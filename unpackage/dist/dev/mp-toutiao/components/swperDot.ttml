@@ -1,1 +1,1 @@
-<view class="dot-main"><block tt:for="{{list}}" tt:for-item="item" tt:for-index="index" tt:key="index"><view class="{{(('dot-item')+' '+(current==index?'active':''))}}"></view></block></view>
+<view class="dot-main data-v-849e2aea"><block tt:for="{{list}}" tt:for-item="item" tt:for-index="index" tt:key="index"><view class="{{((('data-v-849e2aea')+' '+'dot-item')+' '+(current==index?'active':''))}}"></view></block></view>

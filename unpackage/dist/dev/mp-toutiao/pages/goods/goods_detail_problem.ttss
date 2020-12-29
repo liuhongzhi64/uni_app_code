@@ -5,11 +5,13 @@
 .content-list.data-v-89af38e8{
 	padding: 32rpx 20rpx 40rpx;
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	margin-bottom: 20rpx;
 }
 .content-list.data-v-89af38e8:first-child{
-	border-radius: 0 0 24rpx 24rpx;
+	-webkit-border-radius: 0 0 24rpx 24rpx;
+	        border-radius: 0 0 24rpx 24rpx;
 }
 .content-list.data-v-89af38e8:last-child{
 	margin-bottom: 120rpx;
@@ -29,7 +31,8 @@
 	background-image: linear-gradient(-45deg,  #fa3475 0%, #ff6699 100%);
 	font-size: 18rpx;
 	color: #FFFFFF;	
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;	
+	        border-radius: 16rpx;
 	text-align: center;
 }
 .ask-contnet.data-v-89af38e8{
@@ -73,7 +76,8 @@
 .correlation.data-v-89af38e8{
 	width: 230rpx;
 	height: 230rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 }
 .this_video.data-v-89af38e8{
 	position: absolute;
@@ -99,7 +103,8 @@
 	line-height: 32rpx;
 	font-size: 18rpx;
 	color: #FFFFFF;	
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;	
+	        border-radius: 16rpx;
 	text-align: center;
 	background-image: -webkit-linear-gradient(135deg, #8834fa 0%, #bc66ff 100%);
 	background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
@@ -203,7 +208,8 @@
 .issue-botton.data-v-89af38e8 {
 	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	color: #FFFFFF;
 	font-size: 28rpx;
 	text-align: center;

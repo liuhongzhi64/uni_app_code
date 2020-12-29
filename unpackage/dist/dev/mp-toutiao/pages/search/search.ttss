@@ -22,7 +22,8 @@
 	width: 85%;
 	height: 56rpx;
 	background-color: #ffffff;
-	border-radius: 28rpx;
+	-webkit-border-radius: 28rpx;
+	        border-radius: 28rpx;
 	border: solid 1rpx #e6e6ea;
 	background-color: #FFFFFF;
 	line-height: 56rpx;
@@ -47,7 +48,6 @@
 	height: 56rpx;
 	line-height: 56rpx;
 	padding-left: 30rpx;
-	/* text-indent: 10rpx; */
 }
 .right-text.data-v-4cedc0c6 {
 	font-size: 26rpx;
@@ -56,7 +56,6 @@
 	background-color: #F6F6F6;
 }
 .search-contents.data-v-4cedc0c6 {
-
 	padding-bottom: 120rpx;
 }
 .search-swiper.data-v-4cedc0c6 {
@@ -73,11 +72,13 @@
 .search-history.data-v-4cedc0c6 {
 	padding: 40rpx 40rpx 14rpx;
 	background-color: #FFFFFF;
-	border-radius: 0rpx 0rpx 24rpx 24rpx;
+	-webkit-border-radius: 0rpx 0rpx 24rpx 24rpx;
+	        border-radius: 0rpx 0rpx 24rpx 24rpx;
 }
 .search-history.data-v-4cedc0c6 {
 	margin-top: 20rpx;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 }
 .hot-search .title.data-v-4cedc0c6,
 .search-history .title.data-v-4cedc0c6 {
@@ -112,7 +113,8 @@
 	width: 150rpx;
 	height: 56rpx;
 	background-color: #f0f0f0;
-	border-radius: 28rpx;
+	-webkit-border-radius: 28rpx;
+	        border-radius: 28rpx;
 	text-align: center;
 	line-height: 56rpx;
 	font-size: 24rpx;
@@ -133,7 +135,8 @@
 	background-color: #FFFFFF;
 	margin-top: 20rpx;
 	padding: 40rpx;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 }
 .announcement-list-item.data-v-4cedc0c6 {
 	display: -webkit-box;

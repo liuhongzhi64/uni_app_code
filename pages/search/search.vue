@@ -181,7 +181,7 @@
 				let that = this
 				if (that.inputValue) {
 					uni.navigateTo({
-						url: `/pages/search/search_result?search=${that.inputValue}`,
+						url: `/pages/search/search_result?val=${that.inputValue}`,
 					})
 					if (that.inputValue) {
 						that.searchHistoryList.unshift(that.inputValue)
@@ -202,7 +202,7 @@
 				let that = this
 				this.colorNum = index
 				uni.navigateTo({
-					url: `/pages/search/search_result?search=${item}`,
+					url: `/pages/search/search_result?val=${item}`,
 				})
 				that.searchHistoryList.unshift(item)
 				that.searchHistoryList = that.setArr(that.searchHistoryList)
@@ -211,7 +211,7 @@
 			changeSearchHistory: function(item, index) {
 				this.searchHistoryNum = index
 				uni.navigateTo({
-					url: `/pages/search/search_result?search=${item}`,
+					url: `/pages/search/search_result?val=${item}`,
 				})
 			},
 			// 清空历史

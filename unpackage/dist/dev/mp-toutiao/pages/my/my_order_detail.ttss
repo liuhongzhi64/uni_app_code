@@ -11,8 +11,10 @@
 	overflow: hidden;
 	height: auto;
 	width: 100%;
-	border-bottom-left-radius: 50rpx;
-	border-bottom-right-radius: 50rpx;
+	-webkit-border-bottom-left-radius: 50rpx;
+	        border-bottom-left-radius: 50rpx;
+	-webkit-border-bottom-right-radius: 50rpx;
+	        border-bottom-right-radius: 50rpx;
 }
 .my-top-bar.data-v-08de1eeb {
 	color: #FFFFFF;
@@ -90,7 +92,8 @@
 .now_pay.data-v-08de1eeb {
 	margin-top: 20rpx;
 	width: 240rpx;
-	border-radius: 50rpx;
+	-webkit-border-radius: 50rpx;
+	        border-radius: 50rpx;
 	color: #fa3475;
 	border: none;
 }
@@ -107,7 +110,8 @@
 }
 .user-message-content.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -149,9 +153,11 @@
 	line-height: 32rpx;
 	font-size: 20rpx;
 	color: #FFFFFF;
+	background-image: -webkit-gradient(linear, left top, right top, from(#fa3475), to(#ff6699));
 	background-image: -webkit-linear-gradient(left, #fa3475 0%, #ff6699 100%);
 	background-image: linear-gradient(90deg, #fa3475 0%, #ff6699 100%);
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	margin-right: 20rpx;
 }
 .default-address-content.data-v-08de1eeb {
@@ -160,9 +166,11 @@
 	line-height: 32rpx;
 	font-size: 20rpx;
 	color: #FFFFFF;
+	background-image: -webkit-gradient(linear, left top, right top, from(#8834fa), to(#bc66ff));
 	background-image: -webkit-linear-gradient(left, #8834fa 0%, #bc66ff 100%);
 	background-image: linear-gradient(90deg, #8834fa 0%, #bc66ff 100%);
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 }
 .shipping-address.data-v-08de1eeb {
 	font-size: 24rpx;
@@ -189,7 +197,8 @@
 }
 .account-paid-code-content.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 40rpx 0 30rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -222,7 +231,8 @@
 }
 .order-items.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	margin-bottom: 40rpx;
 	padding: 40rpx 0;
 }
@@ -348,7 +358,8 @@
 	height: 40rpx;
 	/* line-height: 40rpx; */
 	background-color: #f0f0f0;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	font-size: 20rpx;
 	color: #333333;
 	font-weight: lighter;
@@ -390,7 +401,8 @@
 	background-color: #f0f0f0;
 	color: #333333;
 	font-size: 20rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -473,7 +485,8 @@
 }
 .complimentary.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 40rpx;
 }
 .complimentary-top.data-v-08de1eeb {
@@ -523,7 +536,8 @@
 	width: 80rpx;
 	height: 30rpx;
 	background-color: #ffe8f0;
-	border-radius: 15rpx;
+	-webkit-border-radius: 15rpx;
+	        border-radius: 15rpx;
 	text-align: center;
 	font-size: 20rpx;
 	color: #fa3475;
@@ -535,7 +549,8 @@
 }
 .ticket-discount-full-reduction.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 40rpx;
 	margin-top: 20rpx;
 }
@@ -561,7 +576,8 @@
 	width: 80rpx;
 	height: 30rpx;
 	background-color: #ffe8f0;
-	border-radius: 15rpx;
+	-webkit-border-radius: 15rpx;
+	        border-radius: 15rpx;
 	text-align: center;
 	font-size: 20rpx;
 	color: #fa3475;
@@ -598,7 +614,8 @@
 }
 .all-price-message.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	margin-top: 24rpx;
 	padding: 40rpx;
 }
@@ -639,7 +656,8 @@
 }
 .return-mew-bean.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 33rpx 40rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -676,7 +694,8 @@
 }
 .order-information.data-v-08de1eeb {
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	padding: 40rpx;
 	font-size: 24rpx;
 	margin-top: 20rpx;
@@ -759,7 +778,8 @@
 }
 .button_all button.data-v-08de1eeb {
 	line-height: 60rpx;
-	border-radius: 30rpx;
+	-webkit-border-radius: 30rpx;
+	        border-radius: 30rpx;
 	font-size: 24rpx;
 }
 .bg_btn.data-v-08de1eeb {
@@ -771,19 +791,14 @@
 	border: none;
 }
 .top-button.data-v-08de1eeb {
-	width: 64rpx;
-	line-height: 65rpx;
-	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
-	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-	border-radius: 50%;
+	width: 120rpx;
 	position: fixed;
 	right: 40rpx;
 	bottom: 130px;
 	z-index: 9999;
-	font-size: 26rpx;
-	color: #FFFFFF;
-	text-align: center;
+}
+.top-button image.data-v-08de1eeb{
+	width: 120rpx;
 }
 /* 新写的样式 */
 .refunded.data-v-08de1eeb {
@@ -835,7 +850,8 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 	background-color: #FFFFFF;
-	border-radius: 24rpx;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	color: #fa3475;
 	/* padding: 34rpx 0; */
 	padding: 80rpx 0;
@@ -864,7 +880,8 @@
 .discount-hint.data-v-08de1eeb{
 	background-color: #FFFFFF;
 	padding: 40rpx 20rpx 10rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	width: 60%;
 }
 .discounts_list.data-v-08de1eeb{
@@ -900,7 +917,8 @@
 	background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
 	padding: 0 20rpx;
 	line-height: 32rpx;
-	border-radius: 16rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	margin-right: 10rpx;
 	color: #FFFFFF;
 }

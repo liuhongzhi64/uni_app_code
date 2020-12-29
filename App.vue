@@ -21,10 +21,7 @@
 			// #ifdef  H5
 			platform = 'H5'
 			// #endif
-			// #ifdef  MP-TOUTIAO
-			platform = 'tuotiao'
-			// #endif
-			if(platform!= 'tuotiao'){
+			if(getApp()){
 				getApp().globalData.platform = platform
 			}
 			that.platform = platform

@@ -38,14 +38,8 @@
 				<text class="search_hint">请输入关键字...</text>
 			</navigator>
 			<!-- #endif -->
-			<!-- #ifdef APP-VUE -->
-			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
-			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
-				<image class="search-icon" src="/static/images/search_icon.png"></image>
-				<text class="search_hint">请输入关键字...</text>
-			</navigator>
-			<!-- #endif -->
-			<view class="top_calssify" :style="[{'margin-top':!show_go_top?'10px':''}]">
+			
+			<view class="top_calssify" :style="[{'margin-top':!show_go_top?'10px':'','color':index_info.top_font_color}]">
 				<view class="top_calssify_info">
 					<scroll-view class="calssify_info" scroll-x="true">
 						<view class="calssify_item" >
@@ -62,13 +56,14 @@
 			</view>
 		</view>
 		
-		<view class="index_top_info" :style="[{'padding-top':menu_bottom*2+20+'px','background-color':index_info.background.up}]">
+		<view class="index_top_info"
+		 :style="[{'padding-top':show_go_top?menu_bottom+35+'px':menu_bottom*2+20+'px','background-color':index_info.background.up}]">
 			<view class="top_swiper">
-				<swiper class="banner_swiper" indicator-dots indicator-active-color="#ffffff" autoplay interval="5000" duration="3000" circular>
+				<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="5000" duration="3000" circular>
 					<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
-						<view class="banner_info">
+						<navigator class="banner_info" :url="'/pages'+item.page+'?id='+item.page_id">
 							<image class="banner_img" :src="requestUrl+item.img" mode="widthFix"></image>
-						</view>
+						</navigator>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -77,12 +72,12 @@
 					<view class="honor_list_info">
 						<view class="honor_list" v-for="(item,index) in index_info.honor_list" :key="index">
 							<image class="honor_image" src="/static/images/1.png" ></image>
-							<view :style="[{'color':index_info.top_font_color}]">{{item}}</view>
+							<view :style="[{'color':index_info.honor_font_color}]">{{item}}</view>
 						</view>
 					</view>
 				</scroll-view>
 			</view>
-			<view class="this_index_icon_list">
+			<view class="this_index_icon_list" :style="[{'color':index_info.icon_font_color,'background-color':index_info.background.centre}]">
 				<swiper class="icon_list" @change="change_swiper_line" duration="3000">
 					<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
 						<navigator class="icon_list_item" v-for="(item,k) in list" :key="k"  :url="'/pages'+item.page">
@@ -154,6 +149,14 @@
 			<navigator class="consult" url="/pages/consultation/consultation"> <text>立即</text> <text>咨询</text> </navigator>
 			<image class="go_top_image" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
 		</view>
+		<!-- 弹窗 -->
+		<view class="popup_info" v-show="this_show_popup">
+			<navigator class="popup_window" :url="'/pages'+index_info.popup_window.content.page+'?id='+index_info.popup_window.content.page_id">
+				<image class="popup_img" :src="requestUrl+index_info.popup_window.content.img" mode="widthFix"></image> 
+			</navigator>
+			<image class="close_popup" src="/static/images/delete.png" @tap='show_popup'></image>
+			<!-- <view class="close_popup" @tap='show_popup'></view> -->
+		</view>
 	</view>
 </template>
 
@@ -195,6 +198,11 @@
 					},
 					seckill_module:{
 						countdwon_format:1
+					},
+					popup_window:{
+						content:{
+							page:''
+						}
 					}
 				},
 				swiper_line:0,
@@ -213,7 +221,7 @@
 					},
 					{
 						title: '直播',
-						subtitle: '主播力建'
+						subtitle: '主播力荐'
 					},
 					{
 						title: '日记',
@@ -229,7 +237,8 @@
 				this_second: 0,
 				this_minute: 0,
 				this_millisecond:0,
-				set_timers:0
+				set_timers:0,
+				this_show_popup:true
 			}
 		},
 		onLoad: function(options) {
@@ -247,7 +256,7 @@
 			let that = this;
 			that.this_height = uni.getSystemInfoSync().screenHeight;
 			that.this_width = uni.getSystemInfoSync().screenWidth
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
@@ -270,19 +279,19 @@
 			}
 		},
 		// 下拉刷新
-		onPullDownRefresh: function() {
-			let that = this
-			success: {
-				that.get_index_info()
-				uni.showToast({
-					title:'刷新成功'
-				})
-			};
-			setTimeout(function() {
-				// 停止下拉刷新
-				uni.stopPullDownRefresh();
-			}, 1500);
-		},
+		// onPullDownRefresh: function() {
+		// 	let that = this
+		// 	success: {
+		// 		that.get_index_info()
+		// 		uni.showToast({
+		// 			title:'刷新成功'
+		// 		})
+		// 	};
+		// 	setTimeout(function() {
+		// 		// 停止下拉刷新
+		// 		uni.stopPullDownRefresh();
+		// 	}, 1500);
+		// },
 		// 显示回到顶部按钮
 		onPageScroll: function(e) {
 			let that = this
@@ -307,6 +316,7 @@
 			that.set_timers = 1
 		},
 		methods: {
+			
 			get_index_info: function() {
 				let that = this
 				let dataInfo = {
@@ -441,7 +451,6 @@
 				})
 			},
 			set_time:function(time){
-				console.log(time)
 				let that = this
 				let millisecond = 0 //毫秒
 				let secondTime = 0; // 分
@@ -478,6 +487,10 @@
 						clearInterval(set_timer)
 					}
 				},1000)
+			},
+			show_popup:function(){
+				let that = this
+				that.this_show_popup = false
 			}
 		}
 	}
@@ -572,9 +585,11 @@
 	.calssify_item{
 		width: 100%;
 		display: flex;
+		align-items: center;
 	}
 	.item_info{
 		padding-right: 34rpx ;
+		width: auto;
 	}
 	
 	.goods_classify {
@@ -821,5 +836,36 @@
 	
 	.go_top_image{
 		width: 80rpx;
+	}
+	
+	.popup_info{
+		position: fixed;
+		z-index: 100;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.popup_window{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+	.popup_img{
+		width: 90%;
+	}
+	.close_popup{
+		position: absolute;
+		right: 40rpx;
+		top: 240rpx;
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 40rpx;
+		z-index: 101;
+		background-color: red;
+		display: block;
 	}
 </style>

@@ -2,9 +2,9 @@
 	<view class="agreement">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
-		<view class="agreement-content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
-			<view class="text">
-				<goodsShow :porductList='goodsList' :width = 'width' :borderRadius='borderRadius'></goodsShow>
+		<view class="agreement_content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
+			<view class="agreement_info">
+				
 			</view>
 		</view>
 	</view>
@@ -26,56 +26,26 @@
 				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
-				barName: 'particularsPage', //导航条名称
+				barName: 'back',
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '/static/images/back2.png',
+				backImage: '/static/images/return.png',
 				title: '用户协议',
-				goodsList: [
-					{
-						head_img: '../../static/images/19.png',
-						goods_name: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: {
-							type:0,
-							list:['眼部','眼部美容']
-						}, //标签
-						sale_price:19800,
-						member:{
-							price:16990,
-							member_title:'钻卡'
-						},
-						rate:98.8,
-						sales:452,
-						sku_id:4
-					},
-					{
-						head_img: '../../static/images/test.jpg',
-						goods_name: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-						label: {
-							type:1,
-							list:['眼部','眼部美容']
-						}, //标签	
-						sale_price:9800,
-						member:{
-							price:8990,
-							member_title:''
-						},
-						rate:98.8,
-						sales:452	,
-						sku_id:7
-					},
-				],
-				width:340,
-				borderRadius:24
+				agreement_info:{},
+				requestUrl:''
 			}
+		},
+		onLoad:function(){
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUr
+			that.get_info()
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
@@ -96,15 +66,25 @@
 			}
 		},
 		methods: {
-
+			get_info:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId: 'article',
+					category_id: 1
+				}
+				that.request.uniRequest("article", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+					}
+				})
+			}
 		}
 	}
 </script>
 
 <style scoped>
-	
-	.text{
-		padding: 30rpx;
+	.agreement_content{
 		background-color: #F0F0F0;
 	}
 	

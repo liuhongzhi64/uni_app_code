@@ -55,108 +55,139 @@
 				</navigator>
 			</view>
 		</view>
-		
-		<view class="index_top_info"
-		 :style="[{'padding-top':show_go_top?menu_bottom+35+'px':menu_bottom*2+20+'px','background-color':index_info.background.up}]">
-			<view class="top_swiper">
-				<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="5000" duration="3000" circular>
-					<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
-						<navigator class="banner_info" :url="'/pages'+item.page+'?id='+item.page_id">
-							<image class="banner_img" :src="requestUrl+item.img" mode="widthFix"></image>
-						</navigator>
-					</swiper-item>
-				</swiper>
+		<scroll-view class="index_content" :style="[{'min-height':this_height+'px'}]">
+			<view class="index_top_info"
+			 :style="[{'padding-top':show_go_top?menu_bottom+35+'px':menu_bottom*2+'px','background-color':index_info.background.up}]">
+				<view class="top_swiper">
+					<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="5000" duration="3000" circular>
+						<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
+							<navigator class="banner_info" :url="'/pages'+item.page+'?id='+item.page_id">
+								<image class="banner_img" :src="requestUrl+item.img" mode="widthFix"></image>
+							</navigator>
+						</swiper-item>
+					</swiper>
+				</view>
+				<view class="certification">
+					<scroll-view class="certifications_content" scroll-x="true">
+						<view class="honor_list_info">
+							<view class="honor_list" v-for="(item,index) in index_info.honor_list" :key="index">
+								<image class="honor_image" src="/static/images/1.png" ></image>
+								<view :style="[{'color':index_info.honor_font_color}]">{{item}}</view>
+							</view>
+						</view>
+					</scroll-view>
+				</view>
+				<view class="this_index_icon_list" :style="[{'color':index_info.icon_font_color,'background-color':index_info.background.centre}]">
+					<swiper class="icon_list" @change="change_swiper_line" duration="3000">
+						<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
+							<navigator class="icon_list_item" v-for="(item,k) in list" :key="k"  :url="'/pages'+item.page">
+								<image class="icon_img" :src="requestUrl+item.img" mode="widthFix"></image>
+								<view class="icon_title"> {{item.title}} </view>
+							</navigator>
+						</swiper-item>
+					</swiper>
+					<swiperline class="swiper_line" :current="swiper_line" :list="index_info.icon_list"></swiperline>
+				</view>
 			</view>
-			<view class="certification">
-				<scroll-view class="certifications_content" scroll-x="true">
-					<view class="honor_list_info">
-						<view class="honor_list" v-for="(item,index) in index_info.honor_list" :key="index">
-							<image class="honor_image" src="/static/images/1.png" ></image>
-							<view :style="[{'color':index_info.honor_font_color}]">{{item}}</view>
+			<!-- 中部广告位 -->
+			<view class="all_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index'>
+				<view class="tile_advertising" v-for="(item,k) in list" :key='k'>
+					<view class="advertising">
+						<image class="advertisImg" :src="requestUrl+item.img" mode=""></image>
+					</view>
+				</view>
+			</view>
+			<!-- 秒杀 -->
+			<view class="this_seckill_module" v-if="Object.prototype.toString.call(index_info.seckill_module) != '[object Array]'">
+				<view class="seckill_module_top">
+					<view class="seckill_module_left">
+						<text class="seckill_module_title">每日秒杀</text>
+						<view class="seckill_module_time">
+							<text class="time_info" v-if="index_info.seckill_module.countdwon_format==1">{{ this_day }}</text> 
+							<text class="time_line" v-if="index_info.seckill_module.countdwon_format==1">:</text> 
+							<text class="time_info"> {{ this_house }} </text> <text class="time_line">:</text> 
+							<text class="time_info"> {{ this_second }} </text> <text class="time_line">:</text> 
+							<text class="time_info"> {{  this_minute }}</text> 
+							<text class="time_line" v-if="index_info.seckill_module.countdwon_format==3">:</text>
+							<text class="time_info" v-if="index_info.seckill_module.countdwon_format==3">{{ this_millisecond }}</text>
 						</view>
 					</view>
-				</scroll-view>
-			</view>
-			<view class="this_index_icon_list" :style="[{'color':index_info.icon_font_color,'background-color':index_info.background.centre}]">
-				<swiper class="icon_list" @change="change_swiper_line" duration="3000">
-					<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
-						<navigator class="icon_list_item" v-for="(item,k) in list" :key="k"  :url="'/pages'+item.page">
-							<image class="icon_img" :src="requestUrl+item.img" mode="widthFix"></image>
-							<view class="icon_title"> {{item.title}} </view>
-						</navigator>
-					</swiper-item>
-				</swiper>
-				<swiperline class="swiper_line" :current="swiper_line" :list="index_info.icon_list"></swiperline>
-			</view>
-		</view>
-		<!-- 中部广告位 -->
-		<view class="all_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index'>
-			<view class="tile_advertising" v-for="(item,k) in list" :key='k'>
-				<view class="advertising">
-					<image class="advertisImg" :src="requestUrl+item.img" mode=""></image>
+					<navigator class="seckill_module_right" 
+					 :url="'/pages'+index_info.seckill_module.page+'?id='+index_info.seckill_module.page_id">
+						全部 <image class="go_img" src="/static/images/unfold.png" mode="widthFix"></image>
+					</navigator>
+				</view>
+				<view class="seckill_module_goods">
+					<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='index_info.seckill_module.act_goods_list'></goodsShow>
 				</view>
 			</view>
-		</view>
-		<!-- 秒杀 -->
-		<view class="this_seckill_module" v-if="Object.prototype.toString.call(index_info.seckill_module) != '[object Array]'">
-			<view class="seckill_module_top">
-				<view class="seckill_module_left">
-					<text class="seckill_module_title">每日秒杀</text>
-					<view class="seckill_module_time">
-						<text class="time_info" v-if="index_info.seckill_module.countdwon_format==1">{{ this_day }}</text> 
-						<text class="time_line" v-if="index_info.seckill_module.countdwon_format==1">:</text> 
-						<text class="time_info"> {{ this_house }} </text> <text class="time_line">:</text> 
-						<text class="time_info"> {{ this_second }} </text> <text class="time_line">:</text> 
-						<text class="time_info"> {{  this_minute }}</text> 
-						<text class="time_line" v-if="index_info.seckill_module.countdwon_format==3">:</text>
-						<text class="time_info" v-if="index_info.seckill_module.countdwon_format==3">{{ this_millisecond }}</text>
+			<!-- 推荐 -->
+			<view class="index_recommend">
+				<view class="recommend_list">
+					<scroll-view class="recommend_items" scroll-x="true">
+						<view class="recommend_info">
+							<view class="info_list" v-for="(item,index) in recommend_list" :key='index'
+							 :class="{'change_recommend' : recommend_index==index}" @tap="choice_recommend(index)">
+								<text class="recommend_title"> {{item.title}} </text>
+								<text class="recommend_subtitle"> {{item.subtitle}} </text>
+								<view class="this_line" v-if="index<recommend_list.length-1"></view>
+							</view>
+						</view>
+					</scroll-view>
+				</view>
+			</view>
+			<view class="recommend_content" v-if="this_recommend_list.length>0">
+				<view class="recommen_content_item this_hide" :class="{this_show:recommend_index == index}" v-for="(item,index) in recommend_list" :key="index">
+					<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='this_recommend_list' v-if='index==0||index==1'>
+					</goodsShow>
+					<doctor :doctorList="this_recommend_list" :requestUrl="requestUrl" :paddingLR='10'
+					 @collectLike='collectLike' @cancelLike='cancelLike' v-else-if="index==2">
+					</doctor>
+					<view class="this_live" v-else-if="index==3">
+						<view class="live_top_info">
+							<scroll-view class="live_top_content" scroll-x="true">
+								<view class="live_list_info">
+									<view class="live_list" v-for="(item,index) in this_recommend_list" :key="index">
+										<image class="live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+										<view class="live_title"> {{ item.title }} </view>
+										<view class="live_time"> {{ item.start_time }}</view>
+										<view class="live_status" v-if="item.status==0"> 提醒我 </view>
+										<view class="live_status" v-else-if="item.status==1"> 去看看 </view>
+										<view class="live_status" v-else-if="item.status==-1"> 看回放 </view>
+									</view>
+								</view>
+							</scroll-view>
+						</view>
+						<view class="live_goods">
+							<view class="goods_left"> <text class="live_goods_text">主播力荐</text> 为您推荐 </view>
+							<view class="live_goods_info">
+								<view class="live_goods_img" v-for="(item,index) in this_recommend_list[0].live_goods" :key='index'>
+									<image :src="requestUrl+item.head_img" mode="widthFix"></image>
+								</view>
+							</view>
+						</view>
+						<view class="live_item_info" v-for="(item,index) in this_recommend_list" :key="index">
+							<image class="this_live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+							<view class="live_right">
+								<view class="live_title"> {{ item.title }} </view>
+							</view>
+						</view>
 					</view>
 				</view>
-				<navigator class="seckill_module_right" 
-				 :url="'/pages'+index_info.seckill_module.page+'?id='+index_info.seckill_module.page_id">
-					全部 <image class="go_img" src="/static/images/unfold.png" mode="widthFix"></image>
+			</view>
+			<view class="go_top" v-if="show_go_top">
+				<navigator class="consult" url="/pages/consultation/consultation"> <text>立即</text> <text>咨询</text> </navigator>
+				<image class="go_top_image" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
+			</view>
+			<!-- 弹窗 -->
+			<view class="popup_info" v-show="this_show_popup">
+				<navigator class="popup_window" :url="'/pages'+index_info.popup_window.content.page+'?id='+index_info.popup_window.content.page_id">
+					<image class="popup_img" :src="requestUrl+index_info.popup_window.content.img" mode="widthFix"></image> 
 				</navigator>
+				<view class="close_popup" @tap='show_popup'></view>
 			</view>
-			<view class="seckill_module_goods">
-				<goodsShow :requestUrl='requestUrl' :width=240 :crosswiseGoods='index_info.seckill_module.act_goods_list'></goodsShow>
-			</view>
-		</view>
-		<!-- 推荐 -->
-		<view class="index_recommend">
-			<view class="recommend_list">
-				<scroll-view class="recommend_items" scroll-x="true">
-					<view class="recommend_info">
-						<view class="info_list" v-for="(item,index) in recommend_list" :key='index'
-						 :class="{'change_recommend' : recommend_index==index}" @tap="choice_recommend(index)">
-							<text class="recommend_title"> {{item.title}} </text>
-							<text class="recommend_subtitle"> {{item.subtitle}} </text>
-							<view class="this_line" v-if="index<recommend_list.length-1"></view>
-						</view>
-					</view>
-				</scroll-view>
-			</view>
-		</view>
-		<view class="recommend_content" v-if="this_recommend_list.length>0">
-			<view class="recommen_content_item this_hide" :class="{this_show:recommend_index == index}" v-for="(item,index) in recommend_list" :key="index">
-				<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='this_recommend_list' v-if='index==0||index==1'>
-				</goodsShow>
-				<doctor :doctorList="this_recommend_list" :requestUrl="requestUrl" :paddingLR='10'
-				 @collectLike='collectLike' @cancelLike='cancelLike' v-else-if="index==2">
-				</doctor>
-			</view>
-		</view>
-		<view class="go_top" v-if="show_go_top">
-			<navigator class="consult" url="/pages/consultation/consultation"> <text>立即</text> <text>咨询</text> </navigator>
-			<image class="go_top_image" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
-		</view>
-		<!-- 弹窗 -->
-		<view class="popup_info" v-show="this_show_popup">
-			<navigator class="popup_window" :url="'/pages'+index_info.popup_window.content.page+'?id='+index_info.popup_window.content.page_id">
-				<image class="popup_img" :src="requestUrl+index_info.popup_window.content.img" mode="widthFix"></image> 
-			</navigator>
-			<image class="close_popup" src="/static/images/delete.png" @tap='show_popup'></image>
-			<!-- <view class="close_popup" @tap='show_popup'></view> -->
-		</view>
+		</scroll-view>
+		
 	</view>
 </template>
 
@@ -245,7 +276,7 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.choice_recommend(0)
+			that.choice_recommend(3)
 		},
 		onShow: function() {
 			let that = this
@@ -307,8 +338,10 @@
 			that.this_offset += 1
 			if(that.recommend_index==0){
 				that.get_recommend_goods()
-			}else{
+			}else if(that.recommend_index==1||that.recommend_index==2){
 				that.get_sift_list()
+			}else if(that.recommend_index==3){
+				console.log(111)
 			}
 		},
 		onHide:function(){
@@ -316,7 +349,6 @@
 			that.set_timers = 1
 		},
 		methods: {
-			
 			get_index_info: function() {
 				let that = this
 				let dataInfo = {
@@ -349,16 +381,19 @@
 			// 精选
 			choice_recommend:function(index){
 				let that = this
+				that.this_offset = 0
 				if (index == 0 ) {
 					that.recommend_index = index
 					that.this_recommend_list = []
-					that.this_offset = 0
 					that.get_recommend_goods()
 				}else if(index==1||index==2) {
 					that.recommend_index = index
 					that.this_recommend_list = []
-					that.this_offset = 0
 					that.get_sift_list()
+				}else if(index==3){
+					that.recommend_index = index
+					that.this_recommend_list = []
+					that.get_live_info()
 				}else{
 					uni.showToast({
 						title: '正在升级中...敬请期待!',
@@ -491,7 +526,61 @@
 			show_popup:function(){
 				let that = this
 				that.this_show_popup = false
-			}
+			},
+			get_live_info:function(){
+				let that = this
+				that.get_live()
+			},
+			get_live:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'index',
+					offset:that.this_offset*4,
+					limit:4
+				}
+				that.request.uniRequest("live", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+						for(let key in data){
+							data[key].start_time = that.set_timer(data[key].start_time)
+						}
+						if(data.length>0){
+							that.this_recommend_list = that.this_recommend_list.concat(data)
+						}
+						else if(data.length==0&&that.this_offset>0){
+							uni.showToast({
+								title: '没有更多啦...',
+								icon: 'none'
+							})
+						}
+					}
+				})
+			},
+			get_live_goods:function(){
+				
+			},
+			set_timer:function(date){
+				date = new Date(date*1000)
+				let month = date.getMonth() +1
+				let day = date.getDate()
+				let house = date.getHours()
+				let second = date.getSeconds()
+				if(month<10){
+					month = "0" + month
+				}
+				if(day<10){
+					day = "0" + day
+				}
+				if(house<10){
+					house = '0' + house
+				}
+				if(second<10){
+					second = '0' + second
+				}
+				let time = month + '月' + day + '日' + '' + house + ':' +  second
+				return time
+			},
 		}
 	}
 </script>
@@ -630,12 +719,27 @@
 		overflow: hidden;
 		white-space: nowrap;
 		width: 100%;
-		
 	}
+	
+	.live_top_content{
+		overflow: hidden;
+		white-space: nowrap;
+		width: 100%;
+	}
+	
 	.honor_list_info{
 		display: flex;
 		align-items: center;
 	}
+	
+	.live_top_info{
+		padding-bottom: 30rpx;
+	}
+	
+	.live_list_info{
+		display: flex;
+	}
+	
 	.honor_list{
 		display: inline-block;
 		padding-left: 20rpx;
@@ -859,13 +963,105 @@
 	}
 	.close_popup{
 		position: absolute;
-		right: 40rpx;
-		top: 240rpx;
-		width: 80rpx;
-		height: 80rpx;
+		right: 0;
+		top: 0;
+		width: 100%;
+		height: 420rpx;
 		border-radius: 40rpx;
 		z-index: 101;
-		background-color: red;
 		display: block;
 	}
+	
+	.this_live{
+		padding-bottom: 40rpx;
+	}
+	
+	.live_list{
+		margin: 0 20rpx;
+		background-color: #FFFFFF;
+		display: flex;
+		flex-direction: column;
+		white-space: normal;
+		align-items: center;
+		border-radius: 16rpx;
+	}
+	.live_list:last-child{
+		padding-right: 20rpx;
+	}
+	
+	.live_cover_img{
+		width: 240rpx;
+		padding-bottom: 10rpx;
+		border-top-left-radius: 16rpx;
+		border-top-right-radius: 16rpx;
+	}
+	.live_title{
+		font-size: 24rpx;
+		padding: 0 10rpx;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+	
+	.live_time{
+		padding: 10rpx;
+		text-align: center;
+		font-size: 24rpx;
+		color: #FA3475;
+	}
+	
+	.live_status{
+		background-image: linear-gradient(-45deg,  #fa3475 0%,  #ff6699 100%);
+		width: 80%;
+		text-align: center;
+		line-height: 30rpx;
+		font-size: 24rpx;
+		border-radius: 15rpx;
+		color: #FFFFFF;
+	}
+	
+	.live_goods{
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		border-radius: 16rpx;
+	}
+	
+	.goods_left{
+		width: 20%;
+		font-size: 24rpx;
+	}
+	
+	.live_goods_text{
+		font-size: 32rpx;
+	}
+	.live_goods_info{
+		flex: 1;
+		display: flex;
+		justify-content: space-around;
+	}
+	.live_goods_img image{
+		width: 240rpx;
+		display: block;
+		border-radius: 16rpx;
+	}
+	
+	.live_item_info{
+		display: flex;
+		margin-top: 20rpx;
+		background-color: #FFFFFF;
+		border-radius: 16rpx;
+	}
+	
+	.this_live_cover_img{
+		border-top-left-radius: 16rpx;
+		border-bottom-left-radius: 16rpx;
+		width: 350rpx;
+	}
+	
+	.live_right{
+		padding: 20rpx;
+	}
+	
 </style>

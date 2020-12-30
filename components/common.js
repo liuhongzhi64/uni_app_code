@@ -72,13 +72,18 @@ export default {
 						} else {
 							if (res.data.code !== 1000) {
 								if (res.data.code == 1007 || res.data.code == 1016|| res.data.code == 1004 || res.data.code == 1006) {
-									that.showToast(res.data.message)
-									// 后期使用
-									setTimeout(function() {
-										uni.navigateTo({
-											url: '/pages/login/login_phone'
-										})
-									}, 1000)
+									uni.showModal({
+										title:'提示',
+										content:'未登录或登录过期,请登录···',
+										confirmText:'前往登录',
+										success:function(res){
+											if(res.confirm){
+												uni.navigateTo({
+													url: '/pages/login/login_phone'
+												})
+											}
+										}
+									})
 								} else if (res.data.code == 2201) {
 									that.showToast(res.data.message)
 								}

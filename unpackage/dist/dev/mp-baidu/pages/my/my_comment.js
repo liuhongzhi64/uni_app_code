@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 479));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 507));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -219,26 +219,7 @@ __webpack_require__.r(__webpack_exports__);
 
       tabIndex: 0,
       listType: 0,
-      contentList: [
-      {
-        id: 4,
-        is_anonymous: 0, //是否匿名  1 匿名 0不匿名
-        contents: "测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是", //评价内容
-        point: 6, //评价分数
-        img: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //商品图片
-        spu_name: '测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是', //商品名称
-        sku_id: 13 },
-
-      {
-        id: 5,
-        is_anonymous: 1, //是否匿名  1 匿名 0不匿名
-        contents: "测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是", //评价内容
-        point: 3, //评价分数
-        img: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //商品图片
-        spu_name: '测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是', //商品名称
-        sku_id: 12 }],
-
-
+      contentList: [],
       requestUrl: '',
       offset: 0,
       imgs: [{
@@ -252,8 +233,7 @@ __webpack_require__.r(__webpack_exports__);
       {
         id: 5 }],
 
-      src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-      src2: 'https://img-blog.csdnimg.cn/20200610110053850.png' };
+      src1: 'https://img-blog.csdnimg.cn/20200610110052243.png' };
 
   },
   onLoad: function onLoad(options) {

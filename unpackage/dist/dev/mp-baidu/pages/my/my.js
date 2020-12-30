@@ -364,7 +364,12 @@ __webpack_require__.r(__webpack_exports__);
       {
         icon: "https://xcx.hmzixin.com/upload/images/c_material.png",
         name: "物资领取",
-        page: "/other/jump?url=get-present/" }],
+        page: "/other/jump?url=get-present/" },
+
+      {
+        icon: "/static/images/edit.png",
+        name: "意见反馈",
+        page: "/my/my_opinion" }],
 
 
       user_info: {},

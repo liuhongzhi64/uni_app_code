@@ -151,7 +151,7 @@
 	.back {
 		display: flex;
 		align-items: center;
-		margin-left: 20rpx;
+		padding-left: 20rpx;
 		width: 60rpx;
 		height: 100%;
 		position: absolute;

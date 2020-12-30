@@ -2,23 +2,34 @@
 	"pages": [
 
 		// 测试时的首页
-				
-		
-		
-		{
-			"path": "pages/index/index",
-			"style": {
-				"enablePullDownRefresh": true
-			}
-		},
+			
 		
 			
+		// 首页
+		{
+			"path": "pages/index/index"
+			// "style": {
+			// 	"enablePullDownRefresh": true //下拉刷新
+			// }
+		},	
+		{
+			"path": "pages/my/my_opinion", //意见反馈
+			"style": {}
+		},	
+		
+		
+		
+		// 用户协议
+		{
+			"path": "pages/agreement/agreement", //用户协议
+			"style": {}
+		},	
+		
 		// 购物车
 		{
 			"path": "pages/cart/cart", //购物车
 			"style": {}
 		},
-		
 		
 		// 确认订单
 		{
@@ -30,37 +41,9 @@
 			"style": {}
 		},
 		
-		// 首页
 		
 
-		// 登录
-		{
-			"path": "pages/login/login_phone", //手机登录
-			"style": {}
-		},
-		{
-			"path": "pages/login/login", //登录
-			"style": {}
-		},
-		{
-			"path": "pages/login/login_gather", //微信登录
-			"style": {}
-		},
-		{
-			"path": "pages/login/register", //登录
-			"style": {}
-		},
-
-
-
-		// 用户协议
-		{
-			"path": "pages/agreement/agreement", //用户协议
-			"style": {}
-		},
-
 		
-
 		// 核销
 		{
 			"path": "pages/check/check_card", //核销卡券
@@ -70,6 +53,7 @@
 			"path": "pages/check/check_order", //订单核销
 			"style": {}
 		},
+		
 		
 		
 
@@ -182,7 +166,25 @@
 			"path": "pages/goods/goods_detail_video", //商品详情（视频播放）
 			"style": {}
 		},
-
+		
+		// 登录
+		{
+			"path": "pages/login/login_phone", //手机登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/login", //登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/login_gather", //微信登录
+			"style": {}
+		},
+		{
+			"path": "pages/login/register", //登录
+			"style": {}
+		},
+		
 		// 消息
 		{
 			"path": "pages/message/message", //消息主页
@@ -315,32 +317,38 @@
 		"backgroundColor": "#F8F8F8",
 		"list": [{
 				"pagePath": "pages/index/index",
-				"iconPath": "static/images/index.png",
-				"selectedIconPath": "static/images/idnex1.png",
+				"iconPath": "static/images/footer_index.png",
+				"selectedIconPath": "static/images/footer_select_index.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/goods/goods_classify",
-				"iconPath": "static/images/classify.png",
-				"selectedIconPath": "static/images/classify1.png",
+				"iconPath": "static/images/footer_classify.png",
+				"selectedIconPath": "static/images/footer_selcet_classify.png",
 				"text": "分类"
 			},
 			{
 				"pagePath": "pages/diary/diary",
-				"iconPath": "./static/images/diary.png",
-				"selectedIconPath": "static/images/diary1.png",
+				"iconPath": "static/images/footer_diary.png",
+				"selectedIconPath": "static/images/footer_select_diary.png",
 				"text": "日记"
 			},
+			// {
+			// 	"pagePath": "pages/diary/diary",
+			// 	"iconPath": "https://xcx.hmzixin.com/upload/images/3.0/footer_member_gary.png", //footer_member.png
+			// 	"selectedIconPath": "https://xcx.hmzixin.com/upload/images/3.0/footer_member_red.png", //footer_select_diary.png
+			// 	"text": "会员"
+			// },
 			{
 				"pagePath": "pages/doctor/doctor",
-				"iconPath": "static/images/doctor.png",
-				"selectedIconPath": "static/images/doctor1.png",
+				"iconPath": "static/images/footer_doctor.png",
+				"selectedIconPath": "static/images/footer_select_doctor.png",
 				"text": "医生"
 			},
 			{
 				"pagePath": "pages/my/my",
-				"iconPath": "static/images/my.png",
-				"selectedIconPath": "static/images/my1.png",
+				"iconPath": "static/images/footer_my.png",
+				"selectedIconPath": "static/images/footer_select_my.png",
 				"text": "我的"
 			}
 		]

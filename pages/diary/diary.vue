@@ -287,8 +287,9 @@
 						let data = res.data.data
 						if (data.length == 0&&that.offset>0) {
 							that.request.showToast('没有更多了')
+						}else{
+							that.content_list = that.content_list.concat(data)
 						}
-						that.content_list = that.content_list.concat(data)
 					}
 				})
 			},

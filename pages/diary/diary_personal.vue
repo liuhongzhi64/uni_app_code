@@ -61,11 +61,11 @@
 				</template>
 			</scroll-view>
 		</view>
-		<view class="bottom-botton" v-if="this_my">
+		<!-- <view class="bottom-botton" v-if="this_my">
 			<view class="keep-diary">
 				<navigator class="keep-diary-botton" url="/pages/diary/diary_keep"> + 写日记 </navigator>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 

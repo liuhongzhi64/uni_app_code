@@ -13,7 +13,7 @@
 		<view class="comment-content" :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
 			<view class="no-content" v-if="contentList.length==0">
 				<image src="../../static/images/cartBg.png" mode="widthFix"></image>
-				<view class="hint">喵~ 暂无相关内容</view>
+				<view class="hint">喵~ 暂无相关</view>
 			</view>
 			<view class="content-item"  v-else >
 				<view class="have-content" >
@@ -30,7 +30,7 @@
 									评分 : 
 									<view class="star-list">
 										<view class="star-img" v-for="(i,k) in imgs" :key="k" >
-											<image class="star" :src="i.id>item.point?src2:src1"></image>
+											<image class="star" :src="i.id>item.point?'':src1"></image>
 										</view>
 									</view>
 									<view class="top-right" v-if="item.point==1||item.point==2">较差</view>
@@ -87,26 +87,7 @@
 				],
 				tabIndex:0,
 				listType:0,
-				contentList:[
-					{
-						id:4,
-						is_anonymous:0,//是否匿名  1 匿名 0不匿名
-						contents:"测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是",//评价内容
-						point:6,//评价分数
-						img:'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',//商品图片
-						spu_name:'测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是' ,//商品名称
-						sku_id:13
-					},
-					{
-						id:5,
-						is_anonymous:1,//是否匿名  1 匿名 0不匿名
-						contents:"测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是",//评价内容
-						point:3,//评价分数
-						img:'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',//商品图片
-						spu_name:'测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是,测试测序这是' ,//商品名称
-						sku_id:12
-					}
-				],
+				contentList:[],
 				requestUrl:'',
 				offset:0,
 				imgs: [{
@@ -121,7 +102,6 @@
 					id: 5
 				}],
 				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-				src2: 'https://img-blog.csdnimg.cn/20200610110053850.png',
 			}
 		},
 		onLoad(options) {

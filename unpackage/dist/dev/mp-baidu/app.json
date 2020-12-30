@@ -1,14 +1,11 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/my/my_opinion",
+    "pages/agreement/agreement",
     "pages/cart/cart",
     "pages/confirm_order/confirm_order",
     "pages/confirm_order/no_refund",
-    "pages/login/login_phone",
-    "pages/login/login",
-    "pages/login/login_gather",
-    "pages/login/register",
-    "pages/agreement/agreement",
     "pages/check/check_card",
     "pages/check/check_order",
     "pages/consultation/consultation",
@@ -35,6 +32,10 @@
     "pages/goods/goods_detail_problem",
     "pages/goods/goods_detail_problem_detail",
     "pages/goods/goods_detail_video",
+    "pages/login/login_phone",
+    "pages/login/login",
+    "pages/login/login_gather",
+    "pages/login/register",
     "pages/message/message",
     "pages/message/message_detail",
     "pages/my/my",
@@ -74,32 +75,32 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/images/index.png",
-        "selectedIconPath": "static/images/idnex1.png",
+        "iconPath": "static/images/footer_index.png",
+        "selectedIconPath": "static/images/footer_select_index.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/goods/goods_classify",
-        "iconPath": "static/images/classify.png",
-        "selectedIconPath": "static/images/classify1.png",
+        "iconPath": "static/images/footer_classify.png",
+        "selectedIconPath": "static/images/footer_selcet_classify.png",
         "text": "分类"
       },
       {
         "pagePath": "pages/diary/diary",
-        "iconPath": "./static/images/diary.png",
-        "selectedIconPath": "static/images/diary1.png",
+        "iconPath": "static/images/footer_diary.png",
+        "selectedIconPath": "static/images/footer_select_diary.png",
         "text": "日记"
       },
       {
         "pagePath": "pages/doctor/doctor",
-        "iconPath": "static/images/doctor.png",
-        "selectedIconPath": "static/images/doctor1.png",
+        "iconPath": "static/images/footer_doctor.png",
+        "selectedIconPath": "static/images/footer_select_doctor.png",
         "text": "医生"
       },
       {
         "pagePath": "pages/my/my",
-        "iconPath": "static/images/my.png",
-        "selectedIconPath": "static/images/my1.png",
+        "iconPath": "static/images/footer_my.png",
+        "selectedIconPath": "static/images/footer_select_my.png",
         "text": "我的"
       }
     ]

@@ -2331,13 +2331,18 @@ function normalizeComponent (
             } else {
               if (res.data.code !== 1000) {
                 if (res.data.code == 1007 || res.data.code == 1016 || res.data.code == 1004 || res.data.code == 1006) {
-                  that.showToast(res.data.message);
-                  // 后期使用
-                  setTimeout(function () {
-                    uni.navigateTo({
-                      url: '/pages/login/login_phone' });
+                  uni.showModal({
+                    title: '提示',
+                    content: '未登录或登录过期,请登录···',
+                    confirmText: '前往登录',
+                    success: function success(res) {
+                      if (res.confirm) {
+                        uni.navigateTo({
+                          url: '/pages/login/login_phone' });
 
-                  }, 1000);
+                      }
+                    } });
+
                 } else if (res.data.code == 2201) {
                   that.showToast(res.data.message);
                 } else
@@ -2386,18 +2391,18 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 182:
+/***/ 174:
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 183);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 175);
 
 /***/ }),
 
-/***/ 183:
+/***/ 175:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -2428,7 +2433,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 184);
+module.exports = __webpack_require__(/*! ./runtime */ 176);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -2445,7 +2450,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 184:
+/***/ 176:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

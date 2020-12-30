@@ -26,7 +26,7 @@
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)' >
 								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
-								<text v-if="item.collect||item.collect_num">{{item.collect}} </text>
+								<text v-if="item.collect||item.collect_num">{{item.collect||item.collect_num}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 

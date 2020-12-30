@@ -428,18 +428,19 @@
 						imgs_list:that.image_list
 					}
 					console.log(dataInfo)
-					uni.showToast({
-						title:'评价成功!',
+					
+					that.request.uniRequest("goods", dataInfo).then(res => {
+						if (res.data.code == 1000 && res.data.status == 'ok') {
+							uni.showToast({
+								title:'评价成功!',
+							})
+							uni.navigateTo({
+								url: `/pages/my/my_comment`,
+							})
+							that.show_issue = true
+						}
 					})
-					uni.navigateTo({
-						url: `/pages/my/my_comment`,
-					})
-					// that.request.uniRequest("goods", dataInfo).then(res => {
-					// 	if (res.data.code == 1000 && res.data.status == 'ok') {
-							
-					// 	}
-					// })
-					that.show_issue = true
+					
 				}
 			},
 			// 判断步骤

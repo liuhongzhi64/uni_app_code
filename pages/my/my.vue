@@ -55,7 +55,7 @@
 							<view class="order-image">
 								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_unpaid.png" mode="widthFix"></image>
 							</view>
-							<view class="order-number"> {{orderList.need_pay}} </view>
+							<view class="order-number"> {{orderList.need_pay||0}} </view>
 						</view>
 						<view class="order-name"> 待付款 </view>
 					</view>
@@ -64,7 +64,7 @@
 							<view class="order-image">
 								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_paid.png" mode="widthFix"></image>
 							</view>
-							<view class="order-number"> {{orderList.pay}} </view>
+							<view class="order-number"> {{orderList.pay||0}} </view>
 						</view>
 						<view class="order-name"> 已付款 </view>
 					</view>
@@ -81,7 +81,7 @@
 							<view class="order-image">
 								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_evaluated.png" mode="widthFix"></image>
 							</view>
-							<view class="order-number"> {{orderList.not_comment}} </view>
+							<view class="order-number"> {{orderList.not_comment||0}} </view>
 						</view>
 						<view class="order-name"> 待评价 </view>
 					</view>
@@ -233,6 +233,11 @@
 						icon: "https://xcx.hmzixin.com/upload/images/c_material.png",
 						name: "物资领取",
 						page: "/other/jump?url=get-present/"
+					},
+					{
+						icon: "/static/images/edit.png",
+						name: "意见反馈",
+						page: "/my/my_opinion"
 					}
 				],
 				user_info:{},

@@ -522,15 +522,14 @@
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
-		font-size: 24rpx;
 		margin-top: 10rpx;
-		height: 34rpx;
+		height: 40rpx;
 	}
 	
 	.doctor_view_title{
 		width: 50rpx;
 		line-height: 24rpx;
-		height: 26rpx;
+		height: 28rpx;
 		border-radius: 5rpx;
 		border: solid 1rpx #689efb;	
 		font-size: 20rpx;
@@ -740,8 +739,8 @@
 		width: 48rpx;
 		height: 48rpx;
 		border-radius: 24rpx;
-		border: 1rpx solid red;
 		margin-right: 10rpx;
+		background-color: #F0F0F0;
 	}
 	
 	.nick_name {

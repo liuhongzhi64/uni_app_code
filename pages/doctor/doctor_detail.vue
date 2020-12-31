@@ -47,8 +47,10 @@
 							<view class="this_item_content">
 								<view class="item_img" v-for="(item,index) in doctor_info.video_album" :key='index'>
 									<navigator class="item_info" :url="'/pages/diary/diary_video?id='+item.id">
-										<image class="cover_img" :src="requestUrl+item.cover_img"></image>
-										<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+										<view class="item_images">
+											<image class="cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+											<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+										</view>
 										</image>
 										<view class="item_explain">{{item.name}}</view>
 									</navigator>
@@ -553,22 +555,24 @@
 		height: 100%;
 		white-space: normal;
 		border-radius: 24rpx;
-
 	}
 
 	.item_info .doctor_img {
 		width: 280rpx;
 	}
+	
+	.item_images{
+		position: relative;
+	}
 
 	.item_info .cover_img {
 		width: 210rpx;
-		height: 210rpx;
 		display: block;
 	}
 
 	.pay_btn {
 		position: absolute;
-		top: 75rpx;
+		top: 30%;
 		left: 75rpx;
 		width: 60rpx;
 	}

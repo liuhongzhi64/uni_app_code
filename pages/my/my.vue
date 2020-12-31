@@ -9,7 +9,7 @@
 					<view class="user-head-portrait-name-phone-set">
 						<view class="user-head-portrait">
 							<image class="user-head-portrait_image" :src="requestUrl+user_info.head_ico"></image>
-							<view class="name-cart-phone">
+							<view class="name-cart-phone" v-if="user_info.tel">
 								<view class="user-name-cart">
 									<view class="user-name"> {{ user_info.real_name || user_info.nick_name }} </view>
 									<!-- <view class="user-cart"> 时尚卡 </view> -->
@@ -20,14 +20,14 @@
 								</view>
 							</view>
 						</view>
-						<view class="eye_img" @tap="set_show_user()">
+						<view class="eye_img" @tap="set_show_user()" v-if="user_info.tel">
 							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye_no.png" v-if="this_show_user"></image>
 							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye.png" v-else></image>
 						</view>
 						
-						<view class="set" @tap='goToSet'> 设置 
+						<navigator class="set" url="/pages/my/my_set"> 设置 
 							<image class="go_img" src="/static/images/return.png" mode="widthFix"></image>
-						</view>
+						</navigator>
 					</view>
 					<view class="card-volume-integral-bean-balance-currency">
 						<view class="all-card" v-for="(i,k) in cardList" :key='k' @tap="change_order(i.id)">
@@ -108,11 +108,17 @@
 					</swiper>
 				</view>
 			</view>
-			<view class="serve-and-tool">
+			<view class="serve-and-tool" :style="[{'margin-top':advertising_img.content.length>0?'':'20rpx'}]">
 				<view class="serve-and-tool-title"> 服务与工具 </view>
 				<view class="serve-and-tool-list">
 					<view class="serve-tool-list" v-for="(item,index) in serveToolList"  :key='index'>
-						<navigator class="tool-item" :url="'/pages'+item.page">
+						<view class="tool-item" @tap="go_top_page(0)" v-if="item.name=='员工服务'">
+							<view class="tool-image">
+								<image :src="item.icon" mode="widthFix"></image>
+							</view>
+							<view class="tool-name"> {{item.name}} </view>
+						</view>
+						<navigator class="tool-item" :url="'/pages'+item.page" v-else>
 							<view class="tool-image">
 								<image :src="item.icon" mode="widthFix"></image>
 							</view>
@@ -136,6 +142,7 @@
 				</scroll-view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -247,7 +254,8 @@
 				advertising_img: {
 					content: []
 				},
-				this_show_user:false
+				this_show_user:false,
+				this_record:false
 			}
 		},
 		onLoad(options) {
@@ -287,7 +295,6 @@
 		},
 		onReady() {
 			let that = this;
-			// 判定运行平台
 			let platform = getApp().platform || getApp().globalData.platform
 			if (platform == 'Applets') {
 				// 获取屏幕高度
@@ -416,12 +423,7 @@
 					}
 				})
 			},
-			// 去设置页面
-			goToSet: function() {
-				uni.navigateTo({
-					url: `/pages/my/my_set`,
-				})
-			},
+			
 			goToAccount: function(e) {
 				uni.navigateTo({
 					url: `/pages/my/account_number`,
@@ -449,6 +451,17 @@
 				uni.navigateTo({
 					url: `/pages/my/my_comment`,
 				})
+			},
+			go_top_page:function(type){
+				let that = this
+				// type 0 员工服务
+				if(type==0){
+					uni.showModal({
+						title:'提示',
+						content:'仅限员工可用进入哟~',
+						showCancel:false
+					})
+				}
 			}
 		}
 	}
@@ -603,6 +616,7 @@
 	.all-order {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 	}
 
 	.all-order text {
@@ -723,6 +737,7 @@
 	}
 	.unfold_img{
 		width: 24rpx;
+		max-height: 28rpx;
 		margin-left: 6rpx;
 		transform:rotate(270deg);
 	}
@@ -730,4 +745,5 @@
 	.subject-content {
 		background-color: #F6F6F6;
 	}
+	
 </style>

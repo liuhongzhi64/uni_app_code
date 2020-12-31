@@ -690,7 +690,6 @@
 			// 开启倒计时
 			set_dount_down:function(time) {
 				let that = this
-				// let minuteTime = time;// 秒
 				let secondTime = 0; // 分
 				let hourTime = 0; // 小时
 				let day = 0; //天
@@ -724,7 +723,6 @@
 					if(that.timers>0){
 						clearInterval(timers)
 					}
-					// console.log(that.day, that.house, that.second, that.minute)
 				}, 1000)
 				
 			},
@@ -734,7 +732,7 @@
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
 					type: '5',
-					offset: that.offset
+					offset: that.offset*6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -817,7 +815,6 @@
 						that.discounts_list = []
 						that.card_sale_list = []
 						that.all_discount = 0
-						// console.log(info[key])
 						if(info[key].tools_id=='discount'){
 							that.discounts_list.push(info[key])
 						}else if(info[key].tools_id=='sale_card_user'){
@@ -827,7 +824,6 @@
 					}
 					that.this_show_discount = !that.this_show_discount
 				}
-				// console.log(that.discounts_list,that.card_sale_list)
 			},
 			hide_discount:function(){
 				let that = this
@@ -876,6 +872,11 @@
 									uni.showToast({
 										title:'取消订单成功!'
 									})
+									setTimeout(function(){
+										uni.navigateTo({
+											url: `/pages/my/my_order?type=0`,
+										})
+									},1000)
 								}
 							})
 						}
@@ -1643,12 +1644,12 @@
 	.top-button {
 		width: 120rpx;
 		position: fixed;
-		right: 40rpx;
-		bottom: 130px;
+		right: 30rpx;
+		bottom: 80px;
 		z-index: 9999;
 	}
 	.top-button image{
-		width: 120rpx;
+		width:80rpx;
 	}
 
 	/* 新写的样式 */

@@ -2,7 +2,7 @@
 	<view class="this_index" >
 		<view class="index_top_fixed" :style="[{'padding-top':menu_top+'px','background-color':index_info.background.up,'padding-bottom':10+'px'}]">
 			<view class="this_top_left" :style="[{'height':menu_height+'px','padding-bottom':10+'px'}]">
-				<navigator class="top_img_nav"
+				<navigator class="top_img_nav" v-if="Object.prototype.toString.call(index_info.top_advertising) != '[object Array]'"
 				 :url="'/pages'+index_info.top_advertising.content.page+'?id='+index_info.top_advertising.content.page_id" v-show="!show_go_top">
 					<image class="top_bar_img" :src="requestUrl+index_info.top_advertising.content.img" :style="[{'height':menu_height+'px'}]"></image>
 				</navigator>
@@ -137,17 +137,18 @@
 				</view>
 			</view>
 			<view class="recommend_content" v-if="this_recommend_list.length>0">
-				<view class="recommen_content_item this_hide" :class="{this_show:recommend_index == index}" v-for="(item,index) in recommend_list" :key="index">
+				<view class="recommen_content_item this_hide" :class="{this_show:recommend_index == index}"
+				 v-for="(item,index) in recommend_list" :key="index">
 					<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='this_recommend_list' v-if='index==0||index==1'>
 					</goodsShow>
 					<doctor :doctorList="this_recommend_list" :requestUrl="requestUrl" :paddingLR='10'
 					 @collectLike='collectLike' @cancelLike='cancelLike' v-else-if="index==2">
 					</doctor>
 					<view class="this_live" v-else-if="index==3">
-						<view class="live_top_info">
+						<view class="live_top_info" v-if="calendar_list.length>0">
 							<scroll-view class="live_top_content" scroll-x="true">
 								<view class="live_list_info">
-									<view class="live_list" v-for="(item,index) in this_recommend_list" :key="index">
+									<view class="live_list" v-for="(item,index) in calendar_list" :key="index">
 										<image class="live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 										<view class="live_title"> {{ item.title }} </view>
 										<view class="live_time"> {{ item.start_time }}</view>
@@ -161,15 +162,22 @@
 						<view class="live_goods">
 							<view class="goods_left"> <text class="live_goods_text">主播力荐</text> 为您推荐 </view>
 							<view class="live_goods_info">
-								<view class="live_goods_img" v-for="(item,index) in this_recommend_list[0].live_goods" :key='index'>
-									<image :src="requestUrl+item.head_img" mode="widthFix"></image>
-								</view>
+								<scroll-view class="live_top_content" scroll-x="true">
+									<view class="live_goods_img" v-for="(item,index) in live_goods" :key='index'>
+										<image :src="requestUrl+item.head_img" mode="widthFix"></image>
+									</view>
+								</scroll-view>
 							</view>
 						</view>
 						<view class="live_item_info" v-for="(item,index) in this_recommend_list" :key="index">
 							<image class="this_live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 							<view class="live_right">
 								<view class="live_title"> {{ item.title }} </view>
+								<view class="right_live_goods">
+									<view class="live_goods_image" v-for="(i,k) in item.live_goods" :key='k'>
+										<image :src="requestUrl+i.head_img" mode="widthFix"></image>
+									</view>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -180,7 +188,8 @@
 				<image class="go_top_image" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
 			</view>
 			<!-- 弹窗 -->
-			<view class="popup_info" v-show="this_show_popup">
+			<view class="popup_info"
+			 v-if="this_show_popup" >
 				<navigator class="popup_window" :url="'/pages'+index_info.popup_window.content.page+'?id='+index_info.popup_window.content.page_id">
 					<image class="popup_img" :src="requestUrl+index_info.popup_window.content.img" mode="widthFix"></image> 
 				</navigator>
@@ -213,27 +222,31 @@
 				search_width: 315,
 				requestUrl: '',
 				index_info: {
+					centre_advertising: [],
+					seckill_module: [],
+					sliding_advertising: [],
+					popup_window: [],
+					platform: 2,
+					icon_list:[],
+					honor_list:[],
 					banner:{
+						id:0,
+						type:0,
 						content:[]
 					},
+					up_advertising:[],
+					top_font_color: "#f0ecec",
+					honor_font_color: "#c9a237",
+					icon_font_color: "#eeeff2",
+					top_navigation:[],
+					top_advertising:[],
 					background:{
-						up:''
-					},
-					centre_advertising:{
-						content:[]
-					},
-					top_advertising:{
-						content:{
-							img:''
-						}
-					},
-					seckill_module:{
-						countdwon_format:1
-					},
-					popup_window:{
-						content:{
-							page:''
-						}
+						up:"",
+						centre: "#171717",
+						down: "#ffffff",
+						up_grounding: "#171717",
+						centre_grounding: "#1a1a1a",
+						down_grounding: "#ffffff"
 					}
 				},
 				swiper_line:0,
@@ -269,14 +282,16 @@
 				this_minute: 0,
 				this_millisecond:0,
 				set_timers:0,
-				this_show_popup:true
+				this_show_popup:false,
+				calendar_list:[],//日历列表
+				live_goods:[],//直播商品
 			}
 		},
 		onLoad: function(options) {
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			that.choice_recommend(3)
+			that.choice_recommend(that.recommend_index)
 		},
 		onShow: function() {
 			let that = this
@@ -359,8 +374,12 @@
 						let data = res.data.data
 						data.icon_list = that.group(data.icon_list, 10)
 						that.index_info = data
+						console.log(data)
 						if(Object.prototype.toString.call(data.seckill_module) != '[object Array]'&&data.seckill_module.rest_time>0){
 							that.set_time(data.seckill_module.rest_time)
+						}
+						if(Object.prototype.toString.call(data.popup_window) != '[object Array]'){
+							that.this_show_popup = true
 						}
 					}
 				})
@@ -391,8 +410,8 @@
 					that.this_recommend_list = []
 					that.get_sift_list()
 				}else if(index==3){
-					that.recommend_index = index
-					that.this_recommend_list = []
+					// that.recommend_index = index
+					// that.this_recommend_list = []
 					that.get_live_info()
 				}else{
 					uni.showToast({
@@ -529,7 +548,13 @@
 			},
 			get_live_info:function(){
 				let that = this
-				that.get_live()
+				uni.showToast({
+					title: '正在升级中...敬请期待!',
+					icon: 'none'
+				})
+				// that.get_live()
+				// that.get_live_goods()
+				// that.get_calendar_list()
 			},
 			get_live:function(){
 				let that = this
@@ -558,7 +583,32 @@
 				})
 			},
 			get_live_goods:function(){
-				
+				let that = this
+				let dataInfo = {
+					interfaceId:'hot',
+					offset:that.this_offset*3,
+					limit:3
+				}
+				that.request.uniRequest("live", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data,222)
+						that.live_goods = data
+					}
+				})
+			},
+			get_calendar_list:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'calendar',
+				}
+				that.request.uniRequest("live", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data,3333)
+						that.calendar_list = data
+					}
+				})
 			},
 			set_timer:function(date){
 				date = new Date(date*1000)
@@ -1019,6 +1069,7 @@
 		font-size: 24rpx;
 		border-radius: 15rpx;
 		color: #FFFFFF;
+		margin-bottom: 10rpx;
 	}
 	
 	.live_goods{
@@ -1031,13 +1082,15 @@
 	.goods_left{
 		width: 20%;
 		font-size: 24rpx;
+		color: #ff6699;
 	}
 	
 	.live_goods_text{
 		font-size: 32rpx;
+		color: #FA3475;
 	}
 	.live_goods_info{
-		flex: 1;
+		width: 80%;
 		display: flex;
 		justify-content: space-around;
 	}
@@ -1049,6 +1102,7 @@
 	
 	.live_item_info{
 		display: flex;
+		align-items: center;
 		margin-top: 20rpx;
 		background-color: #FFFFFF;
 		border-radius: 16rpx;
@@ -1062,6 +1116,21 @@
 	
 	.live_right{
 		padding: 20rpx;
+		flex: 1;
+	}
+	
+	.right_live_goods{
+		display: flex;
+	}
+	
+	.live_goods_image{
+		padding: 10rpx 0;
+		margin-right: 20rpx;
+	}
+	
+	.live_goods_image image{
+		width: 120rpx;
+		border-radius: 16rpx;
 	}
 	
 </style>

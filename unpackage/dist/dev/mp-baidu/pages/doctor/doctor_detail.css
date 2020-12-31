@@ -189,14 +189,16 @@
 .item_info .doctor_img.data-v-15d581fa {
 	width: 280rpx;
 }
+.item_images.data-v-15d581fa{
+	position: relative;
+}
 .item_info .cover_img.data-v-15d581fa {
 	width: 210rpx;
-	height: 210rpx;
 	display: block;
 }
 .pay_btn.data-v-15d581fa {
 	position: absolute;
-	top: 75rpx;
+	top: 30%;
 	left: 75rpx;
 	width: 60rpx;
 }

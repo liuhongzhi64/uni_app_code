@@ -8,8 +8,14 @@
 				<view class="title"> {{title}} </view>
 			</view>
 		</view>
-		<!-- 主体内容 @touchmove.stop.prevent="moveHandle" -->
-		<view class="content">
+		<!-- 商品已下架或者不存在时 -->
+		<view class="no_goods_info" v-if="contentList.length==0" :style="[{'height':height+'px'}]">
+			<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix">
+			</image>
+			<view class="hint_text">该商品已下架或不存在····</view>
+		</view>
+		<!-- 商品存在时 -->
+		<view class="content" v-else>
 			<scroll-view scroll-y :style="[{'padding-top':menuBottom+10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
@@ -20,19 +26,16 @@
 								<view class="video" @tap='goToVideo(contentList.video_list)'>
 									<image class="swiper_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</view>
-								<!-- <image :src="requestUrl+contentList.sku.act.banner" mode="widthFix"></image> -->
 							</swiper-item>
 							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
 								<view class="top-swiper-item">
 									<image class="banner-img" :src="requestUrl+i" lazy-load='true' mode="widthFix"></image>
 								</view>
-								<!-- 商品头部活动广告图 -->
 								<image class="top-banner" :src="requestUrl+contentList.sku.spu_icon" mode="widthFix"></image>
 							</swiper-item>
 						</swiper>
 					</view>
 				</view>
-				<!-- 活动节日 -->
 				<view class="advertising-images" v-if="advertisingList.type==1">
 					<view class="specialList">
 						<swiper autoplay interval='5000' duration='3000' circular>
@@ -44,13 +47,8 @@
 						</swiper>
 					</view>
 				</view>
-				<!-- <view class="particulars-image"  v-else-if='advertisingList.type==0' >
-					<image :src="requestUrl+item.img" mode="" v-for="(item,index) in advertisingList.content" :key='index'></image>
-				</view>
-				<!-- 价格、优惠卷、提醒、介绍、领取的卷介绍 -->
 				<view class="products-introduction">
 					<view class="price-depreciate-collect">
-						<!-- 现在价格、会员价 -->
 						<view class="price" >
 							<view class="new-price">
 								<text>￥</text>{{ contentList.sku.sale_price || 0}}
@@ -141,20 +139,14 @@
 					</template>
 				</view>
 				
-				<!-- <view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
-					 :class="[spec[index].attr[sindex]==0?'li-gray':(spec[index].attr[sindex]==1?'li-hover':'isChange')]"
-					 @tap="spec[index].attr[sindex]==0?getSpec:(spec[index].attr[sindex]==1?cancelSpec:'')">
-						{{is}} {{spec[index].attr[sindex]}}
-				</view> -->
-				
 				<!-- 支付方式 -->
 				<view class="specs">
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" @tap='changePay(0)' :class="[pay_type==0||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(0)' v-if="pay_type==0||pay_type==2" :class="[pay_type==0||pay_type==2?'li-hover':'']">
 							预约金
 						</view>
-						<view class="li" @tap='changePay(1)' :class="[pay_type==1||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(1)' v-else-if="pay_type==1||pay_type==2" :class="[pay_type==1||pay_type==2?'li-hover':'']">
 							全款付
 						</view>
 					</view>
@@ -310,158 +302,160 @@
 					</view>
 				</view>
 			</scroll-view>
-		</view>
-		<!-- 底部定位 -->
-		<view class="consult-share-cart-addCart-shopNow">
-			<!-- 咨询 -->
-			<view class="consult">
-				<view class="consult-image">
-					<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>
-				</view>
-				<view class="consult-text"> 咨询 </view>
-			</view>
-			<!-- 分享 -->
-			<view class="share">
-				<view class="share-image">
-					<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_share.png"></image>
-				</view>
-				<view class="share-text"> 分享 </view>
-			</view>
-			<!-- 购物车 -->
-			<view class="cart"  @tap="cart">
-				<view class="cart-number">
-					<view class="cartImg">
-						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_cart.png"></image>
+		
+			<!-- 底部定位 -->
+			<view class="consult-share-cart-addCart-shopNow">
+				<!-- 咨询 -->
+				<view class="consult">
+					<view class="consult-image">
+						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>
 					</view>
-					<view class="cartNumber"> {{carts}} </view>
+					<view class="consult-text"> 咨询 </view>
 				</view>
-				<view class="cart-text"> 购物车 </view>
-			</view>
-			<!-- 加入购物车 -->
-			<view class="add-cart" @tap='addCart(0)'> 加入购物车 </view>
-			<!-- 立即购买 -->
-			<view class="shop-now" @tap='shopNow(1)'> 立即购买 </view>
-		</view>
-		<!-- 优惠更多  -->
-		<scroll-view class="see-more-discount" scroll-y="true"  v-if="isShowDiscount" 
-		 :style="[{'height':goodsCardsList.cards?height/2+'px':height/4+'px'}]">
-			<view class="more-discounts-title"> 优惠活动 </view>
-			<view class="more-discounts-hint">温馨提示:满减、折扣、卡券均可叠加使用</view>
-			<view class="all-discounts-policy">
-				<view class="discounts-policy">
-					<view class="policy-name"> 限时 </view>
-					<view class="policy-content"> 距离活动结束还剩 
-						<text class="show-time" v-show="contentList.sku.act.countdwon_format==1">{{ day }}</text> 天 
-						<text class="show-time">{{ house }}</text> 时 
-						<text class="show-time">{{ second }}</text> 分 
-						<text class="show-time">{{ minute }}</text> 秒
+				<!-- 分享 -->
+				<view class="share">
+					<view class="share-image">
+						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_share.png"></image>
 					</view>
+					<view class="share-text"> 分享 </view>
 				</view>
-				<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
-					<view class="policy-name"> {{item.name}} </view>
-					<view class="all_policy-content">
-						<view class="policy-contents" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
-					</view>
-				</view>
-			</view>
-			<view class="card_list">
-				<ticket
-				 :cardsList='goodsCardsList.cards'
-				 :time_now='goodsCardsList.time_now' 
-				 @showTicket='showTicket'
-				 @getCards='getCards'
-				 @useCard = 'useCard'>
-				</ticket>
-			</view>
-			<view class="delete-see-more-discount" @tap='seeMore(0)'>
-				<image src="../../static/images/delete.png" mode=""></image>
-			</view>
-		</scroll-view>
-		<!-- 弹出的对话框 v-if="isShow" -->
-		<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height-height/4+'px'}]">
-			<view class="isShow-content">
-				<view class="add-card-top">
-					<view class="left-head_img">
-						<image :src="requestUrl+contentList.sku.head_img" mode="widthFix"></image>
-					</view>
-					<view class="right-goods-info">
-						<view class="goods-discounts" v-if="contentList.sku.act.length!=0" @tap='seeMore(0)'> 参与优惠 </view>
-						<view class="good-price">
-							<view class="market_price">￥{{contentList.sku.sale_price}}</view>
-							<view class="member_price" v-if="contentList.sku.member.member_title">
-								<text class="member_title" >{{contentList.sku.member.member_title}}</text>￥{{contentList.sku.member.price}}
-							</view>
+				<!-- 购物车 -->
+				<view class="cart"  @tap="cart">
+					<view class="cart-number">
+						<view class="cartImg">
+							<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_cart.png"></image>
 						</view>
-						<view class="store-sku_no">
-							<text v-show="contentList.sku.store<=100">库存 {{contentList.sku.store}}件</text>
-							<text class="sku_no">编号: {{contentList.sku.sku_no}}</text>
+						<view class="cartNumber"> {{carts}} </view>
+					</view>
+					<view class="cart-text"> 购物车 </view>
+				</view>
+				<!-- 加入购物车 -->
+				<view class="add-cart" @tap='addCart(0)'> 加入购物车 </view>
+				<!-- 立即购买 -->
+				<view class="shop-now" @tap='shopNow(1)'> 立即购买 </view>
+			</view>
+			<!-- 优惠更多  -->
+			<scroll-view class="see-more-discount" scroll-y="true"  v-if="isShowDiscount" 
+			 :style="[{'height':goodsCardsList.cards?height/2+'px':height/4+'px'}]">
+				<view class="more-discounts-title"> 优惠活动 </view>
+				<view class="more-discounts-hint">温馨提示:满减、折扣、卡券均可叠加使用</view>
+				<view class="all-discounts-policy">
+					<view class="discounts-policy">
+						<view class="policy-name"> 限时 </view>
+						<view class="policy-content"> 距离活动结束还剩 
+							<text class="show-time" v-show="contentList.sku.act.countdwon_format==1">{{ day }}</text> 天 
+							<text class="show-time">{{ house }}</text> 时 
+							<text class="show-time">{{ second }}</text> 分 
+							<text class="show-time">{{ minute }}</text> 秒
+						</view>
+					</view>
+					<view class="discounts-policy" v-for="(item,k) in contentList.sku.act.discounts" :key="k">
+						<view class="policy-name"> {{item.name}} </view>
+						<view class="all_policy-content">
+							<view class="policy-contents" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
 						</view>
 					</view>
 				</view>
-				<template>
-					<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
-						<view class="specs-title">
-							{{item.name}}
-							<text class="specs-hint" >请选择{{item.name}}</text>
-						</view>
-						<view class="specs-cont">
-							<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
-							 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
-							 @tap="changeSpec(index,sindex)">
-								{{is}}  
-							</view>
-						</view>
-					</view>
-				</template>
-				<view class="specs-cont-pay">
-					<text class="pay-txt">支付方式</text>
-					<view class="li" @tap='changePay(0)' :class="[pay_type==0||pay_type==2?'li-hover':'']">
-						预约金
-					</view>
-					<view class="li" @tap='changePay(1)' :class="[pay_type==1||pay_type==2?'li-hover':'']">
-						全款付
-					</view>
+				<view class="card_list">
+					<ticket
+					 :cardsList='goodsCardsList.cards'
+					 :time_now='goodsCardsList.time_now' 
+					 @showTicket='showTicket'
+					 @getCards='getCards'
+					 @useCard = 'useCard'>
+					</ticket>
 				</view>
-				<view class="specs-cont-pay">
-					<text class="pay-txt">领取方式</text>
-					<view class="li" @tap='changeClass(0)' :class="[class_type==0?'li-hover':'']">
-						到院领取
-					</view>
-					<view class="li" @tap='changeClass(1)' :class="[class_type==1?'li-hover':'']">
-						邮寄
-					</view>
-				</view>
-				<view class="changeNumber">
-					<view class="pay-txt">数量</view>
-					<view class="number-hint">
-						<text> {{ contentList.sku.min_buy_limit }} 件起购</text>
-						<text v-show="contentList.sku.max_buy_limit>0&&contentList.sku.max_buy_limit!=999999">
-						 , 限购{{ contentList.sku.max_buy_limit }}件 
-						</text>
-						<!-- <text>限购 {{ contentList.sku.max_buy_limit }} 件</text> -->
-					</view>
-					<view class="change-input">
-						<view class="reduce"
-						 @tap="reduce(-1)"
-						 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
-						<view class="number-input">
-							<input type="number" v-model="goodsNuber" value=1 @input='changeGoodsNumber' />
-						</view>
-						<view class="add-number"
-						 @tap="reduce(1)"
-						 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
-					</view>
-				</view>
-				<view class="keep-order">
-					<view class="button">
-						<button type="primary" class="keep-order-button" plain="true" @tap='order(is_card_shop)'>确定</button>
-					</view>
-				</view>
-				<view class="delete-see-more-discount" @tap='seeMore(1)'>
+				<view class="delete-see-more-discount" @tap='seeMore(0)'>
 					<image src="../../static/images/delete.png" mode=""></image>
 				</view>
-			</view>
-		</scroll-view>
+			</scroll-view>
+			<!-- 弹出的对话框 v-if="isShow" -->
+			<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height-height/4+'px'}]">
+				<view class="isShow-content">
+					<view class="add-card-top">
+						<view class="left-head_img">
+							<image :src="requestUrl+contentList.sku.head_img" mode="widthFix"></image>
+						</view>
+						<view class="right-goods-info">
+							<view class="goods-discounts" v-if="contentList.sku.act.length!=0" @tap='seeMore(0)'> 参与优惠 </view>
+							<view class="good-price">
+								<view class="market_price">￥{{contentList.sku.sale_price}}</view>
+								<view class="member_price" v-if="contentList.sku.member.member_title">
+									<text class="member_title" >{{contentList.sku.member.member_title}}</text>￥{{contentList.sku.member.price}}
+								</view>
+							</view>
+							<view class="store-sku_no">
+								<text v-show="contentList.sku.store<=100">库存 {{contentList.sku.store}}件</text>
+								<text class="sku_no">编号: {{contentList.sku.sku_no}}</text>
+							</view>
+						</view>
+					</view>
+					<template>
+						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
+							<view class="specs-title">
+								{{item.name}}
+								<text class="specs-hint" >请选择{{item.name}}</text>
+							</view>
+							<view class="specs-cont">
+								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
+								 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
+								 @tap="changeSpec(index,sindex)">
+									{{is}}  
+								</view>
+							</view>
+						</view>
+					</template>
+					<view class="specs-cont-pay">
+						<text class="pay-txt">支付方式</text>
+						<view class="li" @tap='changePay(0)' v-if="pay_type==0||pay_type==2" :class="[pay_type==0||pay_type==2?'li-hover':'']">
+							预约金
+						</view>
+						<view class="li" @tap='changePay(1)' v-else-if='pay_type==1||pay_type==2' :class="[pay_type==1||pay_type==2?'li-hover':'']">
+							全款付
+						</view>
+					</view>
+					<view class="specs-cont-pay">
+						<text class="pay-txt">领取方式</text>
+						<view class="li" @tap='changeClass(0)' :class="[class_type==0?'li-hover':'']">
+							到院领取
+						</view>
+						<view class="li" @tap='changeClass(1)' :class="[class_type==1?'li-hover':'']">
+							邮寄
+						</view>
+					</view>
+					<view class="changeNumber">
+						<view class="pay-txt">数量</view>
+						<view class="number-hint">
+							<text> {{ contentList.sku.min_buy_limit }} 件起购</text>
+							<text v-show="contentList.sku.max_buy_limit>0&&contentList.sku.max_buy_limit!=999999">
+							 , 限购{{ contentList.sku.max_buy_limit }}件 
+							</text>
+							<!-- <text>限购 {{ contentList.sku.max_buy_limit }} 件</text> -->
+						</view>
+						<view class="change-input">
+							<view class="reduce"
+							 @tap="reduce(-1)"
+							 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
+							<view class="number-input">
+								<input type="number" v-model="goodsNuber" value=1 @input='changeGoodsNumber' />
+							</view>
+							<view class="add-number"
+							 @tap="reduce(1)"
+							 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
+						</view>
+					</view>
+					<view class="keep-order">
+						<view class="button">
+							<button type="primary" class="keep-order-button" plain="true" @tap='order(is_card_shop)'>确定</button>
+						</view>
+					</view>
+					<view class="delete-see-more-discount" @tap='seeMore(1)'>
+						<image src="../../static/images/delete.png" mode=""></image>
+					</view>
+				</view>
+			</scroll-view>
+			
+		</view>
 		
 	</view>
 </template>
@@ -555,7 +549,6 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			// console.log(option)
 			let sku_id = ''
 			let encrypted_id = ''
 			if (option.sku_id) {
@@ -581,7 +574,7 @@
 			that.getRelated(encrypted_id)
 			that.getLike()
 			that.advertising()
-			that.getCart()
+			// that.getCart()
 			// 清除本地的商品详情储存
 			uni.removeStorageSync('goodsDetail');
 		},
@@ -589,10 +582,8 @@
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
 			that.videoContext = uni.createVideoContext('myVideo')
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
@@ -612,7 +603,6 @@
 		methods: {
 			// 返回上一级
 			goBack: function() {
-				// console.log('back')
 				uni.navigateBack({
 					delta: 1
 				});
@@ -623,7 +613,6 @@
 			},
 			// 点击视频
 			goToVideo: function(url) {
-				// console.log(url,11111)
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail_video?video=${url}`,
 				})
@@ -637,7 +626,7 @@
 					sku_id: id
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
-					if (res.data.code == 1000) {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						uni.setStorageSync("goodsDetail", data);
 						that.contentList = data
@@ -667,6 +656,8 @@
 						}
 						
 					} else {
+						let data = res.data.data
+						that.contentList = data
 						that.request.showToast(res.data.message)
 					}
 				})
@@ -735,6 +726,12 @@
 			changeClass:function(index){
 				let that = this
 				that.class_type = index
+				if(index==1){
+					uni.showToast({
+						title:'亲,只有护肤品类型商品可用邮寄哟!',
+						icon:'none'
+					})
+				}
 			},
 			// 获取相关商品
 			getRelevantGoods: function(encrypted_id) {
@@ -2411,6 +2408,21 @@
 		height: 50rpx;
 		margin: 0 5rpx;
 		vertical-align: middle;
+	}
+	
+	.no_goods_info{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.hint_img{
+		width: 80%;
+	}
+	.hint_text{
+		font-size: 28rpx;
+		color: #FA3475;
 	}
 	
 </style>

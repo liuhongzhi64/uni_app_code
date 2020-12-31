@@ -793,12 +793,12 @@
 .top-button.data-v-08de1eeb {
 	width: 120rpx;
 	position: fixed;
-	right: 40rpx;
-	bottom: 130px;
+	right: 30rpx;
+	bottom: 80px;
 	z-index: 9999;
 }
 .top-button image.data-v-08de1eeb{
-	width: 120rpx;
+	width:80rpx;
 }
 /* 新写的样式 */
 .refunded.data-v-08de1eeb {

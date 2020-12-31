@@ -123,7 +123,9 @@
 				let that = this
 				let dataInfo = {
 					interfaceId:'skulist',
-					sku_id:info
+					sku_id:info,
+					show_spu:0,
+					is_page:0
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {

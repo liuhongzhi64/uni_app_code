@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/my/my_opinion",
+    "pages/goods/goods_detail",
     "pages/agreement/agreement",
     "pages/cart/cart",
     "pages/confirm_order/confirm_order",
@@ -24,7 +24,6 @@
     "pages/doctor/doctor_detail",
     "pages/doctor/doctor_photo",
     "pages/goods/goods_classify",
-    "pages/goods/goods_detail",
     "pages/goods/goods_list",
     "pages/goods/goods_detail_comment",
     "pages/goods/goods_detail_comment_detail",
@@ -48,6 +47,7 @@
     "pages/my/my_card_use",
     "pages/my/my_collection",
     "pages/my/my_comment",
+    "pages/my/my_opinion",
     "pages/my/my_order",
     "pages/my/my_order_detail",
     "pages/my/my_order_refund",

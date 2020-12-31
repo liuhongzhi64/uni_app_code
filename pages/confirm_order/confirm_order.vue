@@ -474,18 +474,18 @@
 						value: 'weixin',
 						checked: true
 					},
-					{
-						url: '/static/images/zhifubao.png',
-						name: '支付宝',
-						value: 'zhifubao',
-						checked: false
-					},
-					{
-						url: '/static/images/yinlian.png',
-						name: '银联支付',
-						value: 'yinlian',
-						checked: false
-					},
+					// {
+					// 	url: '/static/images/zhifubao.png',
+					// 	name: '支付宝',
+					// 	value: 'zhifubao',
+					// 	checked: false
+					// },
+					// {
+					// 	url: '/static/images/yinlian.png',
+					// 	name: '银联支付',
+					// 	value: 'yinlian',
+					// 	checked: false
+					// },
 				],
 				requestUrl: '',
 				contentList: {
@@ -1140,15 +1140,22 @@
 			playChange: function(e) {
 				var items = this.playWayList,
 					values = e.detail.value;
-				// console.log(values)
-				for (var i = 0, lenI = items.length; i < lenI; ++i) {
-					const item = items[i]
-					if (values.includes(item.value)) {
-						this.$set(item, 'checked', true)
-					} else {
-						this.$set(item, 'checked', false)
+				if(values=='weixin'){
+					for (let i = 0, lenI = items.length; i < lenI; ++i) {
+						const item = items[i]
+						if (values.includes(item.value)) {
+							this.$set(item, 'checked', true)
+						} else {
+							this.$set(item, 'checked', false)
+						}
 					}
+				}else{
+					uni.showToast({
+						title:'暂仅支持微信支付',
+						icon:'none'
+					})
 				}
+				
 			},
 			// 不可线上退款商品或者订单详情商品
 			go_to_no_refund:function(type,info,title,is_post,scan_department){
@@ -1191,6 +1198,13 @@
 			pay_now:function(){
 				let that = this
 				let sku_list = that.get_goods_info()
+				if(that.is_post_list.length>0&&!that.contentList.user_info.address){
+					uni.showToast({
+						title:'请填写收货地址和您的联系方式',
+						icon:'none'
+					})
+					return
+				}
 				// console.log(sku_list)
 				let address_id = 0
 				let sale_arr = []	

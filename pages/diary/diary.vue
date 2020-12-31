@@ -158,7 +158,7 @@
 		onReady() {
 			let that = this;
 			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
@@ -199,12 +199,16 @@
 						icon: 'none'
 					})
 				} else if(index==1){
-					this.btnnum = index
-					that.offset = 0
-					that.this_name = 'diary'
-					that.contentList = []
-					that.getDiaryClassfiy()
-					that.getDiaryList()
+					// this.btnnum = index
+					// that.offset = 0
+					// that.this_name = 'diary'
+					// that.contentList = []
+					// that.getDiaryClassfiy()
+					// that.getDiaryList()
+					uni.showToast({
+						title: '正在升级中...敬请期待!',
+						icon: 'none'
+					})
 				}else if(index==2){
 					this.btnnum = index
 					that.offset = 0
@@ -452,7 +456,7 @@
 	.item-image image {
 		width: 64rpx;
 		height: 48rpx;
-		border: 1rpx solid #F0F0F0;
+		background-color: #F0F0F0;
 	}
 
 
@@ -472,7 +476,7 @@
 		width: 48rpx;
 		height: 48rpx;
 		border-radius: 24rpx;
-		border: 1rpx solid red;
+		background-color: #F0F0F0;
 		margin-right: 10rpx;
 	}
 

@@ -12,11 +12,11 @@
 			// 	"enablePullDownRefresh": true //下拉刷新
 			// }
 		},	
-		{
-			"path": "pages/my/my_opinion", //意见反馈
-			"style": {}
-		},	
 		
+		{
+			"path": "pages/goods/goods_detail", //商品详情
+			"style": {}
+		},
 		
 		
 		// 用户协议
@@ -132,11 +132,6 @@
 			"style": {}
 		},
 		
-		{
-			"path": "pages/goods/goods_detail", //商品详情
-			"style": {}
-		},
-		
 		
 		{
 			"path": "pages/goods/goods_list", //商品列表
@@ -201,7 +196,6 @@
 			"path": "pages/my/my", //我的
 			"style": {}
 		},
-		
 		{
 			"path": "pages/my/account_number", //账号管理
 			"style": {}
@@ -239,6 +233,10 @@
 			"path": "pages/my/my_comment", //我的评价-评价列表
 			"style": {}
 		},
+		{
+			"path": "pages/my/my_opinion", //意见反馈
+			"style": {}
+		},	
 		{
 			"path": "pages/my/my_order", //我的订单
 			"style": {}

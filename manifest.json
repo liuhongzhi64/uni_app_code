@@ -1,7 +1,7 @@
 {
-    "name" : "华美",
+    "name" : "华美整呗",
     "appid" : "__UNI__A836A1A",
-    "description" : "华美紫馨美容",
+    "description" : "华美紫馨美容医院",
     "versionName" : "1.0.0",
     "versionCode" : 1,
     "transformPx" : false,
@@ -71,6 +71,14 @@
                         "appsecret" : "b5b3f6f6df7faba38ae9ad59612f1d4e",
                         "UniversalLinks" : ""
                     }
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "D:/images/96x96.png",
+                    "xhdpi" : "D:/images/96x96.png",
+                    "xxhdpi" : "D:/images/144x144.png",
+                    "xxxhdpi" : "D:/images/192x192.png"
                 }
             }
         }

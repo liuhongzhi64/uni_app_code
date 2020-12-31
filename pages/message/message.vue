@@ -1,7 +1,14 @@
 <template>
 	<view class="message"> 
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		 :title='title'  :menuTop='menuTop' :menuHeight='menuHeight' :menuBottom='menuBottom'></topBar>
+		 
+		<view class="message_info" :style="[{'height':height-menuBottom-10+'px'}]">
+			<view class="no_have_info" v-if="message_info.length==0">
+				<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png"></image>
+				<view class="hint_text">您还没有消息···喵</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -13,10 +20,8 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
 				requestUrl: '',
@@ -25,6 +30,7 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/back2.png',
 				title: '消息',
+				message_info:[]
 			}
 		},
 		onLoad: function(options) {
@@ -35,26 +41,20 @@
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
 			} else if (platform == 'APP'){
-				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 30
-				that.menuLeft = 278
 			}
 		},
 		methods: {
@@ -63,6 +63,21 @@
 	}
 </script>
 
-<style>
-
+<style scoped>
+	.no_have_info{
+		height: 100%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.hint_img{
+		width: 80%;
+		padding-bottom: 40rpx;
+	}
+	.hint_text{
+		font-size: 26rpx;
+		color: #FA3475;
+	}
 </style>

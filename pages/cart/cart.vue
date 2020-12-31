@@ -83,7 +83,6 @@
 							<!-- 商品展示 -->
 							<view class="product-item-content-all" v-for="(i,is) in items.goods_list" :key='is'>
 								<view class="product-item-content" @longpress='setgoodsState(k,is)'>
-									
 									<view class="goods-info">
 										<view class="product-item-show">
 											<view class="checkbox-item">
@@ -120,8 +119,8 @@
 										</view>
 										<view class="offline_pay-online_pay-checkedNumber">
 											<view class="offline_pay-online_pay">
-												<text class="online_pay">在线支付￥{{ i.online_pay*i.cart_num }}</text>
-												<text class="offline_pay" v-show="i.offline_pay*i.cart_num>0">到院再付￥{{ i.offline_pay*i.cart_num }}</text>
+												<text class="online_pay">在线支付￥{{ i.online_pay }}</text>
+												<text class="offline_pay" >到院再付￥{{ i.offline_pay }}</text>
 											</view>
 											<view class="checkedNumber">
 												<view class="subtract" @tap="setNumber(i.cart_id,-1,k,is)">
@@ -684,9 +683,6 @@
 					for(let i=0;i<that.contentList.sku_list.length;i++){
 						for(let j=0;j<that.contentList.sku_list[i].goods_list.length;j++)
 						new_arr.push(that.contentList.sku_list[i].goods_list[j].checked)
-						// if(!that.contentList.sku_list[i].goods_list[j].checked){
-						// 	
-						// }
 					}
 					let flag = new_arr.every((item, index, new_arr) => {
 						// console.log(item,index)
@@ -1160,7 +1156,7 @@
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
 					type: '3',
-					offset: that.offset
+					offset: that.offset*6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {

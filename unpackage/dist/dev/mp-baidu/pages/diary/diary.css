@@ -109,7 +109,7 @@
 .item-image image.data-v-61fd5b0e {
 	width: 64rpx;
 	height: 48rpx;
-	border: 1px solid #F0F0F0;
+	background-color: #F0F0F0;
 }
 .detail-content.data-v-61fd5b0e {
 	display: -webkit-box;
@@ -134,7 +134,7 @@
 	height: 48rpx;
 	-webkit-border-radius: 24rpx;
 	        border-radius: 24rpx;
-	border: 1px solid red;
+	background-color: #F0F0F0;
 	margin-right: 10rpx;
 }
 .nick_name.data-v-61fd5b0e {

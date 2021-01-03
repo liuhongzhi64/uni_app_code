@@ -470,6 +470,7 @@ __webpack_require__.r(__webpack_exports__);
       that.menu_bottom = 70;
       that.menu_height = 30;
       that.menu_left = 280;
+      console.log(that.this_width, that.search_width);
       that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left);
     }
   },
@@ -523,7 +524,7 @@ __webpack_require__.r(__webpack_exports__);
           var data = res.data.data;
           data.icon_list = that.group(data.icon_list, 10);
           that.index_info = data;
-          console.log(data);
+          // console.log(data)
           if (Object.prototype.toString.call(data.seckill_module) != '[object Array]' && data.seckill_module.rest_time > 0) {
             that.set_time(data.seckill_module.rest_time);
           }

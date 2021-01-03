@@ -815,24 +815,19 @@ __webpack_require__.r(__webpack_exports__);
       var dataInfo = {
         interfaceId: 'userrecommendedgoodsspulist',
         type: '2',
-        offset: that.offset };
+        offset: that.offset * 6 };
 
       that.request.uniRequest("goods", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           if (data.length > 0) {
             that.productLists = that.productLists.concat(data);
-          } else {
+          } else if (data.length == 0 && that.offset > 1) {
             uni.showToast({
               title: '没有更多了',
               icon: 'none' });
 
           }
-        } else {
-          uni.showToast({
-            title: '没有更多了',
-            icon: 'none' });
-
         }
       });
     },
@@ -1218,6 +1213,11 @@ __webpack_require__.r(__webpack_exports__);
       }
       if (index == 0) {//购物车
         var specAttr = that.verification_specAttr;
+        if (specAttr.length == 0) {
+          for (var key in that.contentList.sku.spec_attr) {
+            specAttr.push(that.contentList.sku.spec_attr[key]);
+          }
+        }
         var dataInfo = {
           interfaceId: "selectsku",
           encrypted_id: that.encrypted_id,
@@ -1256,6 +1256,11 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else if (index == 1) {//立即购买
         var _specAttr = that.verification_specAttr;
+        if (_specAttr.length == 0) {
+          for (var _key in that.contentList.sku.spec_attr) {
+            _specAttr.push(that.contentList.sku.spec_attr[_key]);
+          }
+        }
         var _dataInfo3 = {
           interfaceId: "selectsku",
           encrypted_id: that.encrypted_id,
@@ -1328,6 +1333,12 @@ __webpack_require__.r(__webpack_exports__);
               title: '收藏成功',
               duration: 1000 });
 
+          } else {
+            uni.showToast({
+              title: '收藏失败,是否未登录',
+              duration: 1000,
+              icon: 'none' });
+
           }
         });
       } else {
@@ -1341,6 +1352,12 @@ __webpack_require__.r(__webpack_exports__);
             uni.showToast({
               title: '已取消收藏',
               duration: 1000 });
+
+          } else {
+            uni.showToast({
+              title: '取消收藏失败,是否未登录',
+              duration: 1000,
+              icon: 'none' });
 
           }
         });

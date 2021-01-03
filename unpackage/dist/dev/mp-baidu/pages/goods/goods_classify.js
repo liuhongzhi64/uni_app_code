@@ -293,17 +293,13 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    // 请求左边的导航条数据
     var dataInfo = {
       interfaceId: 'categorylist',
       type: 0 };
 
     that.request.uniRequest("goods", dataInfo).then(function (res) {
-      // console.log(res)
       if (res.statusCode == 200) {
         that.leftList = that.leftList.concat(res.data.data);
-        // console.log(that.leftList)
-        // 初始化右边接口数据
         that.categoryClickMain();
       }
     });
@@ -346,13 +342,11 @@ __webpack_require__.r(__webpack_exports__);
         cid: id //id是左边的顶级分类26暂时表示护肤品
       };
       if (id == 0) {
-        that.tabtap();
+        that.tabtap(0, 4);
       } else {
         that.request.uniRequest("goods", dataInfo).then(function (res) {
-          // console.log(res.data, id)
           if (res.data.code == 1000) {
             that.classfyList = res.data.data;
-            // console.log(that.classfyList)
           } else {
             that.request.showToast();
           }
@@ -371,18 +365,16 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.advertising_img = data;
-          // console.log(data)
         }
       });
     },
 
     //接受子组件传过来的值点击切换导航
-    tabtap: function tabtap(index) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
+    tabtap: function tabtap(index, type) {
       var that = this;
       this.tabIndex = index;
       that.thisType = type;
       that.rightswiperHeight = 0;
-      // console.log(that.thisType,'点击类型')
       if (type == 4) {
         var dataInfo = {
           interfaceId: 'userrecommendedgoodsspulist',
@@ -393,7 +385,6 @@ __webpack_require__.r(__webpack_exports__);
           if (res.data.code == 1000 && res.data.status == 'ok') {
             var data = res.data.data;
             that.newslist = data;
-            // that.newslist = that.newslist.concat(data)
             that.rightswiperHeight = Math.ceil(that.newslist.length / 2) * 650;
             if (that.rightswiperHeight == 0) {
               that.rightswiperHeight = 900;

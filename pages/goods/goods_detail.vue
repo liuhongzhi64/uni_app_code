@@ -683,24 +683,19 @@
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
 					type: '2',
-					offset: that.offset
+					offset: that.offset*6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						if(data.length>0){
 							that.productLists = that.productLists.concat(data)
-						}else{
+						}else if(data.length==0&&that.offset>1){
 							uni.showToast({
 								title:'没有更多了',
 								icon:'none'
 							})
 						}
-					} else {
-						uni.showToast({
-							title:'没有更多了',
-							icon:'none'
-						})
 					}
 				})
 			},
@@ -1086,6 +1081,11 @@
 				}
 				if(index==0){ //购物车
 					let specAttr = that.verification_specAttr
+					if(specAttr.length==0){
+						for(let key in that.contentList.sku.spec_attr){
+							specAttr.push(that.contentList.sku.spec_attr[key])
+						}
+					}
 					let dataInfo = {
 						interfaceId: "selectsku",
 						encrypted_id: that.encrypted_id,
@@ -1124,6 +1124,11 @@
 					})
 				}else if(index==1){//立即购买
 					let specAttr = that.verification_specAttr
+					if(specAttr.length==0){
+						for(let key in that.contentList.sku.spec_attr){
+							specAttr.push(that.contentList.sku.spec_attr[key])
+						}
+					}
 					let dataInfo = {
 						interfaceId: "selectsku",
 						encrypted_id: that.encrypted_id,
@@ -1196,6 +1201,12 @@
 								title: '收藏成功',
 								duration: 1000
 							})
+						}else{
+							uni.showToast({
+								title: '收藏失败,是否未登录',
+								duration: 1000,
+								icon:'none'
+							})
 						}
 					})
 				}else{
@@ -1209,6 +1220,12 @@
 							uni.showToast({
 								title: '已取消收藏',
 								duration: 1000
+							})
+						}else{
+							uni.showToast({
+								title: '取消收藏失败,是否未登录',
+								duration: 1000,
+								icon:'none'
 							})
 						}
 					})

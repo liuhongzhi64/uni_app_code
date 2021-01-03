@@ -224,8 +224,9 @@
 				success:function(res){
 					let info = uni.createSelectorQuery().select("#this_doctor_classfiy")
 					info.boundingClientRect(function(data) { 
-						// console.log(data,222)
-						that.classfiy_top = data.top+that.menuBottom+13
+						console.log(data,222,that.menuBottom)
+						that.classfiy_top = data.top+that.menuBottom-5
+						// +that.menuBottom+13
 					}).exec()
 				}
 			})
@@ -233,7 +234,8 @@
 				success:function(res){
 					let info = uni.createSelectorQuery().select("#line_img")
 					info.boundingClientRect(function(data) { 
-						// console.log(data,33333)
+						console.log(data,33333)
+						that.classfiy_top = data.top+data.height+that.menuBottom
 					}).exec()
 				}
 			})

@@ -232,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
       //第一页 offset 等于0 才返回 统计数据
       user: {
         signature: '',
-        head_ico: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
+        head_ico: '',
         nick_name: '' },
       //用户信息 第一页 offset 等于0 才返回 用户信息
       list: [

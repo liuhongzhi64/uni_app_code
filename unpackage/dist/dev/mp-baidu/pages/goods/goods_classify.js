@@ -293,23 +293,14 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
-    var dataInfo = {
-      interfaceId: 'categorylist',
-      type: 0 };
-
-    that.request.uniRequest("goods", dataInfo).then(function (res) {
-      if (res.statusCode == 200) {
-        that.leftList = that.leftList.concat(res.data.data);
-        that.categoryClickMain();
-      }
-    });
+    that.get_left_list();
     that.advertising();
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().windowHeight;
     // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || Applets;
     if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
@@ -333,6 +324,19 @@ __webpack_require__.r(__webpack_exports__);
   },
 
   methods: {
+    get_left_list: function get_left_list() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'categorylist',
+        type: 0 };
+
+      that.request.uniRequest("goods", dataInfo).then(function (res) {
+        if (res.statusCode == 200) {
+          that.leftList = that.leftList.concat(res.data.data);
+          that.categoryClickMain();
+        }
+      });
+    },
     categoryClickMain: function categoryClickMain() {var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var that = this;
       that.btnnum = index;

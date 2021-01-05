@@ -549,6 +549,7 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
+			console.log(uni.getStorageSync("userInfo"))
 			let sku_id = ''
 			let encrypted_id = ''
 			if (option.sku_id) {
@@ -1101,8 +1102,8 @@
 								price:that.contentList.sku.sale_price,
 								is_post: that.class_type,//is_post 0 到院 1邮寄
 								buy_type:buy_type ,//支付类型
-								// f_unique_id:0, //订单分享人的id
-								// archives_id:1//订单渠道
+								f_unique_id:0, //订单分享人的id
+								archives_id:0//订单渠道
 							}
 							that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 								if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -1119,7 +1120,7 @@
 								title:'请选择正确规格',
 								icon:'none'
 							})
-							that.isShow = !that.isShow
+							// that.isShow = !that.isShow
 						}
 					})
 				}else if(index==1){//立即购买

@@ -1117,6 +1117,7 @@
 		width: 320rpx;
 		height: 320rpx;
 		margin-top: 25rpx;
+		background-color: #F0F0F0;
 	}
 
 	.order-content {

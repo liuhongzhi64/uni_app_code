@@ -161,23 +161,14 @@
 			this.request = this.$request
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
-			let dataInfo = {
-				interfaceId: 'categorylist',
-				type: 0
-			}
-			that.request.uniRequest("goods", dataInfo).then(res => {
-				if (res.statusCode == 200) {					
-					that.leftList = that.leftList.concat(res.data.data)
-					that.categoryClickMain()
-				}
-			})
+			that.get_left_list()
 			that.advertising()
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().windowHeight ;
 			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || Applets
 			if (platform == 'Applets') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
@@ -201,6 +192,19 @@
 		},
 
 		methods: {
+			get_left_list:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId: 'categorylist',
+					type: 0
+				}
+				that.request.uniRequest("goods", dataInfo).then(res => {
+					if (res.statusCode == 200) {					
+						that.leftList = that.leftList.concat(res.data.data)
+						that.categoryClickMain()
+					}
+				})
+			},
 			categoryClickMain: function(id = 0, index = 0) {
 				let that = this
 				that.btnnum = index

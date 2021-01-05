@@ -342,7 +342,6 @@
 			},
 			// 核销卡券
 			scan_card:function(id){
-				console.log(id)
 				let that = this
 				let dataInfo = {
 					interfaceId:'salecard_user_scan',
@@ -355,7 +354,6 @@
 						data.end_time = that.setTimer(data.use_end_time)
 						that.scan_info = data
 						that.show_scan = !that.show_scan
-						console.log(data)
 					}
 				})
 			},

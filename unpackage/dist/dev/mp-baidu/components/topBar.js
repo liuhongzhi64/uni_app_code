@@ -186,6 +186,7 @@ var _default =
   },
   methods: {
     goBack: function goBack() {
+      this.$emit('go_back');
       uni.navigateBack({
         delta: 1 });
 

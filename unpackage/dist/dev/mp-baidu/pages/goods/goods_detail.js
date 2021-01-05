@@ -681,6 +681,7 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
+    console.log(uni.getStorageSync("userInfo"));
     var sku_id = '';
     var encrypted_id = '';
     if (option.sku_id) {
@@ -1232,9 +1233,9 @@ __webpack_require__.r(__webpack_exports__);
               max_limit: that.contentList.sku.max_buy_limit,
               price: that.contentList.sku.sale_price,
               is_post: that.class_type, //is_post 0 到院 1邮寄
-              buy_type: buy_type //支付类型
-              // f_unique_id:0, //订单分享人的id
-              // archives_id:1//订单渠道
+              buy_type: buy_type, //支付类型
+              f_unique_id: 0, //订单分享人的id
+              archives_id: 0 //订单渠道
             };
             that.request.uniRequest("shoppingCart", _dataInfo2).then(function (res) {
               if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -1251,7 +1252,7 @@ __webpack_require__.r(__webpack_exports__);
               title: '请选择正确规格',
               icon: 'none' });
 
-            that.isShow = !that.isShow;
+            // that.isShow = !that.isShow
           }
         });
       } else if (index == 1) {//立即购买

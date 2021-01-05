@@ -122,7 +122,7 @@
 .receive-time .times.data-v-ab11f3f2 {
 	display: inline-block;
 	height: 30rpx;
-	width: 30rpx;
+	min-width: 30rpx;
 	background-color: #fa3475;
 	-webkit-border-radius: 4rpx;
 	        border-radius: 4rpx;

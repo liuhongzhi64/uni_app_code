@@ -21,7 +21,7 @@
 		<!-- 带返回导航条 -->
 		<view class="top-bar" v-if="barName ==='back'" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color,}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
-				<view class="back" @click="goBack">
+				<view class="back" @tap="goBack">
 					<image :src="backImage" mode=""></image>
 				</view>
 				<view class="title"> {{title}} </view>
@@ -70,6 +70,7 @@
 		},
 		methods: {
 			goBack: function() {
+				this.$emit('go_back')
 				uni.navigateBack({
 					delta: 1
 				});

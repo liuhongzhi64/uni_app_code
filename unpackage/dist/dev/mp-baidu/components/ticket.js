@@ -103,42 +103,27 @@ var render = function() {
       m2 > 0
         ? parseInt(((item.use_end_time - _vm.time_now) / 60 / 60) % 24)
         : null
-    var m4 =
-      item.get_end_time - _vm.time_now > 0
-        ? parseInt(((item.get_end_time - _vm.time_now) / 60 / 60) % 24)
-        : null
-    var m5 =
-      item.get_end_time - _vm.time_now > 0
-        ? parseInt(((item.get_end_time - _vm.time_now) / 60) % 60)
-        : null
-    var m6 =
-      item.get_end_time - _vm.time_now > 0
-        ? parseInt((item.get_end_time - _vm.time_now) % 60)
-        : null
     return {
       $orig: $orig,
       m0: m0,
       m1: m1,
       m2: m2,
-      m3: m3,
-      m4: m4,
-      m5: m5,
-      m6: m6
+      m3: m3
     }
   })
 
   var l1 = _vm.__map(_vm.goodsCardsList, function(item, k) {
     var $orig = _vm.__get_orig(item)
 
-    var m7 =
+    var m4 =
       item.rest_time > 0 ? parseInt((item.rest_time / 60 / 60) % 24) : null
-    var m8 = item.rest_time > 0 ? parseInt((item.rest_time / 60) % 60) : null
-    var m9 = item.rest_time > 0 ? parseInt(item.rest_time % 60) : null
+    var m5 = item.rest_time > 0 ? parseInt((item.rest_time / 60) % 60) : null
+    var m6 = item.rest_time > 0 ? parseInt(item.rest_time % 60) : null
     return {
       $orig: $orig,
-      m7: m7,
-      m8: m8,
-      m9: m9
+      m4: m4,
+      m5: m5,
+      m6: m6
     }
   })
 
@@ -185,6 +170,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //

@@ -699,6 +699,7 @@ __webpack_require__.r(__webpack_exports__);
     // 返回
     goBack: function goBack() {
       var that = this;
+      that.timers += 1;
       if (that.no_back) {
         uni.navigateBack({
           delta: 1 });

@@ -2,7 +2,7 @@
 	<view class="my_order" >
 		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
-				<view class="back" @click="goBack">
+				<view class="back" @tap="goBack">
 					<image :src="backImage" mode=""></image>
 				</view>
 				<view class="title"> {{title}} </view>
@@ -567,6 +567,7 @@
 			// 返回
 			goBack: function() {
 				let that = this
+				that.timers +=1
 				if(that.no_back){
 					uni.navigateBack({
 						delta: 1

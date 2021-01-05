@@ -175,6 +175,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar,
@@ -184,6 +223,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       menuWidth: 0,
+      height: 0,
       menuTop: 0,
       menuHeight: 0,
       menuLeft: 0,
@@ -250,8 +290,11 @@ __webpack_require__.r(__webpack_exports__);
       cardsList: [],
       time_now: 0,
       limit: 4, //条数
-      offset: 1 //页数
-    };
+      offset: 1, //页数
+      scan_info: {},
+      show_scan: false,
+      set_time: 0 };
+
   },
   onLoad: function onLoad(options) {
     var that = this;
@@ -264,10 +307,15 @@ __webpack_require__.r(__webpack_exports__);
     that.offset += 1;
     that.getCard(that.listType);
   },
+  onShow: function onShow() {
+    var that = this;
+    that.set_time = 0;
+  },
   onReady: function onReady() {
     var that = this;
     // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
+    that.height = uni.getSystemInfoSync().windowHeight;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       // 获取屏幕高度
       uni.getSystemInfo({
@@ -316,12 +364,19 @@ __webpack_require__.r(__webpack_exports__);
             for (var i = 0; i < data.cards.length; i++) {
               data.cards[i].showTicketDetails = false;
               data.cards[i].arrowImages = '/static/images/arrow-down.png';
+              if (data.cards[i].get_end_time - data.time_now > 0) {
+                data.cards[i].day = 0;
+                data.cards[i].house = 0;
+                data.cards[i].second = 0;
+                data.cards[i].minute = 0;
+                that.set_dount_down(data.cards[i].get_end_time - data.time_now, i);
+              }
+
             }
-            if (data.cards.length == 0) {
+            if (data.cards.length == 0 && that.offset > 1) {
               that.request.showToast('没有更多了');
             }
             that.cardsList = that.cardsList.concat(data.cards);
-            console.log(that.cardsList, 1111111);
           } else {
             console.log('没有数据');
           }
@@ -333,6 +388,45 @@ __webpack_require__.r(__webpack_exports__);
 
       }
 
+    },
+    // 开启倒计时
+    set_dount_down: function set_dount_down(time, i) {
+      var that = this;
+      var secondTime = 0; // 分
+      var hourTime = 0; // 小时
+      var day = 0; //天
+      var timers = setInterval(function () {
+        time -= 1;
+        var minuteTime = time; // 秒
+        if (minuteTime > 60) {
+          secondTime = parseInt(minuteTime / 60);
+          minuteTime = parseInt(minuteTime % 60);
+          if (secondTime > 60) {
+            hourTime = parseInt(secondTime / 60);
+            secondTime = parseInt(secondTime % 60);
+            if (hourTime > 24) {
+              day = parseInt(hourTime / 24);
+              hourTime = parseInt(hourTime % 60);
+            }
+          }
+        } else {
+          secondTime = 0;
+          hourTime = 0;
+          day = 0;
+        }
+        that.cardsList[i].day = day;
+        that.cardsList[i].house = hourTime;
+        that.cardsList[i].second = secondTime;
+        that.cardsList[i].minute = minuteTime;
+        // console.log(that.cardsList[i],day,hourTime,secondTime,minuteTime,)
+        if (time <= 0) {
+          clearInterval(timers);
+        }
+        if (that.set_time > 0) {
+          clearInterval(timers);
+        }
+      }, 1000);
+      // console.log(that.cardsList[i].day, that.cardsList[i].house, that.cardsList[i].second, that.cardsList[i].minute)
     },
     tabtap: function tabtap(index, type) {
       this.tabIndex = index;
@@ -359,7 +453,6 @@ __webpack_require__.r(__webpack_exports__);
     // 领取卡券
     getCards: function getCards(cardId, prompt, index) {
       var that = this;
-      console.log(index);
       if (prompt == '') {
         var dataInfo = {
           interfaceId: 'cardget',
@@ -378,17 +471,49 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 使用卡券
     useCard: function useCard(id) {
-      console.log('使用的卡券id:', id);
       var cardId = id;
       uni.navigateTo({
         url: "/pages/my/my_card_use?id=".concat(cardId) });
 
     },
-    goToMyCard: function goToMyCard() {
-      // let cardId = id
-      uni.navigateTo({
-        url: "/pages/my/my_card" });
+    setTimer: function setTimer(date) {
+      date = new Date(date * 1000);
+      var month = date.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      var day = date.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      var time = date.getFullYear() + '-' + month + '-' + day;
+      // console.log(time)
+      return time;
+    },
+    // 核销卡券
+    scan_card: function scan_card(id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'salecard_user_scan',
+        card_id: id };
 
+      that.request.uniRequest("card", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          data.user_time = that.setTimer(data.use_start_time);
+          data.end_time = that.setTimer(data.use_end_time);
+          that.scan_info = data;
+          that.show_scan = !that.show_scan;
+        }
+      });
+    },
+    show_scan_info: function show_scan_info() {
+      var that = this;
+      that.show_scan = !that.show_scan;
+    },
+    go_back: function go_back() {
+      var that = this;
+      that.set_time += 1;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

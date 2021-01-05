@@ -84,11 +84,18 @@
 						<!-- 领取倒计时 -->
 						<view class="receive-time" v-if="item.get_end_time-time_now > 0">
 							距结束还剩
-							<text class="times">{{ parseInt((item.get_end_time-time_now ) / 60 / 60 % 24) }}</text>
+							<!-- <text class="times">{{ parseInt((item.get_end_time-time_now ) / 60 / 60 % 24) }}</text>
 							<text class="time-line">:</text>
 							<text class="times">{{ parseInt((item.get_end_time-time_now) / 60 % 60) }}</text>
 							<text class="time-line">:</text>
-							<text class="times">{{ parseInt((item.get_end_time-time_now) % 60) }}</text>
+							<text class="times">{{ parseInt((item.get_end_time-time_now) % 60) }}</text> -->
+							<text class="times">{{ item.day }}</text>
+							<text class="time-line">:</text>
+							<text class="times">{{ item.house }}</text>
+							<text class="time-line">:</text>
+							<text class="times">{{ item.second }}</text>
+							<text class="time-line">:</text>
+							<text class="times">{{ item.minute }}</text>
 						</view>
 						<!-- 使用时间 -->
 						<view class="user-time" v-else-if="!item.get_end_time&&item.c_use_end_time">
@@ -139,11 +146,17 @@
 					 @tap='getCard(item.id,item.store,item.salecard_user_count,item.get_limit,k)'>
 						立即领取
 					</view>
+					
+					<view class="useing-ticket" v-else-if="item.use_channel == 1 "
+					 :style="{'color': item.card_style }"
+					 @tap='scan_card(item.id)'>
+						立即核销
+					</view>	
 					<view class="useing-ticket" v-else
 					  :style="{'color': item.card_style }"
 					  @tap='userCard(item.id)'>
 						立即使用
-					</view>				
+					</view>	
 				</view>
 				<!-- 我的卡券 -->
 				<view class="ticket-images-exclusiveName" v-else
@@ -622,7 +635,7 @@
 	.receive-time .times {
 		display: inline-block;
 		height: 30rpx;
-		width: 30rpx;
+		min-width: 30rpx;
 		background-color: #fa3475;
 		border-radius: 4rpx;
 		color: #FFFFFF;

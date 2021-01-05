@@ -349,7 +349,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 0 },
 
       {
-        name: '日记',
+        name: '买家秀',
         type: 1 },
 
       {

@@ -5,7 +5,7 @@
 			<view class="left-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==0" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx','height':width+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img" :style="[{'border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx','height':width+'rpx'}]" mode="widthFix"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">
@@ -33,7 +33,7 @@
 			<view class="right-content">
 				<view class="goods_item-content" :style="[{'width':width+'rpx','border-radius':borderRadius+'rpx'}]" v-for="(item,index) in porductList"
 				 :key='index' v-if="index%2==1" @tap="changeGoods(item.sku_id,item.encrypted_id)">
-					<image class="goods_image" :src="requestUrl+item.head_img"  :style="[{'width':width+'rpx','height':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]"></image>
+					<image class="goods_image" :src="requestUrl+item.head_img"  :style="[{'width':width+'rpx','height':width+'rpx','border-top-left-radius':borderRadius+'rpx','border-top-right-radius':borderRadius+'rpx'}]" mode="widthFix"></image>
 					<view class="bottom-content">
 						<view class="goods_name"> {{item.goods_name}} </view>
 						<view class="goods-label" v-if="item.label.type==0">

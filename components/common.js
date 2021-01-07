@@ -82,6 +82,11 @@ export default {
 													url: '/pages/login/login_phone'
 												})
 											}
+											else if(res.cancel){
+												uni.switchTab({
+													url: '/pages/index/index'
+												})
+											}
 										}
 									})
 								} else if (res.data.code == 2201) {

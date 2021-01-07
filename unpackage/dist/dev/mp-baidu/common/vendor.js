@@ -2340,6 +2340,11 @@ function normalizeComponent (
                         uni.navigateTo({
                           url: '/pages/login/login_phone' });
 
+                      } else
+                      if (res.cancel) {
+                        uni.switchTab({
+                          url: '/pages/index/index' });
+
                       }
                     } });
 

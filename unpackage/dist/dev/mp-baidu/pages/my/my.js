@@ -279,7 +279,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     goodsShow: goodsShow },
@@ -556,12 +555,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
 
-    goToAccount: function goToAccount(e) {
-      uni.navigateTo({
-        url: "/pages/my/account_number" });
-
-
-    },
     change_order: function change_order(id) {
       if (id == 0) {
         uni.navigateTo({

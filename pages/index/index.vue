@@ -1,6 +1,7 @@
 <template>
 	<view class="this_index" >
-		<view class="index_top_fixed" :style="[{'padding-top':menu_top+'px','background-color':index_info.background.up,'padding-bottom':10+'px'}]">
+		<view class="index_top_fixed"
+		 :style="[{'padding-top':menu_top+'px','padding-bottom':10+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
 			<view class="this_top_left" :style="[{'height':menu_height+'px','padding-bottom':10+'px'}]">
 				<navigator class="top_img_nav" v-if="Object.prototype.toString.call(index_info.top_advertising) != '[object Array]'"
 				 :url="'/pages'+index_info.top_advertising.content.page+'?id='+index_info.top_advertising.content.page_id" v-show="!show_go_top">
@@ -39,12 +40,12 @@
 			</navigator>
 			<!-- #endif -->
 			
-			<view class="top_calssify" :style="[{'margin-top':!show_go_top?'10px':'','color':index_info.top_font_color}]">
+			<view class="top_calssify" :style="[{'margin-top':!show_go_top?'10px':''}]">
 				<view class="top_calssify_info">
 					<scroll-view class="calssify_info" scroll-x="true">
 						<view class="calssify_item" >
 							<navigator class="item_info" v-for="(item,index) in index_info.top_navigation" :key='index'
-							 :url="'/pages'+item.page+'?id='+item.page_id">
+							 :url="'/pages'+item.page+'?id='+item.page_id" :style="[{'color':index_info.top_font_color}]">
 								{{ item.title}}
 							</navigator>
 						</view>
@@ -57,7 +58,7 @@
 		</view>
 		<scroll-view class="index_content" :style="[{'min-height':this_height+'px'}]">
 			<view class="index_top_info"
-			 :style="[{'padding-top':show_go_top?menu_bottom+35+'px':menu_bottom*2+'px','background-color':index_info.background.up}]">
+			 :style="[{'padding-top':show_go_top?menu_bottom+35+'px':menu_bottom*2+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
 				<view class="top_swiper">
 					<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="5000" duration="3000" circular>
 						<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
@@ -77,24 +78,26 @@
 						</view>
 					</scroll-view>
 				</view>
-				<view class="this_index_icon_list" :style="[{'color':index_info.icon_font_color,'background-color':index_info.background.centre}]">
+				<view class="this_index_icon_list" :style="[{'background-image': `linear-gradient(${index_info.background.centre} 0%,  ${index_info.background.centre_grounding} 100%)`}]">
 					<swiper class="icon_list" @change="change_swiper_line" duration="3000">
 						<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
 							<navigator class="icon_list_item" v-for="(item,k) in list" :key="k"  :url="'/pages'+item.page">
 								<image class="icon_img" :src="requestUrl+item.img" mode="widthFix"></image>
-								<view class="icon_title"> {{item.title}} </view>
+								<view class="icon_title" :style="[{'color':index_info.icon_font_color}]"> {{item.title}} </view>
 							</navigator>
 						</swiper-item>
 					</swiper>
-					<swiperline class="swiper_line" :current="swiper_line" :list="index_info.icon_list"></swiperline>
+					<swiperline class="swiper_line" :style="[{'background-image': `linear-gradient(${index_info.background.centre} 0%,  ${index_info.background.centre_grounding} 100%)`}]" :current="swiper_line" :list="index_info.icon_list"></swiperline>
 				</view>
 			</view>
 			<!-- 中部广告位 -->
-			<view class="all_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index'>
-				<view class="tile_advertising" v-for="(item,k) in list" :key='k'>
-					<view class="advertising">
-						<image class="advertisImg" :src="requestUrl+item.img" mode=""></image>
-					</view>
+			<view class="centre_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index'>
+				<view class="advertising_info" v-for="(item,k) in list" :key='k'
+				 :style="[{'width':list.length==1?'100%':list.length==2?'50%':list.length==3?'33%':'24%'}]"> 
+					<navigator class="advertising_item" :url="'/pages'+item.page+'?id='+item.page_id" >
+						<image class="advertising_img"
+						 :src="requestUrl+item.img" mode="widthFix" ></image>
+					</navigator>
 				</view>
 			</view>
 			<!-- 秒杀 -->
@@ -411,8 +414,8 @@
 					that.this_recommend_list = []
 					that.get_sift_list()
 				}else if(index==3){
-					// that.recommend_index = index
-					// that.this_recommend_list = []
+					that.recommend_index = index
+					that.this_recommend_list = []
 					that.get_live_info()
 				}else{
 					uni.showToast({
@@ -472,7 +475,7 @@
 			go_to_top: function() {
 				uni.pageScrollTo({
 					scrollTop: 0,
-					duration: 600
+					duration: 200
 				})
 			},
 			// 点赞
@@ -549,13 +552,13 @@
 			},
 			get_live_info:function(){
 				let that = this
-				uni.showToast({
-					title: '正在升级中...敬请期待!',
-					icon: 'none'
-				})
-				// that.get_live()
-				// that.get_live_goods()
-				// that.get_calendar_list()
+				// uni.showToast({
+				// 	title: '正在升级中...敬请期待!',
+				// 	icon: 'none'
+				// })
+				that.get_live()
+				that.get_live_goods()
+				that.get_calendar_list()
 			},
 			get_live:function(){
 				let that = this
@@ -685,10 +688,10 @@
 		position: relative;
 		font-size: 24rpx;
 		color: #999999;
-		transition:width 2s;
+		transition:width 1s;
 	}
 	.fixed_inupt{
-		transition:width 2s;
+		transition:width 1s;
 		background-color: #FFFFFF;
 		left: 20rpx;
 		position: absolute;
@@ -1000,6 +1003,8 @@
 		top: 0;
 		width: 100%;
 		height: 100%;
+		/* background-color: #F0F0F0;
+		opacity: 0.4; */
 	}
 	
 	.popup_window{
@@ -1132,6 +1137,22 @@
 	.live_goods_image image{
 		width: 120rpx;
 		border-radius: 16rpx;
+	}
+	.centre_advertising{
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.advertising_info{
+		width: 100%;
+	}
+	.advertising_item{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+	.advertising_img{
+		width: 100%;
 	}
 	
 </style>

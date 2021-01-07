@@ -95,14 +95,6 @@
 	display: -webkit-flex;
 	display: flex;
 }
-.account-number.data-v-0be17cc6 {
-	margin-left: 10rpx;
-	border: 1px solid #FFFFFF;
-	padding: 0 10rpx;
-	-webkit-border-radius: 16rpx;
-	        border-radius: 16rpx;
-	font-size: 20rpx;
-}
 .user-head-portrait-name-phone-set .set.data-v-0be17cc6 {
 	color: #FFFFFF;
 	display: -webkit-box;

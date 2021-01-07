@@ -71,7 +71,8 @@
 										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else >
 										</image>
 										<view class="my_diary_relevant">
-											<navigator class="relevant" :url="'/pages/goods/goods_detail?sku_id='+my_diary.goods.id+'&encrypted_id='+my_diary.goods.encrypted_id">
+											<navigator class="relevant"
+											 :url="'/pages/goods/goods_detail?sku_id='+my_diary.goods.id+'&encrypted_id='+my_diary.goods.encrypted_id">
 												<image class="relevant_goods_img" :src="requestUrl+my_diary.goods.head_img" mode=""></image>
 												<view class="relevant_info">
 													<view class="relevant_name"> {{ my_diary.goods.goods_name }} </view>
@@ -274,12 +275,6 @@
 					}
 					that.change_swiper(e)
 				}, 500)
-				// let height = event.detail.height
-				// if (that.platform != 'applet') {
-				// 	that.swiper_height = height / 2 - 18
-				// } else {
-				// 	that.swiper_height = height / 2
-				// }
 			},
 			set_content: function(text) {
 				let list = []

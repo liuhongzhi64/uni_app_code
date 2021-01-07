@@ -328,7 +328,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   onReady: function onReady() {
     var that = this;
-    // 判定运行平台
+    that.height = uni.getSystemInfoSync().windowHeight;
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       // 获取屏幕高度
@@ -370,16 +370,16 @@ __webpack_require__.r(__webpack_exports__);
           icon: 'none' });
 
       } else if (index == 1) {
-        // this.btnnum = index
-        // that.offset = 0
-        // that.this_name = 'diary'
-        // that.contentList = []
-        // that.getDiaryClassfiy()
-        // that.getDiaryList()
-        uni.showToast({
-          title: '正在升级中...敬请期待!',
-          icon: 'none' });
-
+        this.btnnum = index;
+        that.offset = 0;
+        that.this_name = 'diary';
+        that.contentList = [];
+        that.getDiaryClassfiy();
+        that.getDiaryList();
+        // uni.showToast({
+        // 	title: '正在升级中...敬请期待!',
+        // 	icon: 'none'
+        // })
       } else if (index == 2) {
         this.btnnum = index;
         that.offset = 0;

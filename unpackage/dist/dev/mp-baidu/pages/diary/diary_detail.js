@@ -266,6 +266,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar },
@@ -406,12 +407,6 @@ __webpack_require__.r(__webpack_exports__);
 
         that.change_swiper(e);
       }, 500);
-      // let height = event.detail.height
-      // if (that.platform != 'applet') {
-      // 	that.swiper_height = height / 2 - 18
-      // } else {
-      // 	that.swiper_height = height / 2
-      // }
     },
     set_content: function set_content(text) {
       var list = [];

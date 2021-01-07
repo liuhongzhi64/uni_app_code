@@ -597,6 +597,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     topBar: topBar,
@@ -642,11 +646,8 @@ __webpack_require__.r(__webpack_exports__);
       pay_type: 1, //支付方式  0预约金 1 全款 2 全选
       class_type: 0, //领取方式 0到院 1邮寄
       swiperList: [],
-      intervalTime: 8000, //自动切换时间间隔
-      durationTime: 2000, //	滑动动画时长
       carts: 0, //购物车
       productLists: [],
-      doctorDurationTime: 1000,
       doctorList: [],
       diaryList: [],
       advertisingList: {},
@@ -669,8 +670,9 @@ __webpack_require__.r(__webpack_exports__);
       second: 0,
       minute: 0,
       is_card_shop: 0,
-      more_card_list: [] //更多的卡券列表
-    };
+      more_card_list: [], //更多的卡券列表
+      swiper_height: 350 };
+
   },
   onReachBottom: function onReachBottom() {
     var that = this;
@@ -743,6 +745,30 @@ __webpack_require__.r(__webpack_exports__);
     // 提醒我
     subscribe: function subscribe() {
       console.log('提醒');
+    },
+    get_img_height: function get_img_height(event) {
+      var that = this;
+      setTimeout(function () {
+        var e = {
+          target: {
+            current: 0 } };
+
+
+        that.change_swiper(e);
+      }, 500);
+      that.swiper_height = event.detail.height / 2;
+      console.log(event.detail.height);
+    },
+    getlist_height: function getlist_height(list) {
+      var that = this;
+      var query = uni.createSelectorQuery();
+      query.select(list).boundingClientRect(function (data) {
+        that.swiper_height = data.height;
+      }).exec();
+    },
+    change_swiper: function change_swiper(e) {
+      var that = this;
+      that.getlist_height(".list_img".concat(e.target.current));
     },
     // 点击视频
     goToVideo: function goToVideo(url) {
@@ -983,7 +1009,7 @@ __webpack_require__.r(__webpack_exports__);
       return newArray;
     },
     // 医生
-    goToDoctor: function goToDoctor(id, heading) {
+    go_to_doctor: function go_to_doctor(id, heading) {
       uni.navigateTo({
         url: "/pages/doctor/doctor_detail?id=".concat(id, "&&heading=").concat(heading) });
 

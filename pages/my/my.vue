@@ -16,7 +16,6 @@
 								</view>
 								<view class="phone-account-number">
 									<view class="phone"> {{ user_info.tel }} </view>
-									<view class="account-number" @tap='goToAccount'> 切换账号 </view>
 								</view>
 							</view>
 						</view>
@@ -424,12 +423,6 @@
 				})
 			},
 			
-			goToAccount: function(e) {
-				uni.navigateTo({
-					url: `/pages/my/account_number`,
-				})
-
-			},
 			change_order: function(id) {
 				if (id==0){
 					uni.navigateTo({
@@ -545,14 +538,6 @@
 		line-height: 32rpx;
 		margin-top: 10rpx;
 		display: flex;
-	}
-
-	.account-number {
-		margin-left: 10rpx;
-		border: 1rpx solid #FFFFFF;
-		padding: 0 10rpx;
-		border-radius: 16rpx;
-		font-size: 20rpx;
 	}
 
 	.user-head-portrait-name-phone-set .set {

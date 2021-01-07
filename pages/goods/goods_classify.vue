@@ -1,7 +1,7 @@
 <template>
 	<view class="goods_classify">
 		<view class="goods_top_tar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
-			<view class="left_input" :style="[{'height':menuHeight+'px','border-radius':menuHeight/2+'px'}]" @tap="top_go('search')">
+			<!-- <view class="left_input" :style="[{'height':menuHeight+'px','border-radius':menuHeight/2+'px'}]" @tap="top_go('search')">
 				<image class="search-icon" src="/static/images/search_icon.png"></image>
 			</view>
 			<view class="cart_info" @tap="top_go('cart')">
@@ -11,7 +11,8 @@
 			<view class="message_info" @tap="top_go('message')">
 				<image class="message_img" src="/static/images/consulting.png" ></image>
 				<view class="message_num"> {{ message_number }} </view>
-			</view>
+			</view> -->
+			<text>华美整呗</text>
 		</view>
 		<view class="content" :style="[{'top':menuBottom+10+'px'}]">
 			<!-- 左边导航条 -->
@@ -338,6 +339,10 @@
 		color: #FFFFFF;
 		display: flex;
 		align-items: center;
+		text-align: center;
+	}
+	.goods_top_tar text{
+		width: 100%;
 	}
 	.left_input{
 		width: 50%;

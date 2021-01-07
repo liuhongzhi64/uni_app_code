@@ -20,16 +20,20 @@
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
-						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay :interval='intervalTime'
-						 :duration="durationTime" circular>
+						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff"
+						 autoplay interval='8000' duration="2000" circular @change="change_swiper" :style="{height:swiper_height+'px'}">
 							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
 								<view class="video" @tap='goToVideo(contentList.video_list)'>
 									<image class="swiper_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</view>
 							</swiper-item>
 							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
-								<view class="top-swiper-item">
-									<image class="banner-img" :src="requestUrl+i" lazy-load='true' mode="widthFix"></image>
+								<view class="top-swiper-item" :style="{height:swiper_height+'px'}">
+									<!-- <image class="banner-img" :class="'list_img'+index"
+									 :src="requestUrl+i" lazy-load='true' mode="widthFix" @load='get_img_height'></image> -->
+									<image :src="requestUrl+i" :class="'list_img'+k" mode="widthFix" v-if="k==0" lazy-load @load='get_img_height'>
+									</image>
+									<image :src="requestUrl+i" :class="'list_img'+k" mode="widthFix" v-else >
 								</view>
 								<image class="top-banner" :src="requestUrl+contentList.sku.spu_icon" mode="widthFix"></image>
 							</swiper-item>
@@ -171,10 +175,10 @@
 						<view class="line"></view> 相关医生
 					</view>
 					<view class="related-doctor-item">
-						<swiper class="doctor-swiper" indicator-dots indicator-active-color="#fa3475" indicator-color="#000000" :duration="doctorDurationTime"
-						 circular>
+						<swiper class="doctor-swiper" indicator-dots indicator-active-color="#fa3475"
+						 indicator-color="#000000" duration="1000" circular>
 							<swiper-item v-for="(item,index) in doctorList" :key="index">
-								<view class="doctor-recommend" v-for="(i,k) in item" :key='k' @tap='goToDoctor(i.id,i.heading)'>
+								<view class="doctor-recommend" v-for="(i,k) in item" :key='k' @tap='go_to_doctor(i.id,i.heading)'>
 									<view class="doctor-top">
 										<view class="doctor-head-portrait">
 											<image :src="requestUrl+i.heading" mode="" lazy-load='true'></image>
@@ -306,12 +310,12 @@
 			<!-- 底部定位 -->
 			<view class="consult-share-cart-addCart-shopNow">
 				<!-- 咨询 -->
-				<view class="consult">
+				<navigator class="consult" url="/pages/consultation/consultation"> 
 					<view class="consult-image">
 						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>
 					</view>
 					<view class="consult-text"> 咨询 </view>
-				</view>
+				</navigator>
 				<!-- 分享 -->
 				<view class="share">
 					<view class="share-image">
@@ -510,11 +514,8 @@
 				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
 				class_type:0,//领取方式 0到院 1邮寄
 				swiperList: [],
-				intervalTime: 8000, //自动切换时间间隔
-				durationTime: 2000, //	滑动动画时长
 				carts: 0, //购物车
 				productLists: [],
-				doctorDurationTime: 1000,
 				doctorList: [],
 				diaryList: [],
 				advertisingList: {},
@@ -538,6 +539,7 @@
 				minute: 0,
 				is_card_shop:0,
 				more_card_list:[],//更多的卡券列表
+				swiper_height:350
 			}
 		},
 		onReachBottom: function() {
@@ -611,6 +613,30 @@
 			// 提醒我
 			subscribe: function() {
 				console.log('提醒')
+			},
+			get_img_height: function(event) {
+				let that = this
+				setTimeout(function() {
+					let e = {
+						target: {
+							current: 0
+						}
+					}
+					that.change_swiper(e)
+				}, 500)
+				that.swiper_height = event.detail.height/2
+				console.log(event.detail.height)
+			},
+			getlist_height: function(list) {
+				let that = this
+				const query = uni.createSelectorQuery()
+				query.select(list).boundingClientRect(data => {
+					that.swiper_height = data.height
+				}).exec();
+			},
+			change_swiper: function(e) {
+				let that = this;
+				that.getlist_height(`.list_img${e.target.current}`)
 			},
 			// 点击视频
 			goToVideo: function(url) {
@@ -851,7 +877,7 @@
 				return newArray;
 			},
 			// 医生
-			goToDoctor: function(id, heading) {
+			go_to_doctor: function(id, heading) {
 				uni.navigateTo({
 					url: `/pages/doctor/doctor_detail?id=${id}&&heading=${heading}`,
 				})
@@ -1684,98 +1710,8 @@
 		height: 650rpx;
 	}
 
-	.related-products-items {
-		width: 100%;
-		height: 490rpx;
-	}
-
-	.related-products-centent {
-		display: flex;
-		justify-content: space-between;
-		height: 100%;
-		width: 100%;
-	}
-
-	.product-item {
-		margin-right: 20rpx;
-		border-radius: 24rpx;
-		background-color: #ffffff;
-		font-size: 24rpx;
-		width: 260rpx;
-		height: 100%;
-		white-space: normal;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-	}
-
-	.product-item image {
-		width: 260rpx;
-		height: 260rpx;
-		border-radius: 24rpx;
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-
-	.productName {
-		font-size: 24rpx;
-		padding: 0 20rpx;
-	}
-
-	.product-item-content {
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		overflow: hidden;
-	}
-
-	.closed {
-		color: #FFFFFF;
-		display: inline-block;
-		width: 84rpx;
-		height: 26rpx;
-		font-size: 18rpx;
-		background-color: #b60114;
-		border-radius: 4rpx;
-		text-align: center;
-		padding: 0 5rpx;
-	}
-
-	.label {
-		display: flex;
-		padding: 10rpx 20rpx;
-	}
-
-	.labelListItem {
-		background-color: #999999;
-		height: 26rpx;
-		line-height: 26rpx;
-		border-radius: 4rpx;
-		color: #ffffff;
-		font-size: 16rpx;
-		margin-right: 10rpx;
-		padding: 5rpx 10rpx;
-	}
-
-	.productPrice {
-		color: #fa3475;
-		font-size: 32rpx;
-		padding-left: 20rpx;
-	}
-
-	.subscribeAndGoodReputation {
-		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		padding: 20rpx;
-	}
-
 	.subscribe {
 		color: #666666;
-	}
-
-	.goodReputation {
-		color: #fa3475;
 	}
 
 	/* 相关医生 */
@@ -1808,7 +1744,6 @@
 		flex-direction: column;
 		justify-content: space-between;
 		line-height: 30rpx;
-		/* height: 150rpx; */
 	}
 
 	.doctor-head-portrait {

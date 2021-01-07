@@ -27,7 +27,7 @@
 		</view>
 
 		<!-- 主体内容 -->
-		<view class="detail-content" :style="[{'min-height':height-menuBottom-170+'px'}]">
+		<view class="detail-content" :style="[{'min-height':height-menuBottom-150+'px'}]">
 			<!-- 主体内容 -->
 			<diary :diaryList="contentList" :requestUrl='requestUrl' @collect_diary='collect_diary' @cancel_like='cancel_like'
 			 v-if="btnnum==1">
@@ -157,7 +157,7 @@
 		},
 		onReady() {
 			let that = this;
-			// 判定运行平台
+			that.height = uni.getSystemInfoSync().windowHeight ;
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				// 获取屏幕高度
@@ -199,16 +199,16 @@
 						icon: 'none'
 					})
 				} else if(index==1){
-					// this.btnnum = index
-					// that.offset = 0
-					// that.this_name = 'diary'
-					// that.contentList = []
-					// that.getDiaryClassfiy()
-					// that.getDiaryList()
-					uni.showToast({
-						title: '正在升级中...敬请期待!',
-						icon: 'none'
-					})
+					this.btnnum = index
+					that.offset = 0
+					that.this_name = 'diary'
+					that.contentList = []
+					that.getDiaryClassfiy()
+					that.getDiaryList()
+					// uni.showToast({
+					// 	title: '正在升级中...敬请期待!',
+					// 	icon: 'none'
+					// })
 				}else if(index==2){
 					this.btnnum = index
 					that.offset = 0

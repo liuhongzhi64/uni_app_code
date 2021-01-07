@@ -353,6 +353,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     swiperline: swiperline,
@@ -560,8 +563,8 @@ __webpack_require__.r(__webpack_exports__);
         that.this_recommend_list = [];
         that.get_sift_list();
       } else if (index == 3) {
-        // that.recommend_index = index
-        // that.this_recommend_list = []
+        that.recommend_index = index;
+        that.this_recommend_list = [];
         that.get_live_info();
       } else {
         uni.showToast({
@@ -621,7 +624,7 @@ __webpack_require__.r(__webpack_exports__);
     go_to_top: function go_to_top() {
       uni.pageScrollTo({
         scrollTop: 0,
-        duration: 600 });
+        duration: 200 });
 
     },
     // 点赞
@@ -698,13 +701,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     get_live_info: function get_live_info() {
       var that = this;
-      uni.showToast({
-        title: '正在升级中...敬请期待!',
-        icon: 'none' });
-
-      // that.get_live()
-      // that.get_live_goods()
-      // that.get_calendar_list()
+      // uni.showToast({
+      // 	title: '正在升级中...敬请期待!',
+      // 	icon: 'none'
+      // })
+      that.get_live();
+      that.get_live_goods();
+      that.get_calendar_list();
     },
     get_live: function get_live() {
       var that = this;

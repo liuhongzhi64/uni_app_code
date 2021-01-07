@@ -13,6 +13,10 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	text-align: center;
+}
+.goods_top_tar text.data-v-12fbebc2{
+	width: 100%;
 }
 .left_input.data-v-12fbebc2{
 	width: 50%;

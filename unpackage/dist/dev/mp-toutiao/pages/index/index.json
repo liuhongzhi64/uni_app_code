@@ -1,5 +1,4 @@
 {
-  "enablePullDownRefresh": true,
   "usingComponents": {
     "swiperline": "/components/swperDot",
     "goods-show": "/components/goodsShow",

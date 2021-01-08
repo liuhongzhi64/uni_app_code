@@ -125,7 +125,7 @@
 									<view class="diary-item-top" @tap='diary_detail(item.id)'>
 										<view class="image-label">
 											<view class="diary-images">
-												<image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image>
+												<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 												<view class="diary_label">{{item.label}}</view>
 											</view>										
 										</view>
@@ -168,7 +168,7 @@
 									<view class="diary-item-top" @tap='diary_detail(item.id)'>
 										<view class="image-label">
 											<view class="diary-images">
-												<image class="diary-image" :src="requestUrl+item.cover_img" mode=""></image>
+												<image class="diary-image" :src="requestUrl+item.cover_img" mode="widthFix"></image>
 												<view class="diary_label">{{item.label}}</view>
 											</view>
 										</view>

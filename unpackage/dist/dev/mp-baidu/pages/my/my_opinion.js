@@ -158,6 +158,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -252,8 +260,7 @@ __webpack_require__.r(__webpack_exports__);
           var list = [];
           for (var key in tempFilePaths) {
             var obj = {
-              img: '',
-              is_show: false };
+              img: '' };
 
             uni.uploadFile({
               url: 'https://mytest.hmzixin.com/home', //仅为示例，非真实的接口地址
@@ -282,16 +289,19 @@ __webpack_require__.r(__webpack_exports__);
         } });
 
     },
-    set_delete: function set_delete(index) {
+    // 删除图片或者视频
+    delete_item: function delete_item(index) {
       var that = this;
-      that.image_list[index].is_show = !that.image_list[index].is_show;
+      that.upload_image_list.splice(index, 1);
+      that.image_list.splice(index, 1);
+      that.image_length -= 1;
     },
     submit_opinion: function submit_opinion() {
       var that = this;
       // console.log(that.info_text,that.upload_image_list)
       if (that.info_text == '') {
         uni.showToast({
-          title: '请填写您的意见···',
+          title: '您还没填写意见···',
           icon: 'none' });
 
       } else {

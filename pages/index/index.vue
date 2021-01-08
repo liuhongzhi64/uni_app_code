@@ -2,12 +2,14 @@
 	<view class="this_index" >
 		<view class="index_top_fixed"
 		 :style="[{'padding-top':menu_top+'px','padding-bottom':10+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
-			<view class="this_top_left" :style="[{'height':menu_height+'px','padding-bottom':10+'px'}]">
+			<view class="this_top_left"
+			 :style="[{'height':menu_height+'px','padding-bottom':10+'px','width':this_width-(this_width-menu_width-menu_left)+'px'}]">
 				<navigator class="top_img_nav" v-if="Object.prototype.toString.call(index_info.top_advertising) != '[object Array]'"
 				 :url="'/pages'+index_info.top_advertising.content.page+'?id='+index_info.top_advertising.content.page_id" v-show="!show_go_top">
-					<image class="top_bar_img" :src="requestUrl+index_info.top_advertising.content.img" :style="[{'height':menu_height+'px'}]"></image>
+					<image class="top_bar_img" mode="widthFix" :src="requestUrl+index_info.top_advertising.content.img"
+					 :style="[{'height':menu_height+'px'}]"></image>
 				</navigator>
-				<view class="this_top_info" :style="[{'right':this_width-menu_left+10+'px','top':menu_top-8+'px'}]">
+				<view class="this_top_info" :style="[{'right':this_width-menu_left+10+'px'}]">
 					<navigator class="top_info" url="/pages/cart/cart">
 						<image class="top_image" src="/static/images/cart.png"></image>
 						<text>购物车</text>
@@ -20,7 +22,7 @@
 			</view>
 			<!-- #ifdef MP -->
 			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
-			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top+'px':''}]">
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'130px':search_width+'px','top':show_go_top?menu_top+'px':''}]">
 				<image class="search-icon" src="/static/images/search_icon.png"></image>
 				<text class="search_hint">请输入关键字...</text>
 			</navigator>
@@ -58,9 +60,9 @@
 		</view>
 		<scroll-view class="index_content" :style="[{'min-height':this_height+'px'}]">
 			<view class="index_top_info"
-			 :style="[{'padding-top':show_go_top?menu_bottom+35+'px':menu_bottom*2+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
+			 :style="[{'padding-top':show_go_top?menu_bottom*2-10+'px':menu_bottom*2+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
 				<view class="top_swiper">
-					<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="5000" duration="3000" circular>
+					<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="3000" duration="600" circular>
 						<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
 							<navigator class="banner_info" :url="'/pages'+item.page+'?id='+item.page_id">
 								<image class="banner_img" :src="requestUrl+item.img" mode="widthFix"></image>
@@ -78,8 +80,8 @@
 						</view>
 					</scroll-view>
 				</view>
-				<view class="this_index_icon_list" :style="[{'background-image': `linear-gradient(${index_info.background.centre} 0%,  ${index_info.background.centre_grounding} 100%)`}]">
-					<swiper class="icon_list" @change="change_swiper_line" duration="3000">
+				<view class="this_index_icon_list">
+					<swiper class="icon_list" @change="change_swiper_line" duration="1000">
 						<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
 							<navigator class="icon_list_item" v-for="(item,k) in list" :key="k"  :url="'/pages'+item.page">
 								<image class="icon_img" :src="requestUrl+item.img" mode="widthFix"></image>
@@ -87,11 +89,11 @@
 							</navigator>
 						</swiper-item>
 					</swiper>
-					<swiperline class="swiper_line" :style="[{'background-image': `linear-gradient(${index_info.background.centre} 0%,  ${index_info.background.centre_grounding} 100%)`}]" :current="swiper_line" :list="index_info.icon_list"></swiperline>
+					<swiperline class="swiper_line" :current="swiper_line" :list="index_info.icon_list"></swiperline>
 				</view>
 			</view>
 			<!-- 中部广告位 -->
-			<view class="centre_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index'>
+			<view class="centre_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index' >
 				<view class="advertising_info" v-for="(item,k) in list" :key='k'
 				 :style="[{'width':list.length==1?'100%':list.length==2?'50%':list.length==3?'33%':'24%'}]"> 
 					<navigator class="advertising_item" :url="'/pages'+item.page+'?id='+item.page_id" >
@@ -142,12 +144,18 @@
 			<view class="recommend_content" v-if="this_recommend_list.length>0">
 				<view class="recommen_content_item this_hide" :class="{this_show:recommend_index == index}"
 				 v-for="(item,index) in recommend_list" :key="index">
-					<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='this_recommend_list' v-if='index==0||index==1'>
-					</goodsShow>
-					<doctor :doctorList="this_recommend_list" :requestUrl="requestUrl" :paddingLR='10'
-					 @collectLike='collectLike' @cancelLike='cancelLike' v-else-if="index==2">
-					</doctor>
+					<view class="this_goods_show" v-if='index==0||index==1'>
+						<goodsShow :borderRadius=24 :requestUrl='requestUrl' :width=350 :porductList='this_recommend_list' >
+						</goodsShow>
+					</view>
+					<view class="this_doctor_show" v-else-if="index==2">
+						<doctor :doctorList="this_recommend_list" :requestUrl="requestUrl" :paddingLR='10'
+						 @collectLike='collectLike' @cancelLike='cancelLike' >
+						</doctor>
+					</view>
+					
 					<view class="this_live" v-else-if="index==3">
+						<!-- 直播日历 -->
 						<view class="live_top_info" v-if="calendar_list.length>0">
 							<scroll-view class="live_top_content" scroll-x="true">
 								<view class="live_list_info">
@@ -162,24 +170,39 @@
 								</view>
 							</scroll-view>
 						</view>
+						<!-- 主播推荐 -->
 						<view class="live_goods">
-							<view class="goods_left"> <text class="live_goods_text">主播力荐</text> 为您推荐 </view>
+							<image class="live_goods_images" src="https://xcx.hmzixin.com/upload/images/3.0/anchor.png" mode="widthFix"></image>
 							<view class="live_goods_info">
 								<scroll-view class="live_top_content" scroll-x="true">
-									<view class="live_goods_img" v-for="(item,index) in live_goods" :key='index'>
+									<navigator class="live_goods_img" v-for="(item,index) in live_goods" :key='index'
+									 :url="'/pages/goods/goods_detail?sku_id='+item.sku_id+'&encrypted_id='+item.encrypted_id">
+									<!-- <view class="live_goods_img" v-for="(item,index) in live_goods" :key='index'> -->
 										<image :src="requestUrl+item.head_img" mode="widthFix"></image>
-									</view>
+									<!-- </view> -->
+									</navigator>
 								</scroll-view>
 							</view>
 						</view>
 						<view class="live_item_info" v-for="(item,index) in this_recommend_list" :key="index">
-							<image class="this_live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+							<view class="live_left_info">
+								<image class="this_live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
+								<image class="live_status" src="https://xcx.hmzixin.com/upload/images/3.0/Living.png" mode="widthFix"
+								 v-if="item.status==1"></image>
+								<image class="live_status" src="/static/images/not_live.png" mode="widthFix"
+								 v-else-if="item.status==0"></image>
+								<image class="live_status" src="/static/images/playback.png" mode="widthFix"
+								 v-else-if="item.status==-1"></image>
+							</view>
 							<view class="live_right">
-								<view class="live_title"> {{ item.title }} </view>
+								<!-- <view class="live_title"> {{ item.title }} </view> -->
 								<view class="right_live_goods">
-									<view class="live_goods_image" v-for="(i,k) in item.live_goods" :key='k'>
+									<navigator class="live_goods_image" v-for="(i,k) in item.live_goods" :key='k'
+									 :url="'/pages/goods/goods_detail?sku_id='+i.sku_id+'&encrypted_id='+i.encrypted_id">
+									<!-- <view class="live_goods_image" v-for="(i,k) in item.live_goods" :key='k'> -->
 										<image :src="requestUrl+i.head_img" mode="widthFix"></image>
-									</view>
+									<!-- </view> -->
+									</navigator>
 								</view>
 							</view>
 						</view>
@@ -319,13 +342,15 @@
 					}
 				})
 			} else if (platform == 'APP') {
-				that.menu_width = 70
+				// that.menu_width = 70
 				that.menu_top = 40
 				that.menu_bottom = 70
-				that.menu_height = 30
-				that.menu_left = 280
-				console.log(that.this_width,that.search_width)
-				that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left)
+				that.menu_height = 26
+				// that.menu_left = 280
+				// console.log(that.this_width,that.search_width)
+				that.search_width = that.this_width - 20
+				that.menu_left = that.search_width+10
+				// that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left)
 			}
 		},
 		// 下拉刷新
@@ -360,7 +385,8 @@
 			}else if(that.recommend_index==1||that.recommend_index==2){
 				that.get_sift_list()
 			}else if(that.recommend_index==3){
-				console.log(111)
+				// console.log(111)
+				that.get_live()
 			}
 		},
 		onHide:function(){
@@ -439,7 +465,7 @@
 						}
 						else if(data.length==0&&that.this_offset>0){
 							uni.showToast({
-								title: '没有更多啦...',
+								title: '已经到底啦···',
 								icon: 'none'
 							})
 						}
@@ -448,7 +474,7 @@
 			},
 			get_sift_list:function(){
 				let that = this
-				// type 0 护肤品 1视频 2 日记 3直播 //直播暂时为写
+				// type 0 护肤品 1视频 2 日记 3直播 
 				// index 1 护肤品 2 视频 3直播 4日记
 				let type = that.recommend_index - 1
 				let dataInfo = {
@@ -465,7 +491,7 @@
 						}
 						else if(data.length==0&&that.this_offset>0){
 							uni.showToast({
-								title: '没有更多啦...',
+								title: '已经到底啦···',
 								icon: 'none'
 							})
 						}
@@ -570,7 +596,6 @@
 				that.request.uniRequest("live", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
 						for(let key in data){
 							data[key].start_time = that.set_timer(data[key].start_time)
 						}
@@ -579,7 +604,7 @@
 						}
 						else if(data.length==0&&that.this_offset>0){
 							uni.showToast({
-								title: '没有更多啦...',
+								title: '已经到底啦···',
 								icon: 'none'
 							})
 						}
@@ -590,17 +615,17 @@
 				let that = this
 				let dataInfo = {
 					interfaceId:'hot',
-					offset:that.this_offset*3,
-					limit:3
+					offset:that.this_offset*6,
+					limit:6
 				}
 				that.request.uniRequest("live", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data,222)
 						that.live_goods = data
 					}
 				})
 			},
+			// 直播日历
 			get_calendar_list:function(){
 				let that = this
 				let dataInfo = {
@@ -609,7 +634,7 @@
 				that.request.uniRequest("live", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data,3333)
+						// console.log(data,3333)
 						that.calendar_list = data
 					}
 				})
@@ -661,7 +686,7 @@
 	}
 
 	.top_bar_img {
-		width: 280rpx;
+		width: 260rpx;
 	}
 	
 	.this_top_info{
@@ -675,11 +700,12 @@
 		align-items: center;
 		flex-direction: column;
 		margin-left: 40rpx;
+		font-size: 20rpx;
 	}
 
 	.top_image {
-		width: 46rpx;
-		height: 46rpx;
+		width: 32rpx;
+		height: 32rpx;
 	}
 
 	.top_input {
@@ -754,6 +780,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		padding-top: 20rpx;
 	}
 	.banner_info{
 		width: 80%;
@@ -1079,36 +1106,29 @@
 	}
 	
 	.live_goods{
-		background-color: #FFFFFF;
 		display: flex;
 		align-items: center;
 		border-radius: 16rpx;
+		position: relative;
+	}
+	.live_goods_images{
+		width: 100%;
 	}
 	
-	.goods_left{
-		width: 20%;
-		font-size: 24rpx;
-		color: #ff6699;
-	}
-	
-	.live_goods_text{
-		font-size: 32rpx;
-		color: #FA3475;
-	}
 	.live_goods_info{
-		width: 80%;
+		width: 430rpx;
+		position: absolute;
+		right: 20rpx;
+		bottom: 20rpx;
 		display: flex;
 		justify-content: space-around;
 	}
 	.live_goods_img image{
-		width: 240rpx;
+		width: 140rpx;
 		display: block;
-		border-radius: 16rpx;
 	}
 	
 	.live_item_info{
-		display: flex;
-		align-items: center;
 		margin-top: 20rpx;
 		background-color: #FFFFFF;
 		border-radius: 16rpx;
@@ -1116,13 +1136,12 @@
 	
 	.this_live_cover_img{
 		border-top-left-radius: 16rpx;
-		border-bottom-left-radius: 16rpx;
-		width: 350rpx;
+		border-top-right-radius: 16rpx;
+		width: 100%;
 	}
 	
 	.live_right{
 		padding: 20rpx;
-		flex: 1;
 	}
 	
 	.right_live_goods{
@@ -1130,12 +1149,11 @@
 	}
 	
 	.live_goods_image{
-		padding: 10rpx 0;
 		margin-right: 20rpx;
 	}
 	
 	.live_goods_image image{
-		width: 120rpx;
+		width: 200rpx;
 		border-radius: 16rpx;
 	}
 	.centre_advertising{
@@ -1153,6 +1171,18 @@
 	}
 	.advertising_img{
 		width: 100%;
+		background-color: #F0F0F0
+	}
+	
+	.live_left_info{
+		position: relative;
+	}
+	
+	.live_status{
+		width: 140rpx;
+		position: absolute;
+		top: 20rpx;
+		left: 20rpx;
 	}
 	
 </style>

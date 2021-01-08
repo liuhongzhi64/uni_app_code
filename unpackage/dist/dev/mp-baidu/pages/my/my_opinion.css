@@ -1,30 +1,39 @@
 
 .opinion_info.data-v-78b3ef89{
 	background-color: #F0F0F0;
-	position: relative;
 }
 .info_content.data-v-78b3ef89{
 	width: 100%;
 	height: 500rpx;
 	background-color: #FFFFFF;
-	text-indent: 20rpx;
-	padding: 20rpx;
+	/* text-indent: 20rpx; */
+	padding: 20rpx ;
 }
-.info_length.data-v-78b3ef89{
+.top_info.data-v-78b3ef89{
+	padding: 25rpx 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #F0F0F0;
+}
+.opinion_info_length.data-v-78b3ef89{
 	font-size: 24rpx;
 	color: #999999;
-	position: absolute;
-	right: 20rpx;
-	top: 640rpx;
-	z-index: 9;
+}
+.top_title.data-v-78b3ef89{
+	font-size: 32rpx;
 }
 .hint_info.data-v-78b3ef89{
 	color: #FA3576;
 }
-.hint-content.data-v-78b3ef89{
+/* .hint-content{
 	font-size: 20rpx;
 	padding: 0 20rpx 20rpx;
-}
+} */
 .set_image.data-v-78b3ef89{
 	padding-top: 40rpx;
 }
@@ -56,24 +65,16 @@
 	background-color: #F0F0F0;
 }
 .show_delete.data-v-78b3ef89{
-	width: 220rpx;
-	height: 220rpx;
+	width: 32rpx;
+	height: 32rpx;
+	-webkit-border-radius: 16rpx;
+	        border-radius: 16rpx;
 	background-color: #FFFFFF;
 	position: absolute;
-	top: 0;
-	left: 0;
+	top: -16rpx;
+	right: -16rpx;
 	z-index: 9;
 	opacity: 0.8;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	color: red;
 }
 .change-image.data-v-78b3ef89 {
 	height: 220rpx;
@@ -81,6 +82,10 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
@@ -88,9 +93,13 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	background-color: #999999;
-	font-size: 60rpx;
+	font-size: 24rpx;
 	color: #FFFFFF;
 	margin-left: 20rpx;
+}
+.add_image.data-v-78b3ef89{
+	width: 64rpx;
+	height: 64rpx;
 }
 .submit_opinion.data-v-78b3ef89{
 	position: fixed;

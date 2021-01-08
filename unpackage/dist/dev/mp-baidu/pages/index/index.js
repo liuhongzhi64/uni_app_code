@@ -356,6 +356,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     swiperline: swiperline,
@@ -468,13 +491,15 @@ __webpack_require__.r(__webpack_exports__);
         } });
 
     } else if (platform == 'APP') {
-      that.menu_width = 70;
+      // that.menu_width = 70
       that.menu_top = 40;
       that.menu_bottom = 70;
-      that.menu_height = 30;
-      that.menu_left = 280;
-      console.log(that.this_width, that.search_width);
-      that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left);
+      that.menu_height = 26;
+      // that.menu_left = 280
+      // console.log(that.this_width,that.search_width)
+      that.search_width = that.this_width - 20;
+      that.menu_left = that.search_width + 10;
+      // that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left)
     }
   },
   // 下拉刷新
@@ -509,7 +534,8 @@ __webpack_require__.r(__webpack_exports__);
     } else if (that.recommend_index == 1 || that.recommend_index == 2) {
       that.get_sift_list();
     } else if (that.recommend_index == 3) {
-      console.log(111);
+      // console.log(111)
+      that.get_live();
     }
   },
   onHide: function onHide() {
@@ -588,7 +614,7 @@ __webpack_require__.r(__webpack_exports__);
           } else
           if (data.length == 0 && that.this_offset > 0) {
             uni.showToast({
-              title: '没有更多啦...',
+              title: '已经到底啦···',
               icon: 'none' });
 
           }
@@ -597,7 +623,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     get_sift_list: function get_sift_list() {
       var that = this;
-      // type 0 护肤品 1视频 2 日记 3直播 //直播暂时为写
+      // type 0 护肤品 1视频 2 日记 3直播 
       // index 1 护肤品 2 视频 3直播 4日记
       var type = that.recommend_index - 1;
       var dataInfo = {
@@ -614,7 +640,7 @@ __webpack_require__.r(__webpack_exports__);
           } else
           if (data.length == 0 && that.this_offset > 0) {
             uni.showToast({
-              title: '没有更多啦...',
+              title: '已经到底啦···',
               icon: 'none' });
 
           }
@@ -719,7 +745,6 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("live", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data);
           for (var key in data) {
             data[key].start_time = that.set_timer(data[key].start_time);
           }
@@ -728,7 +753,7 @@ __webpack_require__.r(__webpack_exports__);
           } else
           if (data.length == 0 && that.this_offset > 0) {
             uni.showToast({
-              title: '没有更多啦...',
+              title: '已经到底啦···',
               icon: 'none' });
 
           }
@@ -739,17 +764,17 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       var dataInfo = {
         interfaceId: 'hot',
-        offset: that.this_offset * 3,
-        limit: 3 };
+        offset: that.this_offset * 6,
+        limit: 6 };
 
       that.request.uniRequest("live", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data, 222);
           that.live_goods = data;
         }
       });
     },
+    // 直播日历
     get_calendar_list: function get_calendar_list() {
       var that = this;
       var dataInfo = {
@@ -758,7 +783,7 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("live", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data, 3333);
+          // console.log(data,3333)
           that.calendar_list = data;
         }
       });

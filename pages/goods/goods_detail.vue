@@ -21,12 +21,12 @@
 				<view class="topSwiper">
 					<view id="topSwiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff"
-						 autoplay interval='8000' duration="2000" circular @change="change_swiper" :style="{height:swiper_height+'px'}">
-							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
+						 autoplay interval='3000' duration="600" circular @change="change_swiper" :style="{height:swiper_height+'px'}">
+							<!-- <swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
 								<view class="video" @tap='goToVideo(contentList.video_list)'>
 									<image class="swiper_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
 								</view>
-							</swiper-item>
+							</swiper-item> -->
 							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
 								<view class="top-swiper-item" :style="{height:swiper_height+'px'}">
 									<!-- <image class="banner-img" :class="'list_img'+index"
@@ -42,7 +42,7 @@
 				</view>
 				<view class="advertising-images" v-if="advertisingList.type==1">
 					<view class="specialList">
-						<swiper autoplay interval='5000' duration='3000' circular>
+						<swiper autoplay interval='3000' duration='600' circular>
 							<swiper-item class="swiper-item" v-for="(item,index) in advertisingList.content" :key="index">
 								<navigator :url="'/pages'+item.page+'?id='+item.page_id" open-type="switchTab">
 									<image :src="requestUrl+item.img" mode="heightFix"></image>

@@ -316,19 +316,19 @@
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/images/footer_index.png",
-				"selectedIconPath": "static/images/footer_select_index.png",
+				"selectedIconPath": "static/images/footer_index_select.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/goods/goods_classify",
 				"iconPath": "static/images/footer_classify.png",
-				"selectedIconPath": "static/images/footer_selcet_classify.png",
+				"selectedIconPath": "static/images/footer_classify_select.png",
 				"text": "分类"
 			},
 			{
 				"pagePath": "pages/diary/diary",
 				"iconPath": "static/images/footer_diary.png",
-				"selectedIconPath": "static/images/footer_select_diary.png",
+				"selectedIconPath": "static/images/footer_diary_seclect.png",
 				"text": "日记"
 			},
 			// {
@@ -340,13 +340,13 @@
 			{
 				"pagePath": "pages/doctor/doctor",
 				"iconPath": "static/images/footer_doctor.png",
-				"selectedIconPath": "static/images/footer_select_doctor.png",
+				"selectedIconPath": "static/images/footer_doctor_seclect.png",
 				"text": "医生"
 			},
 			{
 				"pagePath": "pages/my/my",
 				"iconPath": "static/images/footer_my.png",
-				"selectedIconPath": "static/images/footer_select_my.png",
+				"selectedIconPath": "static/images/footer_my_select.png",
 				"text": "我的"
 			}
 		]

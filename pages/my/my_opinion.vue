@@ -3,20 +3,28 @@
 		<topBar :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title'  :menuTop='menuTop' :menuHeight='menuHeight'  :menuBottom='menuBottom'></topBar>
 		<view class="opinion_info" :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
+			<view class="top_info">
+				<view class="top_title"> 反馈内容 </view>
+				<view class="opinion_info_length" :class="info_length==max_length?'hint_info':''"> {{ info_length }} / {{ max_length }} </view>
+			</view>
 			<textarea class="info_content" @blur='get_opinion' @confirm='get_opinion' @input="get_length" placeholder="请填写反馈内容" :maxlength='max_length' />
-			<view class="info_length" :class="info_length==max_length?'hint_info':''"> {{ info_length }} / {{ max_length }} </view>
+			
 			<view class="set_image">
 				<view class="upload-title">
 					<view class="title-left"> 图片 : </view>
 					<view class="title-right" :class="image_length==count?'hint_info':''"> {{ image_length }} / {{ count }}</view>
 				</view>
-				<view class="hint_info hint-content"> (提示:图片支持格式'bmp','jpg','png','gif' 最大10M) </view>
+				<!-- <view class="hint_info hint-content"> (提示:图片支持格式'bmp','jpg','png','gif' 最大10M) </view> -->
 				<view class="upload-content">
-					<label class="image-list" v-for="(item,index) in image_list" :key="index" @longpress='set_delete(index)'>
+					<label class="image-list" v-for="(item,index) in image_list" :key="index" >
 						<image class="changes_img" :src="item.img" mode="widthFix" ></image>
-						<view class="show_delete" v-if="item.is_show" @tap="delete_item(0,index)"> 删除 </view>
+						<image class="show_delete" @tap="delete_item(index)" src="/static/images/delete.png" mode=""></image>
 					</label>
-					<view class="change-image" @tap="choose_image" v-if="image_list.length<7"> + </view>
+					
+					<view class="change-image" @tap="choose_image" v-if="image_list.length<7"> 
+						<image class="add_image" src="/static/images/add_img.png"></image>
+						添加图片
+					</view>
 				</view>
 			</view>
 		</view>
@@ -121,7 +129,6 @@
 						for(let key in tempFilePaths){
 							let obj = {
 								img:'',
-								is_show:false
 							}
 							uni.uploadFile({
 							    url: 'https://mytest.hmzixin.com/home', //仅为示例，非真实的接口地址
@@ -150,16 +157,19 @@
 					}
 				})
 			},
-			set_delete:function(index){
+			// 删除图片或者视频
+			delete_item:function(index){
 				let that = this
-				that.image_list[index].is_show = !that.image_list[index].is_show
+				that.upload_image_list.splice(index,1)
+				that.image_list.splice(index,1)
+				that.image_length -=1
 			},
 			submit_opinion:function(){
 				let that = this
 				// console.log(that.info_text,that.upload_image_list)
 				if(that.info_text==''){
 					uni.showToast({
-						title:'请填写您的意见···',
+						title:'您还没填写意见···',
 						icon:'none'
 					})
 				}else{
@@ -190,30 +200,35 @@
 <style scoped>
 	.opinion_info{
 		background-color: #F0F0F0;
-		position: relative;
 	}
 	.info_content{
 		width: 100%;
 		height: 500rpx;
 		background-color: #FFFFFF;
-		text-indent: 20rpx;
-		padding: 20rpx;
+		/* text-indent: 20rpx; */
+		padding: 20rpx ;
 	}
-	.info_length{
+	.top_info{
+		padding: 25rpx 20rpx;
+		display: flex;
+		justify-content: space-between;
+		background-color: #FFFFFF;
+		border-bottom: 1rpx solid #F0F0F0;
+	}
+	.opinion_info_length{
 		font-size: 24rpx;
 		color: #999999;
-		position: absolute;
-		right: 20rpx;
-		top: 640rpx;
-		z-index: 9;
+	}
+	.top_title{
+		font-size: 32rpx;
 	}
 	.hint_info{
 		color: #FA3576;
 	}
-	.hint-content{
+	/* .hint-content{
 		font-size: 20rpx;
 		padding: 0 20rpx 20rpx;
-	}
+	} */
 	.set_image{
 		padding-top: 40rpx;
 	}
@@ -240,29 +255,32 @@
 		background-color: #F0F0F0;
 	}
 	.show_delete{
-		width: 220rpx;
-		height: 220rpx;
+		width: 32rpx;
+		height: 32rpx;
+		border-radius: 16rpx;
 		background-color: #FFFFFF;
 		position: absolute;
-		top: 0;
-		left: 0;
+		top: -16rpx;
+		right: -16rpx;
 		z-index: 9;
 		opacity: 0.8;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: red;
 	}
 	.change-image {
 		height: 220rpx;
 		width: 220rpx;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		background-color: #999999;
-		font-size: 60rpx;
+		font-size: 24rpx;
 		color: #FFFFFF;
 		margin-left: 20rpx;
+	}
+	
+	.add_image{
+		width: 64rpx;
+		height: 64rpx;
 	}
 	
 	.submit_opinion{

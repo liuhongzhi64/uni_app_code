@@ -64,11 +64,12 @@
 						</view>
 						<!-- 降价通知、收藏 -->
 						<view class="depreciate-collect">
-							<view class="depreciate" v-if="contentList.share_able==1">
+							<!-- v-if="contentList.share_able==1" -->
+							<view class="depreciate" @tap='on_share'> 
 								<view class="remind-images">
 									<image src="https://xcx.hmzixin.com/upload/images/3.0/icon_wechat.png" mode=""></image>
 								</view>
-								<view class="remind-text"> 分享 </view>
+								<view class="remind-text" > 分享 </view>
 							</view>
 							<view class="collect" @tap="goods_collect(contentList.is_collect,encrypted_id)">
 								<view class="collect-images">
@@ -157,7 +158,7 @@
 				</view>
 				<!-- 相关证书 -->
 				<view class="certificate">
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/qualifications.jpg" mode="widthFix"></image>
+					<image src="https://xcx.hmzixin.com/upload/images/3.0/qualifications.jpg?v=20201104" mode="widthFix"></image>
 				</view>
 				<!-- 相关商品 -->
 				<view class="related-products" v-if="relevantGoods.length>0">
@@ -312,14 +313,14 @@
 				<!-- 咨询 -->
 				<navigator class="consult" url="/pages/consultation/consultation"> 
 					<view class="consult-image">
-						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>
+						<image class="icon-img" src="/static/images/icon_consult.png"></image>
 					</view>
 					<view class="consult-text"> 咨询 </view>
 				</navigator>
 				<!-- 分享 -->
-				<view class="share">
+				<view class="share" @tap='on_share'>
 					<view class="share-image">
-						<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_share.png"></image>
+						<image class="icon-img" src="/static/images/icon_share.png"></image>
 					</view>
 					<view class="share-text"> 分享 </view>
 				</view>
@@ -327,9 +328,9 @@
 				<view class="cart"  @tap="cart">
 					<view class="cart-number">
 						<view class="cartImg">
-							<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_cart.png"></image>
+							<image class="icon-img" src="/static/images/icon_cart.png"></image>
 						</view>
-						<view class="cartNumber"> {{carts}} </view>
+						<view class="cart_number" v-if="carts>0"> {{ carts }} </view>
 					</view>
 					<view class="cart-text"> 购物车 </view>
 				</view>
@@ -485,7 +486,7 @@
 				menuBottom: 0,
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '../../static/images/return.png',
+				backImage: '/static/images/return.png',
 				title: '商品详情',
 				height: 0,
 				sku_id:'0',
@@ -539,7 +540,8 @@
 				minute: 0,
 				is_card_shop:0,
 				more_card_list:[],//更多的卡券列表
-				swiper_height:350
+				swiper_height:350,
+				this_platform:''
 			}
 		},
 		onReachBottom: function() {
@@ -586,6 +588,7 @@
 			that.height = uni.getSystemInfoSync().screenHeight;
 			that.videoContext = uni.createVideoContext('myVideo')
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
+			that.this_platform = platform
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
@@ -625,7 +628,7 @@
 					that.change_swiper(e)
 				}, 500)
 				that.swiper_height = event.detail.height/2
-				console.log(event.detail.height)
+				// console.log(event.detail.height)
 			},
 			getlist_height: function(list) {
 				let that = this
@@ -1034,7 +1037,10 @@
 			},
 			// 查看全部日记
 			seeAll:function(){
-				uni.switchTab({
+				// uni.switchTab({
+				// 	url: `/pages/diary/diary`,
+				// })
+				uni.navigateTo({
 					url: `/pages/diary/diary`,
 				})
 			},
@@ -1263,9 +1269,49 @@
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail_problem?id=${id}`,
 				})
-			}
-		
+			},
 			
+			on_share:function(){
+				let that = this
+				if(that.this_platform=='APP'){
+					that.this_app_share()
+				}else{
+					uni.showToast({
+						title:'敬请期待···',
+						icon:'none'
+					})
+				}
+			},
+			this_app_share:function(){
+				let that = this
+				uni.share({
+					provider:'weixin',//分享服务（即weixin|qq|sinaweibo通过 uni.getProvider 获取分享服务商，可用是指在manifest.json的sdk配置中配的分享sdk厂商
+					scene:'WXSceneSession',//provider 为 weixin 时必选 WXSceneSession:聊天界面,WXSenceTimeline:分享到朋友圈,WXSceneFavorite:微信收藏
+					type:0,//分享形式，如0图文、1纯文字、2纯图片、3音乐、4视频、5小程序等。默认图文 0
+					title:that.contentList.goods_name,//分享内容的标题 
+					summary:'我正在使用华美整呗,快来和我一起来体验!',//分享内容的摘要 type 为 1 时必选
+					href:that.requestUrl,//跳转链接 type 为 0 时必选
+					imageUrl:that.requestUrl+that.swiperList[0],//type 为 0、2、5 时必选 图片地址。type为0时，推荐使用小于20Kb的图片
+					mediaUrl:'',//type 为 3、4 时必选 音视频地址
+					miniProgram:{
+						id:'',//微信小程序原始id
+						path:'',//点击链接进入的页面
+						type:'',//微信小程序版本类型，可取值： 0-正式版； 1-测试版； 2-体验版。 默认值为0
+						webUrl:''//兼容低版本的网页链接
+					},//type 为 5 时必选 分享小程序必要参数
+					success:function(res){
+						uni.showToast({
+							title:'分享成功',
+							duration:3000
+						})
+					},
+					fail:function(err){
+						uni.showToast({
+							title:'分享失败'
+						})
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -2129,7 +2175,7 @@
 		height: 38rpx;
 	}
 
-	.cartNumber {
+	.cart_number {
 		width: 24rpx;
 		height: 24rpx;
 		border-radius: 12rpx;

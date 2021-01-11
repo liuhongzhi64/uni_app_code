@@ -33,20 +33,20 @@
 					<view class="left_info"> 实名认证 </view>
 					<view class="right_info">
 						<text class="authentication">未认证</text>
-						<image class="go_img" src="../../static/images/back1.png" ></image>
+						<image class="go_img" src="/static/images/back1.png" ></image>
 					</view>
 				</navigator>
 				<navigator class="user_info" url="/pages/my/harves_address">
 					<view class="left_info"> 收货地址 </view>
 					<view class="right_info">
 						<text class="address">管理地址</text>
-						<image class="go_img" src="../../static/images/back1.png" ></image>
+						<image class="go_img" src="/static/images/back1.png" ></image>
 					</view>
 				</navigator>
 			</view>
 			
 			<view class="sign_out">
-				<button class="sign_out_btn" type="default" > 退出登录 </button>
+				<button class="sign_out_btn" type="default" @tap="go_to_login"> 退出登录 </button>
 			</view>
 		</view>
 	</view>
@@ -137,6 +137,12 @@
 					title:'正在开发中...',
 					icon:'none'
 				})
+			},
+			go_to_login:function(){
+				uni.removeStorageSync('userInfo');
+				uni.navigateTo({
+					url: '/pages/login/login_phone'
+				});
 			}
 		}
 	}

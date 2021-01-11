@@ -658,6 +658,13 @@ __webpack_require__.r(__webpack_exports__);
         that.content_list = [];
         that.offset = 0;
         that.get_search();
+        var history_list = [];
+        if (uni.getStorageSync("search_list")) {
+          history_list = uni.getStorageSync("search_list");
+        }
+        history_list.unshift(text);
+        history_list = that.setArr(history_list);
+        uni.setStorageSync("search_list", history_list);
       } else
       {
         uni.showToast({
@@ -667,8 +674,22 @@ __webpack_require__.r(__webpack_exports__);
 
       }
     },
+    // 数组去重
+    setArr: function setArr(arr) {
+      //新建一个空数组
+      var newArr = [];
+      for (var i = 0; i < arr.length; i++) {
+        //遍历传入的数组，查找传入数组的值第一次出现的下标
+        if (arr.indexOf(arr[i]) === i) {
+          //push传入数组的一次出现的数字
+          newArr.push(arr[i]);
+        }
+      }
+      //返回新的数组
+      return newArr;
+    },
     // 返回顶部
-    ToTop: function ToTop() {
+    go_to_top: function go_to_top() {
       uni.pageScrollTo({
         scrollTop: 0,
         duration: 600 });

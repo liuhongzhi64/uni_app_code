@@ -187,7 +187,7 @@
 						<view class="live_item_info" v-for="(item,index) in this_recommend_list" :key="index">
 							<view class="live_left_info">
 								<image class="this_live_cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
-								<image class="live_status" src="https://xcx.hmzixin.com/upload/images/3.0/Living.png" mode="widthFix"
+								<image class="live_status" src="/static/images/Living.png" mode="widthFix"
 								 v-if="item.status==1"></image>
 								<image class="live_status" src="/static/images/not_live.png" mode="widthFix"
 								 v-else-if="item.status==0"></image>
@@ -1171,7 +1171,7 @@
 	}
 	.advertising_img{
 		width: 100%;
-		background-color: #F0F0F0
+		/* background-color: #F0F0F0 */
 	}
 	
 	.live_left_info{

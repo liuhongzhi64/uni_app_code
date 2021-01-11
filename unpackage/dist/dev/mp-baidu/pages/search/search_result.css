@@ -636,22 +636,8 @@
 	width: 24rpx;
 	height: 24rpx;
 }
-.top-button.data-v-062a8834 {
-	width: 64rpx;
-	line-height: 65rpx;
-	background-image: -webkit-linear-gradient(135deg, #fa3475 0%, #ff6699 100%);
-	background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-	-webkit-box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-	        box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
-	position: fixed;
-	right: 40rpx;
-	bottom: 130px;
-	z-index: 9999;
-	font-size: 26rpx;
-	color: #FFFFFF;
-	text-align: center;
+.go_top_image.data-v-062a8834{
+	width: 80rpx;
 }
 
 

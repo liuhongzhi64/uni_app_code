@@ -200,7 +200,7 @@
 			</view>
 		</view>
 		<!-- 回到顶部 -->
-		<view class="top-button" @tap="ToTop" v-if="showTop"> TOP </view>
+		<image class="go_top_image" v-if="showTop" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
 	</view>
 </template>
 
@@ -466,6 +466,13 @@
 					that.content_list = []
 					that.offset = 0
 					that.get_search()
+					let history_list = []
+					if (uni.getStorageSync("search_list")) {
+						history_list = uni.getStorageSync("search_list")
+					}
+					history_list.unshift(text)
+					history_list = that.setArr(history_list)
+					uni.setStorageSync("search_list", history_list)
 				}
 				else{
 					uni.showToast({
@@ -475,8 +482,22 @@
 					})	
 				}
 			},
+			// 数组去重
+			setArr: function(arr) {
+				//新建一个空数组
+				let newArr = [];
+				for (let i = 0; i < arr.length; i++) {
+					//遍历传入的数组，查找传入数组的值第一次出现的下标
+					if (arr.indexOf(arr[i]) === i) {
+						//push传入数组的一次出现的数字
+						newArr.push(arr[i]);
+					}
+				}
+				//返回新的数组
+				return newArr;
+			},
 			// 返回顶部
-			ToTop: function() {
+			go_to_top: function() {
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 600
@@ -986,19 +1007,8 @@
 		height: 24rpx;
 	}
 	
-	.top-button {
-		width: 64rpx;
-		line-height: 65rpx;
-		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
-		box-shadow: 0rpx 8rpx 16rpx 0rpx rgba(250, 53, 118, 0.32);
-		border-radius: 50%;
-		position: fixed;
-		right: 40rpx;
-		bottom: 130px;
-		z-index: 9999;
-		font-size: 26rpx;
-		color: #FFFFFF;
-		text-align: center;
+	.go_top_image{
+		width: 80rpx;
 	}
 	
 </style>

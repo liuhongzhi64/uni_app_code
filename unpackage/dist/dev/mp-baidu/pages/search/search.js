@@ -243,11 +243,14 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     that.requestUrl = that.request.globalData.requestUrl;
     that.searchContent = option.search;
+    that.getDetails();
+    that.advertising();
+  },
+  onShow: function onShow() {
+    var that = this;
     if (uni.getStorageSync("search_list")) {
       that.searchHistoryList = uni.getStorageSync("search_list");
     }
-    that.getDetails();
-    that.advertising();
   },
   onReady: function onReady() {
     var that = this;

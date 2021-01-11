@@ -269,6 +269,12 @@ __webpack_require__.r(__webpack_exports__);
         title: '正在开发中...',
         icon: 'none' });
 
+    },
+    go_to_login: function go_to_login() {
+      uni.removeStorageSync('userInfo');
+      uni.navigateTo({
+        url: '/pages/login/login_phone' });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

@@ -111,11 +111,14 @@
 			let that = this
 			that.requestUrl = that.request.globalData.requestUrl
 			that.searchContent = option.search
+			that.getDetails()
+			that.advertising()
+		},
+		onShow:function(){
+			let that = this
 			if (uni.getStorageSync("search_list")) {
 				that.searchHistoryList = uni.getStorageSync("search_list")
 			}
-			that.getDetails()
-			that.advertising()
 		},
 		onReady() {
 			let that = this;

@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/open_screen",
     "pages/index/index",
     "pages/goods/goods_detail",
     "pages/agreement/agreement",
@@ -84,12 +85,6 @@
         "iconPath": "static/images/footer_classify.png",
         "selectedIconPath": "static/images/footer_classify_select.png",
         "text": "分类"
-      },
-      {
-        "pagePath": "pages/diary/diary",
-        "iconPath": "static/images/footer_diary.png",
-        "selectedIconPath": "static/images/footer_diary_seclect.png",
-        "text": "日记"
       },
       {
         "pagePath": "pages/doctor/doctor",

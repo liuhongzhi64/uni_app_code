@@ -177,7 +177,7 @@
 				change_please:0,
 				doctor_please_list:[],
 				show_doctor_classfiy:false,
-				classfiy_top:0
+				classfiy_top:605
 			}
 		},
 		onShow:function(){
@@ -187,6 +187,7 @@
 			// console.log(event.scrollTop)
 			let that = this
 			let top = event.scrollTop
+			// console.log(top)
 			if(top<that.classfiy_top){
 				that.show_doctor_classfiy = false
 			} else if(top>that.classfiy_top){
@@ -204,7 +205,7 @@
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
@@ -224,8 +225,8 @@
 				success:function(res){
 					let info = uni.createSelectorQuery().select("#this_doctor_classfiy")
 					info.boundingClientRect(function(data) { 
-						console.log(data,222,that.menuBottom)
-						that.classfiy_top = data.top+that.menuBottom-5
+						// that.classfiy_top = data.top+that.menuBottom-5
+						// console.log(that.classfiy_top)
 						// +that.menuBottom+13
 					}).exec()
 				}
@@ -233,9 +234,8 @@
 			uni.getSystemInfo({
 				success:function(res){
 					let info = uni.createSelectorQuery().select("#line_img")
-					info.boundingClientRect(function(data) { 
-						console.log(data,33333)
-						that.classfiy_top = data.top+data.height+that.menuBottom
+					info.boundingClientRect(function(data) {
+						// that.classfiy_top = data.top+data.height+that.menuBottom-30
 					}).exec()
 				}
 			})

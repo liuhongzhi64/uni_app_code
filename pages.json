@@ -3,7 +3,10 @@
 
 		// 测试时的首页
 			
-		
+		{
+			"path": "pages/index/open_screen", //我的
+			"style": {}
+		},
 			
 		// 首页
 		{
@@ -325,12 +328,12 @@
 				"selectedIconPath": "static/images/footer_classify_select.png",
 				"text": "分类"
 			},
-			{
-				"pagePath": "pages/diary/diary",
-				"iconPath": "static/images/footer_diary.png",
-				"selectedIconPath": "static/images/footer_diary_seclect.png",
-				"text": "日记"
-			},
+			// {
+			// 	"pagePath": "pages/diary/diary",
+			// 	"iconPath": "static/images/footer_diary.png",
+			// 	"selectedIconPath": "static/images/footer_diary_seclect.png",
+			// 	"text": "日记"
+			// },
 			// {
 			// 	"pagePath": "pages/diary/diary",
 			// 	"iconPath": "https://xcx.hmzixin.com/upload/images/3.0/footer_member_gary.png", //footer_member.png

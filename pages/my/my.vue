@@ -37,7 +37,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="top_advertising">
+		<view class="top_advertising" @tap='go_to_member'>
 			<image src="https://img-blog.csdnimg.cn/202006161419295.jpg" mode="widthFix"></image>
 		</view>
 		<view class="content">
@@ -54,7 +54,7 @@
 							<view class="order-image">
 								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_unpaid.png" mode="widthFix"></image>
 							</view>
-							<view class="order-number"> {{orderList.need_pay||0}} </view>
+							<view class="order-number" v-if="orderList.need_pay>0"> {{orderList.need_pay}} </view>
 						</view>
 						<view class="order-name"> 待付款 </view>
 					</view>
@@ -63,7 +63,7 @@
 							<view class="order-image">
 								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_paid.png" mode="widthFix"></image>
 							</view>
-							<view class="order-number"> {{orderList.pay||0}} </view>
+							<view class="order-number" v-if="orderList.pay>0"> {{orderList.pay}} </view>
 						</view>
 						<view class="order-name"> 已付款 </view>
 					</view>
@@ -80,7 +80,7 @@
 							<view class="order-image">
 								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_evaluated.png" mode="widthFix"></image>
 							</view>
-							<view class="order-number"> {{orderList.not_comment||0}} </view>
+							<view class="order-number" v-if="orderList.not_comment>0"> {{orderList.not_comment}} </view>
 						</view>
 						<view class="order-name"> 待评价 </view>
 					</view>
@@ -111,13 +111,7 @@
 				<view class="serve-and-tool-title"> 服务与工具 </view>
 				<view class="serve-and-tool-list">
 					<view class="serve-tool-list" v-for="(item,index) in serveToolList"  :key='index'>
-						<view class="tool-item" @tap="go_top_page(0)" v-if="item.name=='员工服务'">
-							<view class="tool-image">
-								<image :src="item.icon" mode="widthFix"></image>
-							</view>
-							<view class="tool-name"> {{item.name}} </view>
-						</view>
-						<navigator class="tool-item" :url="'/pages'+item.page" v-else>
+						<navigator class="tool-item" :url="'/pages'+item.page">
 							<view class="tool-image">
 								<image :src="item.icon" mode="widthFix"></image>
 							</view>
@@ -181,70 +175,80 @@
 				],
 				orderList: {},
 				serveToolList: [{
-						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_car.png",
+						icon: "/static/images/my_car.png",
 						name: "购物车",
 						page: "/cart/cart"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_ask.png",
-						name: "我的问答",
-						page: ""
-					},
-					{
-						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_dairy.png",
+						icon: "/static/images/my_dairy.png",
 						name: "我的日记",
 						page: "/diary/diary_personal?route=my"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_collection.png",
+						icon: "/static/images/my_collection.png",
 						name: "我的收藏",
 						page: "/my/my_collection"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_news.png",
+						icon: "/static/images/my_news.png",
 						name: "我的消息",
 						page: "/message/message"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/3.0/my_evaluate.png",
+						icon: "/static/images/my_evaluate.png",
 						name: "我的评价",
 						page: "/my/my_comment?index=1"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/c_staff.png",
+						icon: "/static/images/my_staff.png",
 						name: "员工服务",
 						page: "/other/record"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/c_assess.png",
+						icon: "/static/images/my_healthy.png",
 						name: "健康评估",
 						page: "/other/assess"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/c_appointment.png",
+						icon: "/static/images/my_register.png",
 						name: "自助挂号",
 						page: "/other/jump?url=appointment/"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/c_subscribe.png",
+						icon: "/static/images/my_appointment.png",
 						name: "自助预约",
 						page: "/other/subscribe?h5type=0"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/c_my_appointment.png",
+						icon: "/static/images/my_myappointment.png",
 						name: "我的预约",
 						page: "/other/subscribe?h5type=1"
 					},
 					{
-						icon: "https://xcx.hmzixin.com/upload/images/c_material.png",
+						icon: "/static/images/my_material.png",
 						name: "物资领取",
 						page: "/other/jump?url=get-present/"
 					},
 					{
-						icon: "/static/images/edit.png",
+						icon: "/static/images/my_poster.png",
+						name: "个人海报",
+						page: "/my/my_poster"
+					},
+					{
+						icon: "/static/images/my_address.png",
+						name: "地址管理",
+						page: "/my/harves_address"
+					},
+					{
+						icon: "/static/images/my_feedback.png",
 						name: "意见反馈",
 						page: "/my/my_opinion"
-					}
+					},
+					{
+						icon: "/static/images/my_about.png",
+						name: "关于整呗",
+						page: "/my/my_about"
+					},
 				],
 				user_info:{},
 				productList: [],
@@ -261,9 +265,6 @@
 			let that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
-			// // 猜你喜欢
-			// that.getLike()
-			// 广告
 			that.advertising()
 			// 个人中心卡券订单浮标数据
 			// that.getCardOrder()
@@ -294,9 +295,8 @@
 		},
 		onReady() {
 			let that = this;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
@@ -380,17 +380,12 @@
 						let data = res.data.data
 						if (data.length > 0) {
 							that.productList = that.productList.concat(data)
-						} else {
+						} else if(that.offset>0&&data.length==0) {
 							uni.showToast({
 								title: '没有更多了',
 								icon: 'none'
 							})
 						}
-					} else {
-						uni.showToast({
-							title: '没有更多了',
-							icon: 'none'
-						})
 					}
 				})
 			},
@@ -405,7 +400,6 @@
 						let data = res.data.data
 						that.orderList = data
 						that.cardList[0].number = data.sale_card
-						// console.log(data)
 					}
 				})
 			},
@@ -418,7 +412,6 @@
 				that.request.uniRequest("my", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						console.log(data)
 					}
 				})
 			},
@@ -445,16 +438,11 @@
 					url: `/pages/my/my_comment`,
 				})
 			},
-			go_top_page:function(type){
-				let that = this
-				// type 0 员工服务
-				if(type==0){
-					uni.showModal({
-						title:'提示',
-						content:'仅限员工可用进入哟~',
-						showCancel:false
-					})
-				}
+			go_to_member:function(){
+				uni.showToast({
+					title:'敬请期待···',
+					icon:'none'
+				})
 			}
 		}
 	}

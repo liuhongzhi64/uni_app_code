@@ -205,7 +205,6 @@
 		width: 100%;
 		height: 500rpx;
 		background-color: #FFFFFF;
-		/* text-indent: 20rpx; */
 		padding: 20rpx ;
 	}
 	.top_info{

@@ -14,7 +14,7 @@
 			<view class="login-input" :style="[{'margin-top':menuBottom+10+'px'}]">
 				<view class="login-message">
 					<view class="phone">
-						<input class="phone-input" type="number" @blur="phoneInput" placeholder="请输入手机号" maxlength="11" />
+						<input class="phone-input" type="number" @blur="phoneInput" :placeholder="this_phone||'请输入手机号'" maxlength="11" />
 					</view>
 					<view class="phone-hint" v-if="!phoneValueState"> *请输入手机号 / 请输入正确的手机号 </view>
 
@@ -64,7 +64,8 @@
 				thisPlatform:'' ,//运行环境
 				count_down:60, //倒计时
 				show_count_down:false,//显示倒计时
-				timer:null
+				timer:null,
+				this_phone:''
 			}
 		},
 		onShow: function() {
@@ -77,6 +78,10 @@
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
+			let userInfo = uni.getStorageSync("userInfo")
+			if(userInfo){
+				that.this_phone = userInfo.tel
+			}
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
@@ -108,7 +113,7 @@
 				});
 			},
 			phoneInput: function(event) {
-				this.phoneValue = event.target.value
+				this.phoneValue = event.target.value || this.this_phone
 			},
 			// 获取、刷新图形码
 			getImageCode: function() {
@@ -322,7 +327,7 @@
 
 	.login-input {
 		padding: 300rpx 45rpx 100rpx;
-		background: #f6f6f6 url(https://xcx.hmzixin.com/upload/images/3.0/login_phone_bg.jpg?v=0) no-repeat;
+		background: #f6f6f6 url(/static/images/login_phone_bg.jpg) no-repeat;
 		background-size: 100%;
 	}
 

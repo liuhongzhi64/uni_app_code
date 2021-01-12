@@ -379,7 +379,7 @@
 				<view class="isShow-content">
 					<view class="add-card-top">
 						<view class="left-head_img">
-							<image :src="requestUrl+contentList.sku.head_img" mode="widthFix"></image>
+							<image :src="requestUrl+contentList.sku.head_img" mode="widthFix" @tap="show_photo(requestUrl+contentList.sku.head_img)"></image>
 						</view>
 						<view class="right-goods-info">
 							<view class="goods-discounts" v-if="contentList.sku.act.length!=0" @tap='seeMore(0)'> 参与优惠 </view>
@@ -1310,6 +1310,16 @@
 							title:'分享失败'
 						})
 					}
+				})
+			},
+			show_photo:function(url){
+				let that = this
+				let list = []
+				list.push(url)
+				uni.previewImage({
+					current:0,
+					urls:list,
+					indicator:'none',
 				})
 			}
 		}

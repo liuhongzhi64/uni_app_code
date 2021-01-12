@@ -196,8 +196,7 @@ var _default =
       thisPlatform: '', //运行环境
       count_down: 60, //倒计时
       show_count_down: false, //显示倒计时
-      timer: null,
-      this_phone: '' };
+      timer: null };
 
   },
   onShow: function onShow() {
@@ -210,10 +209,6 @@ var _default =
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    var userInfo = uni.getStorageSync("userInfo");
-    if (userInfo) {
-      that.this_phone = userInfo.tel;
-    }
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({
@@ -245,7 +240,7 @@ var _default =
 
     },
     phoneInput: function phoneInput(event) {
-      this.phoneValue = event.target.value || this.this_phone;
+      this.phoneValue = event.target.value;
     },
     // 获取、刷新图形码
     getImageCode: function getImageCode() {var _this = this;

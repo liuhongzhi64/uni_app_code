@@ -415,7 +415,6 @@
 							</view>
 						</view>
 						<view class="bottom-images">
-							<image src="../../static/images/cartBg.png" mode=""></image>
 							<view class="bottom-hint">本喵也是有底线的~</view>
 						</view>
 					</view>
@@ -1598,11 +1597,6 @@
 		align-items: center;
 		flex-direction: column;
 		margin-top: 70rpx;
-	}
-
-	.bottom-images image {
-		width: 366rpx;
-		height: 260rpx;
 	}
 
 	.bottom-hint {

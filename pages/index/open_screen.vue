@@ -89,10 +89,12 @@
 				return time
 			},
 			go_to_index:function(){
+				let that = this
+				that.count_down = 0
 				uni.switchTab({
 					url: '/pages/index/index'
 				})
-			}
+			},
 		}
 	}
 </script>

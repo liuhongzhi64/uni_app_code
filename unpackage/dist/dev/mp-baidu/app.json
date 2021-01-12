@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/open_screen",
+    "pages/my/my",
+    "pages/my/my_poster",
     "pages/index/index",
     "pages/goods/goods_detail",
     "pages/agreement/agreement",
@@ -38,7 +40,6 @@
     "pages/login/register",
     "pages/message/message",
     "pages/message/message_detail",
-    "pages/my/my",
     "pages/my/account_number",
     "pages/my/add_address",
     "pages/my/after_sales",

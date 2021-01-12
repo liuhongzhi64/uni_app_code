@@ -199,7 +199,7 @@
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {

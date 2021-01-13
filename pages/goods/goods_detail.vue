@@ -1307,7 +1307,8 @@
 					},
 					fail:function(err){
 						uni.showToast({
-							title:'分享失败'
+							title:'分享失败',
+							icon:'none'
 						})
 					}
 				})

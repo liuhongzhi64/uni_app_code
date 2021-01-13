@@ -73,7 +73,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '/static/images/back2.png',
+				backImage: '/static/images/return.png',
 				title: '我的评价',
 				tabBars: [
 					{

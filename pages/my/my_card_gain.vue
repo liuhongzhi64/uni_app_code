@@ -1,10 +1,13 @@
 <template>
 	<view class="my_card_gain" :style="show_scan ? 'height: 80vh' : 'min-height:100vh'">
-		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft'
-		 :menuBottom='menuBottom' @go_back='go_back'>
-		</topBar>
-
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
+			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
+				<view class="back" @tap="go_back">
+					<image src="/static/images/return.png" mode=""></image>
+				</view>
+				<view class="title"> 领取卡券 </view>
+			</view>
+		</view>
 		<view class="top-swiper-tab" :style="[{'top':menuBottom+10+'px'}]">
 			<swiperTabHead :tabBars="tabBars" :size='size' :line="line" :tabIndex="tabIndex" 
 			 @tabtap="tabtap"></swiperTabHead>
@@ -79,28 +82,19 @@
 </template>
 
 <script>
-	import topBar from "../../components/topBar.vue";
 	import swiperTabHead from "../../components/swiper-tab.vue";
 	import ticket from "../../components/ticket.vue"
 	export default {
 		components: {
-			topBar,
 			swiperTabHead,
 			ticket,
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				height:0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
-				barName: 'back', //导航条名称
-				topBackgroundColor: '#222222',
-				color: '#FFFFFF',
-				backImage: '/static/images/return.png',
-				title: '领取卡券',
 				tabBars: [
 					{
 						name: '全部',
@@ -181,32 +175,33 @@
 		},
 		onReady() {
 			let that = this;
-			// 判定运行平台
 			that.height = uni.getSystemInfoSync().windowHeight ;
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 						that.menuPaddingRight = res.windowWidth - menu.right
 					}
 				})
 			} 
 			else if (platform == 'APP'){
-				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 32
-				that.menuLeft = 278
 			}
 		},
 		methods: {
+			go_back:function(){
+				let that = this
+				that.set_time = 0
+				uni.navigateBack({
+					delta: 1
+				});
+			},
 			// 获取卡卷
 			getCard: function(type) {
 				let that = this
@@ -379,15 +374,48 @@
 				let that = this
 				that.show_scan = !that.show_scan
 			},
-			go_back:function(){
-				let that = this
-				that.set_time +=1
-			}
 		}
 	}
 </script>
 
 <style scoped>
+	.top-bar {
+		text-align: center;
+		font-size: 40rpx;
+		position: fixed;
+		z-index: 100;
+		width: 100%;
+		top: 0;
+		left: 0;
+		background-color: #222222;
+		color: #FFFFFF;
+	}
+	
+	.back-title {
+		font-size: 38rpx;
+		position: relative;
+		text-align: center;
+	}
+	
+	.back {
+		display: flex;
+		align-items: center;
+		margin-left: 20rpx;
+		width: 60rpx;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	
+	.back image {
+		width: 36rpx;
+		height: 36rpx;
+	}
+	
+	.back-title .title {
+		font-size: 37rpx;
+	}
 	.my_card_gain {
 		height: 100%;
 	}

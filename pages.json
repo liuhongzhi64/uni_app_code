@@ -13,11 +13,11 @@
 			"path": "pages/my/my", //我的
 			"style": {}
 		},	
-		
 		{
 			"path": "pages/my/my_poster", //个人海报
 			"style": {}
-		},	
+		},
+			
 		// 首页
 		{
 			"path": "pages/index/index"

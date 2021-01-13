@@ -1,7 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "top-bar": "/components/topBar",
     "swiper-tab-head": "/components/swiper-tab",
     "ticket": "/components/ticket"
   }

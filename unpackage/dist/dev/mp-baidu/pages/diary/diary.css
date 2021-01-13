@@ -15,6 +15,15 @@
 	-webkit-justify-content: space-around;
 	        justify-content: space-around;
 	color: #FFFFFF;
+	padding-left: 40rpx;
+}
+.back_image.data-v-61fd5b0e{
+	margin-left: 20rpx;
+	width: 36rpx;
+	height: 36rpx;
+	padding-left: 10rpx;
+	position: absolute;
+	left: 0;
 }
 .top-navigation-bars.data-v-61fd5b0e {
 	font-size: 32rpx;

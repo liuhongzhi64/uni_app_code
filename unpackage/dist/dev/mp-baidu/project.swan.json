@@ -5,6 +5,9 @@
     "condition": {},
     "host": "baiduboxapp",
     "libVersion": "",
+    "preview": {
+        "packageId": 1048129
+    },
     "projectname": "华美整呗",
     "setting": {
         "urlCheck": false

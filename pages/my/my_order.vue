@@ -79,7 +79,8 @@
 												</view>
 											</view>
 											<view class="order_goods-content">
-												<image :src="requestUrl+is.img" @tap="goods_detail(is.sku_id,is.encrypted_id)"></image>
+												<image :src="requestUrl+is.img" mode="widthFix"
+												 @tap="goods_detail(is.show_goods_info,is.sku_id,is.encrypted_id)"></image>
 												<view class="goods_right_content">
 													<view class="goods-title"> {{is.spu_name}} </view>
 													<view class="content_all_items" @tap='this_show_sku_spec(index,k,sindex)'>
@@ -125,8 +126,8 @@
 													<scroll-view class="order_goods-image" scroll-x="true">
 														<view class="images_list">
 															<view class="image_items" v-for="(is,sindex) in item.is_post_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img"
-																 @tap="goods_detail(is.sku_id,is.encrypted_id)"></image>
+																<image class="images-item" :src="requestUrl+is.img" mode="widthFix"
+																 @tap="goods_detail(is.show_goods_info,is.sku_id,is.encrypted_id)"></image>
 															</view>
 														</view>
 													</scroll-view>
@@ -153,8 +154,8 @@
 													<scroll-view class="order_goods-image" scroll-x="true">
 														<view class="images_list">
 															<view class="image_items" v-for="(is,sindex) in item.scan_one_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img"
-																 @tap="goods_detail(is.sku_id,is.encrypted_id)"></image>
+																<image class="images-item" :src="requestUrl+is.img" mode="widthFix"
+																 @tap="goods_detail(is.show_goods_info,is.sku_id,is.encrypted_id)"></image>
 															</view>
 														</view>
 													</scroll-view>
@@ -181,8 +182,8 @@
 													<scroll-view class="order_goods-image" scroll-x="true">
 														<view class="images_list">
 															<view class="image_items" v-for="(is,sindex) in item.scan_two_list" :key='sindex'>
-																<image class="images-item" :src="requestUrl+is.img"
-																 @tap="goods_detail(is.sku_id,is.encrypted_id)" ></image>
+																<image class="images-item" :src="requestUrl+is.img" mode="widthFix"
+																 @tap="goods_detail(is.show_goods_info,is.sku_id,is.encrypted_id)" ></image>
 															</view>
 														</view>
 													</scroll-view>
@@ -279,7 +280,8 @@
 										</view>
 									</view>
 									<view class="order_goods-content">
-										<image :src="requestUrl+item.img" @tap="goods_detail(item.sku_id,item.encrypted_id)"></image>
+										<image :src="requestUrl+item.img" mode="widthFix"
+										 @tap="goods_detail(is.show_goods_info,item.sku_id,item.encrypted_id)"></image>
 										<view class="goods_right_content">
 											<view class="goods-title"> {{item.spu_name}} </view>
 											<view class="content_all_items" @tap='this_show_sku_spec(index)'>
@@ -738,11 +740,6 @@
 				let house = 0
 				let second = 0
 				let minute = 0
-				// house = parseInt((date) /1000 / 60 / 60 % 24)
-				// hour = dateTime.getHours();
-				// minute = dateTime.getMinutes();
-				// second = dateTime.getSeconds();
-
 				second = parseInt((date) / 60 % 60)
 				minute = parseInt((date) % 60)
 				date = new Date(date * 1000)
@@ -779,10 +776,13 @@
 				that.get_my_order()
 			},
 			// 商品详情
-			goods_detail:function(id,encrypted_id){
-				uni.navigateTo({
-					url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
-				})
+			goods_detail:function(show_goods_info,id,encrypted_id){
+				if(show_goods_info==1&&show_goods_info){
+					uni.navigateTo({
+						url: `/pages/goods/goods_detail?sku_id=${id}&encrypted_id=${encrypted_id}`,
+					})
+				}
+				
 			},
 			// 显示规格
 			this_show_sku_spec: function(index, k, sindex) {
@@ -1351,14 +1351,14 @@
 		color: #fa3475;
 	}
 	.top-button {
-		width: 120rpx;
+		width: 80rpx;
 		position: fixed;
 		right: 40rpx;
-		bottom: 130px;
+		bottom: 120px;
 		z-index: 9999;
 	}
 	.top-button image{
-		width: 120rpx;
+		width: 80rpx;
 	}
 	/* 优惠信息 */
 	.discount_content{

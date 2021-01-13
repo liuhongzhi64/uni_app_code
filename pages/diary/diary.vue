@@ -2,6 +2,7 @@
 	<view class="diary">
 		<view class="diary-top-bar">
 			<view class="bar-name" :style="[{'height':menuHeight+'px','margin-top':menuTop+'px','border-radius':menuHeight/2+'px','line-height':menuHeight+'px','padding-right':menuWidth+20+'px','padding-bottom':10+'px'}]">
+				<image class="back_image" @tap="go_back" src="/static/images/return.png" :style="[{'top':menuTop+8+'px'}]"></image>
 				<view class="top-navigation-bars" v-for="(item,index) in navigationList" :key='index' :class="{checked :btnnum == index}"
 				 @tap="change_top(index)"> {{ item }}
 					<view :class="{checkedBar :btnnum == index}"> </view>
@@ -352,7 +353,11 @@
 					}
 				})
 			},
-
+			go_back:function(){
+				uni.navigateBack({
+					delta: 1
+				});
+			},
 		}
 	}
 </script>
@@ -372,6 +377,16 @@
 		display: flex;
 		justify-content: space-around;
 		color: #FFFFFF;
+		padding-left: 40rpx;
+	}
+	
+	.back_image{
+		margin-left: 20rpx;
+		width: 36rpx;
+		height: 36rpx;
+		padding-left: 10rpx;
+		position: absolute;
+		left: 0;
 	}
 
 	.top-navigation-bars {

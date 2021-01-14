@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/open_screen",
     "pages/my/my",
-    "pages/my/my_poster",
     "pages/index/index",
     "pages/goods/goods_detail",
     "pages/agreement/agreement",
@@ -56,6 +55,7 @@
     "pages/my/my_order_refund_progress",
     "pages/my/my_order_refund_reason",
     "pages/my/my_set",
+    "pages/my/my_poster",
     "pages/my/write_comment",
     "pages/other/jump",
     "pages/pay_success/pay_success",

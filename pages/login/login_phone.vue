@@ -4,7 +4,7 @@
 			<view class="login-top" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 					<view class="back" @tap='goBack'>
-						<image src="../../static/images/return.png" mode=""></image>
+						<image src="/static/images/return.png" mode=""></image>
 					</view>
 					<view class="title">
 						<view class="title-name" > 手机号登录 </view>

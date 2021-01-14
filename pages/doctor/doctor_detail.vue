@@ -141,10 +141,10 @@
 				<text :class="doctor_info.is_doctor_collect == 0?'':'collect_hover'">收藏</text>
 			</view>
 			<view class="mar" @tap='go_to_consult'>
-				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_consult.png"></image>咨询
+				<image class="icon-img" src="/static/images/icon_consult.png"></image>咨询
 			</view>
-			<view class="mar" @tap='share(doctor_id)'>
-				<image class="icon-img" src="https://xcx.hmzixin.com/upload/images/3.0/icon_share.png"></image>分享
+			<view class="mar" @tap='on_share(doctor_id)'>
+				<image class="icon-img" src="/static/images/icon_share.png"></image>分享
 			</view>
 		</view>
 	</view>
@@ -169,7 +169,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#000000',
 				color: '#FFFFFF',
-				backImage: '/static/images/back2.png',
+				backImage: '/static/images/return.png',
 				title: '主页',
 				requestUrl: '',
 				doctor_id: 4, //4
@@ -368,7 +368,7 @@
 					})
 				}
 			},
-			share: function(id) {
+			on_share: function(id) {
 				console.log("分享了id是" + id + "的医生")
 			},
 			go_to_consult: function() {

@@ -114,7 +114,7 @@
 				<view class="ticket-images-exclusiveName" v-if="!item.status"
 				 :style="[{'background-image': item.status==0 && item.get_end_time-time_now>0  && item.store-item.take_store >0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name"  >
-						<image class="note_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png " ></image>
+						<image class="note_img" src="/static/images/card_label_bg.png" ></image>
 						<text class="this_note">{{item.note}}</text> 
 					</view>
 					<view class="all-exclusive-price" v-if="item.condition">
@@ -162,7 +162,7 @@
 				<view class="ticket-images-exclusiveName" v-else
 				 :style="[{'background-image': item.status!=2 && item.use_end_time-time_now>0  ? `linear-gradient(-90deg,  ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" >
-						<image class="note_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png " ></image>
+						<image class="note_img" src="/static/images/card_label_bg.png " ></image>
 						<text class="this_note">{{item.c_note}}</text> 
 					</view>
 					<view class="all-exclusive-price" v-if="item.c_condition">
@@ -213,28 +213,28 @@
 			</view>
 			<!-- 已抢光 -->
 			<view class="ticket-label-images" v-if="item.store-item.take_store==0">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_no.png" mode=""></image>
+				<image src="/static/images/card_no.png" mode=""></image>
 			</view>
 			<!-- 已结束 -->
 			<view class="ticket-label-images" v-else-if="item.get_end_time-time_now < 0">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_end.png" mode=""></image>
+				<image src="/static/images/card_end.png" mode=""></image>
 			</view>
 			<!-- 上限 -->
 			<view class="ticket-label-images" v-else-if="item.get_limit-item.salecard_user_count==0">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_top.png"></image>
+				<image src="/static/images/card_top.png"></image>
 			</view>			
 			<!-- 已失效 -->
 			<view class="ticket-label-images invalid"
 			 v-else-if="item.use_end_time-time_now<0 && item.use_end_time!=0 ">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_invalid.png" ></image>
+				<image src="/static/images/card_invalid.png" ></image>
 			</view>
 			<!-- 已使用 -->
 			<view class="ticket-label-images invalid" v-else-if="item.status==3">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_used.png" ></image>
+				<image src="/static/images/card_used.png" ></image>
 			</view>
 			<!-- 已核销  -->
 			<view class="ticket-label-images invalid" v-else-if="item.scan==1">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/card_off.png " ></image>
+				<image src="/static/images/card_off.png " ></image>
 			</view>
 		</view>
 		 <!-- 右边的顶部背景https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png -->

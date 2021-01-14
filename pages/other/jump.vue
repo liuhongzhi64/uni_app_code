@@ -1,7 +1,10 @@
 <template>
 	<view class="jump"> 
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuBottom='menuBottom'></topBar>
+		 <view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
+		 	<web-view :src="url"></web-view>
+		 </view>
 	</view>
 </template>
 
@@ -16,36 +19,38 @@
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
 				requestUrl: '',
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#333333',
 				color: '#FFFFFF',
-				backImage: '/static/images/back2.png',
+				backImage: '/static/images/return.png',
 				title: '跳转中...',
+				url: ''
 			}
 		},
 		onLoad: function(options) {
 			const that = this
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
+			console.log(options.url)
+			let url = options.url
+			if(url=='about'){
+				that.url = that.requestUrl + 'html/activity/about/index.html'
+			}
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
@@ -55,7 +60,6 @@
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 30
-				that.menuLeft = 278
 			}
 		},
 		methods: {

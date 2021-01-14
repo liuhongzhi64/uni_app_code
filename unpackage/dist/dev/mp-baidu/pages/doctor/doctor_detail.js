@@ -301,7 +301,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#000000',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '主页',
       requestUrl: '',
       doctor_id: 4, //4
@@ -500,7 +500,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    share: function share(id) {
+    on_share: function on_share(id) {
       console.log("分享了id是" + id + "的医生");
     },
     go_to_consult: function go_to_consult() {

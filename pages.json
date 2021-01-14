@@ -13,10 +13,7 @@
 			"path": "pages/my/my", //我的
 			"style": {}
 		},	
-		{
-			"path": "pages/my/my_poster", //个人海报
-			"style": {}
-		},
+		
 			
 		// 首页
 		{
@@ -272,7 +269,10 @@
 			"path": "pages/my/my_set", //设置
 			"style": {}
 		},
-		
+		{
+			"path": "pages/my/my_poster", //个人海报
+			"style": {}
+		},
 		{
 			"path": "pages/my/write_comment", //写评价
 			"style": {}

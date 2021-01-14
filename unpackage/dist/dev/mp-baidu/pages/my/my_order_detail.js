@@ -626,7 +626,7 @@ __webpack_require__.r(__webpack_exports__);
       height: 0,
       barName: 'back', //导航条名称
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '订单详情',
       state: '已付款', //是否付款
       requestUrl: '',

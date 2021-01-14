@@ -60,12 +60,12 @@
 		</view>
 		<scroll-view class="index_content" :style="[{'min-height':this_height+'px'}]">
 			<view class="index_top_info"
-			 :style="[{'padding-top':show_go_top?menu_bottom*2-10+'px':menu_bottom*2+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
+			 :style="[{'padding-top':show_go_top?menu_bottom*2-10+'px':menu_bottom*2+5+'px','background-image': `linear-gradient( ${index_info.background.up} 0%,  ${index_info.background.up_grounding} 100%)`}]">
 				<view class="top_swiper">
 					<swiper class="banner_swiper" indicator-dots indicator-active-color="#fa3475" autoplay interval="3000" duration="600" circular>
 						<swiper-item class="banner_swiper_item" v-for="(item,index) in index_info.banner.content" :key="index">
 							<navigator class="banner_info" :url="'/pages'+item.page+'?id='+item.page_id">
-								<image class="banner_img" :src="requestUrl+item.img" mode="widthFix"></image>
+								<image class="banner_img" :src="requestUrl+item.img" ></image>
 							</navigator>
 						</swiper-item>
 					</swiper>
@@ -780,13 +780,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding-top: 20rpx;
 	}
 	.banner_info{
-		width: 80%;
+		width: 100%;
+		padding:  20rpx ;
+		border-radius: 16rpx;
 	}
 	.banner_img{
 		width: 100%;
+		height: 270rpx;
 		border-radius: 16rpx;
 	}
 	
@@ -1154,6 +1156,7 @@
 	
 	.live_goods_image image{
 		width: 200rpx;
+		max-height: 240rpx;
 		border-radius: 16rpx;
 	}
 	.centre_advertising{

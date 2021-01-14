@@ -542,7 +542,7 @@ __webpack_require__.r(__webpack_exports__);
       height: 0,
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '我的订单',
       tabBars: [
       {

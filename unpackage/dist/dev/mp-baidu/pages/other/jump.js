@@ -137,6 +137,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     topBar: topBar },
@@ -146,36 +149,38 @@ __webpack_require__.r(__webpack_exports__);
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       height: 0,
       requestUrl: '',
       barName: 'back', //导航条名称
       topBackgroundColor: '#333333',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
-      title: '跳转中...' };
+      backImage: '/static/images/return.png',
+      title: '跳转中...',
+      url: '' };
 
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
+    console.log(options.url);
+    var url = options.url;
+    if (url == 'about') {
+      that.url = that.requestUrl + 'html/activity/about/index.html';
+    }
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
-      // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
@@ -185,7 +190,6 @@ __webpack_require__.r(__webpack_exports__);
       that.menuTop = 40;
       that.menuBottom = 70;
       that.menuHeight = 30;
-      that.menuLeft = 278;
     }
   },
   methods: {} };exports.default = _default;

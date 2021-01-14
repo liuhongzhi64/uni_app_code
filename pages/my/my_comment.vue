@@ -12,7 +12,7 @@
 		</view>
 		<view class="comment-content" :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
 			<view class="no-content" v-if="contentList.length==0">
-				<image src="../../static/images/cartBg.png" mode="widthFix"></image>
+				<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
 				<view class="hint">喵~ 暂无相关</view>
 			</view>
 			<view class="content-item"  v-else >

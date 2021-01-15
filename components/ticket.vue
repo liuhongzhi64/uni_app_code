@@ -83,19 +83,15 @@
 						</view>						
 						<!-- 领取倒计时 -->
 						<view class="receive-time" v-if="item.get_end_time-time_now > 0">
-							距结束还剩
-							<!-- <text class="times">{{ parseInt((item.get_end_time-time_now ) / 60 / 60 % 24) }}</text>
-							<text class="time-line">:</text>
-							<text class="times">{{ parseInt((item.get_end_time-time_now) / 60 % 60) }}</text>
-							<text class="time-line">:</text>
-							<text class="times">{{ parseInt((item.get_end_time-time_now) % 60) }}</text> -->
+							<text class="this_time">距结束</text>
 							<text class="times">{{ item.day }}</text>
-							<text class="time-line">:</text>
+							<text class="time-line">天</text>
 							<text class="times">{{ item.house }}</text>
-							<text class="time-line">:</text>
+							<text class="time-line">时</text>
 							<text class="times">{{ item.second }}</text>
-							<text class="time-line">:</text>
+							<text class="time-line">分</text>
 							<text class="times">{{ item.minute }}</text>
+							<text class="time-line">秒</text>
 						</view>
 						<!-- 使用时间 -->
 						<view class="user-time" v-else-if="!item.get_end_time&&item.c_use_end_time">
@@ -162,7 +158,7 @@
 				<view class="ticket-images-exclusiveName" v-else
 				 :style="[{'background-image': item.status!=2 && item.use_end_time-time_now>0  ? `linear-gradient(-90deg,  ${item.c_card_style} 0%,  ${item.c_card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" >
-						<image class="note_img" src="/static/images/card_label_bg.png " ></image>
+						<image class="note_img" src="/static/images/card_label_bg.png" ></image>
 						<text class="this_note">{{item.c_note}}</text> 
 					</view>
 					<view class="all-exclusive-price" v-if="item.c_condition">
@@ -193,7 +189,7 @@
 					<view class="useing-ticket"
 					 v-if="item.c_use_channel != 1"
 					 :style="{'color': item.c_status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
-					 @tap='userCard(item.c_id,item.c_status)'>
+					 @tap='userCard(item.c_id,item.status)'>
 						立即使用
 					</view>	
 					<view class="useing-ticket" v-else-if="item.c_use_channel == 1 "
@@ -234,7 +230,7 @@
 			</view>
 			<!-- 已核销  -->
 			<view class="ticket-label-images invalid" v-else-if="item.scan==1">
-				<image src="/static/images/card_off.png " ></image>
+				<image src="/static/images/card_off.png" ></image>
 			</view>
 		</view>
 		 <!-- 右边的顶部背景https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png -->
@@ -580,7 +576,7 @@
 		flex: 1;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: 30rpx 32rpx 20rpx;
+		padding: 30rpx 30rpx 20rpx;
 		border-top-left-radius: 16rpx;
 	}
 
@@ -588,7 +584,7 @@
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 3;
 		line-height: 28rpx;
 	}
 
@@ -625,11 +621,13 @@
 		display: flex;
 		margin-top: 16rpx;
 	}
+	.this_time{
+		font-size: 20rpx;
+	}
 
 	.receive-times {
 		font-size: 24rpx;
 		font-weight: bolder;
-		/* margin-top: 80rpx; */
 	}
 
 	.receive-time .times {
@@ -642,12 +640,14 @@
 		text-align: center;
 		line-height: 30rpx;
 		margin-left: 10rpx;
+		font-size: 20rpx;
 	}
 
 	.receive-time .time-line {
 		color: #fa3475;
 		margin-left: 10rpx;
 		line-height: 30rpx;
+		font-size: 20rpx;
 	}
 
 	.ticket-state text {

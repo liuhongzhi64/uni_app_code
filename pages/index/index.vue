@@ -195,15 +195,14 @@
 								 v-else-if="item.status==-1"></image>
 							</view>
 							<view class="live_right">
-								<!-- <view class="live_title"> {{ item.title }} </view> -->
+								<scroll-view class="live_top_content" scroll-x="true">
 								<view class="right_live_goods">
 									<navigator class="live_goods_image" v-for="(i,k) in item.live_goods" :key='k'
 									 :url="'/pages/goods/goods_detail?sku_id='+i.sku_id+'&encrypted_id='+i.encrypted_id">
-									<!-- <view class="live_goods_image" v-for="(i,k) in item.live_goods" :key='k'> -->
 										<image :src="requestUrl+i.head_img" mode="widthFix"></image>
-									<!-- </view> -->
 									</navigator>
 								</view>
+								</scroll-view>
 							</view>
 						</view>
 					</view>
@@ -221,8 +220,7 @@
 				</navigator>
 				<view class="close_popup" @tap='show_popup'></view>
 			</view>
-		</scroll-view>
-		
+		</scroll-view>		
 	</view>
 </template>
 
@@ -346,8 +344,6 @@
 				that.menu_top = 40
 				that.menu_bottom = 70
 				that.menu_height = 26
-				// that.menu_left = 280
-				// console.log(that.this_width,that.search_width)
 				that.search_width = that.this_width - 20
 				that.menu_left = that.search_width+10
 				// that.search_width = that.menu_left + that.menu_width - (that.this_width - that.menu_width - that.menu_left)
@@ -1144,6 +1140,7 @@
 	
 	.live_right{
 		padding: 20rpx;
+		display: flex;
 	}
 	
 	.right_live_goods{

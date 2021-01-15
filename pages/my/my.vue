@@ -11,11 +11,19 @@
 							<image class="user-head-portrait_image" :src="requestUrl+user_info.head_ico"></image>
 							<view class="name-cart-phone" v-if="user_info.tel">
 								<view class="user-name-cart">
-									<view class="user-name"> {{ user_info.real_name || user_info.nick_name || '--' }} </view>
+									<view class="user-name"> {{ user_info.real_name || user_info.nick_name  }} </view>
 									<!-- <view class="user-cart"> 时尚卡 </view> -->
 								</view>
 								<view class="phone-account-number">
-									<view class="phone"> {{ user_info.tel || '--' }} </view>
+									<view class="phone"> {{ user_info.tel }} </view>
+								</view>
+							</view>
+							<view class="name-cart-phone" v-else>
+								<view class="user-name-cart">
+									<view class="user-name"> -- </view>
+								</view>
+								<view class="phone-account-number">
+									<view class="phone"> -- </view>
 								</view>
 							</view>
 						</view>

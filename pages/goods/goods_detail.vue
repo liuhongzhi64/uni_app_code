@@ -22,11 +22,13 @@
 					<view id="topSwiper">
 						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff"
 						 autoplay interval='3000' duration="600" circular @change="change_swiper" :style="{height:swiper_height+'px'}">
-							<!-- <swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
+							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
 								<view class="video" @tap='goToVideo(contentList.video_list)'>
-									<image class="swiper_video" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
+									<image :src="requestUrl+swiperList[0]" class="list_img0" mode="widthFix" lazy-load @load='get_img_height'>
+									</image>
+									<image class="swiper_video" src="/static/images/video_play.png" ></image>
 								</view>
-							</swiper-item> -->
+							</swiper-item>
 							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
 								<view class="top-swiper-item" :style="{height:swiper_height+'px'}">
 									<!-- <image class="banner-img" :class="'list_img'+index"

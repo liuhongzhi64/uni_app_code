@@ -64,7 +64,7 @@
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
-	padding: 30rpx 32rpx 20rpx;
+	padding: 30rpx 30rpx 20rpx;
 	-webkit-border-top-left-radius: 16rpx;
 	        border-top-left-radius: 16rpx;
 }
@@ -72,7 +72,7 @@
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: 3;
 	line-height: 28rpx;
 }
 .ticket-labels.data-v-ab11f3f2 {
@@ -114,10 +114,12 @@
 	display: flex;
 	margin-top: 16rpx;
 }
+.this_time.data-v-ab11f3f2{
+	font-size: 20rpx;
+}
 .receive-times.data-v-ab11f3f2 {
 	font-size: 24rpx;
 	font-weight: bolder;
-	/* margin-top: 80rpx; */
 }
 .receive-time .times.data-v-ab11f3f2 {
 	display: inline-block;
@@ -130,11 +132,13 @@
 	text-align: center;
 	line-height: 30rpx;
 	margin-left: 10rpx;
+	font-size: 20rpx;
 }
 .receive-time .time-line.data-v-ab11f3f2 {
 	color: #fa3475;
 	margin-left: 10rpx;
 	line-height: 30rpx;
+	font-size: 20rpx;
 }
 .ticket-state text.data-v-ab11f3f2 {
 	margin-left: 10rpx;

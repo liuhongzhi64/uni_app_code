@@ -201,7 +201,7 @@
 					</view>
 					<!-- 过期失效的商品 -->
 					<view class="shoping-cart">
-						<view class="cart-shopping-show" v-for="(items,k) in contentList.sku_list" :key='k' v-show="items.category_status==0">
+						<view class="cart-shopping-show" v-for="(items,k) in contentList.sku_list" :key='k' v-if="items.category_status==0">
 							<view class="change-check-see-more">
 								<view class="change-check">
 									<text> 失效的商品 </text>
@@ -498,6 +498,7 @@
 				}, //订单的信息
 				show_discount: false, //显示优惠的弹窗
 				verification_specAttr: [], //验证选规格版本
+				set_time:0,//倒计时关闭判定
 			}
 		},
 		onReachBottom: function() {
@@ -518,7 +519,7 @@
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
 			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				// 获取屏幕高度
 				uni.getSystemInfo({
@@ -1193,9 +1194,17 @@
 							let data = res.data.data
 							that.isShowDiscount = !that.isShowDiscount
 							if (that.isShowDiscount) {
+								that.set_time = 0
 								for (let i = 0; i < data.cards.length; i++) {
 									data.cards[i].showTicketDetails = false
 									data.cards[i].arrowImages = '/static/images/arrow-down.png'
+									if(data.cards[i].get_end_time-data.time_now>0&&that.isShowDiscount){
+										data.cards[i].day = 0
+										data.cards[i].house = 0
+										data.cards[i].second = 0
+										data.cards[i].minute = 0
+										that.set_dount_down(data.cards[i].get_end_time-data.time_now, i)
+									}
 								}
 								that.cardList = data
 							} else {
@@ -1210,8 +1219,49 @@
 					that.isShowDiscount = !that.isShowDiscount
 					if (!that.isShowDiscount) {
 						that.cardList = []
+						that.set_time=1
 					}
 				}
+			},
+			// 开启倒计时
+			set_dount_down:function(time, i) {
+				let that = this
+				let secondTime = 0; // 分
+				let hourTime = 0; // 小时
+				let day = 0; //天
+				let timers = setInterval(function() {
+					time -= 1
+					let minuteTime = time; // 秒
+					if (minuteTime > 60) {
+						secondTime = parseInt(minuteTime / 60)
+						minuteTime = parseInt(minuteTime % 60)
+						if (secondTime > 60) {
+							hourTime = parseInt(secondTime / 60)
+							secondTime = parseInt(secondTime % 60)
+							if (hourTime > 24) {
+								day = parseInt(hourTime / 24)
+								hourTime = parseInt(hourTime % 60)
+							}
+						}
+					} else {
+						secondTime = 0
+						hourTime = 0
+						day = 0
+					}
+					
+					if(that.set_time==0){
+						that.cardList.cards[i].day = day
+						that.cardList.cards[i].house = hourTime
+						that.cardList.cards[i].second = secondTime
+						that.cardList.cards[i].minute = minuteTime
+					}
+					if (time <= 0) {
+						clearInterval(timers)
+					}
+					if(that.set_time>0){
+						clearInterval(timers)
+					}
+				}, 1000)
 			},
 			// 领取卡券
 			getCards: function(cardId, prompt, index) {
@@ -1233,7 +1283,10 @@
 			},
 			// 使用卡券
 			useCard: function(id) {
-				console.log('使用的卡券id:', id)
+				// console.log('使用的卡券id:', id)
+				uni.navigateTo({
+					url: `/pages/my/my_card_use?id=${id}`
+				});
 			},
 			showTicket: function(cardId) {
 				let that = this
@@ -1289,6 +1342,10 @@
 				that.getUserCart()
 				that.allchecked = false
 				uni.removeStorageSync('contentList');
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 300
+				})
 				that.order_info = {
 					sale_info: []
 				} //订单的信息

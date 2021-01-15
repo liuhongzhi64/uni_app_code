@@ -574,6 +574,9 @@
 }
 .live_right.data-v-57280228{
 	padding: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
 }
 .right_live_goods.data-v-57280228{
 	display: -webkit-box;

@@ -777,6 +777,8 @@
 		border: 1rpx solid #fa3475;
 		color: #fa3475;
 		padding: 0 10rpx;
+		height: 32rpx;
+		width: 46rpx;
 		border-radius: 10rpx;
 		font-size: 20rpx;
 		margin-right: 20rpx;
@@ -787,6 +789,8 @@
 		border: 1rpx solid #ADD8E6;
 		color: #ADD8E6;
 		padding: 0 10rpx;
+		height: 32rpx;
+		width: 46rpx;
 		font-size: 20rpx;
 		margin-right: 20rpx;
 	}

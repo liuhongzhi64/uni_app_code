@@ -15,15 +15,12 @@
 							<template>
 								<block>
 									<view class="after_sales_items-content">
-										<!-- 没有商品 -->
 										<view class="no-have-code" v-if="changePorduct.length==0">
 											<view class="images">
-												<image src="../../static/images/cartBg.png" mode=""></image>
+												<image src="/static/images/cartBg.png" mode=""></image>
 											</view>
-											
-											<view class="no-have-ticket">喵！暂无相关卡券~</view>
+											<view class="no-have-ticket">喵！暂无相关~</view>
 										</view>
-										
 										<porduct :changePorduct='changePorduct' :porductWidth="porductWidth" @openPorductContent='openPorductContent' />
 									</view>
 								</block>

@@ -53,11 +53,11 @@
 											</view>
 											<!-- 完成 -->
 											<view class="order-state" v-if="item.status==5">
-												<image src="../../static/images/complete.png" mode="widthFix"></image>
+												<image src="/static/images/complete.png" mode="widthFix"></image>
 											</view>
 											<!-- 作废 -->
 											<view class="order-state" v-if="item.status==1">
-												<image src="../../static/images/cancellation.png" mode="widthFix"></image>
+												<image src="/static/images/cancellation.png" mode="widthFix"></image>
 											</view>
 										</view>
 									</view>								
@@ -89,7 +89,7 @@
 																<text class="versions"> {{ z }} : {{ j }} ; </text>
 															</text>
 														</view>
-														<image src="../../static/images/arrow-down.png" mode=""></image>
+														<image src="/static/images/arrow-down.png" mode=""></image>
 													</view>
 													<view class="show_item_content" @tap='this_show_sku_spec(index,k,sindex)' v-if="is.show_sku_spec">
 														<view class="show_all_items">
@@ -97,7 +97,7 @@
 																<text class="versions"> {{ z }} : {{ j }} ; </text>
 															</view>
 														</view>
-														<image src="../../static/images/arrow-down.png" mode=""></image>
+														<image src="/static/images/arrow-down.png" mode=""></image>
 													</view>
 													<view class="goods_rel_price_sku_nums"
 													 :class="item.status==0||item.status==2||item.status==3||item.status==5?'show_color':''">
@@ -206,7 +206,7 @@
 												<view class="discounts"
 												 :class="item.status==0||item.status==2||item.status==3||item.status==5?'show_color':''">
 													优惠 <text>￥{{item.total_discount||0}}</text>
-													<image src="../../static/images/ask1.png"
+													<image src="/static/images/ask1.png"
 													 @tap="this_discount(item.discount_description,item.card_sale_info,item.total_discount)"></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
@@ -290,7 +290,7 @@
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</text>
 												</view>
-												<image src="../../static/images/arrow-down.png" mode=""></image>
+												<image src="/static/images/arrow-down.png" mode=""></image>
 											</view>
 											<view class="show_item_content" @tap='this_show_sku_spec(index)' v-if="item.show_sku_spec">
 												<view class="show_all_items">
@@ -298,7 +298,7 @@
 														<text class="versions"> {{ z }} : {{ j }} ; </text>
 													</view>
 												</view>
-												<image src="../../static/images/arrow-down.png" mode=""></image>
+												<image src="/static/images/arrow-down.png" mode=""></image>
 											</view>
 											<view class="goods_rel_price_sku_nums">
 												<view class="rel_price"> ￥ <text> {{ item.rel_price }} </text> </view>
@@ -317,7 +317,7 @@
 												<view class="discounts"
 												 :class="item.status==0||item.status==2||item.status==3||item.status==5?'show_color':''">
 													优惠 <text>￥{{item.discount||0}}</text>
-													<image src="../../static/images/ask1.png"
+													<image src="/static/images/ask1.png"
 													 @tap="this_discount(item.hd_sale_info,item.card_sale_info,item.discount)"></image>
 												</view>
 												<view class="hospital-pay">到院再付 <text>￥{{item.offline_pay}}</text> </view>
@@ -352,7 +352,7 @@
 							</view>
 							<!-- 没有订单 -->
 							<view class="no_have_order" v-else :style="[{'min-height':height-menuBottom-320+'px'}]">
-								<image src="https://xcx.hmzixin.com/upload/images/3.0/cat_no.png" mode="heightFix"></image>
+								<image src="/static/images/cat_no.png" mode="heightFix"></image>
 								<view class="go_to_see_button">
 									<button class="go_my" type="default" size="mini" @tap="go_to_page('index')">
 										去首页
@@ -368,7 +368,7 @@
 			</view>
 		</view>
 		<view class="top-button" @click="ToTop" v-if="showTop">  
-			<image src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix"></image>
+			<image src="/static/images/order_top.png" mode="widthFix"></image>
 		</view>
 		<!-- 优惠信息 -->
 		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">

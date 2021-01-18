@@ -364,7 +364,12 @@ __webpack_require__.r(__webpack_exports__);
                 data.cards[i].house = 0;
                 data.cards[i].second = 0;
                 data.cards[i].minute = 0;
-                that.set_dount_down(data.cards[i].get_end_time - data.time_now, i);
+                if (that.cardsList.length > 0) {
+                  that.set_dount_down(data.cards[i].get_end_time - data.time_now, i + that.cardsList.length);
+                } else {
+                  that.set_dount_down(data.cards[i].get_end_time - data.time_now, i);
+                }
+
               }
 
             }

@@ -1,7 +1,7 @@
 <template>
 	<view class="diary_detail">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight'  :menuBottom='menuBottom'></topBar>
 		<view class="diary_detail_content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
 			<scroll-view scroll-y class="detail_content">
 				<template>
@@ -30,7 +30,8 @@
 										</image>
 										<image :src="requestUrl+i" :class="'list_img'+index" mode="widthFix" v-else >
 										</image>
-										<navigator class="porduct-message" :url="'/pages/goods/goods_detail?sku_id='+goods.id+'&encrypted_id='+goods.encrypted_id">
+										<navigator class="porduct-message"
+										 :url="'/pages/goods/goods_detail?sku_id='+goods.id+'&encrypted_id='+goods.encrypted_id">
 											<view class="porduct-images">
 												<image :src="requestUrl+goods.head_img" mode="widthFix"></image>
 											</view>
@@ -109,7 +110,7 @@
 			</view>
 		</view>
 		<navigator class="consultation" url="/pages/consultation/consultation" v-if="!this_my">
-			<image class="consultation_img" src="https://xcx.hmzixin.com/upload/images/3.0/consulting.png" mode="widthFix"></image>
+			<image class="consultation_img" src="/static/images/this_consulting.png" mode="widthFix"></image>
 		</navigator>
 		<view class="my_diary_btn" v-if="this_my">
 			<view class="diary_btn" @tap="set_my_diary(0)" v-if="my_diary.status!=1"> 删除 </view>
@@ -120,13 +121,13 @@
 			<view class="page-view-collect-transpond">
 				<view class="page-view">浏览量: <text>{{view_num}}</text></view>
 				<view class="collect" v-if="is_collect == 0" @tap='collectdiary(id)'>
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image><text>{{collect_num}}</text>
+					<image src="/static/images/collect.png"></image><text>{{collect_num}}</text>
 				</view>
 				<view class="collect" v-else @tap='cancelLike(id)'>
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image><text class="collect_hover">{{collect_num}}</text>
+					<image src="/static/images/collect_hover.png"></image><text class="collect_hover">{{collect_num}}</text>
 				</view>
 				<view class="transpond">
-					<image src="../../static/images/share.png"></image> <text>{{share_num}}</text>
+					<image src="/static/images/share.png"></image> <text>{{share_num}}</text>
 				</view>
 			</view>
 		</view>
@@ -144,13 +145,12 @@
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#333333',
 				color: '#FFFFFF',
-				backImage: '/static/images/back2.png',
+				backImage: '/static/images/return.png',
 				title: '日记详情',
 				swiper_height: 350, //外部的高度
 				swiperList: [],
@@ -240,7 +240,6 @@
 						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
@@ -248,7 +247,6 @@
 				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuHeight = 30
-				that.menuLeft = 278
 				that.menuBottom = 70
 			}
 		},

@@ -80,6 +80,13 @@
 						</view>
 					</scroll-view>
 				</view>
+				<!-- 上部广告位 -->
+				<view class="this_up_advertising" >
+					<navigator class="advertising_item" v-for="(item,index) in index_info.up_advertising.content" :key='index' 
+					:url="'/pages'+item.page+'?id='+item.page_id" :style="[{'width':index_info.up_advertising.content.length==1?'100%':index_info.up_advertising.content.length==2?'50%':index_info.up_advertising.content.length==3?'33.3%':'24%'}]">
+						<image class="advertising_img" :src="requestUrl+item.img" mode="widthFix" ></image>
+					</navigator>
+				</view>
 				<view class="this_index_icon_list">
 					<swiper class="icon_list" @change="change_swiper_line" duration="1000">
 						<swiper-item class="icon_list_info" v-for="(list,index) in index_info.icon_list" :key="index">
@@ -95,7 +102,7 @@
 			<!-- 中部广告位 -->
 			<view class="centre_advertising" v-for="(list,index) in index_info.centre_advertising.content" :key='index' >
 				<view class="advertising_info" v-for="(item,k) in list" :key='k'
-				 :style="[{'width':list.length==1?'100%':list.length==2?'50%':list.length==3?'33%':'24%'}]"> 
+				 :style="[{'width':list.length==1?'100%':list.length==2?'50%':list.length==3?'33.3%':'24%'}]"> 
 					<navigator class="advertising_item" :url="'/pages'+item.page+'?id='+item.page_id" >
 						<image class="advertising_img"
 						 :src="requestUrl+item.img" mode="widthFix" ></image>
@@ -172,7 +179,7 @@
 						</view>
 						<!-- 主播推荐 -->
 						<view class="live_goods">
-							<image class="live_goods_images" src="https://xcx.hmzixin.com/upload/images/3.0/anchor.png" mode="widthFix"></image>
+							<image class="live_goods_images" src="/static/images/anchor.png" mode="widthFix"></image>
 							<view class="live_goods_info">
 								<scroll-view class="live_top_content" scroll-x="true">
 									<navigator class="live_goods_img" v-for="(item,index) in live_goods" :key='index'
@@ -210,9 +217,10 @@
 			</view>
 			<view class="go_top" v-if="show_go_top">
 				<navigator class="consult" url="/pages/consultation/consultation"> <text>立即</text> <text>咨询</text> </navigator>
-				<image class="go_top_image" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
+				<image class="go_top_image" src="/static/images/order_top.png" mode="widthFix" @tap="go_to_top"></image>
 			</view>
 			<!-- 弹窗 -->
+			<view class="this_mantle" v-if="this_show_popup" > </view>
 			<view class="popup_info"
 			 v-if="this_show_popup" >
 				<navigator class="popup_window" :url="'/pages'+index_info.popup_window.content.page+'?id='+index_info.popup_window.content.page_id">
@@ -836,6 +844,11 @@
 		margin-right: 10rpx;
 	}
 	
+	.this_up_advertising{
+		display: flex;
+		width: 100%;
+	}
+	
 	.this_index_icon_list {
 		position: relative;
 		padding: 0 20rpx;
@@ -1028,8 +1041,16 @@
 		top: 0;
 		width: 100%;
 		height: 100%;
-		/* background-color: #F0F0F0;
-		opacity: 0.4; */
+	}
+	.this_mantle{
+		position: fixed;
+		z-index: 99;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #333333;
+		opacity: 0.6;
 	}
 	
 	.popup_window{
@@ -1047,7 +1068,7 @@
 		right: 0;
 		top: 0;
 		width: 100%;
-		height: 420rpx;
+		height: 460rpx;
 		border-radius: 40rpx;
 		z-index: 101;
 		display: block;
@@ -1153,12 +1174,12 @@
 	
 	.live_goods_image image{
 		width: 200rpx;
-		max-height: 240rpx;
+		max-height: 200rpx;
 		border-radius: 16rpx;
+		background-color: #F0F0F0;
 	}
 	.centre_advertising{
 		display: flex;
-		justify-content: space-between;
 	}
 	
 	.advertising_info{
@@ -1171,7 +1192,6 @@
 	}
 	.advertising_img{
 		width: 100%;
-		/* background-color: #F0F0F0 */
 	}
 	
 	.live_left_info{

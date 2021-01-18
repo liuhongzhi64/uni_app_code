@@ -194,13 +194,13 @@
 				</scroll-view>
 				
 				<view class="no_have_result" v-else :style="[{'height':height-menuBottom-130+'px'}]">
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+					<image src="/static/images/no_comment.png" mode="widthFix"></image>
 					<view class="no-have_hint"> 暂无相关内容 </view>
 				</view>
 			</view>
 		</view>
 		<!-- 回到顶部 -->
-		<image class="go_top_image" v-if="showTop" src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix" @tap="go_to_top"></image>
+		<image class="go_top_image" v-if="showTop" src="/static/images/order_top.png" mode="widthFix" @tap="go_to_top"></image>
 	</view>
 </template>
 

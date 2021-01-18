@@ -16,7 +16,7 @@
 			<scroll-view scroll-y  class="item-list-content" >
 				<view class="no-have-porduct" v-if="productLists.length==0&&doctorList.length==0&&video_list.length==0"
 				 :style="[{'min-height':height-menuBottom-50+'px'}]">
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+					<image src="/static/images/no_comment.png" mode="widthFix"></image>
 					<view class="no-have-porduct-hint">暂无相关···</view>
 				</view>
 				<view class="item-content end-cont" v-else :class="{dis:top_index==index}" v-for="(item,index) in tabBars" :key="index">

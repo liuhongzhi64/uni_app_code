@@ -25,14 +25,14 @@
 							<view 
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)' >
-								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
-								<text v-if="item.collect||item.collect_num">{{item.collect||item.collect_num}} </text>
+								<image class="like-image" src="/static/images/collect.png"></image>
+								<text >{{item.collect||item.collect_num || 0}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-else @tap='cancelLike(item.id,index)' >
-								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
-								<text v-if="item.collect||item.collect_num">{{item.collect||item.collect_num}} </text>
+								<image class="like-image" src="/static/images/collect_hover.png"></image>
+								<text>{{item.collect||item.collect_num}} </text>
 							</view>							
 						</view>											
 					</view>
@@ -62,14 +62,14 @@
 							</view>							
 							<view :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-if="item.is_collect==0" @tap='collectLike(item.id,index)'>
-								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
-								<text v-if="item.collect||item.collect_num">{{item.collect||item.collect_num}} </text>
+								<image class="like-image" src="/static/images/collect.png"></image>
+								<text >{{item.collect||item.collect_num || 0}} </text>
 							</view>
 							<view
 							 :class="[item.is_collect==0?'is_no_collect':'collect_num']" 
 							 v-else @tap='cancelLike(item.id,index)'>
-								<image <image class="like-image" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
-								<text v-if="item.collect||item.collect_num">{{item.collect||item.collect_num}} </text>
+								<image  class="like-image" src="/static/images/collect_hover.png"></image>
+								<text >{{item.collect||item.collect_num}} </text>
 							</view>
 						</view>
 					</view>

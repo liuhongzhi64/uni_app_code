@@ -28,8 +28,8 @@
 							</view>
 						</view>
 						<view class="eye_img" @tap="set_show_user()" v-if="user_info.tel">
-							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye_no.png" v-if="this_show_user"></image>
-							<image src="https://xcx.hmzixin.com/upload/images/3.0/eye.png" v-else></image>
+							<image src="/static/images/eye_no.png" v-if="this_show_user"></image>
+							<image src="/static/images/eye.png" v-else></image>
 						</view>
 						
 						<navigator class="set" url="/pages/my/my_set"> 设置 
@@ -60,7 +60,7 @@
 					<view class="order-list" @tap="go_to_order(1)">
 						<view class="oder-image-number">
 							<view class="order-image">
-								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_unpaid.png" mode="widthFix"></image>
+								<image src="/static/images/my_unpaid.png" mode="widthFix"></image>
 							</view>
 							<view class="order-number" v-if="orderList.need_pay>0"> {{orderList.need_pay}} </view>
 						</view>
@@ -69,7 +69,7 @@
 					<view class="order-list" @tap="go_to_order(2)">
 						<view class="oder-image-number" >
 							<view class="order-image">
-								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_paid.png" mode="widthFix"></image>
+								<image src="/static/images/my_paid.png" mode="widthFix"></image>
 							</view>
 							<view class="order-number" v-if="orderList.pay>0"> {{orderList.pay}} </view>
 						</view>
@@ -78,7 +78,7 @@
 					<view class="order-list" @tap="go_to_order(3)">
 						<view class="oder-image-number" >
 							<view class="order-image">
-								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_complete.png" mode="widthFix"></image>
+								<image src="/static/images/my_complete.png" mode="widthFix"></image>
 							</view>
 						</view>
 						<view class="order-name"> 已完成 </view>
@@ -86,7 +86,7 @@
 					<view class="order-list" @tap="go_to_comment">
 						<view class="oder-image-number">
 							<view class="order-image">
-								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_evaluated.png" mode="widthFix"></image>
+								<image src="/static/images/my_evaluated.png" mode="widthFix"></image>
 							</view>
 							<view class="order-number" v-if="orderList.not_comment>0"> {{orderList.not_comment}} </view>
 						</view>
@@ -95,7 +95,7 @@
 					<view class="order-list" @tap="go_to_order(4)">
 						<view class="oder-image-number" >
 							<view class="order-image">
-								<image src="https://xcx.hmzixin.com/upload/images/3.0/my_refund.png" mode="widthFix"></image>
+								<image src="/static/images/my_refund.png" mode="widthFix"></image>
 							</view>
 						</view>
 						<view class="order-name"> 已退款 </view>

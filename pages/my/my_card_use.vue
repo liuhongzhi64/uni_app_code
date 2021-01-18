@@ -75,7 +75,7 @@
 							</view>
 							<view class="no-have-porduct" v-if="porductList.length==0">
 								<view class="no-have-images">
-									<image class="no-have-images" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+									<image class="no-have-images" src="/static/images/no_comment.png" mode="widthFix"></image>
 								</view>																		
 								<view class="no-have-ticket">喵！暂无相关商品可用此卡券~</view>
 							</view>

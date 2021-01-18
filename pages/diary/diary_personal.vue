@@ -51,7 +51,7 @@
 								 @collect_diary='collect_diary' @cancel_like='cancel_like'>
 								</diary>
 								<view class="no_have_list" v-else-if="list.length==0&&this_my">
-									<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+									<image src="/static/images/no_comment.png" mode="widthFix"></image>
 									您还没有日记喵!
 									<text>快去写一条吧</text>
 								</view>

@@ -98,7 +98,7 @@
 				</view>
 			</scroll-view>
 			<view class="no_have_info" v-else >
-				<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix">
+				<image class="hint_img" src="/static/images/no_comment.png" mode="widthFix">
 				</image>
 				<view class="no-have_hint">暂无相关<text v-if="this_show =='diary'">日记</text>
 				<text v-else-if="this_show =='video'">视频</text> </view>

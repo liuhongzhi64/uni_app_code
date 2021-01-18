@@ -97,6 +97,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var m0 = !(_vm.contentList.length == 0)
+    ? parseInt(_vm.contentList.sku.take_store)
+    : null
+  var m1 = !(_vm.contentList.length == 0)
+    ? parseInt(_vm.contentList.sku.sale_weight)
+    : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        m0: m0,
+        m1: m1
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -597,13 +612,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -616,11 +624,7 @@ __webpack_require__.r(__webpack_exports__);
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
-      topBackgroundColor: '#222222',
-      color: '#FFFFFF',
-      backImage: '/static/images/return.png',
       title: '商品详情',
       height: 0,
       sku_id: '0',
@@ -646,7 +650,7 @@ __webpack_require__.r(__webpack_exports__);
 
       src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
 
-      pay_type: 1, //支付方式  0预约金 1 全款 2 全选
+      pay_type: 0, //支付方式  0预约金 1 全款 2 全选
       class_type: 0, //领取方式 0到院 1邮寄
       swiperList: [],
       carts: 0, //购物车
@@ -729,7 +733,6 @@ __webpack_require__.r(__webpack_exports__);
           var menu = uni.getMenuButtonBoundingClientRect();
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
@@ -737,7 +740,6 @@ __webpack_require__.r(__webpack_exports__);
       that.menuTop = 40;
       that.menuBottom = 70;
       that.menuHeight = 32;
-      that.menuLeft = 278;
     }
   },
   methods: {
@@ -795,8 +797,11 @@ __webpack_require__.r(__webpack_exports__);
           uni.setStorageSync("goodsDetail", data);
           that.contentList = data;
           that.swiperList = data.img;
+          that.class_type = data.is_post;
           that.spec = that.assembleSpec(data.sku.user_spec, 1);
-          that.pay_type = data.sku.pay_type;
+          if (data.sku.pay_type != 2) {
+            that.pay_type = data.sku.pay_type;
+          }
           if (that.contentList.sku.act.rest_time > 0) {
             that.day = parseInt(that.contentList.sku.act.rest_time / 60 / 60 / 24 % 30);
             that.house = parseInt(that.contentList.sku.act.rest_time / 60 / 60 % 24);
@@ -885,12 +890,6 @@ __webpack_require__.r(__webpack_exports__);
     changeClass: function changeClass(index) {
       var that = this;
       that.class_type = index;
-      if (index == 1) {
-        uni.showToast({
-          title: '亲,只有护肤品类型商品可用邮寄哟!',
-          icon: 'none' });
-
-      }
     },
     // 获取相关商品
     getRelevantGoods: function getRelevantGoods(encrypted_id) {
@@ -978,7 +977,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 使用卡券
     useCard: function useCard(id) {
-      console.log(id);
+      uni.navigateTo({
+        url: "/pages/my/my_card_use?id=".concat(id) });
+
     },
     // 相关
     getRelated: function getRelated(id) {
@@ -1240,12 +1241,7 @@ __webpack_require__.r(__webpack_exports__);
     // 点击确定
     order: function order(index) {
       var that = this;
-      var buy_type = 1; //支付方式
-      if (that.pay_type == 2) {
-        buy_type = 1;
-      } else {
-        buy_type = that.pay_type;
-      }
+      var buy_type = that.pay_type;
       if (index == 0) {//购物车
         var specAttr = that.verification_specAttr;
         if (specAttr.length == 0) {

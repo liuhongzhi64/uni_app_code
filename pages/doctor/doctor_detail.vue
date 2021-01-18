@@ -37,7 +37,7 @@
 					</view>
 				</view>
 			</view>
-			<image class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"
+			<image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"
 			 v-if="doctor_info.video_album.length>0||certificate_list.length>0||doctor_info.goods.length>0"></image>
 			<view class="doctor_album_certificate" v-if="doctor_info.video_album.length>0||certificate_list.length>0">
 				<view class="doctor_album" v-if="doctor_info.video_album.length>0">
@@ -49,7 +49,7 @@
 									<navigator class="item_info" :url="'/pages/diary/diary_video?id='+item.id">
 										<view class="item_images">
 											<image class="cover_img" :src="requestUrl+item.cover_img" mode="widthFix"></image>
-											<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix">
+											<image class="pay_btn" src="/static/images/video_play.png" mode="widthFix">
 										</view>
 										</image>
 										<view class="item_explain">{{item.name}}</view>
@@ -116,7 +116,7 @@
 					</swiper>
 				</view>
 			</view>
-			<image class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"
+			<image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"
 			 v-if="doctor_info.video_album.length>0||doctor_info.diary.length>0"></image>
 			<view class="doctor_projects" v-if="doctor_info.video.length>0">
 				<view class="this_title">拜托了医生</view>
@@ -136,8 +136,8 @@
 
 		<view class="footer">
 			<view class="mar" @tap='collect_doctor(doctor_info.is_doctor_collect,doctor_id)'>
-				<image class="icon-img" v-if="doctor_info.is_doctor_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
-				<image class="icon-img" v-else src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
+				<image class="icon-img" v-if="doctor_info.is_doctor_collect == 0" src="/static/images/collect.png"></image>
+				<image class="icon-img" v-else src="/static/images/collect_hover.png"></image>
 				<text :class="doctor_info.is_doctor_collect == 0?'':'collect_hover'">收藏</text>
 			</view>
 			<view class="mar" @tap='go_to_consult'>

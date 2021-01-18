@@ -51,7 +51,7 @@
 											<view class="content-item" v-if="cardsList.length == 0">
 												<view class="Ticket-number">
 													<view class="images">
-														<image src="https://xcx.hmzixin.com/upload/images/3.0/cat_no.png" mode=""></image>
+														<image src="/static/images/cat_no.png" mode=""></image>
 													</view>
 													<view class="no-have-ticket">喵！暂无相关卡券~</view>
 												</view>

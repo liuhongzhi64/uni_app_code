@@ -58,7 +58,7 @@
 													 :porductList='newslist' ></goodsShow>
 												</view>
 												<view class="no_have_new_list" v-else>
-													<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix">
+													<image class="hint_img" src="/static/images/no_comment.png" mode="widthFix">
 													</image>
 													<view class="no-have_hint">暂无相关商品</view>
 												</view>
@@ -74,7 +74,7 @@
 				<view class="right_content" v-else :style="[{'height':height-menuBottom-30+'px'}]">
 					<!-- 空 -->
 					<view class="no-have-porduct" v-if="classfyList.length==0">
-						<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png"></image>
+						<image src="/static/images/no_comment.png"></image>
 						<view class="no-have-porduct-hint">暂无相关商品</view>
 					</view>
 					<!-- 非空 -->
@@ -466,11 +466,11 @@
 	}
 
 	.item-top {
-		color: #fff;
+		color: #FFFFFF;
 		display: block;
 		width: 520rpx;
 		line-height: 72rpx;
-		background: url(https://xcx.hmzixin.com/upload/images/3.0/classify_title_bg.png);
+		background: url(/static/images/classify_title_bg.png);
 		background-size: 100%;
 		font-size: 28rpx;
 		text-indent: 70rpx;

@@ -46,7 +46,7 @@
 					</view>
 				</view>
 			</view>
-			<image id="line_img" class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"></image>
+			<image id="line_img" class="line_img" src="/static/images/bullion.jpg" mode="widthFix"></image>
 			<!-- 医生中心分类 -->
 			<view id="this_doctor_classfiy" >
 				<view  id="doctor_classfiy" :class="show_doctor_classfiy?'fixed_doctor_classfiy':'doctor_classfiy'"
@@ -123,7 +123,7 @@
 					</view>
 				</view>
 			</view>
-			<image class="line_img" src="https://xcx.hmzixin.com/upload/images/3.0/bullion.jpg" mode="widthFix"></image>
+			<image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"></image>
 			<!-- 拜托了医生 -->
 			<view class="this_please_doctor">
 				<view class="please_doctor_title"> 拜托了医生 </view>

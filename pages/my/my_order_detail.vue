@@ -451,7 +451,7 @@
 		</view>
 		<!-- 回到顶部 -->
 		<view class="top-button" @click="ToTop" v-if="showTop"> 
-			<image src="https://xcx.hmzixin.com/upload/images/3.0/order_top.png" mode="widthFix"></image>
+			<image src="/static/images/order_top.png" mode="widthFix"></image>
 		</view>
 		<!-- 优惠信息 -->
 		<view class="discount_content" @tap="hide_discount" v-if="this_show_discount" :style="[{'height':height-menuBottom-10+'px','top':menuBottom+10+'px'}]">

@@ -267,6 +267,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar },
@@ -276,13 +277,12 @@ __webpack_require__.r(__webpack_exports__);
       menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       height: 0,
       barName: 'back', //导航条名称
       topBackgroundColor: '#333333',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '日记详情',
       swiper_height: 350, //外部的高度
       swiperList: [],
@@ -372,7 +372,6 @@ __webpack_require__.r(__webpack_exports__);
           that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
@@ -380,7 +379,6 @@ __webpack_require__.r(__webpack_exports__);
       that.menuWidth = 90;
       that.menuTop = 40;
       that.menuHeight = 30;
-      that.menuLeft = 278;
       that.menuBottom = 70;
     }
   },

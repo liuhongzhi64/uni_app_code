@@ -5,7 +5,7 @@
 		 
 		<view class="message_info" :style="[{'height':height-menuBottom-10+'px'}]">
 			<view class="no_have_info" v-if="message_info.length==0">
-				<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png"></image>
+				<image class="hint_img" src="/static/images/no_comment.png"></image>
 				<view class="hint_text">您还没有消息···喵</view>
 			</view>
 		</view>

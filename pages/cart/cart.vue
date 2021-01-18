@@ -24,13 +24,13 @@
 				<view class="empty-cart-image">
 					<image src="/static/images/cartBg.png" mode="widthFix"></image>
 				</view>
-				<view class="empty-cart-text"> 购物车还是空的哟~ </view>
+				<view class="empty-cart-text"> 购物车还是空的~ </view>
 				<view class="go-stroll" @tap='goToGoodsClassfiy'> 去逛逛 </view>
 			</view>
 			<!-- 购物车不为空 -->
 			<view class="cart-have-product" v-else>
 				<view class="end-cont" :class="{dis:btnnum == index}" v-for="(item,index) in productNameList" :key="index">
-					<view class="card-top" @tap='goToGain'>
+					<view class="card-top" @tap='goToGain' >
 						<view class="can-receive">
 							<view>您有</view>
 							<view class="text">{{get_count}}张专属优惠券</view>
@@ -48,7 +48,7 @@
 							<!-- 全选 -->
 							<view class="change-check-see-more">
 								<view class="change-check">
-									<checkbox color='#007AFF' :checked="items.all_checked" @tap='checked_class_all(k)' />
+									<checkbox color='#fa3475' :checked="items.all_checked" @tap='checked_class_all(k)' />
 									<text @tap='goodsClassfiy(items.category_id,items.category_title)'> {{items.category_title}} > </text>
 								</view>
 								<view class="add-on-item" v-if="items.cards.length>0" @tap="changeActivity(0,items.cards,items.act_info)"> 领券
@@ -86,7 +86,7 @@
 									<view class="goods-info">
 										<view class="product-item-show">
 											<view class="checkbox-item">
-												<checkbox class="checkbox-item" color='#007AFF' :checked="i.checked" @tap='changeCheck(k,is)' />
+												<checkbox class="checkbox-item" color='#fa3475' :checked="i.checked" @tap='changeCheck(k,is)' />
 											</view>
 											<view class="porduct-item-images" @tap='goToGoods(i.Sku_id,i.encrypted_id)'>
 												<image :src="requestUrl+i.head_img" mode=""></image>
@@ -306,7 +306,7 @@
 			<view class="settlement">
 				<view class="settlement-info">
 					<view class="change-all-goods" @tap='change_all_cart'>
-						<checkbox color='#007AFF' :checked="allchecked" /> <text> 全选 </text>
+						<checkbox color='#fa3475' :checked="allchecked" /> <text> 全选 </text>
 					</view>
 					<view class="total-discount">
 						<view class="total">合计 : <text> ￥{{ order_info.off_sale || 0 }} </text> </view>
@@ -1669,7 +1669,7 @@
 		background-color: #FFFFFF;
 		text-align: center;
 		position: fixed;
-		height: 96rpx;
+		height: 100rpx;
 		width: 100%;
 		z-index: 9;
 	}
@@ -1703,6 +1703,7 @@
 		color: #FFFFFF;
 		width: 100%;
 		margin-top: 5rpx;
+		display: none;
 	}
 
 	.tabBarList {

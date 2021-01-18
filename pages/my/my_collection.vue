@@ -10,7 +10,7 @@
 		</view>
 		<view class="my_collection-content" :style="[{'padding-top':menuBottom+50+'px','min-height':height-menuBottom-50+'px'}]">
 			<view class="no_have_collection" v-if="content_list.length==0">
-				<image src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix"></image>
+				<image src="/static/images/no_comment.png" mode="widthFix"></image>
 				<view class="no_have_hint">
 					喵 ! 暂无相关内容
 				</view>

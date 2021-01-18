@@ -1,22 +1,23 @@
 <template>
-	<view class="goods_detail">
-		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor,'color':color}]">
+	<view class="goods_detail" >
+		<view class="top-bar" 
+		:style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':'#222222','color':'#FFFFFF'}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
-					<image :src="backImage" mode=""></image>
+					<image src="/static/images/return.png" mode=""></image>
 				</view>
 				<view class="title"> {{title}} </view>
 			</view>
 		</view>
 		<!-- 商品已下架或者不存在时 -->
 		<view class="no_goods_info" v-if="contentList.length==0" :style="[{'height':height+'px'}]">
-			<image class="hint_img" src="https://xcx.hmzixin.com/upload/images/3.0/no_comment.png" mode="widthFix">
+			<image class="hint_img" src="/static/images/no_comment.png" mode="widthFix">
 			</image>
 			<view class="hint_text">该商品已下架或不存在····</view>
 		</view>
 		<!-- 商品存在时 -->
-		<view class="content" v-else>
-			<scroll-view scroll-y :style="[{'padding-top':menuBottom+10+'px'}]">
+		<view class="content" v-else >
+			<view  :style="[{'padding-top':menuBottom+10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
@@ -59,24 +60,18 @@
 							<view class="new-price">
 								<text>￥</text>{{ contentList.sku.sale_price || 0}}
 							</view>
-							<!-- <view class="VIP-price">
-								<view class="VIP-name"> 钻卡 </view>
-								<text>￥38800</text>
-							</view> -->
 						</view>
-						<!-- 降价通知、收藏 -->
 						<view class="depreciate-collect">
-							<!-- v-if="contentList.share_able==1" -->
 							<view class="depreciate" @tap='on_share'> 
 								<view class="remind-images">
-									<image src="https://xcx.hmzixin.com/upload/images/3.0/icon_wechat.png" mode=""></image>
+									<image src="/static/images/icon_wechat.png" mode=""></image>
 								</view>
 								<view class="remind-text" > 分享 </view>
 							</view>
 							<view class="collect" @tap="goods_collect(contentList.is_collect,encrypted_id)">
 								<view class="collect-images">
-									<image v-if="contentList.is_collect == 0" src="https://xcx.hmzixin.com/upload/images/3.0/collect.png"></image>
-									<image v-else-if="contentList.is_collect == 1" src="https://xcx.hmzixin.com/upload/images/3.0/collect_hover.png"></image>
+									<image v-if="contentList.is_collect == 0" src="/static/images/collect.png"></image>
+									<image v-else-if="contentList.is_collect == 1" src="/static/images/collect_hover.png"></image>
 								</view>
 								<view class="collect-text" :class="contentList.is_collect == 1? 'collect' : '' "> 收藏 </view>
 							</view>
@@ -102,7 +97,7 @@
 					<view class="sale-content">
 						<view>成都市</view>
 						<view class="red">好评率:{{contentList.rate}}%</view>
-						<view>已售：{{contentList.sku.take_store}}</view>
+						<view>已售：{{ parseInt(contentList.sku.take_store)  + parseInt(contentList.sku.sale_weight)  }}</view>
 					</view>
 					<!-- 活动文案 -->
 					<view class="get-coupon" v-if="contentList.sku.details_prompt"> {{contentList.sku.details_prompt}} </view>
@@ -145,22 +140,21 @@
 						</view>
 					</template>
 				</view>
-				
 				<!-- 支付方式 -->
 				<view class="specs">
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" @tap='changePay(0)' v-if="pay_type==0||pay_type==2" :class="[pay_type==0||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(0)'  :class="[pay_type==0?'li-hover':'']">
 							预约金
 						</view>
-						<view class="li" @tap='changePay(1)' v-else-if="pay_type==1||pay_type==2" :class="[pay_type==1||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(1)'  :class="[pay_type==1?'li-hover':'']">
 							全款付
 						</view>
 					</view>
 				</view>
 				<!-- 相关证书 -->
 				<view class="certificate">
-					<image src="https://xcx.hmzixin.com/upload/images/3.0/qualifications.jpg?v=20201104" mode="widthFix"></image>
+					<image src="/static/images/qualifications.jpg" mode="widthFix"></image>
 				</view>
 				<!-- 相关商品 -->
 				<view class="related-products" v-if="relevantGoods.length>0">
@@ -184,7 +178,8 @@
 								<view class="doctor-recommend" v-for="(i,k) in item" :key='k' @tap='go_to_doctor(i.id,i.heading)'>
 									<view class="doctor-top">
 										<view class="doctor-head-portrait">
-											<image :src="requestUrl+i.heading" mode="" lazy-load='true'></image>
+											<image class="doctor_image" :src="requestUrl+i.heading" mode="" lazy-load='true'></image>
+											<image class="index_v" src="/static/images/index_v.png" ></image>
 										</view>
 										<view class="doctor-abstract">
 											<view class="doctor-name-recommend">
@@ -308,25 +303,21 @@
 						</goodsShow>
 					</view>
 				</view>
-			</scroll-view>
-		
+			</view>
 			<!-- 底部定位 -->
 			<view class="consult-share-cart-addCart-shopNow">
-				<!-- 咨询 -->
 				<navigator class="consult" url="/pages/consultation/consultation"> 
 					<view class="consult-image">
 						<image class="icon-img" src="/static/images/icon_consult.png"></image>
 					</view>
 					<view class="consult-text"> 咨询 </view>
 				</navigator>
-				<!-- 分享 -->
 				<view class="share" @tap='on_share'>
 					<view class="share-image">
 						<image class="icon-img" src="/static/images/icon_share.png"></image>
 					</view>
 					<view class="share-text"> 分享 </view>
 				</view>
-				<!-- 购物车 -->
 				<view class="cart"  @tap="cart">
 					<view class="cart-number">
 						<view class="cartImg">
@@ -336,9 +327,7 @@
 					</view>
 					<view class="cart-text"> 购物车 </view>
 				</view>
-				<!-- 加入购物车 -->
 				<view class="add-cart" @tap='addCart(0)'> 加入购物车 </view>
-				<!-- 立即购买 -->
 				<view class="shop-now" @tap='shopNow(1)'> 立即购买 </view>
 			</view>
 			<!-- 优惠更多  -->
@@ -377,7 +366,7 @@
 				</view>
 			</scroll-view>
 			<!-- 弹出的对话框 v-if="isShow" -->
-			<scroll-view class="isShow" v-if="isShow" scroll-y="true" :style="[{'height':height-height/4+'px'}]">
+			<scroll-view class="isShow" v-if="isShow" scroll-y :style="[{'height':height-height/3+'px'}]">
 				<view class="isShow-content">
 					<view class="add-card-top">
 						<view class="left-head_img">
@@ -414,19 +403,19 @@
 					</template>
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" @tap='changePay(0)' v-if="pay_type==0||pay_type==2" :class="[pay_type==0||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(0)' :class="[pay_type==0?'li-hover':'']">
 							预约金
 						</view>
-						<view class="li" @tap='changePay(1)' v-else-if='pay_type==1||pay_type==2' :class="[pay_type==1||pay_type==2?'li-hover':'']">
+						<view class="li" @tap='changePay(1)' :class="[pay_type==1?'li-hover':'']">
 							全款付
 						</view>
 					</view>
 					<view class="specs-cont-pay">
 						<text class="pay-txt">领取方式</text>
-						<view class="li" @tap='changeClass(0)' :class="[class_type==0?'li-hover':'']">
+						<view class="li" @tap='changeClass(0)' :class="[class_type==0||class_type==2?'li-hover':'']">
 							到院领取
 						</view>
-						<view class="li" @tap='changeClass(1)' :class="[class_type==1?'li-hover':'']">
+						<view class="li" @tap='changeClass(1)' v-if="class_type==1||class_type==2" :class="[class_type==1?'li-hover':'']">
 							邮寄
 						</view>
 					</view>
@@ -461,7 +450,11 @@
 					</view>
 				</view>
 			</scroll-view>
-			
+			<view class="this_pay_price" v-if="pay_type==0">
+				<text class="on_line_pay"> 预约金 : <text class="line_pay">
+				 ￥{{ contentList.sku.sale_price - contentList.sku.offline_pay || 0 }} </text>  </text>
+				<text class="offline_pay"> 到院再付: <text> ￥{{ contentList.sku.offline_pay || 0 }} </text> </text>
+			</view>
 		</view>
 		
 	</view>
@@ -484,11 +477,7 @@
 				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
-				topBackgroundColor: '#222222',
-				color: '#FFFFFF',
-				backImage: '/static/images/return.png',
 				title: '商品详情',
 				height: 0,
 				sku_id:'0',
@@ -514,7 +503,7 @@
 				}],
 				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
 				
-				pay_type: 1, //支付方式  0预约金 1 全款 2 全选
+				pay_type: 0, //支付方式  0预约金 1 全款 2 全选
 				class_type:0,//领取方式 0到院 1邮寄
 				swiperList: [],
 				carts: 0, //购物车
@@ -597,7 +586,6 @@
 						let menu = uni.getMenuButtonBoundingClientRect();
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
@@ -605,7 +593,6 @@
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 32
-				that.menuLeft = 278
 			}
 		},
 		methods: {
@@ -663,8 +650,11 @@
 						uni.setStorageSync("goodsDetail", data);
 						that.contentList = data
 						that.swiperList = data.img
+						that.class_type = data.is_post
 						that.spec = that.assembleSpec(data.sku.user_spec, 1)
-						that.pay_type = data.sku.pay_type
+						if(data.sku.pay_type!=2){
+							that.pay_type = data.sku.pay_type
+						}
 						if(that.contentList.sku.act.rest_time>0){
 							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
 							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
@@ -753,12 +743,6 @@
 			changeClass:function(index){
 				let that = this
 				that.class_type = index
-				if(index==1){
-					uni.showToast({
-						title:'亲,只有护肤品类型商品可用邮寄哟!',
-						icon:'none'
-					})
-				}
 			},
 			// 获取相关商品
 			getRelevantGoods: function(encrypted_id) {
@@ -846,7 +830,9 @@
 			},
 			// 使用卡券
 			useCard:function(id){
-				console.log(id)
+				uni.navigateTo({
+					url: `/pages/my/my_card_use?id=${id}`
+				});
 			},
 			// 相关
 			getRelated: function(id) {
@@ -1108,12 +1094,7 @@
 			// 点击确定
 			order:function(index){
 				let that = this
-				let buy_type = 1 //支付方式
-				if(that.pay_type ==2 ){
-					buy_type = 1
-				}else{
-					buy_type = that.pay_type
-				}
+				let buy_type = that.pay_type
 				if(index==0){ //购物车
 					let specAttr = that.verification_specAttr
 					if(specAttr.length==0){
@@ -1369,7 +1350,6 @@
 
 	.content {
 		background-color: #F6F6F6;
-		height: 100%;
 		padding-bottom: 130rpx;
 	}
 
@@ -1433,8 +1413,7 @@
 	}
 
 	.price,
-	.depreciate-collect,
-	.VIP-price {
+	.depreciate-collect {
 		display: flex;
 	}
 
@@ -1451,25 +1430,6 @@
 
 	.new-price text {
 		font-size: 32rpx;
-	}
-
-	.VIP-price {
-		height: 28rpx;
-		border: 1rpx solid #333333;
-		border-radius: 5rpx;
-		line-height: 28rpx;
-		font-size: 16rpx;
-		margin-top: -10rpx;
-	}
-
-	.VIP-price text {
-		padding: 0 5rpx;
-	}
-
-	.VIP-name {
-		background-color: #2E2E2E;
-		color: #FFFFFF;
-		padding: 0 10rpx;
 	}
 
 	.market-price {
@@ -1665,6 +1625,9 @@
 	.specs-content:first-child {
 		margin-top: 0;
 	}
+	.isShow-content{
+		padding: 20rpx 0 120rpx 20rpx;
+	}
 	.isShow-content .specs-content{
 		padding-left: 20rpx;
 	}
@@ -1784,7 +1747,6 @@
 		display: flex;
 		background-color: #FFFFFF;
 		justify-content: space-between;
-		align-items: center;
 		flex-direction: column;
 		padding: 20rpx 35rpx;
 		margin-bottom: 30rpx;
@@ -1803,18 +1765,30 @@
 		flex-direction: column;
 		justify-content: space-between;
 		line-height: 30rpx;
+		flex: 1;
 	}
 
 	.doctor-head-portrait {
 		width: 150rpx;
 		height: 150rpx;
 		margin-right: 20rpx;
+		position: relative;
 	}
 
-	.doctor-head-portrait image {
+	.doctor-head-portrait .doctor_image {
 		width: 150rpx;
 		height: 150rpx;
 		border-radius: 75rpx;
+		background-color: #F0F0F0;
+	}
+	
+	.index_v{
+		position: absolute;
+		width: 30rpx;
+		height: 30rpx;
+		z-index: 9;
+		right: -8rpx;
+		bottom: 20rpx;
 	}
 
 	.doctor-name-recommend {
@@ -1827,12 +1801,10 @@
 	.doctor-name {
 		font-size: 32rpx;
 		margin-right: 5rpx;
-		
 	}
 
 	.doctor-recommends {
 		flex: 1;
-		/* width: 360rpx; */
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
@@ -1860,9 +1832,9 @@
 		color: #fa3475;
 		border-radius: 18px;
 		border: solid 1px #fa3475;
-		padding: 10rpx 20rpx;
+		padding: 0 10rpx;
 		margin-right: 20rpx;
-		margin-top:20rpx ;
+		margin-top:10rpx ;
 	}
 
 	.doctor-bottom {
@@ -2231,12 +2203,13 @@
 		width: 100%;
 		background-color: #FFFFFF;
 		z-index: 121;
-		padding: 20rpx ;
 	}
 	.isShow .delete-see-more-discount{
 		position: absolute;
 		top: 0;
-		right: 40rpx;
+		right: 0;
+		padding-top: 30rpx;
+		padding-right: 30rpx;
 	}
 	
 	.add-card-top{
@@ -2245,6 +2218,8 @@
 	}
 	.left-head_img image{
 		width: 240rpx;
+		max-height: 240rpx;
+		background-color: #F0F0F0;
 	}
 	.right-goods-info{
 		display: flex;
@@ -2357,7 +2332,6 @@
 		bottom: 0;
 	}
 	.button{
-		/* margin-right: 40rpx; */
 		padding: 30rpx;
 	}
 	.keep-order-button{
@@ -2435,6 +2409,32 @@
 	.hint_text{
 		font-size: 28rpx;
 		color: #FA3475;
+	}
+	
+	.this_pay_price{
+		position: fixed;
+		bottom: 110rpx;
+		left: 0;
+		width: 100%;
+		background-color: #000000;
+		color: #FFFFFF;
+		opacity: 0.8;
+		display: flex;
+		justify-content: center;
+		line-height: 40rpx;
+		font-size: 24rpx;
+	}
+	
+	.on_line_pay{
+		padding-right: 40rpx;
+	}
+	
+	.on_line_pay .line_pay{
+		color: #FA3475;
+		padding-left: 10rpx;
+	}
+	.offline_pay text{
+		padding-left: 10rpx;
 	}
 	
 </style>

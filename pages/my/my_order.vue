@@ -509,15 +509,15 @@
 				card_sale_list:[],
 				all_discount:0,
 				no_back:true,//是否禁止跳转
+				platform:''
 			}
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
+			that.platform = platform
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
@@ -865,12 +865,14 @@
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
 						let url = data.mweb_url
-						uni.showLoading({
-							title: '支付中...'
-						});
-						// app支付
-						const webview = plus.webview.create("","custom-webview")
-						webview.loadURL(url,{"Referer":that.requestUrl})
+						if(that.platform=='APP'){
+							uni.showLoading({
+								title: '支付中...'
+							});
+							// app支付
+							const webview = plus.webview.create("","custom-webview")
+							webview.loadURL(url,{"Referer":that.requestUrl})
+						}
 					}
 				})
 			},

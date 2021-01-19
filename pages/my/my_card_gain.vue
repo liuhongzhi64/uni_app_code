@@ -156,6 +156,7 @@
 				scan_info:{},
 				show_scan:false,
 				set_time:0,
+				time_list:[]
 			}
 		},
 		onLoad(options) {
@@ -198,6 +199,11 @@
 			go_back:function(){
 				let that = this
 				that.set_time = 0
+				console.log(that.time_list)
+				for(let key in that.time_list){
+					clearInterval(that.time_list[key])
+				}
+				that.time_list = []
 				uni.navigateBack({
 					delta: 1
 				});
@@ -237,16 +243,16 @@
 									}else{
 										that.set_dount_down(data.cards[i].get_end_time-data.time_now, i)
 									}
-									
 								}
 								
 							}
-							if (data.cards.length == 0 && that.offset>1) {
+							if(data.cards.length>0){
+								that.cardsList = that.cardsList.concat(data.cards)
+							}
+							else if (data.cards.length == 0 && that.offset>1) {
 								that.request.showToast('没有更多了')
 							}
-							that.cardsList = that.cardsList.concat(data.cards)
-						} else {
-							console.log('没有数据')
+							
 						}
 					})
 				} else {
@@ -258,7 +264,7 @@
 
 			},
 			// 开启倒计时
-			set_dount_down:function(time, i) {
+			set_dount_down:function(time,i) {
 				let that = this
 				let secondTime = 0; // 分
 				let hourTime = 0; // 小时
@@ -282,10 +288,15 @@
 						hourTime = 0
 						day = 0
 					}
-					that.cardsList[i].day = day
-					that.cardsList[i].house = hourTime
-					that.cardsList[i].second = secondTime
-					that.cardsList[i].minute = minuteTime
+					if(that.set_time==0){
+						that.cardsList[i].day = day
+						that.cardsList[i].house = hourTime
+						that.cardsList[i].second = secondTime
+						that.cardsList[i].minute = minuteTime
+					}
+					that.time_list.push(timers)
+					that.time_list = that.setArr(that.time_list)
+					// console.log(that.time_list)
 					// console.log(that.cardsList[i],day,hourTime,secondTime,minuteTime,)
 					if (time <= 0) {
 						clearInterval(timers)
@@ -294,12 +305,29 @@
 						clearInterval(timers)
 					}
 				}, 1000)
-				// console.log(that.cardsList[i].day, that.cardsList[i].house, that.cardsList[i].second, that.cardsList[i].minute)
+			},
+			// 数组去重
+			setArr: function(arr) {
+				//新建一个空数组
+				let newArr = [];
+				for (let i = 0; i < arr.length; i++) {
+					//遍历传入的数组，查找传入数组的值第一次出现的下标
+					if (arr.indexOf(arr[i]) === i) {
+						//push传入数组的一次出现的数字
+						newArr.push(arr[i]);
+					}
+				}
+				//返回新的数组
+				return newArr;
 			},
 			tabtap: function(index, type) {
-				this.tabIndex = index;
-				this.listType = type //券的类型
 				let that = this
+				that.tabIndex = index;
+				that.listType = type //券的类型
+				for(let key in that.time_list){
+					clearInterval(that.time_list[key])
+				}
+				that.time_list = []
 				that.cardsList = []
 				that.offset = 1
 				that.getCard(type)
@@ -319,17 +347,21 @@
 				}
 			},
 			// 领取卡券
-			getCards: function(cardId, prompt,index) {
+			getCards: function(cardId, prompt,index,max_num) {
 				let that = this
 				if (prompt == '') {
 					let dataInfo = {
 						interfaceId: 'cardget',
-						card_id: cardId
+						card_id: cardId,
+						get_type:'all',
+						share_id:'',//分享人id
+						channel_id:''//渠道id
 					}
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('领取成功')
-							that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count+1
+							// that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count+1
+							that.cardsList[index].salecard_user_count = max_num
 							that.cardsList = that.cardsList 
 						}
 					})

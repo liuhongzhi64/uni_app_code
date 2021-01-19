@@ -566,6 +566,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   props: {
@@ -658,21 +659,21 @@ var _default =
     getCard: function getCard(id, store, salecard_user_count, get_limit, index) {
       var prompt = '';
       if (get_limit > salecard_user_count && store > 0) {
-        this.$emit('getCards', id, prompt, index);
+        this.$emit('getCards', id, prompt, index, get_limit);
       } else
       {
         prompt = '无法领取该卡券';
-        this.$emit('getCards', id, prompt, index);
+        this.$emit('getCards', id, prompt, index, get_limit);
       }
     },
     getCards: function getCards(id, index, status, get_limit) {
       var prompt = '';
       if (get_limit > 0 && status > 0) {
-        this.$emit('getCards', id, prompt, index);
+        this.$emit('getCards', id, prompt, index, get_limit);
       } else
       {
         prompt = '无法领取该卡券';
-        this.$emit('getCards', id, prompt, index);
+        this.$emit('getCards', id, prompt, index, get_limit);
       }
     },
 

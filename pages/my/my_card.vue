@@ -73,9 +73,10 @@
 				</template>
 			</scroll-view>
 		</view>
+		<view class="this_mantle" v-if="show_scan" > </view>
 		<view class="scan_card_info" :style="[{'height':height-menuBottom-10+'px','padding-top':menuBottom+10+'px'}]" v-if="show_scan" @tap="show_scan_info">
 			<view class="scan_info_content">
-				<image class="scan_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_tc.png" mode="widthFix"></image>
+				<image class="scan_img" src="/static/images/card_tc.png" mode="widthFix"></image>
 				<view class="hx_code"> 卡券核销码:{{ scan_info.hx_code }} </view>
 				<view class="show_name_card_type">
 					<view class="show_name_info">
@@ -720,14 +721,23 @@
 		color: #999999;
 	}
 	
+	.this_mantle{
+		position: fixed;
+		z-index: 99;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #333333;
+		opacity: 0.8;
+	}
+	
 	.scan_card_info{
 		position: fixed;
 		top: 0;
 		left: 0;
-		z-index: 9;
+		z-index: 100;
 		width: 100%;
-		background-color: #999999;
-		opacity: 0.9;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -821,6 +831,8 @@
 	}
 	.qrcodes_img{
 		width: 60%;
+		background-color: #F0F0F0;
+		max-height: 360rpx;
 	}
 	
 	.close_scan_card{

@@ -163,7 +163,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#000000',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '医生相册一览',
       requestUrl: '',
       doctor_id: 4,

@@ -287,7 +287,8 @@ __webpack_require__.r(__webpack_exports__);
       offset: 1, //页数
       scan_info: {},
       show_scan: false,
-      set_time: 0 };
+      set_time: 0,
+      time_list: [] };
 
   },
   onLoad: function onLoad(options) {
@@ -330,6 +331,11 @@ __webpack_require__.r(__webpack_exports__);
     go_back: function go_back() {
       var that = this;
       that.set_time = 0;
+      console.log(that.time_list);
+      for (var key in that.time_list) {
+        clearInterval(that.time_list[key]);
+      }
+      that.time_list = [];
       uni.navigateBack({
         delta: 1 });
 
@@ -369,16 +375,16 @@ __webpack_require__.r(__webpack_exports__);
                 } else {
                   that.set_dount_down(data.cards[i].get_end_time - data.time_now, i);
                 }
-
               }
 
             }
+            if (data.cards.length > 0) {
+              that.cardsList = that.cardsList.concat(data.cards);
+            } else
             if (data.cards.length == 0 && that.offset > 1) {
               that.request.showToast('没有更多了');
             }
-            that.cardsList = that.cardsList.concat(data.cards);
-          } else {
-            console.log('没有数据');
+
           }
         });
       } else {
@@ -414,10 +420,15 @@ __webpack_require__.r(__webpack_exports__);
           hourTime = 0;
           day = 0;
         }
-        that.cardsList[i].day = day;
-        that.cardsList[i].house = hourTime;
-        that.cardsList[i].second = secondTime;
-        that.cardsList[i].minute = minuteTime;
+        if (that.set_time == 0) {
+          that.cardsList[i].day = day;
+          that.cardsList[i].house = hourTime;
+          that.cardsList[i].second = secondTime;
+          that.cardsList[i].minute = minuteTime;
+        }
+        that.time_list.push(timers);
+        that.time_list = that.setArr(that.time_list);
+        // console.log(that.time_list)
         // console.log(that.cardsList[i],day,hourTime,secondTime,minuteTime,)
         if (time <= 0) {
           clearInterval(timers);
@@ -426,12 +437,29 @@ __webpack_require__.r(__webpack_exports__);
           clearInterval(timers);
         }
       }, 1000);
-      // console.log(that.cardsList[i].day, that.cardsList[i].house, that.cardsList[i].second, that.cardsList[i].minute)
+    },
+    // 数组去重
+    setArr: function setArr(arr) {
+      //新建一个空数组
+      var newArr = [];
+      for (var i = 0; i < arr.length; i++) {
+        //遍历传入的数组，查找传入数组的值第一次出现的下标
+        if (arr.indexOf(arr[i]) === i) {
+          //push传入数组的一次出现的数字
+          newArr.push(arr[i]);
+        }
+      }
+      //返回新的数组
+      return newArr;
     },
     tabtap: function tabtap(index, type) {
-      this.tabIndex = index;
-      this.listType = type; //券的类型
       var that = this;
+      that.tabIndex = index;
+      that.listType = type; //券的类型
+      for (var key in that.time_list) {
+        clearInterval(that.time_list[key]);
+      }
+      that.time_list = [];
       that.cardsList = [];
       that.offset = 1;
       that.getCard(type);
@@ -451,17 +479,21 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     // 领取卡券
-    getCards: function getCards(cardId, prompt, index) {
+    getCards: function getCards(cardId, prompt, index, max_num) {
       var that = this;
       if (prompt == '') {
         var dataInfo = {
           interfaceId: 'cardget',
-          card_id: cardId };
-
+          card_id: cardId,
+          get_type: 'all',
+          share_id: '', //分享人id
+          channel_id: '' //渠道id
+        };
         that.request.uniRequest("card", dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             that.request.showToast('领取成功');
-            that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count + 1;
+            // that.cardsList[index].salecard_user_count = that.cardsList[index].salecard_user_count+1
+            that.cardsList[index].salecard_user_count = max_num;
             that.cardsList = that.cardsList;
           }
         });

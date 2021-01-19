@@ -67,12 +67,14 @@
 					</view>					
 					<view class="left-bottom">
 						<!-- 当前状态 -->
-						<view class="ticket-state" v-if="item.state">
+						<view class="ticket-state" v-if="item.state||item.status">
 							当前状态:
-							<text class="all-state" :style="[{'color':item.state==1?'#fa3475':(item.state==2?'#0073c4':'#999999')}]">
-								<text v-if='item.state==1'>可使用</text>
-								<text v-else-if='item.state==2'>冻结中</text> 
-								<text v-else-if='item.state==4'>已使用</text> 
+							<text class="all-state"
+							 :style="[{'color':item.state==1||item.status==1?'#fa3475':(item.state==2||item.status==2?'#0073c4':'#999999')}]">
+								<text class="this_no_usetime" v-if='time_now<item.use_start_time'>未到使用时间</text>
+								<text v-else-if='item.state==1||item.status==1'>可使用</text>
+								<text v-else-if='item.state==2||item.status==2'>冻结中</text> 
+								<text v-else-if='item.state==4||item.status==3'>已使用</text> 
 								<text v-else>已失效</text> 
 							</text>		
 						</view>
@@ -266,9 +268,8 @@
 					</view>					
 					<view class="left-bottom">
 						<!-- 可领取券数 -->
-						<view class="can-receive"
-						 v-if="item.status>0&&item.rest_time>0 "> 
-							可领取{{item.get_limit}}张 
+						<view class="can-receive" v-if="item.status>0&&item.rest_time>0 "> 
+							可领取{{item.get_limit-item.salecard_user_count}}张 
 						</view>						
 						<!-- 领取倒计时 -->
 						<view class="receive-time" v-if="item.rest_time > 0">
@@ -285,7 +286,7 @@
 				<view class="ticket-images-exclusiveName"
 				 :style="[{'background-image': item.rest_time >0 && item.status>0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" >
-						<image class="note_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_label_bg.png " ></image>
+						<image class="note_img" src="/static/images/card_label_bg.png " ></image>
 						<text class="this_note">{{item.note}}</text> 
 					</view>
 					<view class="all-exclusive-price" v-if="item.condition">
@@ -301,7 +302,7 @@
 					</view>														
 					<view class="Immediately-receive useing-ticket" v-if="item.status>0"
 					 :style="{'color': item.rest_time >0 ? item.card_style: '#999999'}"
-					 @tap='getCards(item.card_id,k,item.status,item.get_limit)'>
+					 @tap='getCards(item.card_id,k,item.status,item.get_limit,item.get_limit)'>
 						立即领取
 					</view>	
 					<view class="Immediately-receive useing-ticket" v-else
@@ -487,21 +488,21 @@
 			getCard:function(id,store,salecard_user_count,get_limit,index){
 				let prompt = ''
 				if(get_limit>salecard_user_count&&store>0){
-					this.$emit('getCards',id,prompt,index)
+					this.$emit('getCards',id,prompt,index,get_limit)
 				}
 				else{
 					prompt = '无法领取该卡券'
-					this.$emit('getCards',id,prompt,index)
+					this.$emit('getCards',id,prompt,index,get_limit)
 				}
 			},
 			getCards:function(id,index,status,get_limit){
 				let prompt = ''
 				if(get_limit>0&&status>0){
-					this.$emit('getCards',id,prompt,index)
+					this.$emit('getCards',id,prompt,index,get_limit)
 				}
 				else{
 					prompt = '无法领取该卡券'
-					this.$emit('getCards',id,prompt,index)
+					this.$emit('getCards',id,prompt,index,get_limit)
 				}
 			},
 			
@@ -606,7 +607,10 @@
 		font-size: 24rpx;
 		margin-top: 20rpx;
 		display: flex;
-		justify-content: space-between;
+		/* justify-content: space-between; */
+	}
+	.this_no_usetime{
+		color: #FA3475;
 	}
 	.user_have{
 		margin-right: 20rpx;
@@ -673,12 +677,12 @@
 	}
 
 	.exclusive-name {
-		width: 128rpx;
+		width: 140rpx;
 		height: 36rpx;
 		position: relative;
 	}
 	.note_img{
-		width: 128rpx;
+		width: 140rpx;
 		height: 36rpx;
 		position: absolute;
 		top: -6rpx;
@@ -686,7 +690,7 @@
 		right: 0;
 	}
 	.this_note{
-		width: 128rpx;
+		width: 140rpx;
 		height: 36rpx;
 		text-align: center;
 		position: absolute;

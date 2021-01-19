@@ -640,16 +640,16 @@ __webpack_require__.r(__webpack_exports__);
       discounts_list: [],
       card_sale_list: [],
       all_discount: 0,
-      no_back: true //是否禁止跳转
-    };
+      no_back: true, //是否禁止跳转
+      platform: '' };
+
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
+    that.platform = platform;
     if (platform == 'Applets') {
-      // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
@@ -997,12 +997,14 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           var url = data.mweb_url;
-          uni.showLoading({
-            title: '支付中...' });
+          if (that.platform == 'APP') {
+            uni.showLoading({
+              title: '支付中...' });
 
-          // app支付
-          var webview = plus.webview.create("", "custom-webview");
-          webview.loadURL(url, { "Referer": that.requestUrl });
+            // app支付
+            var webview = plus.webview.create("", "custom-webview");
+            webview.loadURL(url, { "Referer": that.requestUrl });
+          }
         }
       });
     },

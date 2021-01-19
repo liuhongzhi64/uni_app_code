@@ -556,12 +556,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
 {
   components: {
     ticket: ticket,
@@ -650,10 +644,10 @@ __webpack_require__.r(__webpack_exports__);
       cart_id_list: [],
       pay_url: '', //
       pay_show: false,
-      provider: '', //运行的环境 alipay 支付宝;wxpay 微信; baidu百度; appleiap 苹果
       onShow_num: 0,
       productLists: [],
-      is_one_pay: false };
+      is_one_pay: false,
+      hide_name: '' };
 
   },
   onShow: function onShow() {
@@ -662,18 +656,8 @@ __webpack_require__.r(__webpack_exports__);
     if (userInfo) {
       that.contentList.user_info = userInfo;
     }
-    uni.hideLoading();
-    // 查看运行的平台
-    uni.getProvider({
-      service: 'payment',
-      success: function success(res) {
-        that.provider = res.provider[0];
-        console.log(that.provider);
-      } });
-
-    // console.log(that.onShow_num)
     that.onShow_num += 1;
-    if (that.onShow_num > 1) {
+    if (that.onShow_num > 1 && that.platform == 'APP') {
       that.getLike();
       that.pay_show = !that.pay_show;
     }
@@ -685,10 +669,8 @@ __webpack_require__.r(__webpack_exports__);
     if (option.cart_id_list) {
       var cart_id_list = JSON.parse(option.cart_id_list);
       that.cart_id_list = cart_id_list;
-      // 获取订单的详情
       that.get_order_detail(cart_id_list);
-    } else
-    if (option.one_goods) {
+    } else if (option.one_goods) {
       var goods_order = JSON.parse(option.one_goods);
       that.get_one_goods_order(goods_order);
     }
@@ -697,10 +679,9 @@ __webpack_require__.r(__webpack_exports__);
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
+    that.platform = platform;
     if (platform == 'Applets') {
-      // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
@@ -711,8 +692,7 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    if (platform == 'APP') {
+    } else if (platform == 'APP') {
       that.menuWidth = 90;
       that.menuTop = 40;
       that.menuHeight = 30;
@@ -753,8 +733,7 @@ __webpack_require__.r(__webpack_exports__);
       }
       if (/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(that.user_tel)) {
         that.phoneValueState = false;
-      } else
-      {
+      } else {
         that.phoneValueState = true;
       }
     },
@@ -800,15 +779,13 @@ __webpack_require__.r(__webpack_exports__);
 
             }
           });
-        } else
-        if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
+        } else if (that.contentList.user_info.real_name && that.contentList.user_info.tel) {
           that.show_set_user_info = !that.show_set_user_info;
           uni.showToast({
             title: '修改成功',
             icon: 'none' });
 
-        } else
-        {
+        } else {
           uni.showToast({
             title: '请输入联系方式',
             icon: 'none' });
@@ -821,10 +798,15 @@ __webpack_require__.r(__webpack_exports__);
           icon: 'none' });
 
       }
-
+    },
+    show_user_info: function show_user_info() {
+      var that = this;
+      that.show_set_user_info = !that.show_set_user_info;
     },
     go_to_harves_address: function go_to_harves_address() {
+      var that = this;
       var page = 'order';
+      that.onShow_num = -1;
       uni.navigateTo({
         url: "/pages/my/harves_address?page=".concat(page) });
 
@@ -839,7 +821,6 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("order", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          // console.log(data)
           var goods_list_obj = data.goods_list;
           var goods_list_arr = [];
           for (var key in goods_list_obj) {
@@ -867,7 +848,6 @@ __webpack_require__.r(__webpack_exports__);
             }
             if (goods_list_arr[i].refundable == 0) {//是否允许退款，1：允许，0：不允许
               that.refundable_list.push(goods_list_arr[i].sku_id);
-              // console.log(that.refundable_list)
             }
             // 最近的过期时间
             if (goods_list_arr[i].overdue_time) {
@@ -876,8 +856,6 @@ __webpack_require__.r(__webpack_exports__);
               }
             }
           }
-
-          // console.log(data)
           if (that.expiration_time > 0) {
             that.expiration_time = that.setTimer(that.expiration_time);
           }
@@ -982,14 +960,6 @@ __webpack_require__.r(__webpack_exports__);
             var is_id = list[_i].id + _i;
             is_list.push(is_id);
           }
-          // for(let i=0;i<arr.length;i++){
-          // 	for(let key in arr[i]){
-          // 		console.log(arr[i][key])
-          // 		// if(arr[i][key]==arr[i][key]+1){
-          // 		// 	console.log(key)
-          // 		// }
-          // 	}
-          // }
           that.can_use_card = list;
           // console.log(list)
           that.can_use_card_length = card_number;
@@ -1263,10 +1233,61 @@ __webpack_require__.r(__webpack_exports__);
       }
 
     },
+    deduction_info: function deduction_info(name) {
+      var that = this;
+      if (name == '积分') {
+        uni.showModal({
+          title: '温馨提示',
+          content: "\u3010".concat(name, "\u3011\u662F\u5728\u9662\u5185\u6D88\u8D39\u540E\u4EA7\u751F\u7684\u79EF\u5206,\u53EF\u7528\u4E8E\u7EBF\u4E0B\u5151\u6362\u548C\u7EBF\u4E0A\u62B5\u6263!"),
+          confirmText: '我知道了',
+          cancelText: '积分商城',
+          cancelColor: '#FA3475',
+          success: function success(res) {
+            if (res.cancel) {
+              console.log(res, name);
+            }
+          } });
+
+      } else if (name == '喵豆') {
+        uni.showModal({
+          title: '温馨提示',
+          content: "\u3010".concat(name, "\u3011\u662F\u5728\u6574\u5457\u5546\u57CE\u8D2D\u4E70\u5546\u54C1,\u6216\u8005\u53C2\u52A0\u6D3B\u52A8\u540E\u83B7\u5F97\u7684\u4E00\u79CD\u7528\u6237\u6743\u76CA!"),
+          confirmText: '我知道了',
+          cancelText: '我的喵豆',
+          cancelColor: '#FA3475',
+          success: function success(res) {
+            if (res.cancel) {
+              console.log(res, name);
+            }
+          } });
+
+      } else if (name == '余额') {
+        uni.showModal({
+          title: '温馨提示',
+          content: "\u3010".concat(name, "\u3011\u662F\u6574\u5457\u5546\u57CE\u9488\u5BF9\u53C2\u52A0\u6D3B\u52A8\u7684\u7528\u6237\u53D1\u653E\u7684\u73B0\u91D1\u5956\u52B1\uFF0C\u53EF\u4EE5\u7528\u4E8E\u4F53\u73B0\u6216\u8005\u62B5\u6263\u652F\u4ED8\u91D1\u989D!"),
+          confirmText: '我知道了',
+          cancelText: '我的余额',
+          cancelColor: '#FA3475',
+          success: function success(res) {
+            if (res.cancel) {
+              console.log(res, name);
+            }
+          } });
+
+      }
+    },
     // 选择抵用
     switchChange: function switchChange(e) {
-      console.log(e.target.value);
-      console.log(e.currentTarget.dataset);
+      var that = this;
+      var index = e.currentTarget.dataset.k;
+      // let flag = e.target.value
+      // that.deductionList[index].checked = false
+      // this.$forceUpdate()
+      // console.log(that.deductionList[index])
+      uni.showToast({
+        title: '暂不可用',
+        icon: 'none' });
+
     },
     // 付款方式
     playChange: function playChange(e) {
@@ -1381,16 +1402,20 @@ __webpack_require__.r(__webpack_exports__);
               that.pay_url = data.mweb_url;
               // that.pay_show = !that.pay_show
               var url = data.mweb_url;
-              uni.showLoading({
-                title: '支付中...' });
+              console.log(url);
+              if (that.platform == 'APP') {
+                uni.showLoading({
+                  title: '支付中...' });
 
-              // 跳转到确认支付页面
-              // uni.navigateTo({
-              // 	url: `/pages/confirm_order/confirm_payment?url=${url}`,
-              // })
-              var webview = plus.webview.create("", "custom-webview");
-              // that.requestUrl = https://mytest.hmzixin.com/ 后面换为that.requestUrl 因为that.requestUrl会统一改变
-              webview.loadURL(that.pay_url, { "Referer": "https://mytest.hmzixin.com/" });
+                // 跳转到确认支付页面
+                // uni.navigateTo({
+                // 	url: `/pages/confirm_order/confirm_payment?url=${url}`,
+                // })
+                var webview = plus.webview.create("", "custom-webview");
+                // that.requestUrl = https://mytest.hmzixin.com/ 后面换为that.requestUrl 因为that.requestUrl会统一改变
+                webview.loadURL(that.pay_url, { "Referer": that.requestUrl });
+              }
+
             }
           });
         }

@@ -4,7 +4,7 @@
 			<view class="my-top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
 				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 					<view class="back" @click="goBack">
-						<image src="../../static/images/return.png" mode=""></image>
+						<image src="/static/images/return.png" mode=""></image>
 					</view>
 					<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> {{title}} </view>
 				</view>
@@ -31,7 +31,7 @@
 					</view>
 					<!-- 已退款 order_info.status==7 -->
 					<view class="refunded" v-else-if="order_info.status==7">
-						<image src="../../static/images/delete.png" mode=""></image>
+						<image src="/static/images/delete.png" mode=""></image>
 						<view class="refunded_hint">已退款</view>
 					</view>
 				</view>
@@ -204,10 +204,12 @@
 												</view>
 												<image src="../../static/images/arrow-down.png" mode=""></image>
 											</view>
-											<view class="porduct-price-number" 
-											 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
-												<view class="porduct-price"><text>￥</text>{{i.sku_price}}</view>
-												<view class="porduct-number"> x {{i.sku_nums}} </view>
+											<view class="porduct-price-number"  >
+												<view class="porduct-price" 
+												 :class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''">
+												 <text>￥</text>{{i.sku_price}}</view>
+												<view class="porduct-number"
+												:class="i.status==0||i.status==2||i.status==3||i.status==5?'show_color':''"> x {{i.sku_nums}} </view>
 											</view>
 										</view>
 									</view>
@@ -518,6 +520,7 @@
 				house: 0,
 				second: 0,
 				minute: 0,
+				platform:''
 			}
 		},
 		onReachBottom: function() {
@@ -543,9 +546,9 @@
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
 			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
+			that.platform = platform
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
@@ -620,14 +623,14 @@
 				that.request.uniRequest("pay", data_info).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						// console.log(data.mweb_url)
 						let url = data.mweb_url
-						uni.showLoading({
-							title: '支付中...'
-						});
-						// app支付
-						const webview = plus.webview.create("","custom-webview")
-						webview.loadURL(url,{"Referer":that.requestUrl})
+						if(that.platform=='APP'){
+							uni.showLoading({
+								title: '支付中...'
+							});
+							const webview = plus.webview.create("","custom-webview")
+							webview.loadURL(url,{"Referer":that.requestUrl})
+						}
 					}
 				})
 			},
@@ -1639,8 +1642,8 @@
 	.top-button {
 		width: 120rpx;
 		position: fixed;
-		right: 30rpx;
-		bottom: 80px;
+		right: 20rpx;
+		bottom: 50px;
 		z-index: 9999;
 	}
 	.top-button image{

@@ -75,7 +75,7 @@
 										{{i.name}} <text>{{i.zhicheng}}</text>
 									</view>
 									<view class="employed_time_case_num">
-										<view class="employed_time"> 从业经验 : <text>{{(i.year)}}年</text></view>
+										<view class="employed_time"> 从业经验 : <text>{{(i.employed_y || i.year)}}年</text></view>
 										<!-- <view class="employed_time"> 从业经验:{{Math.round(i.now_time-i.employed_time/31104000)}}年</view> -->
 										<view class="case_num">案列数 : <text>{{i.case_num}}</text></view>
 									</view>																
@@ -733,6 +733,7 @@
 	.goods_left{
 		display: flex;
 		align-items: center;
+		width: 55%;
 	}
 	.goods_title{
 		width: 30rpx;
@@ -744,7 +745,7 @@
 		margin-right: 10rpx;
 	}
 	.gooss_content{
-		width: 80%;
+		/* width: 80%; */
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;

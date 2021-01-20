@@ -647,7 +647,8 @@ __webpack_require__.r(__webpack_exports__);
       onShow_num: 0,
       productLists: [],
       is_one_pay: false,
-      hide_name: '' };
+      hide_name: '',
+      this_type: 0 };
 
   },
   onShow: function onShow() {
@@ -672,6 +673,7 @@ __webpack_require__.r(__webpack_exports__);
       that.get_order_detail(cart_id_list);
     } else if (option.one_goods) {
       var goods_order = JSON.parse(option.one_goods);
+      that.this_type = goods_order.type;
       that.get_one_goods_order(goods_order);
     }
   },
@@ -910,7 +912,6 @@ __webpack_require__.r(__webpack_exports__);
               }
             }
           }
-          // console.log(data)
           if (that.expiration_time > 0) {
             that.expiration_time = that.setTimer(that.expiration_time);
           }
@@ -1351,42 +1352,44 @@ __webpack_require__.r(__webpack_exports__);
     pay_now: function pay_now() {
       var that = this;
       var sku_list = that.get_goods_info();
+      var address_id = 0;
+      var sale_arr = [];
+      that.is_one_pay = true;
       if (that.is_post_list.length > 0 && !that.contentList.user_info.address) {
         uni.showToast({
           title: '请填写收货地址和您的联系方式',
           icon: 'none' });
 
         return;
+      } else if (that.is_post_list.length > 0) {
+        if (uni.getStorageSync('newuserInfo').address_id) {
+          address_id = uni.getStorageSync('newuserInfo').address_id;
+        }
       }
-      // console.log(sku_list)
-      var address_id = 0;
-      var sale_arr = [];
-      that.is_one_pay = true;
+
       for (var i = 0; i < that.cart_id_list.length; i++) {
         if (that.cart_id_list[i].act_id) {
           sale_arr.push(that.cart_id_list[i].act_id);
         }
       }
-      if (uni.getStorageSync('newuserInfo').address_id) {
-        address_id = uni.getStorageSync('newuserInfo').address_id;
-      }
+
       var dataInfo = {
         interfaceId: 'add_order',
-        type: 1, //0是普通商品结算 1购物车结算
+        type: that.this_type, //0是普通商品结算 1购物车结算
         address_id: address_id, //个人邮寄地址id（到院默认为0）
         f_unique_id: 0, //最近分享的父级分享人unique_id
         archives_id: 0, //最近分享的渠道id 默认为0
         sku_list: sku_list, //订单包含的sku数据
-        // cards_list:cards_list, //使用的卡券数据 没有就不传
-        // postscript:postscript ,//用户留言
+        cards_list: that.cards_list, //使用的卡券数据 没有就不传
+        postscript: that.leaveMessage, //用户留言
         sale_arr: sale_arr //活动优惠id数组(备注：有就传没有传空数组)
       };
-      if (that.cards_list.length > 0) {
-        dataInfo.cards_list = that.cards_list;
-      }
-      if (that.leaveMessage) {
-        dataInfo.postscript = that.leaveMessage;
-      }
+      // if (that.cards_list.length > 0) {
+      // 	dataInfo.cards_list = that.cards_list
+      // }
+      // if (that.leaveMessage) {
+      // 	dataInfo.postscript = that.leaveMessage
+      // }
       // console.log(dataInfo)
       that.request.uniRequest("order", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {

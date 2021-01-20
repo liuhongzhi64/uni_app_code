@@ -553,6 +553,7 @@
 		onShow:function(){
 			let that = this
 			that.timers = 0
+			that.offset = 0
 			that.contentList = []
 			that.get_my_order()
 		},
@@ -1356,7 +1357,7 @@
 		width: 80rpx;
 		position: fixed;
 		right: 40rpx;
-		bottom: 120px;
+		bottom: 60px;
 		z-index: 9999;
 	}
 	.top-button image{

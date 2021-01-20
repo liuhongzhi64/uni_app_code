@@ -2,24 +2,14 @@
 .show_color.data-v-08de1eeb{
 	color: #fa3475;
 }
-.my_order_detail.data-v-08de1eeb {
-	background-color: #F6F6F6;
+.my_order_detail.data-v-08de1eeb{
+	background-color: #F0F0F0;
 }
-.top-nav-message.data-v-08de1eeb {
-	background-image: -webkit-linear-gradient(139deg, #f24788 0%, #ff69a1 100%);
-	background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
-	overflow: hidden;
-	height: auto;
-	width: 100%;
-	-webkit-border-bottom-left-radius: 50rpx;
-	        border-bottom-left-radius: 50rpx;
-	-webkit-border-bottom-right-radius: 50rpx;
-	        border-bottom-right-radius: 50rpx;
-}
-.my-top-bar.data-v-08de1eeb {
+.top-bar.data-v-08de1eeb {
 	color: #FFFFFF;
-	background-image: -webkit-linear-gradient(139deg, #f24788 0%, #ff69a1 100%);
-	background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#FF6598),to(#FB3E7B));
+	background-image: -webkit-linear-gradient(left, #FF6598,#FB3E7B);
+	background-image: linear-gradient(to right, #FF6598,#FB3E7B);
 	text-align: center;
 	font-size: 40rpx;
 	position: fixed;
@@ -33,9 +23,9 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
@@ -48,65 +38,132 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	margin-left: 20rpx;
 	width: 60rpx;
 	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 .back image.data-v-08de1eeb {
 	width: 36rpx;
 	height: 36rpx;
+	padding-left: 20rpx;
 }
-.back-title .title.data-v-08de1eeb {
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	        flex: 1;
-	margin-left: 80rpx;
+.top_order_info.data-v-08de1eeb{
+	position: relative;
 }
-.top-message.data-v-08de1eeb {
+.this_order_bj.data-v-08de1eeb{
+	width: 100%;
+}
+.this_order_status.data-v-08de1eeb{
+	color: #FFFFFF;
+}
+.status_one.data-v-08de1eeb{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding-left: 50rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.status_right.data-v-08de1eeb{
+	padding-left: 20rpx;
+	font-size: 24rpx;
+}
+.is_pay.data-v-08de1eeb{
+	font-size: 40rpx;
+}
+.wait_for.data-v-08de1eeb{
+	width: 108rpx;
+	height: 108rpx;
+}
+.residue-time.data-v-08de1eeb {
+	opacity: 0.7;
+	padding: 20rpx 0;
+}
+.online_pay.data-v-08de1eeb{
+	margin-right: 20rpx;
+}
+.status_two.data-v-08de1eeb{
+	position: absolute;
+	top: 40rpx;
+	left: 0;
+	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
-	/* padding-top: 210rpx; */
-	padding-bottom: 210rpx;
-}
-.user-message.data-v-08de1eeb {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	color: #FFFFFF;
-	font-size: 24rpx;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	text-align: center;
 }
-.wait-pay.data-v-08de1eeb {
-	font-size: 40rpx;
+.delete_image.data-v-08de1eeb{
+	width: 108rpx;
+	height: 108rpx;
+}
+.status_three.data-v-08de1eeb{
+	position: absolute;
+	top: 30rpx;
+	left: 0;
+	width: 100%;
+}
+.already_pay.data-v-08de1eeb{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	font-size: 32rpx;
+	padding-left: 50rpx;
+}
+.order_refund.data-v-08de1eeb{
+	width: 108rpx;
+	height: 108rpx;
+	padding-right: 20rpx;
+}
+.expiration_time.data-v-08de1eeb{
+	opacity: 0.7;
+	padding: 10rpx 0;
+	font-size: 24rpx;
 }
 .user-pay-prices.data-v-08de1eeb {
 	font-size: 32rpx;
 }
-.now_pay.data-v-08de1eeb {
-	margin-top: 20rpx;
-	width: 240rpx;
-	-webkit-border-radius: 50rpx;
-	        border-radius: 50rpx;
+.this_user_info.data-v-08de1eeb{
+	position: absolute;
+	left: 0;
+	bottom: -40rpx;
+	width: 100%;
+}
+.user_info.data-v-08de1eeb{
+	padding:0 20rpx;
+}
+.user_info_content.data-v-08de1eeb{
+	background-color: #FFFFFF;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
+	height: 190rpx;
+}
+.user_distribution.data-v-08de1eeb {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	background-color: #FFFFFF;
+	-webkit-border-radius: 24rpx;
+	        border-radius: 24rpx;
 	color: #fa3475;
-	border: none;
+	padding: 80rpx 0;
 }
-.now_pay.data-v-08de1eeb::after {
-	border: none;
-}
-.residue-time.data-v-08de1eeb {
-	opacity: 0.7;
-	padding: 20rpx 0;
-}
-.user-all-message.data-v-08de1eeb {
-	padding: 0 20rpx;
-	margin-top: -130rpx;
+.accept_name.data-v-08de1eeb{
+	margin-right: 20rpx;
 }
 .user-message-content.data-v-08de1eeb {
 	background-color: #FFFFFF;
@@ -188,6 +245,9 @@
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 	width: 76%;
+}
+.this_order_particulars.data-v-08de1eeb{
+	margin-top: 40rpx;
 }
 .all-order-message.data-v-08de1eeb {
 	padding-bottom: 170rpx;
@@ -327,6 +387,7 @@
 .porduct-images image.data-v-08de1eeb {
 	width: 200rpx;
 	height: 200rpx;
+	background-color: #F0F0F0;
 }
 .porduct-right.data-v-08de1eeb {
 	display: -webkit-box;
@@ -788,7 +849,7 @@
 	border: none;
 }
 .top-button.data-v-08de1eeb {
-	width: 120rpx;
+	width: 80rpx;
 	position: fixed;
 	right: 20rpx;
 	bottom: 50px;
@@ -839,28 +900,13 @@
 	color: #FFFFFF;
 	margin-left: 10rpx;
 }
-.user_info.data-v-08de1eeb {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-	background-color: #FFFFFF;
-	-webkit-border-radius: 24rpx;
-	        border-radius: 24rpx;
-	color: #fa3475;
-	/* padding: 34rpx 0; */
-	padding: 80rpx 0;
-}
 .color.data-v-08de1eeb {
 	color: #fa3475;
 }
-/* 优惠信息 */
 .discount_content.data-v-08de1eeb{
 	width: 100%;
 	position: fixed;
-	z-index: 999;
+	z-index: 99;
 	left: 0;
 	background-color: #eeeeee;
 	opacity: 0.8;

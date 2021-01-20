@@ -286,7 +286,7 @@
 				<view class="ticket-images-exclusiveName"
 				 :style="[{'background-image': item.rest_time >0 && item.status>0 ? `linear-gradient(-90deg,  ${item.card_style} 0%,  ${item.card_style} 100%)`:` linear-gradient(-90deg,#999999 0%,  #999999 100%)`}]">
 					<view class="exclusive-name" >
-						<image class="note_img" src="/static/images/card_label_bg.png " ></image>
+						<image class="note_img" src="/static/images/card_label_bg.png" ></image>
 						<text class="this_note">{{item.note}}</text> 
 					</view>
 					<view class="all-exclusive-price" v-if="item.condition">

@@ -1304,8 +1304,9 @@ __webpack_require__.r(__webpack_exports__);
               sku_id: that.contentList.sku.id,
               num: that.goodsNuber,
               is_post: that.class_type, //is_post 0 到院 1邮寄
-              buy_type: buy_type //支付类型
-            };
+              buy_type: buy_type, //支付类型
+              type: 0 };
+
             one_goods = JSON.stringify(one_goods);
             uni.navigateTo({
               url: "/pages/confirm_order/confirm_order?one_goods=".concat(one_goods) });

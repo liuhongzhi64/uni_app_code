@@ -1158,6 +1158,7 @@
 								num:that.goodsNuber,
 								is_post: that.class_type,//is_post 0 到院 1邮寄
 								buy_type:buy_type ,//支付类型
+								type:0
 							}
 							one_goods = JSON.stringify(one_goods)
 							uni.navigateTo({

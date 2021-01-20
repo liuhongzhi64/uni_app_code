@@ -56,7 +56,7 @@
 							</view>
 						</view>
 						<view class="save-settings">
-							<view class="save"><button class="settings" type="default" plain="true" @tap='saveUserMessage'>保存并使用</button></view>
+							<view class="save"><button class="settings" type="default"  @tap='saveUserMessage'>保存并使用</button></view>
 						</view>
 					</view>
 				</template>
@@ -452,5 +452,8 @@
 		color: #FFFFFF;
 		border: 0;
 		background-image: linear-gradient(0deg, #fa3475 0%, #ff6699 100%);
+	}
+	.settings::after{
+		border: none;
 	}
 </style>

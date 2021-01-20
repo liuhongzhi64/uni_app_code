@@ -685,6 +685,7 @@ __webpack_require__.r(__webpack_exports__);
   onShow: function onShow() {
     var that = this;
     that.timers = 0;
+    that.offset = 0;
     that.contentList = [];
     that.get_my_order();
   },

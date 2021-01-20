@@ -614,22 +614,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     goodsShow: goodsShow },
 
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       height: 0,
       barName: 'back', //导航条名称
       color: '#FFFFFF',
-      backImage: '/static/images/return.png',
-      title: '订单详情',
       state: '已付款', //是否付款
       requestUrl: '',
       order_info: {
@@ -667,37 +666,29 @@ __webpack_require__.r(__webpack_exports__);
     if (option.info) {
       that.get_order_derail(option.info);
     } else {
-      that.get_order_derail(23149); //23170
+      that.get_order_derail(1020); //23170
     }
     that.getLike();
-  },
-  onShow: function onShow() {
-
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     that.platform = platform;
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
     } else
     if (platform == 'APP') {
-      that.menuWidth = 90;
       that.menuTop = 40;
       that.menuBottom = 70;
       that.menuHeight = 30;
-      that.menuLeft = 278;
     }
   },
   methods: {
@@ -719,7 +710,8 @@ __webpack_require__.r(__webpack_exports__);
           for (var i = 0; i < data.order_goods.length; i++) {
             // 显示的规格
             data.order_goods[i].show_sku_spec = false;
-            if (data.order_info.distribution == 1) {
+            // console.log(data.order_info.distribution)以前是判定订单信息中的方式
+            if (data.order_goods[i].distribution == 1) {
               that.is_post_list.push(data.order_goods[i]);
             } else if (data.order_goods[i].scan_department == 0) {
               that.scan_one_list.push(data.order_goods[i]);
@@ -969,25 +961,13 @@ __webpack_require__.r(__webpack_exports__);
         url: '/pages/goods/goods_classify' });
 
     },
-    // 返回顶部
-    ToTop: function ToTop() {
-      uni.pageScrollTo({
-        scrollTop: 0,
-        duration: 600 });
 
-    },
     // 申请退款
     go_refund: function go_refund(id) {
-      uni.navigateTo({
+      uni.redirectTo({
         url: "/pages/my/my_order_refund?id=".concat(id) });
 
     },
-    // 退款结果
-    // cancel_detail: function(id) {
-    // 	uni.navigateTo({
-    // 		url: `/pages/my/my_order_refund_progress?id=${id}`,
-    // 	})
-    // },
     // 取消订单
     cancel_order: function cancel_order(id) {
       var that = this;
@@ -996,7 +976,6 @@ __webpack_require__.r(__webpack_exports__);
         content: '您正在取消订单,确认取消订单吗？',
         success: function success(res) {
           if (res.confirm) {
-            console.log('用户点击确定');
             var dataInfo = {
               interfaceId: 'cancel',
               id: id };
@@ -1007,7 +986,7 @@ __webpack_require__.r(__webpack_exports__);
                   title: '取消订单成功!' });
 
                 setTimeout(function () {
-                  uni.navigateTo({
+                  uni.redirectTo({
                     url: "/pages/my/my_order?type=0" });
 
                 }, 1000);
@@ -1025,17 +1004,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 写日记和评价
     write_content: function write_content(info) {
-      // 写日记
       if (info == 'diary') {
         uni.navigateTo({
           url: "/pages/diary/diary_write" });
 
       } else if (info == 'comment') {
-        // 写评价
         uni.navigateTo({
           url: "/pages/my/write_comment" });
 
       }
+    },
+    // 返回顶部
+    go_to_top: function go_to_top() {
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 600 });
+
     } },
 
   // 显示回到顶部按钮

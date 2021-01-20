@@ -61,6 +61,7 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	width: 100%;
 	font-size: 32rpx;
 	color: #000000;
 }
@@ -146,7 +147,7 @@
 	        align-items: center;
 	padding: 0 30rpx;
 }
-.this_user-message.data-v-51e0fab4,.have_shipping-address.data-v-51e0fab4{
+.this_user-message.data-v-51e0fab4{
 	padding: 0 30rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -154,6 +155,22 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+}
+.have_shipping-address.data-v-51e0fab4{
+	padding: 0 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 }
 
 /* 商品信息 */

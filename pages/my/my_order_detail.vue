@@ -1,74 +1,77 @@
 <template>
-	<view class="my_order_detail">
-		<view class="top-nav-message">
-			<view class="my-top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
-				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
-					<view class="back" @click="goBack">
-						<image src="/static/images/return.png" mode=""></image>
-					</view>
-					<view class="title" :style="[{'margin-right':menuWidth+'px'}]"> {{title}} </view>
-				</view>
+	<view class="my_order_detail" :style="[{'min-height':height-menuBottom-10+'px'}]">
+		<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px'}]">
+			<view class="back" @click="goBack" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px'}]">
+				<image src="/static/images/return.png" mode=""></image>
 			</view>
-			<view class="top-message" v-if="order_info.status!=1" :style="[{'padding-top':menuHeight+90+'px'}]">
-				<view class="user-message">
-					<!-- 等待付款 v-if="order_info.status==0" -->
-					<view class="user-useing-time-price" v-if="order_info.status==0">
-						<view class="wait-pay">等待付款</view>
-						<!-- 倒计时 -->
+			<view class="back-title" :style="[{'height':menuHeight+'px'}]"> 订单详情 </view>
+		</view>
+		<view class="top_order_info" :style="[{'margin-top':menuBottom+10+'px'}]">
+			<image class="this_order_bj" src="/static/images/order_bj.png" mode="widthFix"></image>
+			<view class="this_order_status">
+				<view class="status_one" v-if="order_info.status==0">
+					<image class="wait_for" src="/static/images/order_waiting.png" ></image>
+					<view class="status_right">
+						<text class="is_pay">等待付款</text>
 						<view class="residue-time">剩余支付时间:
 							<text>{{ day }}</text>天<text>{{ house }}</text>时<text>{{ second }}</text>分<text>{{ minute }}</text>秒
 						</view>
 						<view class="user-pay-price">
-							在线支付￥<text>{{ order_info.online_pay }}</text>,到院再付￥<text>{{ order_info.offline_pay }}</text>
-						</view>
-						<button class="now_pay" type="default" size="mini" @tap="please_pay(order_info.id)">立即支付</button>
-					</view>
-					<!-- 已付款 v-else-if="order_info.status==2" -->
-					<view class="user-useing-time-price" v-else-if="order_info.status==2">
-						<view class="wait-pay">已付款</view>
-						<view class="residue-time">有商品于 {{ expiration_time }} 作废</view>
-						<view class="user-pay-prices"> 请尽快到院使用 </view>
-					</view>
-					<!-- 已退款 order_info.status==7 -->
-					<view class="refunded" v-else-if="order_info.status==7">
-						<image src="/static/images/delete.png" mode=""></image>
-						<view class="refunded_hint">已退款</view>
-					</view>
-				</view>
-			</view>
-			<!-- 已作废 -->
-			<view class="cancel-order_top" :style="[{'padding-top':menuBottom+40+'px'}]" v-else-if="order_info.status==1">
-				<image src="/static/images/delete.png" mode=""></image>
-				<view class="cancel_hint">已作废</view>
-			</view>
-		</view>
-		<!-- 收货地址和联系方式 -->
-		<view class="user-all-message">
-			<view class="user-message-content" v-if="order_info.distribution==1">
-				<view class="user-message-left">
-					<view class="user-name-phone-default-address">
-						<view class="user-name"> {{ order_info.accept_name }} </view>
-						<view class="user-phone"> {{ order_info.telphone }} </view>
-						<view class="default-address">
-							<view class="default">默认</view>
-							<view class="default-address-content"> {{ order_info.tag }} </view>
-						</view>
-					</view>
-					<view class="shipping-address">
-						<view class="address-name">收货地址</view>
-						<view class="address-content"> {{ order_info.province_cn + order_info.city_cn + order_info.area_cn + order_info.address }}
+							在线支付￥<text class="online_pay">{{ order_info.online_pay }}</text>到院再付￥<text>{{ order_info.offline_pay }}</text>
 						</view>
 					</view>
 				</view>
-			</view>
-			<view class="user_info" v-else-if="order_info.distribution==0">
-				<view class="accept_name"> {{ order_info.accept_name }} </view>
-				<view class="telphone"> {{ order_info.telphone }} </view>
+				<!-- order_info.status==1 -->
+				<view class="status_two" v-else-if="order_info.status==1">
+					<image class="delete_image" src="/static/images/delete.png" mode=""></image>
+					<view class="cancel_hint">已作废</view>
+				</view>
+				<!-- v-else-if="order_info.status==2" -->
+				<view class="status_three" v-else-if="order_info.status==2">
+					<view class="already_pay"><image class="order_refund" src="/static/images/order_refund_rmb.png" ></image>
+						<view class="this_status_right">
+							<text class="is_pay">已付款</text>
+							<view class="expiration_time">有商品于 {{ expiration_time }} 作废</view>
+							<view class="user-pay-prices"> 请尽快到院使用 </view>
+						</view>
+					</view>
+				</view>
+				<view class="status_two" v-else-if="order_info.status==7">
+					<image class="delete_image"  src="/static/images/delete.png" mode=""></image>
+					<view class="refunded_hint">已退款</view>
+				</view>
+				<view class="this_user_info">
+					<view class="user_info">
+						<view class="user_info_content">
+							<view class="user_distribution" v-if="order_info.distribution==0">
+								<view class="accept_name"> {{ order_info.accept_name }} </view>
+								<view class="telphone"> {{ order_info.telphone }} </view>
+							</view>
+							<view class="user-message-content" v-else-if="order_info.distribution==1">
+								<view class="user-message-left">
+									<view class="user-name-phone-default-address">
+										<view class="user-name"> {{ order_info.accept_name }} </view>
+										<view class="user-phone"> {{ order_info.telphone }} </view>
+										<view class="default-address">
+											<view class="default">默认</view>
+											<view class="default-address-content"> {{ order_info.tag }} </view>
+										</view>
+									</view>
+									<view class="shipping-address">
+										<view class="address-name">收货地址</view>
+										<view class="address-content">
+											{{ order_info.province_cn + order_info.city_cn + order_info.area_cn + order_info.address }}
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
-
-		<view class="order-particulars">
-			<scroll-view class="order-particulars">
+		<view class="this_order_particulars">
+			<scroll-view class="order_particulars">
 				<template>
 					<view class="all-order-message">
 						<!-- 已付款的核销码 order_info.status==2 -->
@@ -452,7 +455,7 @@
 			</view>
 		</view>
 		<!-- 回到顶部 -->
-		<view class="top-button" @click="ToTop" v-if="showTop"> 
+		<view class="top-button" @click="go_to_top" v-if="showTop"> 
 			<image src="/static/images/order_top.png" mode="widthFix"></image>
 		</view>
 		<!-- 优惠信息 -->
@@ -488,16 +491,12 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
 				barName: 'back', //导航条名称
 				color: '#FFFFFF',
-				backImage: '/static/images/return.png',
-				title: '订单详情',
 				state: '已付款', //是否付款
 				requestUrl: '',
 				order_info: {
@@ -535,37 +534,29 @@
 			if (option.info) {
 				that.get_order_derail(option.info)
 			} else {
-				that.get_order_derail(23149) //23170
+				that.get_order_derail(1020) //23170
 			}
 			that.getLike()
-		},
-		onShow:function(){
-			
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			that.platform = platform
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
 			} 
 			else if (platform == 'APP'){
-				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 30
-				that.menuLeft = 278
 			}
 		},
 		methods: {
@@ -587,7 +578,8 @@
 						for (let i = 0; i < data.order_goods.length; i++) {
 							// 显示的规格
 							data.order_goods[i].show_sku_spec = false
-							if (data.order_info.distribution == 1) {
+							// console.log(data.order_info.distribution)以前是判定订单信息中的方式
+							if (data.order_goods[i].distribution == 1) {
 								that.is_post_list.push(data.order_goods[i])
 							} else if (data.order_goods[i].scan_department == 0) {
 								that.scan_one_list.push(data.order_goods[i])
@@ -837,25 +829,13 @@
 				    url: '/pages/goods/goods_classify'
 				})
 			},
-			// 返回顶部
-			ToTop: function() {
-				uni.pageScrollTo({
-					scrollTop: 0,
-					duration: 600
-				})
-			},
+			
 			// 申请退款
 			go_refund: function(id) {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: `/pages/my/my_order_refund?id=${id}`,
 				})
 			},
-			// 退款结果
-			// cancel_detail: function(id) {
-			// 	uni.navigateTo({
-			// 		url: `/pages/my/my_order_refund_progress?id=${id}`,
-			// 	})
-			// },
 			// 取消订单
 			cancel_order: function(id) {
 				let that = this
@@ -864,7 +844,6 @@
 					content: '您正在取消订单,确认取消订单吗？',
 					success: function(res) {
 						if (res.confirm) {
-							console.log('用户点击确定');
 							let dataInfo = {
 								interfaceId:'cancel',
 								id:id
@@ -875,7 +854,7 @@
 										title:'取消订单成功!'
 									})
 									setTimeout(function(){
-										uni.navigateTo({
+										uni.redirectTo({
 											url: `/pages/my/my_order?type=0`,
 										})
 									},1000)
@@ -893,17 +872,22 @@
 			},
 			// 写日记和评价
 			write_content: function(info) {
-				// 写日记
 				if (info == 'diary') {
 					uni.navigateTo({
 						url: `/pages/diary/diary_write`,
 					})
 				} else if (info == 'comment') {
-					// 写评价
 					uni.navigateTo({
 						url: `/pages/my/write_comment`,
 					})
 				}
+			},
+			// 返回顶部
+			go_to_top: function() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 600
+				})
 			},
 		},
 		// 显示回到顶部按钮
@@ -921,22 +905,12 @@
 	.show_color{
 		color: #fa3475;
 	}
-	.my_order_detail {
-		background-color: #F6F6F6;
+	.my_order_detail{
+		background-color: #F0F0F0;
 	}
-
-	.top-nav-message {
-		background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
-		overflow: hidden;
-		height: auto;
-		width: 100%;
-		border-bottom-left-radius: 50rpx;
-		border-bottom-right-radius: 50rpx;
-	}
-
-	.my-top-bar {
+	.top-bar {
 		color: #FFFFFF;
-		background-image: linear-gradient(-49deg, #f24788 0%, #ff69a1 100%);
+		background-image: linear-gradient(to right, #FF6598,#FB3E7B);
 		text-align: center;
 		font-size: 40rpx;
 		position: fixed;
@@ -946,77 +920,142 @@
 		top: 0;
 		left: 0;
 	}
-
+	
 	.back-title {
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
 		font-size: 38rpx;
 	}
-
+	
 	.back {
 		display: flex;
 		align-items: center;
-		margin-left: 20rpx;
 		width: 60rpx;
 		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
 	}
-
+	
 	.back image {
 		width: 36rpx;
 		height: 36rpx;
+		padding-left: 20rpx;
 	}
-
-	.back-title .title {
-		flex: 1;
-		margin-left: 80rpx;
+	
+	.top_order_info{
+		position: relative;
 	}
-
-	.top-message {
-		display: flex;
-		justify-content: center;
-		/* padding-top: 210rpx; */
-		padding-bottom: 210rpx;
+	.this_order_bj{
+		width: 100%;
 	}
-
-	.user-message {
-		display: flex;
+	
+	.this_order_status{
 		color: #FFFFFF;
-		font-size: 24rpx;
-		align-items: center;
-		text-align: center;
 	}
-
-	.wait-pay {
+	
+	.status_one{
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding-left: 50rpx;
+		display: flex;
+	}
+	
+	.status_right{
+		padding-left: 20rpx;
+		font-size: 24rpx;
+	}
+	
+	.is_pay{
 		font-size: 40rpx;
 	}
-
-	.user-pay-prices {
-		font-size: 32rpx;
+	.wait_for{
+		width: 108rpx;
+		height: 108rpx;
 	}
-
-	.now_pay {
-		margin-top: 20rpx;
-		width: 240rpx;
-		border-radius: 50rpx;
-		color: #fa3475;
-		border: none;
-	}
-
-	.now_pay::after {
-		border: none;
-	}
-
+	
 	.residue-time {
 		opacity: 0.7;
 		padding: 20rpx 0;
 	}
-
-	.user-all-message {
-		padding: 0 20rpx;
-		margin-top: -130rpx;
+	
+	.online_pay{
+		margin-right: 20rpx;
 	}
-
+	
+	.status_two{
+		position: absolute;
+		top: 40rpx;
+		left: 0;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.delete_image{
+		width: 108rpx;
+		height: 108rpx;
+	}
+	
+	.status_three{
+		position: absolute;
+		top: 30rpx;
+		left: 0;
+		width: 100%;
+	}
+	
+	.already_pay{
+		display: flex;
+		font-size: 32rpx;
+		padding-left: 50rpx;
+	}
+	.order_refund{
+		width: 108rpx;
+		height: 108rpx;
+		padding-right: 20rpx;
+	}
+	
+	.expiration_time{
+		opacity: 0.7;
+		padding: 10rpx 0;
+		font-size: 24rpx;
+	}
+	
+	.user-pay-prices {
+		font-size: 32rpx;
+	}
+	
+	.this_user_info{
+		position: absolute;
+		left: 0;
+		bottom: -40rpx;
+		width: 100%;
+	}
+	.user_info{
+		padding:0 20rpx;
+	}
+	.user_info_content{
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		height: 190rpx;
+	}
+	
+	.user_distribution {
+		display: flex;
+		justify-content: center;
+		background-color: #FFFFFF;
+		border-radius: 24rpx;
+		color: #fa3475;
+		padding: 80rpx 0;
+	}
+	.accept_name{
+		margin-right: 20rpx;
+	}
+	
 	.user-message-content {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -1025,29 +1064,29 @@
 		align-items: center;
 		padding: 34rpx 30rpx;
 	}
-
+	
 	.user-name-phone-default-address {
 		display: flex;
 		align-items: center;
 	}
-
+	
 	.user-name {
 		font-size: 32rpx;
 		color: #000000;
 		margin-right: 20rpx;
 	}
-
+	
 	.user-phone {
 		font-size: 32rpx;
 		color: #000000;
 		margin-right: 32rpx;
 	}
-
+	
 	.default-address {
 		display: flex;
 		text-align: center;
 	}
-
+	
 	.default {
 		width: 66rpx;
 		height: 32rpx;
@@ -1058,7 +1097,7 @@
 		border-radius: 16rpx;
 		margin-right: 20rpx;
 	}
-
+	
 	.default-address-content {
 		width: 66rpx;
 		height: 32rpx;
@@ -1068,7 +1107,7 @@
 		background-image: linear-gradient(90deg, #8834fa 0%, #bc66ff 100%);
 		border-radius: 16rpx;
 	}
-
+	
 	.shipping-address {
 		font-size: 24rpx;
 		color: #343434;
@@ -1076,7 +1115,7 @@
 		margin-top: 30rpx;
 		display: flex;
 	}
-
+	
 	.address-content {
 		margin-left: 22rpx;
 		overflow: hidden;
@@ -1085,15 +1124,19 @@
 		-webkit-line-clamp: 2;
 		width: 76%;
 	}
-
+	
+	.this_order_particulars{
+		margin-top: 40rpx;
+	}
+	
 	.all-order-message {
 		padding-bottom: 170rpx;
 	}
-
+	
 	.account-paid-code {
 		padding: 40rpx 20rpx 0;
 	}
-
+	
 	.account-paid-code-content {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -1102,91 +1145,91 @@
 		flex-direction: column;
 		align-items: center;
 	}
-
+	
 	.account-paid-code-number {
 		font-size: 32rpx;
 		color: #000000;
 		margin-bottom: 24rpx;
 	}
-
+	
 	.account-paid-code-hint {
 		font-size: 24rpx;
 		color: #999999;
 		line-height: 32rpx;
 	}
-
+	
 	.account-paid-code-image image {
 		width: 320rpx;
 		height: 320rpx;
 		margin-top: 25rpx;
 		background-color: #F0F0F0;
 	}
-
+	
 	.order-content {
 		padding: 40rpx 20rpx 0;
 	}
-
+	
 	.order-items {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-bottom: 40rpx;
 		padding: 40rpx 0;
 	}
-
+	
 	.service-conditions {
 		display: flex;
 		justify-content: space-between;
 		padding-bottom: 22rpx;
 		padding-right: 30rpx;
 	}
-
+	
 	.line-service-name {
 		display: flex;
 		align-items: center;
 	}
-
+	
 	.line {
 		width: 6rpx;
 		height: 24rpx;
 		margin-right: 28rpx;
 		background-color: #fa3475;
 	}
-
+	
 	.service-name {
 		font-size: 24rpx;
 		color: #111111;
 	}
-
+	
 	.appointment {
 		font-size: 24rpx;
 		color: #999999;
 	}
-
+	
 	.order-porduct-content {
 		padding: 0 30rpx;
 	}
-
+	
 	.order-porduct-line {
 		padding: 0 0 32rpx;
 	}
-
+	
 	.porduct-line {
 		background-color: #F0F0F0;
 		height: 2rpx;
 	}
-
+	
 	.failure-time {
 		position: relative;
 		margin-bottom: 25rpx;
 		display: flex;
 		justify-content: space-between;
 	}
-
+	
 	.time-hint {
 		font-size: 24rpx;
 		color: #999999;
 	}
-
+	
 	.hint-image {
 		width: 165rpx;
 		height: 130rpx;
@@ -1195,17 +1238,17 @@
 		right: 0;
 		opacity: 0.5;
 	}
-
+	
 	.hint-image image {
 		width: 165rpx;
 		height: 130rpx;
 	}
-
+	
 	.hint-text {
 		font-size: 24rpx;
 		color: #fa3475;
 	}
-
+	
 	.order-porduct-images-name {
 		border-bottom: 2rpx solid #F0F0F0;
 		padding-bottom: 30rpx;
@@ -1213,17 +1256,18 @@
 		justify-content: space-between;
 		position: relative;
 	}
-
+	
 	.porduct-images {
 		width: 200rpx;
 		height: 200rpx;
 	}
-
+	
 	.porduct-images image {
 		width: 200rpx;
 		height: 200rpx;
+		background-color: #F0F0F0;
 	}
-
+	
 	.porduct-right {
 		display: flex;
 		flex-direction: column;
@@ -1232,7 +1276,7 @@
 		padding: 10rpx 0 10rpx 20rpx;
 		flex: 1;
 	}
-
+	
 	.porduct-name {
 		font-size: 24rpx;
 		line-height: 32rpx;
@@ -1243,7 +1287,7 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
-
+	
 	.sku_spec_content {
 		height: 40rpx;
 		/* line-height: 40rpx; */
@@ -1261,7 +1305,7 @@
 		left: 20rpx;
 		top: 76rpx;
 	}
-
+	
 	.item_content {
 		overflow: hidden;
 		display: -webkit-box;
@@ -1269,13 +1313,13 @@
 		-webkit-line-clamp: 1;
 		flex: 1;
 	}
-
+	
 	.sku_spec_content image,
 	.show_item_content image {
 		width: 32rpx;
 		height: 32rpx;
 	}
-
+	
 	.show_item_content {
 		position: absolute;
 		left: 20rpx;
@@ -1290,11 +1334,11 @@
 		justify-content: space-between;
 		font-weight: lighter;
 	}
-
+	
 	.show_item_content image {
 		transform: rotate(180deg);
 	}
-
+	
 	.porduct-price-number {
 		display: flex;
 		justify-content: space-between;
@@ -1302,30 +1346,30 @@
 		color: #808080;
 	}
 	
-
+	
 	.porduct-price {
 		font-size: 40rpx;
 	}
-
+	
 	.porduct-price text {
 		font-size: 24rpx;
 	}
-
+	
 	.porduct-number {
 		font-size: 24rpx;
 	}
-
+	
 	.pay-order-content {
 		border-top: 2rpx solid #F0F0F0;
 		border-bottom: 2rpx solid #F0F0F0;
 		color: #111111;
 		padding-bottom: 20rpx;
 	}
-
+	
 	.pay-order-content text {
 		margin-left: 20rpx;
 	}
-
+	
 	.total-price-on-line-pay,
 	.discounts-hospital-pay {
 		display: flex;
@@ -1334,52 +1378,52 @@
 		margin-top: 20rpx;
 		font-size: 24rpx;
 	}
-
+	
 	.discounts {
 		display: flex;
 		align-items: center;
 	}
-
+	
 	.on-line-pay,
 	.hospital-pay {
 		min-width: 42%;
 	}
-
+	
 	.discounts image {
 		width: 26rpx;
 		height: 26rpx;
 		margin-left: 20rpx;
 	}
-
+	
 	.cope-with {
 		align-items: center;
 		margin-top: 20rpx;
 		font-size: 24rpx;
 	}
-
+	
 	.complimentary {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		padding: 40rpx;
 	}
-
+	
 	.complimentary-top {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
 	}
-
+	
 	.top-name {
 		font-size: 28rpx;
 		color: #000000;
 		font-weight: bold;
 	}
-
+	
 	.my-complimentary {
 		color: #fa3475;
 		font-size: 24rpx;
 	}
-
+	
 	.complimentary-hint {
 		font-size: 24rpx;
 		color: #999999;
@@ -1387,22 +1431,22 @@
 		padding: 15rpx 0 32rpx;
 		border-bottom: 2rpx solid #f0f0f0;
 	}
-
+	
 	.all-complimentary {
 		padding-top: 40rpx;
 	}
-
+	
 	.complimentary-item {
 		display: flex;
 		align-items: center;
 		line-height: 30rpx;
 		margin-bottom: 20rpx;
 	}
-
+	
 	.complimentary-item:last-child {
 		margin-bottom: 0;
 	}
-
+	
 	.complimentary-name {
 		width: 80rpx;
 		height: 30rpx;
@@ -1413,32 +1457,32 @@
 		color: #fa3475;
 		margin-right: 18rpx;
 	}
-
+	
 	.complimentary-content {
 		font-size: 24rpx;
 		color: #000000;
-
+	
 	}
-
+	
 	.ticket-discount-full-reduction {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		padding: 40rpx;
 		margin-top: 20rpx;
 	}
-
+	
 	.ticket-content {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 35rpx;
 	}
-
+	
 	.ticket-name-message {
 		display: flex;
 		line-height: 30rpx;
 	}
-
+	
 	.ticket-name {
 		width: 80rpx;
 		height: 30rpx;
@@ -1449,17 +1493,17 @@
 		color: #fa3475;
 		margin-right: 16rpx;
 	}
-
+	
 	.ticket-message {
 		color: #000000;
 		font-size: 24rpx;
 	}
-
+	
 	.ticket-price {
 		color: #999999;
 		font-size: 32rpx;
 	}
-
+	
 	.total-discounts {
 		border-top: 2rpx solid #f0f0f0;
 		padding-top: 30rpx;
@@ -1467,24 +1511,24 @@
 		justify-content: space-between;
 		align-items: center;
 	}
-
+	
 	.total-discounts-name {
 		font-size: 24rpx;
 		color: #000000;
 	}
-
+	
 	.all-total-discounts {
 		color: #fa3475;
 		font-size: 32rpx;
 	}
-
+	
 	.all-price-message {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
 		margin-top: 24rpx;
 		padding: 40rpx;
 	}
-
+	
 	.price-name-message {
 		display: flex;
 		justify-content: space-between;
@@ -1492,29 +1536,29 @@
 		margin-bottom: 40rpx;
 		color: #fa3475;
 	}
-
+	
 	.price-name-message:last-child {
 		margin-bottom: 0;
 	}
-
+	
 	.price-name {
 		color: #000000;
 		font-size: 24rpx;
 		display: flex;
 		align-items: center;
 	}
-
+	
 	.price-name image {
 		width: 32rpx;
 		height: 32rpx;
 		margin-left: 12rpx;
 	}
-
+	
 	.price-message {
 		font-size: 32rpx;
 		color: #111111;
 	}
-
+	
 	.return-mew-bean {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -1523,34 +1567,34 @@
 		justify-content: space-between;
 		align-items: center;
 	}
-
+	
 	.mew-bean-images-message {
 		display: flex;
 		font-size: 24rpx;
 	}
-
+	
 	.mew-bean-message {
 		margin-left: 40rpx;
 	}
-
+	
 	.mew-bean-images image {
 		width: 90rpx;
 		height: 70rpx;
 	}
-
+	
 	.return-number {
 		color: #000000;
 	}
-
+	
 	.return-hint {
 		color: #999999;
 		margin-top: 15rpx;
 	}
-
+	
 	.my-mew-nean {
 		color: #fa3475;
 	}
-
+	
 	.order-information {
 		background-color: #FFFFFF;
 		border-radius: 24rpx;
@@ -1558,7 +1602,7 @@
 		font-size: 24rpx;
 		margin-top: 20rpx;
 	}
-
+	
 	.order-serial-number,
 	.order-time,
 	.pay-label,
@@ -1567,26 +1611,26 @@
 		align-items: center;
 		margin-bottom: 24rpx;
 	}
-
+	
 	.pay-way {
 		margin-bottom: 0;
 	}
-
+	
 	.title-name {
 		color: #999999;
 		margin-right: 32rpx;
 	}
-
+	
 	.copy {
 		color: #fa3475;
 		margin-left: 24rpx;
 	}
-
+	
 	/* 猜你喜欢 */
 	.guess-what-you-like {
 		padding: 40rpx 20rpx;
 	}
-
+	
 	.related-title {
 		font-size: 28rpx;
 		line-height: 48rpx;
@@ -1594,20 +1638,20 @@
 		display: flex;
 		align-items: center;
 	}
-
+	
 	.bottom-images {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		margin-top: 70rpx;
 	}
-
+	
 	.bottom-hint {
 		font-size: 24rpx;
 		color: #111111;
 		margin-top: 48rpx;
 	}
-
+	
 	.immobilization-button {
 		height: 64rpx;
 		padding: 20rpx 0;
@@ -1618,29 +1662,29 @@
 		background-color: #DADADA;
 		z-index: 9;
 	}
-
+	
 	.button_all {
 		width: 100%;
 		display: flex;
 	}
-
+	
 	.button_all button {
 		line-height: 60rpx;
 		border-radius: 30rpx;
 		font-size: 24rpx;
 	}
-
+	
 	.bg_btn {
 		color: #FFFFFF;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
-
+	
 	.button_all button::after {
 		border: none;
 	}
-
+	
 	.top-button {
-		width: 120rpx;
+		width: 80rpx;
 		position: fixed;
 		right: 20rpx;
 		bottom: 50px;
@@ -1649,61 +1693,52 @@
 	.top-button image{
 		width:80rpx;
 	}
-
+	
 	/* 新写的样式 */
 	.refunded {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
-
+	
 	.refunded image {
 		width: 64rpx;
 		height: 64rpx;
 		margin-right: 20rpx;
 	}
-
+	
 	.refunded_hint {
 		font-size: 32rpx;
 		color: #FFFFFF;
 	}
-
+	
 	.cancel-order_top {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding-bottom: 210rpx;
 	}
-
+	
 	.cancel-order_top image {
 		width: 64rpx;
 		height: 64rpx;
 		margin-right: 10rpx;
 	}
-
+	
 	.cancel_hint {
 		color: #FFFFFF;
 		margin-left: 10rpx;
 	}
-
-	.user_info {
-		display: flex;
-		justify-content: center;
-		background-color: #FFFFFF;
-		border-radius: 24rpx;
-		color: #fa3475;
-		/* padding: 34rpx 0; */
-		padding: 80rpx 0;
-	}
-
+	
+	
 	.color {
 		color: #fa3475;
 	}
-	/* 优惠信息 */
+	
 	.discount_content{
 		width: 100%;
 		position: fixed;
-		z-index: 999;
+		z-index: 99;
 		left: 0;
 		background-color: #eeeeee;
 		opacity: 0.8;

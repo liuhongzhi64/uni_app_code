@@ -30,19 +30,27 @@
 						<view class="list-content">
 							<view class="item-content end-cont" :class="{dis:tabIndex == index}" v-for="(i,index) in tabBars" :key="index">
 								<view class="ticket-label" :style="[{'top':menuBottom+86+'px'}]">
-									<view class="label-name"
-									 :class="{labelColor:colorNum==k}" 
-									 @tap='selectLabel(k,listType)' 
-									 v-for="(i,k) in lableList"
-									 :key='k'>
+									<view class="label-name" :class="{labelColor:colorNum==k}" 
+									 @tap='selectLabel(k,listType)'  v-for="(i,k) in lableList" :key='k'>
 										{{i}}
 									</view>
 								</view>
 								<view class="select-content end-cont"
-								 :style="[{'padding-top':60+'px'}]" 
-								 :class="{dis:colorNum == k}" 
+								 :style="[{'padding-top':90+'px'}]"  :class="{dis:colorNum == k}" 
 								 v-for="(item,k) in lableList" :key="k">
-									<view class="ticket-use-explain" :style="[{'padding-top':30+'px'}]">
+									<view class="this_card_hint" v-if="index==1">
+										线上券: 即线上优惠券, 可直接在线抵扣使用
+									</view>
+									<view class="this_card_hint" v-if="index==2">
+										线下券: 即线下优惠券,线上领取, 到院使用
+									</view>
+									<view class="this_card_hint" v-if="index==3">
+										礼品券: 即活动赠送的实物礼品券, 在会员中心使用
+									</view>
+									<view class="this_card_hint" v-if="index==4">
+										体验券: 即活动赠送的项目体验券, 在收费室使用
+									</view>
+									<view class="ticket-use-explain" >
 										<scroll-view class="select-contents" >
 											<view class="frozen_explain" v-if="k==1">
 												冻结说明:
@@ -844,6 +852,15 @@
 		border-radius: 40rpx;
 		font-size: 28rpx;
 		margin-top: 30rpx;
+	}
+	
+	.this_card_hint{
+		width: 100%;
+		background-color: #FFFECE;
+		font-size: 24rpx;
+		line-height: 40rpx;
+		text-align: center;
+		color: #D3BA96;
 	}
 	
 </style>

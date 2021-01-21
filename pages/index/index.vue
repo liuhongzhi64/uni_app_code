@@ -22,21 +22,21 @@
 			</view>
 			<!-- #ifdef MP -->
 			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
-			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'130px':search_width+'px','top':show_go_top?menu_top+'px':''}]">
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'160px':search_width+'px','top':show_go_top?menu_top+'px':''}]">
 				<image class="search-icon" src="/static/images/search_icon.png"></image>
 				<text class="search_hint">请输入关键字...</text>
 			</navigator>
 			<!-- #endif -->
 			<!-- #ifdef APP-NVUE -->
 			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
-			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'160px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
 				<image class="search-icon" src="/static/images/search_icon.png"></image>
 				<text class="search_hint">请输入关键字...</text>
 			</navigator>
 			<!-- #endif -->
 			<!-- #ifdef APP-PLUS -->
 			<navigator url="/pages/search/search" :class="show_go_top?'fixed_inupt':'top_input'"
-			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'140px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
+			 :style="[{'line-height':menu_height+'px','border-radius':menu_height/2+'px','margin-right':this_width-menu_width-menu_left+'px','width':show_go_top?'160px':search_width+'px','top':show_go_top?menu_top-4+'px':''}]">
 				<image class="search-icon" src="/static/images/search_icon.png"></image>
 				<text class="search_hint">请输入关键字...</text>
 			</navigator>

@@ -567,6 +567,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 var _default =
 {
   props: {
@@ -593,7 +598,25 @@ var _default =
     },
     showTicket: function showTicket(id) {
       this.$emit('showTicket', id);
-      // console.log(id)
+    },
+    online_uses: function online_uses(id, scan, can_use) {
+      if (!can_use) {
+        if (scan == 0) {
+          this.$emit('scan_card', id);
+        } else
+        if (scan == 0) {
+          uni.showToast({
+            title: '卡券已经核销使用,如有疑问,请现场咨询客服',
+            icon: 'none' });
+
+        }
+      } else
+      {
+        uni.showToast({
+          title: '卡券未到使用时间',
+          icon: 'none' });
+
+      }
     },
     show_order_ticket: function show_order_ticket(index, can_use) {
       var that = this;
@@ -604,7 +627,6 @@ var _default =
         that.order_card[index].arrowImages = '/static/images/arrow-down.png';
       }
       this.$emit('showTicket', that.order_card, can_use);
-      // console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
     },
     checkboxChange: function checkboxChange(index, id, can_use, platform) {
       var that = this;
@@ -678,22 +700,43 @@ var _default =
     },
 
     // 使用卡券
-    userCard: function userCard(id, state) {
-      console.log(state);
-      this.$emit('useCard', id, state);
+    userCard: function userCard(id, state, can_use) {
+      if (!can_use) {
+        this.$emit('useCard', id, state);
+      } else
+      {
+        uni.showToast({
+          title: '卡券未到使用时间',
+          icon: 'none' });
+
+      }
     },
     // 核销卡券
-    scan_card: function scan_card(id) {
-      this.$emit('scan_card', id);
+    scan_card: function scan_card(id, scan, can_use) {
       var that = this;
+      if (!can_use) {
+        if (scan == 0) {
+          this.$emit('scan_card', id);
+        } else
+        if (scan == 0) {
+          uni.showToast({
+            title: '卡券已经核销使用,如有疑问,请现场咨询客服',
+            icon: 'none' });
+
+        } else {
+          this.$emit('scan_card', id);
+        }
+      } else
+      {
+        uni.showToast({
+          title: '卡券未到使用时间',
+          icon: 'none' });
+
+      }
     },
     // 删除卡券
     deleteCard: function deleteCard(id) {
       this.$emit('deleteCard', id);
-    },
-
-    show_order_applet: function show_order_applet(index, id) {
-      var that = this;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 

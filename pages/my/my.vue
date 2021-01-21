@@ -122,6 +122,7 @@
 						<navigator class="tool-item" :url="'/pages'+item.page">
 							<view class="tool-image">
 								<image :src="item.icon" mode="widthFix"></image>
+								<view class="this_cart_count" v-if="cart_count>0&&item.name=='购物车'"> {{ cart_count }} </view>
 							</view>
 							<view class="tool-name"> {{item.name}} </view>
 						</navigator>
@@ -155,10 +156,8 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				cardList: [{
 						number: 0,
@@ -266,7 +265,8 @@
 					content: []
 				},
 				this_show_user:false,
-				this_record:false
+				this_record:false,
+				cart_count:0,//购物车数量
 			}
 		},
 		onLoad(options) {
@@ -308,19 +308,15 @@
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
 			} 
 			else if (platform == 'APP'){
-				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuHeight = 30
-				that.menuLeft = 278
 				that.menuBottom = 70
 			}
 		},
@@ -408,6 +404,19 @@
 						let data = res.data.data
 						that.orderList = data
 						that.cardList[0].number = data.sale_card
+						that.get_cart()
+					}
+				})
+			},
+			get_cart:function(){
+				let that = this
+				let dataInfo = {
+					interfaceId:'countcart'
+				}
+				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.cart_count = data.cart_count
 					}
 				})
 			},
@@ -431,7 +440,7 @@
 					})
 				}else{
 					uni.showToast({
-						title:'升级中...敬请期待!',
+						title:'敬请期待···',
 						icon:'none'
 					})
 				}
@@ -685,10 +694,26 @@
 		color: #000000;
 		margin-bottom: 16rpx;
 	}
-
+	
+	.tool-image{
+		position: relative;
+	}
+	
 	.tool-image image {
 		width: 50rpx;
 		height: 46rpx;
+	}
+	.this_cart_count{
+		width: 20rpx;
+		height: 20rpx;
+		font-size: 15rpx;
+		background-color: #FA3475;
+		border-radius: 10rpx;
+		position: absolute;
+		top: -10rpx;
+		right: -10rpx;
+		color: #FFFFFF;
+		text-align: center;
 	}
 
 	/* 猜你喜欢 */

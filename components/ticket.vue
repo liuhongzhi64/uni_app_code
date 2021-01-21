@@ -147,12 +147,12 @@
 					
 					<view class="useing-ticket" v-else-if="item.use_channel == 1 "
 					 :style="{'color': item.card_style }"
-					 @tap='scan_card(item.id)'>
+					 @tap='scan_card(item.id,item.scan,time_now<item.use_start_time)'>
 						立即核销
 					</view>	
 					<view class="useing-ticket" v-else
 					  :style="{'color': item.card_style }"
-					  @tap='userCard(item.id)'>
+					  @tap='userCard(item.id,time_now<item.use_start_time)'>
 						立即使用
 					</view>	
 				</view>
@@ -191,22 +191,26 @@
 					<view class="useing-ticket"
 					 v-if="item.c_use_channel != 1"
 					 :style="{'color': item.c_status!=2 && item.use_end_time-time_now>0 ?  item.c_card_style: '#999999'}"
-					 @tap='userCard(item.c_id,item.status)'>
+					 @tap='userCard(item.c_id,item.status,time_now<item.use_start_time)'>
 						立即使用
 					</view>	
 					<view class="useing-ticket" v-else-if="item.c_use_channel == 1 "
 					 :style="{'color': item.c_status!=2 && item.use_end_time-time_now>0  ?  item.c_card_style: '#999999'}"
-					 @tap='scan_card(item.c_id)'>
+					 @tap='scan_card(item.c_id,item.scan,time_now<item.use_start_time)'>
 						立即核销
 					</view>				
 				</view>
 			</view>
-			<view class="ticketDetails" @tap='showTicket(item.id)'>
-				<view class="details-title"> <text>卡券详情</text>
-					<image :src="item.arrowImages" mode=""></image>
+			<view class="ticketDetails" >
+				<view class="details-title" @tap='showTicket(item.id)'> 
+					<text >卡券详情</text>
+					<image :src="item.arrowImages" ></image>
 				</view>
+				<view class="this_online_uses"
+				 v-if="item.c_use_channel!=1&&item.c_use_channel!=null"
+				 @tap='online_uses(item.c_id,item.scan,time_now<item.use_start_time)'> 线下使用 </view>
 				<view class="details-content" v-if="item.showTicketDetails">
-					<view class="item-details">{{item.c_intro||item.intro}}</view>
+					<view class="item-details" :style="[{'padding-top':item.c_use_channel!=1?'15rpx':''}]">{{item.c_intro||item.intro}}</view>
 				</view>
 			</view>
 			<!-- 已抢光 -->
@@ -313,7 +317,8 @@
 				</view>			
 			</view>
 			<view class="ticketDetails" @tap='showTicket(item.card_id)'>
-				<view class="details-title"> <text>卡券详情</text>
+				<view class="details-title"> 
+					<text>卡券详情</text>
 					<image :src="item.arrowImages" mode=""></image>
 				</view>
 				<view class="details-content" v-if="item.showTicketDetails">
@@ -422,7 +427,25 @@
 			},
 			showTicket:function(id){
 				this.$emit('showTicket', id)
-				// console.log(id)
+			},
+			online_uses:function(id,scan,can_use){
+				if(!can_use){
+					if(scan==0){
+						this.$emit('scan_card',id)
+					}
+					else if(scan==0){
+						uni.showToast({
+							title:'卡券已经核销使用,如有疑问,请现场咨询客服',
+							icon:'none'
+						})
+					}
+				}
+				else{
+					uni.showToast({
+						title:'卡券未到使用时间',
+						icon:'none'
+					})
+				}
 			},
 			show_order_ticket:function(index,can_use){
 				let that = this
@@ -433,7 +456,6 @@
 					that.order_card[index].arrowImages = '/static/images/arrow-down.png'
 				}
 				this.$emit('showTicket',that.order_card,can_use)
-				// console.log(that.order_card[index].showTicketDetails,that.order_card[index+1].showTicketDetails)
 			},
 			checkboxChange:function(index,id,can_use,platform){
 				let that = this
@@ -507,23 +529,45 @@
 			},
 			
 			// 使用卡券
-			userCard:function(id,state){
-				console.log(state)
-				this.$emit('useCard', id,state)
+			userCard:function(id,state,can_use){
+				if(!can_use){
+					this.$emit('useCard', id,state)
+				}
+				else{
+					uni.showToast({
+						title:'卡券未到使用时间',
+						icon:'none'
+					})
+				}
 			},
 			// 核销卡券
-			scan_card:function(id){
-				this.$emit('scan_card', id)
+			scan_card:function(id,scan,can_use){
 				let that = this
+				if(!can_use){
+					if(scan==0){
+						this.$emit('scan_card',id)
+					}
+					else if(scan==0){
+						uni.showToast({
+							title:'卡券已经核销使用,如有疑问,请现场咨询客服',
+							icon:'none'
+						})
+					}else{
+						this.$emit('scan_card',id)
+					}
+				}
+				else{
+					uni.showToast({
+						title:'卡券未到使用时间',
+						icon:'none'
+					})
+				}
 			},
 			// 删除卡券
 			deleteCard:function(id){
 				this.$emit('deleteCard',id)
 			},
 			
-			show_order_applet:function(index,id,){
-				let that = this
-			}
 		}
 	}
 </script>
@@ -607,7 +651,6 @@
 		font-size: 24rpx;
 		margin-top: 20rpx;
 		display: flex;
-		/* justify-content: space-between; */
 	}
 	.this_no_usetime{
 		color: #FA3475;
@@ -706,10 +749,6 @@
 	.exclusive-price {
 		font-size: 48rpx;
 		line-height: 40rpx;
-		/* overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1; */
 	}
 
 	.exclusive-price text {
@@ -719,13 +758,11 @@
 	.meet-price-user {
 		font-size: 24rpx;
 		text-align: center;
-		/* margin-top: 10rpx; */
 		line-height: 38rpx;
 	}
 
 	.useing-ticket {
 		width: 160rpx;
-		/* height: 40rpx; */
 		text-align: center;
 		line-height: 40rpx;
 		background-color: #FFFFFF;
@@ -743,6 +780,7 @@
 		box-shadow: 0rpx 0rpx 32rpx 0rpx rgba(101, 101, 101, 0.24);
 		color: #999999;
 		margin-bottom: 54rpx;
+		position: relative;
 	}
 
 	.details-title {
@@ -755,6 +793,19 @@
 		margin-left: 15rpx;
 		width: 32rpx;
 		height: 32rpx;
+	}
+	
+	.this_online_uses{
+		line-height: 40rpx;
+		border-radius: 20rpx;
+		text-align: center;
+		width: 160rpx;
+		background-color: #070606;
+		color: #FFFFFF;
+		position: absolute;
+		right: 40rpx;
+		top: 18rpx;
+		z-index: 2;
 	}
 
 	.item-details {
@@ -777,10 +828,6 @@
 		height: 155rpx;
 	}
 	
-	/* 确认订单 */
-	.order-content{
-		
-	}
 	.can_use_card_list {
 		background-color: #FFFFFF;
 		display: flex;

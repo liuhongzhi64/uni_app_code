@@ -764,7 +764,6 @@ __webpack_require__.r(__webpack_exports__);
         that.change_swiper(e);
       }, 500);
       that.swiper_height = event.detail.height / 2;
-      // console.log(event.detail.height)
     },
     getlist_height: function getlist_height(list) {
       var that = this;

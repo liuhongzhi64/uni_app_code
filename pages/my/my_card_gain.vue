@@ -44,7 +44,7 @@
 		</view>
 		<view class="scan_card_info" :style="[{'height':height-menuBottom-10+'px','padding-top':menuBottom+10+'px'}]" v-if="show_scan" @tap="show_scan_info">
 			<view class="scan_info_content">
-				<image class="scan_img" src="https://xcx.hmzixin.com/upload/images/3.0/card_tc.png" mode="widthFix"></image>
+				<image class="scan_img" src="/static/images/card_tc.png" mode="widthFix"></image>
 				<view class="hx_code"> 卡券核销码:{{ scan_info.hx_code }} </view>
 				<view class="show_name_card_type">
 					<view class="show_name_info">

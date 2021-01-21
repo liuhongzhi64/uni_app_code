@@ -281,16 +281,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     goodsShow: goodsShow },
 
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       cardList: [{
         number: 0,
@@ -398,8 +397,9 @@ __webpack_require__.r(__webpack_exports__);
         content: [] },
 
       this_show_user: false,
-      this_record: false };
-
+      this_record: false,
+      cart_count: 0 //购物车数量
+    };
   },
   onLoad: function onLoad(options) {
     var that = this;
@@ -440,19 +440,15 @@ __webpack_require__.r(__webpack_exports__);
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
     } else
     if (platform == 'APP') {
-      that.menuWidth = 90;
       that.menuTop = 40;
       that.menuHeight = 30;
-      that.menuLeft = 278;
       that.menuBottom = 70;
     }
   },
@@ -540,6 +536,19 @@ __webpack_require__.r(__webpack_exports__);
           var data = res.data.data;
           that.orderList = data;
           that.cardList[0].number = data.sale_card;
+          that.get_cart();
+        }
+      });
+    },
+    get_cart: function get_cart() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'countcart' };
+
+      that.request.uniRequest("shoppingCart", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.cart_count = data.cart_count;
         }
       });
     },
@@ -563,7 +572,7 @@ __webpack_require__.r(__webpack_exports__);
 
       } else {
         uni.showToast({
-          title: '升级中...敬请期待!',
+          title: '敬请期待···',
           icon: 'none' });
 
       }

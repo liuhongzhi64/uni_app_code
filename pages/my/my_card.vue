@@ -857,7 +857,7 @@
 	.this_card_hint{
 		width: 100%;
 		background-color: #FFFECE;
-		font-size: 24rpx;
+		font-size: 20rpx;
 		line-height: 40rpx;
 		text-align: center;
 		color: #D3BA96;

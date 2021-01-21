@@ -643,17 +643,14 @@ __webpack_require__.r(__webpack_exports__);
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
     that.getLike();
-    that.getCard();
     that.advertising();
     that.getUserCart();
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
-      // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
@@ -714,7 +711,7 @@ __webpack_require__.r(__webpack_exports__);
           for (var _i = 0; _i < that.productNameList.length; _i++) {
             that.productNameList[_i].number = data.type_count[_i];
           }
-
+          that.getCard();
         } else {
           that.sku_list = [];
           that.productNameList = [

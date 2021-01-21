@@ -181,7 +181,7 @@ var _default =
     var that = this;
     that.this_height = uni.getSystemInfoSync().screenHeight;
     that.this_width = uni.getSystemInfoSync().screenWidth;
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     that.platform = platform;
     if (platform == 'Applets') {
       uni.getSystemInfo({
@@ -205,7 +205,6 @@ var _default =
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
     that.get_start_page();
-    that.set_time();
   },
   methods: {
     get_start_page: function get_start_page() {
@@ -217,6 +216,7 @@ var _default =
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
           that.this_start = data;
+          that.set_time();
         }
       });
     },
@@ -244,6 +244,7 @@ var _default =
         uni.switchTab({
           url: '/pages/index/index' });
 
+        clearInterval(this.timer);
       } else if (type == 1) {
         that.count_down = 0;
         uni.switchTab({

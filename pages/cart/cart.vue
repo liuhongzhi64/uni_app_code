@@ -511,17 +511,14 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.getLike()
-			that.getCard()
 			that.advertising()
 			that.getUserCart()
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
@@ -582,7 +579,7 @@
 						for (let i = 0; i < that.productNameList.length; i++) {
 							that.productNameList[i].number = data.type_count[i]
 						}
-
+						that.getCard()
 					} else {
 						that.sku_list = []
 						that.productNameList = [

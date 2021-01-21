@@ -279,9 +279,25 @@
 	color: #000000;
 	margin-bottom: 16rpx;
 }
+.tool-image.data-v-0be17cc6{
+	position: relative;
+}
 .tool-image image.data-v-0be17cc6 {
 	width: 50rpx;
 	height: 46rpx;
+}
+.this_cart_count.data-v-0be17cc6{
+	width: 20rpx;
+	height: 20rpx;
+	font-size: 15rpx;
+	background-color: #FA3475;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
+	position: absolute;
+	top: -10rpx;
+	right: -10rpx;
+	color: #FFFFFF;
+	text-align: center;
 }
 
 /* 猜你喜欢 */

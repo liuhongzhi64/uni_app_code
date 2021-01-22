@@ -1,7 +1,7 @@
 <template>
 	<view class="add_address">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
-		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuLeft='menuLeft' :menuBottom='menuBottom'></topBar>
+		 :title='title' :menuTop='menuTop' :menuHeight='menuHeight'  :menuBottom='menuBottom'></topBar>
 
 		<view class="content">
 			<scroll-view class="porduct-content" scroll-y :style="[{'padding-top':menuBottom+10+'px','height':height-menuBottom-10+'px'}]">
@@ -23,11 +23,8 @@
 							</view>
 							<view class="user-message">
 								<view class="title"> 所在地区 <text>*</text> </view>
-								<view class="input-content">
-									<picker mode="multiSelector" :value="multiIndex" :range="allAreaArray" range-key='area_name' @change="allChange"
-									 @columnchange="changeColumn">
-										<view class="area" :class="{'area-input':select!='省-市-区/县'}">{{select}}</view>
-									</picker>
+								<view class="input-content" @tap='set_this_area'>
+									<view class="this_info" > {{ select }} </view>
 								</view>
 							</view>
 							<view class="user-message">
@@ -61,6 +58,24 @@
 					</view>
 				</template>
 			</scroll-view>
+			
+			<view class="this_area" v-if="show_ares">
+				<picker-view indicator-class="indicator_class" mask-class='mask_class' :value="value" @change="set_area_info" >
+					<picker-view-column>
+						<view class="set_area_item" v-for="(item,index) in province_array" :key="index">{{item.area_name}}</view>
+					</picker-view-column>
+					<picker-view-column>
+						<view class="set_area_item" v-for="(item,index) in city_array" :key="index">{{item.area_name}}</view>
+					</picker-view-column>
+					<picker-view-column>
+						<view class="set_area_item" v-for="(item,index) in area_array" :key="index">{{item.area_name}}</view>
+					</picker-view-column>
+				</picker-view>
+				<view class="this_picker_btn">
+					<view class="this_no" @tap='set_this_area'>取消</view>
+					<view class="this_ok" @tap='define_area'>确定</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -73,10 +88,8 @@
 		},
 		data() {
 			return {
-				menuWidth: 0,
 				menuTop: 0,
 				menuHeight: 0,
-				menuLeft: 0,
 				menuBottom: 0,
 				height: 0,
 				barName: 'back', //导航条名称
@@ -103,53 +116,46 @@
 				requestUrl: '',
 				type: 1, //1、添加，2、修改
 				addrressId: 0,
-				areaArray: [], //城市
-				provinceArray: [],
-				provinceShow: false,
-				cityArray: [],
-				allAreaArray: [
-					[],
-					[],
-					[]
-				],
-				addrressItem: {}
+				province_array: [],//省
+				city_array: [],//市
+				area_array: [], //区
+				show_ares:false,
+				area_value:{detail:{value:[0,0,0]}},
+				value:['','','']
 			}
 		},
 		onLoad(options) {
 			let that = this
 			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
 			that.type = options.add
 			if (options.id) {
 				that.addrressId = options.id
 				that.userName = options.name
 				that.userPhone = options.telphone
 			}
-			console.log(options, that.type, that.addrressId)
-			that.requestUrl = that.request.globalData.requestUrl
-			that.getarea(0, 0)
+			// console.log(options, that.type, that.addrressId)
+			that.get_region(0,1)
+			
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();
-						that.menuWidth = menu.width
 						that.menuTop = menu.top
 						that.menuHeight = menu.height
-						that.menuLeft = menu.left
 						that.menuBottom = menu.bottom
 					}
 				})
 			} 
 			else if (platform == 'APP'){
-				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 30
-				that.menuLeft = 278
 			}
 		},
 		methods: {
@@ -166,57 +172,74 @@
 			addressInput: function(event) {
 				this.detailedAddress = event.target.value
 			},
-			// 市省区
-			allChange: function(event) {
-				let that = this
-				that.multiIndex = event.detail.value;
-				that.select = that.province_cn + '-' + that.city_cn + '-' + that.area_cn
-			},
-			changeColumn: function(event) {
-				let that = this
-				let column = event.detail.column
-				let value = event.detail.value
-				if (column == 0) {
-					that.province = that.areaArray[value].area_id
-					that.province_cn = that.areaArray[value].area_name
-					that.getarea(that.province, column)
-				} else if (column == 1) {
-					that.city = that.provinceArray[value].area_id
-					that.city_cn = that.provinceArray[value].area_name
-					that.getarea(that.city, column)
-				} else {
-					that.area = that.cityArray[value].area_id
-					that.area_cn = that.cityArray[value].area_name
-				}
-			},
-			getarea: function(index, column) {
+			get_region: function(parent_id,index) {
 				let that = this
 				let dataInfo = {
 					interfaceId: 'getareas',
-					parent_id: index
+					parent_id: parent_id
 				}
 				that.request.uniRequest("address", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						if (index == 0) {
-							that.areaArray = data
-							that.allAreaArray[0] = that.areaArray
-							that.provinceArray = []
-							that.cityArray = []
-							// console.log('省',that.areaArray)	
-						} else {
-							if (column == 0) {
-								that.provinceArray = data
-								that.allAreaArray[1] = that.provinceArray
-								that.allAreaArray[2]  = []
-							} else if (column == 1) {
-								that.cityArray = data
-								that.allAreaArray[2] = that.cityArray
-								// console.log(data)
+						that.province_array = data
+						if(index!=null&&index==1){
+							let event = {
+								detail:{
+									value:[0,0,0]
+								}
 							}
+							that.set_area_info(event)
 						}
 					}
 				})
+			},
+			get_city:function(parent_id){
+				let that = this
+				let dataInfo = {
+					interfaceId: 'getareas',
+					parent_id: parent_id
+				}
+				that.request.uniRequest("address", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.city_array = data
+						that.get_area(that.city_array[that.area_value.value[1]].area_id)
+					}
+				})
+			},
+			get_area:function(parent_id){
+				let that = this
+				let dataInfo = {
+					interfaceId: 'getareas',
+					parent_id: parent_id
+				}
+				that.request.uniRequest("address", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						that.area_array = data
+					}
+				})
+			},
+			set_this_area:function(){
+				let that = this
+				that.show_ares = !that.show_ares
+			},
+			set_area_info:function(event){
+				let that = this
+				let value = event.detail
+				that.area_value = value
+				that.get_city(that.province_array[value.value[0]].area_id)
+			},
+			define_area:function(){
+				let that = this
+				that.province = that.province_array[that.area_value.value[0]].area_id
+				that.province_cn = that.province_array[that.area_value.value[0]].area_name
+				that.city = that.city_array[that.area_value.value[1]].area_id
+				that.city_cn = that.city_array[that.area_value.value[1]].area_name
+				that.area = that.area_array[that.area_value.value[2]].area_id
+				that.area_cn = that.area_array[that.area_value.value[2]].area_name
+				that.select = that.province_cn + '-' + that.city_cn + '-' + that.area_cn
+				that.show_ares = !that.show_ares
 			},
 			// 标签
 			selectLabel: function(e) {
@@ -363,13 +386,86 @@
 		width: 45%;
 		display: flex;
 	}
-
-	.area {
+	
+	.this_info {
 		color: #999999;
 	}
-
-	.area-input {
-		color: #111111;
+	
+	.this_area{
+		background-color: #FFFFFF;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		bottom: 120rpx;
+		z-index: 9;
+	}
+	
+	.this_picker_btn{
+		position: absolute;
+		bottom: -120rpx;
+		left: 0;
+		width: 100%;
+		height: 120rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #FFFFFF;
+		z-index: 9;
+	}
+	
+	.this_no{
+		width: 200rpx;
+		border-radius: 16rpx;
+		line-height: 60rpx;
+		color: #09BB07;
+		background-color: #F2F2F2;
+		text-align: center;
+		margin-right: 40rpx;
+	}
+	
+	.this_ok{
+		width: 200rpx;
+		border-radius: 16rpx;
+		line-height: 60rpx;
+		background-color: #07C160;
+		color: #FFFFFF;
+		text-align: center;
+	}
+	
+	.indicator_class{
+		width: 100%;
+		height: 100%;
+	}
+	
+	.mask_class{
+		background-color: #FFFFFF;
+		bottom: 0;
+		left: 0;
+	}
+	
+	uni-picker-view {
+	  display: block;
+	}
+	uni-picker-view .uni-picker-view-wrapper {
+	  display: flex;
+	  position: relative;
+	  /* overflow: hidden; */
+	  height: 100%;
+	  background-color: white;
+	}
+	uni-picker-view[hidden] {
+	  display: none;
+	}
+	picker-view {
+	  width: 100%;
+	  height: 460rpx;
+	}
+	
+	.set_area_item{
+		line-height: 34px !important;
+		align-items: center;
+        justify-content: center;
+        text-align: center;
 	}
 
 	.all-label {

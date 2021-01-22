@@ -199,16 +199,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
 
   data: function data() {
     return {
-      menuWidth: 0,
       menuTop: 0,
       menuHeight: 0,
-      menuLeft: 0,
       menuBottom: 0,
       height: 0,
       barName: 'back', //导航条名称
@@ -235,53 +248,46 @@ __webpack_require__.r(__webpack_exports__);
       requestUrl: '',
       type: 1, //1、添加，2、修改
       addrressId: 0,
-      areaArray: [], //城市
-      provinceArray: [],
-      provinceShow: false,
-      cityArray: [],
-      allAreaArray: [
-      [],
-      [],
-      []],
-
-      addrressItem: {} };
+      province_array: [], //省
+      city_array: [], //市
+      area_array: [], //区
+      show_ares: false,
+      area_value: { detail: { value: [0, 0, 0] } },
+      value: ['', '', ''] };
 
   },
   onLoad: function onLoad(options) {
     var that = this;
     this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
     that.type = options.add;
     if (options.id) {
       that.addrressId = options.id;
       that.userName = options.name;
       that.userPhone = options.telphone;
     }
-    console.log(options, that.type, that.addrressId);
-    that.requestUrl = that.request.globalData.requestUrl;
-    that.getarea(0, 0);
+    // console.log(options, that.type, that.addrressId)
+    that.get_region(0, 1);
+
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuWidth = menu.width;
           that.menuTop = menu.top;
           that.menuHeight = menu.height;
-          that.menuLeft = menu.left;
           that.menuBottom = menu.bottom;
         } });
 
     } else
     if (platform == 'APP') {
-      that.menuWidth = 90;
       that.menuTop = 40;
       that.menuBottom = 70;
       that.menuHeight = 30;
-      that.menuLeft = 278;
     }
   },
   methods: {
@@ -298,57 +304,74 @@ __webpack_require__.r(__webpack_exports__);
     addressInput: function addressInput(event) {
       this.detailedAddress = event.target.value;
     },
-    // 市省区
-    allChange: function allChange(event) {
-      var that = this;
-      that.multiIndex = event.detail.value;
-      that.select = that.province_cn + '-' + that.city_cn + '-' + that.area_cn;
-    },
-    changeColumn: function changeColumn(event) {
-      var that = this;
-      var column = event.detail.column;
-      var value = event.detail.value;
-      if (column == 0) {
-        that.province = that.areaArray[value].area_id;
-        that.province_cn = that.areaArray[value].area_name;
-        that.getarea(that.province, column);
-      } else if (column == 1) {
-        that.city = that.provinceArray[value].area_id;
-        that.city_cn = that.provinceArray[value].area_name;
-        that.getarea(that.city, column);
-      } else {
-        that.area = that.cityArray[value].area_id;
-        that.area_cn = that.cityArray[value].area_name;
-      }
-    },
-    getarea: function getarea(index, column) {
+    get_region: function get_region(parent_id, index) {
       var that = this;
       var dataInfo = {
         interfaceId: 'getareas',
-        parent_id: index };
+        parent_id: parent_id };
 
       that.request.uniRequest("address", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          if (index == 0) {
-            that.areaArray = data;
-            that.allAreaArray[0] = that.areaArray;
-            that.provinceArray = [];
-            that.cityArray = [];
-            // console.log('省',that.areaArray)	
-          } else {
-            if (column == 0) {
-              that.provinceArray = data;
-              that.allAreaArray[1] = that.provinceArray;
-              that.allAreaArray[2] = [];
-            } else if (column == 1) {
-              that.cityArray = data;
-              that.allAreaArray[2] = that.cityArray;
-              // console.log(data)
-            }
+          that.province_array = data;
+          if (index != null && index == 1) {
+            var event = {
+              detail: {
+                value: [0, 0, 0] } };
+
+
+            that.set_area_info(event);
           }
         }
       });
+    },
+    get_city: function get_city(parent_id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getareas',
+        parent_id: parent_id };
+
+      that.request.uniRequest("address", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.city_array = data;
+          that.get_area(that.city_array[that.area_value.value[1]].area_id);
+        }
+      });
+    },
+    get_area: function get_area(parent_id) {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getareas',
+        parent_id: parent_id };
+
+      that.request.uniRequest("address", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          that.area_array = data;
+        }
+      });
+    },
+    set_this_area: function set_this_area() {
+      var that = this;
+      that.show_ares = !that.show_ares;
+    },
+    set_area_info: function set_area_info(event) {
+      var that = this;
+      var value = event.detail;
+      that.area_value = value;
+      that.get_city(that.province_array[value.value[0]].area_id);
+    },
+    define_area: function define_area() {
+      var that = this;
+      that.province = that.province_array[that.area_value.value[0]].area_id;
+      that.province_cn = that.province_array[that.area_value.value[0]].area_name;
+      that.city = that.city_array[that.area_value.value[1]].area_id;
+      that.city_cn = that.city_array[that.area_value.value[1]].area_name;
+      that.area = that.area_array[that.area_value.value[2]].area_id;
+      that.area_cn = that.area_array[that.area_value.value[2]].area_name;
+      that.select = that.province_cn + '-' + that.city_cn + '-' + that.area_cn;
+      that.show_ares = !that.show_ares;
     },
     // 标签
     selectLabel: function selectLabel(e) {

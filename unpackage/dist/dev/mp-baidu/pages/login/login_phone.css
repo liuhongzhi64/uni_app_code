@@ -141,6 +141,9 @@
 	border: solid 2rpx #fa3475;
 	text-align: center;
 }
+.verification.data-v-0a73af49::after{
+	border: none;
+}
 .show_count_down.data-v-0a73af49{
 	font-size: 20rpx;
 }
@@ -157,6 +160,9 @@
 	font-size: 28rpx;
 	color: #ffffff;
 	border: none !important;
+}
+.go-login.data-v-0a73af49::after{
+	border: none;
 }
 .no-have-code-content.data-v-0a73af49 {
 	display: -webkit-box;

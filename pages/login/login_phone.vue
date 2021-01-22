@@ -25,12 +25,12 @@
 					<view class="phone-hint" v-if="!imageCodeValueState">图形码错误</view>
 					<view class="verification-code">
 						<input class="phone-input" @blur="verificationInput" placeholder="请输入验证码" maxlength="6" />
-						<button class="verification" type="default" plain="true" @tap='getPhoneCode' v-show="!show_count_down">发送请求</button>
+						<button class="verification" type="default"  @tap='getPhoneCode' v-show="!show_count_down">发送请求</button>
 						<view class="verification show_count_down" v-show="show_count_down"> {{ count_down }} 秒后重新获取 </view>
 					</view>
 					<view class="phone-hint" v-if="!phoneCodeValueState">请输入验证码 / 验证码错误</view>
 
-					<button class="go-login" type="default" plain="true" form-type='submit' @tap="submit">登录</button>
+					<button class="go-login" type="default"  form-type='submit' @tap="submit">登录</button>
 				</view>
 
 				<view class="no-have-code-content">
@@ -392,6 +392,11 @@
 		border: solid 2rpx #fa3475;
 		text-align: center;
 	}	
+	
+	.verification::after{
+		border: none;
+	} 
+	
 	.show_count_down{
 		font-size: 20rpx;
 	}
@@ -406,6 +411,9 @@
 		font-size: 28rpx;
 		color: #ffffff;
 		border: none !important;
+	}
+	.go-login::after{
+		border: none;
 	}
 
 	.no-have-code-content {

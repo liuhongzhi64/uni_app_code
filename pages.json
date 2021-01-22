@@ -5,6 +5,8 @@
 		
 		
 		
+		
+		
 		{
 			"path": "pages/index/open_screen", //开屏页
 			"style": {}
@@ -13,7 +15,10 @@
 			"path": "pages/my/my", //我的
 			"style": {}
 		},	
-		
+		{
+			"path": "pages/my/add_address", //添加地址
+			"style": {}
+		},
 			
 		// 首页
 		{
@@ -207,10 +212,7 @@
 			"path": "pages/my/account_number", //账号管理
 			"style": {}
 		},
-		{
-			"path": "pages/my/add_address", //添加地址
-			"style": {}
-		},
+		
 		{
 			"path": "pages/my/after_sales", //退换/售后
 			"style": {}

@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/open_screen",
     "pages/my/my",
+    "pages/my/add_address",
     "pages/index/index",
     "pages/goods/goods_detail",
     "pages/agreement/agreement",
@@ -40,7 +41,6 @@
     "pages/message/message",
     "pages/message/message_detail",
     "pages/my/account_number",
-    "pages/my/add_address",
     "pages/my/after_sales",
     "pages/my/harves_address",
     "pages/my/my_card",

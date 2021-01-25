@@ -223,12 +223,12 @@
 						uni.setStorageSync("userInfo", data)
 						this.request.showToast("登录成功")
 						// 后期判定是否是从其他页面跳转到登录页面的,如果是就返回上一级，不是就直接返回首页
-						// uni.navigateBack({
-						// 	delta: 1
-						// });
-						uni.switchTab({
-							url: `/pages/index/index`,
-						})
+						uni.navigateBack({
+							delta: 1
+						});
+						// uni.switchTab({
+						// 	url: `/pages/index/index`,
+						// })
 					}else{
 						that.phoneCodeValueState = true
 					}

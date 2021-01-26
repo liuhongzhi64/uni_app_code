@@ -886,7 +886,7 @@
 			go_to_top: function() {
 				uni.pageScrollTo({
 					scrollTop: 0,
-					duration: 600
+					duration: 400
 				})
 			},
 		},

@@ -20,18 +20,20 @@
 								<view class="user-phone">{{ contentList.user_info.tel }}</view>
 								<image class="edit_img" src="/static/images/edit.png" mode=""></image>
 							</view>
-							<view class="have_shipping-address" v-else-if="is_post_list.length>0 && contentList.user_info.address" @tap='go_to_harves_address'>
+							<view class="have_shipping-address" v-else-if="is_post_list.length>0 && contentList.user_info.address"
+							 @tap='go_to_harves_address(1)'>
 								<view class="user-message">
 									<view class="real_name" v-if="contentList.user_info.real_name"> {{ contentList.user_info.real_name }} </view>
 									<view class="no-user-name" v-else> —— </view>
 									<view class="user-phone">{{ contentList.user_info.tel }}</view>
+									<view class='label'>{{contentList.user_info.tag}}</view>
 								</view>
 								<view class="shipping-address">
 									<view class="address">{{ contentList.user_info.address }}</view>
 									<image src="/static/images/unfold.png" mode=""></image>
 								</view>
 							</view>
-							<view class="no_address" v-else-if="is_post_list.length>0 && !contentList.user_info.address" @tap='go_to_harves_address'>
+							<view class="no_address" v-else-if="is_post_list.length>0 && !contentList.user_info.address" @tap='go_to_harves_address(0)'>
 								<image class="hint-img" src="https://img-blog.csdnimg.cn/20200720152049639.png"></image>
 								<view class="address_hint">
 									<view class="hint-title">暂无收货地址</view>
@@ -673,12 +675,41 @@
 				let that = this
 				that.show_set_user_info = !that.show_set_user_info
 			},
-			go_to_harves_address: function() {
+			go_to_harves_address: function(type) {
 				let that = this
 				let page = 'order'
 				that.onShow_num = -1
-				uni.navigateTo({
-					url: `/pages/my/harves_address?page=${page}`,
+				// type 0:没有收货地址 1:有收货地址 
+				if(type==0){
+					that.get_address()
+				}
+				if(type==1){
+					uni.navigateTo({
+						url: `/pages/my/harves_address?page=${page}`,
+					})
+				}
+			},
+			get_address: function() {
+				let that = this
+				let dataInfo = {
+					interfaceId: 'getinfo'
+				}
+				that.request.uniRequest("address", dataInfo).then(res => {
+					if (res.data.code == 1000 && res.data.status == 'ok') {
+						let data = res.data.data
+						console.log(data)
+						let page = 'order'
+						if(data.length>0){
+							uni.navigateTo({
+								url: `/pages/my/harves_address?page=${page}`,
+							})
+						}
+						else if(data.length==0){
+							uni.navigateTo({
+								url: `/pages/my/add_address?add=1&page=${page}`,
+							})
+						}
+					}
 				})
 			},
 			// 获取订单的详情
@@ -1325,8 +1356,13 @@
 				})
 			},
 			my_order: function() {
-				uni.reLaunch({
-					url: `/pages/my/my_order`,
+				// 去我的订单时候如果点击返回，应该返回两级，直接到购物车或者商品详情
+				// uni.reLaunch({
+				// 	url: `/pages/my/my_order`,
+				// })
+				let is_can = 'ok'
+				uni.navigateTo({
+					url: `/pages/my/my_order?info=${is_can}`,
 				})
 			},
 			get_user_like: function() {
@@ -1405,6 +1441,20 @@
 
 	.user-phone {
 		margin: 0 32rpx 0 24rpx;
+	}
+	
+	.label {
+		width: 66rpx;
+		height: 32rpx;
+		line-height: 32rpx;
+		display: inline-block;
+		text-align: center;
+		background-image: -moz-linear-gradient(0deg, rgb(136, 52, 250) 0%, rgb(188, 102, 255) 100%);
+		background-image: -webkit-linear-gradient(0deg, rgb(136, 52, 250) 0%, rgb(188, 102, 255) 100%);
+		background-image: -ms-linear-gradient(0deg, rgb(136, 52, 250) 0%, rgb(188, 102, 255) 100%);
+		color: #ffffff;
+		border-radius: 25rpx;
+		font-size: 22rpx;
 	}
 
 	.edit_img {

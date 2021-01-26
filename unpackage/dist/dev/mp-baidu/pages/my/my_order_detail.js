@@ -1018,7 +1018,7 @@ __webpack_require__.r(__webpack_exports__);
     go_to_top: function go_to_top() {
       uni.pageScrollTo({
         scrollTop: 0,
-        duration: 600 });
+        duration: 400 });
 
     } },
 

@@ -53,7 +53,10 @@
 							</view>
 						</view>
 						<view class="save-settings">
-							<view class="save"><button class="settings" type="default"  @tap='saveUserMessage'>保存并使用</button></view>
+							<view class="save">
+								<button class="settings" type="default" v-if="this_page==''" @tap='saveUserMessage'>保存</button>
+								<button class="settings" type="default" v-else @tap='saveUserMessage'>保存并使用</button>
+							</view>
 						</view>
 					</view>
 				</template>
@@ -121,7 +124,8 @@
 				area_array: [], //区
 				show_ares:false,
 				area_value:{detail:{value:[0,0,0]}},
-				value:['','','']
+				value:['','',''],
+				this_page:''
 			}
 		},
 		onLoad(options) {
@@ -134,7 +138,10 @@
 				that.userName = options.name
 				that.userPhone = options.telphone
 			}
-			// console.log(options, that.type, that.addrressId)
+			if(options.page){//判定是从确认订单过来的
+				that.this_page = options.page
+			}
+			console.log(options,that.this_page)
 			that.get_region(0,1)
 			
 		},
@@ -279,11 +286,37 @@
 						that.request.uniRequest("address", dataInfo).then(res => {
 							if (res.data.code == 1000 && res.data.status == 'ok') {
 								that.request.showToast('地址添加成功')
-								setTimeout(function() {
-									uni.navigateTo({
-										url: '/pages/my/harves_address'
-									})
-								}, 2000)
+								if(that.this_page!=''&&that.this_page=='order'){
+									let userInfo = {}
+									userInfo.real_name = that.userName
+									userInfo.tel = that.userPhone
+									userInfo.address = that.province_cn + that.city_cn + that.area_cn + that.detailedAddress
+									// userInfo.address_id = info.id
+									userInfo.tag = that.selectLabelName
+									uni.setStorageSync("newuserInfo", userInfo)
+									uni.navigateBack({
+										delta: 1
+									});
+								}
+								if(that.this_page!=''&&that.this_page=='orders'){
+									let userInfo = {}
+									userInfo.real_name = that.userName
+									userInfo.tel = that.userPhone
+									userInfo.address = that.province_cn + that.city_cn + that.area_cn + that.detailedAddress
+									// userInfo.address_id = info.id
+									userInfo.tag = that.selectLabelName
+									uni.setStorageSync("newuserInfo", userInfo)
+									uni.navigateBack({
+										delta: 2
+									});
+								}
+								else{
+									setTimeout(function() {
+										uni.navigateTo({
+											url: '/pages/my/harves_address'
+										})
+									}, 1000)
+								}
 							}
 						})
 					} else {
@@ -489,18 +522,18 @@
 
 	.label-name {
 		width: 130rpx;
-		height: 56rpx;
-		line-height: 56rpx;
+		height: 40rpx;
+		line-height: 40rpx;
 		text-align: center;
 		background-color: #f0f0f0;
-		border-radius: 28rpx;
+		border-radius: 20rpx;
 		margin-right: 36rpx;
 	}
 
 	.selectStyle {
-		width: 130rpx;
-		height: 56rpx;
-		line-height: 56rpx;
+		width: 126rpx;
+		height: 40rpx;
+		line-height: 40rpx;
 		text-align: center;
 		background-color: #ffe8f0;
 		border: 2rpx solid #FA3475;

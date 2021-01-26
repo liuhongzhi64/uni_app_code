@@ -18,9 +18,9 @@
 				</view>
 			</view>
 		</view>
-		<view class="cart-content" :style="[{'padding-top':menuBottom+58+'px'}]">
+		<view class="cart-content" :style="[{'padding-top':menuBottom+58+'px','min-height':height - menuBottom-190+'px'}]">
 			<!-- 购物车为空 -->
-			<view class="empty-cart" v-if="sku_list.length==0" :style="[{'height':height - menuBottom+60+'px'}]">
+			<view class="empty-cart" v-if="sku_list.length==0" >
 				<view class="empty-cart-image">
 					<image src="/static/images/cartBg.png" mode="widthFix"></image>
 				</view>
@@ -28,7 +28,7 @@
 				<view class="go-stroll" @tap='goToGoodsClassfiy'> 去逛逛 </view>
 			</view>
 			<!-- 购物车不为空 -->
-			<view class="cart-have-product" v-else>
+			<view class="cart-have-product" v-else >
 				<view class="end-cont" :class="{dis:btnnum == index}" v-for="(item,index) in productNameList" :key="index">
 					<view class="card-top" @tap='goToGain' >
 						<view class="can-receive">
@@ -398,7 +398,6 @@
 						 :style="[{'background-color':setNewGoodsNumber==goodsContentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
 					</view>
 				</view>
-				
 				</scroll-view>
 				<view class="keep-order">
 					<view class="button">
@@ -519,13 +518,15 @@
 		},
 		onShow:function(){
 			let that = this
+			that.height = uni.getSystemInfoSync().screenHeight;
 			that.getUserCart()
+			that.offset = 0
 			that.getLike()
 			that.advertising()
 		},
 		onReady() {
 			let that = this;
-			that.height = uni.getSystemInfoSync().screenHeight;
+			
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
@@ -1598,7 +1599,7 @@
 		background-color: #F6F6F6;
 	}
 	.cart-content {
-		
+		background-color: #F6F6F6;
 		padding-bottom: 120rpx;
 	}
 
@@ -1609,6 +1610,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	}
 
 	.empty-cart-image {
@@ -2244,7 +2246,7 @@
 	}
 	
 	.specs-content{
-		padding-left: 20rpx;
+		padding-left: 40rpx;
 	}
 
 	.specs-title {
@@ -2294,7 +2296,7 @@
 		padding: 0 25rpx;
 		border: 2rpx solid #f0f0f0;
 		background: #f0f0f0;
-		margin: 20rpx 0 0 20rpx;
+		margin: 20rpx 20rpx 0 0;
 	}
 
 	.specs-cont-pay .li {

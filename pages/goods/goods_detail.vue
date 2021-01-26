@@ -1,7 +1,6 @@
 <template>
-	<view class="goods_detail" >
-		<view class="top-bar" 
-		:style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':'#222222','color':'#FFFFFF'}]">
+	<view class="goods_detail">
+		<view class="top-bar" :style="[{'padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':'#222222','color':'#FFFFFF'}]">
 			<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 				<view class="back" @click="goBack">
 					<image src="/static/images/return.png" mode=""></image>
@@ -16,18 +15,18 @@
 			<view class="hint_text">该商品已下架或不存在····</view>
 		</view>
 		<!-- 商品存在时 -->
-		<view class="content" v-else >
-			<view  :style="[{'padding-top':menuBottom+10+'px'}]">
+		<view class="content" v-else>
+			<view :style="[{'padding-top':menuBottom+10+'px'}]">
 				<!-- 头部轮播 -->
 				<view class="topSwiper">
 					<view id="topSwiper">
-						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff"
-						 autoplay interval='3000' duration="600" circular @change="change_swiper" :style="{height:swiper_height+'px'}">
+						<swiper class="top-swiper" indicator-dots indicator-active-color="#ffffff" autoplay interval='3000' duration="600"
+						 circular @change="change_swiper" :style="{height:swiper_height+'px'}">
 							<swiper-item class="all-top-swiper-item" v-if="contentList.video_list">
 								<view class="video" @tap='goToVideo(contentList.video_list)'>
 									<image :src="requestUrl+swiperList[0]" class="list_img0" mode="widthFix" lazy-load @load='get_img_height'>
 									</image>
-									<image class="swiper_video" src="/static/images/video_play.png" ></image>
+									<image class="swiper_video" src="/static/images/video_play.png"></image>
 								</view>
 							</swiper-item>
 							<swiper-item class="all-top-swiper-item" v-for="(i,k) in swiperList" :key="k">
@@ -36,7 +35,7 @@
 									 :src="requestUrl+i" lazy-load='true' mode="widthFix" @load='get_img_height'></image> -->
 									<image :src="requestUrl+i" :class="'list_img'+k" mode="widthFix" v-if="k==0" lazy-load @load='get_img_height'>
 									</image>
-									<image :src="requestUrl+i" :class="'list_img'+k" mode="widthFix" v-else >
+									<image :src="requestUrl+i" :class="'list_img'+k" mode="widthFix" v-else>
 								</view>
 								<image class="top-banner" :src="requestUrl+contentList.sku.spu_icon" mode="widthFix"></image>
 							</swiper-item>
@@ -56,17 +55,17 @@
 				</view>
 				<view class="products-introduction">
 					<view class="price-depreciate-collect">
-						<view class="price" >
+						<view class="price">
 							<view class="new-price">
 								<text>￥</text>{{ contentList.sku.sale_price || 0}}
 							</view>
 						</view>
 						<view class="depreciate-collect">
-							<view class="depreciate" @tap='on_share'> 
+							<view class="depreciate" @tap='on_share'>
 								<view class="remind-images">
 									<image src="/static/images/icon_wechat.png" mode=""></image>
 								</view>
-								<view class="remind-text" > 分享 </view>
+								<view class="remind-text"> 分享 </view>
 							</view>
 							<view class="collect" @tap="goods_collect(contentList.is_collect,encrypted_id)">
 								<view class="collect-images">
@@ -89,8 +88,7 @@
 					</view> -->
 					<!-- 商品名称 -->
 					<view class="prouct-name">
-						<image class="title_icon"
-						 :src="requestUrl+item" v-for="(item,index) in contentList.sku.act.title_icon"  :key='index'></image>
+						<image class="title_icon" :src="requestUrl+item" v-for="(item,index) in contentList.sku.act.title_icon" :key='index'></image>
 						<!-- <text class="label-name"> 618特惠 </text> -->
 						<text class="all-goods_name"> {{contentList.goods_name}}</text>
 					</view>
@@ -103,7 +101,7 @@
 					<view class="get-coupon" v-if="contentList.sku.details_prompt"> {{contentList.sku.details_prompt}} </view>
 				</view>
 				<!-- 优惠活动 v-if="contentList.sku.act.discounts" -->
-				<view class="discounts" v-if="contentList.sku.act.discounts||more_card_list.length>0" >
+				<view class="discounts" v-if="contentList.sku.act.discounts||more_card_list.length>0">
 					<view class="discounts-title">
 						<view class="discounts-more"> 优惠 </view>
 						<view class="more" @tap='seeMore(0)'> 更多 > </view>
@@ -119,7 +117,7 @@
 						<view class="all_policy-content">
 							<view class="policy-contents" v-for="(i,index) in item.list" :key='index'> {{i}} </view>
 						</view>
-						
+
 					</view>
 				</view>
 				<!-- 版本、规格 -->
@@ -128,13 +126,13 @@
 						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
 							<view class="specs-title">
 								{{item.name}}
-								<text class="specs-hint" >请选择{{item.name}}</text>
+								<text class="specs-hint">请选择{{item.name}}</text>
 							</view>
 							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
+								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
 								 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
 								 @tap="changeSpec(index,sindex)">
-									{{is}}  
+									{{is}}
 								</view>
 							</view>
 						</view>
@@ -144,10 +142,10 @@
 				<view class="specs">
 					<view class="specs-cont-pay">
 						<text class="pay-txt">支付方式</text>
-						<view class="li" @tap='changePay(0)'  :class="[pay_type==0?'li-hover':'']">
+						<view class="li" @tap='changePay(0)' :class="[pay_type==0?'li-hover':'']">
 							预约金
 						</view>
-						<view class="li" @tap='changePay(1)'  :class="[pay_type==1?'li-hover':'']">
+						<view class="li" @tap='changePay(1)' :class="[pay_type==1?'li-hover':'']">
 							全款付
 						</view>
 					</view>
@@ -173,13 +171,13 @@
 					</view>
 					<view class="related-doctor-item">
 						<swiper class="doctor-swiper" indicator-dots indicator-active-color="#fa3475"
-						 indicator-color="#000000" duration="1000" circular>
+						 indicator-color="#000000" autoplay interval="3000" duration="600" circular>
 							<swiper-item v-for="(item,index) in doctorList" :key="index">
 								<view class="doctor-recommend" v-for="(i,k) in item" :key='k' @tap='go_to_doctor(i.id,i.heading)'>
 									<view class="doctor-top">
 										<view class="doctor-head-portrait">
 											<image class="doctor_image" :src="requestUrl+i.heading" mode="" lazy-load='true'></image>
-											<image class="index_v" src="/static/images/index_v.png" ></image>
+											<image class="index_v" src="/static/images/index_v.png"></image>
 										</view>
 										<view class="doctor-abstract">
 											<view class="doctor-name-recommend">
@@ -235,12 +233,11 @@
 						<view class="related-title">
 							<view class="line"></view> 评价
 						</view>
-						<navigator class="diary-more" :url="'/pages/goods/goods_detail_comment?encrypted_id='+encrypted_id"> 
-							{{contentList.rate}} %好评 > 
+						<navigator class="diary-more" :url="'/pages/goods/goods_detail_comment?encrypted_id='+encrypted_id">
+							{{contentList.rate}} %好评 >
 						</navigator>
 					</view>
-					<navigator class="evaluate-content" v-for="(item,index) in evaluateList" :key="index"
-					 :url="'/pages/goods/goods_detail_comment_detail?id='+item.id">
+					<navigator class="evaluate-content" v-for="(item,index) in evaluateList" :key="index" :url="'/pages/goods/goods_detail_comment_detail?id='+item.id">
 						<view class="evaluate-label">
 							<view class="label-item" v-for="(i,k) in item.label" :key="k">{{i}}</view>
 						</view>
@@ -251,7 +248,7 @@
 							<view class="name-score">
 								<view class="evaluate-user-name"> {{item.nick_name}} </view>
 								<view class='itembox'>
-									<view v-for="(i,z) in imgs" :key="z" >
+									<view v-for="(i,z) in imgs" :key="z">
 										<image class="star" :src="item.point>=i.id?src1:''"></image>
 									</view>
 								</view>
@@ -260,12 +257,12 @@
 						<view class="evaluate-details"> {{item.contents}} </view>
 						<view class="effect-picture">
 							<scroll-view class="effect-picture-items" scroll-x="true">
-								<view class="image item_video"  v-for="(i,j) in item.video_list" :key="j">
-									<image class="video_img" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" ></image>
+								<view class="image item_video" v-for="(i,j) in item.video_list" :key="j">
+									<image class="video_img" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png"></image>
 								</view>
 								<image class="image" :src="requestUrl+i" v-for="(i,k) in item.imgs_list" :key="k"></image>
 							</scroll-view>
-							
+
 						</view>
 					</navigator>
 				</view>
@@ -275,9 +272,7 @@
 						<view class="table-title" :style="[{'color':item.color}]"> {{item.title}} </view>
 						<view class="all-table-li">
 							<view class="table-ul" v-for="(i,k) in item.data" :key='k'>
-								<view class="table-li"
-								 v-for="(is,j) in i" :key='j'
-								 :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':(i.length==1?'100%':'20%'))),'color':is.color}]">
+								<view class="table-li" v-for="(is,j) in i" :key='j' :style="[{'width':i.length==2?'50%':(i.length==3?'33%':(i.length==4?'25%':(i.length==1?'100%':'20%'))),'color':is.color}]">
 									{{is.val }}
 								</view>
 							</view>
@@ -306,7 +301,7 @@
 			</view>
 			<!-- 底部定位 -->
 			<view class="consult-share-cart-addCart-shopNow">
-				<navigator class="consult" url="/pages/consultation/consultation"> 
+				<navigator class="consult" url="/pages/consultation/consultation">
 					<view class="consult-image">
 						<image class="icon-img" src="/static/images/icon_consult.png"></image>
 					</view>
@@ -318,7 +313,7 @@
 					</view>
 					<view class="share-text"> 分享 </view>
 				</view>
-				<view class="cart"  @tap="cart">
+				<view class="cart" @tap="cart">
 					<view class="cart-number">
 						<view class="cartImg">
 							<image class="icon-img" src="/static/images/icon_cart.png"></image>
@@ -331,17 +326,17 @@
 				<view class="shop-now" @tap='shopNow(1)'> 立即购买 </view>
 			</view>
 			<!-- 优惠更多  -->
-			<scroll-view class="see-more-discount" scroll-y="true"  v-if="isShowDiscount" 
+			<scroll-view class="see-more-discount" scroll-y="true" v-if="isShowDiscount"
 			 :style="[{'height':goodsCardsList.cards?height/2+'px':height/4+'px'}]">
 				<view class="more-discounts-title"> 优惠活动 </view>
 				<view class="more-discounts-hint">温馨提示:满减、折扣、卡券均可叠加使用</view>
 				<view class="all-discounts-policy">
 					<view class="discounts-policy">
 						<view class="policy-name"> 限时 </view>
-						<view class="policy-content"> 距离活动结束还剩 
-							<text class="show-time" v-show="contentList.sku.act.countdwon_format==1">{{ day }}</text> 天 
-							<text class="show-time">{{ house }}</text> 时 
-							<text class="show-time">{{ second }}</text> 分 
+						<view class="policy-content"> 距离活动结束还剩
+							<text class="show-time" v-show="contentList.sku.act.countdwon_format==1">{{ day }}</text> 天
+							<text class="show-time">{{ house }}</text> 时
+							<text class="show-time">{{ second }}</text> 分
 							<text class="show-time">{{ minute }}</text> 秒
 						</view>
 					</view>
@@ -353,22 +348,22 @@
 					</view>
 				</view>
 				<view class="card_list">
-					<ticket
-					 :cardsList='goodsCardsList.cards'
-					 :time_now='goodsCardsList.time_now' 
-					 @showTicket='showTicket'
-					 @getCards='getCards'
-					 @useCard = 'useCard'>
+					<ticket :cardsList='goodsCardsList.cards' :time_now='goodsCardsList.time_now' @showTicket='showTicket' @getCards='getCards'
+					 @useCard='useCard'>
 					</ticket>
 				</view>
 				<view class="delete-see-more-discount" @tap='seeMore(0)'>
-					<image src="../../static/images/delete.png" mode=""></image>
+					<image src="/static/images/delete.png" mode=""></image>
 				</view>
 			</scroll-view>
 			<!-- 弹出的对话框 v-if="isShow" -->
-			<scroll-view class="isShow" v-if="isShow" scroll-y :style="[{'height':height-height/3+'px'}]">
+			<view class="this_mantle" v-if="isShow||isShowDiscount"> </view>
+			<view class="set_goods_spec_content" v-if="isShow" :style="[{'height':height-height/3+'px'}]">
 				<view class="isShow-content">
 					<view class="add-card-top">
+						<view class="delete-see-more-discount" @tap='seeMore(1)'>
+							<image src="/static/images/delete.png" mode=""></image>
+						</view>
 						<view class="left-head_img">
 							<image :src="requestUrl+contentList.sku.head_img" mode="widthFix" @tap="show_photo(requestUrl+contentList.sku.head_img)"></image>
 						</view>
@@ -377,7 +372,7 @@
 							<view class="good-price">
 								<view class="market_price">￥{{contentList.sku.sale_price}}</view>
 								<view class="member_price" v-if="contentList.sku.member.member_title">
-									<text class="member_title" >{{contentList.sku.member.member_title}}</text>￥{{contentList.sku.member.price}}
+									<text class="member_title">{{contentList.sku.member.member_title}}</text>￥{{contentList.sku.member.price}}
 								</view>
 							</view>
 							<view class="store-sku_no">
@@ -386,77 +381,76 @@
 							</view>
 						</view>
 					</view>
-					<template>
-						<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
-							<view class="specs-title">
-								{{item.name}}
-								<text class="specs-hint" >请选择{{item.name}}</text>
-							</view>
-							<view class="specs-cont">
-								<view class="li" v-for="(is,sindex) in item.attr" :key="sindex" 
-								 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
-								 @tap="changeSpec(index,sindex)">
-									{{is}}  
+					<scroll-view class="this-content" scroll-y="true" :style="[{'height':height-height/3-85+'px'}]">
+						<view class="this_specs-content">
+							<view class="specs-content" v-for="(item,index) in contentList.spec_value" :data-index='index' :key="index">
+								<view class="specs-title">
+									{{item.name}}
+									<text class="specs-hint">请选择{{item.name}}</text>
+								</view>
+								<view class="specs-cont">
+									<view class="li" v-for="(is,sindex) in item.attr" :key="sindex"
+									 :class="[spec[index].attr[sindex]==1?'li-hover':spec[index].attr[sindex]==0?'li-gray':'']"
+									 @tap="changeSpec(index,sindex)">
+										{{is}}
+									</view>
 								</view>
 							</view>
 						</view>
-					</template>
-					<view class="specs-cont-pay">
-						<text class="pay-txt">支付方式</text>
-						<view class="li" @tap='changePay(0)' :class="[pay_type==0?'li-hover':'']">
-							预约金
-						</view>
-						<view class="li" @tap='changePay(1)' :class="[pay_type==1?'li-hover':'']">
-							全款付
-						</view>
-					</view>
-					<view class="specs-cont-pay">
-						<text class="pay-txt">领取方式</text>
-						<view class="li" @tap='changeClass(0)' :class="[class_type==0||class_type==2?'li-hover':'']">
-							到院领取
-						</view>
-						<view class="li" @tap='changeClass(1)' v-if="class_type==1||class_type==2" :class="[class_type==1?'li-hover':'']">
-							邮寄
-						</view>
-					</view>
-					<view class="changeNumber">
-						<view class="pay-txt">数量</view>
-						<view class="number-hint">
-							<text> {{ contentList.sku.min_buy_limit }} 件起购</text>
-							<text v-show="contentList.sku.max_buy_limit>0&&contentList.sku.max_buy_limit!=999999">
-							 , 限购{{ contentList.sku.max_buy_limit }}件 
-							</text>
-							<!-- <text>限购 {{ contentList.sku.max_buy_limit }} 件</text> -->
-						</view>
-						<view class="change-input">
-							<view class="reduce"
-							 @tap="reduce(-1)"
-							 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
-							<view class="number-input">
-								<input type="number" v-model="goodsNuber" value=1 @input='changeGoodsNumber' />
+						<view class="specs-cont-pay">
+							<text class="pay-txt">支付方式</text>
+							<view class="li" @tap='changePay(0)' :class="[pay_type==0?'li-hover':'']">
+								预约金
 							</view>
-							<view class="add-number"
-							 @tap="reduce(1)"
-							 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
+							<view class="li" @tap='changePay(1)' :class="[pay_type==1?'li-hover':'']">
+								全款付
+							</view>
 						</view>
-					</view>
-					<view class="keep-order">
-						<view class="button">
-							<button type="primary" class="keep-order-button" plain="true" @tap='order(is_card_shop)'>确定</button>
+						<view class="specs-cont-pay">
+							<text class="pay-txt">领取方式</text>
+							<view class="li" @tap='changeClass(0)' :class="[class_type==0||class_type==2?'li-hover':'']">
+								到院领取
+							</view>
+							<view class="li" @tap='changeClass(1)' v-if="class_type==1||class_type==2" :class="[class_type==1?'li-hover':'']">
+								邮寄
+							</view>
 						</view>
-					</view>
-					<view class="delete-see-more-discount" @tap='seeMore(1)'>
-						<image src="../../static/images/delete.png" mode=""></image>
+						<view class="changeNumber">
+							<view class="number_hint">
+								<view class="pay-txt">数量</view>
+								<view class="this_number_hint">
+									{{ contentList.sku.min_buy_limit }} 件起购
+									<view
+									 v-show="contentList.sku.max_buy_limit>0&&contentList.sku.max_buy_limit!=999999">
+										, 限购{{ contentList.sku.max_buy_limit }}件
+									</view>
+								</view>
+							</view>
+							<view class="change-input">
+								<view class="reduce" @tap="reduce(-1)"
+								 :style="[{'background-color':goodsNuber==contentList.sku.min_buy_limit ? '#dddddd':'#999999'}]">-</view>
+								<view class="number-input">
+									<input type="number" v-model="goodsNuber" value=1 @input='changeGoodsNumber' />
+								</view>
+								<view class="add-number" @tap="reduce(1)"
+								 :style="[{'background-color':goodsNuber==contentList.sku.max_buy_limit ? '#dddddd':'#999999'}]">+</view>
+							</view>
+						</view>
+					</scroll-view>
+					
+				</view>
+				<view class="keep-order">
+					<view class="button">
+						<button type="primary" class="keep-order-button" @tap='order(is_card_shop)'>确定</button>
 					</view>
 				</view>
-			</scroll-view>
+			</view>
 			<view class="this_pay_price" v-if="pay_type==0">
 				<text class="on_line_pay"> 预约金 : <text class="line_pay">
-				 ￥{{ contentList.sku.sale_price - contentList.sku.offline_pay || 0 }} </text>  </text>
+						￥{{ contentList.sku.sale_price - contentList.sku.offline_pay || 0 }} </text> </text>
 				<text class="offline_pay"> 到院再付: <text> ￥{{ contentList.sku.offline_pay || 0 }} </text> </text>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -480,13 +474,13 @@
 				menuBottom: 0,
 				title: '商品详情',
 				height: 0,
-				sku_id:'0',
-				goodsNuber:1,
-				contentList:{
-					sku:{
-						sale_price:0,
-						act:{
-							title_icon:''
+				sku_id: '0',
+				goodsNuber: 1,
+				contentList: {
+					sku: {
+						sale_price: 0,
+						act: {
+							title_icon: ''
 						}
 					}
 				},
@@ -502,9 +496,9 @@
 					id: 5
 				}],
 				src1: 'https://img-blog.csdnimg.cn/20200610110052243.png',
-				
+
 				pay_type: 0, //支付方式  0预约金 1 全款 2 全选
-				class_type:0,//领取方式 0到院 1邮寄
+				class_type: 0, //领取方式 0到院 1邮寄
 				swiperList: [],
 				carts: 0, //购物车
 				productLists: [],
@@ -520,19 +514,19 @@
 				parameter: [], //各种表
 				encrypted_id: '', //加密商品skuid
 				isShow: false, //显示对话框
-				isShowDiscount:false,//显示优惠的更多
+				isShowDiscount: false, //显示优惠的更多
 				verification_specAttr: [], //验证选规格版本
 				spec: [],
-				cardsList:[],
-				goodsCardsList:[],
+				cardsList: [],
+				goodsCardsList: [],
 				day: 0,
 				house: 0,
 				second: 0,
 				minute: 0,
-				is_card_shop:0,
-				more_card_list:[],//更多的卡券列表
-				swiper_height:350,
-				this_platform:''
+				is_card_shop: 0,
+				more_card_list: [], //更多的卡券列表
+				swiper_height: 350,
+				this_platform: ''
 			}
 		},
 		onReachBottom: function() {
@@ -547,36 +541,24 @@
 			console.log(uni.getStorageSync("userInfo"))
 			let sku_id = ''
 			let encrypted_id = ''
-			if (option.sku_id) {
-				sku_id = option.sku_id
-				that.sku_id = sku_id
-			} else {
-				sku_id = '429' //206 302
-				that.sku_id = sku_id
-			}
-			if (option.encrypted_id) {
-				encrypted_id = option.encrypted_id
-				that.encrypted_id = encrypted_id
-			} else {
-				encrypted_id = 'MDlqdXJZTzQyODErcm1kYVBPYzBiZz09' //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
-				that.encrypted_id = encrypted_id 
-			}
-			if(option.id){
-				encrypted_id = option.id
-				that.encrypted_id = encrypted_id
-			}
-			that.getGoodsDetail(sku_id, encrypted_id)
-			that.getRelevantGoods(encrypted_id)
-			that.getRelated(encrypted_id)
+			sku_id = option.sku_id
+			that.sku_id = sku_id
+			that.encrypted_id = option.encrypted_id || option.spu_id
+			that.getGoodsDetail(sku_id, that.encrypted_id)
+			that.getRelevantGoods(that.encrypted_id)
+			that.getRelated(that.encrypted_id)
 			that.getLike()
 			that.advertising()
 			// that.getCart()
 			// 清除本地的商品详情储存
 			uni.removeStorageSync('goodsDetail');
 		},
+		onShow:function(){
+			let that = this
+			that.height = uni.getSystemInfoSync().screenHeight;
+		},
 		onReady: function() {
 			let that = this;
-			that.height = uni.getSystemInfoSync().screenHeight;
 			that.videoContext = uni.createVideoContext('myVideo')
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			that.this_platform = platform
@@ -589,7 +571,7 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} else if (platform == 'APP'){
+			} else if (platform == 'APP') {
 				that.menuTop = 40
 				that.menuBottom = 70
 				that.menuHeight = 32
@@ -616,13 +598,15 @@
 					}
 					that.change_swiper(e)
 				}, 500)
-				that.swiper_height = event.detail.height/2
+				that.swiper_height = event.detail.height / 2
 			},
 			getlist_height: function(list) {
 				let that = this
 				const query = uni.createSelectorQuery()
 				query.select(list).boundingClientRect(data => {
-					that.swiper_height = data.height
+					if(data!=null){
+						that.swiper_height = data.height
+					}
 				}).exec();
 			},
 			change_swiper: function(e) {
@@ -651,22 +635,22 @@
 						that.swiperList = data.img
 						that.class_type = data.is_post
 						that.spec = that.assembleSpec(data.sku.user_spec, 1)
-						if(data.sku.pay_type!=2){
+						if (data.sku.pay_type != 2) {
 							that.pay_type = data.sku.pay_type
 						}
-						if(that.contentList.sku.act.rest_time>0){
+						if (that.contentList.sku.act.rest_time > 0) {
 							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
-							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
-							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60) 
-							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
+							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24)
+							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60)
+							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60)
 						}
-						if(that.contentList.sku.card_list.length>0){
+						if (that.contentList.sku.card_list.length > 0) {
 							that.cardsList = that.contentList.sku.card_list
 							let dataInfo = {
-								interfaceId:'ids_get_card',
-								card_id:that.cardsList,
-								limit:6,
-								offset:0
+								interfaceId: 'ids_get_card',
+								card_id: that.cardsList,
+								limit: 6,
+								offset: 0
 							}
 							that.request.uniRequest("card", dataInfo).then(res => {
 								if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -675,7 +659,7 @@
 								}
 							})
 						}
-						
+
 					} else {
 						let data = res.data.data
 						that.contentList = data
@@ -704,27 +688,27 @@
 				let dataInfo = {
 					interfaceId: 'userrecommendedgoodsspulist',
 					type: '2',
-					offset: that.offset*6
+					offset: that.offset * 6
 				}
 				that.request.uniRequest("goods", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						if(data.length>0){
+						if (data.length > 0) {
 							that.productLists = that.productLists.concat(data)
-						}else if(data.length==0&&that.offset>1){
+						} else if (data.length == 0 && that.offset > 1) {
 							uni.showToast({
-								title:'没有更多了',
-								icon:'none'
+								title: '没有更多了',
+								icon: 'none'
 							})
 						}
 					}
 				})
 			},
 			// 获取购物车的商品数量
-			getCart:function(){
+			getCart: function() {
 				let that = this
 				let dataInfo = {
-					interfaceId:'countcart'
+					interfaceId: 'countcart'
 				}
 				that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -739,7 +723,7 @@
 				let that = this
 				that.pay_type = index
 			},
-			changeClass:function(index){
+			changeClass: function(index) {
 				let that = this
 				that.class_type = index
 			},
@@ -760,45 +744,44 @@
 				})
 			},
 			// 优惠的更多
-			seeMore:function(index){
+			seeMore: function(index) {
 				let that = this
-				if(index==0){
-					if(that.cardsList.length>0){
+				if (index == 0) {
+					if (that.cardsList.length > 0) {
 						let dataInfo = {
-							interfaceId:'ids_get_card',
-							card_id:that.cardsList,
-							limit:6,
-							offset:0
+							interfaceId: 'ids_get_card',
+							card_id: that.cardsList,
+							limit: 6,
+							offset: 0
 						}
 						that.request.uniRequest("card", dataInfo).then(res => {
 							if (res.data.code == 1000 && res.data.status == 'ok') {
 								let data = res.data.data
 								that.isShowDiscount = !that.isShowDiscount
-								if(that.isShowDiscount){
+								if (that.isShowDiscount) {
 									for (let i = 0; i < data.cards.length; i++) {
 										data.cards[i].showTicketDetails = false
 										data.cards[i].arrowImages = '/static/images/arrow-down.png'
 									}
 									that.goodsCardsList = data
-								}
-								else{
+								} else {
 									that.goodsCardsList = []
 								}
 							}
 						})
-					}else{
+					} else {
 						that.isShowDiscount = !that.isShowDiscount
 					}
-				}else if(index==1){
+				} else if (index == 1) {
 					that.isShow = !that.isShow
-				}				
+				}
 			},
 			showTicket: function(cardId) {
 				let that = this
 				for (let i = 0; i < that.goodsCardsList.cards.length; i++) {
 					// console.log(that.goodsCardsList.cards[i])
 					if (that.goodsCardsList.cards[i].id == cardId) {
-						
+
 						that.goodsCardsList.cards[i].showTicketDetails = !that.goodsCardsList.cards[i].showTicketDetails
 						if (that.goodsCardsList.cards[i].showTicketDetails) {
 							that.goodsCardsList.cards[i].arrowImages = '/static/images/arrow-top.png'
@@ -809,7 +792,7 @@
 				}
 			},
 			// 领取卡券
-			getCards: function(cardId, prompt,index) {
+			getCards: function(cardId, prompt, index) {
 				let that = this
 				// console.log(cardId, prompt,index)
 				if (prompt == '') {
@@ -820,7 +803,8 @@
 					that.request.uniRequest("card", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							that.request.showToast('领取成功')
-							that.goodsCardsList.cards[index].salecard_user_count = that.goodsCardsList.cards[index].salecard_user_count+1
+							that.goodsCardsList.cards[index].salecard_user_count = that.goodsCardsList.cards[index].salecard_user_count +
+								1
 						}
 					})
 				} else {
@@ -828,7 +812,7 @@
 				}
 			},
 			// 使用卡券
-			useCard:function(id){
+			useCard: function(id) {
 				uni.navigateTo({
 					url: `/pages/my/my_card_use?id=${id}`
 				});
@@ -872,14 +856,14 @@
 					url: `/pages/doctor/doctor_detail?id=${id}&&heading=${heading}`,
 				})
 			},
-			changeSpec:function(index,sindex){
+			changeSpec: function(index, sindex) {
 				let that = this
 				// console.log(index,sindex)
-				if(that.spec[index].attr[sindex]==0){
-					that.getSpec(index,sindex)
-				}else if(that.spec[index].attr[sindex]==1){
-					that.cancelSpec(index,sindex)
-				}else{
+				if (that.spec[index].attr[sindex] == 0) {
+					that.getSpec(index, sindex)
+				} else if (that.spec[index].attr[sindex] == 1) {
+					that.cancelSpec(index, sindex)
+				} else {
 					return
 				}
 			},
@@ -890,7 +874,7 @@
 				// 新规格数组，与原规格spec_value相对应，用于标记各种状态 console.log(uni.getStorageSync("goodsDetail").sku.user_spec)
 				let specValue = uni.getStorageSync("goodsDetail").spec_value;
 				let spec = uni.getStorageSync("goodsDetail").spec_value;
-				let defaultUserSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;				
+				let defaultUserSpec = (isCancel == 1) ? "" : uni.getStorageSync("goodsDetail").sku.spec_attr;
 				// 遍历规格类型
 				for (let i in specValue) {
 					for (let k in specValue[i].attr) {
@@ -928,7 +912,7 @@
 				return spec;
 			},
 
-			getSpec: function(index,sindex) {
+			getSpec: function(index, sindex) {
 				const that = this;
 				for (let i in that.spec[index].attr) {
 					that.spec[index].attr[i] = 0;
@@ -943,7 +927,7 @@
 						}
 					}
 				}
-				
+
 				// 判断当前点击规格是否在用户允许选择范围，在就直接提交，不在就提交当前规格
 				let userSpec = uni.getStorageSync("goodsDetail").sku.user_spec;
 				// console.log(nowCheck,userSpec)
@@ -957,8 +941,7 @@
 							specAttr = nowCheck;
 						}
 					}
-				} 
-				else {
+				} else {
 					specAttr = nowCheck;
 				}
 				that.verification_specAttr = specAttr //用于验证是否是合理的规格选取
@@ -976,13 +959,13 @@
 					that.spec = that.assembleSpec(res.data.data.user_spec, res.data.data == "" ? 1 : 0, nowCheck)
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						let data = res.data.data
-						that.contentList.sku = data						
-						that.contentList.sku.sale_price = data.sale_price						
-						if(that.contentList.sku.act.rest_time>0){
+						that.contentList.sku = data
+						that.contentList.sku.sale_price = data.sale_price
+						if (that.contentList.sku.act.rest_time > 0) {
 							that.day = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 / 24 % 30)
-							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24 )
-							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60) 
-							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60 )
+							that.house = parseInt((that.contentList.sku.act.rest_time) / 60 / 60 % 24)
+							that.second = parseInt((that.contentList.sku.act.rest_time) / 60 % 60)
+							that.minute = parseInt((that.contentList.sku.act.rest_time) % 60)
 						}
 						// if(that.contentList.sku.card_list.length>0){
 						// 	for (let i = 0; i < that.contentList.sku.card_list.length; i++) {
@@ -997,7 +980,7 @@
 			},
 
 			// 取消选项
-			cancelSpec: function(index,sindex) {
+			cancelSpec: function(index, sindex) {
 				const that = this;
 				that.spec[index].attr[sindex] = 0;
 				// 查找当前选择数据
@@ -1023,7 +1006,7 @@
 				})
 			},
 			// 查看全部日记
-			seeAll:function(){
+			seeAll: function() {
 				// uni.switchTab({
 				// 	url: `/pages/diary/diary`,
 				// })
@@ -1031,7 +1014,7 @@
 					url: `/pages/diary/diary`,
 				})
 			},
-						
+
 			// 购物车
 			cart: function() {
 				let that = this
@@ -1043,38 +1026,38 @@
 				return
 			},
 			// 收藏
-			collect_diary:function(id,index){
+			collect_diary: function(id, index) {
 				let that = this
 				let data = {
 					interfaceId: 'collectdiary',
-					diary_id :id
+					diary_id: id
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.diaryList[index].is_collect = 1
-						that.diaryList[index].collect_num +=1
+						that.diaryList[index].collect_num += 1
 						uni.showToast({
 							title: '已收藏',
 							duration: 1000
-						})				
+						})
 					}
 				})
 			},
 			// 取消收藏
-			cancel_like:function(id,index){
+			cancel_like: function(id, index) {
 				let that = this
 				let data = {
-					interfaceId:'cancelcollectdiary',
-					diary_id:id.toString()
+					interfaceId: 'cancelcollectdiary',
+					diary_id: id.toString()
 				}
 				this.request.uniRequest("diary", data).then(res => {
 					if (res.data.code == 1000 && res.data.status == 'ok') {
 						that.diaryList[index].is_collect = 0
-						that.diaryList[index].collect_num -=1
+						that.diaryList[index].collect_num -= 1
 						uni.showToast({
 							title: '已取消收藏',
 							duration: 1000
-						})				
+						})
 					}
 				})
 			},
@@ -1091,13 +1074,13 @@
 				that.is_card_shop = index
 			},
 			// 点击确定
-			order:function(index){
+			order: function(index) {
 				let that = this
 				let buy_type = that.pay_type
-				if(index==0){ //购物车
+				if (index == 0) { //购物车
 					let specAttr = that.verification_specAttr
-					if(specAttr.length==0){
-						for(let key in that.contentList.sku.spec_attr){
+					if (specAttr.length == 0) {
+						for (let key in that.contentList.sku.spec_attr) {
 							specAttr.push(that.contentList.sku.spec_attr[key])
 						}
 					}
@@ -1109,38 +1092,38 @@
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let dataInfo = {
-								interfaceId:'addcart',
-								sku_id:that.contentList.sku.id,
-								num:that.goodsNuber,
-								max_limit:that.contentList.sku.max_buy_limit,
-								price:that.contentList.sku.sale_price,
-								is_post: that.class_type,//is_post 0 到院 1邮寄
-								buy_type:buy_type ,//支付类型
-								f_unique_id:0, //订单分享人的id
-								archives_id:0//订单渠道
+								interfaceId: 'addcart',
+								sku_id: that.contentList.sku.id,
+								num: that.goodsNuber,
+								max_limit: that.contentList.sku.max_buy_limit,
+								price: that.contentList.sku.sale_price,
+								is_post: that.class_type, //is_post 0 到院 1邮寄
+								buy_type: buy_type, //支付类型
+								f_unique_id: 0, //订单分享人的id
+								archives_id: 0 //订单渠道
 							}
 							that.request.uniRequest("shoppingCart", dataInfo).then(res => {
 								if (res.data.code == 1000 && res.data.status == 'ok') {
 									that.request.showToast('已加入购物车')
-								}else if(res.data.code == 2101){
+									that.getCart()
+									uni.removeStorageSync('contentList')
+								} else if (res.data.code == 2101) {
 									that.request.showToast('商品已下架')
 								}
-								that.getCart()
-								uni.removeStorageSync('contentList')
 								that.isShow = !that.isShow
 							})
-						}else{
+						} else {
 							uni.showToast({
-								title:'请选择正确规格',
-								icon:'none'
+								title: '请选择正确规格',
+								icon: 'none'
 							})
 							// that.isShow = !that.isShow
 						}
 					})
-				}else if(index==1){//立即购买
+				} else if (index == 1) { //立即购买
 					let specAttr = that.verification_specAttr
-					if(specAttr.length==0){
-						for(let key in that.contentList.sku.spec_attr){
+					if (specAttr.length == 0) {
+						for (let key in that.contentList.sku.spec_attr) {
 							specAttr.push(that.contentList.sku.spec_attr[key])
 						}
 					}
@@ -1152,63 +1135,63 @@
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
 							let one_goods = {
-								interfaceId:'confirmsingle',
-								sku_id:that.contentList.sku.id,
-								num:that.goodsNuber,
-								is_post: that.class_type,//is_post 0 到院 1邮寄
-								buy_type:buy_type ,//支付类型
-								type:0
+								interfaceId: 'confirmsingle',
+								sku_id: that.contentList.sku.id,
+								num: that.goodsNuber,
+								is_post: that.class_type, //is_post 0 到院 1邮寄
+								buy_type: buy_type, //支付类型
+								type: 0
 							}
 							one_goods = JSON.stringify(one_goods)
 							uni.navigateTo({
 								url: `/pages/confirm_order/confirm_order?one_goods=${one_goods}`,
 							})
-						}else{
+						} else {
 							uni.showToast({
-								title:'请选择正确规格',
-								icon:'none'
+								title: '请选择正确规格',
+								icon: 'none'
 							})
 							// that.isShow = !that.isShow
 						}
 					})
 				}
-				
+
 			},
 			// 点击加减数字
-			reduce:function(index){
+			reduce: function(index) {
 				let that = this
 				that.goodsNuber += index
 				if (that.contentList.sku_list[k].goods_list[is].max_buy_limit == 0) {
 					that.contentList.sku_list[k].goods_list[is].max_buy_limit = 999999
 				}
-				if(that.goodsNuber >= that.contentList.sku.max_buy_limit){
+				if (that.goodsNuber >= that.contentList.sku.max_buy_limit) {
 					let number = parseInt(that.contentList.sku.max_buy_limit)
 					that.goodsNuber = number
-				}else if(that.goodsNuber < that.contentList.sku.min_buy_limit){
+				} else if (that.goodsNuber < that.contentList.sku.min_buy_limit) {
 					let number = parseInt(that.contentList.sku.min_buy_limit)
 					that.goodsNuber = number
 				}
 			},
 			// 输入想要的数量
-			changeGoodsNumber:function(event){
+			changeGoodsNumber: function(event) {
 				let that = this
 				let value = event.detail.value
 				that.goodsNuber = value
-				if(that.goodsNuber >= that.contentList.sku.max_buy_limit){
+				if (that.goodsNuber >= that.contentList.sku.max_buy_limit) {
 					let number = parseInt(that.contentList.sku.max_buy_limit)
 					that.goodsNuber = number
-				}else if(that.goodsNuber < that.contentList.sku.min_buy_limit){
+				} else if (that.goodsNuber < that.contentList.sku.min_buy_limit) {
 					let number = parseInt(that.contentList.sku.min_buy_limit)
 					that.goodsNuber = number
 				}
 			},
 			// 收藏
-			goods_collect:function(is_collect,encrypted_id){
+			goods_collect: function(is_collect, encrypted_id) {
 				let that = this
-				if(is_collect==0){
+				if (is_collect == 0) {
 					let dataInfo = {
-						interfaceId:'collectgoodsspu',
-						encrypted_id:encrypted_id
+						interfaceId: 'collectgoodsspu',
+						encrypted_id: encrypted_id
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -1217,18 +1200,18 @@
 								title: '收藏成功',
 								duration: 1000
 							})
-						}else{
+						} else {
 							uni.showToast({
 								title: '收藏失败,是否未登录',
 								duration: 1000,
-								icon:'none'
+								icon: 'none'
 							})
 						}
 					})
-				}else{
+				} else {
 					let dataInfo = {
-						interfaceId:'cancelcollectgoodsspu',
-						encrypted_id:encrypted_id
+						interfaceId: 'cancelcollectgoodsspu',
+						encrypted_id: encrypted_id
 					}
 					that.request.uniRequest("goods", dataInfo).then(res => {
 						if (res.data.code == 1000 && res.data.status == 'ok') {
@@ -1237,73 +1220,73 @@
 								title: '已取消收藏',
 								duration: 1000
 							})
-						}else{
+						} else {
 							uni.showToast({
 								title: '取消收藏失败,是否未登录',
 								duration: 1000,
-								icon:'none'
+								icon: 'none'
 							})
 						}
 					})
 				}
 			},
 			// 更多问答
-			more_questions_answers:function(id){
+			more_questions_answers: function(id) {
 				uni.navigateTo({
 					url: `/pages/goods/goods_detail_problem?id=${id}`,
 				})
 			},
-			
-			on_share:function(){
+
+			on_share: function() {
 				let that = this
-				if(that.this_platform=='APP'){
+				if (that.this_platform == 'APP') {
 					that.this_app_share()
-				}else{
+				} else {
 					uni.showToast({
-						title:'敬请期待···',
-						icon:'none'
+						title: '敬请期待···',
+						icon: 'none'
 					})
 				}
 			},
-			this_app_share:function(){
+			this_app_share: function() {
 				let that = this
 				uni.share({
-					provider:'weixin',//分享服务（即weixin|qq|sinaweibo通过 uni.getProvider 获取分享服务商，可用是指在manifest.json的sdk配置中配的分享sdk厂商
-					scene:'WXSceneSession',//provider 为 weixin 时必选 WXSceneSession:聊天界面,WXSenceTimeline:分享到朋友圈,WXSceneFavorite:微信收藏
-					type:0,//分享形式，如0图文、1纯文字、2纯图片、3音乐、4视频、5小程序等。默认图文 0
-					title:that.contentList.goods_name,//分享内容的标题 
-					summary:'我正在使用华美整呗,快来和我一起来体验!',//分享内容的摘要 type 为 1 时必选
-					href:that.requestUrl,//跳转链接 type 为 0 时必选
-					imageUrl:that.requestUrl+that.swiperList[0],//type 为 0、2、5 时必选 图片地址。type为0时，推荐使用小于20Kb的图片
-					mediaUrl:'',//type 为 3、4 时必选 音视频地址
-					miniProgram:{
-						id:'',//微信小程序原始id
-						path:'',//点击链接进入的页面
-						type:'',//微信小程序版本类型，可取值： 0-正式版； 1-测试版； 2-体验版。 默认值为0
-						webUrl:''//兼容低版本的网页链接
-					},//type 为 5 时必选 分享小程序必要参数
-					success:function(res){
+					provider: 'weixin', //分享服务（即weixin|qq|sinaweibo通过 uni.getProvider 获取分享服务商，可用是指在manifest.json的sdk配置中配的分享sdk厂商
+					scene: 'WXSceneSession', //provider 为 weixin 时必选 WXSceneSession:聊天界面,WXSenceTimeline:分享到朋友圈,WXSceneFavorite:微信收藏
+					type: 0, //分享形式，如0图文、1纯文字、2纯图片、3音乐、4视频、5小程序等。默认图文 0
+					title: that.contentList.goods_name, //分享内容的标题 
+					summary: '我正在使用华美整呗,快来和我一起来体验!', //分享内容的摘要 type 为 1 时必选
+					href: that.requestUrl, //跳转链接 type 为 0 时必选
+					imageUrl: that.requestUrl + that.swiperList[0], //type 为 0、2、5 时必选 图片地址。type为0时，推荐使用小于20Kb的图片
+					mediaUrl: '', //type 为 3、4 时必选 音视频地址
+					miniProgram: {
+						id: '', //微信小程序原始id
+						path: '', //点击链接进入的页面
+						type: '', //微信小程序版本类型，可取值： 0-正式版； 1-测试版； 2-体验版。 默认值为0
+						webUrl: '' //兼容低版本的网页链接
+					}, //type 为 5 时必选 分享小程序必要参数
+					success: function(res) {
 						uni.showToast({
-							title:'分享成功',
-							duration:3000
+							title: '分享成功',
+							duration: 3000
 						})
 					},
-					fail:function(err){
+					fail: function(err) {
 						uni.showToast({
-							title:'分享失败',
-							icon:'none'
+							title: '分享失败',
+							icon: 'none'
 						})
 					}
 				})
 			},
-			show_photo:function(url){
+			show_photo: function(url) {
 				let that = this
 				let list = []
 				list.push(url)
 				uni.previewImage({
-					current:0,
-					urls:list,
-					indicator:'none',
+					current: 0,
+					urls: list,
+					indicator: 'none',
 				})
 			}
 		}
@@ -1366,7 +1349,8 @@
 	.all-top-swiper-item {
 		position: relative;
 	}
-	.swiper_video{
+
+	.swiper_video {
 		width: 120rpx;
 		height: 120rpx;
 		position: absolute;
@@ -1468,8 +1452,9 @@
 		color: #111111;
 		margin-top: 7rpx;
 	}
-	.collect{
-		color: #9F55FF;	
+
+	.collect {
+		color: #9F55FF;
 	}
 
 	.hot-sale-remind {
@@ -1537,7 +1522,8 @@
 	.sale-content .red {
 		color: #fa3475;
 	}
-	.title_icon{
+
+	.title_icon {
 		height: 42rpx;
 		width: 90rpx;
 	}
@@ -1606,9 +1592,11 @@
 		padding: 0 20rpx;
 		margin-right: 30rpx;
 	}
-	.all_policy-content{
+
+	.all_policy-content {
 		flex: 1;
 	}
+
 	.policy-content {
 		line-height: 30rpx;
 		color: #000000;
@@ -1625,12 +1613,24 @@
 	.specs-content:first-child {
 		margin-top: 0;
 	}
-	.isShow-content{
-		padding: 20rpx 0 120rpx 20rpx;
+
+	.set_goods_spec_content {
+		position: fixed;
+		z-index: 520;
+		background-color: #FFFFFF;
+		width: 100%;
+		left: 0;
+		bottom: 0;
 	}
-	.isShow-content .specs-content{
-		padding-left: 20rpx;
+
+	.this-content {
+		padding: 30rpx 20rpx;
 	}
+
+	.this_specs-content {
+		padding-top: 265rpx;
+	}
+
 	.specs-title {
 		font-size: 28rpx;
 		font-weight: bold;
@@ -1659,21 +1659,21 @@
 	}
 
 	.specs-cont {
-		margin-left: -30rpx;
+		margin-left: -10rpx;
 		font-size: 24rpx;
+		color: #999999;
 	}
 
 	.specs-cont-pay {
 		margin-left: -30rpx;
 		font-size: 24rpx;
-		display: flex;
-		align-items: center;
+		padding-top: 20rpx;
 	}
 
 	.li {
 		display: inline-block;
-		line-height: 52rpx;
-		border-radius: 52rpx;
+		line-height: 40rpx;
+		border-radius: 40rpx;
 		padding: 0 25rpx;
 		border: 2rpx solid #f0f0f0;
 		background: #f0f0f0;
@@ -1704,7 +1704,8 @@
 		display: flex;
 		align-items: center;
 	}
-	.certificate image{
+
+	.certificate image {
 		width: 100%;
 	}
 
@@ -1781,8 +1782,8 @@
 		border-radius: 75rpx;
 		background-color: #F0F0F0;
 	}
-	
-	.index_v{
+
+	.index_v {
 		position: absolute;
 		width: 30rpx;
 		height: 30rpx;
@@ -1834,7 +1835,7 @@
 		border: solid 1px #fa3475;
 		padding: 0 10rpx;
 		margin-right: 20rpx;
-		margin-top:10rpx ;
+		margin-top: 10rpx;
 	}
 
 	.doctor-bottom {
@@ -1997,7 +1998,8 @@
 		margin-top: 20rpx;
 		height: 230rpx;
 	}
-	.effect-picture-items{
+
+	.effect-picture-items {
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
@@ -2013,10 +2015,12 @@
 		margin-right: 20rpx;
 		display: inline-block;
 	}
-	.item_video{
+
+	.item_video {
 		position: relative;
 	}
-	.video_img{
+
+	.video_img {
 		width: 60rpx;
 		height: 60rpx;
 		position: absolute;
@@ -2129,8 +2133,7 @@
 		z-index: 99;
 	}
 
-	.consult,
-	.share {
+	.consult, .share {
 		margin-top: 10rpx;
 	}
 
@@ -2204,30 +2207,46 @@
 		background-color: #FFFFFF;
 		z-index: 121;
 	}
-	.isShow .delete-see-more-discount{
+
+	.isShow .delete-see-more-discount {
 		position: absolute;
 		top: 0;
 		right: 0;
 		padding-top: 30rpx;
 		padding-right: 30rpx;
+		z-index: 121;
 	}
-	
-	.add-card-top{
+
+	.add-card-top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 56;
+		padding-top: 30rpx;
+		padding-bottom: 20rpx;
+		width: 100%;
 		display: flex;
 		align-items: center;
+		background-color: #FFFFFF;
 	}
-	.left-head_img image{
+
+	.left-head_img image {
 		width: 240rpx;
 		max-height: 240rpx;
 		background-color: #F0F0F0;
+		max-height: 240rpx;
+		margin-left: 20rpx;
+		border-radius: 16rpx
 	}
-	.right-goods-info{
+
+	.right-goods-info {
 		display: flex;
 		flex-direction: column;
 		padding-left: 20rpx;
 		flex: 1;
 	}
-	.goods-discounts{
+
+	.goods-discounts {
 		width: 160rpx;
 		font-size: 24rpx;
 		color: #FFFFFF;
@@ -2236,24 +2255,28 @@
 		border-radius: 25rpx;
 		background-image: linear-gradient(-45deg, #8834fa 0%, #bc66ff 100%);
 	}
-	.good-price{
+
+	.good-price {
 		display: flex;
 		margin-top: 30rpx;
 		align-items: center;
 	}
-	.market_price{
+
+	.market_price {
 		color: #FF0000;
 		font-size: 36rpx;
 		margin-right: 10rpx;
 		font-weight: bold;
 	}
-	.member_price{
+
+	.member_price {
 		font-size: 24rpx;
 		border: 1rpx solid #999999;
 		border-radius: 15rpx;
 		padding: 10rpx 10rpx 10rpx 0;
 	}
-	.member_title{
+
+	.member_title {
 		padding: 10rpx 10rpx;
 		background-color: #181818;
 		color: #FFFFFF;
@@ -2261,87 +2284,114 @@
 		border-bottom-left-radius: 15rpx;
 		margin-right: 10rpx;
 	}
-	.store-sku_no{
+
+	.store-sku_no {
 		font-size: 24rpx;
 		color: #999999;
 		margin-top: 20rpx;
 	}
-	.sku_no{
+
+	.sku_no {
 		margin-left: 10rpx;
 	}
-	.isShow .specs-cont-pay{
+
+	.isShow .specs-cont-pay {
 		padding: 30rpx 0 0;
 		color: #999999;
 	}
-	.isShow .specs-cont{
+
+	.isShow .specs-cont {
 		color: #999999;
 	}
-	.isShow .specs-cont-pay .pay-txt{
+
+	.isShow .specs-cont-pay .pay-txt {
 		color: #111111;
 		font-weight: bold;
 	}
-	.changeNumber{
-		display: flex;
-		padding: 20rpx 0;
-		align-items: center;
-		justify-content: space-between;
+
+	.changeNumber {
+		padding: 10rpx 0 20rpx;
 	}
-	.changeNumber .pay-txt{
+
+	.changeNumber .pay-txt {
 		padding-left: 0;
-		padding-right: 40rpx;
 		font-weight: bold;
+		color: #111111;
 	}
-	.number-hint{
-		font-size: 24rpx;
-		color:  #fa3475;
+
+	.number_hint {
+		display: flex;
+		align-items: baseline;
 	}
-	.number-hint text{
-		padding-right: 20rpx;
+
+
+	.this_number_hint {
+		color: #FA3475;
+		font-size: 20rpx;
+		display: flex;
+		padding-left: 10rpx;
 	}
-	
-	.change-input{
+
+	.change-input {
 		font-size: 28rpx;
 		text-align: center;
 		height: 100%;
 		display: flex;
-		justify-content: center;
-		margin-right: 40rpx;
+		align-items: center;
+		margin-top: 10rpx;
 	}
-	.number-input{
-		height: 84rpx;
-		width: 100rpx;
+
+	.number-input {
+		height: 40rpx;
+		width: 40rpx;
 		display: flex;
 		border-top: 1rpx solid #999999;
 		border-bottom: 1rpx solid #999999;
 	}
-	.number-input input{
+
+	.number-input input {
 		height: 100%;
-		border: 0;		
+		max-width: 40rpx;
+		border: 0;
+		font-size: 20rpx;
+		font-weight: bold;
 	}
-	.reduce,.add-number{
-		width: 100rpx;
-		font-size: 56rpx;
+
+	.reduce, .add-number {
+		width: 40rpx;
+		height: 40rpx;
+		line-height: 35rpx;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		font-size: 46rpx;
 		color: #FFFFFF;
 		border: 1rpx solid #999999;
 	}
-	.keep-order{		
+
+	.keep-order {
 		width: 100%;
 		position: fixed;
 		z-index: 99;
 		left: 0;
 		bottom: 0;
+		background-color: #FFFFFF;
 	}
-	.button{
+
+	.button {
 		padding: 30rpx;
 	}
-	.keep-order-button{
-		border: none !important;
-		color: #FFFFFF !important;
+
+	.keep-order-button {
 		border-radius: 50rpx;
 		background-image: linear-gradient(-45deg, #fa3475 0%, #ff6699 100%);
 	}
-	
-	.see-more-discount{
+
+	.keep-order-button::after {
+		border: none
+	}
+
+	.see-more-discount {
 		width: 100%;
 		position: fixed;
 		background-color: #F0F0F0;
@@ -2350,68 +2400,78 @@
 		bottom: 110rpx;
 		padding: 20rpx 0 0;
 	}
-	.more-discounts-title{
+
+	.more-discounts-title {
 		width: 100%;
 		text-align: center;
 		font-weight: bold;
 		font-size: 42rpx;
 	}
-	.more-discounts-hint{
+
+	.more-discounts-hint {
 		font-size: 24rpx;
 		color: #fa3475;
 		width: 100%;
 		text-align: center;
 		padding-top: 15rpx;
 	}
-	.all-discounts-policy{
+
+	.all-discounts-policy {
 		padding: 30rpx 20rpx 0 20rpx;
 	}
-	.card_list{
+
+	.card_list {
 		padding: 0 20rpx;
 	}
-	.delete-see-more-discount{
+
+	.delete-see-more-discount {
 		position: absolute;
 		top: 20rpx;
 		right: 20rpx;
 	}
-	.delete-see-more-discount image{
+
+	.delete-see-more-discount image {
 		width: 48rpx;
 		height: 48rpx;
 	}
+
 	.itembox {
 		display: flex;
 		align-items: center;
 		height: 60rpx;
 	}
-	.itembox text{
+
+	.itembox text {
 		font-size: 32rpx;
 		color: #fa3475;
 		margin-left: 40rpx;
 	}
-	
+
 	.star {
 		width: 50rpx;
 		height: 50rpx;
 		margin: 0 5rpx;
 		vertical-align: middle;
 	}
-	
-	.no_goods_info{
+
+	.no_goods_info {
 		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
 	}
-	.hint_img{
+
+	.hint_img {
 		width: 80%;
 	}
-	.hint_text{
+
+	.hint_text {
 		font-size: 28rpx;
 		color: #FA3475;
 	}
-	
-	.this_pay_price{
+
+	.this_pay_price {
 		position: fixed;
 		bottom: 110rpx;
 		left: 0;
@@ -2424,17 +2484,28 @@
 		line-height: 40rpx;
 		font-size: 24rpx;
 	}
-	
-	.on_line_pay{
+
+	.on_line_pay {
 		padding-right: 40rpx;
 	}
-	
-	.on_line_pay .line_pay{
+
+	.on_line_pay .line_pay {
 		color: #FA3475;
 		padding-left: 10rpx;
 	}
-	.offline_pay text{
+
+	.offline_pay text {
 		padding-left: 10rpx;
 	}
-	
+
+	.this_mantle {
+		position: fixed;
+		z-index: 51;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #333333;
+		opacity: 0.6;
+	}
 </style>

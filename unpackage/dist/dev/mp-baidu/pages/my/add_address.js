@@ -214,6 +214,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     topBar: topBar },
@@ -253,7 +256,8 @@ __webpack_require__.r(__webpack_exports__);
       area_array: [], //区
       show_ares: false,
       area_value: { detail: { value: [0, 0, 0] } },
-      value: ['', '', ''] };
+      value: ['', '', ''],
+      this_page: '' };
 
   },
   onLoad: function onLoad(options) {
@@ -266,7 +270,10 @@ __webpack_require__.r(__webpack_exports__);
       that.userName = options.name;
       that.userPhone = options.telphone;
     }
-    // console.log(options, that.type, that.addrressId)
+    if (options.page) {//判定是从确认订单过来的
+      that.this_page = options.page;
+    }
+    console.log(options, that.this_page);
     that.get_region(0, 1);
 
   },
@@ -411,11 +418,37 @@ __webpack_require__.r(__webpack_exports__);
           that.request.uniRequest("address", dataInfo).then(function (res) {
             if (res.data.code == 1000 && res.data.status == 'ok') {
               that.request.showToast('地址添加成功');
-              setTimeout(function () {
-                uni.navigateTo({
-                  url: '/pages/my/harves_address' });
+              if (that.this_page != '' && that.this_page == 'order') {
+                var userInfo = {};
+                userInfo.real_name = that.userName;
+                userInfo.tel = that.userPhone;
+                userInfo.address = that.province_cn + that.city_cn + that.area_cn + that.detailedAddress;
+                // userInfo.address_id = info.id
+                userInfo.tag = that.selectLabelName;
+                uni.setStorageSync("newuserInfo", userInfo);
+                uni.navigateBack({
+                  delta: 1 });
 
-              }, 2000);
+              }
+              if (that.this_page != '' && that.this_page == 'orders') {
+                var _userInfo = {};
+                _userInfo.real_name = that.userName;
+                _userInfo.tel = that.userPhone;
+                _userInfo.address = that.province_cn + that.city_cn + that.area_cn + that.detailedAddress;
+                // userInfo.address_id = info.id
+                _userInfo.tag = that.selectLabelName;
+                uni.setStorageSync("newuserInfo", _userInfo);
+                uni.navigateBack({
+                  delta: 2 });
+
+              } else
+              {
+                setTimeout(function () {
+                  uni.navigateTo({
+                    url: '/pages/my/harves_address' });
+
+                }, 1000);
+              }
             }
           });
         } else {

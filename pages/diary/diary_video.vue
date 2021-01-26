@@ -4,7 +4,7 @@
 			<view class="top-bar" :style="[{'height':menuHeight+'px','padding-top':menuTop+'px','line-height':menuHeight+'px','padding-bottom':10+'px','background-color':topBackgroundColor}]">
 				<view class="back-title" :style="[{'height':menuHeight+'px'}]">
 					<view class="back" @click="goBack">
-						<image src="/static/images/back2.png" mode=""></image>
+						<image src="/static/images/return.png" mode=""></image>
 					</view>
 					<view class="title"> {{title}} </view>
 				</view>
@@ -78,7 +78,7 @@
 		<!-- APP -->
 		<view class="this_app" v-else-if="platform=='APP'">
 			<view class="this_app_top" :style="[{'height':menuHeight+10+'px','background-color':topBackgroundColor}]">
-				<image class="this_back" src="/static/images/back2.png" @click="goBack"></image>
+				<image class="this_back" src="/static/images/return.png" @click="goBack"></image>
 				<view class="this_title"> {{title}} </view>
 			</view>
 			<video class="play-video" :src="requestUrl+video_info.path" controls

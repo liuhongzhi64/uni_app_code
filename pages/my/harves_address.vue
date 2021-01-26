@@ -114,9 +114,17 @@
 			},
 			//跳转新建
 			bindViewTap: function() {
-				uni.navigateTo({
-					url: `/pages/my/add_address?add=1`,
-				})
+				let that = this
+				if(that.page=='order'){
+					let page = 'orders'
+					uni.navigateTo({
+						url: `/pages/my/add_address?add=1&page=${page}`,
+					})
+				}else{
+					uni.navigateTo({
+						url: `/pages/my/add_address?add=1`,
+					})
+				}
 			},
 			set_address:function(info){
 				let that = this
@@ -126,6 +134,7 @@
 					userInfo.tel = info.telphone
 					userInfo.address = info.province_cn + info.city_cn + info.area_cn + info.address
 					userInfo.address_id = info.id
+					userInfo.tag = info.tag
 					uni.setStorageSync("newuserInfo", userInfo)
 					uni.navigateBack({
 						delta: 1

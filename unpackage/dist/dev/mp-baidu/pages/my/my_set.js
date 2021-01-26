@@ -207,10 +207,8 @@ __webpack_require__.r(__webpack_exports__);
       user_info: {} };
 
   },
-  onLoad: function onLoad(options) {
+  onShow: function onShow() {
     var that = this;
-    this.request = this.$request;
-    that.requestUrl = that.request.globalData.requestUrl;
     that.user_info = uni.getStorageSync("userInfo");
     if (that.user_info.real_name.length == 2) {
       that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*');
@@ -236,12 +234,16 @@ __webpack_require__.r(__webpack_exports__);
       that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*********');
     }
     that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3, 7), '****');
-
+  },
+  onLoad: function onLoad(options) {
+    var that = this;
+    this.request = this.$request;
+    that.requestUrl = that.request.globalData.requestUrl;
   },
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
@@ -266,7 +268,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     no_hint: function no_hint() {
       uni.showToast({
-        title: '正在开发中...',
+        title: '敬请期待...',
         icon: 'none' });
 
     },

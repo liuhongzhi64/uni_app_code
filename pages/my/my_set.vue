@@ -75,11 +75,9 @@
 				user_info:{}
 			}
 		},
-		onLoad(options) {
+		onShow:function(){
 			let that = this
-			this.request = this.$request
-			that.requestUrl = that.request.globalData.requestUrl
-			that.user_info = uni.getStorageSync("userInfo") 
+			that.user_info = uni.getStorageSync("userInfo")
 			if(that.user_info.real_name.length==2){
 				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*')
 			}else if(that.user_info.real_name.length==3){
@@ -104,12 +102,16 @@
 				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*********')
 			}
 			that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3,7),'****')
-			
+		},
+		onLoad(options) {
+			let that = this
+			this.request = this.$request
+			that.requestUrl = that.request.globalData.requestUrl
 		},
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
@@ -134,7 +136,7 @@
 		methods: {
 			no_hint:function(){
 				uni.showToast({
-					title:'正在开发中...',
+					title:'敬请期待...',
 					icon:'none'
 				})
 			},

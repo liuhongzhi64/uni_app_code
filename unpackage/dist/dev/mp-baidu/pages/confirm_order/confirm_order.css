@@ -71,6 +71,19 @@
 .user-phone.data-v-51e0fab4 {
 	margin: 0 32rpx 0 24rpx;
 }
+.label.data-v-51e0fab4 {
+	width: 66rpx;
+	height: 32rpx;
+	line-height: 32rpx;
+	display: inline-block;
+	text-align: center;
+	background-image: -webkit-linear-gradient(0deg, rgb(136, 52, 250) 0%, rgb(188, 102, 255) 100%);
+	background-image: -ms-linear-gradient(0deg, rgb(136, 52, 250) 0%, rgb(188, 102, 255) 100%);
+	color: #ffffff;
+	-webkit-border-radius: 25rpx;
+	        border-radius: 25rpx;
+	font-size: 22rpx;
+}
 .edit_img.data-v-51e0fab4 {
 	width: 42rpx;
 	height: 42rpx;

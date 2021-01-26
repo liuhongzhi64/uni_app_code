@@ -140,18 +140,18 @@ picker-view.data-v-666261ac {
 }
 .label-name.data-v-666261ac {
 		width: 130rpx;
-		height: 56rpx;
-		line-height: 56rpx;
+		height: 40rpx;
+		line-height: 40rpx;
 		text-align: center;
 		background-color: #f0f0f0;
-		-webkit-border-radius: 28rpx;
-		        border-radius: 28rpx;
+		-webkit-border-radius: 20rpx;
+		        border-radius: 20rpx;
 		margin-right: 36rpx;
 }
 .selectStyle.data-v-666261ac {
-		width: 130rpx;
-		height: 56rpx;
-		line-height: 56rpx;
+		width: 126rpx;
+		height: 40rpx;
+		line-height: 40rpx;
 		text-align: center;
 		background-color: #ffe8f0;
 		border: 2rpx solid #FA3475;

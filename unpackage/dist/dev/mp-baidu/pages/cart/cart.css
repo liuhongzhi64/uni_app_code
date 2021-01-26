@@ -38,7 +38,7 @@
 	background-color: #F6F6F6;
 }
 .cart-content.data-v-0f00adf4 {
-	
+	background-color: #F6F6F6;
 	padding-bottom: 120rpx;
 }
 .empty-cart.data-v-0f00adf4 {
@@ -55,6 +55,9 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 }
 .empty-cart-image.data-v-0f00adf4 {
 	padding: 68rpx 177rpx 40rpx 174rpx;
@@ -756,7 +759,7 @@
 	padding-top: 245rpx;
 }
 .specs-content.data-v-0f00adf4{
-	padding-left: 20rpx;
+	padding-left: 40rpx;
 }
 .specs-title.data-v-0f00adf4 {
 	font-size: 28rpx;
@@ -801,7 +804,7 @@
 	padding: 0 25rpx;
 	border: 2rpx solid #f0f0f0;
 	background: #f0f0f0;
-	margin: 20rpx 0 0 20rpx;
+	margin: 20rpx 20rpx 0 0;
 }
 .specs-cont-pay .li.data-v-0f00adf4 {
 	margin: 20rpx 0 0 30rpx;

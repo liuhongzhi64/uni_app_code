@@ -86,13 +86,13 @@
 						<!-- 领取倒计时 -->
 						<view class="receive-time" v-if="item.get_end_time-time_now > 0">
 							<text class="this_time">距结束</text>
-							<text class="times">{{ item.day }}</text>
+							<text class="times"><text v-if='item.day<10'>0</text>{{ item.day }}</text>
 							<text class="time-line">天</text>
-							<text class="times">{{ item.house }}</text>
+							<text class="times"><text v-if='item.house<10'>0</text>{{ item.house }}</text>
 							<text class="time-line">时</text>
-							<text class="times">{{ item.second }}</text>
+							<text class="times"><text v-if='item.second<10'>0</text>{{ item.second }}</text>
 							<text class="time-line">分</text>
-							<text class="times">{{ item.minute }}</text>
+							<text class="times"><text v-if='item.minute<10'>0</text>{{ item.minute }}</text>
 							<text class="time-line">秒</text>
 						</view>
 						<!-- 使用时间 -->

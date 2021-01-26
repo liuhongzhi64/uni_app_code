@@ -508,10 +508,10 @@
 
 	.ticket-label .label-name {
 		width: 108rpx;
-		height: 50rpx;
-		border-radius: 25rpx;
+		height: 42rpx;
+		border-radius: 21rpx;
 		text-align: center;
-		line-height: 50rpx;
+		line-height: 42rpx;
 		background-color: #f0f0f0;
 		font-size: 20rpx;
 		margin-right: 30rpx;
@@ -521,9 +521,10 @@
 		background-color: #ffe8f0;
 		border: 1rpx solid #fa3475;
 		color: #fa3475;
-		width: 108rpx !important;
-		height: 48rpx !important;
-		border-radius: 25rpx;
+		width: 106rpx !important;
+		height: 40rpx !important;
+		line-height: 40rpx !important;
+		border-radius: 22rpx;
 	}
 
 	.content-item {

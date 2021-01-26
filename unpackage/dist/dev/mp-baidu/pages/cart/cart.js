@@ -570,7 +570,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 {
   components: {
     goodsShow: goodsShow,
@@ -651,13 +650,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   onShow: function onShow() {
     var that = this;
+    that.height = uni.getSystemInfoSync().screenHeight;
     that.getUserCart();
+    that.offset = 0;
     that.getLike();
     that.advertising();
   },
   onReady: function onReady() {
     var that = this;
-    that.height = uni.getSystemInfoSync().screenHeight;
+
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({

@@ -220,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#26272B',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '个人主页',
       requestUrl: '',
       count: {

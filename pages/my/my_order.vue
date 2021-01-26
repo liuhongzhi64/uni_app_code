@@ -42,7 +42,11 @@
 									<view class="order-message-top">
 										<view class="order-invalid-time-order-label">
 											<view class="order-invalid-time" v-if="item.status==0">
-												订单作废: {{ item.day }} 天 {{ item.house }} 时 {{ item.second }} 分 {{ item.minute }} 秒
+												订单作废: 
+												<text v-if='item.day<10'>0</text> {{ item.day }} 天 
+												<text v-if='item.house<10'>0</text>{{ item.house }} 时 
+												<text v-if='item.second<10'>0</text>{{ item.second }} 分 
+												<text v-if='item.minute<10'>0</text>{{ item.minute }} 秒
 											</view>
 											<view class="order-invalid-time" v-if="item.status!=0">
 												下单时间: {{item.create_time}}
@@ -223,7 +227,7 @@
 											<button class="button" type="default" v-show="item.status==0" @tap="cancel_order(item.id)">
 												取消订单 
 											</button>
-											<button class="button" type="default" @tap='go_refund(item.id)' v-show="item.status==2">
+											<button class="button" type="default" @tap='go_refund(item.id,item.order_id)' v-show="item.status==2">
 												申请退款
 											</button>
 											<!-- <button class="button" type="default" @tap="gotoPages(item.id)"
@@ -337,7 +341,7 @@
 											<button class="button" type="default" @tap="gotoPages(item.order_id)"> 
 												订单详情 
 											</button>
-											<button class="immediate-payment" type="default" @tap='go_refund(item.id)' v-show="tabIndex==2" >
+											<button class="immediate-payment" type="default" @tap='go_refund(item.id,item.order_id)' v-show="tabIndex==2" >
 												申请退款
 											</button>
 											<button class="immediate-payment" type="default"  v-show="tabIndex==2" @tap="gotoPages(item.order_id)">
@@ -509,7 +513,9 @@
 				card_sale_list:[],
 				all_discount:0,
 				no_back:true,//是否禁止跳转
-				platform:''
+				platform:'',
+				is_can:'',
+				time_list:[]
 			}
 		},
 		onReady() {
@@ -545,6 +551,9 @@
 			}
 			if(option.info){
 				that.no_back = false
+				if(option.info == 'ok'){
+					that.is_can = option.info
+				}
 			}
 			// 广告
 			that.advertising()
@@ -571,16 +580,25 @@
 			goBack: function() {
 				let that = this
 				that.timers +=1
+				for(let key in that.time_list){
+					clearInterval(that.time_list[key])
+				}
+				that.time_list = []
 				if(that.no_back){
 					uni.navigateBack({
 						delta: 1
 					});
 				}else{
-					uni.switchTab({
-						url: `/pages/my/my`,
-					})
+					if(that.is_can == 'ok' ){
+						uni.navigateBack({
+							delta: 2
+						});
+					}else{
+						uni.switchTab({
+							url: `/pages/my/my`,
+						})
+					}
 				}
-				
 			},
 			// 获取我的订单
 			get_my_order: function() {
@@ -717,10 +735,14 @@
 						hourTime = 0
 						day = 0
 					}
-					that.contentList[i].day = day
-					that.contentList[i].house = hourTime
-					that.contentList[i].second = secondTime
-					that.contentList[i].minute = minuteTime
+					if(that.timers==0){
+						that.contentList[i].day = day
+						that.contentList[i].house = hourTime
+						that.contentList[i].second = secondTime
+						that.contentList[i].minute = minuteTime
+					}
+					that.time_list.push(timers)
+					that.time_list = that.setArr(that.time_list)
 					// that.day = day
 					// that.house = hourTime
 					// that.second = secondTime
@@ -735,6 +757,19 @@
 					// console.log(that.day, that.house, that.second, that.minute)
 				}, 1000)
 				
+			},
+			setArr: function(arr) {
+				//新建一个空数组
+				let newArr = [];
+				for (let i = 0; i < arr.length; i++) {
+					//遍历传入的数组，查找传入数组的值第一次出现的下标
+					if (arr.indexOf(arr[i]) === i) {
+						//push传入数组的一次出现的数字
+						newArr.push(arr[i]);
+					}
+				}
+				//返回新的数组
+				return newArr;
 			},
 			// 转换时间格式
 			setTimer: function(date) {
@@ -774,6 +809,9 @@
 				that.offset = 0
 				that.listType = type //订单的类型
 				that.contentList = []
+				for(let key in that.time_list){
+					clearInterval(that.time_list[key])
+				}
 				that.get_my_order()
 			},
 			// 商品详情
@@ -878,10 +916,17 @@
 				})
 			},
 			// 申请退款
-			go_refund: function(id) {
-				uni.navigateTo({
-					url: `/pages/my/my_order_refund?id=${id}`,
-				})
+			go_refund: function(id,order_id) {
+				if(order_id!=undefined){
+					uni.navigateTo({
+						url: `/pages/my/my_order_refund?id=${order_id}`,
+					})
+				}
+				else if(order_id==undefined){
+					uni.navigateTo({
+						url: `/pages/my/my_order_refund?id=${id}`,
+					})
+				}
 			},
 			// 退款详情
 			// cancel_detail: function(id) {
@@ -899,7 +944,7 @@
 			ToTop:function() {
 				uni.pageScrollTo({
 					scrollTop: 0,
-					duration: 600
+					duration: 400
 				})
 			},
 			// 去首页和分类

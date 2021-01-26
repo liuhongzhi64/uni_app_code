@@ -246,9 +246,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     //跳转新建
     bindViewTap: function bindViewTap() {
-      uni.navigateTo({
-        url: "/pages/my/add_address?add=1" });
+      var that = this;
+      if (that.page == 'order') {
+        var page = 'orders';
+        uni.navigateTo({
+          url: "/pages/my/add_address?add=1&page=".concat(page) });
 
+      } else {
+        uni.navigateTo({
+          url: "/pages/my/add_address?add=1" });
+
+      }
     },
     set_address: function set_address(info) {
       var that = this;
@@ -258,6 +266,7 @@ __webpack_require__.r(__webpack_exports__);
         userInfo.tel = info.telphone;
         userInfo.address = info.province_cn + info.city_cn + info.area_cn + info.address;
         userInfo.address_id = info.id;
+        userInfo.tag = info.tag;
         uni.setStorageSync("newuserInfo", userInfo);
         uni.navigateBack({
           delta: 1 });

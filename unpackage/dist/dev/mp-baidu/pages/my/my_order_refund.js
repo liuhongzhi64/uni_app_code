@@ -510,11 +510,13 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    if (option.id) {
-      that.get_order_derail(option.id);
-    } else {
-      that.get_order_derail(23226); //23170  23149
-    }
+    console.log(option.id);
+    that.get_order_derail(option.id);
+    // if (option.id) {
+
+    // } else {
+    // 	that.get_order_derail(23226) //23170  23149
+    // }
   },
   methods: {
     // 获取订单详情

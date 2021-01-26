@@ -466,12 +466,13 @@ __webpack_require__.r(__webpack_exports__);
     var that = this;
     this.request = this.$request;
     that.requestUrl = that.request.globalData.requestUrl;
-    that.choice_recommend(that.recommend_index);
   },
   onShow: function onShow() {
     var that = this;
     that.set_timers = 0;
     that.get_index_info();
+    that.recommend_index = 0;
+    that.choice_recommend(that.recommend_index);
   },
   onReady: function onReady() {
     var that = this;

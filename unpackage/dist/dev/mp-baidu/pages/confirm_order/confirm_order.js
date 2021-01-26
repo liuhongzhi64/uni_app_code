@@ -556,6 +556,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: {
     ticket: ticket,
@@ -805,13 +807,42 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       that.show_set_user_info = !that.show_set_user_info;
     },
-    go_to_harves_address: function go_to_harves_address() {
+    go_to_harves_address: function go_to_harves_address(type) {
       var that = this;
       var page = 'order';
       that.onShow_num = -1;
-      uni.navigateTo({
-        url: "/pages/my/harves_address?page=".concat(page) });
+      // type 0:没有收货地址 1:有收货地址 
+      if (type == 0) {
+        that.get_address();
+      }
+      if (type == 1) {
+        uni.navigateTo({
+          url: "/pages/my/harves_address?page=".concat(page) });
 
+      }
+    },
+    get_address: function get_address() {
+      var that = this;
+      var dataInfo = {
+        interfaceId: 'getinfo' };
+
+      that.request.uniRequest("address", dataInfo).then(function (res) {
+        if (res.data.code == 1000 && res.data.status == 'ok') {
+          var data = res.data.data;
+          console.log(data);
+          var page = 'order';
+          if (data.length > 0) {
+            uni.navigateTo({
+              url: "/pages/my/harves_address?page=".concat(page) });
+
+          } else
+          if (data.length == 0) {
+            uni.navigateTo({
+              url: "/pages/my/add_address?add=1&page=".concat(page) });
+
+          }
+        }
+      });
     },
     // 获取订单的详情
     get_order_detail: function get_order_detail(cart_id_list) {
@@ -1457,8 +1488,13 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     my_order: function my_order() {
-      uni.reLaunch({
-        url: "/pages/my/my_order" });
+      // 去我的订单时候如果点击返回，应该返回两级，直接到购物车或者商品详情
+      // uni.reLaunch({
+      // 	url: `/pages/my/my_order`,
+      // })
+      var is_can = 'ok';
+      uni.navigateTo({
+        url: "/pages/my/my_order?info=".concat(is_can) });
 
     },
     get_user_like: function get_user_like() {

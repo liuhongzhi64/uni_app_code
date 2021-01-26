@@ -529,6 +529,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -641,7 +645,9 @@ __webpack_require__.r(__webpack_exports__);
       card_sale_list: [],
       all_discount: 0,
       no_back: true, //是否禁止跳转
-      platform: '' };
+      platform: '',
+      is_can: '',
+      time_list: [] };
 
   },
   onReady: function onReady() {
@@ -677,6 +683,9 @@ __webpack_require__.r(__webpack_exports__);
     }
     if (option.info) {
       that.no_back = false;
+      if (option.info == 'ok') {
+        that.is_can = option.info;
+      }
     }
     // 广告
     that.advertising();
@@ -703,16 +712,25 @@ __webpack_require__.r(__webpack_exports__);
     goBack: function goBack() {
       var that = this;
       that.timers += 1;
+      for (var key in that.time_list) {
+        clearInterval(that.time_list[key]);
+      }
+      that.time_list = [];
       if (that.no_back) {
         uni.navigateBack({
           delta: 1 });
 
       } else {
-        uni.switchTab({
-          url: "/pages/my/my" });
+        if (that.is_can == 'ok') {
+          uni.navigateBack({
+            delta: 2 });
 
+        } else {
+          uni.switchTab({
+            url: "/pages/my/my" });
+
+        }
       }
-
     },
     // 获取我的订单
     get_my_order: function get_my_order() {
@@ -849,10 +867,14 @@ __webpack_require__.r(__webpack_exports__);
           hourTime = 0;
           day = 0;
         }
-        that.contentList[i].day = day;
-        that.contentList[i].house = hourTime;
-        that.contentList[i].second = secondTime;
-        that.contentList[i].minute = minuteTime;
+        if (that.timers == 0) {
+          that.contentList[i].day = day;
+          that.contentList[i].house = hourTime;
+          that.contentList[i].second = secondTime;
+          that.contentList[i].minute = minuteTime;
+        }
+        that.time_list.push(timers);
+        that.time_list = that.setArr(that.time_list);
         // that.day = day
         // that.house = hourTime
         // that.second = secondTime
@@ -867,6 +889,19 @@ __webpack_require__.r(__webpack_exports__);
         // console.log(that.day, that.house, that.second, that.minute)
       }, 1000);
 
+    },
+    setArr: function setArr(arr) {
+      //新建一个空数组
+      var newArr = [];
+      for (var i = 0; i < arr.length; i++) {
+        //遍历传入的数组，查找传入数组的值第一次出现的下标
+        if (arr.indexOf(arr[i]) === i) {
+          //push传入数组的一次出现的数字
+          newArr.push(arr[i]);
+        }
+      }
+      //返回新的数组
+      return newArr;
     },
     // 转换时间格式
     setTimer: function setTimer(date) {
@@ -906,6 +941,9 @@ __webpack_require__.r(__webpack_exports__);
       that.offset = 0;
       that.listType = type; //订单的类型
       that.contentList = [];
+      for (var key in that.time_list) {
+        clearInterval(that.time_list[key]);
+      }
       that.get_my_order();
     },
     // 商品详情
@@ -1010,10 +1048,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     // 申请退款
-    go_refund: function go_refund(id) {
-      uni.navigateTo({
-        url: "/pages/my/my_order_refund?id=".concat(id) });
+    go_refund: function go_refund(id, order_id) {
+      if (order_id != undefined) {
+        uni.navigateTo({
+          url: "/pages/my/my_order_refund?id=".concat(order_id) });
 
+      } else
+      if (order_id == undefined) {
+        uni.navigateTo({
+          url: "/pages/my/my_order_refund?id=".concat(id) });
+
+      }
     },
     // 退款详情
     // cancel_detail: function(id) {
@@ -1031,7 +1076,7 @@ __webpack_require__.r(__webpack_exports__);
     ToTop: function ToTop() {
       uni.pageScrollTo({
         scrollTop: 0,
-        duration: 600 });
+        duration: 400 });
 
     },
     // 去首页和分类

@@ -606,12 +606,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
 {
   components: {
     topBar: topBar,
@@ -694,36 +688,24 @@ __webpack_require__.r(__webpack_exports__);
     console.log(uni.getStorageSync("userInfo"));
     var sku_id = '';
     var encrypted_id = '';
-    if (option.sku_id) {
-      sku_id = option.sku_id;
-      that.sku_id = sku_id;
-    } else {
-      sku_id = '429'; //206 302
-      that.sku_id = sku_id;
-    }
-    if (option.encrypted_id) {
-      encrypted_id = option.encrypted_id;
-      that.encrypted_id = encrypted_id;
-    } else {
-      encrypted_id = 'MDlqdXJZTzQyODErcm1kYVBPYzBiZz09'; //  Z2VrMSs4RVJBeUlFZVJRMnM4T2pwQT09
-      that.encrypted_id = encrypted_id;
-    }
-    if (option.id) {
-      encrypted_id = option.id;
-      that.encrypted_id = encrypted_id;
-    }
-    that.getGoodsDetail(sku_id, encrypted_id);
-    that.getRelevantGoods(encrypted_id);
-    that.getRelated(encrypted_id);
+    sku_id = option.sku_id;
+    that.sku_id = sku_id;
+    that.encrypted_id = option.encrypted_id || option.spu_id;
+    that.getGoodsDetail(sku_id, that.encrypted_id);
+    that.getRelevantGoods(that.encrypted_id);
+    that.getRelated(that.encrypted_id);
     that.getLike();
     that.advertising();
     // that.getCart()
     // 清除本地的商品详情储存
     uni.removeStorageSync('goodsDetail');
   },
-  onReady: function onReady() {
+  onShow: function onShow() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
+  },
+  onReady: function onReady() {
+    var that = this;
     that.videoContext = uni.createVideoContext('myVideo');
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     that.this_platform = platform;
@@ -769,7 +751,9 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       var query = uni.createSelectorQuery();
       query.select(list).boundingClientRect(function (data) {
-        that.swiper_height = data.height;
+        if (data != null) {
+          that.swiper_height = data.height;
+        }
       }).exec();
     },
     change_swiper: function change_swiper(e) {
@@ -927,8 +911,7 @@ __webpack_require__.r(__webpack_exports__);
                   data.cards[i].arrowImages = '/static/images/arrow-down.png';
                 }
                 that.goodsCardsList = data;
-              } else
-              {
+              } else {
                 that.goodsCardsList = [];
               }
             }
@@ -967,7 +950,8 @@ __webpack_require__.r(__webpack_exports__);
         that.request.uniRequest("card", dataInfo).then(function (res) {
           if (res.data.code == 1000 && res.data.status == 'ok') {
             that.request.showToast('领取成功');
-            that.goodsCardsList.cards[index].salecard_user_count = that.goodsCardsList.cards[index].salecard_user_count + 1;
+            that.goodsCardsList.cards[index].salecard_user_count = that.goodsCardsList.cards[index].salecard_user_count +
+            1;
           }
         });
       } else {
@@ -1104,8 +1088,7 @@ __webpack_require__.r(__webpack_exports__);
             specAttr = nowCheck;
           }
         }
-      } else
-      {
+      } else {
         specAttr = nowCheck;
       }
       that.verification_specAttr = specAttr; //用于验证是否是合理的规格选取
@@ -1269,11 +1252,11 @@ __webpack_require__.r(__webpack_exports__);
             that.request.uniRequest("shoppingCart", _dataInfo2).then(function (res) {
               if (res.data.code == 1000 && res.data.status == 'ok') {
                 that.request.showToast('已加入购物车');
+                that.getCart();
+                uni.removeStorageSync('contentList');
               } else if (res.data.code == 2101) {
                 that.request.showToast('商品已下架');
               }
-              that.getCart();
-              uni.removeStorageSync('contentList');
               that.isShow = !that.isShow;
             });
           } else {

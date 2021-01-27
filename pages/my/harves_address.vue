@@ -71,13 +71,16 @@
 			if(options.page){
 				that.page = options.page
 			}
+		},
+		onShow:function(){
+			let that = this
 			that.getDetails()
 		},
 		onReady() {
 			let that = this;
 			// 获取屏幕高度
 			that.height = uni.getSystemInfoSync().screenHeight;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {

@@ -282,6 +282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     goodsShow: goodsShow },
@@ -398,8 +399,9 @@ __webpack_require__.r(__webpack_exports__);
 
       this_show_user: false,
       this_record: false,
-      cart_count: 0 //购物车数量
-    };
+      cart_count: 0, //购物车数量
+      this_wei_chat: false };
+
   },
   onLoad: function onLoad(options) {
     var that = this;
@@ -472,30 +474,12 @@ __webpack_require__.r(__webpack_exports__);
       that.this_show_user = !that.this_show_user;
       if (that.this_show_user) {
         that.user_info = uni.getStorageSync("userInfo");
+        var head_ico = that.user_info.head_ico;
+        if (head_ico.indexOf('https://thirdwx.qlogo.cn/') != -1) {
+          that.this_wei_chat = true;
+        }
         if (that.user_info) {
-          if (that.user_info.real_name.length == 2) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*');
-          } else if (that.user_info.real_name.length == 3) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '**');
-          } else
-          if (that.user_info.real_name.length == 4) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '***');
-          } else
-          if (that.user_info.real_name.length == 5) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '****');
-          } else
-          if (that.user_info.real_name.length == 6) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*****');
-          } else
-          if (that.user_info.real_name.length == 7) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '******');
-          } else if (that.user_info.real_name.length == 8) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*******');
-          } else if (that.user_info.real_name.length == 9) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '********');
-          } else if (that.user_info.real_name.length == 10) {
-            that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*********');
-          }
+
           that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3, 7), '****');
         }
 

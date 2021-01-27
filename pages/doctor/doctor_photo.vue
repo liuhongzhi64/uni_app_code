@@ -3,16 +3,26 @@
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuTop='menuTop' :menuHeight='menuHeight'  :menuBottom='menuBottom'></topBar>
 		
+		
 		<view class="detail_content" :style="[{'padding-top':menuBottom+10+'px','min-height':height-menuBottom-10+'px'}]">
-			<view class="doctor_info">
-				<image class="item_img" :src="requestUrl+item.url" mode="widthFix" v-for="(item,index) in photo_list" :key='index'
-				 @tap="show_photo(index)"></image>
-				<view class="bottom-hint" v-if="photo_list.length>0">
-					本喵也是有底线的喵~
+			<view class="this_detail_content">
+				<view class="doctor_info" >
+					<view class="doctor_images" v-if="index%2==0" v-for="(item,index) in photo_list" :key='index'>
+						<image class="item_img" :src="requestUrl+item.url" mode="widthFix"
+						 @tap="show_photo(index)"></image>
+					</view>
+				</view>
+				<view class="doctor_info" >
+					<view class="doctor_images" v-if="index%2==1" v-for="(item,index) in photo_list" :key='index'>
+						<image class="item_img" :src="requestUrl+item.url" mode="widthFix"
+						 @tap="show_photo(index)"></image>
+					</view>
 				</view>
 			</view>
+			<view class="bottom-hint" v-if="photo_list.length>0">
+				本喵也是有底线的喵~
+			</view>
 		</view>
-
 	</view>
 </template>
 
@@ -45,13 +55,12 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.doctor_id = option.id
 			that.get_detail()
-			
 		},
 		
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
@@ -91,7 +100,7 @@
 			},
 			show_photo:function(index){
 				let that = this
-				console.log(that.show_list)
+				// console.log(that.show_list)
 				// // #ifdef MP
 				// uni.previewImage({
 				// 	current:index,
@@ -116,15 +125,9 @@
 		background-image: linear-gradient(0deg, #222222 0%, #151515 100%);
 	}
 	
-	.this_doctor_info{
-		height: 1300rpx;
-		position: relative;
-	}
 	.doctor_info{
 		display: flex;
-		flex-wrap: wrap;
-		padding: 20rpx;
-		justify-content: space-between;
+		flex-direction: column;
 	}
 	.item_img{
 		width: 350rpx;
@@ -137,6 +140,12 @@
 		text-align: center;
 		color: #FFFFFF;
 		font-size: 24rpx;
-		padding-top: 40rpx;
 	}
+	
+	.this_detail_content{
+		display: flex;
+		justify-content: space-between;
+		padding: 0 20rpx;
+	}
+	
 </style>

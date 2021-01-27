@@ -40,7 +40,7 @@
 	        border-radius: 3rpx;
 	position: absolute;
 	bottom: 5rpx;
-	left: 68rpx;
+	left: 72rpx;
 }
 .content-list.data-v-e97a0532 {
 	margin-top: 20rpx;
@@ -66,6 +66,7 @@
 .head-image .head_img.data-v-e97a0532 {
 	width: 240rpx;
 	height: 240rpx;
+	background-color: #F0F0F0;
 }
 .spu_icon.data-v-e97a0532 {
 	position: absolute;
@@ -86,13 +87,16 @@
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
 }
 .goods_name.data-v-e97a0532 {
 	font-size: 26rpx;
-	line-height: 36rpx;
+	line-height: 40rpx;
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -102,12 +106,11 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	margin-top: 12rpx;
 }
-.label.data-v-e97a0532 {
+.goods_label.data-v-e97a0532 {
 	background-color: #999999;
 	text-align: center;
-	width: 80rpx;
+	padding: 0 10rpx;
 	line-height: 26rpx;
 	-webkit-border-radius: 4rpx;
 	        border-radius: 4rpx;
@@ -122,7 +125,6 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	padding-top: 10rpx;
 }
 .porduct-price.data-v-e97a0532 {
 	font-size: 52rpx;
@@ -185,7 +187,7 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	margin-top: 24rpx;
+	padding-top: 20rpx;
 }
 .clearfix.data-v-e97a0532:after {
 	/*伪元素是行内元素 正常浏览器清除浮动方法*/
@@ -325,20 +327,30 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	-webkit-box-pack: baseline;
+	-webkit-justify-content: baseline;
+	        justify-content: baseline;
 	-webkit-flex-wrap: wrap;
 	        flex-wrap: wrap;
 	color: #999999;
 }
 .goods_category-title.data-v-e97a0532 {
 	width: 50rpx;
+	height: 24rpx;
 	line-height: 24rpx;
 	-webkit-border-radius: 5rpx;
 	        border-radius: 5rpx;
-	border: solid 1px #e85c9e;
+	border: 1px solid #e85c9e;
 	color: #e85c9e;
 	font-size: 20rpx;
 	margin-right: 10rpx;
 	text-align: center;
+}
+.goods_category-item.data-v-e97a0532,.view_content.data-v-e97a0532{
+	line-height: 24rpx;
+}
+.project_line.data-v-e97a0532{
+	padding: 0 5rpx;
 }
 .doctor_view.data-v-e97a0532 {
 	width: 100%;
@@ -357,6 +369,7 @@
 }
 .doctor_view_title.data-v-e97a0532 {
 	width: 50rpx;
+	height: 24rpx;
 	line-height: 24rpx;
 	-webkit-border-radius: 5rpx;
 	        border-radius: 5rpx;
@@ -581,15 +594,13 @@
 	-webkit-border-radius: 4rpx;
 	        border-radius: 4rpx;
 	font-size: 16rpx;
-	/* width: 80rpx; */
 	padding: 0 15rpx;
 	text-align: center;
 	color: #4f4f4f;
 	margin-right: 10rpx;
 }
-.goods_name.data-v-e97a0532 {
+.this_goods_name.data-v-e97a0532{
 	padding: 0 20rpx;
-	margin-bottom: 10rpx;
 	color: #999999;
 	font-size: 20rpx;
 	overflow: hidden;

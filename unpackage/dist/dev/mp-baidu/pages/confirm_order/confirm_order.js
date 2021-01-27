@@ -829,7 +829,6 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("address", dataInfo).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          console.log(data);
           var page = 'order';
           if (data.length > 0) {
             uni.navigateTo({
@@ -866,11 +865,7 @@ __webpack_require__.r(__webpack_exports__);
           }
           data.goods_list = goods_list_arr;
           that.contentList = data;
-          // 用户信息
-          var userInfo = uni.getStorageSync('newuserInfo');
-          if (userInfo) {
-            that.contentList.user_info = userInfo;
-          }
+
           for (var i = 0; i < goods_list_arr.length; i++) {
             if (goods_list_arr[i].is_post == 1) {
               that.is_post_list.push(goods_list_arr[i]);
@@ -887,6 +882,13 @@ __webpack_require__.r(__webpack_exports__);
               if (goods_list_arr[i].overdue_time > that.expiration_time) {
                 that.expiration_time = goods_list_arr[i].overdue_time;
               }
+            }
+          }
+          if (that.is_post_list.length > 0) {
+            // 用户信息
+            var userInfo = uni.getStorageSync('newuserInfo');
+            if (userInfo) {
+              that.contentList.user_info = userInfo;
             }
           }
           if (that.expiration_time > 0) {
@@ -906,7 +908,6 @@ __webpack_require__.r(__webpack_exports__);
       that.request.uniRequest("order", info).then(function (res) {
         if (res.data.code == 1000 && res.data.status == 'ok') {
           var data = res.data.data;
-          // console.log(data)
           var goods_list_obj = data.goods_list;
           var goods_list_arr = [];
           for (var key in goods_list_obj) {
@@ -919,11 +920,7 @@ __webpack_require__.r(__webpack_exports__);
           }
           data.goods_list = goods_list_arr;
           that.contentList = data;
-          // 用户信息
-          var userInfo = uni.getStorageSync('newuserInfo');
-          if (userInfo) {
-            that.contentList.user_info = userInfo;
-          }
+
           for (var i = 0; i < goods_list_arr.length; i++) {
             if (goods_list_arr[i].is_post == 1) {
               that.is_post_list.push(goods_list_arr[i]);
@@ -943,6 +940,14 @@ __webpack_require__.r(__webpack_exports__);
               }
             }
           }
+          if (that.is_post_list.length > 0) {
+            // 用户信息
+            var userInfo = uni.getStorageSync('newuserInfo');
+            if (userInfo) {
+              that.contentList.user_info = userInfo;
+            }
+          }
+
           if (that.expiration_time > 0) {
             that.expiration_time = that.setTimer(that.expiration_time);
           }

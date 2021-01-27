@@ -7,14 +7,15 @@
 				<view class="user_info" @tap="no_hint()">
 					<view class="left_info"> 用户头像 </view>
 					<view class="right_info">
-						<image class="head_ico" :src="requestUrl+user_info.head_ico" ></image> 
+						<image class="head_ico" :src="requestUrl+user_info.head_ico" v-if="user_info.head_ico&&!this_wei_chat"></image> 
+						<image class="head_ico" v-else :src="user_info.head_ico||'/static/images/logo.png'"></image>
 						<image class="go_img" src="../../static/images/back1.png" ></image>
 					</view>
 				</view>
 				<view class="user_info">
 					<view class="left_info"> 用户昵称 </view>
 					<view class="right_info">
-						<view class="user_name" v-if="user_info.nick_name || user_info.real_name"> {{ user_info.real_name || user_info.nick_name }} </view>
+						<view class="user_name" v-if="user_info.nick_name || user_info.real_name"> {{ user_info.nick_name || user_info.real_name }} </view>
 						<view class="user-name" v-else> 姓名 / 昵称 </view>
 						<image class="go_img" src="../../static/images/back1.png" ></image>
 					</view>
@@ -72,36 +73,18 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/return.png',
 				requestUrl:'',
-				user_info:{}
+				user_info:{},
+				this_wei_chat:false,
 			}
 		},
 		onShow:function(){
 			let that = this
 			that.user_info = uni.getStorageSync("userInfo")
-			if(that.user_info.real_name.length==2){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*')
-			}else if(that.user_info.real_name.length==3){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'**')
+			
+			let head_ico = that.user_info.head_ico
+			if(head_ico.indexOf('https://thirdwx.qlogo.cn/')!= -1){
+				that.this_wei_chat = true
 			}
-			else if(that.user_info.real_name.length==4){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'***')
-			}
-			else if(that.user_info.real_name.length==5){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'****')
-			}
-			else if(that.user_info.real_name.length==6){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*****')
-			}
-			else if(that.user_info.real_name.length==7){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'******')
-			}else if(that.user_info.real_name.length==8){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*******')
-			}else if(that.user_info.real_name.length==9){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'********')
-			}else if(that.user_info.real_name.length==10){
-				that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*********')
-			}
-			that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3,7),'****')
 		},
 		onLoad(options) {
 			let that = this

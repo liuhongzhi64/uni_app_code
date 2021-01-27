@@ -11,7 +11,7 @@
 					<image class="go_img" src="/static/images/return.png" mode="widthFix"></image>
 				</navigator>
 				<view class="doctor_info">
-					<view class="doctor_name"> Dr. {{doctor_info[0].name}}</view>
+					<view class="doctor_name"> {{doctor_info[0].name}}</view>
 					<view class="position">{{doctor_info[0].zhicheng}}</view>
 					<view class="subline"></view>
 					<view class="experience_case">
@@ -23,11 +23,11 @@
 							<image class="circular" src="/static/images/circular.png" mode="widthFix"></image> <text class="sign_item_info">{{ item }}</text>
 						</view>
 					</view>
-					<view class="all_sign">
+					<view class="this_all_sign">
 						<view class="top_title">擅长项目</view>
 						<view class="goods_project">
 							<view class="goods_project_item" v-for="(item,index) in doctor_info[0].goods_project" :key='index'>
-								{{item}} <text class="project_line" >、</text>
+								{{item}} <text class="project_line" > </text>
 							</view>
 						</view>
 					</view>
@@ -37,8 +37,8 @@
 					</view>
 				</view>
 			</view>
-			<image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"
-			 v-if="doctor_info.video_album.length>0||certificate_list.length>0||doctor_info.goods.length>0"></image>
+			<!-- <image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"
+			 v-if="doctor_info.video_album.length>0||certificate_list.length>0||doctor_info.goods.length>0"></image> -->
 			<view class="doctor_album_certificate" v-if="doctor_info.video_album.length>0||certificate_list.length>0">
 				<view class="doctor_album" v-if="doctor_info.video_album.length>0">
 					<view class="this_title">个人专辑</view>
@@ -67,7 +67,7 @@
 								<navigator class="item_img" v-for="(item,index) in certificate_list" :key='index'
 								 :url="'/pages/doctor/doctor_certificate?id='+item.doctor_id">
 									<view class="item_info">
-										<image class="doctor_img" :src="requestUrl+item.url" mode="widthFix"></image>
+										<image class="doctor_img" :src="requestUrl+item.url" mode="aspectFill"></image>
 									</view>
 								</navigator>
 							</view>
@@ -116,8 +116,8 @@
 					</swiper>
 				</view>
 			</view>
-			<image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"
-			 v-if="doctor_info.video_album.length>0||doctor_info.diary.length>0"></image>
+			<!-- <image class="line_img" src="/static/images/bullion.jpg" mode="widthFix"
+			 v-if="doctor_info.video_album.length>0||doctor_info.diary.length>0"></image> -->
 			<view class="doctor_projects" v-if="doctor_info.video.length>0">
 				<view class="this_title">拜托了医生</view>
 				<view class="doctor_projects_item">
@@ -141,10 +141,10 @@
 				<text :class="doctor_info.is_doctor_collect == 0?'':'collect_hover'">收藏</text>
 			</view>
 			<view class="mar" @tap='go_to_consult'>
-				<image class="icon-img" src="/static/images/icon_consult.png"></image>咨询
+				<image class="icon-img" src="/static/images/doc_consulting.png"></image>咨询
 			</view>
 			<view class="mar" @tap='on_share(doctor_id)'>
-				<image class="icon-img" src="/static/images/icon_share.png"></image>分享
+				<image class="icon-img" src="/static/images/doc_share.png"></image>分享
 			</view>
 		</view>
 	</view>
@@ -184,7 +184,7 @@
 				},
 				certificate_list: [],
 				doctor_heading: '',
-				doctor_name: ''
+				doctor_name: '',
 			}
 		},
 		onLoad: function(option) {
@@ -423,7 +423,7 @@
 	.doctor_info {
 		position: absolute;
 		left: 0;
-		top: 230rpx;
+		top: 180rpx;
 		padding-left: 40rpx;
 	}
 
@@ -460,17 +460,31 @@
 	}
 
 	.all_sign {
-		color: #C0C0C0;
+		color: #FFFFFF;
 		line-height: 32rpx;
-		font-size: 26rpx;
+		font-size: 22rpx;
 		max-height: 230rpx;
 		overflow-y: scroll;
 		margin-bottom: 20rpx;
-		width: 500rpx;
-		padding: 20rpx 15rpx;
+		width: 460rpx;
+		padding: 20rpx ;
 		background-color: #121212;
 		border-radius: 24rpx;
 		opacity: 0.8;
+	}
+	
+	.this_all_sign{
+		color: #FFFFFF;
+		line-height: 32rpx;
+		font-size: 22rpx;
+		max-height: 230rpx;
+		overflow-y: scroll;
+		margin-bottom: 20rpx;
+		padding: 20rpx ;
+		background-color: #121212;
+		border-radius: 24rpx;
+		opacity: 0.8;
+		width: 320rpx;
 	}
 
 	.sign_item {
@@ -478,7 +492,7 @@
 	}
 
 	.circular {
-		width: 12rpx;
+		width: 8rpx;
 		margin-bottom: 4rpx;
 	}
 
@@ -498,6 +512,10 @@
 		display: flex;
 		flex-wrap: wrap;
 	}
+	
+	.project_line{
+		padding: 0 5rpx;
+	}
 
 	.go_img {
 		width: 24rpx;
@@ -505,12 +523,8 @@
 		transform: rotate(180deg);
 	}
 
-	.doctor_certificate {
-		margin-top: 30rpx;
-	}
-
 	.doctor_album_certificate {
-		padding: 40rpx;
+		padding: 10rpx 40rpx;
 	}
 
 	.this_title {
@@ -559,6 +573,7 @@
 
 	.item_info .doctor_img {
 		width: 280rpx;
+		height: 240rpx;
 	}
 	
 	.item_images{
@@ -567,7 +582,9 @@
 
 	.item_info .cover_img {
 		width: 210rpx;
+		max-height: 220rpx;
 		display: block;
+		background-color: #FFFFFF;
 	}
 
 	.pay_btn {

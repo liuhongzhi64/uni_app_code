@@ -161,7 +161,7 @@ __webpack_require__.r(__webpack_exports__);
       barName: 'back', //导航条名称
       topBackgroundColor: '#222222',
       color: '#FFFFFF',
-      backImage: '/static/images/back2.png',
+      backImage: '/static/images/return.png',
       title: '医生证书',
       photo_list: [],
       requestUrl: '' };
@@ -177,10 +177,8 @@ __webpack_require__.r(__webpack_exports__);
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    // 判定运行平台
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
-      // 获取屏幕高度
       uni.getSystemInfo({
         success: function success(res) {
           var menu = uni.getMenuButtonBoundingClientRect();

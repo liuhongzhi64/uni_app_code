@@ -6,7 +6,7 @@
 		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
 			<view class="search-input-text">
 				<view class="left-input">
-					<image class="search-icon" src="../../static/images/search_icon.png"></image>
+					<image class="search-icon" src="/static/images/search_icon.png"></image>
 					<input class="search-content" @input="onKeyInput" placeholder-style='color: #b2b2b2;' :placeholder="searchContent" />
 				</view>
 				<view class="right-text" @tap="keep_search(searchContent)">确定</view>
@@ -558,6 +558,7 @@
 	.search-content {
 		font-size: 26rpx;
 		height: 56rpx;
+		width: 100%;
 		line-height: 56rpx;
 		padding-left: 30rpx;
 	}

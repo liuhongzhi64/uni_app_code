@@ -150,6 +150,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     topBar: topBar },
@@ -177,13 +187,12 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.doctor_id = option.id;
     that.get_detail();
-
   },
 
   onReady: function onReady() {
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
@@ -223,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     show_photo: function show_photo(index) {
       var that = this;
-      console.log(that.show_list);
+      // console.log(that.show_list)
       //
       // uni.previewImage({
       // 	current:index,

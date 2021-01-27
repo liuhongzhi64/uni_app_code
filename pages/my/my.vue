@@ -8,10 +8,11 @@
 				<view class="user-message">
 					<view class="user-head-portrait-name-phone-set">
 						<view class="user-head-portrait">
-							<image class="user-head-portrait_image" :src="requestUrl+user_info.head_ico"></image>
+							<image class="user-head-portrait_image" :src="requestUrl+user_info.head_ico" v-if="user_info.head_ico&&!this_wei_chat"></image>
+							<image class="user-head-portrait_image" @tap='go_to_member' v-else :src="user_info.head_ico||'/static/images/logo.png'"></image>
 							<view class="name-cart-phone" v-if="user_info.tel">
 								<view class="user-name-cart">
-									<view class="user-name"> {{ user_info.real_name || user_info.nick_name  }} </view>
+									<view class="user-name"> {{ user_info.nick_name || user_info.real_name }} </view>
 									<!-- <view class="user-cart"> 时尚卡 </view> -->
 								</view>
 								<view class="phone-account-number">
@@ -267,6 +268,7 @@
 				this_show_user:false,
 				this_record:false,
 				cart_count:0,//购物车数量
+				this_wei_chat:false
 			}
 		},
 		onLoad(options) {
@@ -340,30 +342,12 @@
 				that.this_show_user = !that.this_show_user
 				if(that.this_show_user){
 					that.user_info = uni.getStorageSync("userInfo")
+					let head_ico = that.user_info.head_ico
+					if(head_ico.indexOf('https://thirdwx.qlogo.cn/')!= -1){
+						that.this_wei_chat = true
+					}
 					if(that.user_info){
-						if(that.user_info.real_name.length==2){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*')
-						}else if(that.user_info.real_name.length==3){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'**')
-						}
-						else if(that.user_info.real_name.length==4){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'***')
-						}
-						else if(that.user_info.real_name.length==5){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'****')
-						}
-						else if(that.user_info.real_name.length==6){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*****')
-						}
-						else if(that.user_info.real_name.length==7){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'******')
-						}else if(that.user_info.real_name.length==8){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*******')
-						}else if(that.user_info.real_name.length==9){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'********')
-						}else if(that.user_info.real_name.length==10){
-							that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1),'*********')
-						}
+						
 						that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3,7),'****')
 					}
 					

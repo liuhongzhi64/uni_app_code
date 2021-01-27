@@ -159,7 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 526));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _components$data$onSh;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var doctor = function doctor() {__webpack_require__.e(/*! require.ensure | components/doctorShow */ "components/doctorShow").then((function () {return resolve(__webpack_require__(/*! ../../components/doctorShow.vue */ 526));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = (_components$data$onSh = {
 
 
 
@@ -317,7 +317,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-{
+
+
+
+
+
+
   components: {
     doctor: doctor },
 
@@ -330,7 +335,9 @@ __webpack_require__.r(__webpack_exports__);
       requestUrl: '',
       doctor_list: [],
       doctor_change: 0,
-      doctor_detail_info: {},
+      doctor_detail_info: {
+        video: [] },
+
       doctor_classfiy_list: [],
       change_classfiy: 0,
       classfiy_doctor_list: [],
@@ -361,197 +368,201 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     that.get_doctor_list();
     that.get_doctor_classfiy();
-    that.get_please_list();
-  },
-  onReady: function onReady() {
+  } }, _defineProperty(_components$data$onSh, "onShow",
+function onShow() {
+  var that = this;
+  that.get_please_list();
+}), _defineProperty(_components$data$onSh, "onReady", function onReady()
+{
+  var that = this;
+  that.height = uni.getSystemInfoSync().screenHeight;
+  var platform = getApp().platform || getApp().globalData.platform || 'Applets';
+  if (platform == 'Applets') {
+    uni.getSystemInfo({
+      success: function success(res) {
+        var menu = uni.getMenuButtonBoundingClientRect();
+        that.menuTop = menu.top;
+        that.menuHeight = menu.height;
+        that.menuBottom = menu.bottom;
+      } });
+
+  } else
+  if (platform == 'APP') {
+    that.menuTop = 40;
+    that.menuHeight = 30;
+    that.menuBottom = 70;
+  }
+  uni.getSystemInfo({
+    success: function success(res) {
+      var info = uni.createSelectorQuery().select("#this_doctor_classfiy");
+      info.boundingClientRect(function (data) {
+        // that.classfiy_top = data.top+that.menuBottom-5
+        // console.log(that.classfiy_top)
+        // +that.menuBottom+13
+      }).exec();
+    } });
+
+  uni.getSystemInfo({
+    success: function success(res) {
+      var info = uni.createSelectorQuery().select("#line_img");
+      info.boundingClientRect(function (data) {
+        // that.classfiy_top = data.top+data.height+that.menuBottom-30
+      }).exec();
+    } });
+
+}), _defineProperty(_components$data$onSh, "methods",
+{
+  get_doctor_list: function get_doctor_list() {
     var that = this;
-    that.height = uni.getSystemInfoSync().screenHeight;
-    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
-    if (platform == 'Applets') {
-      uni.getSystemInfo({
-        success: function success(res) {
-          var menu = uni.getMenuButtonBoundingClientRect();
-          that.menuTop = menu.top;
-          that.menuHeight = menu.height;
-          that.menuBottom = menu.bottom;
-        } });
+    var dataInfo = {
+      interfaceId: 'start_list' };
 
-    } else
-    if (platform == 'APP') {
-      that.menuTop = 40;
-      that.menuHeight = 30;
-      that.menuBottom = 70;
-    }
-    uni.getSystemInfo({
-      success: function success(res) {
-        var info = uni.createSelectorQuery().select("#this_doctor_classfiy");
-        info.boundingClientRect(function (data) {
-          // that.classfiy_top = data.top+that.menuBottom-5
-          // console.log(that.classfiy_top)
-          // +that.menuBottom+13
-        }).exec();
-      } });
+    that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        var data = res.data.data;
+        that.doctor_list = data;
+        that.change_doctor(0, data[0].id);
+      }
+    });
+  },
+  change_doctor: function change_doctor(index, id) {
+    var that = this;
+    that.doctor_change = index;
+    var dataInfo = {
+      interfaceId: 'star',
+      doctor_id: id };
 
-    uni.getSystemInfo({
-      success: function success(res) {
-        var info = uni.createSelectorQuery().select("#line_img");
-        info.boundingClientRect(function (data) {
-          // that.classfiy_top = data.top+data.height+that.menuBottom-30
-        }).exec();
-      } });
+    that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        var data = res.data.data;
+        that.doctor_detail_info = data;
+      }
+    });
+  },
+
+  // 医生中心分类
+  get_doctor_classfiy: function get_doctor_classfiy() {var _this = this;
+    var that = this;
+    var dataInfo = {
+      interfaceId: 'centon' };
+
+    that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        var data = res.data.data;
+        that.doctor_classfiy_list = data;
+        var list = [];
+        for (var key in data) {
+          if (data[key].docker_count > 0) {
+            list.push(key);
+          }
+        }
+        _this.change_doctor_classfiy(list[0], data[list[0]].id);
+      }
+    });
+  },
+  change_doctor_classfiy: function change_doctor_classfiy(index, id) {
+    var that = this;
+    that.change_classfiy = index;
+    var dataInfo = {
+      interfaceId: 'docker_centon',
+      doctor_centon_id: id };
+
+    that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        var data = res.data.data;
+        for (var key in data) {
+          var time = 0;
+          time = parseInt((data[key].now_time - data[key].employed_time) / 31536000);
+          data[key].year = time;
+        }
+        that.classfiy_doctor_list = data;
+      }
+    });
+  },
+  // 拜托医生
+  get_please_list: function get_please_list() {
+    var that = this;
+    var dataInfo = {
+      interfaceId: 'video_category' };
+
+    that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        var data = res.data.data;
+        that.please_doctor_list = data;
+        var list = [];
+        for (var key in data) {
+          if (data[key].video_count > 0) {
+            list.push(key);
+          }
+        }
+        that.change_please_doctor(list[0], data[list[0]].id);
+      }
+    });
+  },
+  change_please_doctor: function change_please_doctor(index, id) {
+    var that = this;
+    that.change_please = index;
+    var dataInfo = {
+      interfaceId: 'video',
+      category_id: id };
+
+    that.request.uniRequest("doctor", dataInfo).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        var data = res.data.data;
+        that.doctor_please_list = data;
+      }
+    });
+  },
+  go_to_goods: function go_to_goods(id, encrypted_id) {
+    uni.navigateTo({
+      url: "/pages/goods/goods_detail?sku_id=".concat(id, "&&encrypted_id=").concat(encrypted_id) });
 
   },
-  methods: {
-    get_doctor_list: function get_doctor_list() {
-      var that = this;
-      var dataInfo = {
-        interfaceId: 'start_list' };
+  go_to_doctor: function go_to_doctor(doctorId, heading) {
+    uni.navigateTo({
+      url: "/pages/doctor/doctor_detail?id=".concat(doctorId, "&heading=").concat(heading) });
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_list = data;
-          that.change_doctor(0, data[0].id);
-        }
-      });
-    },
-    change_doctor: function change_doctor(index, id) {
-      var that = this;
-      that.doctor_change = index;
-      var dataInfo = {
-        interfaceId: 'star',
-        doctor_id: id };
+  },
+  // 点赞
+  collectLike: function collectLike(id, index) {
+    var that = this;
+    var videoId = id;
+    var data = {
+      interfaceId: 'video_collect',
+      video_id: videoId,
+      status: '0' };
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_detail_info = data;
-        }
-      });
-    },
-    // 医生中心分类
-    get_doctor_classfiy: function get_doctor_classfiy() {var _this = this;
-      var that = this;
-      var dataInfo = {
-        interfaceId: 'centon' };
+    this.request.uniRequest("doctor", data).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        that.doctor_please_list[index].is_collect = 1;
+        that.doctor_please_list[index].collect += 1;
+        uni.showToast({
+          title: '已点赞',
+          duration: 1000 });
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_classfiy_list = data;
-          var list = [];
-          for (var key in data) {
-            if (data[key].docker_count > 0) {
-              list.push(key);
-            }
-          }
-          _this.change_doctor_classfiy(list[0], data[list[0]].id);
-        }
-      });
-    },
-    change_doctor_classfiy: function change_doctor_classfiy(index, id) {
-      var that = this;
-      that.change_classfiy = index;
-      var dataInfo = {
-        interfaceId: 'docker_centon',
-        doctor_centon_id: id };
+      }
+    });
+  },
+  // 取消点赞
+  cancelLike: function cancelLike(id, index) {
+    var videoId = id;
+    var that = this;
+    var data = {
+      interfaceId: 'video_collect',
+      video_id: videoId,
+      status: '1' };
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          for (var key in data) {
-            var time = 0;
-            time = parseInt((data[key].now_time - data[key].employed_time) / 31536000);
-            data[key].year = time;
-          }
-          that.classfiy_doctor_list = data;
-        }
-      });
-    },
-    // 拜托医生
-    get_please_list: function get_please_list() {
-      var that = this;
-      var dataInfo = {
-        interfaceId: 'video_category' };
+    this.request.uniRequest("doctor", data).then(function (res) {
+      if (res.data.code == 1000 && res.data.status == 'ok') {
+        that.doctor_please_list[index].is_collect = 0;
+        that.doctor_please_list[index].collect -= 1;
+        uni.showToast({
+          title: '已取消点赞',
+          duration: 1000 });
 
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.please_doctor_list = data;
-          var list = [];
-          for (var key in data) {
-            if (data[key].video_count > 0) {
-              list.push(key);
-            }
-          }
-          that.change_please_doctor(list[0], data[list[0]].id);
-        }
-      });
-    },
-    change_please_doctor: function change_please_doctor(index, id) {
-      var that = this;
-      that.change_please = index;
-      var dataInfo = {
-        interfaceId: 'video',
-        category_id: id };
-
-      that.request.uniRequest("doctor", dataInfo).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          var data = res.data.data;
-          that.doctor_please_list = data;
-        }
-      });
-    },
-    go_to_goods: function go_to_goods(id, encrypted_id) {
-      uni.navigateTo({
-        url: "/pages/goods/goods_detail?sku_id=".concat(id, "&&encrypted_id=").concat(encrypted_id) });
-
-    },
-    go_to_doctor: function go_to_doctor(doctorId, heading) {
-      uni.navigateTo({
-        url: "/pages/doctor/doctor_detail?id=".concat(doctorId, "&heading=").concat(heading) });
-
-    },
-    // 点赞
-    collectLike: function collectLike(id, index) {
-      var that = this;
-      var videoId = id;
-      var data = {
-        interfaceId: 'video_collect',
-        video_id: videoId,
-        status: '0' };
-
-      this.request.uniRequest("doctor", data).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          that.doctor_please_list[index].is_collect = 1;
-          that.doctor_please_list[index].collect += 1;
-          uni.showToast({
-            title: '已点赞',
-            duration: 1000 });
-
-        }
-      });
-    },
-    // 取消点赞
-    cancelLike: function cancelLike(id, index) {
-      var videoId = id;
-      var that = this;
-      var data = {
-        interfaceId: 'video_collect',
-        video_id: videoId,
-        status: '1' };
-
-      this.request.uniRequest("doctor", data).then(function (res) {
-        if (res.data.code == 1000 && res.data.status == 'ok') {
-          that.doctor_please_list[index].is_collect = 0;
-          that.doctor_please_list[index].collect -= 1;
-          uni.showToast({
-            title: '已取消点赞',
-            duration: 1000 });
-
-        }
-      });
-    } } };exports.default = _default;
+      }
+    });
+  } }), _components$data$onSh);exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-baidu/dist/index.js */ 1)["default"]))
 
 /***/ }),

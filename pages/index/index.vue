@@ -1193,6 +1193,7 @@
 	}
 	.advertising_img{
 		width: 100%;
+		max-height: 210rpx;
 	}
 	
 	.live_left_info{

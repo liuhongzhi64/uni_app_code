@@ -29,7 +29,7 @@
 				barName: 'back', //导航条名称
 				topBackgroundColor: '#222222',
 				color: '#FFFFFF',
-				backImage: '/static/images/back2.png',
+				backImage: '/static/images/return.png',
 				title: '医生证书',
 				photo_list: [],
 				requestUrl:'',
@@ -45,10 +45,8 @@
 		onReady() {
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
-			// 判定运行平台
-			let platform = getApp().platform || getApp().globalData.platform
+			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
 			if (platform == 'Applets') {
-				// 获取屏幕高度
 				uni.getSystemInfo({
 					success: function(res) {
 						let menu = uni.getMenuButtonBoundingClientRect();

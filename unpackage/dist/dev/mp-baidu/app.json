@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/doctor/doctor",
     "pages/index/open_screen",
     "pages/my/my",
     "pages/my/add_address",
@@ -22,7 +23,6 @@
     "pages/diary/diary_successs",
     "pages/diary/diary_write",
     "pages/diary/diary_write_video",
-    "pages/doctor/doctor",
     "pages/doctor/doctor_certificate",
     "pages/doctor/doctor_detail",
     "pages/doctor/doctor_photo",

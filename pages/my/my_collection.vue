@@ -30,9 +30,7 @@
 						<view class="right-content">
 							<view class="goods_name">{{item.goods_name}}</view>
 							<view class="label-list">
-								<view class="label" v-for="(i,k) in item.label.list" :key="k">
-									{{ i }}
-								</view>
+								<view class="goods_label" v-for="(i,k) in item.label.list" :key="k"> {{ i }} </view>
 							</view>
 							<view class="porduct-price-vip-cart">
 								<view class="porduct-price">
@@ -76,7 +74,7 @@
 									<view class="goods_category">
 										<view class="goods_category-title">擅长</view>
 										<text class='goods_category-item' v-for="(j,k) in item.goods_project" :key='k'>
-											{{j}}<text>、</text>
+											{{j}}<text class="project_line" > </text>
 										</text>
 									</view>
 									<view class="doctor_view">
@@ -135,7 +133,7 @@
 											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 										</view>
-										<view class="goods_name">{{item.goods_name}}</view>
+										<view class="this_goods_name">{{item.goods_name}}</view>
 									</view>
 									<view class="head_ico-nick_name-collect_num">
 										<view class="head_ico-nick_name">
@@ -178,7 +176,7 @@
 											<view class="category_name" v-if="item.category_name"> {{item.category_name}} </view>
 											<view class="doctor_name" v-if="item.doctor_name"> {{item.doctor_name}} </view>
 										</view>
-										<view class="goods_name" v-if="item.goods_name">{{item.goods_name}}</view>
+										<view class="this_goods_name" v-if="item.goods_name">{{item.goods_name}}</view>
 									</view>
 									<view class="head_ico-nick_name-collect_num">
 										<view class="head_ico-nick_name">
@@ -576,7 +574,7 @@
 		border-radius: 3rpx;
 		position: absolute;
 		bottom: 5rpx;
-		left: 68rpx;
+		left: 72rpx;
 	}
 
 	.content-list {
@@ -601,6 +599,7 @@
 	.head-image .head_img {
 		width: 240rpx;
 		height: 240rpx;
+		background-color: #F0F0F0;
 	}
 
 	.spu_icon {
@@ -618,12 +617,13 @@
 		height: 220rpx;
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 		flex: 1;
 	}
 
 	.goods_name {
 		font-size: 26rpx;
-		line-height: 36rpx;
+		line-height: 40rpx;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
@@ -632,13 +632,12 @@
 
 	.label-list {
 		display: flex;
-		margin-top: 12rpx;
 	}
 
-	.label {
+	.goods_label {
 		background-color: #999999;
 		text-align: center;
-		width: 80rpx;
+		padding: 0 10rpx;
 		line-height: 26rpx;
 		border-radius: 4rpx;
 		color: #FFFFFF;
@@ -649,7 +648,6 @@
 	.porduct-price-vip-cart {
 		display: flex;
 		align-items: center;
-		padding-top: 10rpx;
 	}
 
 	.porduct-price {
@@ -707,7 +705,7 @@
 	.delete-see-similarity {
 		float: right;
 		display: flex;
-		margin-top: 24rpx;
+		padding-top: 20rpx;
 	}
 
 	.clearfix:after {
@@ -834,19 +832,29 @@
 	.goods_category {
 		font-size: 24rpx;
 		display: flex;
+		justify-content: baseline;
 		flex-wrap: wrap;
 		color: #999999;
 	}
 
 	.goods_category-title {
 		width: 50rpx;
+		height: 24rpx;
 		line-height: 24rpx;
 		border-radius: 5rpx;
-		border: solid 1rpx #e85c9e;
+		border: 1rpx solid #e85c9e;
 		color: #e85c9e;
 		font-size: 20rpx;
 		margin-right: 10rpx;
 		text-align: center;
+	}
+	
+	.goods_category-item,.view_content{
+		line-height: 24rpx;
+	}
+	
+	.project_line{
+		padding: 0 5rpx;
 	}
 
 	.doctor_view {
@@ -866,6 +874,7 @@
 
 	.doctor_view_title {
 		width: 50rpx;
+		height: 24rpx;
 		line-height: 24rpx;
 		border-radius: 5rpx;
 		border: solid 1rpx #689efb;
@@ -1063,16 +1072,14 @@
 		background-color: #d3d3d3;
 		border-radius: 4rpx;
 		font-size: 16rpx;
-		/* width: 80rpx; */
 		padding: 0 15rpx;
 		text-align: center;
 		color: #4f4f4f;
 		margin-right: 10rpx;
 	}
-
-	.goods_name {
+	
+	.this_goods_name{
 		padding: 0 20rpx;
-		margin-bottom: 10rpx;
 		color: #999999;
 		font-size: 20rpx;
 		overflow: hidden;

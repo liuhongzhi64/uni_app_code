@@ -203,13 +203,16 @@ __webpack_require__.r(__webpack_exports__);
     if (options.page) {
       that.page = options.page;
     }
+  },
+  onShow: function onShow() {
+    var that = this;
     that.getDetails();
   },
   onReady: function onReady() {
     var that = this;
     // 获取屏幕高度
     that.height = uni.getSystemInfoSync().screenHeight;
-    var platform = getApp().platform || getApp().globalData.platform;
+    var platform = getApp().platform || getApp().globalData.platform || 'Applets';
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {

@@ -186,6 +186,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     topBar: topBar },
@@ -204,36 +205,18 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '/static/images/return.png',
       requestUrl: '',
-      user_info: {} };
+      user_info: {},
+      this_wei_chat: false };
 
   },
   onShow: function onShow() {
     var that = this;
     that.user_info = uni.getStorageSync("userInfo");
-    if (that.user_info.real_name.length == 2) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*');
-    } else if (that.user_info.real_name.length == 3) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '**');
-    } else
-    if (that.user_info.real_name.length == 4) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '***');
-    } else
-    if (that.user_info.real_name.length == 5) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '****');
-    } else
-    if (that.user_info.real_name.length == 6) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*****');
-    } else
-    if (that.user_info.real_name.length == 7) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '******');
-    } else if (that.user_info.real_name.length == 8) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*******');
-    } else if (that.user_info.real_name.length == 9) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '********');
-    } else if (that.user_info.real_name.length == 10) {
-      that.user_info.real_name = that.user_info.real_name.replace(that.user_info.real_name.substring(1), '*********');
+
+    var head_ico = that.user_info.head_ico;
+    if (head_ico.indexOf('https://thirdwx.qlogo.cn/') != -1) {
+      that.this_wei_chat = true;
     }
-    that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3, 7), '****');
   },
   onLoad: function onLoad(options) {
     var that = this;

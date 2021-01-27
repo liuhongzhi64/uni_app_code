@@ -4,7 +4,10 @@
 		// 测试时的首页
 		
 		
-		
+		{
+			"path": "pages/doctor/doctor", //医生
+			"style": {}
+		},
 		
 		
 		{
@@ -124,10 +127,7 @@
 
 		// 医生
 		 
-		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
+		
 		{
 			"path": "pages/doctor/doctor_certificate", //医生证书
 			"style": {}

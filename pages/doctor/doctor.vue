@@ -18,7 +18,7 @@
 					</view>
 				</scroll-view>
 			</view>
-			<view class="doctor_detail_info">
+			<view class="doctor_detail_info" @tap='go_to_doctor(doctor_detail_info.id,requestUrl+doctor_detail_info.image)'>
 				<image class="doctor_tar_image" :src="requestUrl+doctor_detail_info.tar_image" mode=""></image>
 				<view class="doctor_content">
 					<view class="doctor_info_top">
@@ -29,21 +29,26 @@
 						</view>
 						<view class="goods_project"> 擅长项目 </view>
 						<view class="goods_project_item"> 
-							<text v-for="(item,index) in doctor_detail_info.goods_project" :key='index'>{{item}} 、</text> 
+							<text v-for="(item,index) in doctor_detail_info.goods_project" :key='index'>{{item}} <text class="project_line" > </text> </text> 
 						</view>
 					</view>
-					<view class="doctor_video_list" >
-						<scroll-view class="video_info" scroll-x="true">
-							<view class="video_item">
-								<navigator class="video_item_info" :url="'/pages/diary/diary_video?id='+item.pivot.video_id+'&type='+'video'"
-								 v-for="(item,index) in doctor_detail_info.video" :key='index'>
-									<image class="video_image" :src="requestUrl+item.cover_img" mode=""></image>
-									<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
-									<view class="video_name"> {{item.name}} </view>
-								</navigator>
+				</view>
+				<view class="doctor_video_list" v-if="doctor_detail_info.video.length>0">
+					<scroll-view class="video_info" scroll-x="true">
+						<view class="video_item">
+							<!-- <navigator class="video_item_info" :url="'/pages/diary/diary_video?id='+item.pivot.video_id+'&type='+'video'"
+							 v-for="(item,index) in doctor_detail_info.video" :key='index'>
+								<image class="video_image" :src="requestUrl+item.cover_img" mode=""></image>
+								<image class="pay_btn" src="https://xcx.hmzixin.com/upload/images/3.0/video_play.png" mode="widthFix"></image>
+								<view class="video_name"> {{item.name}} </view>
+							</navigator> -->
+							<view class="video_item_info" v-for="(item,index) in doctor_detail_info. video" :key='index'>
+								<image class="video_image" :src="requestUrl+item.cover_img" mode=""></image>
+								<image class="pay_btn" src="/static/images/video_play.png" mode="widthFix"></image>
+								<view class="video_name"> {{item.name}} </view>
 							</view>
-						</scroll-view>
-					</view>
+						</view>
+					</scroll-view>
 				</view>
 			</view>
 			<image id="line_img" class="line_img" src="/static/images/bullion.jpg" mode="widthFix"></image>
@@ -169,7 +174,9 @@
 				requestUrl: '',
 				doctor_list:[],
 				doctor_change:0,
-				doctor_detail_info:{},
+				doctor_detail_info:{
+					video:[]
+				},
 				doctor_classfiy_list:[],
 				change_classfiy:0,
 				classfiy_doctor_list:[],
@@ -177,7 +184,7 @@
 				change_please:0,
 				doctor_please_list:[],
 				show_doctor_classfiy:false,
-				classfiy_top:605
+				classfiy_top:605,
 			}
 		},
 		onShow:function(){
@@ -200,6 +207,9 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			that.get_doctor_list()
 			that.get_doctor_classfiy()
+		},
+		onShow:function(){
+			let that = this
 			that.get_please_list()
 		},
 		onReady() {
@@ -268,6 +278,7 @@
 					}
 				})
 			},
+			
 			// 医生中心分类
 			get_doctor_classfiy:function(){
 				let that = this
@@ -512,7 +523,7 @@
 		padding-bottom: 20rpx;
 	}
 	.all_sign{
-		color: #C0C0C0;
+		color: #FFFFFF;
 		line-height: 36rpx;
 		font-size: 20rpx;
 		max-height: 170rpx;
@@ -533,18 +544,27 @@
 	.goods_project{
 		font-size: 28rpx;
 		color: #d1bf86;
-		padding-bottom: 20rpx;
 	}
 	.goods_project_item{
 		line-height: 30rpx;
 		font-size: 22rpx;
-		color: #C0C0C0;
+		color: #FFFFFF;
 		max-height: 120rpx;
 		overflow-y: scroll;
-		margin-bottom: 30rpx;
 	}
+	
+	.project_line{
+		padding: 0 5rpx;
+	}
+	
 	.doctor_video_list{
+		position: absolute;
+		left: 0;
+		bottom: 20rpx;
 		height: 280rpx;
+		width: 100%;
+	}
+	.video_info{
 		width: 100%;
 	}
 	.video_item{
@@ -556,10 +576,15 @@
 	}
 	.video_item_info{
 		width: 210rpx;
-		margin-right: 10rpx;
+		margin-left: 10rpx;
 		height: 280rpx;
 		position: relative;
 	}
+	
+	.video_item_info:first-child{
+		margin-left: 20rpx;
+	}
+	
 	.video_item_info:last-child{
 		padding-right: 30rpx;
 	}
@@ -574,17 +599,17 @@
 		height: 210rpx;
 		border-radius: 16rpx;
 		background-color: #FFFFFF;
+		margin-bottom: 10rpx;
 	}
 	.video_name{
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		font-size: 22rpx;
+		font-size: 20rpx;
 		color: #FFFFFF;
-		line-height: 32rpx;
-		font-weight: lighter;
-		padding: 0 8rpx;
+		line-height: 24rpx;
+		/* padding: 0 5rpx; */
 	}
 	.line_img{
 		width: 100%;

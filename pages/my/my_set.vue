@@ -80,10 +80,11 @@
 		onShow:function(){
 			let that = this
 			that.user_info = uni.getStorageSync("userInfo")
-			
-			let head_ico = that.user_info.head_ico
-			if(head_ico.indexOf('https://thirdwx.qlogo.cn/')!= -1){
-				that.this_wei_chat = true
+			if(that.user_info){
+				let head_ico = that.user_info.head_ico
+				if(head_ico.indexOf('https://thirdwx.qlogo.cn/')!= -1){
+					that.this_wei_chat = true
+				}
 			}
 		},
 		onLoad(options) {

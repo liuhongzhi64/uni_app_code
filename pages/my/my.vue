@@ -9,7 +9,7 @@
 					<view class="user-head-portrait-name-phone-set">
 						<view class="user-head-portrait">
 							<image class="user-head-portrait_image" :src="requestUrl+user_info.head_ico" v-if="user_info.head_ico&&!this_wei_chat"></image>
-							<image class="user-head-portrait_image" @tap='go_to_member' v-else :src="user_info.head_ico||'/static/images/logo.png'"></image>
+							<image class="user-head-portrait_image" v-else :src="user_info.head_ico||'/static/images/logo.png'"></image>
 							<view class="name-cart-phone" v-if="user_info.tel">
 								<view class="user-name-cart">
 									<view class="user-name"> {{ user_info.nick_name || user_info.real_name }} </view>
@@ -120,13 +120,21 @@
 				<view class="serve-and-tool-title"> 服务与工具 </view>
 				<view class="serve-and-tool-list">
 					<view class="serve-tool-list" v-for="(item,index) in serveToolList"  :key='index'>
-						<navigator class="tool-item" :url="'/pages'+item.page">
+						<navigator class="tool-item" :url="'/pages'+item.page"
+						 >
 							<view class="tool-image">
 								<image :src="item.icon" mode="widthFix"></image>
 								<view class="this_cart_count" v-if="cart_count>0&&item.name=='购物车'"> {{ cart_count }} </view>
 							</view>
 							<view class="tool-name"> {{item.name}} </view>
 						</navigator>
+						<!-- v-if="item.name!='健康评估'&&item.name!='自助预约'&&item.name!='我的预约'" -->
+						<!-- <view class="tool-item" v-else @tap='this_go_page(item.page)'>
+							<view class="tool-image">
+								<image :src="item.icon" mode="widthFix"></image>
+							</view>
+							<view class="tool-name"> {{item.name}} </view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -207,36 +215,36 @@
 						name: "我的评价",
 						page: "/my/my_comment?index=1"
 					},
-					{
-						icon: "/static/images/my_staff.png",
-						name: "员工服务",
-						page: "/other/record"
-					},
-					{
-						icon: "/static/images/my_healthy.png",
-						name: "健康评估",
-						page: "/other/assess"
-					},
-					{
-						icon: "/static/images/my_register.png",
-						name: "自助挂号",
-						page: "/other/jump?url=appointment/"
-					},
-					{
-						icon: "/static/images/my_appointment.png",
-						name: "自助预约",
-						page: "/other/subscribe?h5type=0"
-					},
-					{
-						icon: "/static/images/my_myappointment.png",
-						name: "我的预约",
-						page: "/other/subscribe?h5type=1"
-					},
-					{
-						icon: "/static/images/my_material.png",
-						name: "物资领取",
-						page: "/other/jump?url=get-present/"
-					},
+					// {
+					// 	icon: "/static/images/my_staff.png",
+					// 	name: "员工服务",
+					// 	page: "/other/staff_services"
+					// },
+					// {
+					// 	icon: "/static/images/my_healthy.png",
+					// 	name: "健康评估",
+					// 	page: "/other/jump?url=assessment"
+					// },
+					// {
+					// 	icon: "/static/images/my_register.png",
+					// 	name: "自助挂号",
+					// 	page: "/other/register"
+					// },
+					// {
+					// 	icon: "/static/images/my_appointment.png",
+					// 	name: "自助预约",
+					// 	page: "/other/jump?url=appointment"
+					// },
+					// {
+					// 	icon: "/static/images/my_myappointment.png",
+					// 	name: "我的预约",
+					// 	page: "/other/jump?url=myappointment"
+					// },
+					// {
+					// 	icon: "/static/images/my_material.png",
+					// 	name: "物资领取",
+					// 	page: "/other/jump?url=get-present/"
+					// },
 					{
 						icon: "/static/images/my_poster.png",
 						name: "个人海报",
@@ -268,7 +276,8 @@
 				this_show_user:false,
 				this_record:false,
 				cart_count:0,//购物车数量
-				this_wei_chat:false
+				this_wei_chat:false,
+				sweixin:null
 			}
 		},
 		onLoad(options) {
@@ -276,8 +285,10 @@
 			this.request = this.$request
 			that.requestUrl = that.request.globalData.requestUrl
 			that.advertising()
-			// 个人中心卡券订单浮标数据
-			// that.getCardOrder()
+			// #ifdef APP-PLUS || APP-NVUE
+				that.get_plus()
+			// #endif
+			
 			// 个人中心卡等级、积分获取 非微信小程序不显示
 			// that.crmInfo()
 		},
@@ -342,13 +353,30 @@
 				that.this_show_user = !that.this_show_user
 				if(that.this_show_user){
 					that.user_info = uni.getStorageSync("userInfo")
-					let head_ico = that.user_info.head_ico
-					if(head_ico.indexOf('https://thirdwx.qlogo.cn/')!= -1){
-						that.this_wei_chat = true
-					}
 					if(that.user_info){
-						
+						let head_ico = that.user_info.head_ico
+						if(head_ico.indexOf('https://thirdwx.qlogo.cn/')!= -1){
+							that.this_wei_chat = true
+						}
 						that.user_info.tel = that.user_info.tel.replace(that.user_info.tel.substring(3,7),'****')
+					}else{
+						uni.showModal({
+							title:'提示',
+							content:'未登录或登录过期,请登录···',
+							confirmText:'前往登录',
+							success:function(res){
+								if(res.confirm){
+									uni.navigateTo({
+										url: '/pages/login/login_phone'
+									})
+								}
+								else if(res.cancel){
+									uni.switchTab({
+										url: '/pages/index/index'
+									})
+								}
+							}
+						})
 					}
 					
 				}else{
@@ -444,6 +472,44 @@
 					title:'敬请期待···',
 					icon:'none'
 				})
+			},
+			
+			get_plus: function() {
+				let that = this
+				//获取当前显示的webview
+				let pages = getCurrentPages()
+				let page = pages[pages.length - 1]
+				let currentWebview = page.$getAppWebview()
+				//调用H5+APP的扩展API
+				let shares = null;
+				let pusher = plus.share.getServices(function(res) {
+					shares = {};
+					for(let key in res){
+						let data = res[key]
+						shares[data.id] = data
+					}
+					that.sweixin = shares['weixin'];
+				}, function(e) {
+					console.log("获取分享服务列表失败：" + e.message);
+				});
+				//放入当前的webview
+				currentWebview.append(pusher);
+			},
+			
+			this_go_page:function(){
+				// #ifdef APP-PLUS || APP-NVUE
+					// 唤起微信
+					// plus.runtime.openURL('weixin://')
+					// 跳转微信小程序
+					this.sweixin.launchMiniProgram({
+						id: 'gh_c3a79691c089' ,//要跳转小程序的原始ID(此处需要四川华美紫馨医学美容医院的而不是整呗)
+						type:0, //小程序版本  0-正式版； 1-测试版； 2-体验版。
+						path:'pages/my/my' //小程序的页面,用传的参数在小程序接值判断跳转指定页面
+					})
+				// #endif
+				//  #ifdef MP
+					console.log('go_weixin')
+				//  #endif
 			}
 		}
 	}
@@ -545,7 +611,7 @@
 	}
 
 	.card-volume-integral-bean-balance-currency {
-		padding: 30rpx 50rpx;
+		padding: 25rpx 50rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -607,6 +673,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	}
 
 	.order-message,
@@ -618,7 +685,7 @@
 
 	.oder-image-number {
 		display: flex;
-		margin-bottom: 10rpx;
+		margin-bottom: 20rpx;
 	}
 
 	.order-image image {
@@ -660,7 +727,7 @@
 	}
 
 	.serve-and-tool-list {
-		padding: 20rpx ;
+		padding: 40rpx 20rpx 20rpx;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;

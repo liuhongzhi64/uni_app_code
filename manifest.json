@@ -60,20 +60,20 @@
                     "alipay" : {},
                     "appleiap" : {},
                     "weixin" : {
-                        "appid" : "wx8068a8a4b6c8a39f",
+                        "appid" : "wx805c90d4affed9a4",
                         "UniversalLinks" : ""
                     }
                 },
                 "oauth" : {
                     "weixin" : {
-                        "appid" : "wx8068a8a4b6c8a39f",
+                        "appid" : "wx805c90d4affed9a4",
                         "appsecret" : "b5b3f6f6df7faba38ae9ad59612f1d4e",
                         "UniversalLinks" : ""
                     }
                 },
                 "share" : {
                     "weixin" : {
-                        "appid" : "wx8068a8a4b6c8a39f",
+                        "appid" : "wx805c90d4affed9a4",
                         "UniversalLinks" : ""
                     }
                 }

@@ -175,6 +175,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -196,7 +200,8 @@ var _default =
       thisPlatform: '', //运行环境
       count_down: 60, //倒计时
       show_count_down: false, //显示倒计时
-      timer: null };
+      timer: null,
+      platform: '' };
 
   },
   onShow: function onShow() {
@@ -210,6 +215,7 @@ var _default =
     var that = this;
     that.height = uni.getSystemInfoSync().screenHeight;
     var platform = getApp().platform || getApp().globalData.platform || 'Applets';
+    that.platform = platform;
     if (platform == 'Applets') {
       uni.getSystemInfo({
         success: function success(res) {
@@ -371,25 +377,35 @@ var _default =
         url: "/pages/consultation/consultation" });
 
     },
-    // 更新sessionKey
-    getSessionKey: function getSessionKey() {
+    login_mode: function login_mode(type) {
       var that = this;
       uni.login({
+        provider: type,
         success: function success(res) {
-          if (res.code) {
-            var data = {
-              interfaceId: "sessionkey",
-              code_session: res.code };
-
-            that.request.uniRequest("login", data).then(function (res) {
-              // console.log(res,111999999)
-              if (res.data.code === 1000) {
-                console.log(res.data);
-                // uni.setStorageSync("sessionKey", res.data.data.session_key);
-                // that.submitUserInfo(e, type);
+          uni.getUserInfo({
+            provider: type,
+            success: function success(res) {
+              var info = res.userInfo;
+              console.log(info);
+              var nickName = '';
+              var avatarUrl = '';
+              var openId = '';
+              if (type == "weixin") {
+                nickName = info.nickName;
+                avatarUrl = info.avatarUrl;
+                openId = info.openId;
+              } else if (type == "qq") {
+                nickName = info.nickname;
+                avatarUrl = info.figureurl_qq_2;
+                // qq返回了多个尺寸的头像, 按需选择
+                openId = info.openId;
+              } else if (type == "sinaweibo") {
+                nickName = info.nickname;
+                avatarUrl = info.avatar_large;
+                openId = info.id;
               }
-            });
-          }
+            } });
+
         } });
 
     } } };exports.default = _default;

@@ -1,10 +1,10 @@
 <template>
-	<view class="jump"> 
+	<view class="jump">
 		<topBar class="topBar" :topBackgroundColor='topBackgroundColor' :color='color' :backImage='backImage' :barName='barName'
 		 :title='title' :menuWidth='menuWidth' :menuTop='menuTop' :menuHeight='menuHeight' :menuBottom='menuBottom'></topBar>
-		 <view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
-		 	<web-view :src="url"></web-view>
-		 </view>
+		<view class="search-input" :style="[{'top':menuBottom+10+'px'}]">
+			<web-view :src="url"></web-view>
+		</view>
 	</view>
 </template>
 
@@ -27,7 +27,8 @@
 				color: '#FFFFFF',
 				backImage: '/static/images/return.png',
 				title: '跳转中...',
-				url: ''
+				url: '',
+				sweixin: null
 			}
 		},
 		onLoad: function(options) {
@@ -36,8 +37,19 @@
 			that.requestUrl = that.request.globalData.requestUrl
 			console.log(options.url)
 			let url = options.url
-			if(url=='about'){
+			
+			// 关于整呗
+			if (url == 'about') {
 				that.url = that.requestUrl + 'html/activity/about/index.html'
+			}
+			else if(url == 'assessment'){
+				that.url = 'https://cdhmwx.mylikesh.cn/wxmp/api/config/author?tenantId=856001&__param=1&backPage=healthEvaluation/index'
+			}
+			else if(url == 'appointment'){
+				that.url = 'https://cdhmwx.mylikesh.cn/wxmp/api/config/author?tenantId=856001&authorPage=getWxInfo'
+			}
+			else if(url == 'myappointment'){
+				that.url = 'https://cdhmwx.mylikesh.cn/wxmp/api/config/author?tenantId=856001&backPage=appointment/appointmentList'
 			}
 		},
 		onReady() {
@@ -54,8 +66,7 @@
 						that.menuBottom = menu.bottom
 					}
 				})
-			} 
-			else if (platform == 'APP'){
+			} else if (platform == 'APP') {
 				that.menuWidth = 90
 				that.menuTop = 40
 				that.menuBottom = 70

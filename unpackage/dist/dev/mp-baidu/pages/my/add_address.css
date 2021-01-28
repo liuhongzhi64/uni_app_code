@@ -35,6 +35,10 @@
 .this_info.data-v-666261ac {
 		color: #999999;
 }
+.this_new_info.data-v-666261ac{
+		color: #333333;
+		font-size: 32rpx;
+}
 .this_area.data-v-666261ac{
 		background-color: #FFFFFF;
 		position: fixed;

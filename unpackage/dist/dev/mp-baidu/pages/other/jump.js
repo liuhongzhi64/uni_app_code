@@ -128,7 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 512));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 519));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -157,7 +157,8 @@ __webpack_require__.r(__webpack_exports__);
       color: '#FFFFFF',
       backImage: '/static/images/return.png',
       title: '跳转中...',
-      url: '' };
+      url: '',
+      sweixin: null };
 
   },
   onLoad: function onLoad(options) {
@@ -166,8 +167,19 @@ __webpack_require__.r(__webpack_exports__);
     that.requestUrl = that.request.globalData.requestUrl;
     console.log(options.url);
     var url = options.url;
+
+    // 关于整呗
     if (url == 'about') {
       that.url = that.requestUrl + 'html/activity/about/index.html';
+    } else
+    if (url == 'assessment') {
+      that.url = 'https://cdhmwx.mylikesh.cn/wxmp/api/config/author?tenantId=856001&__param=1&backPage=healthEvaluation/index';
+    } else
+    if (url == 'appointment') {
+      that.url = 'https://cdhmwx.mylikesh.cn/wxmp/api/config/author?tenantId=856001&authorPage=getWxInfo';
+    } else
+    if (url == 'myappointment') {
+      that.url = 'https://cdhmwx.mylikesh.cn/wxmp/api/config/author?tenantId=856001&backPage=appointment/appointmentList';
     }
   },
   onReady: function onReady() {
@@ -184,8 +196,7 @@ __webpack_require__.r(__webpack_exports__);
           that.menuBottom = menu.bottom;
         } });
 
-    } else
-    if (platform == 'APP') {
+    } else if (platform == 'APP') {
       that.menuWidth = 90;
       that.menuTop = 40;
       that.menuBottom = 70;

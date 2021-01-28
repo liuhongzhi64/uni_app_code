@@ -19,12 +19,12 @@
 					<view class="phone-hint" v-if="!phoneValueState"> *请输入手机号 / 请输入正确的手机号 </view>
 
 					<view class="graphic-code">
-						<input class="phone-input" @blur="graphicInput" placeholder="请输入图形码" maxlength="4" />
+						<input class="phone-input" @blur="graphicInput" type="number" placeholder="请输入图形码" maxlength="4" />
 						<image class="graphic" :src="imageCode" @tap="getImageCode"></image>
 					</view>
 					<view class="phone-hint" v-if="!imageCodeValueState">图形码错误</view>
 					<view class="verification-code">
-						<input class="phone-input" @blur="verificationInput" placeholder="请输入验证码" maxlength="6" />
+						<input class="phone-input" @blur="verificationInput" type="number" placeholder="请输入验证码" maxlength="6" />
 						<button class="verification" type="default"  @tap='getPhoneCode' v-show="!show_count_down">发送请求</button>
 						<view class="verification show_count_down" v-show="show_count_down"> {{ count_down }} 秒后重新获取 </view>
 					</view>
@@ -37,7 +37,11 @@
 					<text class="no-have-code" @tap='consultation'>收不到验证码？</text>
 				</view>
 			</view>
-
+			<!-- 三方授权 -->
+			<view class="one_click_login" v-if="platform=='APP'">
+				<image class="login_image" @tap="login_mode('qq')" src="/static/images/login_qq.png" mode=""></image>
+				<image class="login_image" @tap="login_mode('weixin')" src="/static/images/login_wechat.png" mode=""></image>
+			</view>
 		</view>
 		<view class="agreement" @tap='agreement'> 登录代表您同意<text>华美整呗用户服务协议</text></view>
 	</view>
@@ -65,6 +69,7 @@
 				count_down:60, //倒计时
 				show_count_down:false,//显示倒计时
 				timer:null,
+				platform:''
 			}
 		},
 		onShow: function() {
@@ -78,6 +83,7 @@
 			let that = this;
 			that.height = uni.getSystemInfoSync().screenHeight;
 			let platform = getApp().platform || getApp().globalData.platform || 'Applets'
+			that.platform = platform
 			if (platform == 'Applets') {
 				uni.getSystemInfo({
 					success: function(res) {
@@ -239,28 +245,38 @@
 					url: `/pages/consultation/consultation`,
 				})
 			},
-			// 更新sessionKey
-			getSessionKey: function() {
-				const that = this;
+			login_mode: function(type) {
+				let that = this
 				uni.login({
+					provider: type,
 					success: function(res) {
-						if (res.code) {
-							let data = {
-								interfaceId: "sessionkey",
-								code_session: res.code
-							}						
-							that.request.uniRequest("login", data).then(res => {
-								// console.log(res,111999999)
-								if (res.data.code === 1000) {
-									console.log(res.data)
-									// uni.setStorageSync("sessionKey", res.data.data.session_key);
-									// that.submitUserInfo(e, type);
+						uni.getUserInfo({
+							provider: type,
+							success: function(res) {
+								let info = res.userInfo
+								console.log(info)
+								let nickName = ''
+								let avatarUrl = ''
+								let openId = ''
+								if (type == "weixin") {
+									nickName = info.nickName
+									avatarUrl = info.avatarUrl
+									openId = info.openId
+								} else if (type == "qq") {
+									nickName = info.nickname
+									avatarUrl = info.figureurl_qq_2
+									// qq返回了多个尺寸的头像, 按需选择
+									openId = info.openId
+								} else if (type == "sinaweibo") {
+									nickName = info.nickname
+									avatarUrl = info.avatar_large
+									openId = info.id
 								}
-							})
-						}
+							}
+						})
 					}
 				})
-			},
+			}
 		}
 	}
 </script>
@@ -410,7 +426,6 @@
 		border-radius: 40rpx;
 		font-size: 28rpx;
 		color: #ffffff;
-		border: none !important;
 	}
 	.go-login::after{
 		border: none;
@@ -439,19 +454,18 @@
 	.agreement text {
 		color: #fa3475;
 	}
-
-	.advertising-images {
-		padding-top: 233rpx;
-		padding-bottom: 264rpx;
-		/* background-color: #FFFFFF; */
+	
+	.one_click_login{
+		width: 100%;
 		display: flex;
 		justify-content: center;
+		align-items: center;
 	}
-
-	.advertising-images image {
-		width: 168rpx;
-		height: 168rpx;
-		box-shadow: 0rpx 0rpx 9rpx 0rpx rgba(108, 108, 108, 0.26);
-		-webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.3) 0%, transparent 40%, transparent 100%);
+	
+	.login_image{
+		width: 60rpx;
+		height: 60rpx;
+		margin-right: 40rpx;
 	}
+	
 </style>

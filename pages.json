@@ -4,16 +4,18 @@
 		// 测试时的首页
 		
 		
-		{
-			"path": "pages/doctor/doctor", //医生
-			"style": {}
-		},
-		
 		
 		{
 			"path": "pages/index/open_screen", //开屏页
 			"style": {}
 		},
+		
+		{
+			"path": "pages/login/login_phone", //手机登录
+			"style": {}
+		},
+		
+		
 		{
 			"path": "pages/my/my", //我的
 			"style": {}
@@ -127,7 +129,10 @@
 
 		// 医生
 		 
-		
+		{
+			"path": "pages/doctor/doctor", //医生
+			"style": {}
+		},
 		{
 			"path": "pages/doctor/doctor_certificate", //医生证书
 			"style": {}
@@ -285,6 +290,10 @@
 			"path": "pages/other/jump", //跳转
 			"style": {}
 		},
+		// {
+		// 	"path": "pages/other/regiser", //自主挂号
+		// 	"style": {}
+		// },
 
 		// 支付成功
 		{

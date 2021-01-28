@@ -1260,18 +1260,19 @@
 					imageUrl: that.requestUrl + that.swiperList[0], //type 为 0、2、5 时必选 图片地址。type为0时，推荐使用小于20Kb的图片
 					mediaUrl: '', //type 为 3、4 时必选 音视频地址
 					miniProgram: {
-						id: '', //微信小程序原始id
-						path: '', //点击链接进入的页面
-						type: '', //微信小程序版本类型，可取值： 0-正式版； 1-测试版； 2-体验版。 默认值为0
-						webUrl: '' //兼容低版本的网页链接
+						id: 'gh_c3a79691c089', //微信小程序原始id
+						path: `pages/goods/goods_detail?id=${that.sku_id}&sku_id=${that.encrypted_id}`, //点击链接进入的页面
+						type: 1, //微信小程序版本类型，可取值： 0-正式版； 1-测试版； 2-体验版。 默认值为0
+						webUrl: that.requestUrl //兼容低版本的网页链接
 					}, //type 为 5 时必选 分享小程序必要参数
 					success: function(res) {
 						uni.showToast({
 							title: '分享成功',
-							duration: 3000
+							duration: 1000
 						})
 					},
 					fail: function(err) {
+						// console.log(err)
 						uni.showToast({
 							title: '分享失败',
 							icon: 'none'

@@ -17,7 +17,7 @@
 				<!-- <view class="hint_info hint-content"> (提示:图片支持格式'bmp','jpg','png','gif' 最大10M) </view> -->
 				<view class="upload-content">
 					<label class="image-list" v-for="(item,index) in image_list" :key="index" >
-						<image class="changes_img" :src="item.img" mode="widthFix" ></image>
+						<image class="changes_img" :src="item.img" mode="aspectFill" ></image>
 						<image class="show_delete" @tap="delete_item(index)" src="/static/images/delete.png" mode=""></image>
 					</label>
 					
@@ -251,6 +251,7 @@
 	}
 	.changes_img {
 		width: 220rpx;
+		height: 220rpx;
 		background-color: #F0F0F0;
 	}
 	.show_delete{

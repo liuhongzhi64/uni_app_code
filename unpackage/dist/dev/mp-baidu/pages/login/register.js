@@ -145,16 +145,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
 {
   components: {
     porduct: porduct },
@@ -166,83 +156,8 @@ __webpack_require__.r(__webpack_exports__);
       menuHeight: 0,
       menuLeft: 0,
       menuBottom: 0,
-      width: 240,
-      height: 370,
-      productList: [{
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        price: 19800,
-        closed: '618钜惠',
-        vipPrice: 18800,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-      {
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        price: 19800,
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] },
-
-
-      {
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        title: '我是文章标题，显示两排后就以省略号结束？最多两排最多两排...',
-        label: ['眼部美容', '眼部'], //标签
-        headPortrait: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg', //头像
-        userName: '用户昵称几个字',
-        like: 99, //点赞
-        price: 19800,
-        vipPrice: 0,
-        subscribeAndGoodReputation: [{
-          subscribe: '441',
-          goodReputation: '98' }] }],
-
-
-
-
-      productImgList: [{
-        id: 0,
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        content: '就是低分数低hi合肥市第收到对方答复of还是电话艘大富豪打死哦豁',
-        newPrice: '15800',
-        oldPrice: '19800' },
-
-      {
-        id: 1,
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        content: '就是低分数低hi合肥市第大声道撒of还是电话艘大富豪打死哦豁',
-        newPrice: '15800',
-        oldPrice: '19800' },
-
-      {
-        id: 2,
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        content: '就是低分数低hi合肥市第安防大风of还是电话艘大富豪打死哦豁',
-        newPrice: '15800',
-        oldPrice: '19800' },
-
-      {
-        id: 3,
-        url: 'upload/goods/images/202010/15/1Ktgw5jJ55PzVS1PogS1yKFwYn2lGHcXxLWviqI7_250.jpeg',
-        content: '就是低分数低hi合肥市第爱仕达多of还是电话艘大富豪打死哦豁',
-        newPrice: '15800',
-        oldPrice: '19800' }] };
-
-
-
+      width: 0,
+      height: 0 };
 
   },
   onLoad: function onLoad(options) {

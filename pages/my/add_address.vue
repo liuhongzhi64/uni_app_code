@@ -24,7 +24,8 @@
 							<view class="user-message">
 								<view class="title"> 所在地区 <text>*</text> </view>
 								<view class="input-content" @tap='set_this_area'>
-									<view class="this_info" > {{ select }} </view>
+									<view class="this_info" v-if="select=='省-市-区/县'"> {{ select }} </view>
+									<view class="this_new_info" v-else> {{ select }} </view>
 								</view>
 							</view>
 							<view class="user-message">
@@ -422,6 +423,10 @@
 	
 	.this_info {
 		color: #999999;
+	}
+	.this_new_info{
+		color: #333333;
+		font-size: 32rpx;
 	}
 	
 	.this_area{

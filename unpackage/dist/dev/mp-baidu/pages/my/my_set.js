@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 512));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var topBar = function topBar() {__webpack_require__.e(/*! require.ensure | components/topBar */ "components/topBar").then((function () {return resolve(__webpack_require__(/*! ../../components/topBar.vue */ 519));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -212,10 +212,11 @@ __webpack_require__.r(__webpack_exports__);
   onShow: function onShow() {
     var that = this;
     that.user_info = uni.getStorageSync("userInfo");
-
-    var head_ico = that.user_info.head_ico;
-    if (head_ico.indexOf('https://thirdwx.qlogo.cn/') != -1) {
-      that.this_wei_chat = true;
+    if (that.user_info) {
+      var head_ico = that.user_info.head_ico;
+      if (head_ico.indexOf('https://thirdwx.qlogo.cn/') != -1) {
+        that.this_wei_chat = true;
+      }
     }
   },
   onLoad: function onLoad(options) {
